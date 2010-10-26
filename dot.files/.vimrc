@@ -84,7 +84,7 @@ set cino=t0,g0
 "-----------------------------------------------------------------------------
 try
   if MySys() == "Windows_NT"
-    set undodir=~"c:\Windows\Temp"
+    set undodir="c:\Windows\Temp"
   else
     set undodir=~/.vim/undodir
   endif

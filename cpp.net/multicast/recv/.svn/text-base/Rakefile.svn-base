@@ -1,0 +1,10 @@
+# -*- ruby -*-
+
+SRCS     = %w{receiver.cpp}
+APP      = "receiver"
+WIN_LIBS = "-lboost_system-mt"
+OSX_LIBS = "-lboost_system-mt"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app.rake'
