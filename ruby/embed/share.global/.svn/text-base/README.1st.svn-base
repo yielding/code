@@ -1,0 +1,64 @@
+
+poki Ruby/Embedded IntoC에서 
+ruby embedding하는 방법 2가지에 대해서 설명하고 있다.
+이 사이트를 여러 번 봤지만 왜 내가 필요한 정보가 없다고 생각했지?
+
+1 기본적인 사항
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// 환경계열 함수는 ruby_로 시작한다.
+//
+// 시작, 반드시 불러줌
+//////////////////////////////////////////////////////////////////////////////
+ruby_init();
+
+// 환경 설정계열함수. 둘중 하나를 설정
+// 1. 옵션을 통한 환경설정
+//  인자에 대한 자세한 설명은 아래에 설명
+ruby_options(int argc, char** argv)
+
+// 2. 로드패쓰와 로드할 파일을 설정
+ruby_init_loadpath();
+rb_load_file("파일명.rb");
+
+// 만일 명시적으로 호출하지 않고
+// 인터프리터에 설정되어있는(옵션, 로드패쓰등을 통해)
+// 루비 환경을 실행하려면 아래의 함수를 호출한다.
+int ruby_env_state = ruby_exec();
+
+// 끝, 루비환경 종료, 반드시 불러줌
+// 1. ruby_exec() 로 인터프리터 환경을 실행한 경우
+ruby_cleanup(ruby_env_state);
+
+// 2. 명시적으로 바인딩된 루비객체(함수)를 호출한 경우
+ruby_finalize();
+보는바와 같이 ruby_ 계열로 시작된다.
+
+2 C에서 루비에 인자를 넘기기
+
+2.1 ruby_options 를 이용하는 방법
+
+2.2 rb_define_variable 를 이용해서 전역변수 정의
+3 C에서 루비함수 호출하기
+3.1 루비 스크립트 파일을 로드해서 statement 실행하기
+3.2 원하는 함수를 원하는 시간에 부르기
+4 루비에서 C함수 호출하기
+4.1 rb_define_global_function 를 이용하여 전역함수로 등록하기
+5 C에서 루비의 결과를 가져오기
+5.1 루비 전역변수 가져오기
+5.2 루비 Array나 Hash 를 가져오기
+6 루비 스크립트 에러 처리
+7 VALUE 값의 변환
+
+
+
+[http://poksion.cafe24.com/poki/wiki.php/Ruby/EmbeddedIntoC]
+
+디렉토리 설명
+ ./jukebox     : Pike book에 있는 cdjukebox 예제를 일단 돌아가게 만든다.
+
+ ./jukebox.cpp : 위 예제의 extension을 rice를 써서 바꾼다.
+                 -> 상당히 간단하게 변한다.
+
+ ./jukebox.cpp2: 실제 application을 만드는 것처럼 코드를 세분화 시킨다.

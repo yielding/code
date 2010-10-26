@@ -1,0 +1,5 @@
+person.c++와 동일한 순서로 빌드
+
+1) swig -ruby -c++ *.i
+2) ruby extconf.rb
+3) make

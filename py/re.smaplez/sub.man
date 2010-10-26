@@ -1,0 +1,16 @@
+sub (pattern, repl, string[, count = 0]) 
+Return the string obtained by replacing the leftmost non-overlapping 
+occurrences of pattern in string by the replacement repl. If the pattern 
+isn't found, string is returned unchanged. 
+
+repl can be a string or a function; if a function, it is called for every 
+non-overlapping occurrence of pattern. The function takes a single match 
+object argument, and returns the replacement string. 
+
+For example: 
+
+>>> def dashrepl(matchobj):
+....    if matchobj.group(0) == '-': return ' '
+....    else: return '-'
+>>> re.sub('-{1,2}', dashrepl, 'pro----gram-files')
+'pro--gram files'

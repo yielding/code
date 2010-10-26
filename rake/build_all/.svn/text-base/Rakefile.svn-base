@@ -1,0 +1,9 @@
+task :default => [:all]
+task :all do
+  IGNORE_FILES = %w{  }
+  PROJECT_LIST = %w{ t1 t2 t3 }
+  dirs = PROJECT_LIST.select { |dir| File.directory?(dir) }
+  dirs.each do |dir|
+    sh "cd #{dir} && rake all"
+  end
+end

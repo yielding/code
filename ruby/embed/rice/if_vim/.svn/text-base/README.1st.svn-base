@@ -1,0 +1,41 @@
+
+  * Interface
+    print "Hello"                          # displays a message
+    VIM.command(cmd)                       # execute an ex command
+    num  = VIM::Window.count               # gets the number of windows
+    w    = VIM::Window[n]                  # gets window "n"
+    cw   = VIM::Window.current             # gets the current window
+    num  = VIM::Buffer.count               # gets the number of buffers
+    b    = VIM::Buffer[n]                  # gets buffer "n"
+    cb   = VIM::Buffer.current             # gets the current buffer
+    w.height = lines                       # sets the window height
+    w.cursor = [row, col]                  # sets the window cursor position
+    pos  = w.cursor                        # gets an array [row, col]
+    name = b.name                          # gets the buffer file name
+    line = b[n]                            # gets a line from the buffer
+    num  = b.count                         # gets the number of lines
+    b[n] = str                             # sets a line in the buffer
+    b.delete(n)                            # deletes a line
+    b.append(n, str)                       # appends a line after n
+    line = VIM::Buffer.current.line        # gets the current line
+    num  = VIM::Buffer.current.line_number # gets the current line number
+    VIM::Buffer.current.line = "test"      # sets the current line number
+
+  * Notice
+    공유 데이타 타입 자체가 분리되지 않을 경우 즉, C++에서 다루는 클래스가
+    Window고 Init_Extension에서 참조하는 클래스 역시 Window 라면
+    전역 객체 역시 Window 타입이 되므로 gc에서 c++로 부터 넘겨받은
+    데이타를 지우면 안된다. 따라서 아래의 코드처럼 gc를 막아줘야한다.
+
+
+    1. Data_Object<Window> o(&windows[2], 
+          Data_Type<Window>::klass(), 
+          0,         // gc_mark
+          0)         // gc_free
+
+    c++에서 native로 유지하고 있는 데이타를 ruby로 pointer를 넘길때는
+    gc가 손대지 못하게 gc_mark, gc_free를 rice 사용자가 
+    직접 제어해야한다.
+
+    반대로, gc로 제어를 넘길 경우 사용자가 생성한 객체라 하더라도 자신이 해제하면 
+    결국 gc가 두번 째 지우려는 시도를 하는 순간 memory access error 발생한다.

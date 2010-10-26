@@ -1,0 +1,9 @@
+# -*- ruby -*-
+# 
+
+SRCS = %w{unordered_map.cpp}
+APP  = "unordered"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app.rake'

@@ -1,0 +1,10 @@
+--- 
+name: ruby
+users: 
+  - 
+    leech: 
+      age: 40
+      sex: woman
+    이윤정: 
+      age: 40
+      sex: woman

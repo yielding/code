@@ -1,0 +1,10 @@
+# -*- ruby -*-
+
+SRCS     = %w{file.binary.cpp}
+APP      = "binary"
+WIN_LIBS = ""
+OSX_LIBS = ""
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app.rake'

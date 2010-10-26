@@ -1,0 +1,3 @@
+.cpp, .h 화일은 
+  1. i(swig) 화일이 만들때 사용된다. swig -ruby -c++ ./classes.i
+  2. Makefile에서 cpp의 구현이 필요하다.

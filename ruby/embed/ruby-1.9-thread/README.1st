@@ -1,0 +1,2 @@
+cc -dynamic -undefined suppress -flat_namespace -o main.so main.o -L. -L/opt/local/ruby1.9/lib -L. -lruby-static  -lpthread -ldl -lobjc
+

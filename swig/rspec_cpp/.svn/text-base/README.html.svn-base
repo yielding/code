@@ -1,0 +1,371 @@
+<h1>Unit Testing C and C&#043;&#043; ... with RSpec</h1>
+
+
+	<p>If you&#8217;re writing C/C&#043; code, it&#8217;s natural to write your unit tests in the same language (or use C&#043;&#043; for your C test code). All the well-known unit testing tools take this approach.</p>
+
+
+	<p>I think we can agree that neither language offers the best developer productivity among all the language choices out there. Most of us use either language because of perceived performance requirements, institutional and industry tradition, <em>etc.</em></p>
+
+
+	<p>There&#8217;s growing interest, however, in mixing languages, tools, and <em>paradigms</em> to get the best tool for a particular job. &lt;shameless-plug&gt;I&#8217;m giving a talk March 7<sup>th</sup> at <a href="https://www.cmpevents.com/SDw8/a.asp?option=C&#38;V=11&#38;SessID=6102">SD West</a> on this very topic, called <a href="https://www.cmpevents.com/SDw8/a.asp?option=C&#38;V=11&#38;SessID=6102">Polyglot and Poly-Paradigm Programming</a> &lt;/shameless-plug&gt;.</p>
+
+
+	<p>So, why not use a more productive language for your C or C&#043;&#043; unit tests? You have more freedom in your development chores than what&#8217;s required for production. Why not use Ruby&#8217;s <a href="http://rspec.info/">RSpec</a>, a <a href="http://behaviour-driven.org/">Behavior-Driven Development</a> tool for acceptance and unit testing? Or, you could use Ruby&#8217;s version of <a href="http://www.junit.org">JUnit</a>, called <a href="http://ruby-doc.org/stdlib/libdoc/test/unit/rdoc/classes/Test/Unit.html">Test::Unit</a>. The hard part is integrating Ruby and C/C&#043;&#043;. If you&#8217;ve been looking for an excuse to bring Ruby (or Tcl or Python or Java or&#8230;) into your C/C&#043;&#043; environment, starting with development tasks is usually the path of least resistance.</p>
+
+
+	<p>I did some experimenting over the last few days to integrate <a href="http://rspec.info/">RSpec</a>  using <a href="http://www.swig.org"><span class="caps">SWIG</span></a> (Simplified Wrapper and Interface Generator), a tool for bridging libraries written in C and C&#043;&#043; to other languages, like Ruby. The <a href="http://www.swig.org/Doc1.3/Ruby.html">Ruby section</a> of the <span class="caps">SWIG</span> manual was very helpful.</p>
+
+
+	<h2>My Proof-of-Concept Code</h2>
+
+
+	<p>Here is a zip file of my experiment: <a href="http//tbd.com">http://tbd.com</a>. This is far from a complete and working solution, but I think it shows promise. See the <strong>Current Limitations</strong> section below for details.</p>
+
+
+	<p>Unzip the file into a directory. I&#8217;ll assume you named it <code>rspec_for_cpp</code>. You need to have <code>gmake</code>, <code>gcc</code>, <span class="caps">SWIG</span> and Ruby installed, along with the RSpec &#8220;gem&#8221;. Right now, it only builds on <span class="caps">OS X</span> and Linux (at least the configurations on my machines running those OS&#8217;s &#8211; see the discussion below). To run the build, use the following commands:</p>
+
+
+<pre>
+    <code>
+        $ cd rspec_for_cpp/cpp
+        $ make 
+    </code>
+</pre>
+
+	<p>You should see it finish with the lines</p>
+
+
+<pre>
+    <code>
+        ( cd ../spec; spec *_spec.rb )
+        .........
+
+        Finished in 0.0***** seconds
+
+        9 examples, 0 failures
+    </code>
+</pre>
+
+	<p>Congratulations, you&#8217;ve just tested some C and C&#043; code with RSpec! (Or, if you didn&#8217;t succeed, see the notes in the <code>Makefile</code> and the discussion below.)</p>
+
+
+	<h2>The Details</h2>
+
+
+	<p>I&#8217;ll briefly walk you through the files in the zip and the key steps required to make it all work.</p>
+
+
+	<h3><code>cexample.h</code></h3>
+
+
+	<p>Here is a simple C header file.</p>
+
+
+<pre>
+    <code>
+        /* cexample.h */
+        #ifndef CEXAMPLE_H
+        #define CEXAMPLE_H
+        #ifdef __cplusplus
+         extern "C" {
+        #endif
+        char* returnString(char* input);
+        double returnDouble(int input);
+        void  doNothing();
+
+        #ifdef __cplusplus
+         }
+        #endif
+        #endif
+    </code>
+</pre>
+
+	<p>Of course, in a pure C shop, you won&#8217;t need the <code>#ifdef __cplusplus</code> stuff. I found this was essential in my experiment when I mixed C and C&#043;&#043;, as you might expect.</p>
+
+
+	<h3><code>cpp/cexample.c</code></h3>
+
+
+	<p>Here is the corresponding C source file.</p>
+
+
+<pre>
+    <code>
+        /* cexample.h */
+
+        char* returnString(char* input) {
+            return input;
+        }
+
+        double returnDouble(int input) {
+            return (double) input;
+        }
+
+        void  doNothing() {}
+    </code>
+</pre>
+
+	<h3><code>cpp/CppExample.h</code></h3>
+
+
+	<p>Here is a C&#043;&#043; header file.</p>
+
+
+<pre>
+    <code>
+        #ifndef CPPEXAMPLE_H
+        #define CPPEXAMPLE_H
+
+        #include &lt;string&gt;
+
+        class CppExample 
+        {
+        public:
+            CppExample();
+            CppExample(const CppExample&#38; foo);
+            CppExample(const char* title, int flag);
+            virtual ~CppExample();
+
+            const char* title() const;
+            void        title(const char* title);
+            int         flag() const;
+            void        flag(int value);
+
+            static int countOfCppExamples();
+        private:
+            std::string _title;
+            int         _flag;
+        };
+
+        #endif
+    </code>
+</pre>
+
+	<h3><code>cpp/CppExample.cpp</code></h3>
+
+
+	<p>Here is the corresponding C&#043;&#043; source file.</p>
+
+
+<pre>
+    <code>
+        #include "CppExample.h" 
+
+        CppExample::CppExample() : _title("") {}
+        CppExample::CppExample(const CppExample&#38; foo): _title(foo._title) {}
+        CppExample::CppExample(const char* title, int flag) : _title(title), _flag(flag) {}
+        CppExample::~CppExample() {}
+
+        const char* CppExample::title() const { return _title.c_str(); }
+        void        CppExample::title(const char* name) { _title = name; }
+
+        int  CppExample::flag() const { return _flag; }
+        void CppExample::flag(int value) { _flag = value; }
+
+        int CppExample::countOfCppExamples() { return 1; }
+    </code>
+</pre>
+
+	<h3><code>cpp/example.i</code></h3>
+
+
+	<p>Typically in <span class="caps">SWIG</span>, you specify a <code>.i</code> file to the <code>swig</code> command to define the <em>module</em> that wraps the classes and global functions, which classes and functions to expose to the target language (usually all in our case), and other assorted customization options, which are discussed in the <a href="http://www.swig.org/Doc1.3"><span class="caps">SWIG</span> manual</a>. I&#8217;ll show the <code>swig</code> command in a minute. For now, note that I&#8217;m going to generate an <code>example_wrap.cpp</code> file that will function as the bridge between the languages.</p>
+
+
+	<p>Here&#8217;s my <code>example.i</code>, where I named the module <code>example</code>.</p>
+
+
+<pre>
+    <code>
+        %module example
+        %{
+            #include "cexample.h" 
+            #include "CppExample.h"    
+        %}
+        %include "cexample.h" 
+        %include "CppExample.h" 
+    </code>
+</pre>
+
+	<p>It looks odd to have header files appear twice. The code inside the <code>%{...%}</code> (with a &#8217;#&#8217; before each <code>include</code>) are standard C and C&#043;&#043; statements, <em>etc.</em> that will be inserted verbatim into the generated &#8220;wrapper&#8221; file, <code>example_wrap.cpp</code>, so that file will compile when it references anything declared in the header files. The second case, with a &#8217;%&#8217; before the <code>include</code> statements<sup><a href="#fn1">1</a></sup>, tells <span class="caps">SWIG</span> to make all the declarations in those header files available to the target language. (You can be more selective, if you prefer&#8230;)</p>
+
+
+	<p>Following Ruby conventions, the Ruby plugin for <span class="caps">SWIG</span> automatically names the module with an upper case first letter (<code>Example</code>), but you use <code>require 'example'</code> to include it, as we&#8217;ll see shortly.</p>
+
+
+	<h3>Building</h3>
+
+
+	<p>See the <code>cpp/Makefile</code> for the gory details. In a nutshell, you run the <code>swig</code> command like this.</p>
+
+
+<pre>
+    <code>
+        swig -c++ -ruby -Wall -o example_wrap.cpp example.i
+    </code>
+</pre>
+
+	<p>Next, you create a dynamically-linked library, as appropriate for your platform, so the Ruby interpreter can load the module dynamically when required. The <code>Makefile</code> can do this for Linux and <span class="caps">OS X</span> platforms. See the <a href="http://www.swig.org/Doc1.3/Ruby.html">Ruby section</a> of the <span class="caps">SWIG</span> manual for Windows specifics.</p>
+
+
+	<p>If you test-drive your code, which tends to drive you towards minimally-coupled &#8220;modules&#8221;, then you can keep your libraries and build times small, which will make the build and test cycle very fast!</p>
+
+
+	<h3><code>spec/cexample_spec.rb</code> and <code>spec/cppexample_spec.rb</code></h3>
+
+
+	<p>Finally, here are the RSpec files that exercise the C and C&#043;&#043; code. (Disclaimer: these aren&#8217;t the best spec files I&#8217;ve ever written. For one thing, they don&#8217;t exercise all the <code>CppExample</code> methods! So sue me&#8230; :)</p>
+
+
+<pre>
+    <code>
+        require File.dirname(__FILE__) + '/spec_helper'
+        require 'example'
+
+        describe "Example (C functions)" do
+          it "should be a constant on Module" do
+            Module.constants.should include('Example')
+          end
+          it "should have the methods defined in the C header file" do
+            Example.methods.should include('returnString')
+            Example.methods.should include('returnDouble')
+            Example.methods.should include('doNothing')
+          end
+        end
+
+        describe Example, ".returnString" do
+          it "should return the input char * string as a Ruby string unchanged" do
+            Example.returnString("bar!").should == "bar!" 
+          end  
+        end
+
+        describe Example, ".returnDouble" do
+          it "should return the input integer as a double" do
+            Example.returnDouble(10).should == 10.0
+          end
+        end
+
+        describe Example, ".doNothing" do
+          it "should exist, but do nothing" do
+            lambda { Example.doNothing }.should_not raise_error
+          end
+        end
+    </code>
+</pre>
+
+	<p>and</p>
+
+
+<pre>
+    <code>
+    require File.dirname(__FILE__) + '/spec_helper'
+    require 'example'
+
+    describe Example::CppExample do
+      it "should be a constant on module Example" do
+        Example.constants.should include('CppExample')
+      end
+    end
+
+    describe Example::CppExample, ".new" do
+      it "should create a new object of type CppExample" do
+        example = Example::CppExample.new("example1", 1)
+        example.title.should == "example1" 
+        example.flag.should  == 1
+      end
+    end
+
+    describe Example::CppExample, "#title(value)" do
+      it "should set the title" do
+        example = Example::CppExample.new("example1", 1)
+        example.title("title2")
+        example.title.should == "title2" 
+      end
+    end
+
+    describe Example::CppExample, "#flag(value)" do
+      it "should set the flag" do
+        example = Example::CppExample.new("example1", 1)
+        example.flag(2)
+        example.flag.should == 2
+      end
+    end
+    </code>
+</pre>
+
+	<p>If you love RSpec like I do, this is a very compelling thing to see!</p>
+
+
+	<p>And now for the small print:</p>
+
+
+	<h2>Current Limitations</h2>
+
+
+	<p>As I said, this is just an experiment at this point. Volunteers to make this <em>battle-ready</em> would be most welcome!</p>
+
+
+	<h3>General</h3>
+
+
+	<h4>The Example <code>Makefile</code> File</h4>
+
+
+	<h5>It Must Be Hand Edited for Each New or Renamed Source File</h5>
+
+
+	<p>You&#8217;ve probably already solved this problem for your own make files. Just merge in the example <code>Makefile</code> to pick up the <span class="caps">SWIG</span>- and RSpec-related targets and rules.</p>
+
+
+	<h5>It Only Knows How to Build Shared Libraries for Mac <span class="caps">OS X</span> and Linux (and Not Very Well)</h5>
+
+
+	<p>Some definitions are probably unique to my <span class="caps">OS X</span> and Linux machines. Windows is not supported at all. However, this is also easy rectify. Start with the notes in the <code>Makefile</code> itself.</p>
+
+
+	<h4>The <code>module.i</code> File Must Be Hand Edited for Each File Change</h4>
+
+
+	<p>Since the format is simple, a make task could fill a template file with the changed list of source files during the build.</p>
+
+
+	<h4>Better Automation</h4>
+
+
+	<p>It should be straightforward to provide scripts, <span class="caps">IDE</span>/Editor shortcuts, <em>etc</em>. that automate some of the tasks of adding new methods and classes to your C and C&#043;&#043; code when you introduce them  <i>first</i> in your &#8220;spec&#8221; files. (The true <span class="caps">TDD</span> way, of course.)</p>
+
+
+	<h3>Specific Issues for C Code Testing</h3>
+
+
+	<p>I don&#8217;t know of any other C-specific issues, so unit testing with Ruby is most viable today for C code. Although I haven&#8217;t experimented extensively, C functions and variables are easily mapped by <span class="caps">SWIG</span> to a Ruby module. The <a href="http://www.swig.org/Doc1.3/Ruby.html">Ruby section</a> of the <span class="caps">SWIG</span> manual discusses this mapping in some detail.</p>
+
+
+	<h3>Specific Issues for C&#043;&#043; Code Testing</h3>
+
+
+	<p>More work will be required to make this viable. It&#8217;s important to note that <span class="caps">SWIG</span> cannot handle all C&#043;&#043; constructs (although there are workarounds for most issues, if you&#8217;re committed to this approach&#8230;). For example, namespaces, nested classes, some template and some method overloading scenarios are not supported. The <a href="http://www.swig.org/Doc1.3"><span class="caps">SWIG</span> manual</a> has details.</p>
+
+
+	<p>Also, during my experiment, <span class="caps">SWIG</span> didn&#8217;t seem to map <code>const std::string&#38;</code> objects in C&#043;&#043; method signatures to Ruby strings, as I would have expected (<code>char*</code> worked fine).</p>
+
+
+	<h2>Is It a Viable Approach?</h2>
+
+
+	<p>Once the <strong>General</strong> issues listed above are handled, I think this approach would work very well for C code. For C&#043;&#043; code, there are more issues that need to be addressed, and programmers who are committed to this strategy will need to tolerate some issues (or just use C&#043;&#043;-language tools for some scenarios).</p>
+
+
+	<h2>Conclusions: Making It Development-Team Ready</h2>
+
+
+	<p>I&#8217;d like to see this approach pushed to its logical limit. I think it has the potential to really improve the productivity of C and C&#043;&#043; developers and the quality of their test coverage, by leveraging the productivity and power of dynamically-typed languages like Ruby. If you prefer, you could use Tcl, Python, even Java instead.</p>
+
+
+	<h3>License</h3>
+
+
+	<p>This code is complete open and free to use. Of course, use it at your own risk; I offer it without warranty, <em>etc.</em>, <em>etc</em>. When I polish it to the point of making it an &#8220;official&#8221; project, I will probably release under the Apache license.</p>
+
+
+	<p id="fn1"><sup>1</sup> I spent a lot of time debugging problems because I had a &#8217;#&#8217; where I should have had a &#8217;%&#8217;! <em>Caveat emptor</em>!</p>

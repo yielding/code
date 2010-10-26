@@ -1,0 +1,15 @@
+REMARK
+======
+if_vim
+  VIM의 ruby interface를 잘 정리한 코드
+
+if_vim2
+  if_vim의 코드를 TDD기반으로 작성할 수 있도록 만들었음
+
+ISSUES
+======
+  if_vim과 if_vim2에서 Buffer객체와 연관된 gc issue를 다루는 것을 잘 
+  살펴봐야 한다.
+
+  if_vim은 gc가 지우지 못하게 Data_Object에서 gc_free pointer를 넘기지 않는다.
+  if_vim2는 gc가 지워도 상관없게 새 객체를 만들어서 넘긴다.

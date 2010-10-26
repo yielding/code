@@ -1,0 +1,149 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+App	app.cpp	/^App::App()$/;"	f	class:App	signature:()
+App	app.h	/^  App();$/;"	p	class:App	access:protected	signature:()
+App	app.h	/^class App$/;"	c
+App::App	app.cpp	/^App::App()$/;"	f	class:App	signature:()
+App::App	app.h	/^  App();$/;"	p	class:App	access:protected	signature:()
+App::delete_instance	app.cpp	/^void App::delete_instance()$/;"	f	class:App	signature:()
+App::delete_instance	app.h	/^  static void  delete_instance();$/;"	p	class:App	access:public	signature:()
+App::instance	app.cpp	/^App* App::instance()$/;"	f	class:App	signature:()
+App::instance	app.h	/^  static App*  instance();$/;"	p	class:App	access:public	signature:()
+App::m_box	app.h	/^  CDJukebox *m_box;$/;"	m	class:App	access:private
+App::m_instance	app.cpp	/^App* App::m_instance = 0;$/;"	m	class:App	file:
+App::m_instance	app.h	/^  static App* m_instance;$/;"	m	class:App	access:private
+App::set_jukebox	app.cpp	/^void App::set_jukebox(int v)$/;"	f	class:App	signature:(int v)
+App::set_jukebox	app.h	/^  void set_jukebox(int v);$/;"	p	class:App	access:public	signature:(int v)
+App::~App	app.cpp	/^App::~App()$/;"	f	class:App	signature:()
+App::~App	app.h	/^  ~App();$/;"	p	class:App	access:protected	signature:()
+CDJukebox	jukebox.cpp	/^CDJukebox::CDJukebox(CDJukebox const& rhs)$/;"	f	class:CDJukebox	signature:(CDJukebox const& rhs)
+CDJukebox	jukebox.cpp	/^CDJukebox::CDJukebox(int unit)$/;"	f	class:CDJukebox	signature:(int unit)
+CDJukebox	jukebox.h	/^  CDJukebox(CDJukebox const& rhs);$/;"	p	class:CDJukebox	access:public	signature:(CDJukebox const& rhs)
+CDJukebox	jukebox.h	/^  CDJukebox(int unit);$/;"	p	class:CDJukebox	access:public	signature:(int unit)
+CDJukebox	jukebox.h	/^class CDJukebox$/;"	c
+CDJukebox::CDJukebox	jukebox.cpp	/^CDJukebox::CDJukebox(CDJukebox const& rhs)$/;"	f	class:CDJukebox	signature:(CDJukebox const& rhs)
+CDJukebox::CDJukebox	jukebox.cpp	/^CDJukebox::CDJukebox(int unit)$/;"	f	class:CDJukebox	signature:(int unit)
+CDJukebox::CDJukebox	jukebox.h	/^  CDJukebox(CDJukebox const& rhs);$/;"	p	class:CDJukebox	access:public	signature:(CDJukebox const& rhs)
+CDJukebox::CDJukebox	jukebox.h	/^  CDJukebox(int unit);$/;"	p	class:CDJukebox	access:public	signature:(int unit)
+CDJukebox::assign	jukebox.cpp	/^void CDJukebox::assign(int unit_id)$/;"	f	class:CDJukebox	signature:(int unit_id)
+CDJukebox::assign	jukebox.h	/^  void assign(int unit_id);$/;"	p	class:CDJukebox	access:public	signature:(int unit_id)
+CDJukebox::avg_seek_time	jukebox.cpp	/^double CDJukebox::avg_seek_time()$/;"	f	class:CDJukebox	signature:()
+CDJukebox::avg_seek_time	jukebox.h	/^  double avg_seek_time();$/;"	p	class:CDJukebox	access:public	signature:()
+CDJukebox::m_data	jukebox.h	/^  void* m_data;$/;"	m	class:CDJukebox	access:private
+CDJukebox::m_pending	jukebox.h	/^  char  m_pending;$/;"	m	class:CDJukebox	access:private
+CDJukebox::m_request	jukebox.h	/^  int   m_request;$/;"	m	class:CDJukebox	access:private
+CDJukebox::m_stats	jukebox.h	/^  void* m_stats;$/;"	m	class:CDJukebox	access:private
+CDJukebox::m_statusf	jukebox.h	/^  int   m_statusf;$/;"	m	class:CDJukebox	access:private
+CDJukebox::m_unit_id	jukebox.h	/^  int   m_unit_id;$/;"	m	class:CDJukebox	access:private
+CDJukebox::seek	jukebox.cpp	/^void CDJukebox::seek(int disc, int track)$/;"	f	class:CDJukebox	signature:(int disc, int track)
+CDJukebox::seek	jukebox.h	/^  void seek(int disc, int track);$/;"	p	class:CDJukebox	access:public	signature:(int disc, int track)
+CDJukebox::set_unit	jukebox.cpp	/^int CDJukebox::set_unit(int unit)$/;"	f	class:CDJukebox	signature:(int unit)
+CDJukebox::set_unit	jukebox.h	/^  int set_unit(int unit);$/;"	p	class:CDJukebox	access:public	signature:(int unit)
+CDJukebox::unit	jukebox.cpp	/^int CDJukebox::unit()$/;"	f	class:CDJukebox	signature:()
+CDJukebox::unit	jukebox.h	/^  int unit();$/;"	p	class:CDJukebox	access:public	signature:()
+CDJukebox::~CDJukebox	jukebox.cpp	/^CDJukebox::~CDJukebox()$/;"	f	class:CDJukebox	signature:()
+CDJukebox::~CDJukebox	jukebox.h	/^  ~CDJukebox();$/;"	p	class:CDJukebox	access:public	signature:()
+RUBYEVAL_H	rubyeval.h	/^#define RUBYEVAL_H$/;"	d
+RubyEval	rubyeval.cpp	/^RubyEval::RubyEval()$/;"	f	class:RubyEval	signature:()
+RubyEval	rubyeval.h	/^  RubyEval();$/;"	p	class:RubyEval	access:private	signature:()
+RubyEval	rubyeval.h	/^class RubyEval $/;"	c
+RubyEval::RubyEval	rubyeval.cpp	/^RubyEval::RubyEval()$/;"	f	class:RubyEval	signature:()
+RubyEval::RubyEval	rubyeval.h	/^  RubyEval();$/;"	p	class:RubyEval	access:private	signature:()
+RubyEval::delete_instance	rubyeval.cpp	/^void RubyEval::delete_instance()$/;"	f	class:RubyEval	signature:()
+RubyEval::delete_instance	rubyeval.h	/^  static void      delete_instance();$/;"	p	class:RubyEval	access:public	signature:()
+RubyEval::eval	rubyeval.cpp	/^VALUE RubyEval::eval(const char* code)$/;"	f	class:RubyEval	signature:(const char* code)
+RubyEval::eval	rubyeval.cpp	/^VALUE RubyEval::eval(const char* code, ostream& errout)$/;"	f	class:RubyEval	signature:(const char* code, ostream& errout)
+RubyEval::eval	rubyeval.h	/^  VALUE eval(char const* code);$/;"	p	class:RubyEval	access:public	signature:(char const* code)
+RubyEval::eval	rubyeval.h	/^  VALUE eval(char const* code, std::ostream& errout);$/;"	p	class:RubyEval	access:public	signature:(char const* code, std::ostream& errout)
+RubyEval::evalOk	rubyeval.cpp	/^bool RubyEval::evalOk()$/;"	f	class:RubyEval	signature:()
+RubyEval::evalOk	rubyeval.h	/^  bool evalOk();$/;"	p	class:RubyEval	access:public	signature:()
+RubyEval::exception_print	rubyeval.cpp	/^void RubyEval::exception_print(ostream& errout)$/;"	f	class:RubyEval	signature:(ostream& errout)
+RubyEval::exception_print	rubyeval.h	/^  void exception_print(std::ostream& errout = std::cerr);$/;"	p	class:RubyEval	access:public	signature:(std::ostream& errout = std::cerr)
+RubyEval::instance	rubyeval.cpp	/^RubyEval* RubyEval::instance() $/;"	f	class:RubyEval	signature:()
+RubyEval::instance	rubyeval.h	/^  static RubyEval* instance();$/;"	p	class:RubyEval	access:public	signature:()
+RubyEval::m_instance	rubyeval.h	/^  static RubyEval* m_instance;$/;"	m	class:RubyEval	access:private
+RubyEval::m_status	rubyeval.h	/^  int m_status;$/;"	m	class:RubyEval	access:private
+RubyEval::run_file	rubyeval.cpp	/^void RubyEval::run_file(const char* filename, ostream& out)$/;"	f	class:RubyEval	signature:(const char* filename, ostream& out)
+RubyEval::run_file	rubyeval.h	/^  void run_file(char const* filename, std::ostream& out = std::cout);$/;"	p	class:RubyEval	access:public	signature:(char const* filename, std::ostream& out = std::cout)
+RubyEval::strval2str	rubyeval.cpp	/^string RubyEval::strval2str(const VALUE rval)$/;"	f	class:RubyEval	signature:(const VALUE rval)
+RubyEval::strval2str	rubyeval.h	/^  static std::string strval2str(VALUE const rval);$/;"	p	class:RubyEval	access:public	signature:(VALUE const rval)
+RubyEval::val2i	rubyeval.cpp	/^int RubyEval::val2i(const VALUE rval)$/;"	f	class:RubyEval	signature:(const VALUE rval)
+RubyEval::val2i	rubyeval.h	/^	static int         val2i     (VALUE const rval);$/;"	p	class:RubyEval	access:public	signature:(VALUE const rval)
+RubyEval::val2str	rubyeval.cpp	/^string RubyEval::val2str(const VALUE rval)$/;"	f	class:RubyEval	signature:(const VALUE rval)
+RubyEval::val2str	rubyeval.h	/^	static std::string val2str   (VALUE const rval);$/;"	p	class:RubyEval	access:public	signature:(VALUE const rval)
+RubyEval::~RubyEval	rubyeval.cpp	/^RubyEval::~RubyEval()$/;"	f	class:RubyEval	signature:()
+RubyEval::~RubyEval	rubyeval.h	/^  ~RubyEval();$/;"	p	class:RubyEval	access:public	signature:()
+TRACE_HEAD	rubyeval.cpp	/^#define TRACE_HEAD /;"	d	file:
+TRACE_MAX	rubyeval.cpp	/^#define TRACE_MAX /;"	d	file:
+TRACE_TAIL	rubyeval.cpp	/^#define TRACE_TAIL /;"	d	file:
+__APP_H__	app.h	/^#define __APP_H__$/;"	d
+__JUKEBOX_H__	jukebox.h	/^#define __JUKEBOX_H__$/;"	d
+__JUKE_EXT_H__	jukebox_ext.h	/^#define __JUKE_EXT_H__$/;"	d
+assign	jukebox.cpp	/^void CDJukebox::assign(int unit_id)$/;"	f	class:CDJukebox	signature:(int unit_id)
+assign	jukebox.h	/^  void assign(int unit_id);$/;"	p	class:CDJukebox	access:public	signature:(int unit_id)
+avg_seek_time	jukebox.cpp	/^double CDJukebox::avg_seek_time()$/;"	f	class:CDJukebox	signature:()
+avg_seek_time	jukebox.h	/^  double avg_seek_time();$/;"	p	class:CDJukebox	access:public	signature:()
+delete_instance	app.cpp	/^void App::delete_instance()$/;"	f	class:App	signature:()
+delete_instance	app.h	/^  static void  delete_instance();$/;"	p	class:App	access:public	signature:()
+delete_instance	rubyeval.cpp	/^void RubyEval::delete_instance()$/;"	f	class:RubyEval	signature:()
+delete_instance	rubyeval.h	/^  static void      delete_instance();$/;"	p	class:RubyEval	access:public	signature:()
+eval	rubyeval.cpp	/^VALUE RubyEval::eval(const char* code)$/;"	f	class:RubyEval	signature:(const char* code)
+eval	rubyeval.cpp	/^VALUE RubyEval::eval(const char* code, ostream& errout)$/;"	f	class:RubyEval	signature:(const char* code, ostream& errout)
+eval	rubyeval.h	/^  VALUE eval(char const* code);$/;"	p	class:RubyEval	access:public	signature:(char const* code)
+eval	rubyeval.h	/^  VALUE eval(char const* code, std::ostream& errout);$/;"	p	class:RubyEval	access:public	signature:(char const* code, std::ostream& errout)
+evalOk	rubyeval.cpp	/^bool RubyEval::evalOk()$/;"	f	class:RubyEval	signature:()
+evalOk	rubyeval.h	/^  bool evalOk();$/;"	p	class:RubyEval	access:public	signature:()
+exception_print	rubyeval.cpp	/^void RubyEval::exception_print(ostream& errout)$/;"	f	class:RubyEval	signature:(ostream& errout)
+exception_print	rubyeval.h	/^  void exception_print(std::ostream& errout = std::cerr);$/;"	p	class:RubyEval	access:public	signature:(std::ostream& errout = std::cerr)
+g_jukebox	jukebox_ext.cpp	/^  VALUE g_jukebox;$/;"	m	namespace:jukebox_ext	file:
+init	jukebox_ext.cpp	/^  void init(CDJukebox* p)$/;"	f	namespace:jukebox_ext	signature:(CDJukebox* p)
+init	jukebox_ext.h	/^  void init(CDJukebox*);$/;"	p	namespace:jukebox_ext	signature:(CDJukebox*)
+instance	app.cpp	/^App* App::instance()$/;"	f	class:App	signature:()
+instance	app.h	/^  static App*  instance();$/;"	p	class:App	access:public	signature:()
+instance	rubyeval.cpp	/^RubyEval* RubyEval::instance() $/;"	f	class:RubyEval	signature:()
+instance	rubyeval.h	/^  static RubyEval* instance();$/;"	p	class:RubyEval	access:public	signature:()
+jukebox_ext	jukebox_ext.cpp	/^namespace jukebox_ext$/;"	n	file:
+jukebox_ext	jukebox_ext.h	/^namespace jukebox_ext$/;"	n
+jukebox_ext::g_jukebox	jukebox_ext.cpp	/^  VALUE g_jukebox;$/;"	m	namespace:jukebox_ext	file:
+jukebox_ext::init	jukebox_ext.cpp	/^  void init(CDJukebox* p)$/;"	f	namespace:jukebox_ext	signature:(CDJukebox* p)
+jukebox_ext::init	jukebox_ext.h	/^  void init(CDJukebox*);$/;"	p	namespace:jukebox_ext	signature:(CDJukebox*)
+jukebox_ext::register_jukebox_global	jukebox_ext.cpp	/^  void register_jukebox_global(CDJukebox* box)$/;"	f	namespace:jukebox_ext	signature:(CDJukebox* box)
+m_box	app.h	/^  CDJukebox *m_box;$/;"	m	class:App	access:private
+m_data	jukebox.h	/^  void* m_data;$/;"	m	class:CDJukebox	access:private
+m_instance	app.cpp	/^App* App::m_instance = 0;$/;"	m	class:App	file:
+m_instance	app.h	/^  static App* m_instance;$/;"	m	class:App	access:private
+m_instance	rubyeval.h	/^  static RubyEval* m_instance;$/;"	m	class:RubyEval	access:private
+m_pending	jukebox.h	/^  char  m_pending;$/;"	m	class:CDJukebox	access:private
+m_request	jukebox.h	/^  int   m_request;$/;"	m	class:CDJukebox	access:private
+m_stats	jukebox.h	/^  void* m_stats;$/;"	m	class:CDJukebox	access:private
+m_status	rubyeval.h	/^  int m_status;$/;"	m	class:RubyEval	access:private
+m_statusf	jukebox.h	/^  int   m_statusf;$/;"	m	class:CDJukebox	access:private
+m_unit_id	jukebox.h	/^  int   m_unit_id;$/;"	m	class:CDJukebox	access:private
+main	main.cpp	/^int main(int argc, char const* argv[])$/;"	f	signature:(int argc, char const* argv[])
+register_jukebox_global	jukebox_ext.cpp	/^  void register_jukebox_global(CDJukebox* box)$/;"	f	namespace:jukebox_ext	signature:(CDJukebox* box)
+run_file	rubyeval.cpp	/^void RubyEval::run_file(const char* filename, ostream& out)$/;"	f	class:RubyEval	signature:(const char* filename, ostream& out)
+run_file	rubyeval.h	/^  void run_file(char const* filename, std::ostream& out = std::cout);$/;"	p	class:RubyEval	access:public	signature:(char const* filename, std::ostream& out = std::cout)
+seek	jukebox.cpp	/^void CDJukebox::seek(int disc, int track)$/;"	f	class:CDJukebox	signature:(int disc, int track)
+seek	jukebox.h	/^  void seek(int disc, int track);$/;"	p	class:CDJukebox	access:public	signature:(int disc, int track)
+set_jukebox	app.cpp	/^void App::set_jukebox(int v)$/;"	f	class:App	signature:(int v)
+set_jukebox	app.h	/^  void set_jukebox(int v);$/;"	p	class:App	access:public	signature:(int v)
+set_unit	jukebox.cpp	/^int CDJukebox::set_unit(int unit)$/;"	f	class:CDJukebox	signature:(int unit)
+set_unit	jukebox.h	/^  int set_unit(int unit);$/;"	p	class:CDJukebox	access:public	signature:(int unit)
+strval2str	rubyeval.cpp	/^string RubyEval::strval2str(const VALUE rval)$/;"	f	class:RubyEval	signature:(const VALUE rval)
+strval2str	rubyeval.h	/^  static std::string strval2str(VALUE const rval);$/;"	p	class:RubyEval	access:public	signature:(VALUE const rval)
+unit	jukebox.cpp	/^int CDJukebox::unit()$/;"	f	class:CDJukebox	signature:()
+unit	jukebox.h	/^  int unit();$/;"	p	class:CDJukebox	access:public	signature:()
+val2i	rubyeval.cpp	/^int RubyEval::val2i(const VALUE rval)$/;"	f	class:RubyEval	signature:(const VALUE rval)
+val2i	rubyeval.h	/^	static int         val2i     (VALUE const rval);$/;"	p	class:RubyEval	access:public	signature:(VALUE const rval)
+val2str	rubyeval.cpp	/^string RubyEval::val2str(const VALUE rval)$/;"	f	class:RubyEval	signature:(const VALUE rval)
+val2str	rubyeval.h	/^	static std::string val2str   (VALUE const rval);$/;"	p	class:RubyEval	access:public	signature:(VALUE const rval)
+~App	app.cpp	/^App::~App()$/;"	f	class:App	signature:()
+~App	app.h	/^  ~App();$/;"	p	class:App	access:protected	signature:()
+~CDJukebox	jukebox.cpp	/^CDJukebox::~CDJukebox()$/;"	f	class:CDJukebox	signature:()
+~CDJukebox	jukebox.h	/^  ~CDJukebox();$/;"	p	class:CDJukebox	access:public	signature:()
+~RubyEval	rubyeval.cpp	/^RubyEval::~RubyEval()$/;"	f	class:RubyEval	signature:()
+~RubyEval	rubyeval.h	/^  ~RubyEval();$/;"	p	class:RubyEval	access:public	signature:()

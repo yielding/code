@@ -1,0 +1,16 @@
+namespace :alcoholic do
+  desc "This task will purchase your Vodka"
+  task :purchaseAlchol do
+    puts "Purchased Vodka"
+  end
+  
+  desc "This task will mix a good cocktail"
+  task :mixDrink => :purchaseAlchol do
+    puts "Mixed Fuzzy Navel"
+  end
+  
+  desc "This task will drink one too many"
+  task :getSmashed => :mixDrink do
+    puts "Dood"
+  end
+end

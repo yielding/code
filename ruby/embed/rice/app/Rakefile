@@ -1,0 +1,34 @@
+#-*- ruby -*-   
+
+require 'rake/clean'
+
+TARGET = 'main'
+
+task :default => [TARGET]
+
+CLEAN.include("*.o")
+CLOBBER.include(TARGET)
+
+LDFLAGS  = '-L/opt/local/lib/ruby/gems/1.8/gems/rice-1.3.1/ruby/lib/lib'
+LIBS     = '-lruby -lobjc -ldl -lrice'
+CXXFLAGS = '-I/opt/local/lib/ruby/1.8/i686-darwin10 -I/opt/local/lib/ruby/gems/1.8/gems/rice-1.3.1/ruby/lib/include'
+SRC      = FileList['*.cpp']
+OBJ      = SRC.ext('o')
+
+rule '.o' => '.cpp' do |t|
+  sh "g++ -O7 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
+end
+
+file TARGET => OBJ do
+  sh "g++ -o main #{OBJ} #{LDFLAGS} #{LIBS}"
+end
+                
+task :run => [TARGET] do
+  sh "./#{TARGET}"
+end
+
+file 'rubyeval.o' => ['rubyeval.cpp']
+file 'jukebox.o' => ['jukebox.cpp']
+file 'jukebox_ext.o' => ['jukebox_ext.cpp']
+file 'app.o' => ['app.cpp']
+file 'main.o' => ['main.cpp']
