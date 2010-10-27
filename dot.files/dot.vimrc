@@ -50,7 +50,7 @@ set clipboard=unnamed
 "
 "-----------------------------------------------------------------------------
 func! MySys()
-  let $OS="mac"
+  let $OS = "mac"
   return $OS
 endfun
 
@@ -115,25 +115,25 @@ endtry
 "
 "function! HasPaste()
 "  if &paste
-"      return 'PASTE MODE  '
+"    return 'PASTE MODE  '
 "  en
 "  return ''
 "endfunction
-
-"-----------------------------------------------------------------------------
 "
-" Show Marks
-"
-"-----------------------------------------------------------------------------
-" Enable ShowMarks
-let showmarks_enable = 1
-" Show which marks
-let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-" Ignore help, quickfix, non-modifiable buffers
-let showmarks_ignore_type = "hqm"
-" Hilight lower & upper marks
-"let showmarks_hlline_lower = 1
-"let showmarks_hlline_upper = 1 
+""-----------------------------------------------------------------------------
+""
+"" Show Marks
+""
+""-----------------------------------------------------------------------------
+"" Enable ShowMarks
+"let showmarks_enable = 1
+"" Show which marks
+"let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+"" Ignore help, quickfix, non-modifiable buffers
+"let showmarks_ignore_type = "hqm"
+"" Hilight lower & upper marks
+""let showmarks_hlline_lower = 1
+""let showmarks_hlline_upper = 1 
 "-----------------------------------------------------------------------------
 "
 " Encoding, file saving
@@ -141,7 +141,7 @@ let showmarks_ignore_type = "hqm"
 "-----------------------------------------------------------------------------
 set fencs=utf-8,ucs-bom,euc-kr
 
-if MySys() != "Windows_NT"
+if MySys() == "mac"
   set encoding=utf-8 nobomb
   set ffs=unix,dos
 else
@@ -160,7 +160,7 @@ set nolazyredraw    " do not redraw while executing macrows
 set vb              " visual bell
 set wmh=0
 
-if MySys() == "Windows_NT"
+if MySys() == "Windows"
   set lines=50
   set columns=90
 endif
@@ -252,11 +252,11 @@ set path+=/Users/yielding/develop/app/panther2/vendor/include
 
 set popt=syntax:y,number:y
 
-if MySys() == "Windows_NT"
-  set guifont=Fixedsys:h12
-elseif MySys() == "mac"
-  set guifont=Menlo\ Regular:h15
+if MySys() == "mac"
+  set guifont=Menlo\ Regular:h14
   set shell=/opt/local/bin/bash
+elseif MySys() == "Windows_NT"
+  set guifont=Fixedsys:h12
 endif
 
 "set guifont=Andale\ Mono:h11
@@ -294,7 +294,10 @@ map   -       "yyy:@y<cr>
 nmap  ;       :%s/\<<c-r>=expand("<cword>")<cr>\>
 map   ;s   :up \| saveas! %:p:r-<C-R>=strftime("%y%m%d")<CR>-bak.txt \| 3sleep \| e #<CR> 
 
+map <F2>    :!g++ % -o %< <CR><CR>
+map <F3>    :!./%< <CR>
 map <F9>    :make <CR><CR>
+map <C-O>   :browse e<CR>
 
 " I like highlighting strings inside C comments
 let c_comment_strings=1
@@ -421,9 +424,9 @@ endfunction
 
 "inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
-"hi Pmenu ctermbg=blue
-"hi PmenuSel ctermbg=yellow ctermfg=black
-"hi PmenuSbar ctermbg=blue
+hi Pmenu     ctermbg=blue
+hi PmenuSel  ctermbg=yellow ctermfg=black
+hi PmenuSbar ctermbg=blue
 
 "-----------------------------------------------------------------------------
 "

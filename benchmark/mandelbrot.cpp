@@ -44,6 +44,7 @@ int main (int argc, const char * argv[])
         printf(" ");
     } 
   }
+
   printf ("\n");
 
   gettimeofday(&aTv,NULL);
