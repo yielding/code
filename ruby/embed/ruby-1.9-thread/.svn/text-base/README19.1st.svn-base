@@ -1,2 +1,0 @@
-gcc -I. -I/opt/local/ruby1.9/include/ruby-1.9.0/i686-darwin9.2.2 -I/opt/local/ruby1.9/include/ruby-1.9.0 -I. -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -fno-common -g -O2 -pipe -fno-common   -o main.o -c main.c
-cc -dynamic -undefined suppress -flat_namespace -o main.so main.o -L. -L/opt/local/ruby1.9/lib -L.     -lruby-static -lpthread  -lpthread -ldl -lobjc

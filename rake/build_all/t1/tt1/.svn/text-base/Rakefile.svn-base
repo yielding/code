@@ -1,7 +1,0 @@
-task :all do
-  IGNORE_FILES = %w{ Rakefile }
-  dirs = Dir["*"].select {|dir| not IGNORE_FILES.include? dir }
-  dirs.each do |dir|
-    sh "cd #{dir} && rake all"
-  end
-end

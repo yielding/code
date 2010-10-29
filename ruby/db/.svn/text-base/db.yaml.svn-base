@@ -1,4 +1,0 @@
-adapter: oracle
-database: //oracle.solbrain.co.kr/orcl
-username: scott
-password: tiger
