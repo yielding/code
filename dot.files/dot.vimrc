@@ -294,7 +294,7 @@ map   -       "yyy:@y<cr>
 nmap  ;       :%s/\<<c-r>=expand("<cword>")<cr>\>
 map   ;s   :up \| saveas! %:p:r-<C-R>=strftime("%y%m%d")<CR>-bak.txt \| 3sleep \| e #<CR> 
 
-map <F2>    :!g++ % -o %< <CR><CR>
+map <F2>    :!g++ % -o %< <CR>
 map <F3>    :!./%< <CR>
 map <F9>    :make <CR><CR>
 map <C-O>   :browse e<CR>
