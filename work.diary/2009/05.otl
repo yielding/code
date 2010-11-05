@@ -1,0 +1,191 @@
+2009년 05월 04일 목요일
+	LONG TERM TODO
+	| Coding practice
+	|  * code 밑에 backtrack 문제 다 풀고 정리한다.
+	|    permutation, queen, bishop
+	|
+	|  * www programming 
+	|  	 xhtml 익숙하게 사용하기
+	|    css(box model)
+	|    javascript(prototype, scriptaculos)
+	|    railscast 
+	|
+	| Reading
+	|  * Prototype and script.aculo.us
+	|
+	|  * Scrum
+	|    도서관에 있다. 그리고 이책은 간단하게 읽을 수 있다.
+	|    Pragmatic Thinking and Learning을 읽은 후에 읽는다.
+	|
+	|  * SICP
+	|    현재 메인 공부 교제
+	|
+	|  * TMP(mpl, phoenix, fusion, spirit)
+	|    예제를 풀어가면서
+	|    도큐멘트로 튼튼해지고 있다. 시장은 한 분야의 전문가를 찾는다.
+	|
+	|  * 대천덕 신부님 자서전
+	|    나와하나님 우리와 하나님 구입
+	|
+	| iPhone
+	|  * 공부
+	|
+	TODO
+	|  * HTTP Server
+	|    Post 충분히 테스트
+	|
+	DOING
+	| HTTP/XHTML study
+	|
+	|  * HTTP Server
+	|    Spirit 2.0으로 계속 개발 
+	|
+	|  * coding practice
+	|    SCIP
+	|    
+	DONE
+	|  * g++ 4.4 빌드
+	|
+	THINKs
+	| * auto rule 몇 가지만 더 테스트하고 그냥 semantic action기반 파싱으로
+	|   넘어간다.
+	|
+	FACTs clarified
+	| * spirit 2.1은 boost_1_39와 별개로 돌아갔다.
+	|
+2009년 04월 30일 목요일
+	LONG TERM TODO
+	|
+	TODO
+	|  * HTTP Server
+	|    Post 충분히 테스트
+	|
+	DOING
+	| HTTP/XHTML study
+	|
+	|  * HTTP Server
+	|    Spirit 2.1로 계속 개발 
+	|
+	|  * coding practice
+	|    SCIP
+	|    
+	DONE
+	|
+	THINKs
+	FACTs clarified
+	|
+2009년 04월 29일 수요일
+	LONG TERM TODO
+	TODO
+	DOING
+	| HTTP/XHTML study
+	|
+	|  * HTTP Server
+	|    Spirit 2.0으로 계속 개발 
+	|
+	|  * coding practice
+	|    SCIP
+	|    
+	DONE
+	|
+	THINKs
+	| * spirit2x를 쓰면서..
+	|   문법은 작은 것부터 테스트하면서 키워나가는 것.
+	|   프로그래밍과 비슷한것.
+	|
+	| * Direct mapping이 되는 개발 환경이 있어야 된다. 이건 시장에서 프로그래머
+	|   로서의 나의 가치를 결정한다.
+	|
+	|   원하는 환경
+	|   ==========
+	|     ruby - RoR
+	|     objC - iPhone
+	|     c++  - server, boost
+	|
+	FACTs clarified
+	|
+2009년 04월 22일 화요일
+	LONG TERM TODO
+	TODO
+	|
+	DOING
+	|    
+	DONE
+	|
+	THINKs
+	| * 사고의 도구로서 프로그래밍은 언제든 계속된다. Ruby, C++ 뭐 파이선, 
+	|   스킴도 좋다.
+	|
+	| * Direct mapping이 되는 개발 환경이 있어야 된다. 이건 시장에서 프로그래머
+	|   로서의 나의 가치를 결정한다.
+	|
+	|   원하는 환경
+	|   ==========
+	|     ruby - RoR
+	|     objC - iPhone
+	|     c++  - server, boost
+	|
+	FACTs clarified
+	|
+2009년 04월 07일 화요일
+	TODO
+	|
+	DOING
+	DONE
+	| * Pragmatic Thinking and Learning
+	|   다 읽음
+	|
+	THINKs
+	| 최근 기술(esp, rails)이 점점 빨릭 바뀌고 있는 이유중 하나가 최근 
+	| 만들어진 library는 잘 만들어지기 때문이다.
+	|
+	FACTs clarified
+	| URL encoding
+	|  according to RFC 3387 URLs must be converted to UTF-8
+	|  he specification for URLs (RFC 1738, Dec. '94) poses a problem, 
+	|  in that it limits the use of allowed characters in URLs to only 
+	|  a limited subset of the US-ASCII character set:
+	|  "...Only alphanumerics [0-9a-zA-Z], the special characters "$-_.+!*'()," 
+	|  [not including the quotes - ed], and reserved characters used for their 
+	|  reserved purposes may be used unencoded within a URL."
+	|
+2009년 04월 02일 목요일
+	TODO
+	|
+	DOING
+	| HTTP/XHTML study
+	|  * Pragmatic Thinking and Learning (ch 7)
+	|    8장 읽고 있음
+	|
+	|  * HTTP
+	|    HTTP 개요 공부중(순천양대학교 교제 및 rfc)
+	|    asio/http server 코드 분석
+	|    ruby HTTP class로 테스트
+	|
+	|  * coding practice
+	|    cyclic iteration
+	|
+	|  * www programming 
+	|  	 xhtml 익숙하게 사용하기
+	|    css(box model)
+	|    javascript(prototype, scriptaculos)
+	|
+	DONE
+	|
+	THINKs
+	| * wife가 젊묘한 타이밍에 박사와 일에서 자리를 잡다.
+	|   내 일자리가 대전으로 가던지.. 여기서는 여러모로 힘든게 많아 보이네
+	|
+	| * 순천향대학교의 자료를 얻다. 딱 내가 원하던 개요 자료
+	|   나한테는 이런 개요가 필요하다. 이것 다음에 RFC를 읽고 프로그램을 짜는게
+	|   말이 되는거지.
+	|
+	FACTs clarified
+	| * POST와 GET의 차이(POST 중심으로)
+	|   1 POST는 URL에 Query가 나타나지 않는다. (body에 숨어있다.)
+	|   2 긴 정보를 보낼 수 있다.
+	|   3 REST에서는 각각 SELECT, INSERT에 해당
+	|   4 보내는 쪽과 받는 쪽에서 encoding/decoding을 해야한다.
+	|   5 Google의 Accelerator 사건
+	|     속도 향상을 위해 GET처럼 보이는 버튼을 클릭했더만 DELETE가 되어버린
+	|     문제

@@ -1,0 +1,241 @@
+2006년 7월 20일 목요일
+	LONG TERM TODO
+	|  HTTP 공부
+	|  WMI 공부: 먼저 CMI Studio를 잘 살펴본다.
+	|  SQL 공부: 그만 무시 받아야겠지? SP와 Join을 더 잘 알아본다.
+	|            (inner, outter는 구글링)
+	|            -> soam 을 하나의 예제로
+	|            -> Active_record
+	|            -> stored procedure
+	|  Subversion:
+	|
+	|  FreeBSD:
+	|    프로그램 연습
+	|      : 루비 및 C++를 이용하여 TDD로 문제푸는 연습을 한다.
+	|        알고리즘, 자료구조 연습
+	|        -> 알고리즘, 자료구조: 학부책
+	|        -> 루비로 먼저 풀고 C++는 필요한 경우에 푼다.
+	|
+	|  SNMP
+	|    SNMP, SMUX, AgentX 프로토콜 공부
+	|    mib2c 정확하게 이해
+	|
+	TODO
+	| * (V) stream을 객체로 전체 코드의 인자가 하나 준다.
+	| * (V) 각 add method는 *this return 및 중복 체크
+	| * (V) cvs에 넣는다.
+	| * (V) 현재 코드를 TDD
+	| * (V) win32에서 build
+	| * (V) CxxTest를 vc8와 연동
+	| * (V) packet, stream 관계 정리
+	| * (V) VC 설정 정리(BUILDING 화일에)
+	| * 클라이언트로 만들기.
+	|   -> win32-console을 만들면서 필요한 thread쪽을 만든다.
+	|   -> 어느정도 더 진행이 되면 cvs를 클린하고 다시할 수도 있다.
+	| * connection.h
+	| * client_socket.h
+	| * thread.h
+	| * trac만들기
+	| * 일일빌드 가능하도록 sln, Makefile 만들기
+	| * blowfish 적용
+	| * mailer의 ACE 코드 분석
+	| * tlib 적용
+	| * source tree 구조 다시 잡기
+	DONE
+	THINK
+	FACTs clarified
+2006년 7월 18일 화요일
+	TODO
+	| * (V) stream을 객체로 전체 코드의 인자가 하나 준다.
+	| * (V) 각 add method는 *this return 및 중복 체크
+	| * (V) cvs에 넣는다.
+	| * (V) 현재 코드를 TDD
+	| * (V) win32에서 build
+	| * (V) CxxTest를 vc8와 연동
+	| * (V) packet, stream 관계 정리
+	| * (V) VC 설정 정리(BUILDING 화일에)
+	| * 클라이언트로 만들기.
+	|   -> win32-console을 만들면서 필요한 thread쪽을 만든다.
+	|   -> 어느정도 더 진행이 되면 cvs를 클린하고 다시할 수도 있다.
+	| * connection.h
+	| * client_socket.h
+	| * thread.h
+	| * trac만들기
+	| * 일일빌드 가능하도록 sln, Makefile 만들기
+	| * blowfish 적용
+	| * mailer의 ACE 코드 분석
+	| * tlib 적용
+	| * source tree 구조 다시 잡기
+	DONE
+	THINK
+	FACTs clarified
+2006년 7월 14일 금요일
+	TODO
+	| * (V) stream을 객체로 전체 코드의 인자가 하나 준다.
+	| * (V) 각 add method는 *this return 및 중복 체크
+	| * (V) cvs에 넣는다.
+	| * (V) 현재 코드를 TDD
+	| * (V) win32에서 build
+	| * (V) CxxTest를 vc8와 연동
+	| * (V) packet, stream 관계 정리
+	| * (V) VC 설정 정리(BUILDING 화일에)
+	| * 클라이언트로 만들기.
+	|   -> win32-console을 만들면서 필요한 thread쪽을 만든다.
+	|   -> 어느정도 더 진행이 되면 cvs를 클린하고 다시할 수도 있다.
+	| * connection.h
+	| * client_socket.h
+	| * thread.h
+	| * trac만들기
+	| * 일일빌드 가능하도록 sln, Makefile 만들기
+	| * blowfish 적용
+	| * mailer의 ACE 코드 분석
+	| * tlib 적용
+	| * source tree 구조 다시 잡기
+	DONE
+	THINK
+	FACTs clarified
+2006년 7월 13일 목요일
+	TODO
+	| * (V) stream을 객체로 전체 코드의 인자가 하나 준다.
+	| * (V) 각 add method는 *this return 및 중복 체크
+	| * (V) cvs에 넣는다.
+	| * (V) 현재 코드를 TDD
+	| * (V) win32에서 build
+	| * (V) CxxTest를 vc8와 연동
+	| * packet, stream 관계 정리
+	| * 클라이언트로 만들기.
+	|   -> win32-console을 만들면서 필요한 thread쪽을 만든다.
+	|   -> 어느정도 더 진행이 되면 cvs를 클린하고 다시할 수도 있다.
+	| * connection.h
+	| * client_socket.h
+	| * thread.h
+	| * trac만들기
+	| * 일일빌드 가능하도록 sln, Makefile 만들기
+	| * blowfish 적용
+	| * mailer의 ACE 코드 분석
+	| * tlib 적용
+	| * source tree 구조 다시 잡기
+	DONE
+	THINK
+	FACTs clarified
+2006년 7월 12일 수요일
+	TODO
+	| * (V) stream을 객체로 전체 코드의 인자가 하나 준다.
+	| * (V) 각 add method는 *this return 및 중복 체크
+	| * (V) cvs에 넣는다.
+	| * (V) 현재 코드를 TDD
+	| * (V) win32에서 build
+	| * (V) CxxTest를 vc8와 연동
+	| * thread.h
+	| * client_socket.h
+	| * blowfish 적용
+	| * tlib 적용
+	| * source tree 구조 다시 잡기
+	| * mailer의 ACE 코드 분석
+	DONE
+	THINK
+	FACTs clarified
+2006년 7월 11일 화요일
+	TODO
+	| * (V) stream을 객체로 전체 코드의 인자가 하나 준다.
+	| * (V) 각 add method는 *this return 및 중복 체크
+	| * <<, >> == 등 필요한 operator를 추가
+	| * blowfish 적용
+	| * tlib 적용
+	| * win32에서 build
+	| * mailer의 ACE 코드 분석
+	| * 현재 코드를 TDD
+	| * pcl의 container의 add계열 함수의 중복 제거
+	|   CRTP off add_field?
+	DONE
+	THINK
+	| 플랫폼 종속적인 thread, client_socket은 "asio::thread"를 따라간다.
+	| asio의 구조만 가져가고 코드에서 내가 사용하지 않는것(볼랜드 컴파일러,
+	| 서버 소켓 등..)은 다 제거시킨다.
+	FACTs clarified
+2006년 7월 10일 월요일
+	TODO
+	| * (V) stream을 객체로 전체 코드의 인자가 하나 준다.
+	| * (V) 각 add method는 *this return 및 중복 체크
+	| * <<, >> == 등 필요한 operator를 추가
+	| * blowfish 적용
+	| * tlib 적용
+	| * win32에서 build
+	| * 각 코드의 test를 다 삽입한다.
+	| * mailer의 ACE 코드 분석
+	| * 현재 코드를 TDD
+	| * pcl의 container의 add계열 함수의 중복 제거
+	|   CRTP off add_field?
+	THINK
+	FACTs clarified
+2006년 7월  7일 금요일
+	TODO
+	| * (V) stream을 객체로 전체 코드의 인자가 하나 준다.
+	| * <<, >> == 등 필요한 operator를 추가
+	| * 각 add method는 *this return 및 중복 체크
+	| * blowfish 적용
+	| * tlib 적용
+	| * win32에서 build
+	| * 각 코드의 test를 다 삽입한다.
+	| * mailer의 ACE 코드 분석
+	|
+	THINK
+	| Cache라는 루비코드를 보다. 메타프로그래밍을 이용한
+	| 충격적인 아름다움..
+	FACTs clarified
+2006년 7월  6일 목요일
+	DONE
+	| pcl_datastructure를 
+	|
+	THINK
+	| 갑자기 사고의 폭팔이 오다.
+	|   1. pcl_object -> streamable, identifiable로 분리
+	|   2. no duplication
+	|   3. composition
+	|   4. testability
+	| 
+	| 완전한 폭팔이 아니었던 이유 (2008.1.3)
+	|   1. 이런 인터페이스는 inner code로는 훌륭하지만 library 인터페이스가 된다면
+	|      너무 많은 헤더와 pre-condition 붙는게 아닌가?
+	|   2. 그래서 pImpl 패턴까지 생각했었어야 한다.
+	FACTs clarified
+	| tables, c:bfields등은 composite패턴이다.
+2006년 7월  5일 수요일
+	DOING
+	| pcl_datastructure를 구현 중
+	DONE
+	| pcl -> table까지 구현
+	| cxxtest를 이용해서 build하는 것을 알게되다.
+	| make의 incremental build와 함께 작게 모듈을 만들어 나간다면 충분히 TDD가
+	| 가능하다.
+2006년 7월  4일 화요일
+	TODO
+	| panther API만들기
+	|
+	|   일단 이 라이브러리는 Win32에서 사용하는 것을 가정하므로
+	|   xLLThread등은 뺀다.
+	|   xLL Data structure and, xLL Packet을 먼저 작업.
+	|
+	|   datastructure작업 이후에 test code를 만든다.
+	|   -> 다음 부터 TDD 할 수 있는지에 대해서 생각한다.
+	|      CppUnit?
+	|
+	| mailer의 ACE 코드 분석
+	|
+	DOING
+	| pcl_datastructure를 구현 중
+	|
+	DONE
+	|
+	THINK
+	|
+	FACTs clarified
+	| cross flatform 코드는 유닉스에서 짜는게 훨씬 좋다. 
+	| (사용자 인터페이스가 없는경우)
+2006년 7월  3일 월요일
+	DONE
+	| crpt연습.
+	THINK
+	FACTs clarified
+	| crpt로 짤 수 없음.
+	| 하지만 언제 mixin할지에 대한 감각은 더 생김

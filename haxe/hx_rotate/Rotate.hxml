@@ -1,0 +1,5 @@
+-main Rotate
+-swf rotate.swf
+-swf-lib rails.swf
+-swf-version 9
+-swf-header 400:400:30:8080FF

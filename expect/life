@@ -1,0 +1,9 @@
+#!/usr/bin/expect
+spawn telnet life.metro.taegu.kr
+set timeout 20
+expect login:
+send "astaff\r"
+expect assword:
+send "jinro!\r"
+#sleep 1 
+interact

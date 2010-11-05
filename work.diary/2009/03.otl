@@ -1,0 +1,117 @@
+2009년 03월 27일 금요일
+	LONG TERM TODO
+	| Coding practice
+	|  * code 밑에 backtrack 문제 다 풀고 정리한다.
+	|    permutation(with backtrack) 정리
+	|    queen 코드 정리
+	|    bishop
+	|
+	| Reading
+	|  * Pragmatic Thinking and Learning (ch 7)
+	|  * Prototype and script.aculo.us
+	|    박영록 번역
+	|  * Scrum
+	|  * SICP
+	|  * TMP (mpl, phoenix, fusion, spirit)
+	|    예제를 풀어가면서
+	|
+	| iPhone
+	|  * cheat 프로그램을 iPhone용으로 짠다. 
+	|    이게 정말 나한테 필요하다.
+	|    on-offline에서 쓸수 있게 이게 내게는 정말 중요하다.
+	|    성경
+	|    기념일
+	|      주민등록, 등등..
+	|    IT
+	|    사진
+	|    사전 (shift-space로 spotlite가 하는걸 봐도 그렇다.)
+	|
+	TODO
+	|
+	DOING
+	| HTTP/XHTML study
+	|  * xhtml 익숙하게 사용하기
+	|    css(box model)
+	|    javascript(prototype, scriptaculos)
+	|
+	DONE
+	| 
+	|
+	THINKs
+	|
+	FACTs clarified
+	|
+2009년 03월 18일 수요일
+	TODO
+	|
+	DOING
+	|
+	DONE
+	| gtest.environment.usage study
+	|
+	| gtest.FAIL() << "use like test";
+	| .
+	| mysql.create.drop.test
+	| mysql.select.test
+	|
+	THINKs
+	| mysql.test를 작성하면서 기존에 체크하지 않았던 수많은 버그를 수정
+	| so, TDD
+	|
+	FACTs clarified
+	|
+2009년 03월 16일 월요일
+	LONG TERM TODO
+	|
+	TODO
+	|
+	DOING
+	| HTTP/XHTML study
+	|  * xhtml 익숙하게 사용하기
+	|    css(box model)
+	|    javascript(prototype, scriptaculos)
+	|
+	| rails programming
+	|	login부터 제대로 해본다.
+	|
+	| railscast에서 layout을 다 보다.
+	| 	67 restful_login
+	|
+	|   57 layout
+	|      application, controller dynamic, render
+	|
+	|   70 route
+	|
+	DONE
+	|
+	THINKs
+	| 다른 사람들은 지금 뭘 하고 있는 지 모르겠으나 난 내일을 위해 공부하고 있다.
+	| 크리티컬하진 않다. 내가 갖추었어야 하나 그러지 못했던 웹에 대한것.
+	| rails.
+	|
+	| I will be rails master
+	|
+	| 주어진 시간을 최대로 사용할 구체적인 계획이 없는 상태다. 그것이 아쉽다.
+	|
+	| 시장과 기술의 흐름을 꿰고 있는 사람들을 계속 주시한다.
+	|
+	FACTs clarified
+	| msvc의 runtime library static link option이 MT였다. 내참..
+	|
+2009년 03월 13일 금요일
+	TODO
+	|
+	DOING
+	DONE
+	THINKs
+	FACTs clarified
+	|
+2009년 03월 11일 수요일
+	LONG TERM TODO
+	DONE
+	| railscast 전부 다운받고 일부를 열어서 보다
+	|
+	THINKs
+	FACTs clarified
+	|
+	|

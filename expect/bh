@@ -1,0 +1,9 @@
+#!/usr/bin/expect
+spawn telnet  bh.knu.ac.kr
+set timeout 20
+expect login:
+send "ikkim\r"
+expect assword:
+send "ikkim89\r"
+#sleep 1 
+interact

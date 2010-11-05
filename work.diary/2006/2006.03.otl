@@ -1,0 +1,268 @@
+2006년 3월 29일
+	TODO
+	| Stations의 메뉴 핸들러 이름이 상당히 헤깔림
+	|   -> popup의 경우에는 반드시 popup이라는 이름을 사용한다.
+	| 오라클 도움말 연결
+	| rmon 센서의 등록정보 구현
+	| 각 센서에 counter 등록시 테스트 코드 넣기
+	| 나 혼자서라도 태그를 찍는다.
+	| adminmate spec 수정 -> 오라클 추가
+	| oracle cd 구하기
+	|
+	DOING
+	| 
+	DONE
+	| unit_test_framework의 간단한 예제 만들기 성공
+	| aix 머신 간단하게 세팅
+	| mapview에 popup메뉴 추가 
+	THINK
+	|
+	FACTs clarified
+	| vc80은 vc71과 디렉토리 구조가 다른다.
+	|
+	| freebsd에서는 syslog.conf의 loghost에 반드시 '@loghost'라고 써야한다.
+	|
+	|<150>2003-09-03 21:00:39 demo[1604]: syslog client at 10.0.0.6 started.
+	||(1)||       (2)       | |(3)||(4)|     (5)
+2006년 3월 27일
+	TODO
+	DOING
+	DONE
+	| javascript에 대한 좋은 자료를 구하다.
+	| 지워진 노드 문제 해결.
+	THINK
+	| 앞으로 자료를 얻거나 공부의 흔적을 ruby로 만들고
+	| blog에 옮긴다. 그렇게 해야지 루비공부나 등등이 몸에 익지.
+	FACTs clarified
+	| class item의 container를 vector<item> items라고 할 때
+	| items에 대한 반복 연산은
+	| 무조건 for_each(i.begin(), i.end(), boost::bind(&item::member, _1, pred));
+	| 를 적용하는게 맞다. 이걸 생각하고 item의 member function을 디자인하자
+	|
+	| 더 생각 모든 loop가 해결되지 않는다. 소스 검색해보고 더 생각.!!!
+
+	| Reflection is succinctly defined in Wikipedia (see Resources) as 
+	| "the ability of a program to examine and possibly modify its 
+	| high-level structure at runtime." 
+	| The same source defines metaprogramming as 
+	| "the writing of programs that write or manipulate other programs 
+	| (or themselves) as their data or that do part of the work that is 
+	| otherwise done at runtime during compile time."
+2006년 3월 24일
+	TODO
+	DOING
+	DONE
+	| rmon카운터 선택시 너무 느림 
+	THINK
+	FACTs clarified
+2006년 3월 24일
+	TODO
+	DOING
+	DONE
+	THINK
+	FACTs clarified
+2006년 3월 23일
+	TODO
+	DOING
+	DONE
+	| XML 수정 및 추가
+	| 기본 카운터가 달리지 않음.
+	THINK
+	| 
+	FACTs clarified
+	| 
+2006년 3월 22일
+	TODO
+	DOING
+	DONE
+	| rmonsvc 제작 
+	| ManagedSwitch.xml 기본 제작
+	THINK
+	| 도대체 뭐가 문제야를 읽고 있음. 지금 내가 탭스랩에서 가지고 있는
+	| 불만에서도 정확한 문제를 도출하고 잘 해결할 수 있으면 좋겠다..
+	|
+	| 지금의 생각은 이 불만이 
+	|   1. 내가 하고 있는 일에서 돈을 많이 벌거나
+	|   2. 아님 빨리 역량을 더 키우는 것.
+	FACTs clarified
+	| 
+2006년 3월 21일
+	TODO
+	DONE
+	| 김피디가 요구한 문서 (process, syslog 모니터링 방안) 작성
+	| snmp_com get메소드 수정.. -> 김피디의 MIBObject를 반환
+	| 
+	THINK
+	| 김피디의 GetWalkRequest2에서 한 수 베우다.
+	|   1 safearry를 처리하는 것
+	|   2 exception 처리하는 것. 특히 COM 객체가 exception을 
+	|     클라이언트에게 던져주는 것은 인상적임.
+	FACTs clarified
+2006년 3월 20일
+	TODO
+	DOING
+	DONE
+	| 업무일지를 VIM outliner로 교체하다. TVO의 인기가 엄청 상승중이다.
+	| AIX관련
+		AIX SNMP - aixmibd
+		| snmpv3과 함꼐 사용
+		| MIB에 지정된 값을 기반으로 시스템으로부터 데이타를 수집
+		| /etc/aixmibd.conf
+		| /usr/samples/snmpd/aixmibd_security_readme
+		| /usr/samples/snmpd/aismibd.my : aixmibd 서브에이전트에 대한 mib 
+		| AIX SNMP - mosy
+		| * mib compiler
+		| * mosy  -o OutputFile { -s } InputFile ...
+		AIX xmservd
+		| CPU, 메모리, Disk, Process, LAN, IO, IPC 등의 정보를 이 데몬을 
+		| 통해서 볼 수 있다. 상당히 자세하다. snmpd는 MIB-II의 정보의 일부
+		| 를 가지고 있고 시스템 모니터링의 상세한 activity는 xmservd에게
+		| 넘기는 것 같다. -> 다른 snmpd도 이와 비슷하다고 함.
+	THINK
+	| 
+	FACTs clarified
+	| AIX의 snmp구조 snmpd <-> xmservd
+	| fixture  -> 설치해서 움직일 수 없는것. 고정물
+	|          -> rails의 fixture는 test간의 독립성을준다.
+	| scaffold -> 일시적인 무대. 발판
+	|          -> rails는 전체 구성요소를 갖춘 기본 골격을 지칭한다.
+2006년 3월 17일
+	DONE
+	| ruby
+	| * ruby용 snmp library를 발견 
+	|   snmp 테스트 프로그램을 이 라이브러리를 이용하면 기존의 방식보다 
+	|   더 정확한 timing을 얻을 수 있다.
+	THINK
+	| snmp
+	| * WMI가 모든 면에서 더 나은 프로토콜 같으나 여러 포트를 사용한다는 
+	|   점에서 치명적 SNMP의 S가 진정 힘을 발휘하고 있다. 
+	|   SNMPv3 vs WMI 누가 이길것인가?
+2006년 3월 9일
+	TODO
+	THINK
+	| 어제 snmpget을 이용한 루비 Snmp 클래스를 만들면서 느낀점. 앞으로 
+	| 코딩할때는 반드시 루비로 테스트할 것이라는 것을 염두해서 console 모드로 
+	| 빌드되게 MVC로 나누어 디자인한다.
+	|
+	| for_each와 Boost.Bind를 엮어서 사용하는 것을 많이 생각해봤는데 
+	| 이 것이 좀처럼 쉽지 않았던 
+		이유 
+		| for_each는 container의 각 멤버를 다룰 때 사용한다.
+		| 일반적으로 for loop안에 있는 대부분의 statement는 하나의 함수로 
+		| 잘 표현되지 않고 이것을 위해 따로 함수만드는 것도 어색할 때가 
+		| 많다.
+		결론
+		| 클래스를 잘 설계해서 각 for loop안에 들어갈 내용들이 member 
+		| function으로 refactoring된다면 문제가 해결.. 
+		| 그래서 매 for loop을 볼때마다 항상 생각해본다. 
+		| 이것을 멤버함수로 뺄 수 있는지.
+		==> 
+		| 결국은 프로그램을 더 잘 디자인하려고 노력하는 가장 중요한 
+		| 결실을 얻게될 것 같다. 
+		| 영어공부도 TDD하듯 해본다. 아직 TDD를 잘 하는 것은 아니지만....
+
+		디자인에 대해서
+		| 켄트벡이 TDD책에서 Money 객체를 TDD할때 Sum, Result를 클래스로 
+		| 만들고 Expression을 인터페이스로 만드는 것을 보았다.
+		|
+		| 분명히 나보다 한 수 위.. 아직도 그 놀라움의 여운이 남아 있다.
+
+2006년 3월 8일
+	TODO
+		snmp.rb 확장
+		| walk를 지원하게 만든다.
+		| get, walk의 결과의 타입은 결국 float와 string으로 귀결된다.
+		| 그래서 snmp 모듈에서 to_f 이렇게 코딩해서는 안되고 단지 scalar 
+		| 혹은 array에 값을 담아서 넘기면 그만.
+	FACTs clarified
+		snmpget, snmpwalk에 snmp의 포트를 설정할 수 있다. 
+		| snmpwalk -v1 -cpublic localhost:1616 oid
+		snmpd.conf에 listen port를 수정할 수 있다. 
+		| agentaddress 1616
+
+2006년 3월 6일
+	TODO
+	DONE
+	| 오라클 UI 다양한 구조의 XML을 받아들일 수 있도록 구조 변경
+	THINK
+	| 지난 주말 내가 김창준씨와 같이 일하게 되는 꿈을 꾸다. 내가 경현이를 만난 
+	| 학부 1학년 부터 지금까지 나를 몰아온 실체없는 듯한 무언가는 바로 
+	| '프로그램을 잘 하는 것'이었다. C++에 탐닉했던것도 남들보다 윈도우즈 
+	| 프로그램을 먼저했던것도, 많은 책을 샀던 것, 여러 언어를 공부한것도 
+	| 결국에는 이창하는 프로그램을 잘 짠다는 소리를 (내적으로나 외적으로) 
+	| 듣고 싶었던 것이었다.
+	|
+	| 프로그램을 잘 짜는데 필요한 요소는 이미 거의 다 드러났다. 그리고 
+	| 프로그래밍이 여전이 art일 수 밖에 없는 이유가 앞으로도 내가 이 일을 
+	| 즐겁게 할 수 있는 기쁜 소식이다.
+	|
+	| 프로그램을 더 잘 짜기 위해서 매일 노력하겠지만 이제 더 이상 나를 몰고 
+	| 온 그 강박관념에서 자유할 것이다. 부담잆이 즐기며 프로그램할것이다.
+
+	FACTs clarified
+	| 오라클UI를 수정하면서 여러 가지를 얻다.
+		refactoring
+		| config_io는 catalog_io안에 들어갈 수 있다. catalog라는 이름의 
+		| 특수성때문에 사용되는 코드가 상당히 깔끔할 뿐만 아니라 
+		| 의미적으로도 깔금해진다.
+		test 
+		| 센서를 개발하고 보니 정확히 뭘 테스트해야 할지가 분명히 보인다. 
+		| 그렇다면 코딩의 시점은 정확히 테스트할 것이 무엇인지가 명확해진 
+		| 다음이어야 한다.
+		|
+		| snmp sensor는 유닉스의 snmpget, snmpwalk를 이용해서 정확한 입력과 
+		| 출력을 알 수 있다. 따라서 사전에 디렉토리 구조만 정확히 
+		| 디자인했다면 데이타를 다루는 클래스를 TDD할 수 있다.
+		smell 첫번 째 개발할 때는 모든 것이 명확하지 않았다. 그래서 얼토당토 않은 
+		| 버그가 많았지. 근데 같은 sensor를 같은 코드로 몇 개 개발하면서 
+		| 몇몇 명확하지 않았던 개념들 역시 여지없이 에러를 나타낸다는 것을 
+		| 알 수 있었다. 이성기 선생님 말처럼 완전히 이해해야 제대로 된 
+		| 프로그램을 만들 수 있다.
+		|
+		| 이런 어처구니 없는 경우를 적어도 나혼자거 프로그램하고 디버그할 
+		| 경우라면 TDD와 code review밖에 방법이 없는 것같다.
+
+2006년 3월 2일
+	THINK
+	| 에자일 컨설팅 홈페이지를 보면 내가 앞으로 무엇을 준비해야 할지 잘 알 
+	| 수 있다.
+		프로그램을 잘 짜는 것
+		| TDD의 practice에 익숙해지는 것 User story, CRC 카드를 정확히 
+		| 만드는 것
+		다른 사람의 경험을 계속 겸손하게 받아들이는 것.
+		| 김창준씨이든 perky이든 ward Cunningham이던..
+	FACTs clarified 
+	| 클래스 X 의 member function의 첫번째 포인터가 이때동안 const X*라고 
+	| 알고 있었다. std의 9.3.2.2에 보면 그렇지 않음을 알 수 있다. 
+	| 그냥 X*이다. 만약 member function이 const로 qualify되어 있으면 
+	| 그때 const X*이다.
+	|
+	| 그리고 non-const instance의 경우 const이거나 아닌 모든 member 
+	| function을 호출할 수 있으나 const instance는 const 멤버만 호출할 
+	| 수 있다. 
+	| "A cv-qualified member function can be called on an object-expression 
+	| (5.2.5) only if the object-expression is as cv-qualified or 
+	| less-cv-qualified than the member function." [Example: 
+	|	
+		struct s { 
+			int a; 
+			int f() const; 
+			int g() { return a++; } 
+			int h() const { return a++; } // error (const 멤버함수의 this는 cosnt s*이므로 안됨)
+		};
+		int s::f() const { return a; }
+	
+		void k(s& x, const s& y)
+		{
+			x.f();
+			x.g();
+			y.f();
+			y.g(); //error
+		}
+	| The call y.g() is ill-formed because y is const and s::g() is a 
+	| non-const member function, that is, s::g() is less-qualified than the 
+	| object-expression y. ]
+	| 5 Constructors (12.1) and destructors (12.4) shall not be declared 
+	| const, volatile or const volatile. [Note: However, these functions can 
+	| be invoked to create and destroy objects with cvqualified types, 
+	| see (12.1) and (12.4). ]

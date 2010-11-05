@@ -1,0 +1,62 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<book>
+  <bookinfo>
+    <title>Your title here</title>
+
+    <author>
+      <firstname>Your first name</firstname>
+      <surname>Your surname</surname>
+      <affiliation>
+        <address><email>Your e-mail address</email></address>
+      </affiliation>
+    </author>
+
+    <copyright>
+      <year>1998</year>
+      <holder role="mailto:your e-mail address">Your name</holder>
+    </copyright>
+
+    <pubdate role="rcs">$Date: 2003/01/08 10:27:39 $</pubdate>
+
+    <releaseinfo>$Id: DocBookSys-Chapter8-XML-Creating.xml,v 1.1.1.1 2003/01/08 10:27:39 ug55axm Exp $</releaseinfo>
+
+    <abstract>
+      <para>Include an abstract of the book&apos;s contents here.</para>
+    </abstract>
+  </bookinfo>
+
+  <part><title>Part1</title>
+    <chapter><title>Part 1, Chapter 1</title>
+      <sect1><title>Part1, Chapter 1, Section1</title>
+        <para>
+          Hello there!
+        </para>
+      </sect1> 
+    </chapter>
+
+    <chapter><title>Part 1, Chapter 2</title>
+      <sect1><title>Part1, Chapter 2, Section 1</title>
+        <para>
+          Hi there!
+        </para>
+      </sect1> 
+    </chapter>
+  </part>
+
+  <part><title>Part2</title>
+    <chapter><title>Part 2, Chapter 1</title>
+      <sect1><title>Part 2, Chapter 1, Section1</title>
+        <para>
+          GoodDay there!
+        </para>
+      </sect1> 
+
+      <sect1><title>Part2, Chapter1, Section2</title>
+        <para>
+          GoodNight there! 
+        </para>
+      </sect1> 
+    </chapter>
+  </part>
+</book>
