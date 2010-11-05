@@ -1,0 +1,10 @@
+# -*- ruby -*-
+# 
+
+SRCS     = %w{io_tutorial.cpp}
+APP      = "io"
+OSX_LIBS = ""
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app.rake'

@@ -1,0 +1,28 @@
+#-*- ruby -*-   
+
+require 'rake/clean'
+
+TARGET = 'low_list.exe'
+
+task :default => [TARGET]
+
+CLEAN.include("*.o")
+CLOBBER.include(TARGET)
+
+TOOL_DIR = "/usr/local/i386-mingw32-3.4.5/bin"
+LIBS     = ''
+CXXFLAGS = ''
+SRC      = FileList['low_list.cpp']
+OBJ      = SRC.ext('o')
+
+rule '.o' => '.cpp' do |t|
+  puts "#{TOOL_DIR}/i386-mingw32-g++ -O7 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
+  sh   "#{TOOL_DIR}/i386-mingw32-g++ -O7 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
+end
+
+file TARGET => OBJ do
+  puts "#{TOOL_DIR}/i386-mingw32-g++ -o #{TARGET} #{OBJ} #{LIBS}"
+  sh   "#{TOOL_DIR}/i386-mingw32-g++ -o #{TARGET} #{OBJ} #{LIBS}"
+	puts "#{TOOL_DIR}/i386-mingw32-strip --strip-all #{TARGET}"
+	sh   "#{TOOL_DIR}/i386-mingw32-strip --strip-all #{TARGET}"
+end

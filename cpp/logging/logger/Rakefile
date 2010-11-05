@@ -1,0 +1,9 @@
+# -*- ruby -*-
+
+SRCS     = %w{rotating_logger.cpp}
+APP      = "rotating_logger"
+OSX_LIBS = "-lboost_log-mt -lboost_system-mt -lboost_thread-mt"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app.rake'

@@ -1,0 +1,10 @@
+# -*- ruby -*-
+# 
+
+SRCS     = %w{stack_unittest.cpp}
+APP      = "su"
+OSX_LIBS = "-lgtest -lgtest_main"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app.rake'

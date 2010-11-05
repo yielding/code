@@ -1,0 +1,16 @@
+
+*
+ios_base::out    출력용으로 파일을 연다.
+ios_base::in     입력용으로 파일을 연다.
+ios_base::app    파일 끝에 데이터를 덧붙인다. 데이터를 추가하는 것만 가능하다.
+ios_base::ate    파일을 열자 마자 파일 끝으로 FP를 보낸다. FP를 임의 위치로 옮길 수 있다.
+ios_base::trunc  파일이 이미 존재할 경우 크기를 0으로 만든다.
+ios_base::binary 이진 파일 모드로 연다.
+
+* 입력과 출력을 모두 할 수 있는 모드로 열고 싶으면 fstream 객체를 생성하고 in, out 모드를 
+  모두 지정하면 된다. fstream은 istream, ostream으로부터 다중 상속된 iostream으로부터 
+  상속을 받아 입력, 출력용 버퍼를 각각 하나씩 가지므로 입출력 겸용의 객체를 만들 수 있다. 
+
+* confer
+  1) http://www.winapi.co.kr/clec/cpp4/36-1-4.htm
+  2) http://www2.roguewave.com/support/docs/sourcepro/edition9/html/stdlibug/30-3.html
