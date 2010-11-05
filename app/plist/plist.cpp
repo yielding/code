@@ -17,7 +17,6 @@ int main(int argc, char const* argv[])
 
   cout << buffer << endl;
 
-
   char* message = 
     "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
     "<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
@@ -30,8 +29,7 @@ int main(int argc, char const* argv[])
     "</dict>"
     "</plist>";
 
-cout << message << endl;
-
+  cout << message << endl;
 
   return 0;
 }
