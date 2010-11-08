@@ -1,0 +1,30 @@
+#-*- ruby -*-   
+
+require 'rake/clean'
+
+TARGET = 'occitaf'
+
+task :default => [TARGET]
+
+CLEAN.include("*.o")
+CLOBBER.include(TARGET)
+
+LDFLAGS  = '-L/opt/local/lib/oracle'
+LIBS     = '-locci -lociei'
+CXXFLAGS = '-I/opt/local/lib/oracle/sdk/include'
+SRC      = FileList['*.cpp']
+OBJ      = SRC.ext('o')
+
+rule '.o' => '.cpp' do |t|
+  sh "g++ -O3 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
+end
+
+file TARGET => OBJ do
+  sh "g++ -o #{TARGET} #{OBJ} #{LDFLAGS} #{LIBS}"
+end
+                
+task :run => [TARGET] do
+  sh "./#{TARGET}"
+end
+
+file 'occitaf.o' => ['occitaf.cpp']

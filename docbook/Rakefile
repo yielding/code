@@ -1,0 +1,41 @@
+#-*- ruby -*-   
+
+require 'rake/clean'
+
+CLEAN.include(FileList["*.html", "*.fo"])
+CLOBBER.include(FileList["*.pdf", "*.rtf"])
+
+XSL = "/opt/local/share/xsl/docbook-xsl"
+
+def get_document_name
+  ARGV.shift; 
+  return ARGV.length <= 0 ? ["",""] : ARGV.first.split(".")
+end
+
+desc "pdf generation"
+task :pdf do
+  name, ext = get_document_name
+  if name == "" or ext.downcase != "xml"
+    "document name is not given or wrong"
+    exit
+  end
+
+  puts "pdf is generating ..."
+  #sh "xsltproc --output #{name}.fo #{XSL}/fo/docbook.xsl #{name}.#{ext}"
+  #sh "fop -fo #{name}.fo -pdf #{name}.pdf"
+
+  #sh "fop -c /Users/yielding/Downloads/fop-0.94/conf/userconfig.xml -xml #{name}.#{ext} -xsl #{XSL}/fo/docbook.xsl -pdf #{name}.pdf"
+  sh "fop -xml #{name}.#{ext} -xsl #{XSL}/fo/docbook.xsl -pdf #{name}.pdf"
+end
+
+desc "html generation"
+task :html do
+  name, ext = get_document_name
+  if name == "" or ext.downcase != "xml"
+    "document name is not given or wrong"
+    exit
+  end
+
+  puts "html is generating ..."
+  sh "xsltproc #{XSL}/xhtml/chunk.xsl #{name}.#{ext}"
+end

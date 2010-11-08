@@ -1,0 +1,118 @@
+2006년 2월 21일
+	DONE
+		김일곤 교수님과 승민이를 만나다. 
+		| 그 자리에서 이성기 교수님, 이재영씨도 보다. 
+		| 선생님은 ISO TC 512에서 적극적으로 활동하고 계심.
+2006년 2월 20일
+	TODO
+		오라클의 SGA가 여러 데이타베이스를 관리하는 영역인지를 알아야 한다. 
+		| 즉 한 인스턴스가 몇 개의 데이타베이스와 상관있는지 알아야 한다. 
+		| MSSQL은 여러 DB를 관리하는 영역이다.
+
+	DONE
+		오라클 데이타베이스 설치시간이 긴 이유
+		| 데이타베이스를 추가하면 아에 oracle.exe실행화일이 하나 더 실행되며 
+		| service도 데이타베이스 명과 동일란넘이 하나 추가된다. 즉, 
+		| global 정보가 없다. 각 데이타베이스는 이것과 관계된 모든정보, 
+		| 즉 fore/background 프로세스, 메모리(SGA, PGA)를 통칭한 
+		| 인스턴스라는 단위안에 다 묶인다.
+	THINK
+	| 그러보 보니 오라클이야 말로 GUI는 Java로 시스템의 종속성을 없앴고 소스 
+	| 코드는 아마 preprecessor나 boost같이 잘 만들어진 클래스로 가능한 중복을 
+	| 피했을 것 같다. 개인적으로 루비를 좋아하지만 오라클 사장이라면 나 역시 
+	| 자바를 선택하지 않았을까? 아니면 GUI를 포기했던지.
+	FACTs clarified
+		오라클은 한 인스턴스가 한 데이타베이스를 관리한다. 
+		rdbmsIndex와 applIndex는 원래는 의미가 다르나 오라클에서는 의미가 같다. 
+		| applIndex는 Network Service MIB의 일부로서 말 그대로 네트웍으로 
+		| 서비스하는 서버에 할당가능한 MIB를 가지고 있다. 그런데 오라클은 
+		| 데이타베이스당 인스턴스당 하나의 인스턴스가 할당되고 이 인스턴스가 
+		| 여러 개의 서버의 조합으로 하나의 서비스를 제공하는 서버의 개념을 
+		| 가진다. 만약 다른 운영체제라면 두 값이 달라질 수 있다.) 그러나 
+		| 상용 시스템은 가 같은 값을 가지는것이 틀림없다. 유닉스 아니면 
+		| 윈도우즈 일것이므로.
+		건국대학교 DB랩 자료에서 발견하다.
+2006년 2월 17일
+	FACTs clarified
+	| 오라클의 인덱스의 구조때문에 (데이타베이스 이름이 oid의 마지막에 붙은 인덱스이다.) 
+	| 기존의 유닉스 센서랑 코드를 공유할 수 없는 경우가 생긴다. SbnoCatalogDlg클래스는 
+	| 공통의 snmp_io, snmp_ds의 값을 기반으로 각 센서마다 그 해석하는 의미가 달라지는 부문을 
+	| 담당하는 역할을 한다.
+	| 월요일 오면 이 클래스의 key를 다루는 부분에서 시작한다.
+2006년 2월 16일
+	FACTs clarified
+		용어
+		| Dependency Injection -> Dependency Hiding
+		AfxGetResourceHandle
+		| 여러 dll을 오가면서 resource가 바뀔 때 resource handle을 잘 관리해야된다.
+		| oracleui.cpp에서 OnSensorTreeCommand에서 받는 인자와 내부에서 사용하는 인자
+		| 즉 h_sensor, htStation을 내가 혼동해서 사용했다 copy&paste하면서.
+
+	THINK
+	| 내일부터는 좀 더 힘차게 일할 수 있겠다. 오늘 아침에 먹은 홍삼이 좋은가?
+2006년 2월 15일
+	FACTs clarified
+		Continuation 정의
+		| a continuation is a representationi of the execution state of a 
+		| program at a certain point in time. Many languages have constructs 
+		| that allow a programmer to save the current execution state into 
+		| an object, and then restore the state from this object at a later 
+		| point in time
+		continuation 용도 
+		| coroutine, generator, user level thread를 구현하는 building block
+2006년 2월 14일
+	THINK
+	| Matz likes to refer to Human Oriented Programming 
+	| People are complicated ... 
+	| People love simplicity and they love complexity
+	| People love beautiful things and love ugly things
+	| People love easy problems, and hate easy problems
+	| People make mistakes and they learn from mistakes 
+	DONE
+	| 아주 복잡하게 노드 깜박임을 구현하려 하다가 간단하게 구현하는 
+	| 방법을 찾다. 
+	| 오늘은 이래저래 마무리를 할 생각.
+2006년 2월 13일
+	TODO
+	| sensor service 개발. 센서 서비스 개발이 2개로 늘다.
+	THINK
+	| TDD가 좋은점.. dim.rb를 이해하고 내것으로 만드는데 실제 잗 돌아가는 
+	| test_dim.rb보다 좋은게 없는거 같다.
+	FACTs clarified
+	| ruby dim 모듈의 코드중 
+	| obj.method_missing(:symbol [, *args]) ->an_obj 
+	| 객체에 던저진 method가 없을 때 호출되는 함수. 
+	| 아래 코드는 이것을 이용한 아주 교묘한 방법. ruby같은 동적 언어가 아니면 
+	| 사용하기 힘들거 같다.
+
+	def method_missing(sym, *args, &block)
+		self[sym]
+	end
+	def [](name)
+		@cache[name] ||= service_block(name).call(self)
+	end
+	| ** Message Based Polymorphism
+	|     * Java and Ruby define OO in different terms
+	|         o OO in Java is defined in terms of calling functions
+	|                 + Member functions, static functions, etc. 
+	|         o OO in Ruby is defined in terms of sending messages
+	|                 + Sending messages, obj.send(:method_name) 
+	|     * The distinction is subtle, but significant 
+	class Proxy
+		def initialize(target)
+			@target = target
+		end
+		def method_missing(sym, *args, &block)
+			@target.send(sym, *args, &block)
+		end
+	end
+	class Dog
+		def talk; puts "WOOF"; end
+	end
+	d = Dog.new
+	p = Proxy.new(d)
+	p.talk
+	DONE 
+		oracleui 기본틀 제작
+		| compiler option에서 bool을 기본으로 쓸건지 말건지가 코드 컴파일을 
+		| 완전히 결정해버릴 수 잇는 중요한 요소가 된다.

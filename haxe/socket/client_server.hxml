@@ -1,0 +1,10 @@
+-swf ClientFlash.swf
+-main ClientFlash.hx
+
+--next
+-neko Client.n
+-main Client.hx
+
+--next
+-neko server.n
+-main Server.hx

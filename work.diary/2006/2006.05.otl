@@ -1,0 +1,301 @@
+2006년 5월 26일 금요일
+	LONG TERM TODO
+	| WMI 공부: 먼저 CMI Studio를 잘 살펴본다.
+	| SQL 공부: 그만 무시 받아야겠지? SP와 Join을 더 잘 알아본다.
+	|           (inner, outter는 구글링)
+	|           -> soam 을 하나의 예제로
+	|           -> Active_record
+	|           -> stored procedure
+	|
+	| CVS, Subversion:
+	|   정확히 어떻게 공부해야할 지 모르겠다.
+	|
+	| FreeBSD:
+	|
+	| 프로그램 연습
+	|   : 루비 및 C++를 이용하여 TDD로 문제푸는 연습을 한다.
+	|     주안점은 TDD로부터의 객체 설계
+	|     알고리즘, 자료구조 연습
+	|     -> 알고리즘, 자료구조: 학부책
+	|     -> 루비로 먼저 풀고 C++는 필요한 경우에 푼다.
+	|
+	TODO
+	| 5.2를 설치할때는 AIX용 컴파일러를 반드시 설치한다.
+	| AIX컴파일러가 아니고 gcc인 경우 어처구니 없는 곳에서
+	| 계속 에러가 난다..
+	|
+	| Trac에 rembed도 넣는다.
+	|
+	| iserver는 rembed때문에라도 asio보다 좋다.
+	| asio는 지금 개발하고 있는 poller layer에 있다.
+	|
+	| libm이 없다는 것은 AIX 기본 개발도구를 설치하지 않아서 
+	| 그럴것 같음. 경훈이가 준걸 깔아본다.
+	|
+	| SMUX, AgentX 프로토콜 공부
+	| mib2c 정확하게 이해
+	|
+	DOING
+	DONE
+	THINK
+	FACTs clarified
+2006년 5월 25일 목요일
+	DOING
+	| test case 정리 후 하나씩 테스트해본다. 지금 내 상황과 역량에서는
+	| 이 코드들이 정상적으로 동작하지 않는다면 딱히 해볼 수 있는게 없다.
+	|
+	DONE
+	| net-snmp 5.3.1 pre2를 컴파일하는데 성공하다.
+	| 1. include/net-snmp/net-snmp-config.h의 "" -> "
+	| 2. snmplib/Makefile의 불필요한 문자 제거
+	| 3. 컴파일 에러 주먹구구로 제거. (하나 발생한다.)
+	| 4. /usr/local/sbin/snmpd -r ( -c /usr/local/etc/snmp/snmpd.conf)
+	|    기본은 /usr/local/share/snmp/snmpd.conf인거 같다. 
+	|
+	| aix 5.2.에서 net-snmp 5.2 테스트.
+	| 잘됨 openssl코드는 따로 받아놨음
+	THINK
+	FACTs clarified
+	| 아주 좋은 공부 방법
+	| en.wikioedia.org에 대부분의 textbook 수준의 내용이 있다.
+2006년 5월 24일 수요일
+	DONE
+	| net-snmp 5.3.1 pre2를 컴파일하는데 성공하다.
+	| 1. include/net-snmp/net-snmp-config.h의 "" -> "
+	| 2. snmplib/Makefile의 불필요한 문자 제거
+	| 3. 컴파일 에러 주먹구구로 제거. (하나 발생한다.)
+	| 4. /usr/local/sbin/snmpd -r ( -c /usr/local/etc/snmp/snmpd.conf)
+	|    기본은 /usr/local/share/snmp/snmpd.conf인거 같다. 
+	|
+	THINK
+	| 끊기 있게 net-snmp관련 정보를 찾다가 news-group에서 결국
+	| 답을 얻다. snmpd -r하면 문제를 피해갈 수 있다. 정도는 아니지만...
+	|
+	| freebsd의 포트를 보면서 느끼는 것은 이렇게 잘 만들어진 library와
+	| 포트 시스템이 COM보다 훨씬 좋다는 것.
+	|
+	FACTs clarified
+	| net-snmp가 여러 가지 부족한게 많지만 여러 운영체제의 다양한
+	| 카운터를 얻어오는 방법과 여러 머신에서 컴파일되게 구성하는 
+	| 코드는 참고할 필요가 있다.
+	|
+	| freebsd에 자바를 깔고 있다. 그런데 자바를 설치한다는 것은
+	| X를 설치하는 것이 기본으로 전제된다. 오 마이갓.
+	| x -> gtk -> mozilla 등등 다 깔린다.
+	|
+2006년 5월 23일 화요일
+	LONG TERM TODO
+	| WMI 공부 : 먼저 CMI Studio를 잘 살펴본다.
+	| SQL 공부 : 그만 무시 받아야겠지? SP와 Join을 더 잘 알아본다.
+	|            (inner, outter는 구글링)
+	|            -> soam 을 하나의 예제로
+	|            -> Active_record
+	|            -> stored procedure
+	|
+	| CVS, Subversion:
+	|   정확히 어떻게 공부해야할 지 모르겠다.
+	|
+	| FreeBSD :
+	|
+	| 프로그램 연습
+	|      : 루비 및 C++를 이용하여 TDD로 문제푸는 연습을 한다.
+	|        주안점은 TDD로부터의 객체 설계
+	|        알고리즘 연습
+	|        -> 교제는 알고리즘 연습과 루비 퀴즈 등.
+	|        -> 루비로는 반드시 풀고 C++는 필요한 경우에 푼다.
+	|
+	TODO
+	| 5.2를 설치할때는 AIX용 컴파일러를 반드시 설치한다.
+	| AIX컴파일러가 아니고 gcc인 경우 어처구니 없는 곳에서
+	| 계속 에러가 난다..
+	|
+	| Trac에 rembed도 넣는다.
+	|
+	| iserver는 rembed때문에라도 asio보다 좋다.
+	| asio는 지금 개발하고 있는 poller layer에 있다.
+	|
+	| libm이 없다는 것은 AIX 기본 개발도구를 설치하지 않아서 
+	| 그럴것 같음. 경훈이가 준걸 깔아본다.
+	|
+	DOING
+	|
+	| 경아 줄(나도 참고할) 발표자료 모으기
+	|
+	| SMUX, AgentX 프로토콜 공부
+	|
+	| mib2c 정확하게 이해
+	|
+	| aix 5.2.에서 net-snmp 5.2 테스트.
+	|
+	DONE
+	| net-snmp plugin만들기 2가지 테스트 완료
+	THINK
+	FACTs clarified
+2006년 5월 22일 월요일
+	DONE
+	| net-snmp plugin만들기 2가지 테스트 완료
+2006년 5월 19일 금요일
+	LONG TERM TODO
+	| WMI 공부 : 먼저 CMI Studio를 잘 살펴본다.
+	| SQL 공부 : 그만 무시 받아야겠지? SP와 Join을 더 잘 알아본다.
+	|            (inner, outter는 구글링)
+	|            -> soam 을 하나의 예제로
+	|            -> Active_record
+	|            -> stored procedure
+	|
+	| CVS, Subversion:
+	|   정확히 어떻게 공부해야할 지 모르겠다.
+	|
+	| FreeBSD :
+	|
+	| 프로그램 연습
+	|      : 루비 및 C++를 이용하여 TDD로 문제푸는 연습을 한다.
+	|        주안점은 TDD로부터의 객체 설계
+	|        알고리즘 연습
+	|        -> 교제는 알고리즘 연습과 루비 퀴즈 등.
+	|        -> 루비로는 반드시 풀고 C++는 필요한 경우에 푼다.
+	|
+	TODO
+	| 5.2를 설치할때는 AIX용 컴파일러를 반드시 설치한다.
+	| AIX컴파일러가 아니고 gcc인 경우 어처구니 없는 곳에서
+	| 계속 에러가 난다..
+	|
+	DOING
+	|
+	| 경아 줄(나도 참고할) 발표자료 모으기
+	|
+	DONE
+	| mod_apache_snmp 테스트 완료
+	|
+	| IBM 컴파일러 받음
+	|
+	| iserver에 대한 트랙 만들기.
+	| ruby embed 코드 정리해서 올린다.
+	| -> iserver에 올렸다.
+	|
+	THINK
+	FACTs clarified
+2006년 5월 18일 목요일
+	LONG TERM TODO
+	| WMI 공부 : 먼저 CMI Studio를 잘 살펴본다.
+	| SQL 공부 : 그만 무시 받아야겠지? SP와 Join을 더 잘 알아본다.
+	|            (inner, outter는 구글링)
+	|            -> soam 을 하나의 예제로
+	|            -> Active_record
+	|            -> stored procedure
+	|
+	| CVS, Subversion:
+	|   정확히 어떻게 공부해야할 지 모르겠다.
+	|
+	| FreeBSD :
+	|
+	| 프로그램 연습
+	|      : 루비 및 C++를 이용하여 TDD로 문제푸는 연습을 한다.
+	|        주안점은 TDD로부터의 객체 설계
+	|        알고리즘 연습
+	|        -> 교제는 알고리즘 연습과 루비 퀴즈 등.
+	|        -> 루비로는 반드시 풀고 C++는 필요한 경우에 푼다.
+	|
+	TODO
+	| 5.2를 설치할때는 AIX용 컴파일러를 반드시 설치한다.
+	| AIX컴파일러가 아니고 gcc인 경우 어처구니 없는 곳에서
+	| 계속 에러가 난다..
+	|
+	| ruby embed 코드 정리해서 올린다.
+	DOING
+	| 서버 개발 시작.
+	|
+	| 경아 줄(나도 참고할) 발표자료 모으기
+	|
+	DONE
+	| mysql 테스트
+	|
+	THINK
+	FACTs clarified
+2006년 5월 17일 수요일
+	DONE
+	| rmon도움말 쓰기
+	THINK
+	FACTs clarified
+2006년 5월 16일 화요일
+	DONE
+	THINK
+	FACTs clarified
+2006년 5월 15일 월요일
+	DONE
+	| using namespace boost와 관계있는 unixsvc코드를 수정하다
+	| ICPC 문제 풀기
+	|    cell문제 -> 조합구하기 -> 순열 구하기 -> backtrack 공부
+	|  
+	| Mac PC 동기화 
+	| 머신 구입 결정
+	| smith number 풀기.
+	THINK
+	FACTs clarified
+	| smith number를 풀때 속시나 모를 함정이 있나해서
+	| 오래 생각할 뻔 했다. 간단히 구현하고 보니
+	| 충분히 속도가 빨라서 아무 문제가 되지 않았다.
+	|
+	| 미리 오더를 생각하는 것도 좋은 생각이고
+	| 빨리 구현해서 느껴보는 것도 좋은 생각
+	|
+2006년 5월 12일 금요일
+	DONE
+	| CSoamSnmpIO 버그 수정(but 버그는 더 있다.)
+	| 오라클 관련 도움말 처리
+	|
+	| 오라클 이름 얻는 부분에서 필요없이
+	| snmp연결을 시도하고 있음
+	| 상당한 량의 코드가 refactoring될 필요가 있다.
+	|
+	|
+	THINK
+	| 오라클 센서는 코드를 봐도 이해가 되지 않는다.
+	| 충분한 정황에 대한 문서가 필요하다.
+	FACTs clarified
+	| std namespace를 제외하고는 
+	| using namespace boost; 이따위로 코딩하면 절대 안된다.
+	|
+	| 1. 기본은 boost::any_of 이런식
+	| 2. 귀찮으면 using boost::any_of
+	| 3. 길면 namespace fs = boost::filesystem
+2006년 5월 11일 목요일
+	DOING
+	DONE
+	| ReportView 수정
+	| MapView 수정
+	THINK
+	| "Premature optimization is the root of all evil."
+	| MapView에 사용한 캐슁이 그러한 경우이다.
+	| 먼저 디자인만 잘 한 다음에는 실제 정확한 데이타가 나오기 전까지
+	| 절때 복잡한 cache를 만들지 않는다.
+	FACTs clarified
+2006년 5월 10일 수요일
+	DONE
+	| ReportView 구현 완료
+	| otl 설치
+	| 디렉토리 정리
+	THINK
+	FACTs clarified
+2006년 5월  8일 월요일
+	DONE
+	THINK
+	FACTs clarified
+2006년 5월  2일 화요일
+	DOING
+	| MSSQL ADO.rb 추가. 흠.. 그럼 active_record로 우리 DB를
+	| 열어볼 수 있다...
+	|
+	DONE
+	| MSSQL을 위한 ruby dbi 설치 
+	|
+	| 신세계 버그
+	|   -> 샘플 추가.
+	|      windodws 개별 CPU사용율 예제 버그 수정 
+	|
+	THINK
+	FACTs clarified
+2006년 5월  1일 월요일
+	DONE
+	THINK
+	FACTs clarified

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dylib", "dylib.vcproj", "{DA687A21-2017-42DC-82DE-1C488DA7B5E7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polygon", "..\polygon\polygon.vcproj", "{AAEE6BFD-4DA3-44C0-A1BF-645FD5E13FB9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA687A21-2017-42DC-82DE-1C488DA7B5E7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DA687A21-2017-42DC-82DE-1C488DA7B5E7}.Debug|Win32.Build.0 = Debug|Win32
+		{DA687A21-2017-42DC-82DE-1C488DA7B5E7}.Release|Win32.ActiveCfg = Release|Win32
+		{DA687A21-2017-42DC-82DE-1C488DA7B5E7}.Release|Win32.Build.0 = Release|Win32
+		{AAEE6BFD-4DA3-44C0-A1BF-645FD5E13FB9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AAEE6BFD-4DA3-44C0-A1BF-645FD5E13FB9}.Debug|Win32.Build.0 = Debug|Win32
+		{AAEE6BFD-4DA3-44C0-A1BF-645FD5E13FB9}.Release|Win32.ActiveCfg = Release|Win32
+		{AAEE6BFD-4DA3-44C0-A1BF-645FD5E13FB9}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

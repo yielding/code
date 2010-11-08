@@ -1,0 +1,20 @@
+require 'rake/clean'
+require 'pp'
+
+CLEAN.include("*.swf")
+
+task :default => ['rotate.swf']
+
+desc "최종 결과물"
+file 'rotate.swf' => ['Rotate.hx', 'rails.swf'] do
+  sh "haxe Rotate.hxml"
+end
+
+desc "최종 결과물에서 사용될 library file"
+file 'rails.swf' => 'rails.xml' do
+  sh "swfmill simple rails.xml rails.swf"
+end
+
+task :run => 'rotate.swf' do
+  sh "open rotate.swf"
+end

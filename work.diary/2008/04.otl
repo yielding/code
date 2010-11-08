@@ -1,0 +1,127 @@
+2008년 4월 12일 토요일
+	LONG TERM TODO
+	| Coding practice
+	|  * code 밑에 backtrack 문제 다 풀고 정리한다.
+	|    permutation(with backtrack) 정리
+	|    queen 코드 정리
+	|    bishop
+	|
+	| HTTP study
+	|
+	| Reading
+	|  * SICP
+	|
+	| Retrospect
+	|  * hour-based with me2day
+	|
+	| * 교육
+	|   프로그램 100개
+	|   책 30권
+	|
+	TODO
+	| * Programming
+	|   (1) OSX에서 hello_worker 만들기
+	|       makefile, rakefile 정리
+	|
+	|   (2) scheduler 리뷰
+	|
+	| * AIR 스터디
+	|   RTLS 디버깅
+	|
+	DOING
+	| * 오라클 구매
+	|   (V) 정본부장에게 확인
+	|   (V) 김팀장확인
+	|   (V) 품의서 작성 ->  이혁진
+	|   ( ) 삼성 정보를 모은 후에 구매 진행
+	|
+	| * 우촌 초등학교 데모 계획
+	|   (V) 문서작성
+	|   이팀장과 최종 협의
+	|   사장님들에게 메일
+	|
+	| * Programming
+	|   (1) OSX에서 hello_worker 만들기
+	|       makefile, rakefile 정리
+	|
+	| * Ruby로 Problem class만들기
+	|   problem을 Set에 넣기로 하면서 Set의 side effect를 이용하려는
+	|   생각이 잘못된듯.
+	|
+	DONE
+	| 
+	THINKs
+	|
+	FACTs clarified
+	|
+2008년 4월 10일 목요일
+	TODO
+	DOING
+	DONE
+	| 
+	THINKs
+	|
+	FACTs clarified
+	|
+2008년 4월  8일 화요일
+	DONE
+	| * 열림기술 로그 분석 프로그램
+	|
+	THINKs
+	| * 업무를 몇개로 쪼개서 관리하는 것이 상당히 유용해보임
+	|
+	FACTs clarified
+	|
+2008년 4월  7일 월요일
+	TODO
+	DOING
+	DONE
+	| * 열림기술 mssql worker 작업 연결 끊기는 상황 처리
+	|   미들웨어 버그 발견
+	|    1. 워커에서 에러나면 2초 쉬지만
+	|       리더기는 1초안에 ack오지 않으면 재전송
+	|        -> 워커 수정
+	|
+	|    2. ado worker에서 씹어버렸던 에러를 처리
+	|       -> opentech전용 코드로 수정.
+	|       -> 잘되는 지 확인 후에 ado worker를 수정
+	|
+	|    3. 길이가 잘못된 넘에 대해서도 ack를 준다.
+	|
+	THINKs
+	|
+	FACTs clarified
+	|
+2008년 4월  3일 목요일
+	LONG TERM TODO
+	TODO
+	DOING
+	|
+	DONE
+	| * 미들웨어에서 hexa로 덤프 남기는 것.
+	|
+	| * 미들웨어에서 hexa로 덤프 남기는 것.
+	|   hex2.cpp: SICP에서 처럼 
+	|     enumeration => for_each, _1
+	|     filter      => hex_
+	|     map         => for_each
+	|
+	THINKs
+	|
+	FACTs clarified
+	| BLL(Boost Lambda Library)쓰는 것에 대해서 계속 공부
+	| 1) for_each(a.begin(), a.end(), cout << _1);
+	| 2) for_each(a.begin(), a.end(), _1 = _1 + 2);
+	| 3) for_each(a.begin(), a.end(), ss << bind(&foo, _1));
+	|
+	| 3) 번 form에 대해서 code/cpp/hex2.cpp
+	|
+2008년 4월  1일 화요일
+	TODO
+	DONE
+	| 지난 번에 했지만 파스칼의 삼각형 프로그램 작성하다.
+	| 생각보다 어렵지 않았지만 Lisper들의 코드는 정말 현란
+	|
+	THINKs
+	|
+	FACTs clarified

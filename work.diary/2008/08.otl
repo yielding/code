@@ -1,0 +1,88 @@
+2008년 08월 19일 화요일
+	LONG TERM TODO
+	| Coding practice
+	|  * code 밑에 backtrack 문제 다 풀고 정리한다.
+	|    permutation(with backtrack) 정리
+	|    queen 코드 정리
+	|    bishop
+	|
+	| HTTP/XHTML study
+	|  * xhtml 익숙하게 사용하기
+	|
+	| Reading
+	|  * SICP
+	|  * TMP
+	|    예제를 풀어가면서 (머리가 안될때 계속 반복하는 것)
+	|
+	| * 교육
+	|   프로그램 100개
+	|   책 30권
+	|
+	| * Emacs사용 
+	|   내가 추구하는 가장 이상적이면서 안정적인 환경을 가진 에디터(vim + textmate)
+	|   언제든지 마음이 바뀔때 넘어가게
+	|   아쿠아이맥스로 하루에 30분정도
+	|     (이걸 목표를 가지고 함 해볼까?)
+	|
+	TODO
+	| * AIR 스터디 해야된다.
+	|
+	| * panther2
+	|   (1) producer/consumer
+	|       KT어린이 안심서비의 경우 입력의 속도와 출력의 속도가 다르다
+	|       이때 가능한 모든 입력을 다 받아들이기 위해서 쓰레드간의 종속성을
+	|       끊는것이 필요
+	|
+	|   (2) scheduler
+	|
+	|   (3) monitoring
+	|       -> www.cuil.com
+	|       -> trac
+	|
+	DOING
+	| * Emacs로 RoR 프로그램
+	|
+	DONE
+	| * howm을 설치하다. 이것이 의미하는 것은 이 todo를 더 이상 쓰지 않겠다는 이야기
+	|
+	THINKs
+	|
+	FACTs clarified
+	|
+2008년 08월 13일 수요일
+	LONG TERM TODO
+	TODO
+	DOING
+	DONE
+	| * docbook을 이용한 조판 시스템 사용
+	| * edic.py -> edic.rb로 포팅
+	|   emacs를 쓸거다.
+	|
+	THINKs
+	| * 90% 에서 멈추고 싶은 욕구가 정말 많다. docbook 쓸준비를 Rakefile만들면서
+	|   끝내었고 부가적으로  rake와 ARGV를 연동해서 사용하는 방법도 알게 되었다.
+	|
+	FACTs clarified
+	|
+2008년 08월 11일 월요일
+	LONG TERM TODO
+	TODO
+	DOING
+	DONE
+	| 
+	THINKs
+	|
+	FACTs clarified
+	|
+2008년 08월 01일 목요일
+	DOING
+	| * xhtml 익숙하게 사용하기
+	|
+	DONE
+	| 
+	THINKs
+	|
+	FACTs clarified
+	| * boost thread 엄청 많이 바뀌다.
+	|   interrupt -> thread_interrupted
+	|   producer/consumer 에 필요한 코딩은 다 한듯.

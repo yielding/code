@@ -1,0 +1,40 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+
+<article>
+  <articleinfo>
+    <title>Your title here</title>
+
+    <author>
+      <firstname>Your first name</firstname>
+      <surname>Your surname</surname>
+      <affiliation>
+        <address><email>Your e-mail address</email></address>
+      </affiliation>
+    </author>
+
+    <copyright>
+      <year>1998</year>
+      <holder role="mailto:your e-mail address">Your name</holder>
+    </copyright>
+
+    <pubdate role="rcs">$Date: 2003/01/08 10:27:39 $</pubdate>
+
+    <releaseinfo>$Id: DocBookSys-Chapter7-SGML-Creating.xml,v 1.1.1.1 2003/01/08 10:27:39 ug55axm Exp $</releaseinfo>
+
+    <abstract>
+      <para> Include an abstract of the article&apos;s contents here. </para>
+    </abstract>
+  </articleinfo>
+
+  <sect1><title>Section 1</title>
+    <para>
+      My first article!
+    </para>
+  </sect1>
+
+  <sect2><title>Section 2</title>
+    <para>
+      Brilliant!
+    </para>
+  </sect2>  
+</article>

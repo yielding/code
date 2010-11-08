@@ -1,0 +1,9 @@
+# -*- ruby -*-
+SRCS     = %w{zlib.cpp zlib_test.cpp}
+APP      = "zlib_test"
+WIN_LIBS = "-lboost_thread-mt -lboost_system-mt"
+OSX_LIBS = "-lz"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app.rake'

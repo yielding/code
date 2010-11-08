@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <articleinfo>
+    <title>아티클 템플릿</title>
+
+    <author>
+      <firstname>이창하</firstname>
+      <surname>yielding</surname>
+      <affiliation>
+        <address><email>yielding@gmail.com</email></address>
+      </affiliation>
+    </author>
+
+    <copyright>
+      <year>2008</year>
+      <holder role="mailto:yielding@gmail.com">leech</holder>
+    </copyright>
+
+    <abstract>
+      <para>Include an abstract of the article's contents here.</para>
+    </abstract>
+  </articleinfo>
+
+  <sect1><title>Section 1</title>
+    <para>
+      blah blah blah
+    </para>
+  </sect1>
+
+  <sect1><title>Section 2</title>
+    <para>
+      blah blah blah
+      이창하가 테스트한 문서
+    </para>
+  </sect1>
+</article>

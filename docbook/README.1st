@@ -1,0 +1,36 @@
+설치의 핵심은 http://www.working-software.com/node/18 이 사이트에 있다.
+그리고 (http://supportweb.cs.bham.ac.uk/documentation/tutorials/docsystem/
+               build/tutorials/docbooksys/docbooksys.html)
+
+간단히 정리하면 다음과 같다.
+
+1. port list | grep docbook
+   1) docbook-xml
+   2) docbook-xsl
+   3) docbook2X
+   4) docbook-dsssl
+
+   이중에서 1, 2를 설치하면 될듯.
+
+2. $ export XSL=/opt/local/share/xsl/docbook-xsl/
+   $ xsltproc $XSL/xhtml/chunk.xsl my_content.xml
+
+   위 명령에서 작성한 xml을 html로 바꿀 수 있다.
+
+3. xml을 pdf로 변환하기 위해서 Apache-FOP(Formatting object Processor)를 사용한다.
+
+   $ xsltproc --output my_content.fo $XSL/fo/docbook.xsl my_content.xml
+   $ java org.apache.fop.cli.Main -fo my_content.fo -pdf my_content.xml
+   (나는 이렇게 한다 fop -fo my_content.fo -pdf my_content.xml)
+
+4. fop는 http://xmlgraphics.apache.org/fop/download.html 에서 다운받는다
+   fop-hyph.jar는 http://sourceforge.net/projects/offo  여기에서 
+   받은 jar파일을 ~/Library/Java/Extensions 밑으로 복사
+
+5. TODO
+  1) DocBook 5는 XInclude를 이용해서 여러 화일로 쪼개기, 포함하기가 된다.
+     시간나면 테스트
+  2) 한글처리
+     http://docbook.kldp.net/howto/fop.html
+     http://bumworld.pe.kr/entry/fop-XML%C0%BB-PDF%B9%AE%BC%AD%B7%CE-%B8%B8%B5%E9%B1%E2
+     http://www.painworld.pe.kr/archive/20071117

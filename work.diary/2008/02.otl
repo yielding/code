@@ -1,0 +1,132 @@
+2008년 2월 21일 목요일
+	LONG TERM TODO
+	| Coding practice
+	|  * code 밑에 backtrack 문제 다 풀고 정리한다.
+	|    permutation(with backtrack) 정리
+	|    queen 코드 정리
+	|    bishop
+	|
+	| HTTP study
+	|
+	| Reading
+	|  * SICP
+	|
+	| Project 
+	|  * Scheduler
+	|
+	| Retrospect
+	|  * hour-based
+	|
+	TODO
+	| * 최팀장 
+	|   firmware download 프로그램 테스트
+	|
+	| * 진훈 프로그램 따라가기
+	|
+	| * call center program
+	|
+	| * 장팀장 코드를 다운 받는다.
+	|   kt_reader
+	|
+	| * 회의 내용
+	|   솔라 자세한 스펙
+	|   노인 복지 자료
+	|   열림기술 방문 일정 잡기
+	|
+	DOING
+	| * 미들웨어 개발
+	|   여전히 필요성 있어보인다.
+	|   이전 개발 따라간다.
+	|
+	| * Firware_Download test
+	|   오늘 테스트 해보고 넘겨준다. 
+	|
+	| * 열림기술 장애 대책 
+	|   커멘드 라인에서 실행되는 루비 프로그램
+	|   부팅 이후 갑자기 쏘는 문제 해결방안 ra.xml 수정
+	|
+	DONE
+	| * 어제 이진훈 과장 푸르지오 설치
+	|   펌웨어 소자 변경
+	|   입력 전류 낮춤
+	|
+	| * 화요일 리첸시아 화의
+	| * 최영민 과장 방문조정
+	|
+	THINKs
+	|
+	FACTs clarified
+	|
+2008년 2월 14일 목요일
+	DONE
+	| * 인알에프 회의 참석
+	|   9:30 ~ 14:30
+	|
+	THINKs
+	| * 최영민 과장 방문을 keep하고 있다가 문제가 됨
+	|   즉각 즉각 보고
+	|
+	FACTs clarified
+	|
+2008년 2월 13일 수요일
+	DOING
+	DONE
+	| * 인알에프 회의 참석
+	|   9:30 ~ 14:30
+	|
+	THINKs
+	| * 최영민 과장 방문을 keep하고 있다가 문제가 됨
+	|   즉각 즉각 보고
+	|
+	FACTs clarified
+	|
+2008년 2월 12일 화요일
+	TODO
+	DOING
+	| * 미들웨어 개발
+	|   이전 개발 따라간다.
+	|
+	DONE
+	| * 대우 푸르지오 설치
+	|   설 이후 펌웨어 문제로 인해 회로가 타버림
+	|   교체 공사는 하였으나 문제가 해결된것은 아님
+	|
+	|
+	THINKs
+	FACTs clarified
+	|
+2008년 2월 11일 월요일
+	DONE
+	| * postgres 8.3 개발서버에 설치
+	|   천천히 조금씩 정리한다.
+	| 
+	| * 개발서버 디렉토리 및 개발 결과물 정리
+	|
+	THINKs
+	FACTs clarified
+	|
+2008년 2월 5일 월요일
+	TODO
+	| * choi팀장 프로그램 테스트
+	|
+	| * 진훈 프로그램 따라가기
+	|
+	| * call center program
+	|
+	DOING
+	|
+	DONE
+	| * 업무 보고
+	| * cul2 통영보내기
+	THINKs
+	| * 영업 회의에 참석
+	|   장사장님이 영업의 고충에 대해서 이야기하는 것을 느끼다.
+	|   영업과 개발 무엇이 더 어려운가? 분명한 것은 영업은 기술을 재료로, 기반으로 
+	|   한다는 것.
+	|
+	| * cul2를 움직이게 만들다.
+	|   어리 버리하게 일하면 여러 사람이 힘들다. 하나씩 또박또박하게 잘 짚을 줄 알아야
+	|   할듯.
+	|
+	FACTs clarified
+	|

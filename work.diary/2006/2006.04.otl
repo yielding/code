@@ -1,0 +1,204 @@
+2006년 4월 28일 금요일
+	DONE
+	| global config ..
+	| 각 센서별로 보고서 연결하기
+	| 내가 만든 센서의 xml 변경관련 버그 수정
+	| config_io 전부 통합..
+	| oracleui의 버그 수정.
+	| separator관련 버그 올리기
+	| leech.sensor.NewItem 버그 수정 (파일이 없을 경우.. 원본과 다시 대조해본다.)
+	| 신텔라 맞춤법 수정
+	| 전 센서 버전넘버 올리기
+	|
+	| 신세계에 답장을 준다.
+	|   -> 지적된 문제는 어떻게 해결되엇고
+	|   -> 추가적인 기능추가의 안정화 때문에 월~화 정도에 주겠다.
+	|
+	THINK
+	FACTs clarified
+	| 흠 일하는 속도가 올라간다. 예전에는 임피디가 하던 일이지만
+	| 막상 닥치니가 더 잘하게 되는군.
+	| Long Term TODO는 바븐 일때문에 놓치기 쉬운 부분이므로 
+	| 신경써서 잘 하도록 하자.
+2006년 4월 27일 목요일
+	DONE
+	| 신세계 버그
+	|   -> 룰 스크립트 다시 저장..
+	|
+	| TrapView 구현 
+	|   -> 자세히 보기 구현. 
+	|      variable보여주기
+	|   -> 도움말 만들기
+	| unix ui code refacoring
+	THINK
+	| 방금 트랩을 끝냈다. 끝을 좀 깔끔하게 했지만 여전히 수정할 부분은 있음
+	| 생각보다 상당히 길게 작업을 했는데 초반에 EventView를 충분히
+	| 분석했더라면 더 빨리 할 수 있었을 것이다.
+	| 아니면 도움말 문서를 먼저 쓰고 시작해도 좋을뻔 했다.
+	|
+	| TrapFrame등의 코드도 좀 더 readability를 올릴 수 있는 방법이 잇고..
+	|
+	| 오늘 정말 많은 일을 하다. 정신차리고 칩중하니 확실히 좋군.
+	|
+	FACTs clarified
+2006년 4월 26일 수요일
+	DONE
+	| TrapView 구현 
+	|   -> 자세히 보기 구현. 
+	|      trap name보기
+	|      device/sensor 표시
+	THINK
+	| 어제 잠을 충분히 잤고 오늘은 오전중에 엄청난 집중력으로
+	| 많은 일을 하다. (계속 지지부진할 수 있는 TrapView를
+	| 거의 끝내가고 있다.)
+	| 가능한 집중력을 높이기 위해서 생각을 많이하면서... 
+	|
+	FACTs clarified
+2006년 4월 25일 화요일
+	DOING
+	| TrapView 구현 -> 자세히 보기 구현. -> 도움말 만들기
+	|
+	| 각 센서별로 보고서 연결하기
+	|
+	| 오라클 도움말 작성 및 연결
+	|
+	DONE
+	THINK
+	| 내 업무에서 내가 해야하는 일을 잘 할 수 있도록 하자.
+	| vb script + com, ruby + com 뭐 다를건 없군
+	|
+	FACTs clarified
+2006년 4월 24일 월요일
+	DOING
+	| TrapView 구현 계속
+	|
+	DONE
+	| 신세계 다시 빌드해서 준다. 
+	| 
+	THINK
+	| 오늘할일에 대한 계획을 좀 치밀하게 세워서 쓸데없이
+	| 회사에서 오래있지 않도록. 일이 더 일찍 끝나면 생각하는
+	| 시간을 많이 가지도록 한다.
+	FACTs clarified
+2006년 4월 21일 금요일
+	DONE
+	THINK
+	FACTs clarified
+
+2006년 4월 20일 목요일
+	DONE
+	| xml 전체를 바꾼다. 
+	| 1. encoding without signature-> with signature
+	| 2. rs예제를 좀 더 사용하기 편리하도록
+	THINK
+	| 나를 좀 더 객관적으로 보고 스스로가 스스로를 평가해본다.
+	FACTs clarified
+
+2006년 4월 19일 수요일
+	DONE
+	THINK
+	FACTs clarified
+
+2006년 4월 18일 화요일
+	DONE
+	|  sol9 install
+	|
+	|    1. install 성공
+	|    2. 기본 소프트웨어 설치
+	|       wget 
+	|       gcc
+	|       tar
+	|       net-snmp
+	THINK
+	FACTs clarified
+
+2006년 4월 17일 월요일
+	DONE
+	|  지적사항 검토 및 통보
+	|    DCOM 포트열기 문서 --> ok
+	|    WebStation
+	|
+	|  adminmate server에 최신 빌드 반영한다.
+	THINK
+	FACTs clarified
+
+2006년 4월 12일 목요일
+	DONE
+	|  최신 DB로 내 디비 수정
+	|  map관련 코드 수정.
+	THINK
+	FACTs clarified
+
+2006년 4월 12일 수요일
+	DONE
+	| 어드민 메이트 내 컴에서 빌드 완성
+	| 
+	THINK
+	FACTs clarified
+
+2006년 4월 11일 화요일
+	DONE
+	| 어드민메이트 셋업화일 만드는 법 김피뒤와 공부
+	| Adminmate_GettingStarted_For_RMON.doc 작성
+	THINK
+	FACTs clarified
+
+2006년 4월 10일 월요일
+	DONE
+	| rmonui 삭제하는 코드 수정
+	| oracleui, rmonui에 CSoamSnmpIO사용하는 코드로 수정
+	| oracleui에 trap 추가하기 
+	|
+	THINK
+	FACTs clarified
+
+2006년 4월  7일 금요일
+	DONE
+	| rmonui에 trap관련 메뉴 추가
+	| SoamSnmpIo 적용 테스트 완료
+	THINK
+	| 지금 코드가 TDD로 만들어지는 것은 아니지만 기본 마인드는 TDD
+	| 임피디에 비해 코딩이 안정적으로 진행.
+	FACTs clarified
+	| 급하게 하긴 햇지만 임피디와 옆에서 잠깐 같이 pair program했는데
+	| 정말 안정감있게 일이 진행됨
+
+2006년 4월  6일 목요일
+	TODO
+	DOING
+	DONE
+	| freebsd 6.0 cd 만들기 
+	| solaris 9 시디 만들기
+	| freebsd 6.0 vm에 설치하기 (내 vm)
+	THINK
+	| 오늘은 생각할 일이 많다. 할일도 많지만.
+	| * 어드민메이트 구조 파악
+	|
+	| 프로그래머는 마치 피아니스트 처럼 매일 프로그램을 짜야한다.
+	| 피아니스트는 이런 곡을 에뛰드라고 하고
+	| 프로그래머는 이걸 퀴즈라 하면 될까?
+	|
+	| 오픈소스에서 라이브러리, 프레임웍을 개발하고
+	| 회사에는 협업하고..
+	|
+	| 나의 가치와 다른 사람의 가치의 차이를 조화롭게 풀어가는 것.
+	| 다른 사람의 말을 끝가지 듣고 그 진의를 파악할려고 노력하는 것
+	| 생각을 충분히 하고 정리해서 말 하는 것.
+	|
+	FACTs clarified
+	| coreutils에서 dircolors를 설치 그런데 freebsd6에서는 gdircolors로
+	| 이름이 바뀌다.
+2006년 4월  5일 수요일
+	DONE
+	| Rationale is defined as "The fundamental reasons for something; basis" 
+	THINK
+	|
+	FACTs clarified
+2006년 4월  3일 월요일
+	DOING
+	| 유닉스 모니터링 시나리오
+	DONE
+	| mac에서 사용가능한 counter check후 xml 수정.. 
+	THINK
+	|
+	FACTs clarified

@@ -1,0 +1,283 @@
+2006년 6월 29일 목요일
+	LONG TERM TODO
+	|  HTTP 공부
+	|  WMI 공부: 먼저 CMI Studio를 잘 살펴본다.
+	|  SQL 공부: 그만 무시 받아야겠지? SP와 Join을 더 잘 알아본다.
+	|            (inner, outter는 구글링)
+	|            -> soam 을 하나의 예제로
+	|            -> Active_record
+	|            -> stored procedure
+	|
+	|  CVS, Subversion:
+	|     정확히 어떻게 공부해야할 지 모르겠다.
+	|
+	|  FreeBSD:
+	|    프로그램 연습
+	|      : 루비 및 C++를 이용하여 TDD로 문제푸는 연습을 한다.
+	|        주안점은 TDD로부터의 객체 설계
+	|        알고리즘, 자료구조 연습
+	|        -> 알고리즘, 자료구조: 학부책
+	|        -> 루비로 먼저 풀고 C++는 필요한 경우에 푼다.
+	|
+	|    SNMP, SMUX, AgentX 프로토콜 공부
+	|    mib2c 정확하게 이해
+	|
+	TODO
+	|  Mobile Server 개발 시작
+	|   1) 전체적인 그림 그리기
+	|
+	DOING
+	|  탭스 메일러 코드를 바탕으로 ACE 공부
+	DONE
+	| ACE 빌드
+	THINK
+	FACTs clarified
+2006년 6월 28일 수요일
+	DONE
+	| Folder 밑에 bash_here "C:\Cygwin\bin\puttycyg.exe" -cygterm bash --login -i -c \"cd '%1';echo '%1';exec bash --rcfile ~/.bash_profile -i\"
+	THINK
+2006년 6월 27일 화요일
+	FACTs clarified
+	| 오비츠에서 미들웨어를 개발할때 혼자 머리를 싸멜것이 아니라 
+	| 미들웨어에 대한 좋은 레퍼런스를 찾았어야 했다.
+	| POSA2가 가장 널리 받아들여지는 표준. POSA를 보고 구현한 
+	| Framework이 aiso, ace 이다.
+	|
+2006년 6월 26일 월요일
+	DONE
+	| omnicppcomplete bug 수정
+	|
+	| Jania의 javascript log만드는 screencast를 보다 아~ 감동!!
+	|
+	THINK
+	| 오전부터 계속해서 omnicppcomplete를 함 써볼려구 이리저리 하다가
+	| 잘못한 것 2개를 고치고 지금은 원하는 데로 쓰고 있다.
+	|  1) help에 나온데로 directory구조를 바꾸지 않았다.
+	|  2) 실제 스크립트에 있는 버그를 수정하다.
+	|
+	|
+	| 2)의 경우 버그의 내용은 중요하지 않으나 내가 간단하게 수정할 수 있
+	|   는 vim script를 수정할 생각자체를 하지 않았다는게 
+	|   문제였음. vim 7.0 sciprt역시 내가 무시해서는 안되는 좋은 언어.
+	|
+	FACTs clarified
+	|  boost::asio에서 iocp, kqueue를 어떻게 구겨 넣었는지 코드를 확인
+	|  --> boost::asio, ACE 두 framework은 c++의 tait과 preprocessor를 
+	|      이용해서 os adaptation layer를 만든다.
+	|
+	|  --> 그렇다면 슈미트 아저씨의 POSA2 패턴을 충분히 이해하고 있다면
+	|      asio를 만드는 것은 어려운 일이 아니다.
+	|
+	| ctags를 빌드하다. 간단히 해버렸는데 첨부터 시작할때 충분히 생각하는
+	| 습관을 가지지 않아서 멍청하게 시간을 보내다.
+	|
+2006년 6월 23일 금요일
+	DONE
+	| 솔브레인과 LG프로젝트 회의
+	|
+	THINK
+	| MMS의 문서를 보면 정말 잘 만들었다는 것을 알 수 있다.
+	| 특히 protocol description
+	| 우리 개발 상세 계획서에도 이걸 만들어 넣는다.
+	|
+	FACTs clarified
+2006년 6월 22일 목요일
+	TODO
+	|  boost::asio에서 iocp, kqueue를 어떻게 구겨 넣었는지 코드를 확인
+	|
+	|  솔브레인에 영업 문서를 만들어준다
+	|
+	|  MOU등 기타 사항들을 점검한다.
+	|
+	DOING
+	|  Mobile Server 개발 시작
+	|   1) 전체적인 그림 그리기
+	|   2) poller 디자인
+	|   3) log4cxx 검토
+	|
+	DONE
+	THINK
+	| 집에서 건희랑 놀고난 후 시간이 11시가 넘으니 전반적으로
+	| 생활이 처진다. 물론 내가 잘못하는 것도 많고.
+	|
+	FACTs clarified
+	| MINA의 unstable버전 혹은 boost::asio를 보면 적어도, PC급 이상에서
+	| openssl을 쓰는것은 더 이상 문제가 아니다 언제 시간을 만들어서
+	| 정리한다.
+2006년 6월 21일 수요일
+	DONE
+	|  mysql++의 CRTP분석
+	|   간단한 코드와 wikipedia의 설명을 다시 한 번 숙지한다.
+	|   CRTP는 modern C++의 새로운 유행이 될것임에 틀림없지만
+	|   여기까지 오기에 공부해야할 것이 너무 많아서 프로그래머들이
+	|   힘들어할지도 모르겠다.
+	|
+	|  boost:asio 아키텍처 분석
+	|
+	|  netty에서 message를 사용자가 encode/decode하게 한점.
+	|  boost::asio 예제를 보면서 iocp까지 고려해서 충분히 
+	|  해볼만하다는 생각이 든다.
+	|  --> 양 끝단의 메시지 포멧이 계속해서 변하는 미들웨어의 경우
+	|      매우 매우 중요한 요구사항이 된다.
+	|      Netty도 그러한 배경에서 시작이되다.
+	|
+	|  netty의 messaging은 지금 현재로는 xLL의 data structure와는 다른 것 같다.
+	|  xLL의 ds는 고정된 틀 안에서 확장성을 짜내고 있는 반면 netty의 messaging 구조는
+	|  거의 완벽하게 확장가능한 것 같다.
+	|
+	|  netty는 event-driven api를 사용하고 있다.
+	|  --> 이게 우리 클라이언트와 구조가 맞는지 확신이 서지 않는다.
+	|
+	THINK
+	FACTs clarified
+	| MINA의 unstable버전 혹은 boost::asio를 보면 적어도, PC급 이상에서
+	| openssl을 쓰는것은 더 이상 문제가 아니다 언제 시간을 만들어서
+	| 정리한다.
+2006년 6월 20일 화요일
+	THINK
+	| netty에서 message를 사용자가 encode/decode하게 한점.
+	| boost::asio 예제를 보면서 iocp까지 고려해서 충분히 
+	| 해볼만하다는 생각이 든다.
+	| --> 양 끝단의 메시지 포멧이 계속해서 변하는 미들웨어의 경우
+	|     매우 매우 중요한 요구사항이 된다.
+	|     Netty도 그러한 배경에서 시작이되다.
+	|
+	| netty의 messaging은 지금 현재로는 xLL의 data structure와는 다른 것 같다.
+	| xLL의 ds는 상당히 확장성이 있고 netty의 messaging은 완벽히
+	| 확장가능한 것 같다.
+2006년 6월 16일 금요일
+	THINK
+	| poller 디자인 중
+	|    1) common c++는 근본적으로 디자인이 조야함. 너무 제한적임
+	|    2) apr 1.2.7과 cherokee에 solaris의 port에 대한 자료가 있음. 
+	|       port는 메우 간단해보임.
+	|
+	|    3) kqueue, (e)poll, port는 근본적으로 디자인이 비슷하다.
+	|       이것을 cherokee에서 극명하게 볼 수 있다.
+	|       iocp는 multiplexer와 thread pool이 통합되어 있다.
+	|       boost::aio에서는 kqueue와 Iocp를 섞어서 쓰는 방법이
+	|       나오니 결국 모든 걸 커버할 수 있지 않을까?
+	|
+	FACTs clarified
+	| reentrant function
+	|   여러 쓰레드가 동시에 사용하더라도 문제가 되지 않는 함수
+	|     -> 전부 stack에 변수를 두고 사용하면 된다.
+	|     -> static, global 변수를 사용하지 않는다.
+	|     -> ACID의 isolation으로 설명가능
+	|
+	| mt-safe function
+	|   1. MT환경에서 여러 쓰레드가 동시에 진입했을 때 안전한 함수
+	|   2. all reentrant functions are mt-safe
+	|   3. 하지만 모든 mt-safe가 reentrant하지 않다.
+	|      ex) mt-safe에서 signal이 발생하고 signal handler에서
+	|          lock을 잡고 있는 이 mt-safe함수로 다시 진입할경우 
+	|          dead-lock 발생
+	|          (따라서 signal handler에서는 반드시 reentrant function을
+	|           호출해야 한다.)
+	|
+2006년 6월 14일 수요일
+	DONE
+	| IBM machine에 vac 8.0 evaluation 설치 중
+	|
+	| 1) AIX와 win32에서 동작하는 간단한 프로그램을 짠다.
+	|    1. hello world
+	|    2. hello with boost-thread
+	|    3. hello with iocp
+	|    --> win32, aix는 이제 환경이 거의 똑같아 졌다고 할 수 있다.
+	|
+	THINK
+	| 방금 https://www6.software.ibm.com/developerworks/education/l-rubysocks/의
+	| Sockets Programming in Ruby의 ChatServer 예제를 타이핑하다.
+	|
+	| 예제라는게 백 마디의 설명보다 좋은점이 많다.
+	| 예제를 실행하고 텍스트를 '정확하게' 읽어 이해하는 것도 좋은 공부습관이다.
+	|
+	| 루비와 C++는 정말 언어와 -특히 루비의 경우- 그 구현까지 꾀뚤고 있을 필요가 있다.
+	| 이 언어를 사용해서 만들어진 좋은 라이브러리는 당연하고.
+	|
+	| 매일 조금씩 프로그램 하는게 참 중요하다는 걸 알고는 있으나 잘 실천되지 않았는데
+	| 오늘처럼 짧은 시간에 마음을 비우고 이런 예제를 타이핑 해보는 것도 아니하는 것보다는
+	| 도움이 될 듯 하다.
+	|
+	FACTs clarified
+	|  pthread 사용시 주의할 점 -D_REENTRANT를 준다.
+	|  CXXFLAGS = -D_REENTRANT -D_POSIX_C_SOURCE=199506 -lpthread
+	|
+2006년 6월 12일 월요일
+	DONE
+	| AIX에서 iocp 사용하는 방법을 알아내다. 정리할 필요가 있다.
+	| 간단히 적으면 일단  gcc로는 링크가 안된다. 링크옵션 -bl:/ 이걸 
+	| 사용할 수 있는 방법이 없는 듯하다. vac를 깔아야 할듯.
+	| 그리되면 복잡해지는데... 우쒸..
+	|
+	| mac에 darwinport를 이용해서 내가 사용하는 프로그램들을 다시 설치하고
+	| 있다.
+	|
+	| darwinport의 특이한 점은 freebsd와 비슷하지만 FreeBSD에 없는
+	| 루비 관련 포트들이 많다는 점.
+	| 일본 개발자들이 rb- series에서 많은 프로그램을 만들고 있다.
+	|
+	THINK
+	FACTs clarified
+	| AIX에서 kernel extension을 사용하는 방법을 알다.
+	|    cc iocp_server.cpp -bl:/lib/iocp.exp
+	|
+2006년 6월  9일 금요일
+	DOING
+	DONE
+	THINK
+	| nohmad씨가 ruby로 rubykr에 있는 이미지 하나를 읽어오는 루틴을 짰다.
+	| 그리 어려운 코드는 아니지만 
+	| 경현이가 말하는 http를 아는 사람의 자세를 딱 보여주네.
+	|
+	FACTs clarified
+	| find
+2006년 6월  8일 목요일
+	DONE
+	| aix에 ruby 1.8.4를 설치하다.
+	| 아래의 Ruby on AIX를 참고
+	| http://homepage.mac.com/cjgibbons/rubyonaixhowto/x72.html
+	|
+	| 장사장님과 이경수씨와의 약속 확인
+	| 6시 50분까지 양재역으로
+	|
+	| 1) cmake를 이용해서 AIX와 win32에서 동작하는 간단한 프로그램을 짠다.
+	|    1. hello world
+	|    2. hello with boost-thread
+	THINK
+	FACTs clarified
+	| gzip -d -c xxx.tar.gz | tar xvf - 이 명령이 좋은 점은
+	| xxx.tar를 따로 만들지 않아도 된다는 점이다. 매우 편리.
+	|
+	| core dump가 났을때 gdb로 결과를 확인하는 방법을 알다
+	| gdb a.out core
+	| 이렇게 하면 어느 함수에서 죽은지 보인다.
+	|
+2006년 6월  7일 수요일
+	DONE
+	| aix에 boost 설치한다.
+	| AIX에 libm 설치.
+	| AIX에 bos.iocp.rte설치
+	|
+	THINK
+	| 몸이 좋지 않아서 멍하게 있었지만 멍하게 있으면서 내가 하고 있는 일에 대한
+	| 전체적인 조망을 할 수 있게 되다.
+	|
+	FACTs clarified
+	| linux에서 raw device를 사용하는 방법을 간단히 알아보다.
+	|   1. raw 명령을 사용하여 기존 block device와 raw device를 연결
+	|      raw /dev/raw/raw1 /dev/sda3
+	|   2. C로 /dev/raw/rawN을 open, read, write
+	|
+	| 유닉스 마다 방법이 조금씩 다를 것 같다.
+2006년 6월  2일 금요일
+	DONE
+	| 노트북 수리완료.
+	THINK
+	FACTs clarified
+2006년 6월  1일 목요일
+	DONE
+	| HP-UX 11.11, 11.00 테스트 완료
+	| net-snmp 확장 다시 테스트
+	THINK
+	FACTs clarified

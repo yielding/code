@@ -1,0 +1,9 @@
+# -*- ruby -*-
+SRCS     = %w{bzip.decomp.cpp bzip2.cpp}
+APP      = "bzip_decomp"
+WIN_LIBS = "-lboost_thread-mt -lboost_system-mt"
+OSX_LIBS = "-lbz2"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app.rake'
