@@ -26,32 +26,16 @@ int main(int argc, char const* argv[])
   for (int i=0; sources[i] != NULL; ++i)
     plist_array_append_item(arr, plist_new_string(sources[i]));
 
-
   plist_t dict = plist_new_dict();
   plist_dict_insert_item(dict, "Sources", arr);
-  char *buffer;
-  unsigned len = 0;
 
+  unsigned len = 0;
+  char *buffer;
   plist_to_xml(dict, &buffer, &len);
 
   cout << buffer << endl;
 
   delete [] buffer;
-
-  char const* message = 
-    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-    "<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
-    "<plist version=\"1.0\">"
-    "<dict>"
-    "<key>Sources</key>"
-    "<array>"
-    "<string>UserDatabases</string>"
-    "</array>"
-    "</dict>"
-    "</plist>";
-
-cout << message << endl;
-
 
   return 0;
 }
