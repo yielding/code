@@ -58,6 +58,11 @@ public:
     return m_scheduler;
   }
 
+  void block()
+  {
+    m_scheduler.run();
+  }
+
 private:
   std::size_t m_init_thread;
 

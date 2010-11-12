@@ -1,5 +1,5 @@
 # -*- ruby -*-
-SRCS     = %w{main.cpp}
+SRCS     = %w{thread_pool.cpp}
 APP      = "thread_pool"
 WIN_LIBS = "-lboost_thread-mt -lboost_system-mt"
 OSX_LIBS = "-lboost_thread-mt -lboost_system-mt"
