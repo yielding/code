@@ -1,9 +1,13 @@
 #include <boost/unordered_map.hpp>
+#include <iostream>
 #include <cassert>
+
+using namespace std;
+using namespace boost;
 
 int main(int argc, char const* argv[])
 {
-  typedef boost::unordered_map<std::string, int> map;
+  typedef unordered_map<string, int> map;
 
   map x;
 
@@ -14,6 +18,9 @@ int main(int argc, char const* argv[])
   assert(x.at("one") == 1);
   assert(x.at("two") == 2);
   assert(x.find("missing") == x.end());
+
+  for (auto it=x.begin(); it != x.end(); ++it)
+   cout << it->first << " : " << it->second << endl;
 
   return 0;
 }
