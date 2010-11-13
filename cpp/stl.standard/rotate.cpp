@@ -10,7 +10,8 @@ int main ()
   // Initialize a vector with an array of integers.
   //
   int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  vector<int> v(arr+0, arr+10);
+  vector<int> v(arr, arr+10);
+
   //
   // Print out elements in original (sorted) order.
   //

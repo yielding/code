@@ -11,17 +11,19 @@ using namespace std;
 
 int randomInteger (int m) {   return rand() % m; }
 
-bool isLeapYear (unsigned int year)
+bool isLeapYear(unsigned int year)
 {
   if (year % 1000 == 0)
     return true;
+
   if (year % 100 == 0)
     return false;
+
   if (year % 4 == 0)
     return true;
+
   return false;
 }
-
 
 void split (const string & text, const string & separators,
     list<string> & words)
@@ -48,10 +50,9 @@ void find_test ()
 
   int vintageYears[] = { 1967, 1972, 1974, 1980, 1995 };
 
-  vector<int,allocator<int> >::iterator start = vintageYears;
-  vector<int,allocator<int> >::iterator stop  = vintageYears + 5;
-
-  vector<int,allocator<int> >::iterator where = find_if(start, stop, isLeapYear);
+  vector<int>::iterator start = vintageYears;
+  vector<int>::iterator stop  = vintageYears + 5;
+  vector<int>::iterator where = find_if(start, stop, isLeapYear);
 
   if (where != stop)
     cout << "first vintage leap year is " << *where << endl;
@@ -72,10 +73,10 @@ void find_adjacent_test ()
 
   char * text = "The bookkeeper carefully opened the door";
 
-  vector<char,allocator<char> >::iterator start = text;
-  vector<char,allocator<char> >::iterator stop = text + strlen(text);
+  vector<char>::iterator start = text;
+  vector<char>::iterator stop = text + strlen(text);
 
-  vector<char,allocator<char> >::iterator where = start;
+  vector<char>::iterator where = start;
 
   cout << "In the text " << text << endl;
 
@@ -121,13 +122,14 @@ void max_min_example ()
   //
   // Print the maximum.
   //
-  vector<int,allocator<int> >::iterator max = max_element(numbers.begin(), numbers.end());
+  vector<int>::iterator 
+    max = max_element(numbers.begin(), numbers.end());
   cout << "largest value was " << *max << endl;
   //
   // Example using strings.
   //
   string text = "it was the best of times, it was the worst of times.";
-  list<string,allocator<string> >words;
+  list<string>words;
   split(text, " .,!:;", words);
   cout << "The smallest word is "
     << * min_element(words.begin(), words.end())
@@ -142,9 +144,9 @@ void max_min_example ()
 
 void mismatch_test (char * a, char * b) 
 {
-  pair<char *, char *> differPositions(0, 0);
-  char * aDiffPos;
-  char * bDiffPos;
+  pair<char*, char*> differPositions(0, 0);
+  char* aDiffPos;
+  char* bDiffPos;
 
   if (strlen(a) < strlen(b))
   {

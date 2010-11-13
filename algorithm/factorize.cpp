@@ -17,10 +17,12 @@ void prime_factor(IntegerType m, OutputIterator result)
   if (m > 1) 
   {
     for (IntegerType d = 3; m >= d * d; d += 2)
-    while ((m % d) == 0) {
+    while ((m % d) == 0) 
+    {
       m /= d;
       *result++ = d;
     }
+
     if (m > 1) *result++ = m;
   }
 }
@@ -33,6 +35,7 @@ int main()
   while (std::cin >> m) 
   {
     std::vector<int> v;
+
     prime_factor(m, back_inserter(v));
     for_each(v.begin(), v.end(), cout << _1 << ' ');
     cout.put('\n');

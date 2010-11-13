@@ -17,6 +17,6 @@ float inv_sqrt(float x)
 int main (int argc, char const* argv[])
 {
   cout << inv_sqrt(4);
+
   return 0;
 }
-

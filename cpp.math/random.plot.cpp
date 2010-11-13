@@ -8,12 +8,13 @@
 
 using namespace std;
 
-void plot_histogram(const vector<int>& slots, int samples, double from, double to)
+void plot_histogram(vector<int> const& slots, int samples, double from, double to)
 {
   int m = *max_element(slots.begin(), slots.end());
   const int nRows = 20;
   cout.setf(std::ios::fixed | std::ios::left);
   cout.precision(5);
+
   for (int r=0; r<nRows; r++) 
   {
     double y = ((nRows - r) * double(m))/(nRows * samples);

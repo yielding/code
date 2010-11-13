@@ -22,7 +22,7 @@ void remove_example ()
   list<int> aList;
   copy (data, data+7, inserter(aList, aList.begin()));
   cout << "Original list: ";
-  copy (aList.begin(), aList.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy (aList.begin(), aList.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
   //
   // Remove 2's, copy into a new list.
@@ -30,7 +30,7 @@ void remove_example ()
   list<int> newList;
   remove_copy (aList.begin(), aList.end(), back_inserter(newList), 2);
   cout << "After removing 2's: ";
-  copy (newList.begin(), newList.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy (newList.begin(), newList.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
   //
   // Remove 2's in place.
@@ -38,11 +38,11 @@ void remove_example ()
   list<int>::iterator where;
   where = remove(aList.begin(), aList.end(), 2);
   cout << "List after removal, before erase: ";
-  copy (aList.begin(), aList.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy (aList.begin(), aList.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
   aList.erase(where, aList.end());
   cout << "List after erase: ";
-  copy (aList.begin(), aList.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy (aList.begin(), aList.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
   //
   // Remove all even values.
@@ -50,7 +50,7 @@ void remove_example ()
   where = remove_if (aList.begin(), aList.end(), isEven);
   aList.erase(where, aList.end());
   cout << "List after removing even values: ";
-  copy (aList.begin(), aList.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy (aList.begin(), aList.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
 }
 
@@ -66,7 +66,7 @@ void unique_example ()
   list<int> aList;
   copy(data, data+6, inserter(aList, aList.begin()));
   cout << "Origianal List: ";
-  copy(aList.begin(), aList.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy(aList.begin(), aList.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
   //
   // Copy unique elements into a set.
@@ -74,7 +74,7 @@ void unique_example ()
   set<int> aSet;
   //    unique_copy(aList.begin(), aList.end(), inserter(aSet, aSet.begin()));
   cout << "Set after unique_copy: ";
-  copy(aSet.begin(), aSet.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy(aSet.begin(), aSet.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
   //
   // Copy unique elements in place.
@@ -82,14 +82,14 @@ void unique_example ()
   list<int>::iterator where;
   where = unique(aList.begin(), aList.end());
   cout << "List after calling unique: ";
-  copy(aList.begin(), aList.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy(aList.begin(), aList.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
   //
   // Remove trailing values.
   //
   aList.erase(where, aList.end());
   cout << "List after erase: ";
-  copy(aList.begin(), aList.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy(aList.begin(), aList.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
 }
 

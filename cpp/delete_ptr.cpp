@@ -13,9 +13,8 @@ class printer  // /Users
 {
 public:
   printer(int id) 
-  {
-    m_id = id;
-  }
+    :m_id(id)
+  {}
 
   virtual ~printer() 
   {

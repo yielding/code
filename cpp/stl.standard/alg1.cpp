@@ -37,13 +37,14 @@ void fill_example()
   //
   list<string> aList;
   fill_n (inserter(aList, aList.begin()), 10, "empty");
-  copy(aList.begin(), aList.end(), ostream_iterator<string,char,char_traits<char> >(cout, " "));
+  copy(aList.begin(), aList.end(), 
+      ostream_iterator<string>(cout, " "));
   cout << endl;
   //
   // Example 3, use fill to overwrite values in a list.
   //
   fill (aList.begin(), aList.end(), "full");
-  copy(aList.begin(), aList.end(), ostream_iterator<string,char,char_traits<char> >(cout, " "));
+  copy(aList.begin(), aList.end(), ostream_iterator<string>(cout, " "));
   cout << endl;
   //
   // Example 4, fill in a portion of a list.
@@ -51,12 +52,8 @@ void fill_example()
   vector<int> iVec(10);
   generate (iVec.begin(), iVec.end(), iotaGen(1));
   vector<int>::iterator seven = find(iVec.begin(), iVec.end(), 7);
-#ifndef _RWSTD_FILL_NAME_CLASH
   fill(iVec.begin(), seven, 0);
-#else
-  std_fill(iVec.begin(), seven, 0);
-#endif
-  copy(iVec.begin(), iVec.end(), ostream_iterator<int,char,char_traits<char> >(cout));
+  copy(iVec.begin(), iVec.end(), ostream_iterator<int>(cout));
   cout << endl;
 }
 
@@ -84,7 +81,7 @@ void copy_example ()
   //
   // Example 3, copy to output.
   //
-  copy(bufferp, bufferp + strlen(buffer), ostream_iterator<char,char,char_traits<char> >(cout));
+  copy(bufferp, bufferp + strlen(buffer), ostream_iterator<char>(cout));
   cout << endl;
   //
   // Example 4, use copy to convert type.
@@ -92,6 +89,7 @@ void copy_example ()
   list<char> char_list;
   copy(bufferp, bufferp + strlen(buffer),
       inserter(char_list,char_list.end()));
+
   char * big = "big ";
   copy(big, big + 4, inserter(char_list, char_list.begin()));
 
@@ -126,7 +124,7 @@ void generate_example ()
   //
   list<string> labelList;
   generate_n (inserter(labelList, labelList.begin()), 4, generateLabel);  
-  copy(labelList.begin(),labelList.end(),ostream_iterator<string,>(cout," "));
+  copy(labelList.begin(),labelList.end(),ostream_iterator<string>(cout," "));
   cout << endl;
   //
   // Example 2, generate an arithmetic progression.

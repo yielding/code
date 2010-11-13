@@ -5,6 +5,7 @@
 int main () 
 {
   using namespace std;
+
   complex<double> a(1.2, 3.4);
   complex<double> b(-9.8, -7.6);
 

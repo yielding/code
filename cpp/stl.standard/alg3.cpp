@@ -197,6 +197,7 @@ void inplace_merge_example ()
   vector<int> numbers(10);
   for (int i = 0; i < 10; i++)
     numbers[i] = i < 5 ? 2 * i : 2 * (i - 5) + 1;
+
   copy (numbers.begin(), numbers.end(), out_);
   cout << endl; 
   vector<int>::iterator midvec = find(numbers.begin(), numbers.end(), 1);

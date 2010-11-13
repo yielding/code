@@ -21,9 +21,9 @@ _RWSTDMutex I_mutex;
 
 void increment_I ()
 {
-   I_mutex.acquire();  // Lock the mutex.
-   I++;
-   I_mutex.release();  // Unlock the mutex.
+  I_mutex.acquire();  // Lock the mutex.
+  I++;
+  I_mutex.release();  // Unlock the mutex.
 }
 
 //
@@ -32,11 +32,11 @@ void increment_I ()
 
 void decrement_I ()
 {
-   _RWSTDGuard guard(I_mutex);  // Acquire the lock on I_mutex.
-   --I;
-   //
-   // The lock on I is released when destructor is called on guard.
-   //
+  _RWSTDGuard guard(I_mutex);  // Acquire the lock on I_mutex.
+  --I;
+  //
+  // The lock on I is released when destructor is called on guard.
+  //
 }
 #endif
 

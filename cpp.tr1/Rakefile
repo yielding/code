@@ -1,8 +1,7 @@
 # -*- ruby -*-
-# 
 
 SRCS = %w{unordered_map.cpp}
-APP  = "unordered"
+APP  = "unordered_map"
 
 DIR = File.dirname __FILE__
 

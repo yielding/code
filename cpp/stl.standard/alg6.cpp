@@ -30,7 +30,7 @@ void transform_example ()
   list<int> aList;
   generate_n(inserter(aList, aList.begin()), 6, iotaGen(1));
   cout << "Original list: ";
-  copy(aList.begin(), aList.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy(aList.begin(), aList.end(), ostream_iterator<int,char>(cout, " "));
   cout << endl;
 
   //
@@ -39,14 +39,14 @@ void transform_example ()
   vector<int> aVec(6);
   transform (aList.begin(), aList.end(), aVec.begin(), square);
   cout << "After squaring: ";
-  copy(aVec.begin(), aVec.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy(aVec.begin(), aVec.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
   //
   // Transform vector again, in place, yielding 4th powers.
   //
   transform (aVec.begin(), aVec.end(), aVec.begin(), square);
   cout << "After squaring again: ";
-  copy(aVec.begin(), aVec.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy(aVec.begin(), aVec.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
   //
   // Transform in parallel, yielding cubes.
@@ -55,7 +55,7 @@ void transform_example ()
   transform (aVec.begin(), aVec.end(), aList.begin(), cubes.begin(),
       divides<int>());
   cout << "After division: ";
-  copy(cubes.begin(), cubes.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  copy(cubes.begin(), cubes.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
 }
 
@@ -75,14 +75,14 @@ void partial_sum_example ()
   //
   cout << "Partial sums examples" << endl;
   cout << "Partial sums : ";
-  partial_sum (aVec.begin(), aVec.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "));
+  partial_sum (aVec.begin(), aVec.end(), ostream_iterator<int>(cout, " "));
   cout << endl;
   //    
   // Output partial products.
   //
   cout << "Partial products: ";
   partial_sum (aVec.begin(), aVec.end(), 
-      ostream_iterator<int,char,char_traits<char> >(cout, " "),
+      ostream_iterator<int>(cout, " "),
       multiplies<int>() );
 
   cout << endl;

@@ -11,14 +11,16 @@ typedef complex<double> dcomplex;
 // Return roots of a quadratic equation.
 //
 
-pair<dcomplex, dcomplex> quadratic (dcomplex a, dcomplex b, dcomplex c)
+pair<dcomplex, dcomplex> 
+quadratic(dcomplex a, dcomplex b, dcomplex c)
 {
   dcomplex root = sqrt(b * b - 4.0 * a * c);
   a = a * 2.0;
-  return make_pair ((-b + root) / a, (-b - root) / a);
+
+  return make_pair((-b + root) / a, (-b - root) / a);
 }
 
-int main ()
+int main()
 {
   dcomplex a(2, 3);
   dcomplex b(4, 5);

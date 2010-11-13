@@ -1,5 +1,5 @@
 #include <set>
- 
+
 #include <iostream>
 
 using namespace std;
@@ -34,8 +34,8 @@ int main ()
   //
   int half = sd.size() / 2;
   set_type::iterator sdi = sd.begin();
-  advance(sdi,half);
-  sd.erase(sd.begin(),sdi);
+  advance(sdi, half);
+  sd.erase(sd.begin(), sdi);
   //
   // Print it out again.
   //
@@ -46,18 +46,19 @@ int main ()
   set_type sd2, sdResult;
   for (i = 1; i < 9; i++)
     sd2.insert(i+5);
+
   cout << sd2 << endl;
   //
   // Try a couple of set algorithms.
   //
   set_union(sd.begin(),sd.end(),sd2.begin(),sd2.end(),
-            inserter(sdResult,sdResult.begin()));
+      inserter(sdResult,sdResult.begin()));
   cout << "Union:" << endl << sdResult << endl;
 
   sdResult.erase(sdResult.begin(),sdResult.end());
   set_intersection(sd.begin(),sd.end(), sd2.begin(),sd2.end(),
-                   inserter(sdResult,sdResult.begin()));
+      inserter(sdResult,sdResult.begin()));
   cout << "Intersection:" << endl << sdResult << endl;
-  
+
   return 0;
 }

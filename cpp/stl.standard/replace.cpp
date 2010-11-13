@@ -1,23 +1,13 @@
-#include "stlexam.h"
-#pragma hdrstop
-
 #include <algorithm>
 #include <vector>
 #include <iterator>
 #include <functional>
- 
-#ifdef _RW_STD_IOSTREAM
 #include <iostream>
-#else
-#include <iostream.h>
-#endif     
 
-#ifndef _RWSTD_NO_NAMESPACE
 using namespace std;
-#endif
 
 template<class Arg>
-struct not_zero : public unary_function<Arg, bool>
+struct not_zero: public unary_function<Arg, bool>
 {
   bool operator() (const Arg& a) { return a != 0; }
 };
@@ -28,12 +18,12 @@ int main ()
   // Initialize a vector with an array of integers.
   //
   int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
-  vector<int,allocator<int> > v(arr+0, arr+10);
+  vector<int> v(arr+0, arr+10);
   //
   // Print out original vector.
   //
   cout << "The original list: " << endl << "     ";
-  copy(v.begin(), v.end(), ostream_iterator<int,char,char_traits<char> >(cout," "));
+  copy(v.begin(), v.end(), ostream_iterator<int>(cout," "));
   cout << endl << endl;
   //
   // Replace the number 7 with 11.
@@ -43,7 +33,7 @@ int main ()
   // Print out vector with 7 replaced. 
   //
   cout << "List after replace:" << endl << "     ";
-  copy(v.begin(), v.end(), ostream_iterator<int,char,char_traits<char> >(cout," "));
+  copy(v.begin(), v.end(), ostream_iterator<int>(cout," "));
   cout << endl << endl;
   //
   // Replace 1 2 3 with 13 13 13.
@@ -53,19 +43,19 @@ int main ()
   // Print out the remaining vector.
   //
   cout << "List after replace_if:" << endl << "     ";
-  copy(v.begin(), v.end(), ostream_iterator<int,char,char_traits<char> >(cout," "));
+  copy(v.begin(), v.end(), ostream_iterator<int>(cout," "));
   cout << endl << endl;
   //
   // Replace those 13s with 17s on output.
   //
   cout << "List using replace_copy to cout:" << endl << "     ";
-  replace_copy(v.begin(), v.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "), 13, 17);
+  replace_copy(v.begin(), v.end(), ostream_iterator<int>(cout, " "), 13, 17);
   cout << endl << endl;
   //
   // A simple example of replace_copy_if.
   //
   cout << "List with all elements output as 19s:" << endl << "     ";
-  replace_copy_if(v.begin(), v.end(), ostream_iterator<int,char,char_traits<char> >(cout, " "),
+  replace_copy_if(v.begin(), v.end(), ostream_iterator<int>(cout, " "),
 		  not_zero<int>(), 19);
   cout << endl;
 

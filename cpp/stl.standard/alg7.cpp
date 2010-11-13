@@ -163,7 +163,7 @@ void merge_example ()
   // Merge into the output.
   //
   merge (aVec.begin(), aVec.end(), aList.begin(), aList.end(), 
-      ostream_iterator<int,char,char_traits<char> >(cout, " "));
+      ostream_iterator<int>(cout, " "));
   cout << endl;
 }
 

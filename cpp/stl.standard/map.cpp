@@ -11,7 +11,7 @@ namespace std {
   // Print out a pair.
   //
   template <class First, class Second>
-  ostream& operator<< (ostream& out, const pair<First,Second> & p)
+  ostream& operator<< (ostream& out, pair<First, Second>const& p)
   {
     cout << p.first << " has " << p.second << " days";
     return out;
@@ -61,7 +61,7 @@ int main ()
   //
   // Find the Number of days in June.
   //
-  months_type::iterator p = months.find(string("June"));
+  auto p = months.find(string("June"));
   //
   // Print out the number of days in June.
   //

@@ -14,7 +14,7 @@ int main()
   // Initialize a vector using an array of integers.
   //
   int d1[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  vector<int > v1(d1+0,  d1+10);
+  vector<int> v1(d1+0,  d1+10);
   //
   // Accumulate sums and products.
   //
