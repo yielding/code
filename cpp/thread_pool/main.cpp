@@ -15,7 +15,7 @@ void hello(int value)
     cout << "thead id: " << this_thread::get_id() << " ";
     cout << "hello value : " << value << "\n";
     cout.flush();
-    this_thread::sleep(posix_time::milliseconds(20));
+    this_thread::sleep(posix_time::milliseconds(10));
   }
 }
 
@@ -30,10 +30,11 @@ int main(int argc, char const* argv[])
   cout << "made " << data_count << "\n";
 
   pool.start();
+  pool.block();
 
-  asio::io_service io;
-  asio::io_service::work blocker(io);
-  io.run();
+//  asio::io_service io;
+//  asio::io_service::work blocker(io);
+//  io.run();
 
   return 0;
 }
