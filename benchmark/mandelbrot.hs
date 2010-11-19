@@ -15,7 +15,7 @@ mandelbrot x y = mb 0 0 0 where
              | otherwise = 
                  if zi2 + zr2 > bailout then i else
                  mb (i+1) (zr2 - zi2 + cr) (t + t + ci)
-                 where t = zr*zi
+                 where t   = zr*zi
                        zr2 = zr*zr
                        zi2 = zi*zi
 
