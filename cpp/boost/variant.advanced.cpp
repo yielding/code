@@ -10,22 +10,22 @@
 // those types specified in a type list.
 
 using namespace boost;
+using namespace boost::mpl;
 
 template <typename Visitor, typename TypeList>
-struct picky_visitor:
-  public static_visitor<void>,
-  public Visitor
+struct picky_visitor: static_visitor<void>, Visitor
 {
   template <typename T>
-  void operator() (T v, typename enable_if<typename mpl::contains<TypeList, T>::type>::type* dummy=NULL) const
+  void operator() (T v, 
+      typename enable_if<typename contains<TypeList, T>::type>::type* dummy=NULL) const
   {
     Visitor::operator () (v);
   }
 
   template <typename T>
-  void operator() (T v, typename disable_if<typename mpl::contains<TypeList, T>::type>::type* dummy=NULL) const
-  {
-  }
+  void operator() (T v, 
+      typename disable_if<typename contains<TypeList, T>::type>::type* dummy=NULL) const
+  {}
 };
 
 // Usage example:
