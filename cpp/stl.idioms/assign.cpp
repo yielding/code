@@ -1,4 +1,3 @@
-#include <vector>
 #include <algorithm>
 #include <iterator>
 #include <iostream>
@@ -29,7 +28,6 @@ int main(int argc, char const* argv[])
   string c;
   c.assign(b, b + size);
   cout << c;
-
 
   return 0;
 }
