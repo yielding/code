@@ -38,6 +38,5 @@ int main(int argc, char const* argv[])
   append(ofs);
   read_and_test();
   
-  
   return 0;
 }
