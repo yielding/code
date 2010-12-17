@@ -1,8 +1,9 @@
 # -*- ruby -*-
 
-SRCS = %w{random.plot.cpp}
-APP  = "random.plot"
+SRCS     = %w{random.plot.cpp}
+APP      = "random.plot"
+APP_TEST = "test.random.plot"
+CXX      = "clang++"
+CXXFLAGS = :nodebug
 
-DIR = File.dirname __FILE__
-
-load '~/code/build/app.rake'
+load '~/code/build/app2.rake'

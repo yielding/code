@@ -1,0 +1,13 @@
+# -*- ruby -*-
+# SAMPLE Rakefile
+
+SRCS     = %w{random.plot.cpp}
+APP      = "<app.name>"
+APP_TEST = "<test.app.name>"
+CXX      = "compiler.name" # c++0x, clang++, blank
+CXXFLAGS = :nodebug        # :debug, :nodebug
+INCS     = "-Iabc"
+LDFLAGS  = "-Lkkk"
+LIBS     = ":t :s :f :d -labc -lkkk" 
+
+load '~/code/build/app2.rake'

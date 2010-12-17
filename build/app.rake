@@ -24,7 +24,8 @@ BOOST = {
 RUBY_PATH    = "/Users/yielding/ruby-mingw32"
 MINGW32_DIR  = "/usr/local/i386-mingw32-3.4.5/i386-mingw32"
 
-OSX_CC       = "g++-mp-4.6 -std=gnu++0x"
+#OSX_CC       = "g++-mp-4.6 -std=gnu++0x"
+OSX_CC       = "g++"
 WIN_CC       = "#{MINGW32_DIR}/bin/g++"
 WIN_STRIP    = "#{MINGW32_DIR}/bin/strip --strip-all "
 LIN_CC       = "g++"
