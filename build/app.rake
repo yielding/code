@@ -24,13 +24,13 @@ BOOST = {
 RUBY_PATH    = "/Users/yielding/ruby-mingw32"
 MINGW32_DIR  = "/usr/local/i386-mingw32-3.4.5/i386-mingw32"
 
-OSX_CC       = "g++"
+OSX_CC       = "g++-mp-4.6 -std=gnu++0x"
 WIN_CC       = "#{MINGW32_DIR}/bin/g++"
 WIN_STRIP    = "#{MINGW32_DIR}/bin/strip --strip-all "
 LIN_CC       = "g++"
 
 $OSX_LIBS     = ""
-$OSX_CXXFLAGS = "-O7 "
+$OSX_CXXFLAGS = "-O3 "
 $OSX_CXXFLAGS += "-I/opt/local/include/boost"
 $OSX_LDFLAGS  = "-L. -L/opt/local/lib"
 if defined? OSX_LIBS 
@@ -49,7 +49,7 @@ end
 
 $WIN_LIBS     = " -lws2_32"
 $WIN_CXXFLAGS = "-O2 -D_WIN32_WINNT "
-$WIN_LDFLAGS  =  "-L. -L#{MINGW32_DIR}/lib "
+$WIN_LDFLAGS  = "-L. -L#{MINGW32_DIR}/lib "
 if defined? WIN_LIBS
   $WIN_LIBS      = "#{WIN_LIBS}" + $WIN_LIBS 
   $WIN_CXXFLAGS += "-I#{RUBY_PATH}/lib/ruby/1.8/i386-mingw32 " if WIN_LIBS =~ /ruby/
@@ -201,3 +201,4 @@ task :all => [:win32, :osx] do; end
 task :run => [:osx] do
   sh "./#{APP}"
 end
+
