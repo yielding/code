@@ -19,7 +19,7 @@ struct picky_visitor: static_visitor<void>, Visitor
   void operator() (T v, 
       typename enable_if<typename contains<TypeList, T>::type>::type* dummy=NULL) const
   {
-    Visitor::operator () (v);
+    Visitor::operator() (v);
   }
 
   template <typename T>
@@ -28,19 +28,13 @@ struct picky_visitor: static_visitor<void>, Visitor
   {}
 };
 
-// Usage example:
-
-struct Usage 
-{
-  int x;
-};
-
 struct  nil {};
-typedef variant<nil, char, int, double, Usage> sql_field;
+typedef variant<nil, char, int, double> sql_field;
 
 struct example_visitor
 {
-  typedef picky_visitor<example_visitor, mpl::vector<char, int, double, Usage>> value_type;
+  typedef picky_visitor<example_visitor, 
+          mpl::vector<char, int/*, double, Usage*/> > value_type;
 
   void operator() (char v) const
   {
@@ -56,11 +50,6 @@ struct example_visitor
   {
     std::cout << "double detected" << std::endl;
   }
-
-  void operator() (Usage v) const
-  {
-    std::cout << "Usage detected" << std::endl;
-  }
 };
 
 int main(int argc, char* argv[])
@@ -72,14 +61,10 @@ int main(int argc, char* argv[])
   sql_field intField (1986);
   sql_field doubleField (19.86);
 
-  Usage u;
-  sql_field usage = u;
-
   boost::apply_visitor (visitor, nilField);
   boost::apply_visitor (visitor, charField);
   boost::apply_visitor (visitor, intField);
   boost::apply_visitor (visitor, doubleField);
-  boost::apply_visitor (visitor, usage);
 
   return 0;
 }

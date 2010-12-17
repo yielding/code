@@ -35,22 +35,22 @@ struct vector_printer
 
 int main(int , char* [])
 {
-    typedef boost::make_recursive_variant<
-          int
-        , std::vector<boost::recursive_variant_>
-        >::type var_t;
+  typedef boost::make_recursive_variant<
+    int, 
+    std::vector<boost::recursive_variant_>
+    >::type var_t;
 
-    std::vector<var_t> vec;
-    vec.push_back(3);
-    vec.push_back(5);
-    vec.push_back(vec);
-    vec.push_back(7);
+  std::vector<var_t> vec;
+  vec.push_back(3);
+  vec.push_back(5);
+  vec.push_back(vec);
+  vec.push_back(7);
 
-    var_t var(vec);
-    std::string result( boost::apply_visitor( vector_printer(), var ) );
+  var_t var(vec);
+  std::string result( boost::apply_visitor( vector_printer(), var ) );
 
-    std::cout << "result: " << result << '\n';
-    // BOOST_CHECK(result == "( 3 5 ( 3 5 ) 7 ) ");
+  std::cout << "result: " << result << '\n';
+  // BOOST_CHECK(result == "( 3 5 ( 3 5 ) 7 ) ");
 
-    return boost::exit_success;
+  return boost::exit_success;
 }

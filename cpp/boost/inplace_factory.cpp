@@ -33,13 +33,15 @@ struct C
   }
 
   template<class InPlaceFactory>
-  void construct(InPlaceFactory const& aFactory, boost::in_place_factory_base const*)
+  void construct(InPlaceFactory const& aFactory, 
+      boost::in_place_factory_base const*)
   {
     aFactory.template apply<X>(contained_);
   }
 
   template<class TypedInPlaceFactory>
-  void construct(TypedInPlaceFactory const& aFactory, boost::typed_in_place_factory_base* )
+  void construct(TypedInPlaceFactory const& aFactory, 
+      boost::typed_in_place_factory_base* )
   {
     aFactory.apply(contained_);
   }

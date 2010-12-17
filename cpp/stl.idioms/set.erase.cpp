@@ -8,6 +8,8 @@ bool less_than_5(int i)
   return i < 5;
 }
 
+// NOTICE Effective STL Item 5에
+// 잘 설명되어 있다.
 int main(int argc, char const* argv[])
 {
   using namespace std;

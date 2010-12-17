@@ -8,6 +8,5 @@ void endian_swap(IntType& x)
 
 int main(int argc, char const* argv[])
 {
-  
   return 0;
 }
