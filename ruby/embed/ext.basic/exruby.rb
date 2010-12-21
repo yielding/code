@@ -1,3 +1,4 @@
+$: << "."
 require 'test/unit' 
 require 'my_test' 
 
