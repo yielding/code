@@ -3,7 +3,7 @@
 SRCS     = %w{partial_parse.cpp}
 APP      = "ptree"
 APP_TEST = "test.ptree"
-CXX      = "clang++"      # c++0x, clang++, blank
-CXXFLAGS = :nodebug       # :debug, :nodebug
+CXX      = "c++0x"      # c++0x, clang++, blank
+CXXFLAGS = :debug       # :debug, :nodebug
 
 load '~/code/build/app2.rake'
