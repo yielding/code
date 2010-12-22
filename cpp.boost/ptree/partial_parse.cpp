@@ -13,8 +13,22 @@ using boost::property_tree::ptree;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-void print_all(ptree& pt)
+void print_all(ptree& pt, int space)
 {
+    ptree::iterator beg = pt.begin();
+    ptree::iterator end = pt.end();
+    string tab;
+    for (int i=0; i<space; i++) tab += " ";
+    for ( ; beg != end; ++beg)
+    {
+        cout << tab << beg->first << endl;
+
+        if (!beg->second.empty())
+        {
+            cout << tab << beg->second.get<string>("");
+            print_all(beg->second, space + 4);
+        }
+    }
 }
 
 //
@@ -51,7 +65,6 @@ void print_selected(ptree& pt, string const& key, vector<int> const& selection)
             }
             index++;
         }
-
         ++pbeg;
     }
 }
@@ -69,7 +82,9 @@ int main()
         sel.push_back(2);
 
         string key = "plist.dict.array";
-        print_selected(pt, key, sel);
+        // print_selected(pt, key, sel);
+
+        print_all(pt, 0);
 
     }
     catch (std::exception &e)
