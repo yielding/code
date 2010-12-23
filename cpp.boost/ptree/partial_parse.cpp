@@ -19,6 +19,7 @@ void print_all(ptree& pt, int space)
 
     ptree::iterator beg = pt.begin();
     ptree::iterator end = pt.end();
+
     for (; beg != end; ++beg)
     {
         if (beg->first == "<xmlattr>")
@@ -49,11 +50,8 @@ void print_selected(ptree& pt, string const& key, vector<int> const& selection)
 
     while (pbeg != pend)
     {
-        ptree t; t.push_back(std::make_pair("dict", pbeg->second));
-
-        ptree& tree = t.get_child("dict");
-        ptree::iterator beg = tree.begin();
-        ptree::iterator end = tree.end();
+        ptree::iterator beg = pbeg->second.begin();
+        ptree::iterator end = pbeg->second.end();
         int index = 0;
         while (beg != end)
         {
@@ -87,8 +85,8 @@ int main()
         sel.push_back(1);
         sel.push_back(2);
 
-        string key = "plist.dict.array";
-        // print_selected(pt, key, sel);
+//        string key = "plist.dict.array";
+//        print_selected(pt, key, sel);
 
         print_all(pt, 0);
 
