@@ -49,6 +49,8 @@ RubyEval::RubyEval()
 {
   ruby_init();
   ruby_init_loadpath();
+  RUBY_INIT_STACK;
+
   rb_set_safe_level(0);
   ruby_script("ruby");
 

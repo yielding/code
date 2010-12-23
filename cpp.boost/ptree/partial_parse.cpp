@@ -15,18 +15,24 @@ using boost::property_tree::ptree;
 ////////////////////////////////////////////////////////////////////////////////
 void print_all(ptree& pt, int space)
 {
+    string tab; for (int i=0; i<space; i++) tab += " ";
+
     ptree::iterator beg = pt.begin();
     ptree::iterator end = pt.end();
-    string tab;
-    for (int i=0; i<space; i++) tab += " ";
-    for ( ; beg != end; ++beg)
+    for (; beg != end; ++beg)
     {
-        cout << tab << beg->first << endl;
+        if (beg->first == "<xmlattr>")
+            continue;
+        
+        cout << tab << beg->first;
 
         if (!beg->second.empty())
         {
-            cout << tab << beg->second.get<string>("");
-            print_all(beg->second, space + 4);
+            print_all(beg->second, space + 2);
+        }
+        else
+        {
+            cout << tab << "[" << beg->second.data() << "]" << endl;
         }
     }
 }
@@ -37,7 +43,7 @@ void print_all(ptree& pt, int space)
 void print_selected(ptree& pt, string const& key, vector<int> const& selection)
 {
     using namespace boost;
-    
+
     ptree::iterator pbeg = pt.get_child(key).begin();
     ptree::iterator pend = pt.get_child(key).end();
 
@@ -57,7 +63,7 @@ void print_selected(ptree& pt, string const& key, vector<int> const& selection)
                 string value = beg->second.data(); beg++;
 
                 cout << "key   : " << key   << endl
-                     << "value : " << value << endl << endl;
+                    << "value : " << value << endl << endl;
             }
             else
             {
