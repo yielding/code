@@ -1,4 +1,3 @@
-// #include <iostream>
 #include "rubyeval.h"
 
 extern "C" void Init_DataModel();
