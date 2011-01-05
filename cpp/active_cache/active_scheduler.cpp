@@ -54,7 +54,8 @@ bool active_scheduler::should_run(string& task_name)
   if (m_last_exec_time == now_)
     return false;
 
-  for (size_t i=0; i<m_schedules.size(); ++i)
+  size_t end = <m_schedules.size();
+  for (size_t i=0; i<end; ++i)
     if (m_schedules[i]->should_fire_at(now_)) 
     {
       task_name = m_schedules[i]->task_name();

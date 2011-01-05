@@ -323,13 +323,18 @@ int eval_file(char const* path)
 int main()
 {
   // 1. init interpreter
-  ruby_init();
-  ruby_init_loadpath();
-
   RUBY_INIT_STACK;
 
-  rb_set_safe_level(0);
-  ruby_script("ruby");
+  VALUE v;
+  Init_stack(&v);
+
+  ruby_init();
+
+  ruby_script("leech-ruby");
+
+  ruby_init_loadpath();
+
+  // rb_enc_find_index("encdb");
 
   // 2. register c-based extension module
   Init_Extension();

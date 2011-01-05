@@ -21,14 +21,13 @@ int main(int argc, char *argv[])
   rb_eval_string("print \"Hello world\\n\"");
 
   int status = ruby_exec();
+  int res = 0;
   if (status) 
   {
     printf("%s\n", StringValueCStr(ruby_errinfo));
-    ruby_finalize();
-    return 1;
+    res = 1;
   }
-
   ruby_finalize();
 
-  return 0;
+  return res;
 }

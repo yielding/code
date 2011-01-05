@@ -17,33 +17,30 @@ end
 CLEAN.include("*.o")
 CLOBBER.include(APP).include("*.exe")
 
-BOOST = {
-
-}
-
 RUBY_PATH    = "/Users/yielding/ruby-mingw32"
 MINGW32_DIR  = "/usr/local/i386-mingw32-3.4.5/i386-mingw32"
 
 #OSX_CC       = "g++-mp-4.6 -std=gnu++0x"
-OSX_CC       = "g++"
+OSX_CC       = "g++-mp-4.6"
 WIN_CC       = "#{MINGW32_DIR}/bin/g++"
 WIN_STRIP    = "#{MINGW32_DIR}/bin/strip --strip-all "
 LIN_CC       = "g++"
 
 $OSX_LIBS     = ""
 $OSX_CXXFLAGS = "-O3 "
-$OSX_CXXFLAGS += "-I/opt/local/include/boost"
+$OSX_CXXFLAGS += "-I/opt/local/include"
 $OSX_LDFLAGS  = "-L. -L/opt/local/lib"
 if defined? OSX_LIBS 
   $OSX_LIBS      = "#{OSX_LIBS}" 
-  if OSX_LIBS =~ /ruby19/
-    $OSX_CXXFLAGS += " -I/opt/local/include/ruby-1.9.1 -I/opt/local/include/ruby-1.9.1/i386-darwin10.2.0 "
-  elsif OSX_LIBS =~ /ruby/
-    $OSX_CXXFLAGS += " -I/opt/local/lib/ruby/1.8/i686-darwin10 "
-    if OSX_LIBS =~ /rice/
-      $OSX_LDFLAGS  += " -L/opt/local/lib/ruby/gems/1.8/gems/rice-1.3.1/ruby/lib/lib"
-      $OSX_CXXFLAGS += " -I/opt/local/lib/ruby/gems/1.8/gems/rice-1.3.1/ruby/lib/include" 
-    end
+  if OSX_LIBS =~ /ruby/
+    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/include/ruby-1.9.1/ruby/backward "
+    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/include/ruby-1.9.1 "
+    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/include/ruby-1.9.1/x86_64-darwin10.5.0 "
+    $OSX_LDFLAGS  += " -L/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/lib"
+  end
+  if OSX_LIBS =~ /rice/
+    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/lib/ruby/gems/1.9.1/gems/rice-1.4.0/ruby/lib/include"
+    $OSX_LDFLAGS  += " -L/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/lib/ruby/gems/1.9.1/gems/rice-1.4.0/ruby/lib/lib"
   end
 end
 

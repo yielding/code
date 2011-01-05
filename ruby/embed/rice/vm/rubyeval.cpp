@@ -67,7 +67,7 @@ RubyEval::~RubyEval()
 
 string RubyEval::val2str(const VALUE rval)
 {
-  return STR2CSTR(rb_funcall(rval, rb_intern("to_s"), 0));
+  return StringValueCStr(rb_funcall(rval, rb_intern("to_s"), 0));
 }
 
 int RubyEval::val2i(const VALUE rval)

@@ -3,7 +3,7 @@ SRCS     =$(OBJS:.o=.cpp)
 
 WHERE    =/opt/local/lib/ruby/1.8/i686-darwin10
 CC       =gcc
-CXX      =g++
+CXX      =clang++
 LINK     =g++
 INC      =-I$(WHERE)
 CFLAGS   =

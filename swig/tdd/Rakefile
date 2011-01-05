@@ -10,7 +10,7 @@ CLEAN.include("*.o")
 CLOBBER.include(TARGET)
 
 LIBS     = '-pthread -lm -lc -lruby'
-CXXFLAGS = '-I/opt/local/lib/ruby/1.8/i686-darwin9'
+CXXFLAGS = '-I/opt/local/lib/ruby/1.8/i686-darwin10'
 LDFLAGS  = '-L. -L/usr/lib -L/opt/local/lib'
 SRC      = FileList['*.cpp']
 OBJ      = SRC.ext('o')

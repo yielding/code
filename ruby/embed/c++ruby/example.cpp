@@ -1,6 +1,6 @@
-#include <cassert>
 #include "rubyeval.h"
-//#include "ruby.h"
+
+#include <cassert>
 
 int main(int argc, char *argv[])
 {
