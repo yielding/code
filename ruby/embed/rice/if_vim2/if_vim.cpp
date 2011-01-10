@@ -320,8 +320,11 @@ int eval_file(char const* path)
   return state;
 }
 
-int main()
+int main(int argc, char** argv)
 {
+  // 0.
+  ruby_sysinit(&argc, &argv);
+
   // 1. init interpreter
   RUBY_INIT_STACK;
 

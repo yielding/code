@@ -1,8 +1,7 @@
 #-*- ruby -*-   
 
-APP      = 'if_vim'
+APP      = 'if_vim2'
 SRCS     = %w{if_vim.cpp}
-#WIN_LIBS = "-lmsvcrt-ruby18-static -lrice"
 OSX_LIBS = "-lruby.1.9.1 -lrice"
 
 DIR = File.dirname __FILE__

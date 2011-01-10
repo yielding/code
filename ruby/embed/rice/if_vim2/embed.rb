@@ -1,33 +1,19 @@
-require 'pp'
+require 'test/unit'
 
-m = Std::Map.new
-m['leech'] = 1
-p m['leech']
- 
-p VIM.desc
-p VIM::VIM_MAJOR
-p VIM::VIM_MINOR
-VIM.set_option("set nu")
+class TestSum < Test::Unit::TestCase
+  def setup
+  end
 
-begin
-  # VIM::throw_test()
-  VIM.set_option("set exception")
-rescue Exception => ex
-  p "caught it! with #{ex.message}"
+  def test_major
+    assert_equal VIM::VIM_MAJOR, 7
+  end
+  def test_minor
+    assert_equal VIM::VIM_MINOR, 2
+  end
+  
+  def test_true
+    assert_equal 1, 1
+  end
 end
 
-begin
-  p VIM::Window.count
-  VIM::Window[1]
-  w = VIM::Window.current
-rescue Exception => ex
-  p "caught it! with #{ex.message}"
-end
-
-begin
-  p VIM::Buffer.count
-  VIM::Buffer[1]
-  b = VIM::Buffer.current
-rescue Exception => ex
-  p "caught it! with #{ex.message}"
-end
+#Test::Unit::AutoRunner.run
