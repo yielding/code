@@ -1,30 +1,10 @@
 #-*- ruby -*-   
 
-require 'rake/clean'
+APP      = 'if_vim'
+SRCS     = %w{if_vim.cpp}
+#WIN_LIBS = "-lmsvcrt-ruby18-static -lrice"
+OSX_LIBS = "-lruby.1.9.1 -lrice"
 
-TARGET = 'if_vim'
+DIR = File.dirname __FILE__
 
-task :default => [TARGET]
-
-CLEAN.include("*.o")
-CLOBBER.include(TARGET)
-
-LDFLAGS  = ''
-LIBS     = '-lruby1.9 -lobjc -ldl -lrice'
-CXXFLAGS = '-I/opt/local/include/ruby1.9-1.9.1'
-SRC      = FileList['*.cpp']
-OBJ      = SRC.ext('o')
-
-rule '.o' => '.cpp' do |t|
-  sh "g++ -O7 -c -o #{t.name} #{t.source} #{CXXFLAGS} -DHAVE_STRUCT_TIMESPEC"
-end
-
-file TARGET => OBJ do
-  sh "g++ -o #{TARGET} #{OBJ} #{LDFLAGS} #{LIBS}"
-end
-                
-task :run => [TARGET] do
-  sh "./#{TARGET}"
-end
-
-file 'if_vim.o' => ['if_vim.cpp']
+load '~/code/build/app.rake'

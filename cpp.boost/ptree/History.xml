@@ -9,6 +9,7 @@
             <dict>
                 <key></key>
                 <string>http://stackoverflow.com/questions/2855741/why-boost-property-tree-write-json-saves-everything-as-string-is-it-possible-to</string>
+
                 <key>title</key>
                 <string>json - Why boost property tree write_json saves everything as string? Is it possible to change that? - Stack Overflow</string>
                 <key>lastVisitedDate</key>
@@ -26,7 +27,6 @@
                 <key>title</key>
                 <string>c++ - Boost Property Tree and Xml parsing Problems. - Stack Overflow</string>
                 <key>lastVisitedDate</key>
-                <string>314608998.3</string>
                 <key>visitCount</key>
                 <integer>3</integer>
                 <key>D</key>

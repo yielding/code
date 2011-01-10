@@ -39,11 +39,10 @@ if defined? OSX_LIBS
     $OSX_LDFLAGS  += " -L/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/lib"
   end
   if OSX_LIBS =~ /rice/
-    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/lib/ruby/gems/1.9.1/gems/rice-1.4.0/ruby/lib/include"
-    $OSX_LDFLAGS  += " -L/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/lib/ruby/gems/1.9.1/gems/rice-1.4.0/ruby/lib/lib"
+    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/gems/ruby-1.9.2-p136/gems/rice-1.4.2/ruby/lib/include "
+    $OSX_LDFLAGS  += " -L/Users/yielding/.rvm/gems/ruby-1.9.2-p136/gems/rice-1.4.2/ruby/lib/lib "
   end
 end
-
 
 $WIN_LIBS     = " -lws2_32"
 $WIN_CXXFLAGS = "-O2 -D_WIN32_WINNT "

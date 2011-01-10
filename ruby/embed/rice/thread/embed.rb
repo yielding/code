@@ -1,10 +1,11 @@
+$: << "."
 require 'pp'
 
 p VIM.desc
 p VIM::VIM_MAJOR
 p VIM::VIM_MINOR
 VIM.set_option("set nu")
-
+ 
 begin
   # VIM::throw_test()
   VIM.set_option("set exception")

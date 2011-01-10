@@ -9,10 +9,10 @@ task :default => [:run]
 CLEAN.include("*.o").include("*.cxx").include("Makefile").include("*.log")
 CLOBBER.include(TARGET).include("*.bun*")
 
-RICE_PATH = "/opt/local/lib/ruby/gems/1.8/gems/rice-1.0.2/ruby/lib"
-LDFLAGS   = "-L#{RICE_PATH}/lib"
-LIBS      = "-lruby -lobjc -ldl -lrice -lboost_thread-xgcc40-mt -lboost_system-xgcc40-mt"
-CXXFLAGS  = "-I/opt/local/lib/ruby/1.8/i686-darwin9 -I#{RICE_PATH}/include"
+RICE_PATH = "/Users/yielding/.rvm/gems/ruby-1.9.2-p136/gems/rice-1.4.2/ruby/lib"
+LDFLAGS   = "-L/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/lib -L#{RICE_PATH}/lib "
+LIBS      = "-lruby.1.9.1 -lobjc -ldl -lrice -lboost_thread-mt -lboost_system-mt"
+CXXFLAGS  = "-I/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/include/ruby-1.9.1/x86_64-darwin10.5.0 -I#{RICE_PATH}/include"
 SRC       = FileList['*.cpp']
 OBJ       = SRC.ext('o')
 
