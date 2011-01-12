@@ -10,6 +10,7 @@ File.open(infile) { |file|
     fields = line.split(/\(|\)/)[1]
     zoom, x, y, flags, length, image = fields.split(/\,/)
     puts "#{zoom}, #{x}, #{y}, #{flags}, #{length}"
+    next if zoom != "15"
     # data = image.sub(/^X'/, '').sub(/'$/, '')
     data = image.sub(/^X'|'$/, '')
     next if image.length < 128
