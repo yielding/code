@@ -19,4 +19,4 @@ def backtracking(arr, depth)
   candidates.each { |c| backtracking(arr.deep_copy.push(c), depth) }
 end
 
-backtracking [], 3
+backtracking [], 4

@@ -26,6 +26,9 @@ void process_solution(int a[], int k)
   printf(" }\n");
 }
 
+// input는 총 길이
+// a는 solution vector
+// k는 현재 진행상태
 void backtrack(int a[], int k, int input)
 {
   int c[MAXCANDIDATES];
@@ -56,5 +59,5 @@ void generate_subsets(int n)
 
 int main()
 {
-  generate_subsets(3);
+  generate_subsets(4);
 }
