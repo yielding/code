@@ -33,7 +33,12 @@ $INCS     = " -I/opt/local/include "
 $INCS    += INCS if defined? INCS
 
 $LDFLAGS  = " -L. -L/opt/local/lib "
-$LDFLAGS += LDFLAGS if defined? LDFLAGS
+
+if defined? LDFLAGS
+  $LDFLAGS += " -F/System/Library/PrivateFrameworks " if LDFLAGS =~ /framework/
+  $LDFLAGS += LDFLAGS 
+end
+
 
 BOOST = {
   :t => " -lboost_thread-mt ",
