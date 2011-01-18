@@ -17,39 +17,59 @@ end
 
 $CXX = "g++"
 if defined? CXX
-  $CXX = "clang++ "                 if CXX =~ /clang\+\+/
-  $CXX = "g++-mp-4.6 -std=gnu++0x " if CXX =~ /c\+\+0x/
+  $CXX = "clang++"                 if CXX =~ /clang\+\+/
+  $CXX = "g++-mp-4.6 -std=gnu++0x" if CXX =~ /c\+\+0x/
 end
 
-$CXXFLAGS=" -DPOSIX -Wall "
+$CXXFLAGS =" -DPOSIX -Wall "
 if defined? CXXFLAGS
-  $CXXFLAGS += " -g " if CXXFLAGS == :debug
-  $CXXFLAGS += " -O3 " if CXXFLAGS == :nodebug
+  $CXXFLAGS += " -g -DDEBUG" if CXXFLAGS =~ /:d/
+  $CXXFLAGS += " -DVERBOSE"  if CXXFLAGS =~ /:v/
+  $CXXFLAGS += " -O0"        if CXXFLAGS =~ /:O0/
+  $CXXFLAGS += " -O3"        if CXXFLAGS =~ /:O3/
 else
-  $CXXFLAGS += " -g "
+  $CXXFLAGS += " -g"
 end
 
-$INCS     = " -I/opt/local/include "
-$INCS    += INCS if defined? INCS
+$INCS = " -I. -I/opt/local/include"
+INCS.split.each { |e| $INCS += " -I#{e}" } if defined? INCS
 
-$LDFLAGS  = " -L. -L/opt/local/lib "
-$LDFLAGS += LDFLAGS if defined? LDFLAGS
+$LDFLAGS = " -L. -L/opt/local/lib"
+if defined? LDFLAGS
+  LDFLAGS.split.each do |e|
+    $LDFLAGS += case e
+                when /:framework/; " -F/System/Library/PrivateFrameworks"
+                else
+                  " -L#{e}"
+                end
+  end
+end
 
 BOOST = {
-  :t => " -lboost_thread-mt ",
-  :s => " -lboost_system-mt ",
-  :f => " -lboost_filesystem-mt ",
-  :d => " -lboost_date_time-mt "
+  :t => " -lboost_thread-mt",
+  :s => " -lboost_system-mt",
+  :f => " -lboost_filesystem-mt",
+  :d => " -lboost_date_time-mt"
 }
 
-$LIBS  = ""
+$LIBS = ""
 if defined? LIBS
-  arr = LIBS.split
-  $LIBS += BOOST[:t] if arr.include?(":t")
-  $LIBS += BOOST[:s] if arr.include?(":s")
-  $LIBS += BOOST[:f] if arr.include?(":f")
-  $LIBS += BOOST[:d] if arr.include?(":d")
-  arr.each { |e| $LIBS += sprintf(" %s") if e =~/^-l/ }
+  LIBS.split.each do |e|  
+    $LIBS += case e
+             when /:t/; BOOST[:t]
+             when /:s/; BOOST[:s]
+             when /:f/; BOOST[:f]
+             when /:d/; BOOST[:d]
+             else
+               " -l#{e} "
+             end
+  end
+end
+
+$FRAMEWORKS = ""
+if defined? FRAMEWORKS
+  arr = FRAMEWORKS.split
+  arr.each { |e| $FRAMEWORKS += " -framework #{e}" }
 end
 
 CLEAN.include("*.o")
@@ -115,7 +135,7 @@ class Builder
     if should_link? app, objs
       case os
       when :osx
-        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$LIBS}"
+        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} "
       end
     end
   end
