@@ -53,6 +53,11 @@ if defined? LDFLAGS
   end
 end
 
+if defined? LDFLAGS
+  $LDFLAGS += " -F/System/Library/PrivateFrameworks " if LDFLAGS =~ /framework/
+  $LDFLAGS += LDFLAGS 
+end
+
 BOOST = {
   :t => " -lboost_thread-mt",
   :s => " -lboost_system-mt",
