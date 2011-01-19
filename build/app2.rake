@@ -23,12 +23,18 @@ end
 
 $CXXFLAGS =" -DPOSIX -Wall "
 if defined? CXXFLAGS
-  $CXXFLAGS += " -g -DDEBUG" if CXXFLAGS =~ /:d/
-  $CXXFLAGS += " -DVERBOSE"  if CXXFLAGS =~ /:v/
-  $CXXFLAGS += " -O0"        if CXXFLAGS =~ /:O0/
-  $CXXFLAGS += " -O3"        if CXXFLAGS =~ /:O3/
-else
-  $CXXFLAGS += " -g"
+  CXXFLAGS.split.each do |f|
+    flag = case f
+           when /:d/ ; " -g -DDEBUG"
+           when /:v/ ; " -DVERBOSE"
+           when /:O0/; " -O0"
+           when /:O3/; " -O3"
+           else
+             " -D#{f}"
+           end
+
+    $CXXFLAGS += flag
+  end
 end
 
 $INCS = " -I. -I/opt/local/include"
@@ -37,11 +43,13 @@ INCS.split.each { |e| $INCS += " -I#{e}" } if defined? INCS
 $LDFLAGS = " -L. -L/opt/local/lib"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
-    $LDFLAGS += case e
-                when /:framework/; " -F/System/Library/PrivateFrameworks"
-                else
-                  " -L#{e}"
-                end
+    flag = case e
+           when /:framework/; " -F/System/Library/PrivateFrameworks"
+           else
+             " -L#{e}"
+           end
+
+    $LDFLAGS += flag
   end
 end
 
@@ -72,7 +80,8 @@ if defined? FRAMEWORKS
   arr.each { |e| $FRAMEWORKS += " -framework #{e}" }
 end
 
-CLEAN.include("*.o")
+OBJS = SRCS.map { |src| "#{src}.osx.o" }
+CLEAN.include(OBJS)
 CLOBBER.include(APP).include(APP_TEST).include("*.exe")
 
 #------------------------------------------------------------------------------
@@ -122,7 +131,7 @@ class Builder
   def compile objs=[] 
     objs.each do |obj|
       if should_compile? obj
-        case os
+        case os 
         when :osx
           sh "#{$CXX} -c #{$CXXFLAGS} #{$INCS} #{obj.cpp} -o #{obj.osx.o}" 
         end
