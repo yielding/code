@@ -16,7 +16,9 @@ public:
   }
 
   static T& instance()     { return *m_instance; }
+  static T& ref()          { return *m_instance; }
   static T* instance_ptr() { return  m_instance; }
+  static T* ptr()          { return  m_instance; }
 
 protected:
   static T* m_instance;
