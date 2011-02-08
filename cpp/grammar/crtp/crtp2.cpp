@@ -24,7 +24,7 @@ private:
 class char_field: public streamer<char_field>
 {
 public:
-  char_field(char* name, char* value)
+  char_field(char const* name, char const* value)
   {
     m_name  = strdup(name);
     m_value = strdup(value); 
