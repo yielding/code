@@ -1,3 +1,5 @@
+#ifndef SINGLETON_H_WNOO550Q
+#define SINGLETON_H_WNOO550Q
 
 template <typename T>
 class Singleton
@@ -22,7 +24,9 @@ protected:
 
 template<typename T> T* Singleton<T>::m_instance = 0;
 
+#endif /* end of include guard: SINGLETON_H_WNOO550Q */
 
+#if 0
 #include <iostream>
 
 using namespace std;
@@ -49,3 +53,4 @@ int main(int argc, char const* argv[])
 
   return 0;
 }
+#endif
