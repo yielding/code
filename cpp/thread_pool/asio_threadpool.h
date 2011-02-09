@@ -26,7 +26,7 @@ public:
   void start()
   {
     using namespace boost;
-    for (std::size_t i=0; i<m_init_thread; ++i)
+    for (uint8_t i=0; i<m_init_thread; ++i)
       m_threads.create_thread(bind(&asio::io_service::run, &m_scheduler));
   }
 
