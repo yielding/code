@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<key>no data</key>
+<string>feed://rss.joins.com/joins_news_list.xml</string>
+
+<key>title</key>
+<string>중앙일보 | 전체기사</string>
+
+<key>displayTitle</key>
+<string>중앙일보전체기사</string>
+
+<key>lastVisitedDate</key>
+<string>314380638.3</string>
+
+<key>visitCount</key>
+<integer>15</integer>
+
+<key>D</key>
+<array>
+    <integer>2</integer>
+    <integer>1</integer>
+    <integer>0</integer>
+    <integer>0</integer>
+    <integer>2</integer>
+    <integer>0</integer>
+    <integer>5</integer>
+    <integer>0</integer>
+    <integer>0</integer>
+</array>
+
+<key>W</key>
+<array>
+    <integer>5</integer>
+</array>
