@@ -1,3 +1,6 @@
+#ifndef ASIO_THREADPOOL_H_LH6I9BB9
+#define ASIO_THREADPOOL_H_LH6I9BB9
+
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
 
@@ -22,9 +25,9 @@ public:
 
   void start()
   {
+    using namespace boost;
     for (std::size_t i=0; i<m_init_thread; ++i)
-      m_threads.create_thread(
-        boost::bind(&boost::asio::io_service::run, &m_scheduler));
+      m_threads.create_thread(bind(&asio::io_service::run, &m_scheduler));
   }
 
   void stop()
@@ -40,27 +43,19 @@ public:
   }
 
   template<typename Handler>
-  bool post(Handler h)
-  {
-    m_scheduler.post(h);
-    return true;
-  }
-
-  template<typename Handler>
-  bool dispatch(Handler h)
-  {
-    m_scheduler.dispatch(h);
-    return true;
-  }
+  void post(Handler h) { m_scheduler.post(h); }
 
   boost::asio::io_service& scheduler()
   {
     return m_scheduler;
   }
 
-  void block()
+public:
+  static void block()
   {
-    m_scheduler.run();
+    boost::asio::io_service io;
+    boost::asio::io_service::work blocker(io);
+    io.run();
   }
 
 private:
@@ -78,3 +73,45 @@ private:
 //
 //////////////////////////////////////////////////////////////////////////////
 }
+
+#endif /* end of include guard: ASIO_THREADPOOL_H_LH6I9BB9 */
+
+#if 0
+#include <iostream>
+#include <boost/thread/mutex.hpp>
+#include <boost/timer.hpp>
+
+#include "asio_threadpool.h"
+
+using namespace std;
+using namespace boost;
+
+mutex io_mutex;
+
+void hello(int value)
+{
+  { mutex::scoped_lock l(io_mutex);
+    cout << "thead id: " << this_thread::get_id() << " ";
+    cout << "hello value : " << value << "\n";
+    cout.flush();
+    // this_thread::sleep(posix_time::milliseconds(10));
+  }
+}
+
+int main(int argc, char const* argv[])
+{
+  sys::threadpool pool(5);
+  pool.start();
+
+  int const data_count = 1000;
+  for (int i=0; i<data_count; i++) 
+    pool.post(bind(hello, i));
+
+  cout << "made " << data_count << "\n";
+
+  sleep(5);
+
+  return 0;
+}
+
+#endif

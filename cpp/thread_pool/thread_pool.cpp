@@ -15,8 +15,6 @@ using namespace boost;
 
 mutex io_mutex;
 
-// m_threads.create_thread(bind(&asio::io_service::run, &m_scheduler));
-
 namespace sys {
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -27,7 +25,8 @@ class thread_pool: private boost::noncopyable
 {
 public:
   thread_pool(std::size_t init_size=5, int min_size=5, int max_size=10)
-    : m_init_thread(init_size)
+    : 
+      m_init_thread(init_size)
     , m_timer(m_scheduler, boost::posix_time::seconds(1)) 
     , m_cur_thread(0)
     , m_wait_thread(0)
@@ -61,7 +60,6 @@ public:
   template<typename Handler>
   bool post(Handler h)
   {
-    //if (m_wait_thread < 3 && m_cur_thread < m_max_thread)
     if (m_cur_thread < m_max_thread)
     {
       mutex::scoped_lock l(m_atomic); 
@@ -176,24 +174,15 @@ pool.statistics();
 
 int main(int argc, char const* argv[])
 {
-//  timer tt;
-//  mutex::scoped_lock l(io_mutex);
-//  cout << "time elapsed: " << tt.elapsed() << endl;
-
 cout << "thread pool created\n";
 
   // pool.statistics();
 
   for (int i=0; i<100; i++) 
     pool.post(bind(hello, i));
-
-cout << "made 50\n";
-pool.statistics();
-
-  sleep(10000);
-  asio::io_service io;
-  asio::io_service::work blocker(io);
-  io.run();
+  cout << "made 50\n";
+  pool.statistics();
+  pool.block();
 
   return 0;
 }

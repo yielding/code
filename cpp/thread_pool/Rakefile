@@ -1,9 +1,10 @@
 # -*- ruby -*-
-SRCS     = %w{thread_pool.cpp}
-APP      = "thread_pool"
-WIN_LIBS = "-lboost_thread-mt -lboost_system-mt"
-OSX_LIBS = "-lboost_thread-mt -lboost_system-mt"
 
-DIR = File.dirname __FILE__
+SRCS     = %w{main.cpp}
+APP      = "tp"
+APP_TEST = "test_tp"
+CXX      = "clang++"
+CXXFLAGS = ":O3"
+LIBS     = ":t :s"
 
-load '~/code/build/app.rake'
+load '~/code/build/app2.rake'

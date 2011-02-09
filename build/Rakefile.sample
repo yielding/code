@@ -3,11 +3,11 @@
 
 SRCS     = %w{random.plot.cpp}
 APP      = "<app.name>"
-APP_TEST = "<test.app.name>"
-CXX      = "compiler.name" # c++0x, clang++, blank
-CXXFLAGS = :nodebug        # :debug, :nodebug
-INCS     = "-Iabc"
-LDFLAGS  = "-Lkkk"
-LIBS     = ":t :s :f :d -labc -lkkk" 
+APP_TEST = "<test_app.name>"
+INCS     = "../include ../../include"
+CXX      = "compiler.name"    # c++0x, clang++, blank
+CXXFLAGS = ":v :nodebug :O3"       
+LDFLAGS  = "lib_path1 lib_path2"
+LIBS     = ":t :s :f :d abc kkk" 
 
 load '~/code/build/app2.rake'

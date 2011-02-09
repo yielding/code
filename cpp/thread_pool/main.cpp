@@ -15,13 +15,14 @@ void hello(int value)
     cout << "thead id: " << this_thread::get_id() << " ";
     cout << "hello value : " << value << "\n";
     cout.flush();
-    this_thread::sleep(posix_time::milliseconds(10));
+    // this_thread::sleep(posix_time::milliseconds(10));
   }
 }
 
 int main(int argc, char const* argv[])
 {
   sys::threadpool pool(5);
+  pool.start();
 
   int const data_count = 1000;
   for (int i=0; i<data_count; i++) 
@@ -29,12 +30,7 @@ int main(int argc, char const* argv[])
 
   cout << "made " << data_count << "\n";
 
-  pool.start();
-  pool.block();
-
-//  asio::io_service io;
-//  asio::io_service::work blocker(io);
-//  io.run();
+  sleep(5);
 
   return 0;
 }
