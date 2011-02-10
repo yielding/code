@@ -183,9 +183,9 @@ void drawScene()
 void update(int value) 
 {
   _angle += 1.0f;
-  if (_angle > 360) {
+  if (_angle > 360) 
     _angle -= 360;
-  }
+  
   glutPostRedisplay();
   glutTimerFunc(25, update, 0);
 }
