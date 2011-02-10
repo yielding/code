@@ -1,8 +1,8 @@
 # -*- ruby -*-
 
-SRCS     = %w{double_list1.cpp}
-APP      = "double_list"
-APP_TEST = "test_double_list"
+SRCS     = %w{double_list2.cpp}
+APP      = "double_list2"
+APP_TEST = "test_double_list2"
 CXX      = "clang++"    # c++0x, clang++, blank
 CXXFLAGS = ":v :O3"       
 LIBS     = ":t :s" 
