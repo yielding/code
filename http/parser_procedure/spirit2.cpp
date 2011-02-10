@@ -79,34 +79,35 @@ bool parse_numbers4(Iterator first, Iterator last, vector<double>& v)
   
   if (first != last)
     return false;
-    
+
   return r;
 }
 
 int main(int argc, char const *argv[])
 {
   {
-  // char const* s0 = "{5}";
-  // qi::parse(s0, s0+4,'{' >> int_[writer()] >> '}' );
+    // char const* s0 = "{5}";
+    // qi::parse(s0, s0+4,'{' >> int_[writer()] >> '}' );
   }
-  
+
   {
-  // string s1 = "( 1.0, 2.0  )";
-  // std::complex<double> c;
-  // parse_complex2(s1.begin(), s1.end(), c);
-  // cout << c;
+    // string s1 = "( 1.0, 2.0  )";
+    // std::complex<double> c;
+    // parse_complex2(s1.begin(), s1.end(), c);
+    // cout << c;
   }
-  
+
   {
-  string ints="1,2,3              ,4,5.2";
-  vector<double> v;
-  if (!parse_numbers4(ints.begin(), ints.end(), v))
-    cout << "parsing ints error\n";
-  
-  cout << "sum of v: " 
-       << accumulate(v.begin(), v.end(), 0.0) << endl;
-  copy(v.begin(), v.end(), ostream_iterator<double>(cout, " "));
+    string ints="1,2,3              ,4,5.2";
+    vector<double> v;
+    if (!parse_numbers4(ints.begin(), ints.end(), v))
+      cout << "parsing ints error\n";
+
+    cout << "sum of v: " 
+         << accumulate(v.begin(), v.end(), 0.0) << endl;
+
+    copy(v.begin(), v.end(), ostream_iterator<double>(cout, " "));
   }
-  
+
   return 0;
 }

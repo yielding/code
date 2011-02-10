@@ -1,0 +1,10 @@
+# -*- ruby -*-
+
+SRCS     = %w{double_list1.cpp}
+APP      = "double_list"
+APP_TEST = "test_double_list"
+CXX      = "clang++"    # c++0x, clang++, blank
+CXXFLAGS = ":v :O3"       
+LIBS     = ":t :s" 
+
+load '~/code/build/app2.rake'
