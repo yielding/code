@@ -57,9 +57,11 @@ BOOST = {
   :t => " -lboost_thread-mt",
   :s => " -lboost_system-mt",
   :f => " -lboost_filesystem-mt",
-  :d => " -lboost_date_time-mt"
+  :d => " -lboost_date_time-mt",
+  :r => " -lboost_regex-mt"
 }
 
+# REFACTOR
 $LIBS = ""
 if defined? LIBS
   LIBS.split.each do |e|  
@@ -68,6 +70,7 @@ if defined? LIBS
              when /:s/; BOOST[:s]
              when /:f/; BOOST[:f]
              when /:d/; BOOST[:d]
+             when /:r/; BOOST[:r]
              else
                " -l#{e} "
              end

@@ -6,7 +6,7 @@ APP      = "<app.name>"
 APP_TEST = "<test_app.name>"
 INCS     = "../include ../../include"
 CXX      = "compiler.name"    # c++0x, clang++, blank
-CXXFLAGS = ":v :nodebug :O3"       
+CXXFLAGS = ":v :d "           # :d , :O0 :O3
 LDFLAGS  = "lib_path1 lib_path2"
 LIBS     = ":t :s :f :d abc kkk" 
 
