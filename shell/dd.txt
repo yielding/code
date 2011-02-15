@@ -1,0 +1,11 @@
+test.txt
+>> 0123456789
+
+$ dd if=./test.txt of=./test1.txt bs=5 count=1 skip=0
+$ dd if=./test.txt of=./test2.txt bs=5 count=1 skip=1
+
+test1.txt
+>> 01234
+
+test2.txt
+>> 56789
