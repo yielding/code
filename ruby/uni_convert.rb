@@ -9,5 +9,5 @@ end
 s = ARGV.join
 s.unpack("U*").each_with_index { |b, index|
   printf("(%X: %s) ", b, s[index])
-  puts if index % 5 == 0
+  puts if (index+1) % 5 == 0
 }

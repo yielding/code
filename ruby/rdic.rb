@@ -15,4 +15,3 @@ res = Net::HTTP.start(url.host, url.port) { |http|
 
 doc = Nokogiri::XML(res.body, nil, 'UTF-8')
 puts doc
-

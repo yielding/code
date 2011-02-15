@@ -6,26 +6,35 @@
 using namespace std;
 using namespace boost;
 
-int main()
+bool test_binary_smatch()
 {
-  // string text = "+xrC5rLKU- +u/zIcQ- +yRHXZcdY- +xe3ArMgB- +wKy6hcdE- +t0Ss4A- +x3S1RcXQ- +0NzFtLCssuQ-.abcdefghijklmnopqrstuvwxyz";
-                // L"우리는 민족 중흥의 역사적 사명을 띄고 이땅에 태어났다.abcdefghijklmnopqrstuvwxyz"
-  string text = "leech kamin";
-  boost::regex re("^leech.+");
+  string text = "leech kamin leeks";
+  text[0] = 0xFD;
+  boost::regex re("\xFD\x65\x65\x63\x68");
   boost::smatch what;
-  if (boost::regex_match(text, what, re))
+  if (boost::regex_search(text, what, re))
   {
     // what[0] contains the whole string
     // what[1] contains the response code
     // what[2] contains the separator character
     // what[3] contains the text message.
 
-    cout << "ok";
+    cout << "ok.";
+#ifdef VERBOSE
+    cout << what[0] << endl;
+#endif
+    return true;
   }
   else
   {
-    cout << "not ok";
+    // cout << "not ok.";
+    return false;
   }
+}
+
+int main()
+{
+  assert(test_binary_smatch());
 
   return 0;
 }

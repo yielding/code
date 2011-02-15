@@ -5,7 +5,7 @@ SRCS     = %w{regex.hex.cpp}
 APP      = "regex.hex"
 APP_TEST = "test_regex.hex"
 CXX      = "c++0x"    # c++0x, clang++, blank
-CXXFLAGS = ":v "       
+CXXFLAGS = ":v :O0"
 LIBS     = ":r" 
 
 load '~/code/build/app2.rake'
