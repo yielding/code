@@ -7,9 +7,6 @@ if not defined? APP
   exit
 end
 
-#$APP_TEST = APP_TEST
-#$APP_TEST = "#{APP}_TEST" if not defined? APP_TEST
-
 if not defined? SRCS
   puts "define SRCS"
   exit
@@ -17,11 +14,15 @@ end
 
 $CXX = "g++"
 if defined? CXX
-  $CXX = "clang++"                 if CXX =~ /clang\+\+/
-  $CXX = "g++-mp-4.6 -std=gnu++0x" if CXX =~ /c\+\+0x/
+  if defined? APP_TEST
+    $CXX = "clang++"
+  else
+    $CXX = "clang++"                 if CXX =~ /clang\+\+/
+    $CXX = "g++-mp-4.6 -std=gnu++0x" if CXX =~ /c\+\+0x/
+  end
 end
 
-$CXXFLAGS =" -DPOSIX -Wall "
+$CXXFLAGS =" -DPOSIX -Wall"
 if defined? CXXFLAGS
   CXXFLAGS.split.each do |f|
     flag = case f
@@ -72,7 +73,7 @@ if defined? LIBS
              when /:d/; BOOST[:d]
              when /:r/; BOOST[:r]
              else
-               " -l#{e} "
+               " -l#{e}"
              end
   end
 end
@@ -84,8 +85,10 @@ if defined? FRAMEWORKS
 end
 
 OBJS = SRCS.map { |src| "#{src}.osx.o" }
-CLEAN.include(OBJS)
-CLOBBER.include(APP).include(APP_TEST).include("*.exe")
+TEST_OBJS = TEST_SRCS.map { |src|"#{src}.osx.o" }
+ 
+CLEAN.include(OBJS).include(TEST_OBJS)
+CLOBBER.include(APP).include(APP_TEST).include("*.exe").include("a.out")
 
 #------------------------------------------------------------------------------
 #
@@ -142,12 +145,14 @@ class Builder
     end
   end
 
-  def link app, objs 
-    objs_os_o = objs.map{|obj| os_o(obj)}.join ' '
+  def link app, objs, test
+    objs_os_o = objs.map { |obj| os_o(obj) }.join ' '
     if should_link? app, objs
       case os
       when :osx
-        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} "
+        cmd  = "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS}"
+        cmd += " -lgtest -lgtest_main" if test
+        sh cmd
       end
     end
   end
@@ -170,12 +175,12 @@ end
 
 task :osx_link => [:osx_compile] do
   builder = Builder.new :os => :osx
-  builder.link APP, SRCS
+  builder.link APP, SRCS, false
 end
 
-task :osx_tets_link => [:osx_test_compile] do
+task :osx_test_link => [:osx_test_compile] do
   builder = Builder.new :os => :osx
-  builder.link APP_TEST, TEST_SRCS
+  builder.link APP_TEST, TEST_SRCS, true
 end
 
 #------------------------------------------------------------------------------
@@ -190,6 +195,10 @@ task :osx => [:osx_link] do
 end
 
 task :osx_test => [:osx_test_link] do
+  puts "#{APP_TEST} build ok"
+end
+
+task :test => [:osx_test_link] do
   puts "#{APP_TEST} build ok"
 end
 
