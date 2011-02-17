@@ -26,8 +26,9 @@ $CXXFLAGS =" -DPOSIX -Wall"
 if defined? CXXFLAGS
   CXXFLAGS.split.each do |f|
     flag = case f
-           when /:d/ ; " -g -DDEBUG"
+           when /:w/ ; " -Wall"
            when /:v/ ; " -DVERBOSE"
+           when /:d/ ; " -g -DDEBUG"
            when /:O0/; " -O0"
            when /:O3/; " -O3"
            else
@@ -87,7 +88,7 @@ end
 OBJS = SRCS.map { |src| "#{src}.osx.o" }
 
 CLEAN  .include(OBJS)
-CLOBBER.include(APP).include("*.exe").include("a.out")
+CLOBBER.include(APP)
 
 if defined? APP_TEST
   TEST_OBJS = TEST_SRCS.map { |src| "#{src}.osx.o" }
@@ -216,4 +217,8 @@ task :all => [:osx, :osx_test] do; end
 #------------------------------------------------------------------------------
 task :run => [:osx] do
   sh "./#{APP}"
+end
+
+task :run_test => [:osx_test] do
+  sh "./#{APP_TEST}"
 end

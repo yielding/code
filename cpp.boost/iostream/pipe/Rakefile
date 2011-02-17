@@ -1,10 +1,10 @@
 # -*- ruby -*-
+
 SRCS     = %w{pipe.cpp}
 APP      = "pipe"
-WIN_LIBS = "-lboost_thread-mt -lboost_system-mt"
-OSX_LIBS = ""
+CXX      = "c++0x"    # c++0x, clang++, blank
+CXXFLAGS = ":v :O0"
+LIBS     = ":t :s" 
 
-DIR = File.dirname __FILE__
-
-load '~/code/build/app.rake'
-CLOBBER.include("hello").include("hello.tee")
+load '~/code/build/app2.rake'
+CLOBBER.include("*.tee").include("a.out").include("hello")
