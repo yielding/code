@@ -3,7 +3,7 @@
 require 'rake/clean'
 
 if not defined? APP
-  puts "first define APP"
+  puts "define APP"
   exit
 end
 
@@ -85,10 +85,15 @@ if defined? FRAMEWORKS
 end
 
 OBJS = SRCS.map { |src| "#{src}.osx.o" }
-TEST_OBJS = TEST_SRCS.map { |src|"#{src}.osx.o" }
- 
-CLEAN.include(OBJS).include(TEST_OBJS)
-CLOBBER.include(APP).include(APP_TEST).include("*.exe").include("a.out")
+
+CLEAN  .include(OBJS)
+CLOBBER.include(APP).include("*.exe").include("a.out")
+
+if defined? APP_TEST
+  TEST_OBJS = TEST_SRCS.map { |src| "#{src}.osx.o" }
+  CLEAN  .include(TEST_OBJS)
+  CLOBBER.include(APP_TEST)
+end
 
 #------------------------------------------------------------------------------
 #
