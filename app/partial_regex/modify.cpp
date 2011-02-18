@@ -18,8 +18,7 @@ int main(int argc, char const* argv[])
     exit(EXIT_FAILURE);
   }
 
-  uint64_t pos = 1024*1024;
-  pos = pos * 1024 * 16-16;
+  int64_t pos = 1024LL*1024*1024*16 - 16;
 
   f.seekg(pos);
   f.read(buf, 16);

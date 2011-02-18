@@ -20,7 +20,7 @@ struct match_result
   uint32_t length;
 };
 
-typedef std::vector<match_result> match_results;
+typedef std::vector<match_result> matches;
 
 class PartialRegex
 {
@@ -29,18 +29,18 @@ public:
 
   bool search(boost::regex const& e, std::istream& is);
 
-  match_results 
+  matches
        result() { return m_results; }
 
-  void     buffer_size(uint32_t s) { if (s > 10) m_buffer_size = s; }
-  uint32_t buffer_size()           { return m_buffer_size;          }
+  void     buffer_size(uint32_t s) { m_buffer_size = s;    }
+  uint32_t buffer_size()           { return m_buffer_size; }
 
 
 private:
   int64_t  m_offset;
   uint32_t m_buffer_size;
 
-  match_results m_results;
+  matches m_results;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
