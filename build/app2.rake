@@ -22,7 +22,7 @@ if defined? CXX
   end
 end
 
-$CXXFLAGS =" -DPOSIX -Wall"
+$CXXFLAGS =" -DPOSIX"
 if defined? CXXFLAGS
   CXXFLAGS.split.each do |f|
     flag = case f
