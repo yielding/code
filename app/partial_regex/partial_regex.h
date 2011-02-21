@@ -27,13 +27,11 @@ class PartialRegex
 public:
   PartialRegex();
 
-  bool search(boost::regex const& e, std::istream& is);
+  bool     search(boost::regex const& e, std::istream& is);
+  matches  result() { return m_results; }
 
-  matches
-       result() { return m_results; }
-
-  void     buffer_size(uint32_t s) { m_buffer_size = s;    }
-  uint32_t buffer_size()           { return m_buffer_size; }
+  void     buffer_size(uint32_t s) { if (s >= 10) m_buffer_size = s; }
+  uint32_t buffer_size()           { return m_buffer_size;           }
 
 
 private:

@@ -36,16 +36,18 @@ bool PartialRegex::search(boost::regex const& e, std::istream& is)
     // 3. update the execution condition
     std::streamsize read = is.gcount();
     ok = (read == to_read);
+
+    // 4. increment offsets we read so far
     m_offset += read;
 
-    // reset next position
+    // 5. reset next position
     next_pos = pbuf + m_buffer_size;
 
-    // 4. search
+    // 6. search
     cregex_iterator cur(pbuf, pbuf+read+left_over, e, match_default|match_partial);
     cregex_iterator last;
 
-    // 5. no match.
+    // 6. no match.
     //    prepare next position if no match occurred
     if (cur == last)
       continue;
@@ -54,19 +56,18 @@ bool PartialRegex::search(boost::regex const& e, std::istream& is)
     //    discriminate partial vs. complete
     while (cur != last)
     {
-      int64_t base_offset = m_offset - read - left_over;
-      if ((*cur)[0].matched == false)
+      if ((*cur)[0].matched == false)   // 6.1) partial
       {
         next_pos = (*cur)[0].first;
         break;
       }
-      else
-      {
-        uint32_t       offset = (*cur)[0].first  - pbuf;
-        uint32_t match_length = (*cur)[0].second - (*cur)[0].first;
 
-        m_results.push_back(match_result(base_offset + offset, match_length));
-      }
+      // 6.2) full match
+      int64_t match_length = (*cur)[0].second - (*cur)[0].first;
+      int64_t       offset = (*cur)[0].first  - pbuf;
+      int64_t  base_offset = m_offset - read - left_over;
+
+      m_results.push_back(match_result(base_offset + offset, match_length));
       ++cur;
     }
   }
