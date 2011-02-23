@@ -4,6 +4,7 @@
 #include <boost/format.hpp>
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/range/iterator_range.hpp>
+#include <boost/iostreams/stream.hpp>  // io::stream
 
 #include "partial_regex.h"
 #include "filebase_source.h"
@@ -142,6 +143,84 @@ TEST_F(PartialRegexTest, SearchPartial2)
   ASSERT_EQ(r[0].length, 3);
 }
 
+TEST_F(PartialRegexTest, SearchOr)
+{
+  string text = "123456789012345678bcd23456789012345678901234abc890";
+          //     |         |       ^ |         |         |         |
+          //     0         10        20        30        40        50
+  io::filtering_istream in(boost::make_iterator_range(text));
+  m_regex.buffer_size(10);
+  ASSERT_EQ(m_regex.search(boost::regex("abc|bcd"), in), true);
+  matches const& r = m_regex.result();
+  ASSERT_EQ(r.size(), 2);
+  ASSERT_EQ(r[0].offset, 18);
+  ASSERT_EQ(r[0].length, 3);
+  ASSERT_EQ(r[1].offset, 44);
+  ASSERT_EQ(r[1].length, 3);
+  ASSERT_EQ(text.substr(r[0].offset, r[0].length), "bcd");
+  ASSERT_EQ(text.substr(r[1].offset, r[1].length), "abc");
+}
+
+TEST_F(PartialRegexTest, SearchOr2)
+{
+  string text = "123456789012345678bcd23456789012345678901234acd890";
+          //     |         |       ^ |         |         |         |
+          //     0         10        20        30        40        50
+  io::filtering_istream in(boost::make_iterator_range(text));
+  m_regex.buffer_size(10);
+  ASSERT_EQ(m_regex.search(boost::regex("(a|b)cd"), in), true);
+  matches const& r = m_regex.result();
+  ASSERT_EQ(r.size(), 2);
+  ASSERT_EQ(r[0].offset, 18);
+  ASSERT_EQ(r[0].length, 3);
+  ASSERT_EQ(r[1].offset, 44);
+  ASSERT_EQ(r[1].length, 3);
+  ASSERT_EQ(text.substr(r[0].offset, r[0].length), "bcd");
+  ASSERT_EQ(text.substr(r[1].offset, r[1].length), "acd");
+}
+
+TEST_F(PartialRegexTest, SearchGroup)
+{
+  string text = "123456789012345678bcd23456789012345678901234acd890";
+          //     |         |       ^ |         |         |         |
+          //     0         10        20        30        40        50
+  io::filtering_istream in(boost::make_iterator_range(text));
+  m_regex.buffer_size(10);
+  ASSERT_EQ(m_regex.search(boost::regex("(acd)"), in), true);
+  matches const& r = m_regex.result();
+  ASSERT_EQ(r.size(), 1);
+  ASSERT_EQ(r[0].offset, 44);
+  ASSERT_EQ(r[0].length, 3);
+  ASSERT_EQ(text.substr(r[0].offset, r[0].length), "acd");
+}
+
+string escape(string const& key)
+{
+  const boost::regex esc("[\\^\\.\\$\\|\\(\\)\\[\\]\\*\\+\\?\\/\\\\]");
+  const std::string replace("\\\\\\1&");
+  return regex_replace(key, esc, replace, boost::match_default | boost::format_sed);
+}
+
+TEST_F(PartialRegexTest, Escape)
+{
+  string text = "0123456789012345678(bcd)456789^1234567890123456789";
+  string key1 = "(bcd)"; key1 = escape(key1); 
+  string key2 = "^";     key2 = escape(key2); 
+
+  io::filtering_istream in(boost::make_iterator_range(text));
+  m_regex.buffer_size(10);
+
+  ASSERT_EQ(m_regex.search(boost::regex(key1 + "|" + key2), in), true);
+  matches const& r = m_regex.result();
+  ASSERT_EQ(r.size(), 2);
+  ASSERT_EQ(r[0].offset, 19);
+  ASSERT_EQ(r[0].length, 5);
+  ASSERT_EQ(r[1].offset, 30);
+  ASSERT_EQ(r[1].length, 1);
+  ASSERT_EQ(text.substr(r[0].offset, r[0].length), "(bcd)");
+  ASSERT_EQ(text.substr(r[1].offset, r[1].length), "^");
+}
+
 TEST_F(PartialRegexTest, SearchPartial3)
 {
   string text = "123abc789012345678bcd23456789012345678xxxxx4abc890";
@@ -219,8 +298,9 @@ TEST_F(PartialRegexTest, FileBase1)
   delete fb;
 }
 
-/* FILE begin */
 
+///* FILE begin */
+//
 //TEST_F(PartialRegexTest, LargeFile1M_PerLine)
 //{
 //  std::fstream in;

@@ -1,4 +1,5 @@
 #include "partial_regex.h"
+#include <iostream>
 #include <boost/scoped_array.hpp>
 
 using namespace std;
@@ -66,8 +67,23 @@ bool PartialRegex::search(boost::regex const& e, std::istream& is)
       int64_t match_length = (*cur)[0].second - (*cur)[0].first;
       int64_t       offset = (*cur)[0].first  - pbuf;
       int64_t  base_offset = m_offset - read - left_over;
+      uint32_t group_index = 0;
 
-      m_results.push_back(match_result(base_offset + offset, match_length));
+      if (cur->size() > 1)
+      {
+        for (size_t i=0; i<cur->size(); i++)
+        {
+          string const& s = (*cur)[i].str();
+          if (!s.empty())
+          {
+            group_index = i;
+            break;
+          }
+        }
+      }
+
+      m_results.push_back(match_result(base_offset + offset, match_length, group_index));
+
       ++cur;
     }
   }

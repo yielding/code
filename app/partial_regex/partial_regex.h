@@ -14,10 +14,11 @@
 struct match_result
 {  
   match_result() {}
-  match_result(int64_t o, uint32_t l) : offset(o), length(l) {}
+  match_result(int64_t o, uint32_t l, uint32_t g) : offset(o), length(l), group_index(g) {}
 
   int64_t  offset;
   uint32_t length;
+  uint32_t group_index;
 };
 
 typedef std::vector<match_result> matches;

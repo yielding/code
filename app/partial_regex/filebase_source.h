@@ -4,18 +4,13 @@
 #include <stdint.h>
 #include <vector>
 #include <boost/iostreams/concepts.hpp>  // source
-#include <boost/iostreams/stream.hpp>
 
-#include <algorithm>                       // copy, min
-//#include <iosfwd>                          // streamsize
-//#include <boost/iostreams/categories.hpp>
-
-namespace io = boost::iostreams;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+#if 1
 class FileBase
 {
 public:
@@ -53,6 +48,15 @@ private:
   std::vector<uint8_t> m_data;
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+#endif
+
+namespace io = boost::iostreams;
+
 class FileBaseSource : public io::source
 {
 public:
@@ -67,10 +71,7 @@ public:
     streamsize    amt = static_cast<streamsize>(m_fb->GetSize() - m_pos);
     streamsize result = (min)(n, amt);
 
-    if (result == 0) 
-      return -1;
-
-    if (!m_fb->GetData((unsigned char*)s, n, m_pos))
+    if (result == 0 || !m_fb->GetData((unsigned char*)s, n, m_pos))
       return -1;
 
     m_pos += n;
@@ -78,46 +79,38 @@ public:
   }
 
 private:
-  typedef size_t  size_type;
   FileBase* m_fb;
   std::streamsize m_pos;
 };
 
-//template <typename FileBase> 
-//class FileBaseSource {
-//public:
-//  typedef char           char_type;
-//  typedef io::source_tag category;
+////////////////////////////////////////////////////////////////////////////////
 //
-//  FileBaseSource(FileBase* fb)
-//    : m_fb(fb)
-//    , m_pos(0)
-//  {}
 //
-//  std::streamsize read(char_type* s, std::streamsize n)
-//  {
-//    using namespace std;
-//    streamsize    amt = static_cast<streamsize>(m_fb->GetSize() - m_pos);
-//    streamsize result = (min)(n, amt);
 //
-//    if (result == 0) 
-//      return -1;
-//
-//    if (!m_fb->GetData((unsigned char*)s, n, m_pos))
-//      return -1;
-//
-//    m_pos += n;
-//    return result;
-//  }
-//
-//  FileBase& container() { return m_fb; }
-//
-//private:
-//  typedef size_t  size_type;
-//  FileBase* m_fb;
-//  std::streamsize m_pos;
-//};
-//
+////////////////////////////////////////////////////////////////////////////////
+#if 0
+#include <boost/iostreams/stream.hpp>  // io::stream
+
+int main(int argc, char const* argv[])
+{
+  FileBase* fb = new FileBase;
+  FileBaseSource fbs(fb);
+  io::stream<FileBaseSource> in(fbs);
+
+  m_regex.buffer_size(1024*16);
+  ASSERT_EQ(m_regex.search(boost::regex("\xFF\xFF"), in), true);
+  matches const& r = m_regex.result();
+  assert(r.size() == 2);
+  assert(r[0].offset == 0);
+  assert(r[0].length == 2);
+  assert(r[1].offset == 1024*1024-2);
+  assert(r[1].length == 2);
+
+  delete fb;
+
+  return 0;
+}
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 //
 //

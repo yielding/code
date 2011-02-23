@@ -1,0 +1,12 @@
+# -*- ruby -*-
+
+APP       = "http_source"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{driver.cpp http_source.cpp}
+TEST_SRCS = %w{http_source.cpp test_http_source.cpp}
+CXX       = "c++0x"           # c++0x, clang++, blank
+CXXFLAGS  = ":v"              # :d , :O0 :O3 :w = -Wall
+LIBS      = ":r"
+
+load '~/code/build/app2.rake'
+CLOBBER.include("*.o").include("filler")
