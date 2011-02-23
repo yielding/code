@@ -1,7 +1,6 @@
 #ifndef HTTP_SOURCE_H_KCO69NC1
 #define HTTP_SOURCE_H_KCO69NC1
 
-#include <stdint.h>
 #include <boost/iostreams/concepts.hpp>
 #include <boost/asio/ip/tcp.hpp>
 ////////////////////////////////////////////////////////////////////////////////
@@ -14,11 +13,10 @@ namespace io = boost::iostreams;
 class HTTPSource: public io::source
 {
 public:
-  HTTPSource(string const& url, int timeout=60);
+  HTTPSource(std::string const& url, int timeout=60);
+  ~HTTPSource();
 
   bool init();
-
-  ~HTTPSource();
 
 public:
   std::streamsize read(char_type* s, std::streamsize n);
