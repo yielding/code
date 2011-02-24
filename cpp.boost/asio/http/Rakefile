@@ -2,8 +2,8 @@
 
 APP       = "http_source"
 APP_TEST  = "test_#{APP}"
-SRCS      = %w{driver.cpp http_source.cpp}
-TEST_SRCS = %w{http_source.cpp test_http_source.cpp}
+SRCS      = %w{ driver.cpp http_source.cpp }
+TEST_SRCS = %w{ http_source.cpp test_http_source.cpp }
 CXX       = "clang++"         # c++0x, clang++, blank
 CXXFLAGS  = ":v"              # :d , :O0 :O3 :w = -Wall
 LIBS      = ":s :t"

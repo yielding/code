@@ -8,17 +8,20 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class HTTPSourceeTest: public testing::Test
+class HTTPSourceTest: public testing::Test
 {
 protected:
   virtual void SetUp()
   {
+    m_source = new HTTPSource();
   }
 
   virtual void TearDown()
   {
+    delete m_source;
   }
 
+  HTTPSource* m_source;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,9 +29,14 @@ protected:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-TEST_F(HTTPSourceeTest, true)
+TEST_F(HTTPSourceTest, FalseInit)
 {
-  EXPECT_EQ(1, 1);
+  EXPECT_TRUE(!m_source->handshake());
+}
+
+TEST_F(HTTPSourceTest, Handshake)
+{
+  EXPECT_TRUE(m_source->handshake("www.boost.org", 60));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
