@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <cassert>
 #include <fstream>
-#include <vector>
 
 int main(int argc, char const* argv[])
 {
@@ -23,3 +22,4 @@ int main(int argc, char const* argv[])
 
   return 0;
 }
+

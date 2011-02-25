@@ -14,6 +14,7 @@
 // than using it (possibly importing code).
 #define BOOST_IOSTREAMS_SOURCE 
 
+#include <boost/throw_exception.hpp>
 #include <boost/iostreams/detail/config/dyn_link.hpp>
 #include <boost/iostreams/filter/bzip2.hpp> 
 #include "bzlib.h"  // Julian Seward's "bzip.h" header.
@@ -55,7 +56,7 @@ bzip2_error::bzip2_error(int error)
     : BOOST_IOSTREAMS_FAILURE("bzip2 error"), error_(error) 
     { }
 
-void bzip2_error::check(int error)
+void bzip2_error::check BOOST_PREVENT_MACRO_SUBSTITUTION(int error)
 {
     switch (error) {
     case BZ_OK: 
@@ -65,9 +66,9 @@ void bzip2_error::check(int error)
     case BZ_STREAM_END:
         return;
     case BZ_MEM_ERROR: 
-        throw std::bad_alloc();
+        boost::throw_exception(std::bad_alloc());
     default:
-        throw bzip2_error(error);
+        boost::throw_exception(bzip2_error(error));
     }
 }
 
@@ -98,11 +99,24 @@ void bzip2_base::after(const char*& src_begin, char*& dest_begin)
     dest_begin = s->next_out;
 }
 
+int bzip2_base::check_end(const char* src_begin, const char* dest_begin)
+{
+    bz_stream* s = static_cast<bz_stream*>(stream_);
+    if( src_begin == s->next_in &&
+        s->avail_in == 0 &&
+        dest_begin == s->next_out) {
+        return bzip2::unexpected_eof;
+    } else {
+        return bzip2::ok;
+    }
+}
+
 void bzip2_base::end(bool compress)
 {
+    if(!ready_) return;
     ready_ = false;
     bz_stream* s = static_cast<bz_stream*>(stream_);
-    bzip2_error::check(
+    bzip2_error::check BOOST_PREVENT_MACRO_SUBSTITUTION(
         compress ?
             BZ2_bzCompressEnd(s) : 
             BZ2_bzDecompressEnd(s)
@@ -139,7 +153,7 @@ void bzip2_base::do_init
         s->bzfree = 0;
     //#endif
     s->opaque = derived;
-    bzip2_error::check( 
+    bzip2_error::check BOOST_PREVENT_MACRO_SUBSTITUTION( 
         compress ?
             BZ2_bzCompressInit( s,
                                 params_.block_size, 
