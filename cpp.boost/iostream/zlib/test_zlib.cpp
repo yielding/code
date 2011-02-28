@@ -1,15 +1,15 @@
 #include <fstream>
 #include <iostream>
-#include <boost/iostream/filtering_streambuf.hpp>
-#include <boost/iostream/copy.hpp>
-#include <boost/iostream/zlilb.hpp>
+#include <boost/iostreams/filtering_streambuf.hpp>
+#include <boost/iostreams/copy.hpp>
+#include <boost/iostreams/filter/zlib.hpp>
 
 int main(int argc, char const* argv[])
 {
   using namespace std;
   namespace io = boost::iostreams;
 
-  ifstream file("hello.z", ios_base::binary);
+  ifstream file("hello.gz", ios_base::in | ios_base::binary);
 
   io::filtering_streambuf<io::input> in;
   in.push(io::zlib_decompressor());

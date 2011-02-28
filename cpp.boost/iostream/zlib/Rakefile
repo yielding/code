@@ -1,5 +1,5 @@
 # -*- ruby -*-
-SRCS     = %w{zlib.cpp zlib_test.cpp}
+SRCS     = %w{zlib.cpp test_zlib.cpp}
 APP      = "zlib_test"
 LIBS     = ":t :s z"
 

@@ -33,10 +33,10 @@ $OSX_LDFLAGS  = "-L. -L/opt/local/lib"
 if defined? OSX_LIBS 
   $OSX_LIBS      = "#{OSX_LIBS}" 
   if OSX_LIBS =~ /ruby/
-    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/include/ruby-1.9.1/ruby/backward "
-    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/include/ruby-1.9.1 "
-    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/include/ruby-1.9.1/x86_64-darwin10.5.0 "
-    $OSX_LDFLAGS  += " -L/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/lib"
+    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p180/include/ruby-1.9.1/ruby/backward "
+    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p180/include/ruby-1.9.1 "
+    $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p180/include/ruby-1.9.1/x86_64-darwin10.5.0 "
+    $OSX_LDFLAGS  += " -L/Users/yielding/.rvm/rubies/ruby-1.9.2-p180/lib"
   end
   if OSX_LIBS =~ /rice/
     $OSX_CXXFLAGS += " -I/Users/yielding/.rvm/gems/ruby-1.9.2-p136/gems/rice-1.4.2/ruby/lib/include "
