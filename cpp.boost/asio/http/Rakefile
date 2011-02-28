@@ -5,7 +5,8 @@ APP_TEST  = "test_#{APP}"
 SRCS      = %w{ driver.cpp http_source.cpp }
 TEST_SRCS = %w{ http_source.cpp test_http_source.cpp }
 CXX       = "clang++"         # c++0x, clang++, blank
-CXXFLAGS  = ":v"              # :d , :O0 :O3 :w = -Wall
+INCS      = "/Users/yielding/opensource/asio-1.5.1/include"
+CXXFLAGS  = ":v :O3"          # :d , :O0 :O3 :w = -Wall
 LIBS      = ":s :t"
 
 load '~/code/build/app2.rake'

@@ -1,5 +1,5 @@
+$: << "."
 require 'pp'
-
 
 puts $jukebox.unit
 

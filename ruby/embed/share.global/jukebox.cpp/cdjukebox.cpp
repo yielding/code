@@ -174,7 +174,7 @@ int main()
   for (int i=10; i<30; i+=10)
   {
     g_box->set_unit(i);
-    int state = eval_file("embed.rb");
+    int state = eval_file("/Users/yielding/code/ruby/embed/share.global/jukebox.cpp/embed.rb");
     if (state) 
       printf("error\n");
   }

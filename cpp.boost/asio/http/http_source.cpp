@@ -1,6 +1,7 @@
 #include "http_source.h"
 
-#include <boost/asio/ip/tcp.hpp>
+//#include <boost/asio/ip/tcp.hpp>
+#include <asio/ip/tcp.hpp>
 #include <iostream>
 
 using namespace std;
@@ -27,8 +28,11 @@ public:
   streamsize    read_all();
   vector<char>& read_buffer();
 
+  bool          bad() { return m_stream.bad(); }
+
 public:
-  boost::asio::ip::tcp::iostream m_stream;
+  //boost::asio::ip::tcp::iostream m_stream;
+  asio::ip::tcp::iostream m_stream;
 
   int m_timeout;
   string m_url;
@@ -109,6 +113,11 @@ std::string HTTPSource::data()
   return m_impl->m_data;
 }
 
+bool HTTPSource::bad()
+{
+  return m_impl->bad();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -117,12 +126,12 @@ std::string HTTPSource::data()
 bool HTTPSourceImpl::handshake(string const& url, string const& data, int timeout)
 {
   // REMARK in ASIO 1.5.1 we can use
-  // m_stream.expires_from_now(boost::posix_time::seconds(timeout));
+  m_stream.expires_from_now(boost::posix_time::seconds(timeout));
 
   m_stream.connect(url, "http");
   if (!m_stream)
   {
-    cout << "Unable to connect\n ";
+    cout << "Error: " << m_stream.error().message() << std::endl;
     return false;
   }
 

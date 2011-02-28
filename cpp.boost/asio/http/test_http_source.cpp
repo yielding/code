@@ -89,6 +89,11 @@ TEST_F(HTTPSourceTest, ReadAll)
   ASSERT_EQ(memcmp(buf, &buffer[0], 1338), 0);
 }
 
+TEST_F(HTTPSourceTest, Timeout)
+{
+  EXPECT_TRUE(!m_source->handshake("www.boost.org", "/", 1));
+}
+
 TEST_F(HTTPSourceTest, SaveToFile)
 {
   ofstream out("www.boost.org-index.html");
@@ -105,7 +110,7 @@ TEST_F(HTTPSourceTest, SaveToFile)
     out.write(buf, n);
   }
 }
-
+//
 
 ////////////////////////////////////////////////////////////////////////////////
 //

@@ -26,6 +26,7 @@ public:
   std::streamsize    read(char* s, std::streamsize n);
   std::streamsize    read_all();
   std::vector<char>& read_buffer();
+  bool               bad();
 
   void        timouto(int to);
   int         timeout();
