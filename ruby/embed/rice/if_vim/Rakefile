@@ -1,10 +1,35 @@
 #-*- ruby -*-   
 
-APP      = 'if_vim'
-SRCS     = %w{if_vim.cpp}
-#WIN_LIBS = "-lmsvcrt-ruby18-static -lrice"
-OSX_LIBS = "-lruby.1.9.1 -lrice"
+require 'rake/clean'
 
-DIR = File.dirname __FILE__
+TARGET = 'if_vim'
 
-load '~/code/build/app.rake'
+task :default => [TARGET]
+
+CLEAN.include("*.o")
+CLOBBER.include(TARGET)
+
+RVM      = "/Users/yielding/.rvm/rubies/ruby-1.9.2-p180"
+RVM_INC  = "#{RVM}/include/ruby-1.9.1"
+RVM_LIB  = "#{RVM}/lib"
+RVM_GEM  = "/Users/yielding/.rvm/gems/ruby-1.9.2-p180/gems"
+RICE     = "#{RVM_GEM}/rice-1.4.2/ruby/lib"
+SRC      = FileList['*.cpp']
+CXXFLAGS = "-I#{RVM_INC}/x86_64-darwin10.6.0 -I#{RVM_INC} -I#{RICE}/include"
+LDFLAGS  = "-L#{RVM}/lib -L#{RICE}/lib"
+LIBS     = '-lruby -lobjc -ldl -lrice'
+OBJ      = SRC.ext('o')
+
+rule '.o' => '.cpp' do |t|
+  sh "clang++ -O2 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
+end
+
+file TARGET => OBJ do
+  sh "clang++ -o main #{OBJ} #{LDFLAGS} #{LIBS}"
+end
+                
+task :run => [TARGET] do
+  sh "./#{TARGET}"
+end
+
+file 'if_vim.o' => ['if_vim.cpp']

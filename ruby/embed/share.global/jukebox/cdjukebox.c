@@ -155,7 +155,7 @@ void jukebox_seek(CDJukebox *jb, int disc, int track,
   int p;
   for (p=0; p<100; p +=10)
   {
-    sleep(1);
+    // sleep(1);
     done(jb, p);
   }
 
