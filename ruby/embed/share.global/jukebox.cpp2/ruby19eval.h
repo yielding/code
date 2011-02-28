@@ -1,10 +1,10 @@
 #ifndef RUBYEVAL_H
 #define RUBYEVAL_H
 
+#include "ruby.h"
+
 #include <string>
 #include <iostream>
-
-#include "ruby.h"
 ////////////////////////////////////////////////////////////////////////////////
 //
 //

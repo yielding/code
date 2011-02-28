@@ -21,11 +21,11 @@ LIBS     = '-lruby -lobjc -ldl -lrice'
 OBJ      = SRC.ext('o')
 
 rule '.o' => '.cpp' do |t|
-  sh "g++ -O2 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
+  sh "clang++ -O2 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
 end
 
 file TARGET => OBJ do
-  sh "g++ -o main #{OBJ} #{LDFLAGS} #{LIBS}"
+  sh "clang++ -o main #{OBJ} #{LDFLAGS} #{LIBS}"
 end
                 
 task :run => [TARGET] do

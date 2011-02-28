@@ -1,4 +1,4 @@
-#include "rubyeval.h"
+#include "ruby19eval.h"
 
 using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,9 @@ RubyEval::~RubyEval()
 
 string RubyEval::val2str(const VALUE rval)
 {
-  return STR2CSTR(rb_funcall(rval, rb_intern("to_s"), 0));
+  VALUE v = rb_funcall(rval, rb_intern("to_s"), 0);
+  return StringValueCStr(v);
+  // return StringValueCStr(rb_funcall(rval, rb_intern("to_s"), 0));
 }
 
 int RubyEval::val2i(const VALUE rval)
@@ -75,7 +77,7 @@ int RubyEval::val2i(const VALUE rval)
 
 string RubyEval::strval2str(const VALUE rval)
 {
-  return string(RSTRING(rval)->ptr, RSTRING(rval)->len);
+  return string(RSTRING_PTR(rval), RSTRING_LEN(rval));
 }
 
 void RubyEval::run_file(const char* filename, ostream& out)
@@ -88,17 +90,17 @@ void RubyEval::run_file(const char* filename, ostream& out)
 void RubyEval::exception_print(ostream& errout)
 {
   // Adapted from eruby_main by Shugo Maeda <shugo@modruby.net>
-  if (NIL_P(ruby_errinfo)) 
+  if (NIL_P(rb_errinfo())) 
     return;
 
-  VALUE errat = rb_funcall(ruby_errinfo, rb_intern("backtrace"), 0);
+  VALUE errat = rb_funcall(rb_errinfo(), rb_intern("backtrace"), 0);
   if (!NIL_P(errat)) 
   {
-    VALUE mesg = RARRAY(errat)->ptr[0];
+    VALUE mesg = RARRAY_PTR(errat)[0];
 
     if (NIL_P(mesg)) 
     {
-      ID last_func = rb_frame_last_func();
+      ID last_func = rb_frame_this_func();
       errout << rb_id2name(last_func);
     } 
     else 
@@ -107,16 +109,16 @@ void RubyEval::exception_print(ostream& errout)
     }
   }
 
-  VALUE eclass = CLASS_OF(ruby_errinfo);
-  VALUE einfo  = rb_obj_as_string(ruby_errinfo);
-  if (eclass == rb_eRuntimeError && RSTRING(einfo)->len == 0) 
+  VALUE eclass = CLASS_OF(rb_errinfo());
+  VALUE einfo  = rb_obj_as_string(rb_errinfo());
+  if (eclass == rb_eRuntimeError && RSTRING_LEN(einfo) == 0) 
   {
     errout << ": unhandled exception\n";
   } 
   else 
   {
     VALUE epath = rb_class_path(eclass);
-    if (RSTRING(einfo)->len == 0) 
+    if (RSTRING_LEN(einfo) == 0) 
     {
       errout << ": ";
       errout << strval2str(epath);
@@ -125,16 +127,16 @@ void RubyEval::exception_print(ostream& errout)
     else 
     {
       char *tail  = 0;
-      int len = RSTRING(einfo)->len;
+      int len = RSTRING_LEN(einfo);
 
-      if (RSTRING(epath)->ptr[0] == '#') epath = 0;
-      if ((tail = strchr(RSTRING(einfo)->ptr, '\n')) != NULL) 
+      if (RSTRING_PTR(epath)[0] == '#') epath = 0;
+      if ((tail = strchr(RSTRING_PTR(einfo), '\n')) != NULL) 
       {
-        len = tail - RSTRING(einfo)->ptr;
+        len = tail - RSTRING_PTR(einfo);
         tail++;   /* skip newline */
       }
       errout << ": ";
-      errout << string(RSTRING(einfo)->ptr, len);
+      errout << string(RSTRING_PTR(einfo), len);
       if (epath) 
       {
         errout << " (";
@@ -143,7 +145,7 @@ void RubyEval::exception_print(ostream& errout)
       }
       if (tail) 
       {
-        errout << string(tail, RSTRING(einfo)->len - len - 1);
+        errout << string(tail, RSTRING_LEN(einfo) - len - 1);
         errout << "\n";
       }
     }
@@ -151,27 +153,25 @@ void RubyEval::exception_print(ostream& errout)
 
   if (!NIL_P(errat)) 
   {
-    struct RArray *ep = RARRAY(errat);
-
 #define TRACE_MAX (TRACE_HEAD+TRACE_TAIL+5)
 #define TRACE_HEAD 8
 #define TRACE_TAIL 5
 
     rb_ary_pop(errat);
-    ep = RARRAY(errat);
-    for (int i=1; i<ep->len; i++) 
+    int ep_len = RARRAY_LEN(errat);
+    for (int i=1; i<ep_len; i++) 
     {
-      if (TYPE(ep->ptr[i]) == T_STRING) 
+      if (TYPE(RARRAY_PTR(errat)[i]) == T_STRING) 
       {
         errout << "        from ";
-        errout << strval2str(ep->ptr[i]);
+        errout << strval2str(RARRAY_PTR(errat)[i]);
         errout << "\n";
       }
-      if (i == TRACE_HEAD && ep->len > TRACE_MAX) 
+      if (i == TRACE_HEAD && ep_len > TRACE_MAX) 
       {
-        errout << "         ... " << (ep->len - TRACE_HEAD - TRACE_TAIL)
+        errout << "         ... " << (ep_len - TRACE_HEAD - TRACE_TAIL)
           << " levels...\n";
-        i = ep->len - TRACE_TAIL;
+        i = ep_len - TRACE_TAIL;
       }
     }
   }

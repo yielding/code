@@ -1,5 +1,5 @@
 #include "app.h"
-#include "rubyeval.h"
+#include "ruby19eval.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -14,7 +14,7 @@ int main(int argc, char const* argv[])
   for (int i=10; i<30; i+=10)
   {
     app.set_jukebox(i);
-    vm.run_file("embed.rb");
+    vm.run_file("/Users/yielding/code/ruby/embed/share.global/jukebox.cpp2/embed.rb");
   }
 
   cout << "ok 1\n";
