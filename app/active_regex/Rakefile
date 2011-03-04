@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+APP       = "active_regex"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{driver.cpp active_regex.cpp}
+#TEST_SRCS = %w{active_regex.cpp test_active_regex.cpp}
+TEST_SRCS = %w{test_progressable.cpp}
+CXX       = "clang++"         # c++0x, clang++, blank
+CXXFLAGS  = ":v :Os"          # :d , :O0 :O3 :w = -Wall
+LIBS      = ":r"
+
+load '~/code/build/app2.rake'
+CLOBBER.include("*.o")
