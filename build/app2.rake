@@ -31,6 +31,7 @@ if defined? CXXFLAGS
            when /:d/ ; " -g -DDEBUG"
            when /:O0/; " -O0"
            when /:O3/; " -O3"
+           when /:Os/; " -Os"
            else
              " -D#{f}"
            end

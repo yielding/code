@@ -31,7 +31,6 @@ public:
     m_executor->join();
   };
 
-  
   template<typename Handler>
   void post(Handler h)
   {

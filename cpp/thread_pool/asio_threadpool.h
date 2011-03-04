@@ -88,6 +88,7 @@ using namespace boost;
 
 mutex io_mutex;
 
+
 void hello(int value)
 {
   { mutex::scoped_lock l(io_mutex);
