@@ -1,6 +1,7 @@
 #ifndef ACTIVE_REGEX_H_BC00NK15
 #define ACTIVE_REGEX_H_BC00NK15
 
+#include "long_runnable.h"
 #include <boost/regex.hpp>
 #include <vector>
 #include <stdint.h>
@@ -25,7 +26,7 @@ struct match_result
 
 typedef std::vector<match_result> matches;
 
-class ActiveRegex
+class ActiveRegex: public long_runnable<void, match_result>
 {
 public:
   ActiveRegex();
@@ -35,7 +36,6 @@ public:
 
   void     buffer_size(uint32_t s) { if (s >= 10) m_buffer_size = s; }
   uint32_t buffer_size()           { return m_buffer_size;           }
-
 
 private:
   int64_t  m_offset;

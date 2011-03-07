@@ -12,6 +12,39 @@
 
 using namespace std;
 namespace io = boost::iostreams;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+class ActiveRegexEnvironment: public ::testing::Environment
+{
+public:
+  ActiveRegexEnvironment()
+  {}
+
+  virtual ~ActiveRegexEnvironment()
+  {}
+
+  virtual void SetUp() 
+  {
+    m_pool = new sys::threadpool;
+    m_pool->start();
+  }
+
+  virtual void TearDown()
+  {
+    sleep(1);
+    delete m_pool;
+  }
+
+  sys::threadpool* m_pool;
+};
+
+ActiveRegexEnvironment* const ar_env 
+  = (ActiveRegexEnvironment* const)::testing::AddGlobalTestEnvironment(new ActiveRegexEnvironment);
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -20,21 +53,29 @@ namespace io = boost::iostreams;
 class ActiveRegexTest: public testing::Test
 {
 protected:
-  virtual void SetUp()
-  {                      
-  }
-
-  virtual void TearDown()
+  virtual void SetUp() 
   {
+    m_start_time = time(NULL);
   }
 
+  virtual void TearDown() 
+  {
+    time_t const end_time = time(NULL);
+    EXPECT_TRUE(end_time - m_start_time <= 1000) << "The test took too long.";
+  }
+
+public:
   void test_file(string const& size, int64_t buffer_size, int64_t end_offset);
+  void test_threadpool(match_result const& m);
 
-  void test_buffer(int64_t buffer_size, int64_t end_offset)
-  {}
-
+public:
   ActiveRegex m_regex;
-  // FileBaseSource m_fbsrc;
+
+private:
+  void thread_func(match_result const& m);
+
+private:
+  time_t m_start_time;
 };
 
 void ActiveRegexTest::test_file(string const& size, int64_t buffer_size, int64_t end_offset)
@@ -57,6 +98,21 @@ void ActiveRegexTest::test_file(string const& size, int64_t buffer_size, int64_t
   in.close();
 }
 
+void ActiveRegexTest::test_threadpool(match_result const& m)
+{
+  ar_env->m_pool->post(boost::bind(&ActiveRegexTest::thread_func, this, m));
+}
+
+void ActiveRegexTest::thread_func(match_result const& m)
+{
+  EXPECT_TRUE(true);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 /* Memory Stream begin */
 TEST_F(ActiveRegexTest, Search0)
 {
@@ -299,6 +355,49 @@ TEST_F(ActiveRegexTest, FileBase1)
   delete fb;
 }
 
+TEST_F(ActiveRegexTest, ThreadPoolTest)
+{
+  std::fstream in;
+  in.open("test_1g.bin", ios_base::binary | ios_base::in);
+  m_regex.buffer_size(1024*16);
+  m_regex.attach_notifier(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
+  ASSERT_EQ(m_regex.search(boost::regex("\xff\xff"), in, true), true);
+}
+
+//TEST_F(ActiveRegexTest, ThreadPoolTestr2)
+//{
+//  std::fstream in;
+//  in.open("test_1g.bin", ios_base::binary | ios_base::in);
+//  m_regex.buffer_size(1024*64);
+//  m_regex.attach(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
+//  ASSERT_EQ(m_regex.search(boost::regex("\xf2\xf3"), in, true), true);
+//}
+//
+//TEST_F(ActiveRegexTest, ThreadPoolStoppableTest)
+//{
+//  std::fstream in;
+//  in.open("test_1g.bin", ios_base::binary | ios_base::in);
+//  m_regex.buffer_size(1024*64);
+//  m_regex.attach(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
+//  ASSERT_EQ(m_regex.search(boost::regex("\xff\xff"), in, true), true);
+//}
+
+bool should_stop()
+{
+  static int count = 0;
+  return ++count == 2;
+}
+
+TEST_F(ActiveRegexTest, ThreadPoolStoppableTest)
+{
+  std::fstream in;
+  in.open("test_1g.bin", ios_base::binary | ios_base::in);
+  m_regex.buffer_size(1024*16);
+  m_regex.attach_notifier(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
+  m_regex.attach_stop_checker(boost::bind(&should_stop));
+  ASSERT_EQ(m_regex.search(boost::regex("\xff\xff"), in, true), false);
+  ASSERT_EQ(m_regex.result().size(), 0);
+}
 
 ///* FILE begin */
 //

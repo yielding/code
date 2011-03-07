@@ -1,5 +1,5 @@
-#ifndef PROGRESSABLE_H_D4XAGKQP
-#define PROGRESSABLE_H_D4XAGKQP
+#ifndef STOPPABLE_H_IJITEO1U
+#define STOPPABLE_H_IJITEO1U
 
 #include <boost/function.hpp>
 
@@ -8,33 +8,39 @@
 // Notice Arg should be a struct when we need arguments more thant 2
 //
 ////////////////////////////////////////////////////////////////////////////////
-template <typename R, typename Arg>
-class notifiable
+template <typename Arg>
+class stoppable
 {
 public:
-  typedef boost::function1<R, Arg> F;
+  typedef boost::function1<bool, Arg> F;
 
 public:
   template <typename Func>
   void attach(Func f) { m_notify = f; }
 
-  void notify(Arg const& arg) { if (!m_notify.empty()) m_notify(arg); }
+  bool should_stop(Arg const& arg) 
+  { 
+    return m_notify.empty() ? false : m_notify(arg);
+  }
 
 private:
   F m_notify;
 };
 
-template <typename R>
-class notifiable<R, void>
+template <>
+class stoppable<void>
 {
 public:
-  typedef boost::function0<R> F;
+  typedef boost::function0<bool> F;
 
 public:
   template <typename Func>
   void attach(Func f) { m_notify = f; }
 
-  void notify() { if (!m_notify.empty()) m_notify(); }
+  bool should_stop()
+  { 
+    return m_notify.empty() ? false : m_notify();
+  }
 
 private:
   F m_notify;

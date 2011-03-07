@@ -21,10 +21,15 @@ bool ActiveRegex::search(boost::regex const& e, std::istream& is, bool active)
   char const* next_pos = pbuf + m_buffer_size;
 
   matches results;
+  int64_t match_count = 0;
 
   bool ok = true;
   while (ok)
   {
+    // 0. determine whether or not we should go on
+    if (should_stop())
+      return false;
+
     // 1. compact partial matched string to buffer[0] if available
     //    invariant: left_over + next_pos == (buf + sizeof(buf))
     ptrdiff_t left_over = (pbuf + m_buffer_size) - next_pos;
@@ -84,14 +89,21 @@ bool ActiveRegex::search(boost::regex const& e, std::istream& is, bool active)
       }
 
       if (active)
+      {
         notify(match_result(base_offset + offset, match_length, group_index));
+        match_count++;
+      }
+      else
+      {
+        m_results.push_back(match_result(base_offset + offset, match_length, group_index));
+      }
 
-      m_results.push_back(match_result(base_offset + offset, match_length, group_index));
       ++cur;
     }
   }
 
-  return !m_results.empty();
+  return active ? match_count > 0 
+                : !m_results.empty();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -45,7 +45,7 @@ public:
   template<typename Handler>
   void post(Handler h) { m_scheduler.post(h); }
 
-  boost::asio::io_service& scheduler()
+  asio::io_service& scheduler()
   {
     return m_scheduler;
   }
