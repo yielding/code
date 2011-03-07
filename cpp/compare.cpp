@@ -1,12 +1,12 @@
+#include <boost/lambda/lambda.hpp>
+#include <boost/tuple/tuple.hpp>
+#include <boost/tuple/tuple_comparison.hpp>
+
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include <vector>
 #include <algorithm>
-
-#include <boost/lambda/lambda.hpp>
-#include <boost/tuple/tuple.hpp>
-#include <boost/tuple/tuple_comparison.hpp>
 
 using namespace std;
 using namespace boost::lambda;

@@ -1,7 +1,7 @@
 #ifndef ASIO_THREADPOOL_H_LH6I9BB9
 #define ASIO_THREADPOOL_H_LH6I9BB9
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <boost/thread/thread.hpp>
 
 namespace sys {
@@ -45,17 +45,9 @@ public:
   template<typename Handler>
   void post(Handler h) { m_scheduler.post(h); }
 
-  boost::asio::io_service& scheduler()
+  asio::io_service& scheduler()
   {
     return m_scheduler;
-  }
-
-public:
-  static void block()
-  {
-    boost::asio::io_service io;
-    boost::asio::io_service::work blocker(io);
-    io.run();
   }
 
 private:
@@ -63,8 +55,8 @@ private:
 
 private:
   boost::thread_group m_threads;
-  boost::asio::io_service m_scheduler;
-  boost::asio::io_service::work m_work;
+  asio::io_service m_scheduler;
+  asio::io_service::work m_work;
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -74,7 +66,7 @@ private:
 //////////////////////////////////////////////////////////////////////////////
 }
 
-#endif /* end of include guard: ASIO_THREADPOOL_H_LH6I9BB9 */
+#endif
 
 #if 0
 #include <iostream>
