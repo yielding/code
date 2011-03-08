@@ -15,7 +15,7 @@ public:
   int Execute()
   {
     if (should_stop()) return 0;
-    if (notify(m_arg)) return 1;
+    if (notify_result(m_arg)) return 1;
 
     return 2;
   }
@@ -65,16 +65,16 @@ public:
 TEST_F(LongTermRunnableTest, Task0ShouldStop)
 {
   ASSERT_EQ(m_t0.Execute(), 2);
-  m_t0.attach_stop_checker(boost::bind(&LongTermRunnableTest::should_terminate_true, this));
+  m_t0.stop_checker(boost::bind(&LongTermRunnableTest::should_terminate_true, this));
   ASSERT_EQ(m_t0.Execute(), 0);
 }
 
 TEST_F(LongTermRunnableTest, Task0Notify)
 {
   ASSERT_EQ(m_t0.Execute(), 2);
-  m_t0.attach_stop_checker(boost::bind(&LongTermRunnableTest::should_terminate_false, this));
+  m_t0.stop_checker(boost::bind(&LongTermRunnableTest::should_terminate_false, this));
   ASSERT_EQ(m_t0.Execute(), 2);
-  m_t0.attach_notifier(boost::bind(&LongTermRunnableTest::read_result0, this, ::_1));
+  m_t0.result_notifier(boost::bind(&LongTermRunnableTest::read_result0, this, ::_1));
   m_t0.m_arg = 1;
   ASSERT_EQ(m_t0.Execute(), 1);
   m_t0.m_arg = 2;

@@ -36,7 +36,7 @@ public:
     if (read <= 0) return 0;
 
     m_pos += n;
-    notify(m_pos);
+    notify_progress(m_pos);
 
     return read;
   }
@@ -76,7 +76,7 @@ TEST_F(ProgressableTest, ProgressConnected)
 {
   DataSource source(31);
 
-  source.set_notifier(boost::bind(&DataSource::progress, &source, ::_1));
+  source.progress_notifier(boost::bind(&DataSource::progress, &source, ::_1));
 
   char buf[10];
   ASSERT_EQ(source.read(buf, 10), 10); ASSERT_EQ(source.last_pos(), source.position());

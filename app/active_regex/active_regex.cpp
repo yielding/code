@@ -90,7 +90,7 @@ bool ActiveRegex::search(boost::regex const& e, std::istream& is, bool active)
 
       if (active)
       {
-        notify(match_result(base_offset + offset, match_length, group_index));
+        notify_result(match_result(base_offset + offset, match_length, group_index));
         match_count++;
       }
       else

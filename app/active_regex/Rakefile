@@ -12,4 +12,4 @@ LIBS      = ":r :t :s"
 
 load '~/code/build/app2.rake'
 
-CLOBBER.include("*.o").include("a.out").include("filler").include("*.bin")
+CLOBBER.include("*.o").include("a.out").include("filler")

@@ -10,19 +10,19 @@
 class progressable
 {
 public:
-  typedef boost::function<void (int64_t)> F;
+  typedef boost::function<void (int64_t)> ProgressF;
 
   template <typename Func>
-  void set_notifier(Func f) { m_notify = f; }
+  void progress_notifier(Func f) { m_progress_notifier = f; }
 
-  void notify(int64_t position)
+  void notify_progress(int64_t position)
   {
-    if (!m_notify.empty()) 
-      m_notify(position);
+    if (!m_progress_notifier.empty()) 
+      m_progress_notifier(position);
   }
 
-protected:
-  F m_notify;
+private:
+  ProgressF m_progress_notifier;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ int main(int argc, char const* argv[])
   FileBaseSource src(spBase.get(), start_pos);
 
   ProgressManager mgr;
-  src.set_notifier(boost::bind(&ProgressManager::progress, &mgr, ::_1));
+  src.attach_progress_notifier(boost::bind(&ProgressManager::progress, &mgr, ::_1));
   //...
   
   return 0;
