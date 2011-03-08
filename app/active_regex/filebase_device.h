@@ -2,7 +2,6 @@
 #define FILEBASE_DEVICE_H_SCJ8SG1F
 
 #include <boost/iostreams/categories.hpp>   // seekable_device_tag
-#include <boost/iostreams/positioning.hpp>  // stream_offset
 // #include <boost/iostreams/detail/ios.hpp>   // exceptions
 #include <iosfwd>                           // streamsize, seekdir
 #include <vector>
@@ -90,14 +89,15 @@ public:
     return -1;
   }
 
-  io::stream_offset seek(io::stream_offset off, std::ios_base::seekdir way)
+  std::streampos seek(std::streampos off, std::ios_base::seekdir way)
   {
-    io::stream_offset next;
-    if (way == BOOST_IOS::beg)
+    std::streampos next;
+
+    if (way == std::ios_base::beg)
       next = off;
-    else if (way == BOOST_IOS::cur)
+    else if (way == std::ios_base::cur)
       next = m_pos + off;
-    else if (way == BOOST_IOS::end)
+    else if (way == std::ios_base::end)
       next = m_fb->GetSize() - off;
     else
       throw std::ios_base::failure("bad seek direction");
