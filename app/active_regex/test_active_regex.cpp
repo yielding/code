@@ -1,5 +1,6 @@
 #include "active_regex.h"
-#include "filebase_source.h"
+// #include "filebase_source.h"
+#include "filebase_device.h"
 #include "asio_threadpool.h"
 
 #include <gtest/gtest.h>
@@ -7,6 +8,7 @@
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/range/iterator_range.hpp>
 #include <boost/iostreams/stream.hpp>  // io::stream
+#include <boost/iostreams/detail/ios.hpp>
 #include <boost/format.hpp>
 #include <fstream>
 
@@ -340,10 +342,11 @@ TEST_F(ActiveRegexTest, BinarySearch)
 TEST_F(ActiveRegexTest, FileBase1)
 {
   FileBase* fb = new FileBase;
-  FileBaseSource fbs(fb);
-  io::stream<FileBaseSource> in(fbs);
+  FileBaseDevice fbs(fb);
+  io::stream<FileBaseDevice> in(fbs);
 
   m_regex.buffer_size(1024*16);
+  in.seekg(0, ios_base::beg);
   ASSERT_EQ(m_regex.search(boost::regex("\xFF\xFF"), in), true);
   matches const& r = m_regex.result();
   ASSERT_EQ(r.size(), 2);
