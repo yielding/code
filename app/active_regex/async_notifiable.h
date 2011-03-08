@@ -1,5 +1,5 @@
-#ifndef PROGRESSABLE_H_D4XAGKQP
-#define PROGRESSABLE_H_D4XAGKQP
+#ifndef ASYNC_NOTIFIABLE_H_EGIREG1H
+#define ASYNC_NOTIFIABLE_H_EGIREG1H
 
 #include <boost/function.hpp>
 
@@ -9,35 +9,44 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 template <typename R, typename Arg>
-class notifiable
+class async_notifiable
 {
 public:
-  typedef boost::function1<R, Arg> F;
+  typedef boost::function1<R, Arg> ResultF;
 
 public:
   template <typename Func>
-  void attach(Func f) { m_notify = f; }
+  void result_notifier(Func f)
+  { 
+    m_result_notifier = f;
+  }
 
-  void notify(Arg const& arg) { if (!m_notify.empty()) m_notify(arg); }
+  R notify_result(Arg const& arg) 
+  {
+    return m_result_notifier.empty() ? R() : m_result_notifier(arg);
+  }
 
 private:
-  F m_notify;
+  ResultF m_result_notifier;
 };
 
 template <typename R>
-class notifiable<R, void>
+class async_notifiable<R, void>
 {
 public:
-  typedef boost::function0<R> F;
+  typedef boost::function0<R> ResultF;
 
 public:
   template <typename Func>
-  void attach(Func f) { m_notify = f; }
+  void result_notifier(Func f) { m_result_notifier = f; }
 
-  void notify() { if (!m_notify.empty()) m_notify(); }
+  R notify_result()
+  {
+    return m_result_notifier.empty() ? R() : m_result_notifier();
+  }
 
 private:
-  F m_notify;
+  ResultF m_result_notifier;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -360,7 +360,7 @@ TEST_F(ActiveRegexTest, ThreadPoolTest)
   std::fstream in;
   in.open("test_1g.bin", ios_base::binary | ios_base::in);
   m_regex.buffer_size(1024*16);
-  m_regex.attach_notifier(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
+  m_regex.result_notifier(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
   ASSERT_EQ(m_regex.search(boost::regex("\xff\xff"), in, true), true);
 }
 
@@ -369,7 +369,7 @@ TEST_F(ActiveRegexTest, ThreadPoolTest)
 //  std::fstream in;
 //  in.open("test_1g.bin", ios_base::binary | ios_base::in);
 //  m_regex.buffer_size(1024*64);
-//  m_regex.attach(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
+//  m_regex.result_notifier(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
 //  ASSERT_EQ(m_regex.search(boost::regex("\xf2\xf3"), in, true), true);
 //}
 //
@@ -378,7 +378,7 @@ TEST_F(ActiveRegexTest, ThreadPoolTest)
 //  std::fstream in;
 //  in.open("test_1g.bin", ios_base::binary | ios_base::in);
 //  m_regex.buffer_size(1024*64);
-//  m_regex.attach(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
+//  m_regex.result_notifier(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
 //  ASSERT_EQ(m_regex.search(boost::regex("\xff\xff"), in, true), true);
 //}
 
@@ -393,8 +393,8 @@ TEST_F(ActiveRegexTest, ThreadPoolStoppableTest)
   std::fstream in;
   in.open("test_1g.bin", ios_base::binary | ios_base::in);
   m_regex.buffer_size(1024*16);
-  m_regex.attach_notifier(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
-  m_regex.attach_stop_checker(boost::bind(&should_stop));
+  m_regex.result_notifier(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
+  m_regex.stop_checker(boost::bind(&should_stop));
   ASSERT_EQ(m_regex.search(boost::regex("\xff\xff"), in, true), false);
   ASSERT_EQ(m_regex.result().size(), 0);
 }

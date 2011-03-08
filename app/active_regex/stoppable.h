@@ -8,42 +8,22 @@
 // Notice Arg should be a struct when we need arguments more thant 2
 //
 ////////////////////////////////////////////////////////////////////////////////
-template <typename Arg>
 class stoppable
 {
 public:
-  typedef boost::function1<bool, Arg> F;
+  typedef boost::function0<bool> StopF;
 
 public:
   template <typename Func>
-  void attach(Func f) { m_notify = f; }
-
-  bool should_stop(Arg const& arg) 
-  { 
-    return m_notify.empty() ? false : m_notify(arg);
-  }
-
-private:
-  F m_notify;
-};
-
-template <>
-class stoppable<void>
-{
-public:
-  typedef boost::function0<bool> F;
-
-public:
-  template <typename Func>
-  void attach(Func f) { m_notify = f; }
+  void stop_checker(Func f) { m_stop_checker = f; }
 
   bool should_stop()
   { 
-    return m_notify.empty() ? false : m_notify();
+    return m_stop_checker.empty() ? false : m_stop_checker();
   }
 
 private:
-  F m_notify;
+  StopF m_stop_checker;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
