@@ -348,12 +348,21 @@ TEST_F(ActiveRegexTest, FileBase1)
   m_regex.buffer_size(1024*16);
   in.seekg(0, ios_base::beg);
   ASSERT_EQ(m_regex.search(boost::regex("\xFF\xFF"), in), true);
-  matches const& r = m_regex.result();
-  ASSERT_EQ(r.size(), 2);
-  ASSERT_EQ(r[0].offset, 0);
-  ASSERT_EQ(r[0].length, 2);
-  ASSERT_EQ(r[1].offset, 1024*1024-2);
-  ASSERT_EQ(r[1].length, 2);
+  matches const& r0 = m_regex.result();
+  ASSERT_EQ(r0.size(), 2);
+  ASSERT_EQ(r0[0].offset, 0);
+  ASSERT_EQ(r0[0].length, 2);
+  ASSERT_EQ(r0[1].offset, 1024*1024-2);
+  ASSERT_EQ(r0[1].length, 2);
+
+  in.seekg(0, ios_base::beg);
+  ASSERT_EQ(m_regex.search(boost::regex("\xFF\xFF"), in), true);
+  matches const& r1 = m_regex.result();
+  ASSERT_EQ(r1.size(), 2);
+  ASSERT_EQ(r1[0].offset, 0);
+  ASSERT_EQ(r1[0].length, 2);
+  ASSERT_EQ(r1[1].offset, 1024*1024-2);
+  ASSERT_EQ(r1[1].length, 2);
 
   delete fb;
 }
