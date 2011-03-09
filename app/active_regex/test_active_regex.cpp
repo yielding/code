@@ -338,6 +338,22 @@ TEST_F(ActiveRegexTest, BinarySearch)
   }
 }
 
+TEST_F(ActiveRegexTest, TellgSeekgTest)
+{
+  FileBase* fb = new FileBase;
+  FileBaseDevice fbs(fb);
+  io::stream<FileBaseDevice> in(fbs);
+
+  char buf[10];
+  in.read(buf, 10); EXPECT_EQ(10, in.tellg());
+  in.read(buf, 10); EXPECT_EQ(20, in.tellg());
+  in.read(buf, 10); EXPECT_EQ(30, in.tellg());
+  in.seekg(0, ios_base::beg);
+  in.read(buf, 10); EXPECT_EQ(10, in.tellg());
+  in.seekg(1, ios_base::end);
+  EXPECT_EQ(1048575, in.tellg());
+}
+
 /* FileBase Begin */
 TEST_F(ActiveRegexTest, FileBase1)
 {
@@ -383,15 +399,6 @@ TEST_F(ActiveRegexTest, ThreadPoolTest)
 //  m_regex.buffer_size(1024*64);
 //  m_regex.result_notifier(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
 //  ASSERT_EQ(m_regex.search(boost::regex("\xf2\xf3"), in, true), true);
-//}
-//
-//TEST_F(ActiveRegexTest, ThreadPoolStoppableTest)
-//{
-//  std::fstream in;
-//  in.open("test_1g.bin", ios_base::binary | ios_base::in);
-//  m_regex.buffer_size(1024*64);
-//  m_regex.result_notifier(boost::bind(&ActiveRegexTest::test_threadpool, this, ::_1));
-//  ASSERT_EQ(m_regex.search(boost::regex("\xff\xff"), in, true), true);
 //}
 
 bool should_stop()
