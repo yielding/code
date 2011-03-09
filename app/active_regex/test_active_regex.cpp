@@ -350,8 +350,8 @@ TEST_F(ActiveRegexTest, TellgSeekgTest)
   in.read(buf, 10); EXPECT_EQ(30, in.tellg());
   in.seekg(0, ios_base::beg);
   in.read(buf, 10); EXPECT_EQ(10, in.tellg());
-  in.seekg(1, ios_base::end);
-  EXPECT_EQ(1048575, in.tellg());
+  in.seekg(0, ios_base::end);
+  EXPECT_EQ(1048576, in.tellg());
 }
 
 /* FileBase Begin */
