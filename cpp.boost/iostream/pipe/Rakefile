@@ -1,9 +1,9 @@
 # -*- ruby -*-
 
-SRCS     = %w{pipe.cpp}
-APP      = "pipe"
-CXX      = "c++0x"    # c++0x, clang++, blank
-CXXFLAGS = ":v :O0"
+SRCS     = %w{pipe.out.cpp}
+APP      = "pipe.out"
+CXX      = "clang++"    # c++0x, clang++, blank
+CXXFLAGS = ":v :Os"
 LIBS     = ":t :s" 
 
 load '~/code/build/app2.rake'
