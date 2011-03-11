@@ -98,11 +98,11 @@ public:
     else if (way == std::ios_base::cur)
       next = m_pos + off;
     else if (way == std::ios_base::end)
-      next = m_fb->GetSize() - off;
+      next = m_fb->GetSize() + off;
     else
       throw std::ios_base::failure("bad seek direction");
 
-    if (next < 0 || next >= m_fb->GetSize())
+    if (next < 0 || next > m_fb->GetSize())
       throw std::ios_base::failure("bad seek offset");
 
     m_pos = next;
