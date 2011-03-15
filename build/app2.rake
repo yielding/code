@@ -195,7 +195,7 @@ end
 # Build target
 #
 #------------------------------------------------------------------------------
-task :default => [:osx]
+task :default => [:run_test]
 
 task :osx => [:osx_link] do
   puts "#{APP} build ok"
