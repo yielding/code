@@ -3,7 +3,7 @@
 APP       = "parallel_regex"
 APP_TEST  = "test_#{APP}"
 SRCS      = %w{ driver.cpp parallel_regex.cpp }
-TEST_SRCS = %w{ parallel_regex.cpp test_parallel_regex.cpp test_long_runnable.cpp test_progressable.cpp }
+TEST_SRCS = %w{ parallel_regex.cpp test_parallel_regex.cpp }
 #TEST_SRCS = %w{test_long_runnable.cpp}
 INCS      = "/Users/yielding/opensource/asio-1.5.1/include"
 CXX       = "clang++"         # c++0x, clang++, blank

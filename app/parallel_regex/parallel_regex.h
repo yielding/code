@@ -34,7 +34,10 @@ typedef std::vector<match_result> matches;
 class PartialRegex: public long_runnable<void, match_result>
 {
 public:
-  PartialRegex()
+  PartialRegex(int64_t offset, int32_t ss, uint32_t bs = 4 * 1024) 
+    : m_offset(offset)
+    , m_stream_size(ss)
+    , m_buffer_size(bs)
   {}
 
   bool     search(boost::regex const& e, std::istream& is, bool active=false);
@@ -45,8 +48,10 @@ public:
 
 private:
   int64_t  m_offset;
+  int32_t  m_stream_size;
   uint32_t m_buffer_size;
 
+public:
   matches  m_results;
 };
 
@@ -55,25 +60,20 @@ namespace tbb { class task; }
 class RegexTask: public tbb::task
 {
 public:
-  enum { CUT_OFF = 32 * 1024, BUFFER_SIZE = 64 * 1024 };
+  enum { CUT_OFF = 32 * 1024 * 1024, BUFFER_SIZE = 64 * 1024 };
 
 public:
-  RegexTask(std::string const& fn, int64_t offset, int32_t ss, matches* res)
-    : m_filename(fn)
-    , m_offset(offset) 
-    , m_stream_size(ss)
-    , m_result(res)
-  {}
+  RegexTask(std::string const& fn, int64_t beg, int64_t end, matches& res);
 
-  tbb::task* execute();
+  void serial_regex();
+
+  virtual tbb::task* execute();
 
 private:
   std::string m_filename;
-  int32_t  m_stream_size;
-  int64_t  m_offset;
-  matches* m_result;
+  int64_t  m_beg, m_end;
+  matches& m_result;
   PartialRegex m_regex;
-
 };
 
 ////////////////////////////////////////////////////////////////////////////////

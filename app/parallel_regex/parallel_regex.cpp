@@ -4,29 +4,88 @@
 #include <iostream>
 
 using namespace std;
+
+namespace {
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-tbb::task* RegexTask::execute()
+template<class T>
+T merge_copy(const T& a, const T& b)
 {
-  using namespace std;
-  
-  if (m_stream_size < CUT_OFF)
+  T ret(a);
+  copy(b.begin(), b.end(), back_inserter(ret));
+
+  return ret;
+}
+
+template<class T>
+T nuke_dupes_no_sort_copy(const T& c)
+{
+  T ret;
+  for (typename T::const_iterator i = c.begin(); i != c.end(); ++i)
+    if (find(ret.begin(), ret.end(), *i) == ret.end())
+      ret.push_back(*i);
+
+  return ret;
+}
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+RegexTask::RegexTask(std::string const& fn, int64_t beg, int64_t end, matches& res)
+  : m_filename(fn)
+  , m_beg(beg)
+  , m_end(end)
+  , m_result(res)
+  , m_regex(beg, end - beg, BUFFER_SIZE)
+{}
+
+void RegexTask::serial_regex()
+{
+  std::ifstream in; in.open(m_filename.c_str(), ios_base::binary | ios_base::in);
+  if (!in.is_open())
   {
-     fstream in;
-     in.open(m_filename.c_str(), ios_base::binary | ios_base::in);
-     if (!in.is_open())
-       return NULL;
-     
-     m_regex.buffer_size(BUFFER_SIZE);
-     m_regex.search(boost::regex(""), in, false);
-     matches const& r = m_regex.result();
-     m_result->assign(r.begin(), r.end());
+    cout << "stream not opened\n";
+    return;
   }
   else
   {
+    cout << "open ok\n";
+  }
+
+  in.seekg(m_beg, ios_base::beg);
+  if (m_regex.search(boost::regex("\xff\xff"), in, false))
+  {
+    m_result.swap(m_regex.m_results);
+    cout << "swaped! : "  << m_result.size() << " offset: " << m_beg << endl;
+  }
+}
+
+tbb::task* RegexTask::execute()
+{
+  if (m_end - m_beg < CUT_OFF)
+  {
+    serial_regex();
+  }
+  else
+  {
+    matches x, y;
+    int64_t mid = m_beg + (m_end - m_beg) / 2;
+    
+    RegexTask& a = *new(allocate_child()) RegexTask(m_filename, m_beg, mid, x);
+    RegexTask& b = *new(allocate_child()) RegexTask(m_filename, mid, m_end, y);
+
+    set_ref_count(3);
+
+    spawn(b);
+    spawn_and_wait_for_all(a);
+    m_result = merge_copy(x, y);
   }
 
   return NULL;
@@ -37,6 +96,7 @@ tbb::task* RegexTask::execute()
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+
 bool PartialRegex::search(boost::regex const& e, std::istream& is, bool active)
 {
   using namespace boost; 
@@ -46,6 +106,7 @@ bool PartialRegex::search(boost::regex const& e, std::istream& is, bool active)
 
   matches results;
   int64_t match_count = 0;
+  int64_t total_read  = 0;
 
   bool ok = true;
   while (ok)
@@ -65,7 +126,8 @@ bool PartialRegex::search(boost::regex const& e, std::istream& is, bool active)
 
     // 3. update the execution condition
     std::streamsize read = is.gcount();
-    ok = (read == to_read);
+    total_read += read;
+    ok = (read == to_read) && (total_read < m_stream_size);
 
     // 4. increment offsets we read so far
     m_offset += read;
@@ -112,22 +174,13 @@ bool PartialRegex::search(boost::regex const& e, std::istream& is, bool active)
         }
       }
 
-      if (active)
-      {
-        notify_result(match_result(base_offset + offset, match_length, group_index));
-        match_count++;
-      }
-      else
-      {
-        m_results.push_back(match_result(base_offset + offset, match_length, group_index));
-      }
+      m_results.push_back(match_result(base_offset + offset, match_length, group_index));
 
       ++cur;
     }
   }
 
-  return active ? match_count > 0 
-                : !m_results.empty();
+  return !m_results.empty();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
