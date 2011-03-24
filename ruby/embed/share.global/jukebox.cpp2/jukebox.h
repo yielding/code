@@ -9,6 +9,7 @@ public:
   ~CDJukebox();
 
   void assign(int unit_id);
+  void progress(int percent);
 
   void seek(int disc, int track);
 

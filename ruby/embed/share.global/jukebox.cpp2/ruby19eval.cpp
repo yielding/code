@@ -6,22 +6,22 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-RubyEval* RubyEval::m_instance = 0;
+Ruby19Eval* Ruby19Eval::m_instance = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Called by Ruby for writing to STDOUT
 //
 ////////////////////////////////////////////////////////////////////////////////
-RubyEval* RubyEval::instance() 
+Ruby19Eval* Ruby19Eval::instance() 
 {
   if (!m_instance) 
-    m_instance = new RubyEval();
+    m_instance = new Ruby19Eval();
 
   return m_instance;
 }
 
-void RubyEval::delete_instance()
+void Ruby19Eval::delete_instance()
 {
   if (m_instance != NULL)
   {
@@ -30,10 +30,12 @@ void RubyEval::delete_instance()
   }
 }
 
-RubyEval::RubyEval()
+Ruby19Eval::Ruby19Eval()
 {
   ruby_init();
   ruby_init_loadpath();
+
+  ruby_incpush(".");
 
 //#ifndef WIN32
 //  ruby_init_loadpath();
@@ -57,37 +59,37 @@ RubyEval::RubyEval()
   ruby_script("ruby");
 }
 
-RubyEval::~RubyEval()
+Ruby19Eval::~Ruby19Eval()
 {
    // ruby_finalize();
    ruby_cleanup(0);
 }
 
-string RubyEval::val2str(const VALUE rval)
+string Ruby19Eval::val2str(const VALUE rval)
 {
   VALUE v = rb_funcall(rval, rb_intern("to_s"), 0);
   return StringValueCStr(v);
   // return StringValueCStr(rb_funcall(rval, rb_intern("to_s"), 0));
 }
 
-int RubyEval::val2i(const VALUE rval)
+int Ruby19Eval::val2i(const VALUE rval)
 {
   return NUM2INT(rval);
 }
 
-string RubyEval::strval2str(const VALUE rval)
+string Ruby19Eval::strval2str(const VALUE rval)
 {
   return string(RSTRING_PTR(rval), RSTRING_LEN(rval));
 }
 
-void RubyEval::run_file(const char* filename, ostream& out)
+void Ruby19Eval::run_file(const char* filename, ostream& out)
 {
   rb_load_protect(rb_str_new2(filename), 0, &m_status);
   if (m_status) 
     exception_print(out);
 }
 
-void RubyEval::exception_print(ostream& errout)
+void Ruby19Eval::exception_print(ostream& errout)
 {
   // Adapted from eruby_main by Shugo Maeda <shugo@modruby.net>
   if (NIL_P(rb_errinfo())) 
@@ -179,12 +181,12 @@ void RubyEval::exception_print(ostream& errout)
   errout.flush();
 }     
 
-VALUE RubyEval::eval(const char* code)
+VALUE Ruby19Eval::eval(const char* code)
 {
   return rb_eval_string_protect(code, &m_status);
 }
 
-VALUE RubyEval::eval(const char* code, ostream& errout)
+VALUE Ruby19Eval::eval(const char* code, ostream& errout)
 {
   VALUE ret = rb_eval_string_protect(code, &m_status);
   if (m_status) 
@@ -194,7 +196,7 @@ VALUE RubyEval::eval(const char* code, ostream& errout)
 }
 
 // Last evaluation was successful
-bool RubyEval::evalOk()
+bool Ruby19Eval::evalOk()
 {
   return m_status == 0;
 }
