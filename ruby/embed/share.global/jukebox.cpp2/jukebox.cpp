@@ -33,6 +33,16 @@ void CDJukebox::assign(int unit_id)
   m_unit_id = unit_id;
 }
 
+void CDJukebox::progress(int percent)
+{
+  if (rb_block_given_p())
+  {
+    if (percent > 100) percent = 100;
+    if (percent <   0) percent = 0;
+    rb_yield(INT2FIX(percent));
+  }
+}
+
 void CDJukebox::seek(int disc, int track)
 {
   std::cout << "disc: " << disc << " track: " << track << std::endl;
