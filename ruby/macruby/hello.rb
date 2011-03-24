@@ -12,7 +12,7 @@ class AppDelegate
   end
 
   def say_hello(sender)
-    @voice.startSpeakingString("Hello World!")
+    @voice.startSpeakingString("Daniel, it's time to homework")
     puts "Hello World!"
   end
 end

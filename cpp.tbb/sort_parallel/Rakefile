@@ -1,0 +1,10 @@
+# -*- ruby -*-
+
+SRCS     = %w{ sort.cpp }
+TEST_SRCS= %w{ test_sort.cpp }
+APP      = "sort"
+CXX      = "clang++"          # c++0x, clang++, blank
+CXXFLAGS = ":v :w"            # :d , :w=-Wall :O0 :O3
+LIBS     = "tbb"
+
+load '~/code/build/app2.rake'
