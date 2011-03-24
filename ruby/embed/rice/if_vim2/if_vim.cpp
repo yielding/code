@@ -17,24 +17,6 @@ using namespace Rice;
 //
 //
 //////////////////////////////////////////////////////////////////////////////
-namespace
-{
-  void print(char const* msg)
-  {
-    cout << "[in c++] " << msg << endl;
-  }
-
-  void print(int msg)
-  {
-    cout << "[in c++] " << msg << endl;
-  }
-
-  void update_screen()
-  {
-    print("screen updated");
-  }
-}
-
 namespace native
 {
   int const  VIM_MAJOR = 7;
@@ -78,7 +60,6 @@ namespace native
   private:
     /* data */
   };
-
 }
 
 namespace native

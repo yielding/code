@@ -8,8 +8,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char const* argv[])
 {
-  RubyEval& vm = *RubyEval::instance();
-  App&     app = *App::instance();
+  Ruby19Eval& vm = *Ruby19Eval::instance();
+  App&       app = *App::instance();
 
   for (int i=10; i<30; i+=10)
   {

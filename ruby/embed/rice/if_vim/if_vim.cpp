@@ -381,7 +381,6 @@ void Init_Extension()
       .define_iterator(begin, end)
       .include_module(rb_mEnumerable)
       ;
-      
   }
   RUBY_CATCH
 
