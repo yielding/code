@@ -19,7 +19,7 @@ class Ruby19Eval
 {
 public:
   static Ruby19Eval* instance();
-  static void      delete_instance();
+  static void        delete_instance();
   ~Ruby19Eval();
 
 	static std::string val2str   (VALUE const rval);

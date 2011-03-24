@@ -9,4 +9,3 @@
 		rice를 쓴 이유도 ruby extension을 C++로 작성하기 위함인데 굳이 "C" linkage를
 		쓸 이유가 없다. rice의 예제에서 extern "C"를 해준 이유는 c++로 작성한
 		프로그램을 C에서 작성할 수 있게하기 위해서임
-

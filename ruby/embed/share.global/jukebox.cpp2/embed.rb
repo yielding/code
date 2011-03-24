@@ -6,5 +6,5 @@ $jukebox.seek(3, 16) { |x| puts "#{x}% done" }
 
 p $jukebox
 
-#xx = CDJukebox.new(11223)
-#p xx
+xx = CDJukebox.new(11223)
+p xx

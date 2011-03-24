@@ -35,6 +35,8 @@ Ruby19Eval::Ruby19Eval()
   ruby_init();
   ruby_init_loadpath();
 
+  ruby_incpush(".");
+
 //#ifndef WIN32
 //  ruby_init_loadpath();
 //#else
