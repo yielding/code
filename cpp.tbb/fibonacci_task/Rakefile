@@ -1,0 +1,10 @@
+# -*- ruby -*-
+
+SRCS     = %w{ fibo_cont.cpp }
+TEST_SRCS= %w{ test_fibo.cpp }
+APP      = "fibo_cont"
+CXX      = "clang++"          # c++0x, clang++, blank
+CXXFLAGS = ":v :d :w"         # :d , :w=-Wall :O0 :O3
+LIBS     = "tbb"
+
+load '~/code/build/app2.rake'

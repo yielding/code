@@ -38,7 +38,23 @@ T nuke_dupes_no_sort_copy(const T& c)
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-RegexTask::RegexTask(std::string const& fn, int64_t beg, int64_t end, matches& res)
+struct RegexContinuation: public tbb::task
+{
+  RegexContinuation(matches& res) : result(res)
+  {}
+
+  task* execute()
+  {
+    result = merge_copy(left, right);
+    return NULL;
+  }
+
+  matches& result;
+  matches  right;
+  matches  left;
+};
+
+RegexTask::RegexTask(string const& fn, int64_t beg, int64_t end, matches& res)
   : m_filename(fn)
   , m_beg(beg)
   , m_end(end)
@@ -56,7 +72,7 @@ void RegexTask::serial_regex()
   }
   else
   {
-    cout << "open ok\n";
+    cout << "open ok, offset: " << m_beg << " " << endl;
   }
 
   in.seekg(m_beg, ios_base::beg);
@@ -75,17 +91,15 @@ tbb::task* RegexTask::execute()
   }
   else
   {
-    matches x, y;
-    int64_t mid = m_beg + (m_end - m_beg) / 2;
-    
-    RegexTask& a = *new(allocate_child()) RegexTask(m_filename, m_beg, mid, x);
-    RegexTask& b = *new(allocate_child()) RegexTask(m_filename, mid, m_end, y);
+    RegexContinuation& c = *new (allocate_continuation()) RegexContinuation(m_result);
 
-    set_ref_count(3);
+    int64_t mid = m_beg + (m_end - m_beg) / 2;
+    RegexTask& a = *new(c.allocate_child()) RegexTask(m_filename, m_beg, mid, c.left);
+    RegexTask& b = *new(c.allocate_child()) RegexTask(m_filename, mid, m_end, c.right);
+    c.set_ref_count(2);
 
     spawn(b);
-    spawn_and_wait_for_all(a);
-    m_result = merge_copy(x, y);
+    spawn(a);
   }
 
   return NULL;
@@ -96,7 +110,6 @@ tbb::task* RegexTask::execute()
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-
 bool PartialRegex::search(boost::regex const& e, std::istream& is, bool active)
 {
   using namespace boost; 
