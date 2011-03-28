@@ -8,13 +8,12 @@ using namespace std;
 using namespace tbb;
 
 int64_t N = 1024*1024*1024*16L;
+std::string const fn = "test_16g.bin";
 
 void parallel_regex()
 {
   tbb::tick_count t0 = tbb::tick_count::now();
-  std::string fn = "test_16g.bin";
   matches res;
-
   RegexTask& a = *new(task::allocate_root())RegexTask(fn, 0, N, res);
 
   task::spawn_root_and_wait(a);
@@ -26,7 +25,6 @@ void parallel_regex()
 void serial_regex()
 {
   tbb::tick_count t0 = tbb::tick_count::now();
-  std::string fn = "test_16g.bin";
   matches res;
 
   std::ifstream in; in.open(fn.c_str(), ios_base::binary | ios_base::in);

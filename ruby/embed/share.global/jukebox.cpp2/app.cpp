@@ -11,17 +11,24 @@ App* App::m_instance = 0;
 ////////////////////////////////////////////////////////////////////////////////
 App::App()
 {
+#ifdef DEBUG
   std::cout << "app begins\n";
+#endif
 
   m_box = new CDJukebox(123);
-  // ruby GC에 등록 따라서 destructor에서 해제하면 안된다.
+
+  // REMARK: ruby GC에 등록. 
+  // 따라서, destructor에서 해제하면 안된다.
   jukebox_ext::init(m_box);
 }
 
 App::~App()
 {
+#ifdef DEBUG
   std::cout << "app is deleting\n";
-  // ruby GC에 등록 따라서 destructor에서 해제하면 안된다.
+#endif
+
+  // REMARK: GC가 지우므로 destructor에서 해제하면 안된다.
   // delete m_box;
 }
 
