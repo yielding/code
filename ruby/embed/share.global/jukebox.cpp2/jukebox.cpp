@@ -1,5 +1,7 @@
 #include "jukebox.h"
+#include "ruby.h"
 
+#include <boost/format.hpp>
 #include <iostream>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -9,7 +11,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 CDJukebox::CDJukebox(int unit)
 {
+#ifdef DEBUG
   std::cout << "CDJukebox ctor\n";
+#endif
   m_unit_id = unit;
 }
 
@@ -17,7 +21,9 @@ CDJukebox::CDJukebox(CDJukebox const& rhs)
 {
   if (this != &rhs)
   {
+#ifdef DEBUG
     std::cout << "copy constructor is called\n";
+#endif
 
     m_unit_id = rhs.m_unit_id;
   }
@@ -25,7 +31,9 @@ CDJukebox::CDJukebox(CDJukebox const& rhs)
 
 CDJukebox::~CDJukebox()
 {
+#ifdef _DEBUG
   std::cout << "CDJukebox dtor\n";
+#endif
 }
 
 void CDJukebox::assign(int unit_id)
@@ -45,7 +53,15 @@ void CDJukebox::progress(int percent)
 
 void CDJukebox::seek(int disc, int track)
 {
-  std::cout << "disc: " << disc << " track: " << track << std::endl;
+  using namespace boost;
+  using namespace std;
+  
+  cout << str(format("unit: %d (%d, %d)\n") % m_unit_id % disc % track);
+
+  for (int p=0; p<100; p+=10)
+    progress(p);
+
+  cout << "end of seek\n";
 }
 
 int CDJukebox::unit()

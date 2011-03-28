@@ -75,7 +75,7 @@ int main(int argc, char const* argv[])
 {
   int nthread = task_scheduler_init::automatic;
 
-  task_scheduler_init init(10);
+  task_scheduler_init init(nthread);
 
   cout << "thread no: " << nthread << endl;
   tick_count t0 = tick_count::now();
