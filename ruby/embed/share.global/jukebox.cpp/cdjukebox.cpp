@@ -94,11 +94,11 @@ void register_global()
 {
   Data_Object<CDJukebox> obj(g_box);
   g_jukebox = obj.value();
+  
   rb_global_variable(&g_jukebox);
   rb_define_variable("$jukebox", &g_jukebox);
 }
 
-//extern "C" 
 void Init_CDJukebox()
 {
   define_class<CDJukebox>("CDJukebox")

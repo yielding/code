@@ -4,7 +4,7 @@
 		다시 말해서 사용자가 직접 지우면 안된다.
 
 2008-06-04  yielding <yielding@www.gmail.com>
-	* jukebox_ext.cpp:
+	* jukebox_ext.cpp
 		extern "C"를 제거
 		rice를 쓴 이유도 ruby extension을 C++로 작성하기 위함인데 굳이 "C" linkage를
 		쓸 이유가 없다. rice의 예제에서 extern "C"를 해준 이유는 c++로 작성한

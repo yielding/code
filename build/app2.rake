@@ -49,7 +49,6 @@ if defined? LDFLAGS
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
            when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk"
-           when /:lib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk"
            else
              " -L#{e}"
            end
@@ -158,9 +157,27 @@ class Builder
     if should_link? app, objs
       case os
       when :osx
-        cmd  = "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS}"
-        cmd += " -lgtest -lgtest_main" if test
-        sh cmd
+        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS}"
+      end
+    end
+  end
+
+  def link_test app, objs
+    objs_os_o = objs.map { |obj| os_o(obj) }.join ' '
+    if should_link? app, objs
+      case os
+      when :osx
+        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} -lgtest -lgtest_main"
+      end
+    end
+  end
+
+  def link_lib app, objs
+    objs_os_o = objs.map { |obj| os_o(obj) }.join ' '
+    if should_link? app, objs
+      case os
+      when :osx
+        sh "(ar crl #{app} #{objs_os_o}) && ranlib #{app}"
       end
     end
   end
@@ -183,12 +200,17 @@ end
 
 task :osx_link => [:osx_compile] do
   builder = Builder.new :os => :osx
-  builder.link APP, SRCS, false
+  builder.link APP, SRCS
+end
+
+task :osx_lib_link => [:osx_compile] do
+  builder = Builder.new :os => :osx
+  builder.link_lib APP, SRCS
 end
 
 task :osx_test_link => [:osx_test_compile] do
   builder = Builder.new :os => :osx
-  builder.link APP_TEST, TEST_SRCS, true
+  builder.link_test APP_TEST, TEST_SRCS
 end
 
 #------------------------------------------------------------------------------
@@ -202,6 +224,14 @@ task :osx => [:osx_link] do
   puts "#{APP} build ok"
 end
 
+task :dylib => [:osx_link] do
+  puts "#{APP} build ok"
+end
+
+task :lib => [:osx_lib_link] do
+  puts "#{APP} build ok"
+end
+
 task :osx_test => [:osx_test_link] do
   puts "#{APP_TEST} build ok"
 end
@@ -210,7 +240,8 @@ task :test => [:osx_test_link] do
   puts "#{APP_TEST} build ok"
 end
 
-task :all => [:osx, :osx_test] do; end
+# overridable
+# task :all => [:osx, :osx_test] do; end
 
 #------------------------------------------------------------------------------
 #
