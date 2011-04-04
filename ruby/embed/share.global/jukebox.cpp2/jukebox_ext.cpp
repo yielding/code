@@ -27,7 +27,7 @@ namespace jukebox_ext
   {
     RUBY_TRY
     {
-      Data_Type<CDJukebox> rb_cCDJukebox =
+      // Data_Type<CDJukebox> rb_cCDJukebox =
         define_class<CDJukebox>("CDJukebox")
         .define_constructor(Constructor<CDJukebox, int>())
         .define_method("seek", &CDJukebox::seek)
