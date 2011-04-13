@@ -8,7 +8,7 @@ if not defined? APP
 end
 
 if not defined? SRCS
-  puts "define SRCS"
+  puts "define sources first"
   exit
 end
 
@@ -31,6 +31,7 @@ if defined? CXXFLAGS
            when /:d/ ; " -g -DDEBUG"
            when /:O0/; " -O0"
            when /:O3/; " -O3"
+           when /:Os/; " -Os"
            else
              " -D#{f}"
            end
@@ -47,6 +48,8 @@ if defined? LDFLAGS
   LDFLAGS.split.each do |e|
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
+           when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk"
+           when /:lib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk"
            else
              " -L#{e}"
            end
@@ -56,14 +59,11 @@ if defined? LDFLAGS
 end
 
 BOOST = {
-  :t => " -lboost_thread-mt",
-  :s => " -lboost_system-mt",
-  :f => " -lboost_filesystem-mt",
-  :d => " -lboost_date_time-mt",
+  :t => " -lboost_thread-mt",     :s => " -lboost_system-mt",
+  :f => " -lboost_filesystem-mt", :d => " -lboost_date_time-mt",
   :r => " -lboost_regex-mt"
 }
 
-# REFACTOR
 $LIBS = ""
 if defined? LIBS
   LIBS.split.each do |e|  
@@ -103,6 +103,7 @@ end
 #------------------------------------------------------------------------------
 class String
   def osx; self + '.osx'; end
+  def win; self + '.win'; end
   def o;   self + '.o';   end
   def cpp; self;          end
   def obj; self + '.obj'; end
@@ -110,6 +111,7 @@ end
 
 class Builder
   attr_reader :os
+
   def initialize opt
     @os = opt[:os]
   end
