@@ -84,13 +84,21 @@ if defined? FRAMEWORKS
   arr.each { |e| $FRAMEWORKS += " -framework #{e}" }
 end
 
-OBJS = SRCS.map { |src| "#{src}.osx.o" }
+$OUTDIR = "."
+$OUTDIR = OUTDIR if defined? OUTDIR
+
+def out_path_of file
+  filename = file.split("/")[-1]
+  "#{$OUTDIR}/#{filename}"
+end
+
+OBJS = SRCS.map { |src| out_path_of "#{src}.osx.o" }
 
 CLEAN  .include(OBJS)
 CLOBBER.include(APP)
 
 if defined? APP_TEST
-  TEST_OBJS = TEST_SRCS.map { |src| "#{src}.osx.o" }
+  TEST_OBJS = TEST_SRCS.map { |src| out_path_of "#{src}.osx.o" }
   CLEAN  .include(TEST_OBJS)
   CLOBBER.include(APP_TEST)
 end
@@ -122,10 +130,12 @@ class Builder
     end
   end
 
-  def should_compile? obj
-    if File.exist? os_o(obj)
-      src_time = File.mtime obj.cpp
-      obj_time = File.mtime os_o(obj)
+  def should_compile? src
+    src = File.expand_path(src)
+    obj = out_path_of os_o(src)
+    if File.exist? obj
+      src_time = File.mtime src.cpp
+      obj_time = File.mtime obj
       src_time > obj_time
     else
       true
@@ -135,7 +145,7 @@ class Builder
   def should_link? bin, objs 
     if File.exist? bin 
       mtime = File.mtime bin 
-      objs.any? { |obj| File.mtime(os_o(obj)) > mtime }
+      objs.any? { |obj| File.mtime(out_path_of os_o(obj)) > mtime }
     else
       true
     end
@@ -146,14 +156,15 @@ class Builder
       if should_compile? obj
         case os 
         when :osx
-          sh "#{$CXX} -c #{$CXXFLAGS} #{$INCS} #{obj.cpp} -o #{obj.osx.o}" 
+          path = out_path_of obj.osx.o
+          sh "#{$CXX} -c #{$CXXFLAGS} #{$INCS} #{obj.cpp} -o #{path}" 
         end
       end
     end
   end
 
-  def link app, objs, test
-    objs_os_o = objs.map { |obj| os_o(obj) }.join ' '
+  def link app, objs
+    objs_os_o = objs.map { |obj| out_path_of os_o(obj) }.join ' '
     if should_link? app, objs
       case os
       when :osx
