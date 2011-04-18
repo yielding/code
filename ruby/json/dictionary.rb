@@ -3,8 +3,9 @@
 
 require "json"
 
-dict  = JSON.parse(File.read("dictionary.json"))
 files = [ "StartPage.xaml", "bin/StartPage.xaml" ]
+text  = File.read("dictionary.json")
+dict  = JSON.parse(text).sort_by { |d| d[0].length * -1 }
 
 files.each { |file|  
   text = File.read(file)
