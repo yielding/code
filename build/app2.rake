@@ -17,7 +17,7 @@ if defined? CXX
   if defined? APP_TEST
     $CXX = "clang++"
   else
-    $CXX = "clang++"                 if CXX =~ /clang\+\+/
+    $CXX = "clang++ -std=gnu++0x"    if CXX =~ /clang\+\+/
     $CXX = "g++-mp-4.6 -std=gnu++0x" if CXX =~ /c\+\+0x/
   end
 end
