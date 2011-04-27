@@ -17,12 +17,12 @@ if defined? CXX
   if defined? APP_TEST
     $CXX = "clang++"
   else
-    $CXX = "clang++ -std=gnu++0x"    if CXX =~ /clang\+\+/
+    $CXX = "clang++"    if CXX =~ /clang\+\+/
     $CXX = "g++-mp-4.6 -std=gnu++0x" if CXX =~ /c\+\+0x/
   end
 end
 
-$CXXFLAGS =" -DPOSIX"
+$CXXFLAGS =" -DPOSIX -std=c++0x"
 if defined? CXXFLAGS
   CXXFLAGS.split.each do |f|
     flag = case f
