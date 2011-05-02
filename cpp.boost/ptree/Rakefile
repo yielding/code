@@ -1,10 +1,14 @@
 # -*- ruby -*-
 
-SRCS      = %w{ ptree_parser.cpp }
-TEST_SRCS = %w{ test.ptree_parser.cpp }
+SRCS      = %w{ PTreeParser.cpp ~/develop/src/BPList.cpp ~/develop/src/BPListRepr.cpp 
+                ~/develop/src/ByteBuffer.cpp ~/develop/src/Base64.cpp
+              }
+TEST_SRCS = %w{ TestPtreeParser.cpp }
 APP       = "ptree_parser"
 APP_TEST  = "test.ptree_parser"
+INCS      = "/Users/yielding/develop/include"
 CXX       = "clang++"      # c++0x, clang++, blank
 CXXFLAGS  = ":debug"       # :debug, :nodebug
+LIBS      = ":f :s"
 
 load '~/code/build/app2.rake'
