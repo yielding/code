@@ -2,10 +2,11 @@
 
 SRCS      = %w{ PTreeParser.cpp ~/develop/src/BPList.cpp ~/develop/src/BPListRepr.cpp 
                 ~/develop/src/ByteBuffer.cpp ~/develop/src/Base64.cpp
+                main.cpp
               }
 TEST_SRCS = %w{ TestPtreeParser.cpp }
-APP       = "ptree_parser"
-APP_TEST  = "test.ptree_parser"
+APP       = "main"
+APP_TEST  = "test.main"
 INCS      = "/Users/yielding/develop/include"
 CXX       = "clang++"      # c++0x, clang++, blank
 CXXFLAGS  = ":debug"       # :debug, :nodebug

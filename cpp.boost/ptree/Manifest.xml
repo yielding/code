@@ -105,20 +105,6 @@
 			<key>CFBundleVersion</key>
 			<string>2.0</string>
 		</dict>
-		<key>com.iwilab.KakaoTalk</key>
-		<dict>
-			<key>CFBundleIdentifier</key>
-			<string>com.iwilab.KakaoTalk</string>
-			<key>CFBundleVersion</key>
-			<string>2.0</string>
-		</dict>
-		<key>com.ethannicholas.iShootLite</key>
-		<dict>
-			<key>CFBundleIdentifier</key>
-			<string>com.ethannicholas.iShootLite</string>
-			<key>CFBundleVersion</key>
-			<string>1.1.3</string>
-		</dict>
 		<key>com.jceworld.angryhoneykorea</key>
 		<dict>
 			<key>CFBundleIdentifier</key>

@@ -3,15 +3,11 @@
 
 #include <boost/format.hpp>
 
-#include <exception>
-#include <vector>
 #include <utility>
-#include <iostream>
 #include <sstream>
+#include <exception>
 
 using namespace std;
-// using boost::property_tree::ptree;
-using namespace boost::property_tree;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -29,14 +25,6 @@ namespace
 
         return ss.str();
     }
-
-    template <typename Leaves> 
-    void pr(Leaves const& l)
-    {
-        for (int i=0; i<l.size(); i++) cout << l[i].first << ",[" << l[i].second << "]" << endl;
-
-        cout << "------------------\n";
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,10 +40,21 @@ bool PTreeParser::init()
 {
     try 
     {
-        read_xml(m_path, m_pt); 
+        if (m_bplist.open(m_path))
+        {
+            stringstream ss; ss << m_bplist.to_xml();
+            read_xml(ss, m_pt); 
+        }
+        else
+        {
+            read_xml(m_path, m_pt); 
+        }
+
     }
-    catch(xml_parser_error&) 
-    { return false; }
+    catch (xml_parser_error&) 
+    { 
+        return false; 
+    }
 
     return true;
 }
@@ -104,7 +103,7 @@ PTreeParser& PTreeParser::filter(string const& key)
     return *this;
 }
 
-Leaves PTreeParser::pairs()
+PTreeParser::Leaves PTreeParser::pairs()
 {
     return m_pairs;
 }
@@ -121,7 +120,7 @@ PTreeParser& PTreeParser::clear()
     return *this;
 }
 
-Leaves PTreeParser::map(Leaves const& r, string const& filter)
+PTreeParser::Leaves PTreeParser::map(Leaves const& r, string const& filter)
 {
     Leaves result;
     // auto is_bool = [](string const& s) { return s == "true" || s == "false"; }
@@ -146,7 +145,7 @@ bool PTreeParser::is_bool(string const& s)
     return s == "true" || s == "false"; 
 }
 
-Range PTreeParser::find_range(string const& path, int position)
+PTreeParser::Range PTreeParser::find_range(string const& path, int position)
 {
     auto found  = path.find_last_of(".");
     auto parent = path.substr(0, found);
@@ -167,40 +166,6 @@ Range PTreeParser::find_range(string const& path, int position)
 
     return make_pair(m_pt.end(), m_pt.end());
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-template <typename ForwardIterator> 
-string join_(ForwardIterator first, ForwardIterator last, string const& sep=", ")
-{
-    stringstream ss;
-    ss << *first++;
-    for (; first != last; ++first) ss << sep << *first;
-
-    return ss.str();
-}
-
-struct Manifest
-{
-    bool   was_passcode_set;
-    bool   is_encrypted;
-    string product_version;
-    string product_type;
-    vector<string> apps;
-
-    string to_s()
-    {
-        auto passcode  = was_passcode_set ? "pass on" : "pass off";
-        auto encrypted = is_encrypted ? "encrypted" : "not encrypted";
-        auto settings  = boost::str(boost::format("%s\n%s\n%s\n%s\n") % passcode % encrypted % 
-                product_version % product_type);
-        auto apps_     = join_(apps.begin(), apps.end());
-        return settings + "[" + apps_+ "]";
-    } 
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 //
