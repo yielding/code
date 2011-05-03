@@ -49,7 +49,7 @@ struct Manifest
 
 int main()
 {
-    PTreeParser ptree("Manifest.plist");
+    utility::parser::PTreeParser ptree("Manifest.plist");
     if (!ptree.init())
         return 0;
 
