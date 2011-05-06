@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+APP       = "parallel_regex"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{ driver.cpp partial_regex.cpp }
+TEST_SRCS = %w{ partial_regex.cpp test_partial_regex.cpp }
+CXX       = "clang++"         # c++0x, clang++, blank
+CXXFLAGS  = ":v :Os"          # :d , :O0 :O3 :w = -Wall
+LIBS      = ":r :t :s tbb"
+
+load '~/code/build/app2.rake'
+
+CLOBBER.include("*.o").include("a.out").include("filler")
