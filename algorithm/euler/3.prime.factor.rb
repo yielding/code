@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby1.9 -wKU
+#!/usr/bin/env ruby -wKU
 
 class Fixnum
   def prime?

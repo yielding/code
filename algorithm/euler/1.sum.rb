@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby1.9 -wKU
+#!/usr/bin/env ruby -wKU
 
 ## no. 1.1
 # res = 0
@@ -17,4 +17,4 @@
  a = sum_div_by( 3, 10000-1)
  b = sum_div_by( 5, 10000-1)
  c = sum_div_by(15, 10000-1)
- printf "%d, %d, %d, %d", a, b, c, a + b -c
+ printf "%d, %d, %d, %d", a, b, c, a + b - c

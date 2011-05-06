@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby1.9 -wKU
+#!/usr/bin/env ruby -wKU
 
 ## no. 2
 # def fib_upto(n)

@@ -1,12 +1,10 @@
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 #include <boost/filesystem.hpp>
 
 bool copy_file(std::string const& src, std::string const& dest)
 {
-    using namespace std;
-          namespace fs = boost::filesystem;
-
     if (!fs::exists(src) || !fs::is_regular_file(src))
         return false;
 
@@ -16,7 +14,7 @@ bool copy_file(std::string const& src, std::string const& dest)
     {
         bool ok = fs::create_directories(dest_path);
         if (!ok)
-            return false;
+            throw std::runtime_error("fail to create " + dest_path);
     }
 
     int64_t file_size = fs::file_size(src);
@@ -36,7 +34,10 @@ bool copy_file(std::string const& src, std::string const& dest)
         written += read;
     }
 
-    return written == file_size;
+    if (written != file_size)
+        throw std::runtime_error("size mismatches");
+
+    return true;
 }
 
 int main(int argc, char const* argv[])

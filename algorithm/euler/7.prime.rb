@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby -wKU
+
 class Fixnum
   # no 1
   def prime?
