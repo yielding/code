@@ -16,19 +16,19 @@ struct student
   }
 }; 
 
-typedef std::list<student> studentlist; 
+typedef std::list<student> student_list; 
 
 int main()
 { 
   student a, b, c;
-  studentlist l;
+  student_list l;
 
   a.name = "c11"; l.push_back(a);
   b.name = "a2",  l.push_back(b);
   c.name = "b3";  l.push_back(c);
   l.sort();
 
-  for (studentlist::iterator it=l.begin(); it != l.end(); ++it) 
+  for (auto it=l.begin(); it != l.end(); ++it) 
     cout << it->name << endl;
 
   return 0;
