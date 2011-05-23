@@ -24,7 +24,7 @@ class TestAccumulator < Test::Unit::TestCase
     assert_equal(0,  @acc.sum(0))
     assert_equal(7,  @acc.sum(1, 2, 4))
     assert_equal(10, @acc.sum(1, 2, 4, 3))
-  en
+  end
   
   def test_average
     assert_equal(0,  @acc.average())
