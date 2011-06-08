@@ -157,7 +157,7 @@ class Builder
         case os 
         when :osx
           path = out_path_of obj.osx.o
-          sh "#{$CXX} -c #{$CXXFLAGS} #{$INCS} #{obj.cpp} -o #{path}" 
+          `#{$CXX} -c #{$CXXFLAGS} #{$INCS} #{obj.cpp} -o #{path}`
         end
       end
     end
@@ -168,7 +168,7 @@ class Builder
     if should_link? app, objs
       case os
       when :osx
-        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS}"
+        `#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS}`
       end
     end
   end
@@ -178,7 +178,7 @@ class Builder
     if should_link? app, objs
       case os
       when :osx
-        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} -lgtest -lgtest_main"
+        `#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} -lgtest -lgtest_main`
       end
     end
   end
@@ -188,7 +188,7 @@ class Builder
     if should_link? app, objs
       case os
       when :osx
-        sh "(ar crl #{app} #{objs_os_o}) && ranlib #{app}"
+        `(ar crl #{app} #{objs_os_o}) && ranlib #{app}`
       end
     end
   end
