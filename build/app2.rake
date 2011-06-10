@@ -174,7 +174,7 @@ class Builder
   end
 
   def link_test app, objs
-    objs_os_o = objs.map { |obj| os_o(obj) }.join ' '
+    objs_os_o = objs.map { |obj| out_path_of os_o(obj) }.join ' '
     if should_link? app, objs
       case os
       when :osx
