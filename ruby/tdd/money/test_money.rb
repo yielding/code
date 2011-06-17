@@ -1,9 +1,8 @@
 #!/usr/bin/env ruby
 
-require 'test/unit/testcase'
-require 'test/unit/autorunner'
+require 'test/unit'
 
-require 'money'
+require_relative 'money'
 
 class TestMoney < Test::Unit::TestCase
   def setup
@@ -13,7 +12,7 @@ class TestMoney < Test::Unit::TestCase
   end
 
   def test_dollar_multiplication
-    five = Money.dollar(5);
+    five = Money.dollar(5)
     assert(Money.dollar(10) == five * 2)
     assert(Money.dollar(15) == five * 3)
   end

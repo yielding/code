@@ -1,5 +1,4 @@
 require "test/unit"
-
 require "fibo"
 
 class TestFibo < Test::Unit::TestCase
