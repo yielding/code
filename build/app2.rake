@@ -40,7 +40,7 @@ if defined? CXXFLAGS
   end
 end
 
-$INCS = " -I. -I/opt/local/include"
+$INCS = " -I. -I/usr/local/include"
 INCS.split.each { |e| $INCS += " -I#{e}" } if defined? INCS
 
 $LDFLAGS = " -L. -L/opt/local/lib"
