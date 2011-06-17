@@ -43,7 +43,7 @@ end
 $INCS = " -I. -I/usr/local/include"
 INCS.split.each { |e| $INCS += " -I#{e}" } if defined? INCS
 
-$LDFLAGS = " -L. -L/opt/local/lib"
+$LDFLAGS = " -L. -L/usr/local/lib"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
     flag = case e
