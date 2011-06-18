@@ -2,6 +2,8 @@
 
 require 'rake/clean'
 
+include Rake::DSL
+
 if not defined? APP
   puts "define APP"
   exit
@@ -157,7 +159,8 @@ class Builder
         case os 
         when :osx
           path = out_path_of obj.osx.o
-          `#{$CXX} -c #{$CXXFLAGS} #{$INCS} #{obj.cpp} -o #{path}`
+          sh "#{$CXX} -c #{$CXXFLAGS} #{$INCS} #{obj.cpp} -o #{path}"
+          #     `#{$CXX} -c #{$CXXFLAGS} #{$INCS} #{obj.cpp} -o #{path}`
         end
       end
     end
