@@ -1,4 +1,4 @@
-#!/usr/local/php4/bin/php -q
+#!/usr/bin/env php -q
 
 <?
    for ($i=0; $i<20; $i++) {

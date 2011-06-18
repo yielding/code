@@ -1,4 +1,4 @@
-#!/usr/local/php4/bin/php -q
+#!/usr/bin/env php
 <?
    $b = array("이창하", "박기원", "박재경", "조창현");
    $a = array("bbb", "cccc", "aaa");

@@ -1,4 +1,4 @@
-#!/usr/bin/php -q
+#!/usr/bin/env php -q
 <?
 // 컬럼에 있는 널을 제외한 데이타와 개수를 리턴
 function realData($res, $col, &$arr) 
