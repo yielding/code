@@ -1,10 +1,3 @@
-// (C) Copyright 2008 CodeRage, LLC (turkanis at coderage dot com)
-// (C) Copyright 2005-2007 Jonathan Turkanis
-// Distributed under the Boost Software License, Version 1.0. (See accompanying
-// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt.)
-
-// See http://www.boost.org/libs/iostreams for documentation.
-
 #ifndef BOOST_IOSTREAMS_CONTAINTER_DEVICE_HPP_INCLUDED
 #define BOOST_IOSTREAMS_CONTAINTER_DEVICE_HPP_INCLUDED
 
@@ -21,7 +14,8 @@ namespace boost { namespace iostreams { namespace example {
 // whose iterators are random-access iterators.
 //
 template<typename Container>
-class container_source {
+class container_source
+{
 public:
     typedef typename Container::value_type  char_type;
     typedef source_tag                      category;
@@ -77,7 +71,8 @@ private:
 // whose iterators are random-access iterators.
 //
 template<typename Container>
-class container_device {
+class container_device
+{
 public:
     typedef typename Container::value_type  char_type;
     typedef seekable_device_tag             category;
@@ -101,6 +96,7 @@ public:
             return -1; // EOF
         }
     }
+
     std::streamsize write(const char_type* s, std::streamsize n)
     {
         using namespace std;
@@ -118,6 +114,7 @@ public:
         }
         return n;
     }
+
     stream_offset seek(stream_offset off, BOOST_IOS::seekdir way)
     {
         using namespace std;
@@ -152,4 +149,4 @@ private:
 
 } } } // End namespaces example, iostreams, boost.
 
-#endif // #ifndef BOOST_IOSTREAMS_CONTAINTER_DEVICE_HPP_INCLUDED
+#endif
