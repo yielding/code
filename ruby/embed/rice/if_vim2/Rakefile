@@ -2,8 +2,10 @@
 
 APP      = 'if_vim2'
 SRCS     = %w{if_vim.cpp}
+CXX      = 'clang++'
+INCS     = ":rice"
 OSX_LIBS = "-lruby.1.9.1 -lrice"
 
 DIR = File.dirname __FILE__
 
-load '~/code/build/app.rake'
+load '~/code/build/app2.rake'

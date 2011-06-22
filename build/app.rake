@@ -2,6 +2,8 @@
 
 require 'rake/clean'
 
+include Rake::DSL
+
 task :default => [:osx]
 
 if not defined? APP
@@ -27,8 +29,8 @@ LIN_CC       = "g++"
 
 $OSX_LIBS     = ""
 $OSX_CXXFLAGS = "-O3 "
-$OSX_CXXFLAGS += "-I/opt/local/include"
-$OSX_LDFLAGS  = "-L. -L/opt/local/lib"
+$OSX_CXXFLAGS += "-I/usr/local/include"
+$OSX_LDFLAGS  = "-L. -L/usr/local/lib"
 if defined? OSX_LIBS 
   $OSX_LIBS      = "#{OSX_LIBS}" 
   RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.2-p180"

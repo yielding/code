@@ -42,8 +42,22 @@ if defined? CXXFLAGS
   end
 end
 
-$INCS = " -I. -I/usr/local/include"
-INCS.split.each { |e| $INCS += " -I#{e}" } if defined? INCS
+#$INCS = " -I. -I/usr/local/include"
+$INCS = " -I. "
+if defined? INCS
+  RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.2-p180"
+  RVM_INC = "#{RVM}/include/ruby-1.9.1"
+  RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.2-p180/gems"
+  RICE    = "#{RVM_GEM}/rice-1.4.2/ruby/lib"
+  INCS.split.each do |i|
+     flag = case i
+            when /:rice/ ; " -I#{RVM_INC} -I#{RICE}/include"
+            else
+             " -I#{i}"
+            end
+     $INCS += flag
+  end
+end
 
 $LDFLAGS = " -L. -L/usr/local/lib"
 if defined? LDFLAGS

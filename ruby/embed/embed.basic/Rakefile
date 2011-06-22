@@ -11,7 +11,7 @@ CLOBBER.include(TARGET)
 
 LDFLAGS  = ''
 LIBS     = '-lruby -lobjc -ldl'
-CXXFLAGS = '-I/opt/local/lib/ruby/1.8/i686-darwin10'
+CXXFLAGS = '-I/usr/lib/ruby/1.8/universal-darwin11.0'
 SRC      = FileList['*.cpp']
 OBJ      = SRC.ext('o')
 
