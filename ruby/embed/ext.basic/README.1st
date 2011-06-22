@@ -1,0 +1,3 @@
+rvm use default
+
+ruby -I. ./exruby.rb
