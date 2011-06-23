@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby -wKU
 
-class Mdbd
-  def initialize path
+class Mbdb
+  def initialize(path)
     @path = path
     @file = nil    
   end

@@ -2,13 +2,13 @@
 
 require "test/unit"
 
-require "mdbd"
+require "mbdb"
 
-class TestMDBD < Test::Unit::TestCase
+class TestMbdb < Test::Unit::TestCase
   def setup
     @file1 = File.expand_path(File.dirname(__FILE__)) + "/../data/5_Manifest.mbdb"
     @file1 = "/Users/yielding/code/ruby/io/data/5_Manifest.mbdb"
-    @md  = Mdbd.new @file1
+    @md  = Mbdb.new @file1
     @md.open 
   end
 
