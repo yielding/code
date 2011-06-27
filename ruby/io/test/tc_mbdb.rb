@@ -30,4 +30,5 @@ class TestMbdb < Test::Unit::TestCase
   def test_process
     @db.process_mbdb
   end
+
 end
