@@ -1,11 +1,11 @@
 require "test/unit"
 
-require "skype/chat_log"
+require "skype/chat_history"
 
-class TestSkype < Test::Unit::TestCase
+class TestChatHistory < Test::Unit::TestCase
   def setup
     call256 = File.expand_path(File.dirname(__FILE__)) + "/../data/call256.dbb"
-    @chat = Skype::ChatLog.new(call256)
+    @chat = Skype::ChatHistory.new(call256)
     @chat.open
   end
 
