@@ -1,0 +1,12 @@
+# -*- ruby -*-
+
+SRCS     = %w{ container_device.cpp }
+APP      = "container_device"
+TEST_APP = "test_container_device"
+CXX      = "clang++"    # c++0x, clang++, blank
+CXXFLAGS = ":v :Os"
+LIBS     = ":s" 
+
+load '~/code/build/app2.rake'
+
+CLOBBER.include("a.out").include("tags")
