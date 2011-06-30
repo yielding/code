@@ -8,9 +8,7 @@ module BigEndian
   def get_int8; get_int(8) end
 
   private
-
   def get_int size
-    offset += size
-    stream.read(size).each_byte.reduce(0) { |res, b| (res << 8) + b }
+    @stream.read(size).each_byte.reduce(0) { |res, b| (res << 8) + b }
   end
 end
