@@ -76,7 +76,8 @@ int main()
     try
     {
         ptree pt;
-        read_xml("History.xml", pt);
+        // read_xml("History.xml", pt);
+        read_xml("History.html", pt);
 
         vector<int> sel;
         sel.push_back(0);
@@ -84,6 +85,7 @@ int main()
         sel.push_back(2);
 
         string key = "plist.dict.array";
+        // string key = "html.body";
         print_selected(pt, key, sel);
 
         // print_all(pt, 0);
