@@ -1,0 +1,1 @@
+gcc example.m -o example -framework Foundation -framework MacRuby -fobjc-gc
