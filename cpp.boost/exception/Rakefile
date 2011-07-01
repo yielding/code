@@ -1,0 +1,10 @@
+# -*- ruby -*-
+
+SRCS     = %w{ thread.exception.cpp }
+APP      = "thread.exception"
+CXX      = "clang++"    # c++0x, clang++, blank
+CXXFLAGS = ":v :Os"
+LIBS     = ":t :s" 
+
+load '~/code/build/app2.rake'
+CLOBBER.include("*.tee").include("a.out").include("hello")
