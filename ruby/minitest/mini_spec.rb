@@ -10,7 +10,7 @@ describe "Awesome" do
     end
 
     it "matches something AMAZING" do
-      "vuvuzela".must_match /vuvu/
+      "vuvuzela".must_match(/vuvu/)
     end
 
     it "raises something AMAZING" do
