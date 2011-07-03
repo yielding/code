@@ -11,7 +11,7 @@ uint32_t fibo(uint64_t n)
 {
   if (n == 0 || n == 1)
     return 1;
-  
+
   auto it = fiboes.find(n);
   if (it != fiboes.end())
     return it->second;
