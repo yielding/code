@@ -22,20 +22,11 @@
 			산골짜기에서 온 편지
 			|
 	TODOs
-		CDR Design
-			COTS 적용방안
-			| 김도연 과장이 혼자 적용한 것이 있는 상황
-			| 우리의 버전이 필요한 시점
+		Printer 설정
 	DOING
 		ESS IMS 수정
 		| 여광씨와 함께 현광전자의 ESS IMS를 반영한다.
 	DONE
-		Melvin Document
-			TPC Interface 
-			| Trace에 interface 반영
-			TIA Interface 
-			| Trace에 interface 반영
-		Printer 설정
 		CDR Design
 			Mini-shelter
 			| Mini-Shelter 제작 방안
