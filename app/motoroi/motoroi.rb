@@ -59,6 +59,8 @@ class Motoroi
     # 1. prepare picture list
     _, data = @http.get("/personalportal/pictureview?c=0&blk=1")
 
+    puts data
+
     # 2. get total block count
     res = JSON.parse(data)
     total_blocks = res["TotalBlocks"]
@@ -110,5 +112,5 @@ if __FILE__ == $PROGRAM_NAME
   motoroi  = Motoroi.new("192.168.1.7")
   mdf_path = "."
   motoroi.prepare_pictures.each { |picture| picture.save_to(mdf_path) }
-  motoroi.prepare_messages.each { |message| p message }
+  # motoroi.prepare_messages.each { |message| p message }
 end
