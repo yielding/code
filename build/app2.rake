@@ -20,11 +20,11 @@ if defined? CXX
     $CXX = "clang++"
   else
     $CXX = "clang++"    if CXX =~ /clang\+\+/
-    $CXX = "clang++ -std=gnu++0x" if CXX =~ /c\+\+0x/
+    $CXX = "g++-mp-4.6" if CXX =~ /c\+\+0x/
   end
 end
 
-$CXXFLAGS =" -DPOSIX"
+$CXXFLAGS =" -DPOSIX -std=c++0x"
 if defined? CXXFLAGS
   CXXFLAGS.split.each do |f|
     flag = case f
