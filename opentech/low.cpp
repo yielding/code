@@ -29,11 +29,12 @@ private:
 
 bool Problem::is_problem()
 {
-  return m_line.find("|:|") != string::npos ||
-         m_line.find("|;|") != string::npos ||
-         m_line.find("|<|") != string::npos ||
-         m_line.find("|>|") != string::npos ||
-         m_line.find("|?|") != string::npos;
+  return 
+    m_line.find("|:|") != string::npos ||
+    m_line.find("|;|") != string::npos ||
+    m_line.find("|<|") != string::npos ||
+    m_line.find("|>|") != string::npos ||
+    m_line.find("|?|") != string::npos;
 }
 
 int main(int argc, char const* argv[])
