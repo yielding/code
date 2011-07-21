@@ -107,7 +107,8 @@ bool parse_http_request(std::string& in, http::request& req)
     = lit("\r\n");
   
   method
-    %= string("OPTIONS") | "GET"| "HEAD" | "POST" | "PUT" | "DELETE" | "TRACE" | "CONNECT";
+    %= string("OPTIONS") | string("GET")    | string("HEAD")  | string("POST") | 
+       string("PUT")     | string("DELETE") | string("TRACE") | string("CONNECT");
   
   mark
     %= string("-") | "_" | "." | "!" | "~" | "*" | "\'" | "(" | ")";
@@ -145,8 +146,8 @@ bool parse_http_request(std::string& in, http::request& req)
     = decimal_byte >> '.' >> decimal_byte >> '.' >> decimal_byte >> '.' >> decimal_byte;
   
   host
-    %= hostname | ipv4address;
-  
+    %= hostname | ipv4address ;
+
   port
     %= raw[ uint_ ];
   
@@ -248,28 +249,28 @@ bool parse_http_request(std::string& in, http::request& req)
 int main(int argc, char const *argv[])
 {
   http::request request;
-  std::string req_str;
+  std::string req1, req2;
 
-  req_str = "GET http://192.168.10.12:8080/index.html?userid=joe&password=guessme HTTP/1.1\r\n"
-            "Host: www.mysite.com\r\n"
-            "User-Agent: Mozilla/4.0\r\n"
-            "\r\n"
-            ;
+  req1 = "GET http://192.168.10.12:8080/index.html?userid=joe&password=guessme HTTP/1.1\r\n"
+         "Host: www.mysite.com\r\n"
+         "User-Agent: Mozilla/4.0\r\n"
+         "\r\n"
+         ;
 
-  req_str = "POST /login.jsp HTTP/1.1\r\n"
-            "Host: www.mysite.com\r\n"
-            "User-Agent: Mozilla/4.0\r\n"
-            "Content-Length: 27\r\n"
-            "Content-Type: application/x-www-form-urlencoded\r\n"
-            "\r\n"
-            "userid=joe&password=guessme"
-            ;
+  req2 = "POST /login.jsp HTTP/1.1\r\n"
+         "Host: www.mysite.com\r\n"
+         "User-Agent: Mozilla/4.0\r\n"
+         "Content-Length: 27\r\n"
+         "Content-Type: application/x-www-form-urlencoded\r\n"
+         "\r\n"
+         "userid=joe&password=guessme"
+         ;
 
-  bool r = parse_http_request(req_str, request);
-  if (r)
-    std::cout << request;
-  else
-    std::cout << "error on parsing!";
+  bool r1 = parse_http_request(req1, request);
+  if (r1) std::cout << "ok: \n" << request;
+
+  bool r2 = parse_http_request(req2, request);
+  if (r2) std::cout << "ok: \n" << request;
 
   return 0;
 }

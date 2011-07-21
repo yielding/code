@@ -20,11 +20,11 @@ if defined? CXX
     $CXX = "clang++"
   else
     $CXX = "clang++"    if CXX =~ /clang\+\+/
-    $CXX = "g++-mp-4.6 -std=gnu++0x" if CXX =~ /c\+\+0x/
+    $CXX = "clang++ -std=gnu++0x" if CXX =~ /c\+\+0x/
   end
 end
 
-$CXXFLAGS =" -DPOSIX -std=c++0x"
+$CXXFLAGS =" -DPOSIX"
 if defined? CXXFLAGS
   CXXFLAGS.split.each do |f|
     flag = case f
@@ -42,12 +42,11 @@ if defined? CXXFLAGS
   end
 end
 
-#$INCS = " -I. -I/usr/local/include"
-$INCS = " -I. "
+$INCS = " -I. -I/opt/local/include"
 if defined? INCS
-  RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.2-p180"
+  RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.2-p290"
   RVM_INC = "#{RVM}/include/ruby-1.9.1"
-  RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.2-p180/gems"
+  RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems"
   RICE    = "#{RVM_GEM}/rice-1.4.2/ruby/lib"
   INCS.split.each do |i|
      flag = case i
@@ -59,7 +58,7 @@ if defined? INCS
   end
 end
 
-$LDFLAGS = " -L. -L/usr/local/lib"
+$LDFLAGS = " -L. -L/opt/local/lib"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
     flag = case e
