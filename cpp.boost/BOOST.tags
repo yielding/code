@@ -1,0 +1,8 @@
+0) mkdir ~/.vim/tags
+
+1) port contents boost | 
+   grep -E -o '/opt/local/include/.*\.(h|hpp)' | 
+   grep -v '/opt/local/include/boost/typeof/' > ~/.vim/tags/boost-filelist
+
+2) ctags --sort=foldcase --c++-kinds=+p --fields=+iaS --extra=+q 
+   -f ~/.vim/tags/boost -L ~/.vim/tags/boost-filelist

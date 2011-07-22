@@ -1,8 +1,6 @@
-# -*- ruby -*-
-
-APP       = "http_client"
+APP       = "driver"
 APP_TEST  = "test_#{APP}"
-SRCS      = %w{ http_client.cpp }
+SRCS      = %w{ driver.cpp http_client.cpp }
 TEST_SRCS = %w{ test_http_client.cpp }
 CXX       = "c++0x"         # c++0x, clang++, blank
 CXXFLAGS  = ":v :d"         # :d , :O0 :O3 :w = -Wall

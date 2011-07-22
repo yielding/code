@@ -59,7 +59,7 @@ class Motoroi
     # 1. prepare picture list
     _, data = @http.get("/personalportal/pictureview?c=0&blk=1")
 
-    puts data
+    # puts data
 
     # 2. get total block count
     res = JSON.parse(data)
