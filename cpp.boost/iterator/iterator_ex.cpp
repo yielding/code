@@ -1,12 +1,12 @@
-#include <vector>
-#include <list>
-#include <iostream>
-#include <algorithm>
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/iterator/iterator_traits.hpp>
 #include <boost/function.hpp>
+#include <vector>
+#include <list>
+#include <iostream>
+#include <algorithm>
 
 template <class Iter>
 class sorted_view
@@ -112,5 +112,4 @@ int main()
   sorted_view<int*> sv3(data, data + N);
   for_each(sv3.begin(), sv3.end(), cout << _1 << " ");
   cout << endl;
-
 }

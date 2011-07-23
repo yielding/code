@@ -1,9 +1,8 @@
-#include <boost/config.hpp>
+#include <boost/iterator/filter_iterator.hpp>
+#include <boost/cstdlib.hpp> // for exit_success
 #include <algorithm>
 #include <functional>
 #include <iostream>
-#include <boost/iterator/filter_iterator.hpp>
-#include <boost/cstdlib.hpp> // for exit_success
 
 using namespace std;
 using namespace boost;
