@@ -1,8 +1,11 @@
 # -*- ruby -*-
 
-SRCS = %w{unordered_map.cpp}
-APP  = "unordered_map"
+SRCS      = %w{ unordered_map.cpp }
+TEST_SRCS = %w{ test_unordered_map.cpp }
+APP       = "unordered_map"
+CXX       = "c++0x"
+CXXFLAGS  = ":d"
 
 DIR = File.dirname __FILE__
 
-load '~/code/build/app.rake'
+load '~/code/build/app2.rake'

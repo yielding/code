@@ -19,9 +19,7 @@ int main(int argc, char const* argv[])
   assert(x.at("two") == 2);
   assert(x.find("missing") == x.end());
 
-  auto xend = x.end();
-  for (auto it=x.begin(); it != xend; ++it)
-   cout << it->first << " : " << it->second << endl;
+  for (auto& v: x) cout << v.first << " : " << v.second << endl;
 
   return 0;
 }
