@@ -1,8 +1,8 @@
 #-*- ruby -*-   
 
+SRCS     = %w{ if_vim.cpp }
 APP      = 'if_vim2'
-SRCS     = %w{if_vim.cpp}
-CXX      = 'clang++'
+CXX      = 'c++0x'
 INCS     = ":rice"
 OSX_LIBS = "-lruby.1.9.1 -lrice"
 

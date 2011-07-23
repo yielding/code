@@ -1,33 +1,34 @@
+#include <boost/random.hpp>
+#include <boost/iterator/iterator_facade.hpp>
+#include <boost/iterator/iterator_traits.hpp>
+#include <boost/iterator/iterator_categories.hpp>
 #include <iostream>
 #include <algorithm>
 #include <iterator>
 #include <vector>
 
-#include <boost/random.hpp>
-#include <boost/iterator/iterator_facade.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/iterator/iterator_categories.hpp>
-
 using namespace std;
+using namespace boost;
 
 template<typename Gen>
 class random_number_iterator: 
-  public boost::iterator_facade<random_number_iterator<Gen>, 
+  public iterator_facade<random_number_iterator<Gen>, 
          typename Gen::result_type const, 
-         boost::forward_traversal_tag>
+         forward_traversal_tag>
 {
 public:
   typedef typename Gen::result_type result_type;
 
 public:
-  explicit random_number_iterator(Gen& gen, int cnt=0): m_gen(gen), m_count(cnt)
+  explicit random_number_iterator(Gen& gen, int cnt=0): 
+    m_gen(gen), m_count(cnt)
   {
     if (cnt != 0)
       m_value = m_gen();
   }
 
 private:
-  friend class boost::iterator_core_access;
+  friend class iterator_core_access;
 
   void increment()
   {
@@ -56,15 +57,14 @@ make_random_number_iterator(Gen& gen, int cnt=0)
 
 int main()
 {
-  boost::mt19937 rng;
-  boost::uniform_int<> six(1, 100);
-  boost::variate_generator<boost::mt19937&, boost::uniform_int<> > die(rng, six);
+  mt19937 rng;
+  uniform_int<> six(1, 100);
+  variate_generator<mt19937&, uniform_int<>> die(rng, six);
 
   vector<int> vi;
   copy(make_random_number_iterator(die, 1000),
        make_random_number_iterator(die),
-       back_inserter(vi)
-       );
+       back_inserter(vi));
 
   copy(vi.begin(), vi.end(), ostream_iterator<int>(cout, " "));
 }

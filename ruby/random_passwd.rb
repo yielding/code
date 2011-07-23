@@ -11,17 +11,17 @@ def guess_password digest, limit=8
   matched = false
 
   (1..limit).each do |r|
-      puts "guess #{r} level"
-      # 중복 순열
-      letters.repeated_permutation(r).each do |a|
-          if Digest::MD5.hexdigest(a.join) == digest
-              matched = true
-              password = a.join
-              break
-          end
+    puts "guess #{r} level"
+    # 중복 순열
+    letters.repeated_permutation(r).each do |a|
+      if Digest::MD5.hexdigest(a.join) == digest
+        matched = true
+        password = a.join
+        break
       end
+    end
 
-      break if matched
+    break if matched
   end
   return password
 end

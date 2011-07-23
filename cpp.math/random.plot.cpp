@@ -1,10 +1,8 @@
-#include <iostream>
-#include <iomanip>
+#include <boost/random.hpp>
 #include <vector>
-#include <algorithm>
 #include <cmath>
 #include <string>
-#include <boost/random.hpp>
+#include <iostream>
 
 using namespace std;
 

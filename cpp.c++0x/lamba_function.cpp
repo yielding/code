@@ -84,10 +84,11 @@ int main(int argc, char const* argv[])
 {
   Object o;
 
-  int  x = 5;
+  auto x = 5;
   auto f = make_lambda_closure([&o, x]() { o.increment(x); });
   f->Execute();
   f->Execute();
   cout << o.result();
+
   return 0;
 }
