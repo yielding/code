@@ -1,4 +1,3 @@
-//#include <iostream>
 #include <boost/log/core.hpp>
 #include <boost/log/attributes/clock.hpp>
 #include <boost/log/attributes/counter.hpp>

@@ -69,6 +69,7 @@ int _tmain(int argc, _TCHAR* argv[])
   *((u_long *)buffer1) = ntohl(*(u_long*)(buffer1));
 
   cout << ph->version << " " << ph->message << " " << ph->packetType
-    << " " << ph->packetSize << endl;
+       << " " << ph->packetSize << endl;
+
   return 0;
 }

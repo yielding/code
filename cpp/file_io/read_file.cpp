@@ -6,7 +6,7 @@ using namespace std;
 
 vector<char> read_file(char const* name)
 {
-  ifstream file(name, ios_base::in|ios_base::binary);
+  ifstream file(name, ios_base::binary);
 
   vector<char> buffer((istreambuf_iterator<char>(file)), 
                        istreambuf_iterator<char>());   

@@ -40,6 +40,6 @@ int main(int argc, char const* argv[])
   cout << a.IsPointer << a.IsPointerToDataMember << endl;
   cout << b.IsPointer << b.IsPointerToDataMember << endl;
   cout << c.IsPointer << c.IsPointerToDataMember << endl;
-  
+
   return 0;
 }

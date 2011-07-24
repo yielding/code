@@ -1,7 +1,7 @@
-#include <iostream>
-#include <sstream>
 #include <boost/lambda/lambda.hpp>
 #include <boost/lambda/bind.hpp>
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -14,7 +14,8 @@ string hex_(char v)
 }
 
 template <typename ForwardIterator>
-string to_hex(ForwardIterator beg, ForwardIterator end, string b="[ ", string e="]")
+string to_hex(ForwardIterator beg, ForwardIterator end, 
+              string b="[ ", string e="]")
 {
   using namespace boost::lambda;
 
@@ -29,6 +30,7 @@ string to_hex(ForwardIterator beg, ForwardIterator end, string b="[ ", string e=
 int main(int argc, char const *argv[])
 {
   string a = "abcde";
+
   cout << to_hex(a.begin(), a.end())     << endl;
   cout << to_hex(a.begin(), a.begin()+5) << endl;
 

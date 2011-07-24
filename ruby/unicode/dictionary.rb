@@ -23,38 +23,38 @@ rc_files = %w{
 }
 
 def process_utf16le file_name
-    in_file = File.open(file_name, "r:utf-16le:utf-8")
-    text = in_file.read()
+  in_file = File.open(file_name, "r:utf-16le:utf-8")
+  text = in_file.read()
 
-    # backup
-    backup = "#{file_name}.org"
-    File.open(backup, "w:utf-16le") { |f| f.write(text) } unless File.exists?(backup)
+  # backup
+  backup = "#{file_name}.org"
+  File.open(backup, "w:utf-16le") { |f| f.write(text) } unless File.exists?(backup)
 
-    # translate
-    $dict.each { |word| 
-      key, eng = word[0], word[1][0] 
-      text.gsub!(key, eng)
-    }
+  # translate
+  $dict.each { |word| 
+    key, eng = word[0], word[1][0] 
+    text.gsub!(key, eng)
+  }
 
-    # write result
-    File.open(file_name, "w:utf-16le") { |f| f.write(text) }
+  # write result
+  File.open(file_name, "w:utf-16le") { |f| f.write(text) }
 end
 
 def process_utf8 file_name
-    text = File.read(file_name)
+  text = File.read(file_name)
 
-    # backup
-    backup = "#{file_name}.org"
-    File.open(backup, "w") { |f| f.write(text) } unless File.exists?(backup)
+  # backup
+  backup = "#{file_name}.org"
+  File.open(backup, "w") { |f| f.write(text) } unless File.exists?(backup)
 
-    # translate
-    $dict.each { |word| 
-      key, eng = word[0], word[1][0] 
-      text.gsub!(key, eng)
-    }
+  # translate
+  $dict.each { |word| 
+    key, eng = word[0], word[1][0] 
+    text.gsub!(key, eng)
+  }
 
-    # write result
-    File.open(file_name, "w") { |f| f.write(text) }
+  # write result
+  File.open(file_name, "w") { |f| f.write(text) }
 end
 
 $dict_text = File.read("dictionary.json")

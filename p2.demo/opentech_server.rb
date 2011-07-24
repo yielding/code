@@ -15,7 +15,7 @@ begin
 
       pdu.get_int1 # 0xf0
       pdu.get_int1 # 0xf0
-      
+
       cmd = pdu.get_int1
       len = pdu.get_int2
 

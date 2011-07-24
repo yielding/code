@@ -2057,28 +2057,6 @@ namespace swig {
   };
 
   ID  GC_VALUE::hash_id = rb_intern("hash");
-  ID  GC_VALUE::lt_id = rb_intern("<");
-  ID  GC_VALUE::gt_id = rb_intern(">");
-  ID  GC_VALUE::eq_id = rb_intern("==");
-  ID  GC_VALUE::le_id = rb_intern("<=");
-  ID  GC_VALUE::ge_id = rb_intern(">=");
-
-  ID  GC_VALUE::pos_id = rb_intern("+@");
-  ID  GC_VALUE::neg_id = rb_intern("-@");
-  ID  GC_VALUE::inv_id = rb_intern("~");
-
-  ID  GC_VALUE::add_id = rb_intern("+");
-  ID  GC_VALUE::sub_id = rb_intern("-");
-  ID  GC_VALUE::mul_id = rb_intern("*");
-  ID  GC_VALUE::div_id = rb_intern("/");
-  ID  GC_VALUE::mod_id = rb_intern("%");
-
-  ID  GC_VALUE::and_id = rb_intern("&");
-  ID  GC_VALUE::or_id  = rb_intern("|");
-  ID  GC_VALUE::xor_id = rb_intern("^");
-
-  ID  GC_VALUE::lshift_id = rb_intern("<<");
-  ID  GC_VALUE::rshift_id = rb_intern(">>");
 
   VALUE GC_VALUE::_hash = Qnil;
 

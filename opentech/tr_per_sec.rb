@@ -11,7 +11,7 @@ if __FILE__ == $0
       hot_spot =[]
       time_count.each_pair.map { |a, b| hot_spot.push(a) if b > 160 }
       hot_spot.sort.each {|e| puts e}
-      
+
       puts "#{log}: #{time_count.index(max_tr_time)} => #{max_tr_time}"
       puts "bulk #{hot_spot.size}"
     }

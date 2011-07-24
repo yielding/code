@@ -22,8 +22,7 @@ protected:
   }
 
   virtual void TearDown()
-  {
-  }
+  {}
 
   string m_s1, m_s2;
   char   m_buffer[BUF_SIZE];
