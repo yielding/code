@@ -12,6 +12,7 @@
 
 using namespace std;
 using namespace boost;
+
 using boost::property_tree::ptree;
 
 class Picture

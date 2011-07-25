@@ -1,6 +1,5 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
-#include <utility>
 
 class HTTPClientImpl;
 ////////////////////////////////////////////////////////////////////////////////
@@ -13,7 +12,7 @@ class HTTPClient
 public:
   HTTPClient(char const* host, char const* port="8080", int timeout=50);
 
-  std::pair<bool, std::string> get(char const* query);
+  std::string get(char const* query);
 
   std::string get_raw();
 

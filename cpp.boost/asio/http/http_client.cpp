@@ -3,6 +3,7 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
+#include <boost/lexical_cast.hpp>
 #include <fstream>
 #include <sstream>
 #include <cassert>
@@ -21,8 +22,7 @@ public:
   HTTPClientImpl(char const* host, char const* port="8080", int timeout=5);
   ~HTTPClientImpl();
 
-  pair<bool, string> get(char const* query);
-
+  string get(char const* query);
   string get_raw();
 
   uint32_t last_status();
@@ -39,6 +39,7 @@ private:
   int  m_timeout;
   bool m_chunk_based;
   uint32_t m_last_status;
+  uint32_t m_size;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +54,7 @@ HTTPClientImpl::HTTPClientImpl(char const* host, char const* port, int timeout)
 {
   m_chunk_based = false;
   m_last_status = 0;
+  m_size = 0;
 }
 
 HTTPClientImpl:: ~HTTPClientImpl()
@@ -63,18 +65,16 @@ HTTPClientImpl:: ~HTTPClientImpl()
 // To TEST
 // 1. 연속 call 이 가능한지 connect, close
 //
-pair<bool, string> HTTPClientImpl::get(char const* query)
+string HTTPClientImpl::get(char const* query)
 {
   string data;
-  bool res = false;
 
   if (!handshake(query) || !parse_header())
-    return make_pair(res, data);
+    return data;
 
+  uint32_t size = 0;
   if (m_chunk_based)
   {
-    uint32_t size = 0;
-
     while (true)
     {
       string line; getline(m_stream, line);
@@ -89,17 +89,24 @@ pair<bool, string> HTTPClientImpl::get(char const* query)
 
       size += to_read;
     }
-#if defined(DEBUG)
-    cout << "size: " << size << endl;
-#endif
-    res = true;
   }
   else
   {
-    assert(false);
+    assert(m_chunk_based == false);
+    assert(m_size > 0);
+    boost::scoped_array<char> buf(new char[m_size]);
+    m_stream.read(buf.get(), m_size);
+    assert(m_size == m_stream.gcount());
+    data.assign(buf.get(), m_size);
+
+    size += m_size;
   }
 
-  return make_pair(res, data);
+#if defined(DEBUG)
+  cout << "size: " << size << endl;
+#endif
+
+  return data;
 }
 
 string HTTPClientImpl::get_raw()
@@ -169,6 +176,16 @@ bool HTTPClientImpl::parse_header()
   {
     if (boost::find_first(header, "chunked"))
       m_chunk_based = true;
+    
+    if (boost::find_first(header, "Content-Length"))
+    {
+        string size = boost::trim_right_copy(header.substr(16));
+        m_size = boost::lexical_cast<uint32_t>(size);
+    }
+
+#if defined(DEBUG)
+    cout << header << endl;
+#endif
   }
 
   return true;
@@ -189,7 +206,7 @@ HTTPClient::HTTPClient(char const* host, char const* port, int timeout)
   m_spHttp.reset(new HTTPClientImpl(host, port, timeout));
 }
 
-pair<bool, string> HTTPClient::get(char const* query)
+string HTTPClient::get(char const* query)
 {
   return m_spHttp->get(query);
 }
@@ -204,6 +221,27 @@ uint32_t HTTPClient::last_status()
   return m_spHttp->last_status();
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+#if 1
+#include <iostream>
+
+using namespace std;
+
+int main(int argc, char const* argv[])
+{
+  HTTPClient http("pds6.egloos.com", "80");
+  auto r = http.get("/pds/200710/29/97/b0012097_47253d773586a.jpg");
+  assert(!r.empty());
+  cout << r;
+
+  return 0;
+}
+
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
