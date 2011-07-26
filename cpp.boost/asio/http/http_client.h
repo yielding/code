@@ -14,7 +14,7 @@ public:
 
   std::string get(char const* query);
 
-  std::string get_raw();
+  std::string get_raw(char const* query);
 
   uint32_t last_status();
 

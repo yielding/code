@@ -23,7 +23,7 @@ public:
   ~HTTPClientImpl();
 
   string get(char const* query);
-  string get_raw();
+  string get_raw(char const* query);
 
   uint32_t last_status();
 
@@ -62,9 +62,6 @@ HTTPClientImpl:: ~HTTPClientImpl()
   m_stream.close();
 }
 
-// To TEST
-// 1. 연속 call 이 가능한지 connect, close
-//
 string HTTPClientImpl::get(char const* query)
 {
   string data;
@@ -109,11 +106,19 @@ string HTTPClientImpl::get(char const* query)
   return data;
 }
 
-string HTTPClientImpl::get_raw()
+string HTTPClientImpl::get_raw(char const* query)
 {
-  char big_buffer[1024*200] = { 0 };
-  m_stream.read(big_buffer, 1024 * 200);
-  return string(big_buffer, m_stream.gcount());
+  string data;
+
+  if (handshake(query) && parse_header())
+  {
+    int const BIG = 1024 * 500;
+    char big_buffer[BIG] = { 0 };
+    m_stream.read(big_buffer, 1024 * 200);
+    data.assign(big_buffer, m_stream.gcount());
+  }
+
+  return data;
 }
 
 bool HTTPClientImpl::handshake(char const* query)
@@ -211,9 +216,9 @@ string HTTPClient::get(char const* query)
   return m_spHttp->get(query);
 }
 
-string HTTPClient::get_raw()
+string HTTPClient::get_raw(char const* query)
 {
-  return m_spHttp->get_raw();
+  return m_spHttp->get_raw(query);
 }
 
 uint32_t HTTPClient::last_status()
@@ -226,14 +231,19 @@ uint32_t HTTPClient::last_status()
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-#if 0
+#if 1
 #include <iostream>
 
 using namespace std;
 
+// 1. wrong port    -> return immediately
+// 2. wrong address -> return immediately
+// 3. exception
+
 int main(int argc, char const* argv[])
 {
-  HTTPClient http("pds6.egloos.com", "80");
+  // HTTPClient http("pds6.egloos.com", "80", 1);
+  HTTPClient http("127.0.0.1", "80", 0);
   auto r = http.get("/pds/200710/29/97/b0012097_47253d773586a.jpg");
   assert(!r.empty());
   cout << r;
