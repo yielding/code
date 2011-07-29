@@ -147,8 +147,8 @@ bool HTTPClientImpl::handshake(char const* query)
     m_stream << "Connection: close\r\n\r\n";
 
     // check if response is OK.
-    string http_version;  m_stream >> http_version;
-                          m_stream >> m_last_status;
+    string http_version; m_stream >> http_version;
+                         m_stream >> m_last_status;
 
     string status_message;     
     getline(m_stream, status_message);
@@ -231,7 +231,7 @@ uint32_t HTTPClient::last_status()
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-#if 1
+#if 0
 #include <iostream>
 
 using namespace std;
