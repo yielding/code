@@ -1,4 +1,3 @@
-
 #include "http_client.h"
 
 #include <boost/foreach.hpp>
@@ -67,7 +66,7 @@ private:
   string m_contents;
 };
 
-typedef vector<boost::shared_ptr<Picture>> Pictures;
+typedef vector<boost::shared_ptr<Picture> > Pictures;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -110,7 +109,7 @@ private:
   string m_timestamp, m_message_body, m_call_duration, m_read_state;
 };
 
-typedef vector<boost::shared_ptr<MobileInbox>> MobileInboxes;
+typedef vector<boost::shared_ptr<MobileInbox> > MobileInboxes;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -148,7 +147,7 @@ private:
   string m_timestamp, m_call_duration, m_read_state;
 };
 
-typedef vector<boost::shared_ptr<CallLog>> CallLogs;
+typedef vector<boost::shared_ptr<CallLog> > CallLogs;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -186,7 +185,7 @@ private:
   string m_timestamp, m_message_body, m_read_state;
 };
 
-typedef vector<boost::shared_ptr<SMS>> SMSs;
+typedef vector<boost::shared_ptr<SMS> > SMSs;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -256,7 +255,7 @@ public:
 private:
   template <typename Item> 
   uint32_t query_data(string const& query, string const& root, string const& count, 
-      vector<boost::shared_ptr<Item>>& c)
+      vector<boost::shared_ptr<Item> >& c)
   {
     string result = m_http.get(query.c_str()); assert(!result.empty());
 
@@ -284,7 +283,9 @@ int main(int argc, char const* argv[])
   auto pictures = m.prepare_pictures();
   cout << "final count: " << pictures.size() << endl;
   for (auto i=0; i<pictures.size(); ++i)
+  {
     pictures[i]->save_to(".");
+  }
 
 //  auto sms = m.prepare_sms();
 //  cout << "final count: " << sms.size() << endl;
