@@ -195,8 +195,8 @@ typedef vector<boost::shared_ptr<SMS> > SMSs;
 class Motoroi
 {
 public:
-  Motoroi(char const* host, char const* port="8080")
-    : m_http(host, port, 600)
+  Motoroi(char const* host, char const* port="8080", int time=10)
+    : m_http(host, port, time)
   {}
 
   ~Motoroi()
@@ -257,7 +257,9 @@ private:
   uint32_t query_data(string const& query, string const& root, string const& count, 
       vector<boost::shared_ptr<Item> >& c)
   {
-    string result = m_http.get(query.c_str()); assert(!result.empty());
+    string result = m_http.get(query.c_str()); 
+    if (result.empty())
+      throw std::runtime_error("Http.get error");
 
     stringstream ss(result);
     ptree pt; read_json(ss, pt);
@@ -278,6 +280,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char const* argv[])
 {
+<<<<<<< HEAD
   Motoroi m("192.168.1.7");
 
   auto pictures = m.prepare_pictures();
@@ -301,6 +304,32 @@ int main(int argc, char const* argv[])
 //  cout << "final count: " << inbox.size() << endl;
 //  for (auto i=0; i<inbox.size(); ++i)
 //    cout << inbox[i]->to_s() << endl;
+=======
+  Motoroi m("192.168.1.7", "8080", 10);
+
+  try
+  {
+    auto pictures = m.prepare_pictures();
+    cout << "final count: " << pictures.size() << endl;
+    for (auto i=0; i<pictures.size(); ++i) pictures[i]->save_to(".");
+
+    auto sms = m.prepare_sms();
+    cout << "final count: " << sms.size() << endl;
+    for (auto i=0; i<sms.size(); ++i) cout << sms[i]->to_s() << endl;
+
+    auto calllog = m.prepare_calllog();
+    cout << "final count: " << calllog.size() << endl;
+    for (auto i=0; i<calllog.size(); ++i) cout << calllog[i]->to_s() << endl;
+
+    auto inbox = m.prepare_mobile_inbox();
+    cout << "final count: " << inbox.size() << endl;
+    for (auto i=0; i<inbox.size(); ++i) cout << inbox[i]->to_s() << endl;
+  }
+  catch(std::runtime_error& e)
+  {
+    cout << "got an exception: " << e.what() << endl;
+  }
+>>>>>>> 69c8cf112b566ba48ec8acb9c1acf9ebbaeab18c
 
   return 0;
 }
