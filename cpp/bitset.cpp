@@ -1,53 +1,21 @@
 #include <iostream>
+#include <bitset>
 
 using namespace std;
 
-////////////////////////////////////////////////////////////////////////////////
-//
-// compare with boost::dynamic_bitset
-//
-////////////////////////////////////////////////////////////////////////////////
-class bitset
+int main(int argc, char const* argv[])
 {
-public:
-  enum { SHIFT = 5,
-         BITSPERWORD = 32,
-         MASK = 0x1F
-  };
+  std::bitset<16> input = 0x00ff;
+  std::bitset<16> mask  = 0xffff;
 
-public:
-  explicit bitset(int size)
-  {
-    int count = 1 + size / BITSPERWORD;
-    m_vector = new int[count]; 
-    for (int i=0; i<count; i++) m_vector[i] = 0;
-  }
+  cout << input.to_string() << endl;
 
-  ~bitset()         
-  { 
-    delete [] m_vector; 
-  }
+  input ^= mask;
 
-  void set(int i)   {        m_vector[i >> SHIFT] |=  (1 << (i & MASK)); }
-  void clear(int i) {        m_vector[i >> SHIFT] &= ~(1 << (i & MASK)); }
-  bool test(int i)  { return m_vector[i >> SHIFT] &   (1 << (i & MASK)); }
+  input[15].flip();
 
-private:
-  int* m_vector;
-};
+  string out = input.to_string();
+  cout << out;
 
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-int main()
-{
-  bitset cache(100000);
-
-  for (int i=0; i<10; i++)
-    cache.set(i);
-
-  for (int i=0; i<10000; i++)
-    cout << (cache.test(i) ? "set" : "not set") << "\n";
+  return 0;
 }
