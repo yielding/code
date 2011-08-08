@@ -79,8 +79,10 @@ class MDDictionary
   end
 
   def save
-    hash = {}; @dict.each { |item| hash[item[0]] = item[1] }
+    hash = {}
+    @dict.each { |item| hash[item[0]] = item[1] }
 
+    # File.open(@file, "w") { |f| f.write(hash.to_json) }
     File.open(@file, "w") { |f| f.write(JSON.pretty_generate(hash)) }
   end
 
