@@ -3,7 +3,6 @@
 #include <boost/foreach.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-// #include <boost/property_tree/exceptions.hpp>
 #include <boost/tuple/tuple.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/format.hpp>
@@ -40,44 +39,6 @@ typedef vector<FileInfo> FileInfoList;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-struct Picture
-{
-  static string query(uint32_t index)
-  {
-    return str(format("/personalportal/pictureview?c=0&blk=%d") % index);
-  }
-};
-
-struct MobileInbox
-{
-  static string query(uint32_t index)
-  {
-    return str(format("/personalportal/mobileinbox?c=0&d=4&blk=%d") % index);
-  }
-};
-
-struct CallLog
-{
-  static string query(int index)
-  {
-    return str(format("/personalportal/calllog?c=0&d=4&blk=%d") % index);
-  }
-};
-
-class SMS
-{
-public:
-  static string query(int index)
-  {
-    return str(format("/personalportal/sms?c=0&d=4&blk=%d") % index);
-  }
-};
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
 class Motoroi
 {
 public:
@@ -92,10 +53,11 @@ public:
 
     for (auto total_blocks=1, curr=1; curr<=total_blocks; curr++)
     {
-      string result; tie(result, total_blocks) 
-        = query_data(MobileInbox::query(curr), "LoadMobileInboxResp.TotalBlocks");
+      string query = str(format("/personalportal/mobileinbox?c=0&d=4&blk=%d") % curr);
+      string path  = str(format("%s/mobile_inbox/minbox%04d.json") % m_base_path % curr);
+      string result; 
+      tie(result, total_blocks) = query_data(query, "LoadMobileInboxResp.TotalBlocks");
 
-      string path = str(format("%s/mobile_inbox/minbox%04d.json") % m_base_path % curr);
       save_to(path, result);
       fl.push_back(FileInfo(path, result.size()));
     }
@@ -109,8 +71,9 @@ public:
 
     for (auto total_blocks=1, curr=1; curr<=total_blocks; curr++)
     {
-      string result; tie(result, total_blocks) 
-        = query_data(CallLog::query(curr), "LoadCallLogResp.TotalBlocks");
+      string result; 
+      string query = str(format("/personalportal/calllog?c=0&d=4&blk=%d") % curr);
+      tie(result, total_blocks) = query_data(query, "LoadCallLogResp.TotalBlocks");
 
       string path = str(format("%s/calllog/calllog_%04d.json") % m_base_path % curr);
       save_to(path, result);
@@ -126,8 +89,9 @@ public:
 
     for (auto total_blocks=1, curr=1; curr<=total_blocks; curr++)
     {
-      string result; tie(result, total_blocks) 
-        = query_data(SMS::query(curr), "LoadSMSListResp.TotalBlocks");
+      string result; 
+      string query = str(format("/personalportal/sms?c=0&d=4&blk=%d") % curr);
+      tie(result, total_blocks) = query_data(query, "LoadSMSListResp.TotalBlocks");
 
       string path = str(format("%s/sms/sms_%04d.json") % m_base_path % curr);
       if (!save_to(path, result))
@@ -145,11 +109,12 @@ public:
 
     for (auto total_blocks=1, curr=1; curr<=total_blocks; curr++)
     {
-      string result; tie(result, total_blocks) 
-        = query_data(Picture::query(curr), "TotalBlocks");
-
+      string result; 
+      string query = str(format("/personalportal/pictureview?c=0&blk=%d") % curr);
       string path0 = str(format("%s/picture/picture_%04d.json") % m_base_path % curr);
+      tie(result, total_blocks) = query_data(query, "TotalBlocks");
       save_to(path0, result);
+
       fl.push_back(FileInfo(path0, result.size()));
 
       stringstream ss(result);
@@ -178,7 +143,7 @@ private:
     if (!p.is_absolute())
       return false;
 
-    string parent = p.parent_path().native();
+    string parent = p.parent_path().string();
     if (!fs::exists(parent))
       if (!fs::create_directories(parent))
         return false;
@@ -219,18 +184,17 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char const* argv[])
 {
-  Motoroi m("192.168.1.3", "8080", 10, "/Users/yielding/code/cpp.boost/asio/http");
+  Motoroi m("192.168.1.3", "8080", 10, "/Users/yielding/code/app/http");
 
   try
   {
 //    auto sms = m.prepare_sms();
-//
 //    for (auto it=sms.begin(); it!=sms.end(); ++it)
 //    {
 //      cout << it->path << endl;
 //      assert(it->length == fs::file_size(it->path));
 //    }
-
+//
 //    auto pictures = m.prepare_pictures();
 //    for (auto it=pictures.begin(); it!=pictures.end(); ++it)
 //    {
@@ -238,19 +202,19 @@ int main(int argc, char const* argv[])
 //      assert(it->length == fs::file_size(it->path));
 //    }
 
-//    auto calls = m.prepare_calllog();
-//    for (auto it=calls.begin(); it!=calls.end(); ++it)
-//    {
-//      cout << it->path << endl;
-//      assert(it->length == fs::file_size(it->path));
-//    }
+    auto calls = m.prepare_calllog();
+    for (auto it=calls.begin(); it!=calls.end(); ++it)
+    {
+      cout << it->path << endl;
+      assert(it->length == fs::file_size(it->path));
+    }
 
-//    auto mi = m.prepare_mobile_inbox();
-//    for (auto it=mi.begin(); it!=mi.end(); ++it)
-//    {
-//      cout << it->path << endl;
-//      assert(it->length == fs::file_size(it->path));
-//    }
+    auto mi = m.prepare_mobile_inbox();
+    for (auto it=mi.begin(); it!=mi.end(); ++it)
+    {
+      cout << it->path << endl;
+      assert(it->length == fs::file_size(it->path));
+    }
   }
   catch(std::runtime_error& e)
   {

@@ -2,18 +2,48 @@
 #-*- coding:utf-8 -*-
 
 require "json"
+require "pp"
 
+################################################################################
+#
+#
+#
+################################################################################
+class String
+  def korean?
+    self.index(/\p{Hangul}/) != nil
+  end 
+
+  def has_korean?
+    self.korean?
+  end 
+
+  def extract_korean
+    b, e = self.index(/\p{Hangul}/), self.rindex(/\p{Hangul}/)
+    (b != nil) ? self[b, e - b + 1] : ""
+  end 
+end
+
+################################################################################
+#
+#
+#
+################################################################################
 class MDDictionary
+  TABLE = { :eng => 0, :jpn => 1 }
+  DIR   = { :asc => 1, :dsc =>-1 }
+
   def initialize(file)
-    @table = { :eng => 0, :jpn => 1 }
-    @text  = File.read(file)
-    @ok    = @text.length > 0
-    @dict  = JSON.parse(@text).sort_by do |line| 
-      line[0].gsub(/\ +/, ' ').length * -1 
-    end
+    @dict = sort(JSON.parse(File.read(file)).to_a)
   end
 
-  def ok?; @ok end
+  def sort arr, dir=DIR[:dsc]
+    arr.sort_by { |l| l[0].gsub(/\ +/, ' ').length * dir }
+  end
+
+  def ok?
+    @dict.size > 0 
+  end
 
   def to_english text
     translate_utf8 text, :eng
@@ -21,19 +51,42 @@ class MDDictionary
 
   # index = 0 -> english
   def translate_utf8 text, index
-    @dict.each do |word| 
-      key, eng = word[0], word[1][@table[index]] 
+    @dict.each { |word| 
+      key, eng = word[0], word[1][TABLE[index]] 
       text.gsub!(key, eng)
-    end
+    }
     text
   end
 
+  def update key
+    @dict << [key, ["",  ""]]
+    @dict = sort(@dict)
+  end
+
+  def update_using file
+    File.open(file, "r").each_line { |l|
+      if l.has_korean?
+        key = l.extract_korean
+        @dict << [key, ["", ""]] unless self.has_same(key)
+      end
+    }
+  end
+
+  def has_same key
+    @dict.each { |item| return true if item[0] == key }
+    false
+  end
+
   def print lang=:eng
-    return unless @ok
-    @dict.each { |line| printf "(%s, %s)\n", line[0], line[1][@table[lang]] }
+    pp @dict
   end
 end
 
+################################################################################
+#
+#
+#
+################################################################################
 class KoreanFile
   def initialize(filename, dict, encoding="utf-8")
     @filename = filename
@@ -66,6 +119,11 @@ class KoreanFile
   end
 end
 
+################################################################################
+#
+#
+#
+################################################################################
 if __FILE__ == $PROGRAM_NAME
   xaml_files = %w{
     Eng/CasePage.xaml
@@ -88,21 +146,25 @@ if __FILE__ == $PROGRAM_NAME
   }
 
   dict = MDDictionary.new("dictionary.json")
+  dict.print
+  dict.update_using("korean_input.txt")
+  dict.print
 
-  utf8_files = xaml_files + xml_files
-  utf8_files.each { |file| 
-    f = KoreanFile.new(file, dict)
-    text = f.to_english
-    f.backup text
-    f.save text
-  }
 
-  rc_files.each { |file| 
-    f = KoreanFile.new(file, dict, "utf16-le")
-    text = f.to_english
-    puts text
-    f.backup text
-    f.save text
-  }
+  # utf8_files = xaml_files + xml_files
+  # utf8_files.each { |file| 
+  #   f = KoreanFile.new(file, dict)
+  #   text = f.to_english
+  #   f.backup text
+  #   f.save text
+  # }
+
+  # rc_files.each { |file| 
+  #   f = KoreanFile.new(file, dict, "utf16-le")
+  #   text = f.to_english
+  #   puts text
+  #   f.backup text
+  #   f.save text
+  # }
   
 end
