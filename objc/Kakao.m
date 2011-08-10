@@ -4,6 +4,7 @@ int main(int argc, char *argv[])
 {
   [NSApplication sharedApplication];
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
   NSUInteger style = NSTitledWindowMask
                    | NSClosableWindowMask
                    | NSMiniaturizableWindowMask
@@ -15,6 +16,6 @@ int main(int argc, char *argv[])
   [window makeKeyAndOrderFront:nil];
   [pool drain];
   [NSApp run];
+
   return 0;
 }
-
