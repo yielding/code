@@ -20,15 +20,15 @@ std::wstring create_escapes(std::wstring const& s)
     wchar_t v = *b;
 
     std::cout << std::hex << v << std::endl;
-    if (v == 0x20 || v == 0x21 || (v >= 0x23 && v <= 0x2E) ||
-        (v >= 0x30 && v <= 0x5B) || (v >= 0x5D && v <= 0xFF) || 
-        (v >= 0xAC00 && v <= 0xD7A3))  // is_korean
+    if (v == 0x20 || v == 0x21  || (v >= 0x23 && v <= 0x2E) ||
+       (v >= 0x30 && v <= 0x5B) || (v >= 0x5D && v <= 0xFF) || 
+       (v >= 0xAC00 && v <= 0xD7A3))  // is_korean
       result += v; 
     else if (v == wchar_t(L'\b')) result += wchar_t(L'\\'), result += wchar_t(L'b');
     else if (v == wchar_t(L'\f')) result += wchar_t(L'\\'), result += wchar_t(L'f');
     else if (v == wchar_t(L'\n')) result += wchar_t(L'\\'), result += wchar_t(L'n');
     else if (v == wchar_t(L'\r')) result += wchar_t(L'\\'), result += wchar_t(L'r');
-    else if (v == wchar_t(L'/')) result += wchar_t(L'\\'), result += wchar_t(L'/');
+    else if (v == wchar_t(L'/'))  result += wchar_t(L'\\'), result += wchar_t(L'/');
     else if (v == wchar_t(L'"'))  result += wchar_t(L'\\'), result += wchar_t(L'"');
     else if (v == wchar_t(L'\\')) result += wchar_t(L'\\'), result += wchar_t(L'\\');
     else
