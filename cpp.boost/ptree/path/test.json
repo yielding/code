@@ -1,0 +1,14 @@
+<!-- JSON 예제 파일 -->
+{
+    "String": "테스트",
+    "Number": 12345,
+    "Boolen": true,
+    "StrArray": [ "테스트1", "테스트2" ],
+    "NumArray": [ 1, 2, 3, 4, 5 ],
+    "SubValue" :
+    {
+    "SubString": "서브테스트",
+    "SubNumber": 67890,
+    "SubBoolen": false
+    }
+}
