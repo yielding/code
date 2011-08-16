@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
                                                    backing:NSBackingStoreBuffered
                                                      defer:NO];
   [window makeKeyAndOrderFront:nil];
-  [pool drain];
+  [pool release];
   [NSApp run];
 
   return 0;
