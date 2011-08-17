@@ -1,0 +1,12 @@
+# -*- ruby -*-
+
+SRCS      = %w{ main.cpp }
+TEST_SRCS = %w{ path_test.cpp }
+APP       = "main"
+APP_TEST  = "test.main"
+INCS      = ""
+CXX       = "clang++"      # c++0x, clang++, blank
+CXXFLAGS  = ":debug"       # :debug, :nodebug
+LIBS      = ""
+
+load '~/code/build/app2.rake'

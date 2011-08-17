@@ -53,7 +53,6 @@ class Motoroi
     @http = Net::HTTP::new(ip, port)
     @pictures = []
     @messages = []
-p @http
   end
 
   def prepare_pictures
@@ -110,7 +109,7 @@ p @http
 end
 
 if __FILE__ == $PROGRAM_NAME
-  motoroi  = Motoroi.new("192.168.1.3")
+  motoroi  = Motoroi.new("192.168.1.7")
   mdf_path = "."
   motoroi.prepare_pictures.each { |picture| picture.save_to(mdf_path) }
   # motoroi.prepare_messages.each { |message| p message }

@@ -1,8 +1,22 @@
 {
-    "최근 분석기 설정 파일" : ["Recent Analyzer Settings"],
-    "분석기 파일 열기"      : ["Open Analyzer Settings"],
-    "새 분석기 만들기"      : ["Create New Analyzer"],
-    "사건 파일 열기"        : ["Open Case File"],
-    "새 사건 만들기"        : ["Create New Case"],
-    "최근 사건 파일"        : ["Recent Cases"]
+  "이경수2김현수": [
+    "",
+    ""
+  ],
+  "이창하": [
+    "yielding",
+    "にほんご"
+  ],
+  "석진우": [
+    "",
+    ""
+  ],
+  "이경수": [
+    "",
+    ""
+  ],
+  "이건희": [
+    "gunhee",
+    "西日本方言"
+  ]
 }

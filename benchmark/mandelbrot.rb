@@ -1,4 +1,5 @@
-# by Erik Wrenholt
+#!/usr/bin/env ruby
+
 BAILOUT = 16
 MAX_ITERATIONS = 1000
 

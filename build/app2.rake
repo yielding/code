@@ -63,7 +63,7 @@ if defined? LDFLAGS
   LDFLAGS.split.each do |e|
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
-           when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.6.sdk"
+           when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
            else
              " -L#{e}"
            end

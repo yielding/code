@@ -1,0 +1,32 @@
+// http://192.168.16.2:8080/personalportal/calllog?c=0&d=4&blk=1
+{
+  "LoadCallLogResp":{
+    "MsgDesc":[
+      { "MsgType":0,
+        "MsgId":1271,
+        "Name":"내사랑인만이♡",
+        "Address":"01054128948",
+        "PhoneType":"2",
+        "DirId":0,
+        "TimeStamp":1290042833003,
+        "CallDuration":273,
+        "MsgReadState":1},
+
+      {"MsgType":0,"MsgId":1270,"Name":"내사랑인만이♡","Address":"01054128948","PhoneType":"2","DirId":0,"TimeStamp":1289987066151,"CallDuration":58,"MsgReadState":1},
+      {"MsgType":0,"MsgId":1269,"Name":"내사랑인만이♡","Address":"01054128948","PhoneType":"2","DirId":2,"TimeStamp":1289986953735,"CallDuration":0,"MsgReadState":1},
+      {"MsgType":0,"MsgId":1268,"Name":"내사랑인만이♡","Address":"01054128948","PhoneType":"2","DirId":3,"TimeStamp":1289986844931,"CallDuration":0,"MsgReadState":0},
+      {"MsgType":0,"MsgId":1267,"Name":"내사랑인만이♡","Address":"01054128948","PhoneType":"2","DirId":0,"TimeStamp":1289983272308,"CallDuration":87,"MsgReadState":1},
+      {"MsgType":0,"MsgId":1260,"Name":"내사랑인만이♡","Address":"01054128948","PhoneType":"2","DirId":0,"TimeStamp":1289962104646,"CallDuration":163,"MsgReadState":1},
+      {"MsgType":0,"MsgId":1259,"Name":"최상훈","Address":"01025358647","PhoneType":"2","DirId":0,"TimeStamp":1289914866383,"CallDuration":165,"MsgReadState":1},
+      {"MsgType":0,"MsgId":1257,"Name":"내사랑인만이♡","Address":"01054128948","PhoneType":"2","DirId":2,"TimeStamp":1289898111547,"CallDuration":77,"MsgReadState":1},
+      {"MsgType":0,"MsgId":1256,"Name":"쪼매","Address":"01025685203","PhoneType":"2","DirId":2,"TimeStamp":1289891046439,"CallDuration":339,"MsgReadState":1},
+      {"MsgType":0,"MsgId":1253,"Name":"내사랑인만이♡","Address":"01054128948","PhoneType":"2","DirId":0,"TimeStamp":1289874799329,"CallDuration":333,"MsgReadState":1},
+      {"MsgType":0,"MsgId":1252,"Name":"내사랑인만이♡","Address":"01054128948","PhoneType":"2","DirId":0,"TimeStamp":1289874574161,"CallDuration":202,"MsgReadState":1},
+      {"MsgType":0,"MsgId":1250,"Name":"내사랑인만이♡","Address":"01054128948","PhoneType":"2","DirId":0,"TimeStamp":1289865089772,"CallDuration":600,"MsgReadState":1},
+    ],
+    "TotalBlocks":13,
+    "TotalCount":254,
+    "BlockIndex":0,
+    "BlockSize":20,
+    "Count":254}
+}
