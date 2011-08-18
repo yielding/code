@@ -53,7 +53,6 @@ class Motoroi
     @http = Net::HTTP::new(ip, port)
     @pictures = []
     @messages = []
-p @http
   end
 
   def prepare_pictures

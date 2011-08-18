@@ -9,7 +9,6 @@ namespace boost { namespace property_tree { namespace json_parser {
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-template<> 
 std::wstring create_escapes(std::wstring const& s) 
 {   
   std::wstring result;

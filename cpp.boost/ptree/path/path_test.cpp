@@ -28,7 +28,6 @@ protected:
 TEST_F(PTreePathTest, True)
 {
   ASSERT_EQ(true, true);
-
 }
 
 TEST_F(PTreePathTest, PathType)
