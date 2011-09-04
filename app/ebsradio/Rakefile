@@ -1,0 +1,12 @@
+# -*- ruby -*-
+
+SRCS     = %w{ tagwriter.cpp }
+APP      = "tagwriter"
+TEST_APP = "test_tagwriter"
+CXX      = "c++0x"    # c++0x, clang++, blank
+CXXFLAGS = ":v :Os"
+LIBS     = ":s :f tag"
+
+load '~/code/build/app2.rake'
+
+CLOBBER.include("a.out").include("tags")
