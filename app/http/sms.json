@@ -1,29 +1,22 @@
 {
-  "LoadSMSListResp":{
-  "MsgDesc":[
-    {"MsgType":1,
-     "MsgId":647,
-     "Name":"",
-     "Address":"114",
-     "PhoneType":"0",
-     "DirId":0,
-     "TimeStamp":1308640096315,
-     "MsgBody":"SKT> [영상사서함]이 해지 완료 됐습니다.",
-     "MsgReadState":1},
-
-    {"MsgType":1,"MsgId":646,"Name":"이성","Address":"01071711850","PhoneType":"2","DirId":0,"TimeStamp":1308637493408,"MsgBody":"아아아아아아아아아아아아아아아아아아아아아아아아","MsgReadState":1},
-    {"MsgType":1,"MsgId":645,"Name":"이성","Address":"01071711850","PhoneType":"2","DirId":0,"TimeStamp":1308636701418,"MsgBody":"4444444444444444444444444444444444444444444444444444444444444444","MsgReadState":1},
-    {"MsgType":1,"MsgId":644,"Name":"이성","Address":"01071711850","PhoneType":"2","DirId":0,"TimeStamp":1308636600955,"MsgBody":"3333333333333333333333333333333333333333333333333333333333333333","MsgReadState":1},
-    {"MsgType":1,"MsgId":643,"Name":"이성","Address":"01071711850","PhoneType":"2","DirId":0,"TimeStamp":1308636566046,"MsgBody":"2222222222222222222222222222222222222222222222222222222222222222","MsgReadState":1},
-    {"MsgType":1,"MsgId":642,"Name":"이성","Address":"01071711850","PhoneType":"2","DirId":0,"TimeStamp":1308636552286,"MsgBody":"1111111111111111111111111111111111111111111111111111111111111111","MsgReadState":1},
-    {"MsgType":1,"MsgId":184,"Name":"","Address":"01064831808","PhoneType":"0","DirId":0,"TimeStamp":1283346860347,"MsgBody":"서울19:00 ~ 동대구20:47  ktx 11호차 8,9AB 입니다","MsgReadState":1},
-    {"MsgType":1,"MsgId":85,"Name":"임은영","Address":"01025390344","PhoneType":"2","DirId":0,"TimeStamp":1282320376508,"MsgBody":"진우야 창렬이도 못왔다ㅋ조만간한번연락해서산본사람끼리만나자ㅋㅋ","MsgReadState":1},
-    {"MsgType":1,"MsgId":83,"Name":"임은영","Address":"01025390344","PhoneType":"2","DirId":2,"TimeStamp":1282302042073,"MsgBody":"은영아~나아직회사다ㅜㅠ오늘못가서미안혀^^담에울와이프랑같이함보자~","MsgReadState":1},
-    {"MsgType":1,"MsgId":52,"Name":"임은영","Address":"01025390344","PhoneType":"2","DirId":0,"TimeStamp":1281937082425,"MsgBody":"이번주금요일저녁7시에 전우수선배님댁에서 동문후배들과의만남이있습니다 - 재경영대SFC ","MsgReadState":1}
-  ],
-  "TotalBlocks":1,
-  "TotalCount":10,
-  "BlockIndex":0,
-  "BlockSize":20,
-  "Count":10}
+  "LoadSMSListResp":
+  {
+    "MsgDesc":[
+      {"MsgType":1,"Alive":true,"MsgId":647,"Name":"", "Address":"114", "PhoneType":"0", "DirId":0, "TimeStamp":1308640096315, "MsgBody":"SKT> [영상사서함]이 해지 완료 됐습니다.", "MsgReadState":1},
+      {"MsgType":1,"Alive":true,"MsgId":646,"Name":"이성","Address":"01071711850","PhoneType":"2","DirId":0,"TimeStamp":1308637493408,"MsgBody":"아아아아아아아아아아아아아아아아아아아아아아아아","MsgReadState":1},
+      {"MsgType":1,"Alive":true,"MsgId":645,"Name":"이성","Address":"01071711850","PhoneType":"2","DirId":0,"TimeStamp":1308636701418,"MsgBody":"4444444444444444444444444444444444444444444444444444444444444444","MsgReadState":1},
+      {"MsgType":1,"Alive":true,"MsgId":644,"Name":"이성","Address":"01071711850","PhoneType":"2","DirId":0,"TimeStamp":1308636600955,"MsgBody":"3333333333333333333333333333333333333333333333333333333333333333","MsgReadState":1},
+      {"MsgType":1,"Alive":true,"MsgId":643,"Name":"이성","Address":"01071711850","PhoneType":"2","DirId":0,"TimeStamp":1308636566046,"MsgBody":"2222222222222222222222222222222222222222222222222222222222222222","MsgReadState":1},
+      {"MsgType":1,"Alive":true,"MsgId":642,"Name":"이성","Address":"01071711850","PhoneType":"2","DirId":0,"TimeStamp":1308636552286,"MsgBody":"1111111111111111111111111111111111111111111111111111111111111111","MsgReadState":1},
+      {"MsgType":1,"Alive":true,"MsgId":184,"Name":"","Address":"01064831808","PhoneType":"0","DirId":0,"TimeStamp":1283346860347,"MsgBody":"서울19:00 ~ 동대구20:47  ktx 11호차 8,9AB 입니다","MsgReadState":1},
+      {"MsgType":1,"Alive":true,"MsgId":85,"Name":"임은영","Address":"01025390344","PhoneType":"2","DirId":0,"TimeStamp":1282320376508,"MsgBody":"진우야 창렬이도 못왔다ㅋ조만간한번연락해서산본사람끼리만나자ㅋㅋ","MsgReadState":1},
+      {"MsgType":1,"Alive":true,"MsgId":83,"Name":"임은영","Address":"01025390344","PhoneType":"2","DirId":2,"TimeStamp":1282302042073,"MsgBody":"은영아~나아직회사다ㅜㅠ오늘못가서미안혀^^담에울와이프랑같이함보자~","MsgReadState":1},
+      {"MsgType":1,"Alive":true,"MsgId":52,"Name":"임은영","Address":"01025390344","PhoneType":"2","DirId":0,"TimeStamp":1281937082425,"MsgBody":"이번주금요일저녁7시에 전우수선배님댁에서 동문후배들과의만남이있습니다 - 재경영대SFC ","MsgReadState":1}
+    ],
+    "TotalBlocks":1,
+    "TotalCount":10,
+    "BlockIndex":0,
+    "BlockSize":20,
+    "Count":10
+  }
 }

@@ -72,7 +72,7 @@ class Mbdb
   def get_int4; get_int(4) end
   def get_int8; get_int(8) end
 
-  def get_int size
+  def get_int(size)
     @offset += size
     @file.read(size).each_byte.reduce(0) { |res, b| (res << 8) + b }
   end

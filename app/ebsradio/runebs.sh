@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/opt/local/bin/bash
 
 day=$(LC_ALL=C /bin/date +%d)
 year=$(LC_ALL=C /bin/date +%Y)
@@ -7,7 +7,7 @@ date=$(LC_ALL=C /bin/date +%Y-%m-%d-%a)
 program=$1
 duration=$2
 
-filename="/Users/yielding/ebs-english/"$program$date".mp3"
+filename="/Users/yielding/ebsradio/"$program$date".mp3"
 
 ###################################################################
 # Record streaming audio
