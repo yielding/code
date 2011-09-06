@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+#
 require "digest"
 
 def gen_password length=8
@@ -6,9 +8,9 @@ end
 
 # brute-force search
 def guess_password digest, limit=8
-  letters = (' '..'~').collect(&:chr)
+  letters  = (' '..'~').collect(&:chr)
   password = nil
-  matched = false
+  matched  = false
 
   (1..limit).each do |r|
     puts "guess #{r} level"
@@ -33,4 +35,3 @@ digest = Digest::MD5.hexdigest password1
 password2 = guess_password digest
 
 puts "found password: \"#{password2}\""
-
