@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
-#
+#coding: utf-8
+
 require "digest"
 
 def gen_password length=8
