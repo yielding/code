@@ -11,7 +11,7 @@ res = Net::HTTP.start(url.host, url.port) { |http|
   http.get(a2)
 }
 
-#puts res.body
+# puts res.body
 
 doc = Nokogiri::XML(res.body, nil, 'UTF-8')
 puts doc

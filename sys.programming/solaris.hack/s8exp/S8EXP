@@ -1,0 +1,52 @@
+
+   Solaris's Got Big problem on System Call priocntl()
+   This Discovery owes to
+   http://www.hacker.com.cn/newbbs/dispbbs.asp?boardID=8&RootID=23110&ID=23
+   110
+   (a Chinese article,author jerryhj@yeah.net)
+   Description
+   syscall priocntl(2) is used as process scheduler control
+   it's declared as below:
+   long priocntl(idtype_t idtype, id_t id, int cmd, /* arg */ ...);
+   while set 'cmd' arg to PC_GETCID, priocntl()'s function is like below
+   (see ManPage 'man -s 2 priocntl')
+   "Get class ID and class attributes for a specific class
+   given class name. The idtype and id arguments are
+   ignored. If arg is non-null, it points to a structure
+   of type pcinfo_t. The pc_clname buffer contains the
+   name of the class whose attributes you are getting."
+   as it said, pc_clname points to a string specify the module.
+   priocntl() will load the module without any privilege check.
+   The module's name is a relative path, priocntl will search the module
+   file
+   in only /kernel/sched and /usr/kernel/sched/ dirs.
+   but unfortunately, priocntl() never check '../' in pc_clname arg
+   we can use '../../../tmp/module' to make priocntl() load a module from
+   anywhere
+   For more detail, read the sources.
+   flkm.c the module source
+   final.c the loader source
+   How to Use?
+   1.Extract release.tgz to a folder
+   2.use "isainfo -b" to know what platform is running
+   3.under 32-bit solaris, execute "./final"
+   under 64-bit solaris, execute "./final 64"
+   How to Patch?
+   Patch From: Casper Dik (Casper.Dik@Sun.COM)
+   The "pc_clname[]" argument is limited in size; to prevent this
+   particular
+   bug from being exploited you could:
+   for dir in /kernel /usr/kernel
+   do
+   cd $dir
+   mkdir -p a/b/c/d/e/f/g/h but a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q
+   mv sched a/b/c/d/e/f/g/h but a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q
+   ln -s a/b/c/d/e/f/g/h but a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/sched .
+   done
+   Casper
+   I think the patch above is a quick but dirty method :-)
+   Any Question?
+   contact support@catdogsoft.com
+   Download Here
+   Enjoy it
+   c4td0g
