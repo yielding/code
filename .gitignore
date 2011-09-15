@@ -1,3 +1,4 @@
 a.out
 *.o
 app/.DS_Store
+.DS_Store
