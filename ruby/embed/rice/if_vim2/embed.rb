@@ -21,7 +21,7 @@ class TestSum < Test::Unit::TestCase
     assert_equal(VIM::Window::count, 5)
     assert_equal(VIM::Window::current.width, 40)
     w = VIM::Window[2];
-    assert_equal(w.width, 30)
+    assert_equal(w.width, 40)
   end
   
   def test_true

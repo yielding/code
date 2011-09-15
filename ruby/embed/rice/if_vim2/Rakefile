@@ -1,10 +1,12 @@
 #-*- ruby -*-   
 
 SRCS     = %w{ if_vim.cpp }
-APP      = 'if_vim2'
-CXX      = 'c++0x'
+APP      = "if_vim2"
+CXX      = "clang++"
+CXXFLAGS = ":Os"
 INCS     = ":rice"
-OSX_LIBS = "-lruby.1.9.1 -lrice"
+LDFLAGS  = ":rice"
+LIBS     = ":rice"
 
 DIR = File.dirname __FILE__
 

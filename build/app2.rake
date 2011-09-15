@@ -38,15 +38,16 @@ if defined? CXXFLAGS
   end
 end
 
+RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.2-p290"
+RVM_INC = "#{RVM}/include/ruby-1.9.1"
+RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems"
+RICE    = "#{RVM_GEM}/rice-1.4.2/ruby/lib"
+
 $INCS = " -I. -I/opt/local/include"
 if defined? INCS
-  RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.2-p290"
-  RVM_INC = "#{RVM}/include/ruby-1.9.1"
-  RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems"
-  RICE    = "#{RVM_GEM}/rice-1.4.2/ruby/lib"
   INCS.split.each do |i|
      flag = case i
-            when /:rice/ ; " -I#{RVM_INC} -I#{RICE}/include"
+            when /:rice/ ; " -I#{RVM_INC}/x86_64-darwin11.1.0 -I#{RVM_INC} -I#{RICE}/include"
             else
              " -I#{i}"
             end
@@ -60,6 +61,7 @@ if defined? LDFLAGS
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
            when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
+           when /:rice/; " -L#{RVM}/lib -L#{RICE}/lib" 
            else
              " -L#{e}"
            end
@@ -78,6 +80,7 @@ $LIBS = ""
 if defined? LIBS
   LIBS.split.each do |e|  
     $LIBS += case e
+             when /:rice/; " -ldl -lruby.1.9.1 -lrice"
              when /:t/; BOOST[:t]
              when /:s/; BOOST[:s]
              when /:f/; BOOST[:f]

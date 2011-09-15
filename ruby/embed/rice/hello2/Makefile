@@ -4,12 +4,12 @@ SHELL = /bin/sh
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /Users/yielding/.rvm/rubies/ruby-1.9.2-p180/include/ruby-1.9.1
-hdrdir = /Users/yielding/.rvm/rubies/ruby-1.9.2-p180/include/ruby-1.9.1
-arch_hdrdir = /Users/yielding/.rvm/rubies/ruby-1.9.2-p180/include/ruby-1.9.1/$(arch)
+topdir = /Users/yielding/.rvm/rubies/ruby-1.9.2-p290/include/ruby-1.9.1
+hdrdir = /Users/yielding/.rvm/rubies/ruby-1.9.2-p290/include/ruby-1.9.1
+arch_hdrdir = /Users/yielding/.rvm/rubies/ruby-1.9.2-p290/include/ruby-1.9.1/$(arch)
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
 
-prefix = $(DESTDIR)/Users/yielding/.rvm/rubies/ruby-1.9.2-p180
+prefix = $(DESTDIR)/Users/yielding/.rvm/rubies/ruby-1.9.2-p290
 
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
 
@@ -95,9 +95,9 @@ warnflags = -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwri
 CFLAGS   = -fno-common $(cflags)  -fno-common -pipe 
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
 DEFS     = 
-CPPFLAGS =  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE $(DEFS) $(cppflags)  -I/Users/yielding/.rvm/gems/ruby-1.9.2-p180/gems/rice-1.4.2/ruby/lib/include
+CPPFLAGS =  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE $(DEFS) $(cppflags)  -I/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems/rice-1.4.2/ruby/lib/include
 CXXFLAGS = $(CFLAGS)  -Wall -g
-ldflags  = -L.   -L/Users/yielding/.rvm/gems/ruby-1.9.2-p180/gems/rice-1.4.2/ruby/lib/lib
+ldflags  = -L. -L/usr/local/lib  -L/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems/rice-1.4.2/ruby/lib/lib
 dldflags = -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress -Wl,-flat_namespace
 ARCH_FLAG = 
 DLDFLAGS = $(ldflags) $(dldflags)
@@ -109,16 +109,16 @@ EXEEXT =
 RUBY_BASE_NAME = ruby
 RUBY_INSTALL_NAME = ruby
 RUBY_SO_NAME = ruby.1.9.1
-arch = x86_64-darwin11.0.0
+arch = x86_64-darwin11.1.0
 sitearch = $(arch)
 ruby_version = 1.9.1
-ruby = /Users/yielding/.rvm/rubies/ruby-1.9.2-p180/bin/ruby
+ruby = /Users/yielding/.rvm/rubies/ruby-1.9.2-p290/bin/ruby
 RUBY = $(ruby)
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
 RMDIRS = $(RUBY) -run -e rmdir -- -p
-MAKEDIRS = /usr/local/bin/gmkdir -p
-INSTALL = /usr/local/bin/ginstall -c
+MAKEDIRS = /opt/local/bin/gmkdir -p
+INSTALL = /opt/local/bin/ginstall -c
 INSTALL_PROG = $(INSTALL) -m 0755
 INSTALL_DATA = $(INSTALL) -m 644
 COPY = cp
