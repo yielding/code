@@ -43,7 +43,7 @@ sitearchdir = $(sitelibdir)/$(sitearch)
 vendorlibdir = $(vendordir)/$(ruby_version)
 vendorarchdir = $(vendorlibdir)/$(sitearch)
 
-CC = gcc
+CC = /usr/bin/gcc-4.2
 CXX = g++
 LIBRUBY = $(LIBRUBY_SO)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
@@ -74,7 +74,7 @@ EXEEXT =
 RUBY_BASE_NAME = ruby
 RUBY_INSTALL_NAME = ruby
 RUBY_SO_NAME = ruby.1.9.1
-arch = x86_64-darwin11.0.0
+arch = x86_64-darwin11.1.0
 sitearch = $(arch)
 ruby_version = 1.9.1
 ruby = /Users/yielding/.rvm/rubies/ruby-1.9.2-p290/bin/ruby

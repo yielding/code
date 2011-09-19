@@ -17,7 +17,7 @@ RICE     = "#{RVM_GEM}/rice-1.4.2/ruby/lib"
 SRC      = FileList['*.cpp']
 CXXFLAGS = "-I#{RVM_INC}/x86_64-darwin11.1.0 -I#{RVM_INC} -I#{RICE}/include"
 LDFLAGS  = "-L#{RVM}/lib -L#{RICE}/lib"
-LIBS     = '-lruby -lobjc -ldl -lrice'
+LIBS     = '-lruby -ldl -lrice'
 OBJ      = SRC.ext('o')
 
 rule '.o' => '.cpp' do |t|
