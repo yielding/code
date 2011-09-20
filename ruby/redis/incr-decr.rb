@@ -15,3 +15,8 @@ p 'decr'
 p r.decr('counter')
 p r.decr('counter')
 p r.decr('counter')
+
+r.expire('counter', 2)
+sleep(2)
+
+r.incr('counter')
