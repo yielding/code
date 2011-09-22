@@ -1,0 +1,12 @@
+# -*- ruby -*-
+
+SRCS     = %w{ libssh.cpp }
+APP      = "libssh"
+TEST_APP = "test_libssh"
+CXX      = "c++0x"    # c++0x, clang++, blank
+CXXFLAGS = ":v :Os"
+LIBS     = ":s :f ssh"
+
+load '~/code/build/app2.rake'
+
+CLOBBER.include("a.out").include("tags").include("*.bin")

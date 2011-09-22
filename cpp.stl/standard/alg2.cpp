@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <string>
 #include <string.h>
+#include <utility>
 
 #include <iostream>
 
@@ -145,6 +146,7 @@ void max_min_example ()
 void mismatch_test (char * a, char * b) 
 {
   pair<char*, char*> differPositions(0, 0);
+
   char* aDiffPos;
   char* bDiffPos;
 
