@@ -1,4 +1,4 @@
-require 'rubygems'
+#!/usr/bin/env ruby -wKU
 require 'redis'
 
 r = Redis.new
