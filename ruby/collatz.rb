@@ -1,10 +1,11 @@
+#!/usr/bin/env ruby -KU
+
 %w{facets/memoize}.each { |lib| require lib }
 
-
 class Fixnum
-    def next_number
-      even? ? self / 2 : self * 3 + 1
-    end
+  def next_number
+    even? ? self / 2 : self * 3 + 1
+  end
 end
 
 class Solver
@@ -15,13 +16,12 @@ class Solver
   memoize :collatz_from
 
   def find_length(num)
-      collatz_from(num).length
+    collatz_from(num).length
   end
 
   def mx_length(from, to)
     (from..to).to_a.map { |n| find_length(n) }.max
   end
-
 end
 
 require "benchmark"

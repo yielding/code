@@ -1,10 +1,10 @@
-#!/usr/bin/env ruby -wKU
+#!/usr/bin/env ruby -KU
 # -*- encoding: utf-8 -*-
 
 require 'rubygems' 
 require 'test/unit' 
 require 'shoulda' 
-require 'ts' 
+require_relative 'ts' 
 
 class TennisScorerTest < Test::Unit::TestCase 
   def assert_score(target) 

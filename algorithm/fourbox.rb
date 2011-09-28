@@ -33,6 +33,4 @@ class TestFourBox < Test::Unit::TestCase
      7 3 8 6")
     assert_equal(fb.count, 26)
   end
-  
 end
-
