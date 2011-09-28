@@ -54,6 +54,14 @@ module MD
       pp sort_by_length
     end
 
+    def japanese(key)
+      @dict[key][1]
+    end
+
+    def english(key)
+      @dict[key][0]
+    end
+
     # think the input string is utf-8 concatenated lines of string
     def update lines
       lines.each_line do |line|
@@ -72,6 +80,91 @@ module MD
     end
   end
 
+  # 공통 처리
+  class ResourceFile
+    def initialize name
+      @w = "w"
+      @r = "r"
+      @filename = name
+    end
+
+    def read
+      File.open(@filename, @r).read()
+    end
+
+    def write
+    end
+
+    def to_english
+    end
+
+    def to_japanese
+    end
+  end
+
+  # 각 파일의 path 및 인코딩 처리
+  class RCFile < ResourceFile
+    def initialize filename
+      super filename
+      @w = "w:utf-16le"
+      @r = "r:utf-16le:utr-8"
+    end
+    
+    def extract_key
+      hash = Hash.new
+      read.each_line do |l|
+        if l.has_korean?
+          key = l.extract_rc_korean
+          hash[key] = ["", ""] if hash[key].nil?
+        end
+      end
+      hash
+    end
+  end
+
+  class XMLFile < ResourceFile
+    def initialize filename
+      super filename
+      @params =
+    end
+
+    def extract_key
+      doc = REXML::Document.new(File.new(@filename))
+    end
+
+    private
+    def collect_keys_from lines, keys
+      lines.each do |line|
+        line.strip!
+        line = line[0...-1] while line.end_with?(".", "?", "\n", "\r")
+        keys.add(line) unless line.nil?
+      end
+    end
+
+    def attrs_of(doc, path, key, keys)
+      doc.elements.each(path) { |e| 
+        lines = e.attributes[key].lines
+        collect_keys_from(lines, keys) unless lines.nil?
+      }
+    end
+
+    def texts_of(doc, path, keys)
+      doc.elements.each(path) { |e| 
+        collect_keys_from(e.text.lines, keys) unless e.text.nil?
+      }
+    end
+  end
+
+  class XAMLFile < ResourceFile
+    def initialize
+      super
+    end
+
+    def extract_key
+      text = read
+    end
+  end
+
 end
 
 ################################################################################
@@ -81,28 +174,33 @@ end
 ################################################################################
 if __FILE__ == $PROGRAM_NAME
   kor_xaml_files = %w{
-    ../Bin/Resource/Kor/CasePage.xaml
-    ../Bin/Resource/Kor/EvidenceInfo.xaml
-    ../Bin/Resource/Kor/EvidencePage.xaml
-    ../Bin/Resource/Kor/RecentItemFormat.xaml
-    ../Bin/Resource/Kor/RecentTsfFormat.xaml
-    ../Bin/Resource/Kor/StartPage.xaml
-    ../Bin/Resource/Kor/NewCaseNotice_InsufficientSpace.xaml
+    ./CasePage.xaml
+    ./EvidenceInfo.xaml
   }
 
+=begin
+        texts_of(doc, 'Dialogs/Dialog/WindowTitle', lines)
+        texts_of(doc, 'Dialogs/Dialog/MainInstruction', lines)
+        texts_of(doc, 'Dialogs/Dialog/Content', lines)
+        texts_of(doc, 'Dialogs/Dialog/Verification', lines)
+        texts_of(doc, 'Dialogs/Dialog/Buttons/Button', lines)
+        texts_of(doc, 'Dialogs/Dialog/Buttons/CommandLink/Text', lines)
+        texts_of(doc, 'Dialogs/Dialog/Buttons/CommandLink/Explanation', lines)
+  {
+    "./Logs.xml" => {"Logs/Category/Log" => "title",
+                     "Logs/Category/Log/Content" => ""
+                    },
+  }
+
+
+=end
   kor_xml_files = %w{
-    ../Besmaster/resHTML/Dialogs.xml
-    ../Besmaster/resHTML/Logs.xml
-    ../Besmaster/resHTML/StringTable.xml
+    ./Dialogs.xml
+    ./Logs.xml
+    ./StringTable.xml
   }
 
-  kor_rc_files = %w{ ../Besmaster/Besmaster.rc }
-
-  kor_setting_files = %w{
-    ../Bin/Model\ Settings\ For\ Smart/_MAKER_APPLE/iPhone4.tsf
-    ../Bin/Model\ Settings\ For\ Smart/_MAKER_SAMSUNG/SC-02B.tsf
-    ../Bin/Model\ Settings\ For\ Smart/_MAKER_SAMSUNG/SC-02B(MOVI).tsf
-  }
+  kor_rc_files = %w{ ./Besmaster.rc }
 
   dict1 = MD::Dictionary.new("kje_dictionary.json")
   #dict1.update_with(kor_xaml_files, "utf-8")
