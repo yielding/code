@@ -1,0 +1,42 @@
+{
+  "해당 이미지 파일은 사건 폴더내에 포함되어 있습니다. 증거물 정보 및 실제 파일도 삭제하고자 할 경우에는'예'를 선택하여 주십시오": [
+    "The selected image file is already included in the case folder. If you want to delete evedence Information with the file that includes this information, select 'yes'",
+    ""
+  ],
+  "덤프 이미지 파일이 정상인지 확인하여 주십시오. 구 Extractor 버전으로 작성되었거나 덤프 이미지 파일이 아닐 수 있습니다": [
+    "Check the integrity of dump image. The image file may be outdated or not be a dump image",
+    ""
+  ],
+  "현재 사건 파일을 지정한 위치에 압축 파일로 내보내기를 수행합니다. 이 과정에서 모든 증거물은 자동으로 사건 폴더에 포함됩니다": [
+    "Export the current case file as a compressed file. During this process, all the evidences will be included in case folder automatically",
+    ""
+  ],
+  "해당 파일이 사용 중인지 확인하고 다시 실행하여 주십시오. 문제가 계속되면 기술 지원을 요청하십시오": [
+    "Check the selected file is already used by other process. If program continues, please contact the technical support team",
+    ""
+  ],
+  "네트워크 및 방화벽 설정을 확인하십시오. 문제가 지속될 경우 네트워크 관리자에게 문의하시기 바랍니다": [
+    "Please check the network and firewall configuration. If the same problem occurs repeatedly, please contact network administrator.",
+    "Please check the network and firewall configuration. If the same problem occurs repeatedly, please contact network administrator."
+  ],
+  "필드의 위치(%I64d)에서 크기(가변길이)를 더한 값이 레코드의 크기(%I64d)를 벗어 났습니다": [
+    "The sum of field position(%I64d) and (varaible) length is greater than record size(%I64d)",
+    "フィールド位置(%I64d)と変数長の合計がレコードサイズを超えています"
+  ],
+  "예123": [
+    "Yes",
+    "はい"
+  ],
+  "홈12": [
+    "Home",
+    "ホーム"
+  ],
+  "색1": [
+    "Color",
+    "色"
+  ],
+  "및": [
+    "and",
+    "and"
+  ]
+}

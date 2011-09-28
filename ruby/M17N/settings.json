@@ -1,0 +1,562 @@
+{
+  "예다함(상조회사, 음력, 기일등 일정기록)": [
+    "Yedaham",
+    "Yedaham"
+  ],
+  "인터넷속도검사, 검사한 지역GPS정보저장": [
+    "Internet Speed Check, GPS Info Save",
+    "インターネット速度確認, GPS情報保存"
+  ],
+  "예다함(상조회사, 음력, 기일등 일정기록": [
+    "Yedaham",
+    ""
+  ],
+  "드림위즈에서 제작한 트위터 접근 어플": [
+    "Twitter",
+    "Twitter"
+  ],
+  "Duedate만 기준시 하루 늦음": [
+    "Due date is one day late compared to the base period",
+    ""
+  ],
+  "Twtkr  연계사이트 정보?": [
+    "Associated Twtkr Site Information",
+    "関連Twtkrサイト情報"
+  ],
+  "무전어플, 일종의 인터넷전화": [
+    "Free App. internet phone",
+    ""
+  ],
+  "일정관리, 사용자정보 기록": [
+    "PIMS",
+    "PIMS"
+  ],
+  "마지막지점, 마지막출발지점": [
+    "Last Position, Last Start Position",
+    "最終位置, 最終開始位置"
+  ],
+  "메신저(SNS) 및 통화": [
+    "messanger(SNS) and call",
+    ""
+  ],
+  "각종 연계 SNS계정정보": [
+    "Various SNS Account Information",
+    "SNSアカウント情報"
+  ],
+  "+9 GMT 두번된결과": [
+    "+9 GMT doubled result",
+    "+9 GMT二重結果"
+  ],
+  "만 기준시 하루 늦음": [
+    "base period one day lates",
+    ""
+  ],
+  "트윗데이터, 분석필요": [
+    "Twit data, needs analysis",
+    ""
+  ],
+  "메시지, 전화번호부": [
+    "Message, Phonebook",
+    "メッセージ, 電話帳"
+  ],
+  "네이버 검색 키워드": [
+    "Naver Search Keaword",
+    "Naverキーワード検索"
+  ],
+  "DaumMap_검색": [
+    "DaumMap_Search",
+    "DaumMap_検索"
+  ],
+  "우편번호 검색기록": [
+    "Postal code search history",
+    "郵便番号検索履歴"
+  ],
+  "님이 퇴장했습니다": [
+    "is out",
+    "外出"
+  ],
+  "지도 및 교통정보": [
+    "Map and Traffic Information",
+    "地図・交通情報"
+  ],
+  "년 %m월 %d일": [
+    "year %mmonth %dday",
+    ""
+  ],
+  "바코드 검색 기록": [
+    "Barcode search history",
+    "バーコード検索履歴"
+  ],
+  "네이트온 계정정보": [
+    "NateOn account information",
+    ""
+  ],
+  "메시지,전화번호부": [
+    "message, phone book",
+    ""
+  ],
+  "일종의 인터넷전화": [
+    "sort of internete phone",
+    ""
+  ],
+  "최초 접속 시각": [
+    "First Connection Time",
+    "初回接続時間"
+  ],
+  "이전 접속 시간": [
+    "Previous Connection Time",
+    "前回の接続時間"
+  ],
+  "마지막실행 위치": [
+    "Last execution position",
+    ""
+  ],
+  "을 초대했습니다": [
+    "is invited",
+    "招待"
+  ],
+  "이름 메일 분리": [
+    "Separating name, mail",
+    "名前、メールを区別する"
+  ],
+  "연계사이트 정보": [
+    "associated site information",
+    ""
+  ],
+  "수신-발신 분석": [
+    "Send-Receive Analysis",
+    "送受信分析"
+  ],
+  "메신저 및 통화": [
+    "Messenger & Call",
+    "メッセンジャー＆コール"
+  ],
+  "대한민국 기념일": [
+    "Korea Holyday",
+    ""
+  ],
+  "추가 분석 필요": [
+    "need additional analysis",
+    ""
+  ],
+  "이전 접속 시각": [
+    "previous access time",
+    ""
+  ],
+  "택시탈때 좋은": [
+    "Good to get on the taxi",
+    "Good to get on the taxi"
+  ],
+  "수/발신 분석": [
+    "Send/Receive Analysis",
+    "送受信分析"
+  ],
+  "대한민국 기념": [
+    "Korean Anniversary",
+    "韓国の祝日"
+  ],
+  "택배회사 정보": [
+    "Parcel Delivery Service Company Information",
+    "宅配業者情報"
+  ],
+  "수신, 부재중": [
+    "Receive, Miss",
+    "着信, 不在着信"
+  ],
+  "총 접속 횟수": [
+    "Total Connection Count",
+    "合計接続回数"
+  ],
+  "총 주행거리": [
+    "Total Milage",
+    "合計マイレージ"
+  ],
+  "사용자 이름": [
+    "User Name",
+    "ユーザ名"
+  ],
+  "발  신  자 ": [
+    "Sender",
+    "送り主"
+  ],
+  "통화, 메시": [
+    "call, message",
+    ""
+  ],
+  "사용자 생일": [
+    "Birthday",
+    "誕生日"
+  ],
+  "채팅방 번호": [
+    "Chatting Room No.",
+    "チャットルーム番号"
+  ],
+  "수신발신분석": [
+    "Send/Receive Analysis",
+    "送受信分析"
+  ],
+  "수발신 분석": [
+    "Send/Receive Analysis",
+    "送受信分析"
+  ],
+  "통화,메시지": [
+    "Call, Message",
+    "通話, メッセージ"
+  ],
+  "SNS메시지": [
+    "SNS Message",
+    "SNSメッセージ"
+  ],
+  "최근 CR": [
+    "Recent CR",
+    "最近のCR"
+  ],
+  "통화,메시": [
+    "Call, Message",
+    "通話, メッセージ"
+  ],
+  "전화번호부": [
+    "Phonebook",
+    "電話帳"
+  ],
+  "수신자목록": [
+    "Receipient List",
+    "受信者リスト"
+  ],
+  "두번된결과": [
+    "doubleds result",
+    ""
+  ],
+  "SMS발신": [
+    "Sending SMS",
+    "送信SMS"
+  ],
+  "번역 문장": [
+    "Translated Statement",
+    "翻訳済みの文章"
+  ],
+  "번역 옵션": [
+    "Translation Option",
+    "翻訳オプション"
+  ],
+  "위치 검색": [
+    "Location Search",
+    "位置検索"
+  ],
+  "총주행거리": [
+    "total distance",
+    ""
+  ],
+  "참조 목록": [
+    "Reference List",
+    "参照リスト"
+  ],
+  "차량 번호": [
+    "Car Registration No.",
+    "車両登録番号"
+  ],
+  "택배 조회": [
+    "Parcel Delivery Service Search",
+    "宅配サービス検索"
+  ],
+  "차량 종류": [
+    "Car Type",
+    "車種"
+  ],
+  "택배 번호": [
+    "Parcel Delivery No.",
+    "宅配No."
+  ],
+  "차량 연식": [
+    "Car Model",
+    "車型式"
+  ],
+  "택배 회사": [
+    "Parcel Delivery Service Company",
+    "宅配業者"
+  ],
+  "발  신  자": [
+    "sender",
+    ""
+  ],
+  "SMS수신": [
+    "Receiving SMS",
+    "受信SMS"
+  ],
+  "검색 시각": [
+    "search time",
+    ""
+  ],
+  "차량번호": [
+    "Car Registration No.",
+    "車両登録番号"
+  ],
+  "카드번호": [
+    "Card No.",
+    "カード番号"
+  ],
+  "보안설정": [
+    "Security Setting",
+    "セキュリティ設定"
+  ],
+  "웹사이트": [
+    "Web Site",
+    "ウェブサイト"
+  ],
+  "발신쪽지": [
+    "Sent Note",
+    "送信済みノート"
+  ],
+  "음성검색": [
+    "Voice Search",
+    "音声検索"
+  ],
+  "전화번호": [
+    "Phone Number",
+    "電話番号"
+  ],
+  "계정정보": [
+    "Account Information",
+    "アカウント情報"
+  ],
+  "검색기록": [
+    "Search history",
+    "検索履歴"
+  ],
+  "우편번호": [
+    "Postal code",
+    "郵便番号"
+  ],
+  "회원번호": [
+    "Member No.",
+    "会員番号"
+  ],
+  "사용기록": [
+    "Use History",
+    "使用履歴"
+  ],
+  "결재계좌": [
+    "Account",
+    "アカウント"
+  ],
+  "차량종류": [
+    "car model",
+    ""
+  ],
+  "하루종일": [
+    "All day long",
+    "終日"
+  ],
+  "네이트온": [
+    "NateOn",
+    "NateOn"
+  ],
+  "택배회사": [
+    "Parcel Delivery Service Company",
+    "宅配業者"
+  ],
+  "무전어플": [
+    "Radio Set App",
+    "ラジオ設定アプリ"
+  ],
+  "차량연식": [
+    "Car Model",
+    "車型式"
+  ],
+  "택배조회": [
+    "Parcel Delivery Service Search",
+    "宅配サービス検索"
+  ],
+  "시청기록": [
+    "Watch Record",
+    "レコードを見る"
+  ],
+  "통화기록": [
+    "Call History",
+    "通話履歴"
+  ],
+  "번역기록": [
+    "Translation Record",
+    "翻訳レコード"
+  ],
+  "마이피플": [
+    "My People",
+    "My People"
+  ],
+  "기념일": [
+    "Memorial Day",
+    "記念日"
+  ],
+  "하철이": [
+    "HaCheoi",
+    "Hacheoi"
+  ],
+  "검색어": [
+    "Search Keyward",
+    "キーワード検索"
+  ],
+  "레터링": [
+    "Lettering",
+    "レタリング"
+  ],
+  "수리비": [
+    "repair expense",
+    ""
+  ],
+  "수신자": [
+    "Receipient",
+    "受信者"
+  ],
+  "소유자": [
+    "Owner",
+    "所有者"
+  ],
+  "부재중": [
+    "In absence",
+    "不在"
+  ],
+  "이메일": [
+    "Email",
+    "Eメール"
+  ],
+  "메시지": [
+    "Message",
+    "メッセージ"
+  ],
+  "택배": [
+    "Parcel Delivery Service",
+    "宅配サービス"
+  ],
+  "수신": [
+    "Receive",
+    "受信"
+  ],
+  "삭제": [
+    "Delete",
+    "削除"
+  ],
+  "검색": [
+    "search",
+    ""
+  ],
+  "종류": [
+    "Type",
+    "種別"
+  ],
+  "메모": [
+    "Memo",
+    "メモ"
+  ],
+  "이상": [
+    "more than",
+    ""
+  ],
+  "활성": [
+    "Active",
+    "通常"
+  ],
+  "번역": [
+    "Translation",
+    "翻訳"
+  ],
+  "주소": [
+    "Address",
+    "アドレス"
+  ],
+  "님이": [
+    "is",
+    "は"
+  ],
+  "통합": [
+    "Integration",
+    "統合"
+  ],
+  "오전": [
+    "a.m.",
+    ""
+  ],
+  "최근": [
+    "Recent",
+    ""
+  ],
+  "위도": [
+    "Latitude",
+    "緯度"
+  ],
+  "정보": [
+    "Information",
+    "情報"
+  ],
+  "그룹": [
+    "Group",
+    "グループ"
+  ],
+  "발신": [
+    "Sent",
+    "送信済み"
+  ],
+  "별명": [
+    "NickName",
+    "名称"
+  ],
+  "위치": [
+    "location",
+    ""
+  ],
+  "가격": [
+    "cost",
+    ""
+  ],
+  "이름": [
+    "Name",
+    "名前"
+  ],
+  "결재": [
+    "Approval",
+    "承認"
+  ],
+  "경도": [
+    "Longitude",
+    "経度"
+  ],
+  "오후": [
+    "p.m.",
+    ""
+  ],
+  "호선": [
+    "Line",
+    "線"
+  ],
+  "시": [
+    "hour",
+    ""
+  ],
+  "분": [
+    "minute",
+    ""
+  ],
+  "양": [
+    "amount",
+    ""
+  ],
+  "년": [
+    "Year",
+    "年"
+  ],
+  "님": [
+    "Ms.(Mr.)",
+    ""
+  ],
+  "회": [
+    "Times",
+    "度"
+  ],
+  "월": [
+    "Month",
+    "月"
+  ],
+  "원": [
+    "won",
+    "ウォン"
+  ]
+}

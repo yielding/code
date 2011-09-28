@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StringTable>
+	<!-- ================================================================== -->
+	<!-- 시스템 -->
+	<!-- ================================================================== -->
+	<Category name="System">
+		<String name="CantCreateTempFile">임시 파일을 생성할 수 없습니다.</String>
+	</Category>
+
+	<Category name="EXIF">
+		<String name="MAKER">카메라 제조사</String>
+		<String name="MODEL">카메라 모델</String>
+		<String name="DATETIMEORIGINAL">처음 생성 일시</String>
+		<String name="DATETIMEDIGITIZED">최근 수정 일시</String>
+		<String name="WIDTH">이미지 너비</String>
+		<String name="HEIGHT">이미지 높이</String>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- 일반 -->
+	<!-- ================================================================== -->
+	<Category name="General">
+		<String name="Name">이름</String>
+		<String name="Organ">기관</String>
+		<String name="Email">이메일</String>
+		<String name="Phone">연락처</String>
+		<String name="Evidence">증거물</String>
+		<String name="Maker">제조사</String>
+		<String name="Model">모델</String>
+		<String name="Receptionist">접수자</String>
+		<String name="DumpType">이미징 방법</String>
+		<String name="ImagingDate">이미징 일시</String>
+		<String name="ReceptDate">접수일</String>
+		<String name="ReportDate">작성일</String>
+		<String name="Comment">비고</String>
+		<String name="DefaultSetting">기본 설정</String>
+		<String name="FilePath">파일 경로</String>
+		<String name="FileSize">파일 크기</String>
+		<String name="EvidenceName">증거물명</String>
+		<String name="Case">사건</String>
+		<String name="Analyst">분석자</String>
+		<String name="AnalysisInfo">분석정보</String>
+		<String name="Client">의뢰자</String>
+		<String name="CaseName">사건명</String>
+		<String name="CaseNumber">사건번호</String>
+		<String name="CriminalType">범죄유형</String>
+		<String name="CriminalName">죄명</String>
+		<String name="CaseSummary">사건개요</String>
+		<String name="CaseRequst">요구사항</String>
+		<String name="Bookmark">북마크</String>
+		<String name="Path">경로</String>
+		<String name="FileName">파일 이름</String>
+		<String name="Content">내용</String>
+		<String name="Add">추가</String>
+		<String name="Copy">복사</String>
+		<String name="Paste">붙여넣기</String>
+		<String name="Delete">삭제</String>
+		<String name="Export">내보내기</String>
+		<String name="Import">가져오기</String>
+		<String name="NoneAnalModelSetting">분석 설정 없음</String>
+		<String name="Analysis">분석</String>
+		<String name="NoneFilePath">파일 경로가 입력되지 않았습니다.</String>
+		<String name="NotConfirmPassword">암호가 일치하지 않습니다. 다시 확인하여 주십시오.</String>
+		<String name="CopyDumpImage">이미지 파일 복사 중...</String>
+		<String name="CompressCase">사건 파일 압축 중...</String>
+		<String name="CopyTempFolder">임시 폴더에 파일 복사중</String>
+		<String name="GotoRowFormat">행 번호(%d ~ %d):</String>
+		<String name="GotoPageFormat">페이지 번호(%d ~ %d):</String>
+		<String name="GotoPageCaption">페이지 이동하기</String>
+		<String name="Item">항목</String>
+		<String name="InputLayoutName">레이아웃 이름 입력</String>
+		<String name="CantUseFollowingWords">다음 문자는 사용할 수 없습니다.</String>
+		<String name="CantUseSameName">동일한 이름은 사용할 수 없습니다.</String>
+		<String name="DeleteSelectedLayout">선택한 레이아웃을 삭제하시겠습니까?</String>
+		<String name="DeleteSelectedFile">선택한 파일을 삭제하시겠습니까?</String>
+		<String name="Success">성공</String>
+		<String name="Fail">실패</String>
+		<String name="ImageVerifyResult">이미지 검증 결과</String>
+		<String name="ImageVerify">이미지 검증</String>
+		<String name="AlreadyAddedImageFile">이미 추가되어 있는 이미지 파일입니다.</String>
+		<String name="AlreadyUsedImageAtTool">분석기에서 사용 중인 파일입니다.</String>
+		<String name="BuildExportZipFileList">내보내기할 파일 목록을 구성중 입니다.</String>
+		<String name="CantDeleteWorkingCase">현재 작업 중인 사건은 삭제할 수 없습니다.</String>
+		<String name="Source">출처</String>
+		<String name="Location">좌표</String>
+		<String name="SavedDate">저장일</String>
+		<String name="No">순번</String>
+		<String name="FilterSetting">필터 설정</String>
+		<String name="TaskPrepareReport">분석 데이터 준비</String>
+		<String name="ExtractGPSInfo">GPS 좌표를 추출하고 있습니다.</String>
+		<String name="ExtractGPSFromPicture">사진 파일에서 좌표를 추출하고 있습니다.</String>
+		<String name="ExtractGPSFromMap">지도 기록에서 좌표를 추출하고 있습니다.</String>
+		<String name="CurrentJobProgress">현재 작업 상황</String>
+		<String name="TotalJobProgress">전체 작업 상황</String>
+		<String name="JobComplete">작업이 완료되었습니다.</String>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- 사건 -->
+	<!-- ================================================================== -->
+	<Category name="Case">
+		<String name="OpenCaseFile">사건 파일을 열고 있습니다.</String>
+		<String name="OpenCaseInfo">사건 정보를 읽고 있습니다.</String>
+		<String name="OpenEvidences">증거물 정보를 읽고 있습니다.</String>
+		<String name="OpenFilesystems">파일시스템 정보를 읽고 있습니다.</String>
+		<String name="OpenBookmarkInfo">북마크 정보를 읽고 있습니다.</String>
+		<String name="OpenReportInfo">보고서 정보를 읽고 있습니다.</String>
+		<String name="InputModelSearchKeyword">모델명을 입력하십시오.</String>
+		<String name="DocNum">사건번호</String>
+		<String name="CrimeName">죄명</String>
+		<String name="Summary">사건개요</String>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- 분석 -->
+	<!-- ================================================================== -->
+	<Category name="Analysis">
+		<String name="TitleAnalysis">분석하기</String>
+		<String name="AnalyzingTool">분석 중... %s : %s</String>
+		<String name="ReadySearch">검색어를 입력하십시오.</String>
+		<String name="TitleRebuildResult">분석결과생성</String>
+		<String name="ConfirmImageVerify">'%s' 증거물 검증을 수행하시겠습니까?</String>
+		<String name="TotalRecordCount">레코드 개수</String>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- 툴 설정 -->
+	<!-- ================================================================== -->
+	<Category name="TSF">
+		<String name="TitleOpenTsf">분석기 파일 열기</String>
+		<String name="OpeningTsf">분석기 파일을 열고 있습니다.</String>
+		<String name="OpeningTsfTool">분석기 도구를 읽고 있습니다. (%s)</String>
+		<String name="OpeningTsfLink">분석기 연결 설정을 읽고 있습니다.</String>
+		<String name="ValueIsDuplicated">중복된 값입니다.</String>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- 보고서 -->
+	<!-- ================================================================== -->
+	<Category name="Report">
+		<String name="TitleCreateReport">보고서 생성하기</String>
+		<String name="CreatingReport">보고서 생성중...</String>
+		<String name="ReportTitle1">모바일 분석 보고서</String>
+		<String name="ReportCaseTitle">사건 정보</String>
+		<String name="TitleExportExcel">엑셀 파일로 내보내기</String>
+		<String name="ExportingExcel">엑셀 파일로 내보내는 중...</String>
+		<String name="TitleExportText">텍스트 파일로 내보내기</String>
+		<String name="ExportingText">텍스트 파일로 내보내는 중...</String>
+		<String name="MakeListExporting">내보내기할 목록을 구성 중입니다...</String>
+		<String name="Cover">표지</String>
+		<String name="Content">목차</String>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- 파일 시스템 -->
+	<!-- ================================================================== -->
+	<Category name="FileSystem">
+		<String name="TitleConvertFileSystem">파일 시스템 변환</String>
+		<String name="ConvertingFileSystem">파일 시스템 변환 중... %s</String>
+		<String name="TitleRecoverDeletedFiles">삭제 파일 복원</String>
+		<String name="RecoveringDeletedFiles">삭제 파일 복원 중... %s</String>
+
+		<String name="TotalTest">Parsing...</String>
+		<String name="InitConstants">초기화 중...</String>
+
+		<!-- YAFFS -->
+		<String name="YAFFS">YAFFS를 복원합니다.</String>
+
+		<!-- EFS2 -->
+		<String name="EFS2">EFS2를 복원합니다.</String>
+
+		<!-- FAT -->
+		<String name="FAT">FAT를 복원합니다.</String>
+
+		<!-- EXT3 -->
+		<String name="EXT3">EXT를 복원합니다.</String>
+
+    <String name="FailedToConvertOnRun">파일 시스템 변환을 수행할 수 없습니다.
+분석을 계속하시겠습니까?</String>
+	</Category>
+</StringTable>

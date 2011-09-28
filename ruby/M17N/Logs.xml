@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ================================================================== -->
+<!-- level values (대소문자 구분 없음) -->
+<!--	'Information' = 정보 또는 알림 -->
+<!--	'Warning' = 경고 -->
+<!--	'Error' = 에러' -->
+<!--	'Debug' = 디버깅 정보 -->
+<!-- ================================================================== -->
+<Logs>
+	<!-- ================================================================== -->
+	<!-- 시스템 -->
+	<!-- ================================================================== -->
+	<Category name="System">
+		<Log name="CritialError" level="error" title="프로그램 오류가 발생하였습니다.">
+			<Solution>기술 지원을 요청하십시오.</Solution>
+		</Log>
+
+		<Log name="CritialErrorWriteDump" level="error" title="프로그램 오류가 발생하였습니다.">
+			<Content>다음의 위치에 덤프 이미지 파일을 생성하였습니다.			
+파일명: %s</Content>
+			<Solution>기술 지원을 요청하십시오.</Solution>
+		</Log>
+
+		<Log name="FailedWriteDump" level="error" title="메모리 덤프 파일을 생성할 수 없습니다.">
+			<Content>알 수 없는 이유로 인하여 메모리 덤프 파일을 생성할 수 없습니다.</Content>
+			<Solution>기술 지원을 요청하십시오.</Solution>
+		</Log>
+
+		<Log name="SystemInfo" level="debug" title="시스템 정보">
+			<Content>Version: %s
+%s</Content>
+		</Log>
+
+		<Log name="BeginMDTool" level="debug" title="프로그램을 시작합니다.">
+		</Log>
+
+		<Log name="EndMDTool" level="debug" title="프로그램을 종료합니다.">
+		</Log>
+
+		<Log name="BeginFileExport" level="debug" title="파일 내보내기를 시작합니다.">
+		</Log>
+
+		<Log name="EndFileExport" level="debug" title="파일 내보내기를 종료합니다.">
+		</Log>
+
+		<Log name="EndFileInfoExport" level="debug" title="파일정보 내보내기를 종료합니다.">
+		</Log>
+
+		<Log name="FailedFileExport" level="error" title="파일 내보내기가 실패했습니다.">
+			<Content>대상 경로: %s</Content>
+		</Log>
+
+		<Log name="CantCloseJobIsWorking" level="warning" title="진행 중인 작업이 있어 종료할 수 없습니다.">
+			<Solution>현재 진행 중인 작업을 종료한 후 다시 시도하십시오.</Solution>
+		</Log>
+
+		<Log name="NoInstallExcel" level="error" title="엑셀이 설치되어 있지 않습니다.">
+			<Content>엑셀이 설치되지 않으면 엑셀로 내보내기를 수행할 수 없습니다.</Content>
+			<Solution>Microsoft Office의 엑셀 제품군을 설치한 후 다시 시도해주십시오.</Solution>
+		</Log>
+
+		<Log name="DrgExportFile" level="debug" title="파일을 드래그로 내보내기를 합니다.">
+			<Content>내보내기하는 파일은 다음과 같습니다. 
+%s</Content>
+		</Log>
+
+		<Log name="ExportErrorMaxPath" level="error" title="내보내기 할 파일의 경로가 너무 깁니다.">
+			<Content>파일의 최대 경로 제한을 초과하여 전체(또는 일부)파일을 내보내기 할 수 없습니다.</Content>
+			<Solution>문제가 발생한 폴더를 직접 선택하고 내보내기 하십시오. 문제가 지속될 경우 기술 지원을 요청하십시오.</Solution>
+		</Log>
+
+		<Log name="ExportErrorNoFile" level="error" title="내보내기 한 파일이 없습니다.">
+			<Content>내보내기 한 파일이 없습니다.</Content>
+			<Solution>파일 공유 또는 유효하지 않는 경로 값에 인한 문제일 수 있습니다. 문제가 지속될 경우 기술 지원을 요청하십시오.</Solution>
+		</Log>
+
+		<Log name="NoInternetConnection" level="error" title="인터넷에 연결할 수 없습니다.">
+			<Content>인터넷에 연결되지 않아 정보를 가져올 수 없습니다.</Content>
+			<Solution>네트워크 및 방화벽 설정을 확인하십시오. 문제가 지속될 경우 네트워크 관리자에게 문의하시기 바랍니다.</Solution>
+		</Log>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- UI -->
+	<!-- ================================================================== -->
+	<Category name="UI">
+		<Log name="ResetPaneLayout" level="debug" title="뷰의 Pane 레이아웃을 재 설정합니다.">
+			<Content>%d번 뷰의 레이아웃 버전이 변경되었습니다.</Content>
+		</Log>
+
+		<Log name="FailSnapshot" level="error" title="화면 캡쳐가 실패하였습니다.">
+			<Solution>다른 캡쳐 프로그램 또는 보안 프로그램이 영향을 줄 수 있습니다. 해당 프로그램을 종료한 후 다시 수행해 보시고, 문제가 지속될 경우 기술 지원을 요청하십시오.</Solution>
+		</Log>
+
+		<Log name="FailSnapshotSaveToFile" level="error" title="캡쳐한 화면을 파일로 저장할 수 없습니다.">
+			<Solution>저장할 파일의 공유 위반 문제일 수 있으므로 경로 및 파일을 다시 확인하여 주십시오.</Solution>
+		</Log>
+
+		<Log name="InitWorkingWindow" level="debug" title="작업 창 구성을 초기화 합니다.">
+		</Log>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- 증거물 -->
+	<!-- ================================================================== -->
+	<Category name="Evidence">
+    <Log name="UsingEvidence" level="error" title="덤프 이미지 파일을 추가하지 못했습니다.">
+      <Content>다음의 파일을 추가할 수 없습니다.
+%s</Content>
+      <Solution>이미 다른 증거물에서 사용중입니다. 다른 덤프 이미지를 선택하십시오.</Solution>
+    </Log>
+		<Log name="FailedAddEvidence" level="error" title="덤프 이미지 파일을 추가하지 못했습니다.">
+			<Content>다음의 파일을 추가할 수 없습니다. 
+%s</Content>
+			<Solution>덤프 이미지 파일이 정상인지 확인하여 주십시오. 구 Extractor 버전으로 작성되었거나 덤프 이미지 파일이 아닐 수 있습니다.</Solution>
+		</Log>
+		<Log name="DumpImageDropComplete" level="debug" title="덤프 이미지 파일을 드랍이 완료되었습니다.">
+			<Content>성공: %s실패: %s</Content>
+		</Log>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- 파일 시스템 -->
+	<!-- ================================================================== -->
+	<Category name="FileSystem">
+		<Log name="BeginConvert" level="debug" title="파일 시스템 변환을 시작합니다.">
+			<Content>'%s'의 파일 시스템을 변환합니다.</Content>
+		</Log>
+
+		<Log name="EndConvert" level="debug" title="파일 시스템 변환을 종료합니다.">
+		</Log>
+
+		<Log name="FailedConvert" level="Error" title="파일 시스템 변환이 실패했습니다.">
+			<Content>덤프 이미지 파일이 로드되지 않아서 변환할 수 없습니다.</Content>
+			<Solution>올바른 덤프 이미지 파일을 로드하여 주십시오.</Solution>
+		</Log>
+
+		<Log name="CannotConvert" level="Error" title="파일 시스템 변환을 수행할 수 없습니다.">
+			<Content>파일 시스템 설정이 없거나 잘못되었습니다.</Content>
+			<Solution>파일 시스템 설정을 추가하거나 잘못 설정한 값이 없는지 확인하십시오.</Solution>
+		</Log>
+
+		<Log name="NeedConvert" level="error" title="파일 시스템 분석을 수행하지 않았습니다.">
+			<Solution>올바른 덤프 이미지를 이용하여 파일 시스템 분석을 실행해야 합니다.</Solution>
+		</Log>
+
+		<Log name="InvalidPageSize" level="error" title="페이지 크기가 잘못되었습니다.">
+			<Content>메타 데이터의 크기가 페이지 크기를 초과합니다.</Content>
+		</Log>
+
+		<Log name="CantFindMainPartition" level="warning" title="주 파티션을 찾을 수 없습니다.">
+		</Log>
+
+		<Log name="CantFindMountPartition" level="warning" title="마운트할 파티션을 찾을 수 없습니다.">
+		</Log>
+
+		<Log name="CantMountPartiotion" level="warning" title="파티션을 마운트할 수 없습니다.">
+		</Log>
+	</Category>
+	
+	<!-- ================================================================== -->
+	<!-- 분석 -->
+	<!-- ================================================================== -->
+	<Category name="Analysis">
+		<Log name="BeginAutoAnal" level="debug" title="자동 분석을 시작합니다.">
+			<Content>'%s'의 자동 분석을 시작합니다.</Content>
+		</Log>
+
+		<Log name="EndAutoAnal" level="debug" title="자동 분석을 종료합니다..">
+		</Log>
+		
+		<Log name="FailedAutoAnal" level="warning" title="자동 분석이 실패하였습니다.">
+		</Log>
+
+		<Log name="NoExistTsf" level="error" title="분석기 파일이 존재하지 않습니다.">
+			<Content>해당 분석기 파일이 이미 삭제되어 있을 수 있습니다.</Content>
+		</Log>
+
+		<Log name="BeginLoadTsf" level="debug" title="분석기 파일을 불러옵니다.">
+			<Content>분석기 파일: %s - %s</Content>
+		</Log>
+
+		<Log name="EndLoadTsf" level="debug" title="분석기 파일을 불러오는 작업이 완료되었습니다.">
+		</Log>
+
+		<Log name="FailedLoadTsf" level="debug" title="분석기 파일을 불러오지 못했습니다.">
+		</Log>
+
+		<Log name="CantCreateToolView" level="debug" title="분석기 창을 생성하는데 문제가 발생했습니다.">
+		</Log>
+
+		<Log name="RunSimul" level="debug" title="분석기 실행을 시작합니다.">
+		</Log>
+
+		<Log name="EndSimul" level="debug" title="분석기 실행을 종료합니다.">
+		</Log>
+
+		<Log name="FailedSimul" level="debug" title="분석기 실행을 완료하지 못했습니다.">
+		</Log>
+
+		<Log name="NoActiveToolView" level="debug" title="사용 가능한 분석기 창이 없습니다.">
+			<Content>분석기 창이 생성되지 않았거나 활성화된 창이 없습니다.</Content>
+			<Solution>기술 지원을 요청하십시오.</Solution>
+		</Log>
+
+		<Log name="NoActiveToolMgr" level="error" title="활성화된 분석기 관리자가 없습니다.">
+			<Solution>기술 지원을 요청하십시오.</Solution>
+		</Log>
+
+		<Log name="CantCreateToolMgrNoSetting" level="Error" title="툴 관리자를 생성할 수 없습니다.">
+			<Content>제조사와 모델의 정보가 설정되지 않았습니다.</Content>
+		</Log>
+
+		<Log name="CantCreateToolMgrNoTsf" level="Error" title="툴 관리자를 생성할 수 없습니다.">
+			<Content>툴 설정 파일을 읽어 올 수 없습니다.</Content>
+		</Log>
+
+		<Log name="UserStopAnalysis" level="information" title="사용자가 분석을 중지하였습니다.">
+		</Log>
+
+        <Log name="ActiveAnalysisTime" level="information" title="활성데이터 분석시간">
+            <Content>%s</Content>
+        </Log>
+
+        <Log name="DeletedAnalysisTime" level="information" title="삭제데이터 분석시간">
+            <Content>%s</Content>
+        </Log>
+
+		<Log name="SearchExpressionError" level="Error" title="검색어 표현이 잘못되었습니다.">
+			<Content>올바르지 않은 검색어가 입력되었습니다.</Content>
+			<Solution>검색어를 변경하거나 검색 옵션을 수정하고 사용하십시오.</Solution>
+		</Log>
+
+        <Log name="AzException" level="debug" title="예외처리">
+          <Content>%s</Content>
+        </Log>
+        
+        <Log name="SearchResult" level="information" title="검색결과">
+            <Content>검색 개수 : %d</Content>
+        </Log>
+
+		<Log name="SQLiteMemoryFault" level="debug" title="DB 분석 에러">
+			<Content>%s</Content>
+		</Log>
+        
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- AzTool -->
+	<!-- ================================================================== -->
+	<Category name="AzTool">
+		<Log name="HasNoLink" level="error" title="링크를 가지고 있지 않습니다.">
+		</Log>
+
+		<Log name="InvalidPropertyValue" level="error" title="속성 값이 잘못 설정되었습니다.">
+		</Log>
+		
+		<Log name="NeedRegistValue" level="warning" title="등록되지 않은 값은 사용할 수 없습니다.">
+		</Log>
+
+		<Log name="InvalidDBType" level="warning" title="DBType 값이 잘못되었습니다.">
+		</Log>
+
+		<Log name="InvalidFieldPos" level="error" title="필드의 위치가 잘못되었습니다.">
+		</Log>
+
+		<Log name="NoFindInCondition" level="warning" title="조건에 해당하는 파일을 찾을 수 없습니다.">
+		</Log>
+
+		<Log name="ErrGeneral" level="error" title="조건에 해당하는 파일을 찾을 수 없습니다.">
+		</Log>
+
+		<Log name="OutOfRangeRecordAdding" level="error" title="레코드의 위치가 잘못되었습니다.">
+		</Log>
+
+		<Log name="NeedFindFilePath" level="warning" title="찾고자 하는 파일의 경로가 입력되지 않았습니다.">
+		</Log>
+
+		<Log name="NoTapLinkedInfo" level="error" title="해당 탭에 연결 정보가 없습니다.">
+		</Log>
+
+		<Log name="NoPropInfo" level="warning" title="속성 정보를 찾을 수 없습니다.">
+		</Log>
+
+		<Log name="NoFindTapInfo" level="warning" title="탭 정보를 찾을 수 없습니다.">
+		</Log>
+
+		<Log name="InvalidLink" level="warning" title="유효한 링크가 아닙니다.">
+		</Log>
+
+		<Log name="NoValidTapInLink" level="warning" title="링크 정보에서 유효한 탭을 찾을 수 없습니다.">
+		</Log>
+
+		<Log name="NoFindFile" level="warning" title="파일을 찾을 수 없습니다.">
+		</Log>
+
+		<Log name="NoMappingInfoInTap" level="error" title="해당 탭의 매핑 정보가 존재하지 않습니다.">
+		</Log>
+
+		<Log name="HasNoIterationTool" level="error" title="반복 가능한 툴을 포함하고 있지 않습니다.">
+		</Log>
+    
+		<Log name="InputIsNotDB" level="warning" title="입력된 데이터가 DB형식이 아닙니다.">
+		</Log>
+    
+		<Log name="ScriptError" level="error" title="스크립트 오류입니다.">
+		</Log>
+
+		<Log name="RunException" level="debug" title="실행중 예외상황이 발생했습니다.">
+		</Log>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- 사건 -->
+	<!-- ================================================================== -->
+	<Category name="CaseData">
+		<Log name="NewCase" level="debug" title="사건을 생성합니다.">
+			<Content>이름: %s
+경로: %s</Content>
+		</Log>
+
+		<Log name="NewCaseInit" level="debug" title="사건 내용을 초기화 합니다.">
+		</Log>
+		
+		<Log name="BeginLoad" level="debug" title="사건 파일을 불러옵니다.">
+			<Content>경로: %s</Content>
+		</Log>
+
+		<Log name="EndLoad" level="debug" title="사건 파일을 불러오는 작업이 완료되었습니다.">
+			<Content>경로: %s</Content>
+		</Log>
+
+		<Log name="FailedLoad" level="error" title="사건 파일을 불러오지 못했습니다.">
+		</Log>
+
+		<Log name="CantReadEvidence" level="error" title="사건 파일의 증거물 정보를 읽을 수 없습니다.">
+			<Content>해당 사건 파일의 버전이 맞지 않거나 파일이 손상되었을 수 있습니다.</Content>
+		</Log>
+
+    <Log name="CantReadFilesystem" level="error" title="사건 파일의 파일시스템 정보를 읽을 수 없습니다.">
+      <Content>
+해당 사건 파일의 버전이 맞지 않거나 파일이 손상되었을 수 있습니다.
+증거물: %s
+      </Content>
+    </Log>
+
+    <Log name="CantReadBookmark" level="error" title="사건 파일의 북마크 정보를 읽을 수 없습니다.">
+			<Content>해당 사건 파일의 버전이 맞지 않거나 파일이 손상되었을 수 있습니다.</Content>
+		</Log>
+
+		<Log name="ImportDumpToCase" level="debug" title="증거물의 이미지를 사건 폴더에 포함합니다.">
+		</Log>
+
+		<Log name="ExportCaseZip" level="debug" title="사건 자료를 압축하여 내보내기 합니다.">
+			<Content>대상 경로: %s
+암호 사용 여부: %d</Content>
+		</Log>
+
+		<Log name="ErrorExportZipHandleNone" level="debug" title="사건 자료 내보내기를 수행할 수 없습니다.">
+			<Content>압축 파일을 생성할 수 없습니다.</Content>
+			<Solution>해당 파일이 사용 중인지 확인하고 다시 실행하여 주십시오. 문제가 계속되면 기술 지원을 요청하십시오.</Solution>
+		</Log>
+	</Category>
+
+	<!-- ================================================================== -->
+	<!-- 보고서 -->
+	<!-- ================================================================== -->
+	<Category name="Report">
+		<Log name="ErrPdfFileShare" level="error" title="보고서 파일을 생성하는데 문제가 발생했습니다.">
+			<Content>다음의 파일에 공유 위반이 발생했습니다.
+경로: %s</Content>
+			<Solution>해당 파일을 사용하는 프로그램을 모두 닫고 '갱신'을 수행해 주십시오. 문제가 지속될 경우 기술 지원을 요청하십시오.</Solution>
+		</Log>
+
+		<Log name="FailedCreatePdf" level="error" title="보고서 파일을 생성하는데 문제가 발생했습니다.">
+			<Content>보고서 파일을 생성하지 못했습니다. 분석 결과 데이터가 없거나 보고서 생성 모듈에 문제가 있을 수 있습니다.</Content>
+			<Solution>분석을 수행하고 데이터를 생성해 주십시오. 문제가 지속될 경우 기술 지원을 요청하십시오.</Solution>
+		</Log>
+
+		<Log name="BeginCreatePdf" level="debug" title="보고서 파일 생성을 시작합니다.">
+		</Log>
+
+		<Log name="EndCreatePdf" level="debug" title="보고서 파일 생성이 완료되었습니다.">
+		</Log>
+
+		<Log name="EmptyReportTemplate" level="error" title="보고서 파일을 생성하는데 문제가 발생했습니다.">
+			<Content>사용할 수 있는 보고서 템플릿이 아무것도 없습니다. 최소한 1개 이상의 템플릿이 존재해야 합니다.</Content>
+			<Solution>보고서 템플릿을 추가한 후 '갱신'을 수행해 주십시오.</Solution>
+		</Log>
+
+		<Log name="NoInstallPdf" level="error" title="Adobe Reader를 사용할 수 없습니다.">
+			<Content>Adobe Reader가 설치되지 않았거나 버전이 맞지 않습니다.</Content>
+			<Solution>Adobe Reader 9.x 버전을 설치한 후 다시 실행해 주십시오.</Solution>
+		</Log>
+	</Category>
+</Logs>
