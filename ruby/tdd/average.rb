@@ -4,7 +4,7 @@ require "test/unit"
 
 class Array
   def sum *a
-    a.inject(0) {|s, a| s + a}
+    a.reduce(0, :+)
   end
   
   def average(*a)
