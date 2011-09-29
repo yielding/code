@@ -1,4 +1,16 @@
 {
+  "다른 캡쳐 프로그램 또는 보안 프로그램이 영향을 줄 수 있습니다. 해당 프로그램을 종료한 후 다시 수행해 보시고, 문제가 지속될 경우 기술 지원을 요청하십시오": [
+    "This may affect security related or other capture S/W. Retart the program again and if the problem occurs again please contact to the technical support team",
+    "セキュリティソフトまたは他のキャプチャプログラムが影響を及ぼしている可能性があります。"
+  ],
+  "보고서의 내용뿐만 아니라 템플릿까지 기본 템플릿 내용으로 변경되어 생성됩니다. 이 작업을 수행할 경우 기존의 템플릿 내용은 삭제됩니다": [
+    "Template as well as the content of report will be reset to the default. If you perform this job, the contents of previous template will be removed",
+    ""
+  ],
+  "분석 내용에 따라 보고서 생성에 많은 시간이 소요될 수 있습니다. 보고서를 생성하지 않고자 할 때에는 '아니오'를 선택하여 주십시오": [
+    "This job my take long processing time depending on the analysis result. If you do not want to generate report, select 'No'",
+    ""
+  ],
   "해당 이미지 파일은 사건 폴더내에 포함되어 있습니다. 증거물 정보 및 실제 파일도 삭제하고자 할 경우에는'예'를 선택하여 주십시오": [
     "The selected image file is already included in the case folder. If you want to delete evedence Information with the file that includes this information, select 'yes'",
     ""
@@ -11,27 +23,4263 @@
     "Export the current case file as a compressed file. During this process, all the evidences will be included in case folder automatically",
     ""
   ],
-  "해당 파일이 사용 중인지 확인하고 다시 실행하여 주십시오. 문제가 계속되면 기술 지원을 요청하십시오": [
-    "Check the selected file is already used by other process. If program continues, please contact the technical support team",
+  "보고서를 다시 생성하고자 할 경우 사용할 수 있습니다. 이 작업은 분석 결과의 내용에 따라 다소 시간이 소요될 수 있습니다": [
+    "You can use this in order to re-generate the report. This task takes time proportional to the analysis result",
     ""
+  ],
+  "모든 증거물 파일을 현재 작업 중인 사건 폴더에 복사합니다. 이미 사건 폴더 안에 포함된 증거물은 작업에서 제외됩니다": [
+    "All evidence files will be copied in the folder currently we are woring on. Evidence data already included in the case folder will not be affected by current job",
+    ""
+  ],
+  "해당 파일을 사용하는 프로그램을 모두 닫고 '갱신'을 수행해 주십시오. 문제가 지속될 경우 기술 지원을 요청하십시오": [
+    "Please close the program which is using the selected file and press 'Update'. If problem continues, contact the technical support team",
+    ""
+  ],
+  "파일 공유 또는 유효하지 않는 경로 값에 인한 문제일 수 있습니다. 문제가 지속될 경우 기술 지원을 요청하십시오": [
+    "This problem may be induced by the file sharing error or invalid path. If problem recurs, please contact the technical support team",
+    ""
+  ],
+  "보고서 파일을 생성하지 못했습니다. 분석 결과 데이터가 없거나 보고서 생성 모듈에 문제가 있을 수 있습니다": [
+    "Can't generate a report. This may be caused by the report generation module error or absence of analysis result",
+    ""
+  ],
+  "이 작업은 사건을 다시 읽어 들일 수 있으며 덤프 이미지 파일 크기에 따라 많은 시간이 소요될 수 있습니다": [
+    "You can open this case and it takes long time in proportion to the size of image files",
+    "このケースを開くことができますが、イメージファイルの大きさにより時間がかります"
+  ],
+  "필드의 위치(%I64d)에서 크기(%I64d)를 더한 값이 레코드의 크기(%I64d)를 벗어 났습니다": [
+    "The sum of field position(%I64d) and length(%I64d) is greater than record size(%I64d)",
+    "フィールド位置(%I64d)とフィールド長(%I64d)の合計がレコードサイズ(%I64d)を超えています"
   ],
   "네트워크 및 방화벽 설정을 확인하십시오. 문제가 지속될 경우 네트워크 관리자에게 문의하시기 바랍니다": [
     "Please check the network and firewall configuration. If the same problem occurs repeatedly, please contact network administrator.",
     "Please check the network and firewall configuration. If the same problem occurs repeatedly, please contact network administrator."
   ],
+  "해당 파일이 사용 중인지 확인하고 다시 실행하여 주십시오. 문제가 계속되면 기술 지원을 요청하십시오": [
+    "Check the selected file is already used by other process. If program continues, please contact the technical support team",
+    ""
+  ],
   "필드의 위치(%I64d)에서 크기(가변길이)를 더한 값이 레코드의 크기(%I64d)를 벗어 났습니다": [
     "The sum of field position(%I64d) and (varaible) length is greater than record size(%I64d)",
     "フィールド位置(%I64d)と変数長の合計がレコードサイズを超えています"
   ],
-  "예123": [
+  "덤프 이미지 파일의 경로가 변경되었거나 옮겨졌기 때문에 증거물이 더 이상 올바르게 작동하지 않습니다": [
+    "The evidence is not valid any more, because the image file is moved to another place",
+    "イメージファイルが他の場所に移動されたのでその証拠ファイルは有効ではありません"
+  ],
+  "문제가 발생한 폴더를 직접 선택하고 내보내기 하십시오. 문제가 지속될 경우 기술 지원을 요청하십시오": [
+    "Select and export the folder that has problems. If problem recurs, please contact the technical support team",
+    ""
+  ],
+  "레코드의 위치(%I64d)에 크기(%I64d)를 더한 값이 유효 영역(%I64d)을 벗어 났습니다": [
+    "The sum of field position(%I64d) and length(%I64d) is beyond valid ragne(%I64d)",
+    "フィールド位置(%I64d)及びフィールド長(%I64d)が有効な範囲(%I64d)を超えています。"
+  ],
+  "사건 작업 파일의 위치를 이동하거나 다른 사용자에게 전달하고자 할 때 유용하게 사용할 수 있습니다": [
+    "This tool is useful when you move case file to other storage or hand in other person",
+    "ケースファイルを他の記憶媒体に移動したり他の人に渡す場合、このツールは有用です。"
+  ],
+  "사용할 수 있는 보고서 템플릿이 아무것도 없습니다. 최소한 1개 이상의 템플릿이 존재해야 합니다": [
+    "There are no templates available. There should be at lease 1 or more than 1 template",
+    ""
+  ],
+  "프로그램 오류가 발생하여 프로그램을 종료합니다. 로그 및 메모리 덤프 파일을 확인해 보십시오": [
+    "Terminating due to program error. Check the log and memory dump file",
+    ""
+  ],
+  "해당 확장자를 실행할 수 있는 프로그램을 찾을 수 없습니다.\\n연결프로그램을 설정하시겠습니까": [
+    "Can't find the linked program to execute the associated file extension.\\nDo you want to connect again",
+    ""
+  ],
+  "드라이브의 용량이 충분하지 않으면 덤프 이미지를 생성하는 과정에서 문제가 발생할 수 있습니다": [
+    "Not sufficient disk space may cause problems during extraction",
+    "十分な空き領域がないと抽出作業中に問題が発生する可能性があります"
+  ],
+  "분석을 수행하고 데이터를 생성해 주십시오. 문제가 지속될 경우 기술 지원을 요청하십시오": [
+    "Please perform analysis first and generate data. If problem recurs, contact the technical support team",
+    ""
+  ],
+  "모든 '%s' 파일에 적용할 프로그램을 직접 변경하고자 할 때는 [고급]을 클릭하십시오": [
+    "Click 'Advanced' when you manually change the program by which all '%s' files are opened",
+    "ファイルが開かれているプログラムを手動で変更する場合は、'Advanced'をクリックしてください。"
+  ],
+  "Pane 레이아웃에 문제가 발생하여 초기화 합니다. [ Pane Number: %d ]": [
+    "Pane layout is initialized because of unknown problems. [ Pane Number: %d ]",
+    "問題が発生したため、ペインレイアウトを初期化します. [ Pane Number: %d ]"
+  ],
+  "저장할 파일의 공유 위반 문제일 수 있으므로 경로 및 파일을 다시 확인하여 주십시오": [
+    "Please check the path again. The problem may be a file sharing violation",
+    "もう一度パスを確認してください。プログラムがファイル共有違反になっている可能性があります"
+  ],
+  "파일의 최대 경로 제한을 초과하여 전체(또는 일부)파일을 내보내기 할 수 없습니다": [
+    "The path length is beyond the limit. Exporting can't be continued",
+    "パスの長さが上限を超えています。　エクスポートは続行できません"
+  ],
+  "구 Extractor 버전으로 작성되었거나 덤프 이미지 파일이 아닐 수 있습니다": [
+    "It may not be a valid image file or created by MD Extractor",
+    "有効なイメージファイルでないか、「MD Extractor」で作成されたファイルではない可能性があります"
+  ],
+  "이미지 파일을 사건 폴더에 포함하거나 압축된 파일로 내보내기를 할 수 있습니다": [
+    "Add image file to case folder or export it as compressed file",
+    "イメージファイルをケースフォルダへ追加、または圧縮ファイルとしてエクスポート"
+  ],
+  "증거물 정보 및 실제 파일도 삭제하고자 할 경우에는'예'를 선택하여 주십시오": [
+    "Select 'Yes' when you want to delete image file",
+    "イメージファイルを削除したい場合、'はい'を選択してください"
+  ],
+  "보고서의 내용뿐만 아니라 템플릿까지 기본 템플릿 내용으로 변경되어 생성됩니다": [
+    "The contents are updated and template is changed to default template",
+    "内容が更新されたため、テンプレートがデフォルトテンプレートに変更します"
+  ],
+  "남은 용량이 500MB 이하일 경우 다른 드라이브를 사용하는 것을 권장합니다": [
+    "When available drive space is under 500MB, we recommand another disk drive",
+    "空き領域が500MB以下の場合、他のディスクドライブの使用をお勧めします"
+  ],
+  "Microsoft Office의 엑셀 제품군을 설치한 후 다시 시도해주십시오": [
+    "After installing Microsoft Excel, retry it",
+    "Microsoft Excelをインストール後、再試行してください"
+  ],
+  "보고서를 수동으로 생성하고자 할 때에는 '갱신하기' 기능을 이용하시면 됩니다": [
+    "'Update' is for creating report manually",
+    "'更新'はレポートを手動で作成します"
+  ],
+  "올바른 덤프 이미지 파일을 연결할 때까지 해당 증거물을 사용할 수 없습니다": [
+    "The evidence is not valid until it is linked to a correct image file",
+    "正しいイメージファイルにリンクするまで証拠ファイルは有効にはなりません"
+  ],
+  "분석 결과 데이터가 없거나 보고서 생성 모듈에 문제가 있을 수 있습니다": [
+    "No analysis result or reporting module may have a problem",
+    "分析結果がないか、またはレポートモジュールが問題を抱えている可能性があります"
+  ],
+  "현재 설정되어 있는 모든 연결이 끊어지게 됩니다. \\n계속 하시겠습니까": [
+    "All the current settings will be lost. \\nContinue",
+    ""
+  ],
+  "사용할 덤프 이미지 파일이 없을 경우 증거물을 리스트에서 삭제 합니다": [
+    "If the image file does not exist, evidences will be removed from the list",
+    "イメージファイルが存在しない場合、証拠ファイルをりストから削除します"
+  ],
+  "해당 파일을 사용하는 프로그램을 모두 닫고 '갱신'을 수행해 주십시오": [
+    "Close all the programs which opened this file and select 'Update'",
+    "このファイルを開いている全てのプログラムを閉じ'更新'を選択してください"
+  ],
+  "확장자와 연결된 프로그램 설정이 잘못되었습니다. 다시 설정해 주십시오": [
+    "Wrong association exists between file extension and the linked program. Please link again",
+    ""
+  ],
+  "주의:  '표지'와 '목차' 페이지는 여백 설정에 영향을 받지 않습니다": [
+    "Notice : 'Cover' and 'Table of Contets' are not influenced by Changing Margins",
+    "注意：カバー及びコンテンツの表はマージンを変化しても変わりません。"
+  ],
+  "필드의 위치(%I64d)가 레코드의 크기(%I64d)를 벗어 났습니다": [
+    "Field postion(%I64d) is greater than record size(%I64d)",
+    "フィールド位置(%I64d)がレコードサイズ(%I64d)を超えています"
+  ],
+  "Adobe Reader 9.x 버전을 설치한 후 다시 실행해 주십시오": [
+    "Install Adobe Reader 9.x and retry it",
+    "「Adobe Reader 9.x」をインストールしてから、再試行してください"
+  ],
+  "이 작업은 분석 결과의 내용에 따라 다소 시간이 소요될 수 있습니다": [
+    "It takes time to create report proportional to the amount of the result",
+    "結果の量により、レポート作成に時間がかかります"
+  ],
+  "이미 다른 증거물에서 사용중입니다. 다른 덤프 이미지를 선택하십시오": [
+    "Already opened image file. Please select another image file",
+    "Already opened image file. Please select another image file"
+  ],
+  "파일 시스템 설정을 추가하거나 잘못 설정한 값이 없는지 확인하십시오": [
+    "Please check settings for reconstruction are added. If added, check the validity.",
+    "再構築のための設定が追加されたかどうか、確認してください。追加する場合、有効な設定かどうかチェックしてください"
+  ],
+  "LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT": [
+    "LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US",
+    "LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT"
+  ],
+  "해당 사건 파일의 버전이 맞지 않거나 파일이 손상되었을 수 있습니다": [
+    "The version of the case file may mismatch or be damaged",
+    "ケースファイルのバージョンが不一致もしくは破損しています"
+  ],
+  "알 수 없는 이유로 인하여 메모리 덤프 파일을 생성할 수 없습니다": [
+    "Can't create memory dump file due to unknown error",
+    "不明なエラーにより、メモリーダンプファイルを作成できません"
+  ],
+  "파일 공유 또는 유효하지 않는 경로 값에 인한 문제일 수 있습니다": [
+    "It may be file sharing violation error or invalid path",
+    "共有違反エラーまたは無効なパスのファイルが存在する可能性があります"
+  ],
+  "작업 중인 사건을 다른 이름으로 저장합니다.\\n다른 이름으로 저장": [
+    "Save the current case with other name.\\nSave as",
+    ""
+  ],
+  "올바른 덤프 이미지를 이용하여 파일 시스템 분석을 실행해야 합니다": [
+    "File system reconstruction should be performed with correct image file",
+    "ファイルシステム再構築は正しいイメージファイルにより実行されなければなりませんｊ"
+  ],
+  "되돌리기 작업을 수행할 수 없습니다.\\n히스토리가 모두 삭제됩니다": [
+    "Can't undo the operations.\\nAll the history will be deleted",
+    ""
+  ],
+  "되살리기 작업을 수행할 수 없습니다.\\n히스토리가 모두 삭제됩니다": [
+    "Can't redo the operations.\\nAll the history will be deleted",
+    ""
+  ],
+  "보고서를 생성하지 않고자 할 때에는 '아니오'를 선택하여 주십시오": [
+    "Select 'No' if you don't want to create report",
+    "レポートを作成しない場合、'いいえ'を選択してください"
+  ],
+  "현재 사건 파일을 지정한 위치에 압축 파일로 내보내기를 수행합니다": [
+    "Current working case is exported as a compressed file",
+    "現在作業中のケースは圧縮ファイルとしてエクスポートされます"
+  ],
+  "Adobe Reader가 설치되지 않았거나 버전이 맞지 않습니다": [
+    "Adobe Reader is not available or version mismatches",
+    "「Adobe Reader」が利用可能でないか、またはバージョンが一致しません"
+  ],
+  "분석 내용에 따라 보고서 생성에 많은 시간이 소요될 수 있습니다": [
+    "It may take long time to create report in proportion to the amount of the result",
+    "結果の量により、レポート作成に時間がかかります"
+  ],
+  "선택된 아이템이 있습니다.\\n선택 취소 후 테이블을 변경하십시오": [
+    "Selected item(s) exist(s).\\nUpdate table after discarding the selection",
+    ""
+  ],
+  "현재 열려 있는 분석기 파일 안에 정의되어 있는 툴을 검색합니다": [
+    "Searching for the tool that is used by the current analyzer setting file",
+    ""
+  ],
+  "분석 시 데이터의 유효성 여부를 판단할 기준 날짜를 정의합니다": [
+    "Define the valid date range of analysis result",
+    "分析結果の有効期間を定義"
+  ],
+  "프로그램|*.exe;*.com;*.bat|모든 파일|*.*||": [
+    "Program|*.exe;*.com;*.bat|All files|*.*||",
+    ""
+  ],
+  "엑셀이 설치되어 있지 않습니다.\\n설치 후 사용하시기 바랍니다": [
+    "Excel is not installed.\\nPlease install first",
+    ""
+  ],
+  "엑셀이 설치되지 않으면 엑셀로 내보내기를 수행할 수 없습니다": [
+    "Can't export to Microsoft Excel if not installed",
+    "Microsoft Excelがインストールされていないためエクスポートできません"
+  ],
+  "동일한 사건 파일이 존재합니다. 다른 이름을 사용해 주십시오": [
+    "Same case file exists. Please use different name",
+    ""
+  ],
+  "기존의 설정 데이터가 모두 삭제됩니다.\\n계속 하시겠습니까": [
+    "All the previous settings will be deleted.\\nContinue",
+    ""
+  ],
+  "해당 확장자를 실행할 수 있는 프로그램을 찾을 수 없습니다": [
+    "Can't find the program for the selected file extension",
+    "選択したファイル拡張子に対するプログラムが見つかりません"
+  ],
+  "이 과정에서 모든 증거물은 자동으로 사건 폴더에 포함됩니다": [
+    "During exporting case, all image files will be exported together to new case file",
+    "ケースをエクスポート中、全てのイメージファイルは新しいケースファイルに一緒にエクスポートされます"
+  ],
+  "(c) <이씨플랫폼>.  All rights reserved": [
+    "ECPLATFORM.  All rights reserved",
+    "AOS Technologies,Inc.  All rights reserved"
+  ],
+  "모든 증거물 파일을 현재 작업 중인 사건 폴더에 복사합니다": [
+    "All image files are copied to current working case folder",
+    "全てのイメージファイルが現在作業中のケースフォルダにコピーされます"
+  ],
+  "이미 사건 폴더 안에 포함된 증거물은 작업에서 제외됩니다": [
+    "The image files which are already included will be skipped",
+    "既に含まれるイメージファイルはスキップします。"
+  ],
+  "사용할 덤프 이미지 파일이 없을 경우 증거물을 삭제합니다": [
+    "If the image file does not exist, evidences will be removed from the list",
+    "イメージファイルが存在しない場合、証拠ファイルをリストから削除します"
+  ],
+  "파티션 %s을(를) 마운트 해제합니다.\\n계속하시겠습니까": [
+    "Partition %s will be unmounted.\\nContinue",
+    ""
+  ],
+  "사용자 정의툴(%s)을 삭제합니다.\\r\\n계속하시겠습니까": [
+    "User defined tool(%s) will be removed.\\r\\nContinue",
+    ""
+  ],
+  "해당 파일을 실행할 수 있는 프로그램을 찾을 수 없습니다": [
+    "Can't find the program associated with the selected file",
+    "選択したファイルに関連付けられたプログラムが見つかりません"
+  ],
+  "자동 저장된 파일을 불러오러면 \"불러오기\"를 선택하십시오": [
+    "Select \"Open\" to open the autosaved file",
+    "自動保存再ファイルを開く場合、\"開く\"を選択する"
+  ],
+  "해당 파일이 사용 중인지 확인하고 다시 실행하여 주십시오": [
+    "Please check the destination file was opened by other program and retry it",
+    "他のプログラムであて先ファイルが他のプログラムで開かれていないか確認してから、再試行してください"
+  ],
+  "보고서의 템플릿은 변경되지 않고 내용만 다시 갱신합니다": [
+    "Report Template is not changed and only the contents are updated",
+    "内容が更新されるまでレポートのテンプレートは変更されません"
+  ],
+  ":*?\"\"<>| 문자는 사건 이름에 사용할 수 없습니다": [
+    ":*?\"\"<>| can't be included in case name",
+    "ケース名に:*?\"\"<>|は使用できません"
+  ],
+  "이 작업을 수행할 경우 기존의 템플릿 내용은 삭제됩니다": [
+    "After this job, the previous template will be deleted",
+    "このジョブ実行後、以前のテンプレートは削除されます"
+  ],
+  "덤프 이미지 파일이 로드되지 않아서 변환할 수 없습니다": [
+    "There is no image file to reconstruct file system",
+    "ファイルシステムを再構築するためのイメージファイルがありません"
+  ],
+  "다른 증거물에서 사용 중인 파일은 사용하실 수 없습니다": [
+    "The image file linked to another evidence cannot be selected",
+    "他の証拠ファイルにリンクされているイメージファイルは選択できません"
+  ],
+  "%s 안의 모든 파일을 삭제합니다.\\n계속하시겠습니까": [
+    "Remove all the files in %s.\\nContinue",
+    ""
+  ],
+  "다음과 같은 이유로 요청한 작업을 처리할 수 없습니다": [
+    "The job can't be processed due to the following reasons",
+    "以下の原因によりジョブの実行ができません"
+  ],
+  "문제가 발생한 폴더를 직접 선택하고 내보내기 하십시오": [
+    "Select the failed folder manually then proceed exporting",
+    "エクスポート実行時、手動でフォルダを選択してください"
+  ],
+  "보고서 템플릿을 추가한 후 '갱신'을 수행해 주십시오": [
+    "Add report template and select 'Update'",
+    "レポートテンプレートを追加し'更新'を選択してください"
+  ],
+  "보고서를 다시 생성하고자 할 경우 사용할 수 있습니다": [
+    "If you want to re-generate Report, you can use it",
+    "レポートを再度生成したい場合、それを使用できます"
+  ],
+  "파티션 %s을(를) 마운트 합니다.\\n계속하시겠습니까": [
+    "Mount partition %s\\n계속하시겠습니까",
+    ""
+  ],
+  "분석기 창이 생성되지 않았거나 활성화된 창이 없습니다": [
+    "Analyzer window was not created or there is no activated window",
+    "アナライザウィンドウが作成されないか、またはアクティブなウィンドウがありません"
+  ],
+  "모델이 설정되지 않았습니다. 증거물정보를 확인하십시오": [
+    "Model name is not assigned. Please check the evidence information",
+    ""
+  ],
+  "프로그램을 실행할 수 없습니다. (원인: 페이지 풀)": [
+    "Can't run page pool",
+    "ページツールを実行できません"
+  ],
+  "분석 시 다음 두 연도사이의 값만 유효하게 인정됩니다": [
+    "Analyzed year values are valid when they are between these two years",
+    "分析年の値は最近2年間有効です"
+  ],
+  "검색어를 변경하거나 검색 옵션을 수정하고 사용하십시오": [
+    "Change keyword or search options",
+    "検索オプションまたはキーワードを変更"
+  ],
+  "파일시스템을 변환할 수 없습니다. 설정을 확인하십시오": [
+    "Can't convert the file system. Please check the settings",
+    ""
+  ],
+  "해당 분석기 파일이 이미 삭제되어 있을 수 있습니다": [
+    "The analyzer settings may be deleted",
+    "アナライザ設定が削除された可能性があります"
+  ],
+  "연결된 파일 도구가 없거나 파일을 찾을 수 없습니다": [
+    "Linked file tool or file is not available",
+    "リンクファイルツールまたはファイルが利用できません"
+  ],
+  "선택한 리포트 템플릿을 기본 템플릿으로 활성화합니다": [
+    "Save selected report template as default template",
+    "選択したレポートテンプレートをデフォルトにする"
+  ],
+  "해당 이미지 파일은 사건 폴더내에 포함되어 있습니다": [
+    "This image file is located in the case folder",
+    "このイメージファイルはケースフォルダ内に存在します"
+  ],
+  "기본 설정으로 복원하려면 [원래대로]를 클릭하십시오": [
+    "Click [Revert] to revert to Default",
+    "デフォルト値に戻す場合は、[戻す]をクリックしてください"
+  ],
+  "현재 진행 중인 작업을 종료한 후 다시 시도하십시오": [
+    "After finishing current job, retry it",
+    "現在の作業終了後、再試行してください"
+  ],
+  "인터넷에 연결되지 않아 정보를 가져올 수 없습니다": [
+    "No internet connection",
+    "No internet connection"
+  ],
+  "사용할 수 없는 하위 버전이거나 손상된 파일입니다": [
+    "Incompatible old version or damaged file",
+    "互換性のない古いバージョン、または破損ファイルです"
+  ],
+  "이미지를 분석할 수 없습니다. 로그를 확인하십시오": [
+    "Can't analyze the image. Please check the log",
+    ""
+  ],
+  "\"무시\"를 선택하면 자동 저장된 파일은 무시됩니다": [
+    "Select \"Ignore\" to ignore the autosaved file",
+    "自動保存ファイルを無視する場合、\"無視\"を選択する"
+  ],
+  "이 확장자를 열 때 사용할 프로그램을 선택하십시오": [
+    "Select a program for this file extension",
+    "この拡張子を持つファイルを開くためのプログラムを選択してください"
+  ],
+  "사용할 수 있는 보고서 템플릿이 아무것도 없습니다": [
+    "There is no available report template",
+    "有効なレポートテンプレートがありません"
+  ],
+  "암호가 일치하지 않습니다. 다시 확인하여 주십시오": [
+    "Password does not match",
+    ""
+  ],
+  "'%s'의 내용이 변경되었습니다. 저장하시겠습니까": [
+    "The contents of '%s' have changed. Do you want to save",
+    ""
+  ],
+  "디버깅 정보를 포함한 모든 로그 정보를 확인합니다": [
+    "Show all the log information including debugging information",
+    "デバッグ情報を含む全てのログ情報を表示"
+  ],
+  "분석기를 테스트하는데 사용할 이미지를 불러 옵니다": [
+    "Load image file for testing analzer",
+    "アナライザテスト用のイメージファイルを読み込む"
+  ],
+  "분석 내용에 따라 많은 시간이 소요될 수 있습니다": [
+    "It may take long time depending on the amount of the analysis to perform",
+    "分析実行数によっては長時間かかることがあります"
+  ],
+  "파일의 수에 따라 많은 시간이 소요될 수 있습니다": [
+    "It may take long time depending on the number of files",
+    "ファイル数により長時間かかります"
+  ],
+  "비정상적으로 종료된 이전 작업 파일이 존재합니다": [
+    "An autosaved file exists that is generated before the abnormal termination",
+    "異常終了前に自動保存ファイルを作成する"
+  ],
+  "레코드의 크기는 1 이상의 값을 입력해야 합니다": [
+    "Record size should be greater than 0",
+    "レコードサイズは0以外にしてください"
+  ],
+  "프린트 및 인쇄 옵션 설정합니다.\\n프린터 설정": [
+    "Set the printer and printing options.\\nPrint setting",
+    ""
+  ],
+  "현재 설정되어 있는 모든 연결이 끊어지게 됩니다": [
+    "All links will be disconnected",
+    "全てのリンクが切断されます"
+  ],
+  "등록되지 않은 값입니다. 등록후 사용하시겠습니까": [
+    "Not registered value. Do you want to register and use it",
+    ""
+  ],
+  "메타 데이터의 크기가 페이지 크기를 초과 합니다": [
+    "The size of metadata is bigger than default page size",
+    "メタデータサイズがデフォルトページサイズを超えています"
+  ],
+  "다음의 위치에 덤프 이미지 파일을 생성하였습니다": [
+    "Dump file is created at this location",
+    "ダンプファイルはここに作られます"
+  ],
+  "사건 파일의 파일시스템 정보를 읽을 수 없습니다": [
+    "Can't load the file system information of the case file",
+    "ケースファイルのファイルシステム情報を読み込めません"
+  ],
+  "2개 이상의 반복자(Iterator)가 있습니다": [
+    "Two or more iterators exist",
+    "２つ以上のiteratorが存在しています"
+  ],
+  "선택(체크)된 키워드로 파일을 검색하시겠습니까?": [
+    "Search selected(checked) keyword?",
+    "Search selected(checked) keyword?"
+  ],
+  "덤프 이미지 파일이 정상인지 확인하여 주십시오": [
+    "Please check the validity of image file",
+    "有効なイメージファイルかどうかを確認してください"
+  ],
+  "메타 데이터의 크기가 페이지 크기를 초과합니다": [
+    "The size of metadata is bigger than page size",
+    "メタデータのサイズがページサイズよりも大きくなっています"
+  ],
+  "찾고자 하는 파일의 경로가 입력되지 않았습니다": [
+    "File path to be searched is not entered",
+    "検索ファイルパスが入力されていません"
+  ],
+  "프로그램 오류가 발생하여 프로그램을 종료합니다": [
+    "Error occurred during the execution. Exit program",
+    "処理中にエラーが発生しました。プログラムを終了します"
+  ],
+  "<>| 문자는 사건 이름에 사용할 수 없습니다": [
+    "Can't use <>| characters int the case name",
+    ""
+  ],
+  "'%s'을(를) 삭제합니다.\\n계속하시겠습니까": [
+    "Delete '%s'\\nContinue",
+    ""
+  ],
+  "%s의 내용이 변경되었습니다. 저장하시겠습니까": [
+    "Contents of %s are changed. Do you want to save",
+    ""
+  ],
+  "선택(체크)된 키워드로 파일을 검색하시겠습니까": [
+    "Search for selected(checked) keyword",
+    ""
+  ],
+  "삭제 레코드를 분석합니다.\\n계속 하시겠습니까": [
+    "Analyze the deleted records.\\nContinue",
+    ""
+  ],
+  "확장자와 연결된 프로그램 설정이 잘못되었습니다": [
+    "Wrong program was assigned to the extension",
+    "不適切なプログラムが割り当てられています"
+  ],
+  "%s 드라이브 남은 용량 ( %.2fMB )": [
+    "Available Disk Space of %s Drive ( %.2fMB )",
+    ""
+  ],
+  "*주의: 수정한 값은 재 실행 시 적용됩니다": [
+    "*Notice : New settings will be applied when you restart",
+    "*注意：新規設定は再起動時に反映されます"
+  ],
+  "올바른 덤프 이미지 파일을 로드하여 주십시오": [
+    "Please load image file to reconstruct file system",
+    "ファイルシステムの再構築を行うイメージファイルをロードしてください"
+  ],
+  "선택하신 파일은 다른 증거물에서 사용중입니다": [
+    "The selected image file is linked to another evidence",
+    "選択したイメージファイルは他の証拠ファイルにリンクされています"
+  ],
+  "시작 페이지에 표시되는 '분석기' 항목 개수": [
+    "The number of 'Analyzer' entries on Start page",
+    "スタートページへのアナライザ登録数"
+  ],
+  "링크 정보에서 유효한 탭을 찾을 수 없습니다": [
+    "Valid tap is not available from the link information",
+    "有効なタップはリンク情報から利用可能ではありません"
+  ],
+  "사건 파일의 증거물 정보를 읽을 수 없습니다": [
+    "Can't read the evidence information of the case file",
+    "ケースファイルの証拠情報を読めません"
+  ],
+  "로그 및 메모리 덤프 파일을 확인해 보십시오": [
+    "Check logs and memory dump file",
+    "ログ及びメモリダンプを参照してください"
+  ],
+  "문제가 지속될 경우 기술 지원을 요청하십시오": [
+    "If the error occurs repeatedly, please contact to technical support team",
+    "何度もエラーが発生した場合、テクニカルサポートチームに問い合わせて下さい"
+  ],
+  "파일 속성이 변경되어 읽거나 쓸 수 없습니다": [
+    "File attributes are changed. Read or Write will be disabled",
+    "ファイル属性が変更されました。読みこみ、書込みができなくなります"
+  ],
+  "분석기 파일을 불러오는 작업이 완료되었습니다": [
+    "Loading analyzer settings completed",
+    "アナライザ設定の読み込みが完了しました"
+  ],
+  "프로그램 종료 및 시작시 임시 파일 삭제하기": [
+    "Delete temporary files when start up or exit program",
+    "プログラムの開始時及び終了時に一時保存ファイルを削除する"
+  ],
+  "사건 파일의 북마크 정보를 읽을 수 없습니다": [
+    "Can't load the bookmark information of the case file",
+    "ケースファイルのブックマーク情報を読み込めません"
+  ],
+  "TOOL 설정 파일을 로딩하는데 실패했습니다": [
+    "Failed to load tool settings",
+    "ツール設定の読み込みに失敗しました"
+  ],
+  "해당 증거물이 사건 내역에 존재하지 않습니다": [
+    "The evidence isn't included in this case",
+    "証拠ファイルはこのケースには含まれていません"
+  ],
+  "Adobe Reader를 사용할 수 없습니다": [
+    "Can't execute Adobe Reader",
+    "「Adobe Reader」を実行できません"
+  ],
+  "최소한 1개 이상의 템플릿이 존재해야 합니다": [
+    "There should be at least 1 report template",
+    "1つ以上のレポートテンプレートが必要です。"
+  ],
+  "링크 정보에서 요청한 탭을 찾을 수 없습니다": [
+    "Can't find the linked Tap",
+    "リンク再構築タップが見つかりません"
+  ],
+  "링크 정보에서 요청한 툴을 찾을 수 없습니다": [
+    "Can't find the linked Tool",
+    "リンク再構築ツールが見つかりません"
+  ],
+  "보고서 파일을 생성하는데 문제가 발생했습니다": [
+    "Failed to create report file",
+    "レポートファイルの作成に失敗しました"
+  ],
+  "작업 중인 사건을 다른 이름으로 저장합니다": [
+    "Save current case as new name",
+    "現在のケースを別名で保存"
+  ],
+  "분석기 창을 생성하는데 문제가 발생했습니다": [
+    "Error occurred when creating analyzer window",
+    "アナライザウィンドウ作成中にエラーが発生しました"
+  ],
+  "분석 결과 일부만 가지고 편집을 수행합니다": [
+    "Edit a part of analysis result",
+    "分析結果の一部を編集"
+  ],
+  "시작 페이지에 표시되는 '사건' 항목 개수": [
+    "The number of 'Case' entries on Start page",
+    "スタートページへのケース登録数"
+  ],
+  "%d번 뷰의 레이아웃 버전이 변경되었습니다": [
+    "The layout version of %d view is changed",
+    "ビューのレイアウトバージョンが変更されます"
+  ],
+  "전체 분석 결과를 가지고 편집을 수행합니다": [
+    "Edit entire analysis result",
+    "分析結果全体を編集"
+  ],
+  "제조사와 모델의 정보가 설정되지 않았습니다": [
+    "Maker and model is not specified",
+    "メーカと機種が指定されていません"
+  ],
+  "문서의 머리글과 바닥글의 내용을 설정합니다": [
+    "Setup header and footer of document",
+    "ドキュメントのヘッダ及びフッタを設定"
+  ],
+  "보고서 양식을 편집하고자 할 때 사용합니다": [
+    "Edit report form",
+    "レポートフォームを編集"
+  ],
+  "진행 중인 작업이 있어 종료할 수 없습니다": [
+    "Failed to terminate program due to a working job",
+    "作業中のため、プログラムを終了できませんでした"
+  ],
+  "%Y년 %m월 %d일 %H시 %M분 %S초": [
+    "%H:%M:%S %d/%m/%Y",
+    "%H:%M:%S %d/%m/%Y"
+  ],
+  "사건 파일을 불러오는 작업이 완료되었습니다": [
+    "Loading the case file completed",
+    "ケースファイルの読み込みが完了しました"
+  ],
+  "현재 작업 중인 사건은 삭제할 수 없습니다": [
+    "Working case can't be deleted",
+    "Working case can't be deleted"
+  ],
+  "%s.html 파일을 생성할 수 없습니다": [
+    "Can't create %s.html",
+    "%s.htmlを作成できません"
+  ],
+  "복사한 모델을 선택된 제조사에 추가합니다": [
+    "Add copied Model to selected Maker",
+    "複製した機種を選択したメーカに追加"
+  ],
+  "증거물의 이미지를 사건 폴더에 포함합니다": [
+    "Including image file to the case folder",
+    "ケースフォルダにイメージファイルが含まれています"
+  ],
+  "해당 탭의 매핑 정보가 존재하지 않습니다": [
+    "There is no mapping information of the tap",
+    "タップのマッピング情報がありません"
+  ],
+  "선택한 리포트 템플릿의 이름을 변경합니다": [
+    "Rename selected report template",
+    "選択したレポートテンプレートの名前を変更"
+  ],
+  "파일 시스템 설정이 없거나 잘못되었습니다": [
+    "The settings for file system reconstruction don't exist or invalid",
+    "ファイルシステム再構築のための設定がないか、または無効です"
+  ],
+  "반복 가능한 툴을 포함하고 있지 않습니다": [
+    "Repeatable tools are not included",
+    "繰り返し可能なツールが含まれていません"
+  ],
+  "파일이 사용 중이므로 삭제할 수 없습니다": [
+    "Can't delete the file because other program may open it",
+    "他のプログラムにより開かれているためファイルを削除できません"
+  ],
+  "생성한 보고서를 텍스트 파일로 저장합니다": [
+    "Export report to text file",
+    "レポートをテキストファイルへエクスポート"
+  ],
+  "파일정보를 지정한 위치로 내보내시겠습니까": [
+    "Do you want to export the file information to the specified location",
+    "ファイル情報を指定の場所へエクスポートしますか"
+  ],
+  "덤프 이미지 파일을 드랍이 완료되었습니다": [
+    "Dropping the image file has finished",
+    "イメージファイルの削除を終了します"
+  ],
+  "데이터 형식이 변경되어 연결을 해제합니다": [
+    "Delete link(s) because datatype was changed",
+    "データ種別が変更されたためリンクが削除されました"
+  ],
+  "분석을 수행하고 데이터를 생성해 주십시오": [
+    "Perform analysis to make analysis result",
+    "分析を実行すると、分析結果が作成されます"
+  ],
+  "분석 결과 일부만가지고 편집을 수행합니다": [
+    "Edit a part of analysis result",
+    "分析結果の一部を編集"
+  ],
+  "오프셋은 0 이상의 값을 입력해야 합니다": [
+    "Offset should be not less than 0",
+    "オフセットは0以外にしてください"
+  ],
+  "프로그램 정보를 표시합니다.\\nAbout": [
+    "Display program information.\\nAbout",
+    ""
+  ],
+  "인쇄 미리보기를 합니다.\\n인쇄 미리보기": [
+    "Preview.\\nPrewview",
+    ""
+  ],
+  "문제가 지속되면 기술 지원을 요청하십시오": [
+    "If the error occurs repeatedly, please contact to technical support team",
+    "何度もエラーが発生した場合、テクニカルサポートチームに問い合わせて下さい"
+  ],
+  "문제가 계속되면 기술 지원을 요청하십시오": [
+    "If the error occurs repeatedly, please contact to technical support team",
+    "何度もエラーが発生した場合、テクニカルサポートチームに問い合わせて下さい"
+  ],
+  "캡쳐한 화면을 파일로 저장할 수 없습니다": [
+    "Can't save the captured image",
+    "キャプチャ画像が保存できませんでした"
+  ],
+  "사건 자료 내보내기를 수행할 수 없습니다": [
+    "Failed to export the case",
+    "ケースのエクスポートに失敗しました"
+  ],
+  "조건에 해당하는 파일을 찾을 수 없습니다": [
+    "There is no file satisfying the condition",
+    "条件に一致したファイルが存在しません"
+  ],
+  "설정내용에 대한 Html문서를 생성합니다": [
+    "Make a HTML document of settings",
+    "HTMLドキュメント設定を作成"
+  ],
+  "내보내기 할 파일의 경로가 너무 깁니다": [
+    "Export path is too long",
+    "エクスポート先のパスが長すぎます"
+  ],
+  "파일 시스템 변환을 수행할 수 없습니다": [
+    "Can't reconstruct file system",
+    "ファイルシステムを再構築出来ない"
+  ],
+  "분석기 도구를 읽고 있습니다. (%s)": [
+    "Loading analyzer tools. (%s)",
+    ""
+  ],
+  "'%s' 증거물 검증을 수행하시겠습니까": [
+    "Do you want to verify the evedence '%s'",
+    ""
+  ],
+  "반복가능한 툴을 포함하고 있지 않습니다": [
+    "Does not contain repeatable tool",
+    "繰り返しツールを含めないでください"
+  ],
+  "선택한 툴을 아래쪽 기준으로 정렬합니다": [
+    "Align selected tool(s) to bottom",
+    "選択したツールを下へ整列"
+  ],
+  "덤프 이미지 파일을 추가하지 못했습니다": [
+    "Failed to add image file",
+    "イメージファイルの追加に失敗しました"
+  ],
+  "다음의 파일에 공유 위반이 발생했습니다": [
+    "There is access violation at this file",
+    "このファイルへのアクセス違反があります"
+  ],
+  "등록되지 않은 값은 사용할 수 없습니다": [
+    "Not regiestered value",
+    "登録した値がありません"
+  ],
+  "인쇄 옵션을 변경합니다.\\n페이지 설정": [
+    "Change the print options.\\nPage setting",
+    ""
+  ],
+  "보고서의 테이블 표시 방식을 편집합니다": [
+    "Edit table representation of report",
+    "レポートの表書式の設定"
+  ],
+  "덤프 이미지 파일이 로딩되지 않았습니다": [
+    "Image file was not loaded",
+    "イメージファイルを読み込んでいません"
+  ],
+  "데이터 형식이 변경되어 연결을해제합니다": [
+    "Delete link(s) because datatype was changed",
+    "データ種別が変更されたためリンクが削除されました"
+  ],
+  "지도 기록에서 좌표를 추출하고 있습니다": [
+    "Extracting coordinates from map data",
+    "Extracting coordinates from map data"
+  ],
+  "사진 파일에서 좌표를 추출하고 있습니다": [
+    "Extracting coordinates from photos",
+    "Extracting coordinates from photos"
+  ],
+  "내용이 변경되었습니다. 저장하시겠습니까": [
+    "Contents are changed. Do you want to save",
+    ""
+  ],
+  "뷰의 Pane 레이아웃을 재 설정합니다": [
+    "Reset the pane layout of the view",
+    "ビューのレイアウトペインをリセットする"
+  ],
+  "분석 결과를 확인하고자할 때 사용합니다": [
+    "Check analysis result",
+    "分析結果を確認"
+  ],
+  "덤프 이미지를 먼저 불러 들어야 합니다": [
+    "Load a image file first",
+    "初めにイメージファイルを読み込んでください"
+  ],
+  "생성한 보고서를 한글 파일로 저장합니다": [
+    "Export report to HWP",
+    "レポートをHWPへエクスポート"
+  ],
+  "메모리 덤프 파일을 생성할 수 없습니다": [
+    "Memory dump file couldn't be created",
+    "メモリーダンプファイルは作成できません"
+  ],
+  "파일 시스템 분석을 수행하지 않았습니다": [
+    "Did not perform the file system reconstruction",
+    "ファイルシステム再構築を実行していません"
+  ],
+  "파일을 지정한 위치로 내보내시겠습니까?": [
+    "Do you want to export the selected files to the specified location?",
+    "選択したファイルを指定の場所へエクスポートしますか？"
+  ],
+  "찾고자 하는 파일의 경로를 입력하십시오": [
+    "Enter the file path to search",
+    "検索先を入力"
+  ],
+  "파일이 손상되어 읽거나 쓸 수 없습니다": [
+    "File is damaged. Read or Write will be disabled",
+    "ファイルが破損しています。読み込み、書込みができません"
+  ],
+  "생성한 보고서를 엑셀 파일로 저장합니다": [
+    "Export report to Microsoft Excel",
+    "レポートをExcelへエクスポート"
+  ],
+  "Select / deselect all": [
+    "Select / deselect all",
+    "全てを選択 / 全てを選択解除 "
+  ],
+  "새로운 덤프 이미지 파일을 연결합니다": [
+    "Linking to new image file",
+    "新しいイメージファイルにリンクする"
+  ],
+  "파일을 지정한 위치로 내보내시겠습니까": [
+    "Do you want to export the selected files to the specified location",
+    "選択したファイルを指定の場所へエクスポートしますか"
+  ],
+  "툴 설정 파일을 읽어 올 수 없습니다": [
+    "Can't load Tool setting file",
+    "ツール設定ファイルを読み込むことが出来ません"
+  ],
+  "선택한 툴을 위쪽 기준으로 정렬합니다": [
+    "Align selected tool(s) to top",
+    "選択したツールを上へ整列"
+  ],
+  "파티션 %s을(를) 마운트 해제합니다": [
+    "Unmount partition %s",
+    "パーティション%sをアンマウント"
+  ],
+  "이미 추가되어 있는 이미지 파일입니다": [
+    "The image file is already included",
+    "イメージファイルは既に含まれています"
+  ],
+  "증거물 이미지 파일도 삭제하시겠습니까": [
+    "Do you want to remove image files from this case",
+    "このケースからイメージファイルを削除しますか"
+  ],
+  "파일 시스템을 변환한 후 사용하십시오": [
+    "Reconstruct file system first",
+    "初めにファイルシステムの再構築をしてください"
+  ],
+  "%s는 등록되지 않는 문자열 값입니다": [
+    "%s is not registered",
+    "%sは登録されていません"
+  ],
+  "Tool Enable Settings": [
+    "Tool Enable Settings",
+    "ツール有効設定"
+  ],
+  "사건을 불러오는데 오류가 발생했습니다": [
+    "Error occurred during the case file loading",
+    "ケースファイル読み込み中にエラーが発生しました"
+  ],
+  "올바르지 않은 검색어가 입력되었습니다": [
+    "Illigal keyword input",
+    "無効なキーワード入力"
+  ],
+  "지정한 조건에 따라 검색을 실행합니다": [
+    "Start to search with the designated search condition",
+    "指定検索条件で検索を開始"
+  ],
+  "사건 자료를 압축하여 내보내기 합니다": [
+    "Exporting the compressed case data",
+    "圧縮したケースデータをエクスポート中"
+  ],
+  "기존의 설정 데이터가 모두 삭제됩니다": [
+    "All previous settings will be deleted",
+    "以前の全設定は削除されます"
+  ],
+  "분석결과를 엑셀파일로 내보내시겠습니까": [
+    "Do you want to export the analysis result to Microsoft Excel",
+    "分析結果をMicrosoft Excelへエクスポートしますか"
+  ],
+  "내보내기할 파일 목록을 구성중 입니다": [
+    "Generating File List to export",
+    "エクスポートするファイルリストを生成中"
+  ],
+  "덤프 이미지 파일을 찾을 수 없습니다": [
+    "Can't find image file",
+    "イメージファイルが見つかりません"
+  ],
+  "여백의 값이 페이지 범위를 벗어납니다": [
+    "New margin exceeds page margin limit",
+    "新しいマージンが最大マージンサイズを超えています"
+  ],
+  "작업 중인 사건을 닫고 여시겠습니까": [
+    "Are you sure to close the working case",
+    "作業中のケースを閉じますか"
+  ],
+  "지정한 위치에 마운트할 수 없습니다": [
+    "Can't mount on that folder",
+    "そのフォルダはマウントできません"
+  ],
+  "되돌리기 작업을 수행할 수 없습니다": [
+    "Can't revert the job",
+    "ジョブを戻せません"
+  ],
+  "입력된 데이터가 DB형식이 아닙니다": [
+    "The input data is not DB type",
+    "入力データはDBタイプではありません"
+  ],
+  "마운트할 파티션을 찾을 수 없습니다": [
+    "Can't find a partition to mount",
+    "マウントしているパーティションが見つかりません"
+  ],
+  "내보내기하는 파일은 다음과 같습니다": [
+    "Files to be exported are as follows",
+    "以下のファイルをエクスポートします"
+  ],
+  "모델 데이터베이스 업데이트 확인 중": [
+    "Checking model database version",
+    "機種データベースバージョン確認中"
+  ],
+  "되살리기 작업을 수행할 수 없습니다": [
+    "Can't revert the job",
+    "ジョブを戻せません"
+  ],
+  "작업 중인 사건을 닫습니다.\\n닫기": [
+    "Close the working case.\\nClose",
+    ""
+  ],
+  "'%s'의 파일 시스템을 변환합니다": [
+    "Reconstructing file system of '%s'",
+    "「%s」のファイルシステムを再構築中"
+  ],
+  "선택 취소 후 테이블을 변경하십시오": [
+    "Deselect and change table",
+    "テーブルを選択解除して変更します"
+  ],
+  "마운트될 폴더의 이름을 입력하십시요": [
+    "Enter the folder name to mount",
+    "マウントするフォルダ名を入力してください"
+  ],
+  "전체 문서의 여백 크기를 선택합니다": [
+    "Set margin",
+    "マージンを設定"
+  ],
+  "모델 데이터베이스 업데이트 확인중": [
+    "Checking model database version",
+    "機種データベースバージョン確認中"
+  ],
+  "파일 시스템을 변환할 수 없습니다": [
+    "Failed to reconstruct file system",
+    "ファイルシステムの再構築に失敗しました"
+  ],
+  "동일한 이름은 사용할 수 없습니다": [
+    "Same name can't be used",
+    "Same name can't be used"
+  ],
+  "선택된 항목을 북마크에 추가합니다": [
+    "Add selected items to bookmark",
+    "選択した項目をブックマークに追加"
+  ],
+  "분석기 연결 설정을 읽고 있습니다": [
+    "Loading links of tools",
+    "ツールのリンクを読み込み中"
+  ],
+  "%s 안의 모든 파일을 삭제합니다": [
+    "Delete all files in %s",
+    "%sに含まれるすべてのファイルを削除"
+  ],
+  "보고서 파일을 생성하지 못했습니다": [
+    "Failed to create report file",
+    "レポートファイルの作成に失敗しました"
+  ],
+  "보고서 파일 생성이 완료되었습니다": [
+    "Report file generation completed",
+    "レポートファイルの作成が完了しました"
+  ],
+  "증거물 파일 사건 폴더에 포함하기": [
+    "Importing image file to case folder",
+    "ケースフォルダへイメージファイルをインポート中です"
+  ],
+  "선택한 툴을 가장 아래로 보냅니다": [
+    "Move seleted tool(s) to back",
+    "選択したツールを背面へ移動"
+  ],
+  "활성화된 분석기 관리자가 없습니다": [
+    "No activated analyzer manager",
+    "アクティブなアナライザウィンドウがありません"
+  ],
+  "선택한 리포트 템플릿을 삭제합니다": [
+    "Delete selected report template",
+    "選択したレポートテンプレートを削除"
+  ],
+  "사용 가능한 분석기 창이 없습니다": [
+    "No available analyzer window",
+    "利用可能なアナライザウィンドウがありません"
+  ],
+  "분석기 실행을 완료하지 못했습니다": [
+    "Execution analyzer can't be finished",
+    "アナライザ実行が完了できません"
+  ],
+  "선택한 레이아웃을 삭제하시겠습니까": [
+    "Delete selected layout",
+    "Delete selected layout"
+  ],
+  "'%s'의 자동 분석을 시작합니다": [
+    "Starting automatic analysis of ''%s'",
+    "「%s」の自動分析開始"
+  ],
+  "일반적인 로그 메시지만 확인합니다": [
+    "Show general logs only",
+    "一般ログのみ表示"
+  ],
+  "새로운 리포트 템플릿을 생성합니다": [
+    "Create new report template",
+    "新規レポートテンプレートを作成"
+  ],
+  "선택한 툴을 오른쪽으로 정렬합니다": [
+    "Align the selected tools to right",
+    "選択したツールを右へ整列"
+  ],
+  "분석기 파일을 불러오지 못했습니다": [
+    "Can't load Analyzer settings",
+    "アナライザ設定を読み込みできません"
+  ],
+  "프로그램을 종료합니다.\\nExit": [
+    "Exit program.\\nExit",
+    "プログラムを終了.\\nExit"
+  ],
+  "파일을 드래그로 내보내기를 합니다": [
+    "Export file with drag and drop",
+    "ドラッグアンドドロップでファイルをエクスポートします"
+  ],
+  "사용자 정의툴(%s)을 삭제합니다": [
+    "User defined tool(%s) is ready to delete",
+    "ユーザ定義ツールを削除する準備ができました"
+  ],
+  "다음의 파일을 추가할 수 없습니다": [
+    "These files can't be added",
+    "これらのファイルは追加できません"
+  ],
+  "작업 중인 사건을 저장하기\\n저장": [
+    "Save cuurent case\\nSave",
+    ""
+  ],
+  "파티션 %s을(를) 마운트 합니다": [
+    "Mount partition %s",
+    "パーティション%sをマウント"
+  ],
+  "선택한 툴을 왼쪽으로 정렬합니다": [
+    "Align selected tool(s) to left",
+    "選択したツールを左へ整列"
+  ],
+  "파일 경로가 입력되지 않았습니다": [
+    "The file path was not entered",
+    "ファイルのパスが入力されていません"
+  ],
+  "새 사건을 생성합니다.\\n새사건": [
+    "Create a new case.\\nNew Case",
+    ""
+  ],
+  "임시 파일을 생성할 수 없습니다": [
+    "Can't create temporary files",
+    "一時ファイルを作成できません"
+  ],
+  "압축 파일을 생성할 수 없습니다": [
+    "Failed to compress the case",
+    "ケース圧縮に失敗しました"
+  ],
+  "파일의 해시값을 계산하시겠습니까": [
+    "Calculate the hash of file",
+    "Calculate the hash of file"
+  ],
+  "PDF 파일로 내보내기를 합니다": [
+    "Export to PDF",
+    "PDFへエクスポート"
+  ],
+  "파일 시스템 변환 중... %s": [
+    "Reconstructing File System... %s",
+    ""
+  ],
+  "은(는) 등록되지 않은 값입니다": [
+    "is unregistered field",
+    "は未登録のフィールドです"
+  ],
+  "분석결과파일을 찾을 수 없습니다": [
+    "Analysis result file is not available",
+    "分析結果ファイルが利用できません"
+  ],
+  "GPS 좌표를 추출하고 있습니다": [
+    "Extracting GPS coordinates",
+    "Extracting GPS coordinates"
+  ],
+  "사건 파일을 불러오지 못했습니다": [
+    "Failed to load the case file",
+    "ケースファイルの読み込みに失敗しました"
+  ],
+  "다음 문자는 사용할 수 없습니다": [
+    "These characters can't be used",
+    "These characters can't be used"
+  ],
+  "파일시스템 정보를 읽고 있습니다": [
+    "Loading file system information",
+    "システム情報を読み込み中"
+  ],
+  "파일 시스템 변환이 실패했습니다": [
+    "Failed to reconstruct file system",
+    "ファイルシステムの再構築に失敗"
+  ],
+  "해당 파일을 실행할 수 없습니다": [
+    "This file Can't be opened",
+    "このファイルは開けません"
+  ],
+  "파일시스템을 변환할 수 없습니다": [
+    "Failed to reconstruct file system",
+    "ファイルシステムの再構築に失敗しました"
+  ],
+  "분석기에서 사용 중인 파일입니다": [
+    "The image file is opened by Analyzer Builder",
+    "イメージファイルはアナライザビルダーによって開かれています"
+  ],
+  "보고서 표지 페이지를 편집합니다": [
+    "Edit cover page of report",
+    "レポートの表紙を編集"
+  ],
+  "툴 관리자를 생성할 수 없습니다": [
+    "Can't create tool manager",
+    "ツールマネージャを作成できません"
+  ],
+  "선택한 툴을 가장 위로 보냅니다": [
+    "Move seleted tool(s) to front",
+    "選択したツールを全面へ移動"
+  ],
+  "파티션을 마운트 할 수 없습니다": [
+    "Can't mount a partition",
+    "パーティションをマウントできません"
+  ],
+  "해당 탭에 연결 정보가 없습니다": [
+    "No link from or to the tap",
+    "タップとのリンクがありません"
+  ],
+  "연결프로그램을 설정하시겠습니까?": [
+    "Setup 'Open with'",
+    "設定を開く"
+  ],
+  "분석기 파일이 존재하지 않습니다": [
+    "There are no appropriate analyzer settings",
+    "適切なアナライザ設定がありません"
+  ],
+  "파일의 형식이 올바르지 않습니다": [
+    "Wrong file type",
+    "ファイル形式が正しくありません"
+  ],
+  "선택된 툴을 왼쪽으로 정렬합니다": [
+    "Align selected tool(s) to left",
+    "選択したツールを左へ整列"
+  ],
+  "DBType 값이 잘못되었습니다": [
+    "Invalid DBType",
+    "無効なDBタイプ"
+  ],
+  "프린트 및 인쇄 옵션 설정합니다": [
+    "Print setup and Printing options",
+    "印刷設定と印刷オプション"
+  ],
+  "텍스트 파일로 내보내기를 합니다": [
+    "Export to text file",
+    "テキストファイルへエクスポート"
+  ],
+  "내보내기할 목록을 구성 중입니다": [
+    "Generating File List to export",
+    ""
+  ],
+  "동일한 사건 파일이 존재합니다": [
+    "The same case name already exists",
+    "同じケース名が存在します"
+  ],
+  "주 파티션을 찾을 수 없습니다": [
+    "Can't find master partition",
+    "マスターパーティションが見つかりません"
+  ],
+  "증거물 검증을 수행하시겠습니까": [
+    "Do you want to verify the image file",
+    "イメージファイルをべリファイしますか"
+  ],
+  "선택한 글꼴을 굵게 표시합니다": [
+    "Change selected charactors to bold",
+    "選択した文字を太字に変更"
+  ],
+  "새로운 키워드그룹을 생성합니다": [
+    "Create new keyword group",
+    "新規キーワードグループを作成"
+  ],
+  "해시(Hash) 값이 없습니다": [
+    "No hash value",
+    "ハッシュ値が存在しません"
+  ],
+  "사용자가 분석을 중지하였습니다": [
+    "User stopped automatic analysis",
+    "ユーザにより自動分析が中断されました"
+  ],
+  "한글 파일로 내보내기를 합니다": [
+    "Export to HWP",
+    "HWPへエクスポート"
+  ],
+  "프로그램 오류가 발생하였습니다": [
+    "Error occurred",
+    "エラーが発生しました"
+  ],
+  "보고서 파일 생성을 시작합니다": [
+    "Starting to create report file",
+    "レポートファイルの作成を開始"
+  ],
+  "속성 값이 잘못 설정되었습니다": [
+    "Invalid property value",
+    "無効なプロパティ値"
+  ],
+  "DBType 값을 확인하십시오": [
+    "Check DBType",
+    "DBTypeを確認してください"
+  ],
+  "작업 창 구성을 초기화 합니다": [
+    "Initialize the task window layout",
+    ""
+  ],
+  "이미지 파일을 열 수 없습니다": [
+    "Can't open the Image file",
+    "イメージファイルを開けません"
+  ],
+  "파티션을 마운트할 수 없습니다": [
+    "Can't mount a partition",
+    "パーティションをマウントできません"
+  ],
+  "알 수 없는 형식의 파일입니다": [
+    "Unknown type of file",
+    "不明なファイル種別"
+  ],
+  "파일 정보를 내보내기를 합니다": [
+    "Export file information",
+    "ファイル情報のエクスポート"
+  ],
+  "작업 중인 사건이 존재 합니다": [
+    "You are working on a case now",
+    "作業中のケースがあります"
+  ],
+  "분석 결과 리스트를 설정합니다": [
+    "Setup analysis result list",
+    "分析結果一覧設定"
+  ],
+  "파일 시스템 변환을 종료합니다": [
+    "Finishing file system reconstruction",
+    "ファイルシステムの再構築を終了"
+  ],
+  "자동분석을 수행할 수 없습니다": [
+    "Failed to perform automatic analysis",
+    "自動分析を実行できませんでした"
+  ],
+  "엑셀이 설치되어 있지 않습니다": [
+    "Microsoft Excel is not installed",
+    "Microsoft Excelがインストールされていません"
+  ],
+  "제조사 및 모델을 입력하십시요": [
+    "Enter a maker and a model",
+    "メーカ名及び機種名を入力してください"
+  ],
+  "툴 설정 파일 자동 저장 간격": [
+    "Autosaving Interval of Tool Settings",
+    "ツール設定の自動保存間隔"
+  ],
+  "이미 등록된 파일 시스템입니다": [
+    "File system already exists",
+    "ファイルシステムが既に存在します"
+  ],
+  "속성 정보를 찾을 수 없습니다": [
+    "Can't find the Property Information",
+    "プロパティ情報を見つけることができません"
+  ],
+  "툴을 다른 이름으로 저장합니다": [
+    "Save tools as other name",
+    "別名でツールを保存"
+  ],
+  "보고서 파일을 다시 생성합니다": [
+    "Recreate report",
+    "レポートの再作成"
+  ],
+  "파일 시스템 변환을 시작합니다": [
+    "Starting to reconstruct file system",
+    "ファイルシステムの再構築を開始"
+  ],
+  "레코드의 위치가 잘못되었습니다": [
+    "Invalid record position",
+    "レコード位置が無効です"
+  ],
+  "엑셀 파일로 내보내기를 합니다": [
+    "Export to Microsoft Excel",
+    "Microsoft Excelへエクスポート"
+  ],
+  "로그의 보기 수준을 변경합니다": [
+    "Change logging level",
+    "ログレベルを変更"
+  ],
+  "실행중 예외상황이 발생했습니다": [
+    "Exception has occurred during the execution",
+    ""
+  ],
+  "삭제 파일 복원 중... %s": [
+    "Recovering Deleted Files... %s",
+    "削除ファイル復元中... %s"
+  ],
+  "페이지 번호(%d ~ %d):": [
+    "Page No.(%d ~ %d):",
+    "ページ番号(%d ~ %d):"
+  ],
+  "선택한 파일을 삭제하시겠습니까": [
+    "Do you want to remove the selected files",
+    ""
+  ],
+  "'%s' 파일 형식 세부 정보": [
+    "'%s' Detailed information of file extension",
+    ""
+  ],
+  "파일정보 내보내기를 종료합니다": [
+    "Exit the file information export",
+    ""
+  ],
+  "분석기::Simulation": [
+    "Analyzer::Simulation",
+    ""
+  ],
+  "사건 열기 작업을 취소합니다": [
+    "Cancel the case open",
+    "ケースを開くことをキャンセルする"
+  ],
+  "검색 결과를 모두 삭제합니다": [
+    "Delete all search results",
+    "全ての検索結果を削除"
+  ],
+  "증거물 정보를 읽고 있습니다": [
+    "Loading evidence information",
+    "証拠情報を読み込み中"
+  ],
+  "속성값 설정이 잘못되었습니다": [
+    "Property setting is wrong",
+    "プロパティの設定が間違っています"
+  ],
+  "북마크 정보를 읽고 있습니다": [
+    "Loading bookmark information",
+    "ブックマーク情報を読み込み中"
+  ],
+  "분석 중... %s : %s": [
+    "Analyzing... %s : %s",
+    ""
+  ],
+  "설치 후 사용하시기 바랍니다": [
+    "Install first",
+    "初めにインストールしてください"
+  ],
+  "페이지 크기가 잘못되었습니다": [
+    "Page size is wrong",
+    "ページサイズが間違っています"
+  ],
+  "보고서 정보를 읽고 있습니다": [
+    "Loading report information",
+    "結果情報を読み込み中"
+  ],
+  "원하시는 작업을 선택하십시오": [
+    "Select a job to do",
+    "実行ジョブを選択する"
+  ],
+  "모든 로그 정보를 삭제합니다": [
+    "Delete all log",
+    "全てのログを削除"
+  ],
+  "검색어 표현이 잘못되었습니다": [
+    "Invalid keyword expression",
+    "無効なキーワード"
+  ],
+  "프로그램을 종료하시겠습니까?": [
+    "Do you want ot exit program?",
+    "プログラムを終了しますか？"
+  ],
+  "기본 템플릿으로 보고서 갱신": [
+    "Updating Report with default template",
+    "デフォルトのテンプレートを使用したレポートを更新中"
+  ],
+  "링크를 가지고 있지 않습니다": [
+    "Tool has no link",
+    "ツールがリンクされていません"
+  ],
+  "분석기 파일을 열고 있습니다": [
+    "Loading analyzer settings",
+    "アナライザ設定を読み込み中"
+  ],
+  "SQLite DB로 내보내기": [
+    "Exporting to SQLite",
+    "SQLiteファイルへエクスポート"
+  ],
+  "파일 내보내기가 실패했습니다": [
+    "Failed to export files",
+    "エクスポート失敗"
+  ],
+  "분석기 파일: %s - %s": [
+    "Analyzer file: %s - %s",
+    ""
+  ],
+  "마운트된 파티션을 해제합니다": [
+    "Unmount partition",
+    "パーティションをアンマウント"
+  ],
+  "SHA1 해시 값이 다릅니다": [
+    "SHA1 hash value is different",
+    ""
+  ],
+  "증거물 부가 정보 전체 영역": [
+    "All range of additional Information of evidence",
+    ""
+  ],
+  "모델 데이터베이스를 구성 중": [
+    "Creating model databases",
+    "機種データベースを作成中"
+  ],
+  "탭 정보를 찾을 수 없습니다": [
+    "No tap information",
+    "タップ情報がありません"
+  ],
+  "인터넷에 연결할 수 없습니다": [
+    "Can't access the internet",
+    ""
+  ],
+  "선택한 툴을 아래로 보냅니다": [
+    "Bring selected tool backward",
+    "選択したツールを背面へ"
+  ],
+  "파일 시스템이 손상되었습니다": [
+    "Broken file system",
+    "ファイルシステムが破損しています"
+  ],
+  "다른 이름을 사용해 주십시오": [
+    "Enter another name",
+    "別の名前を入力してください"
+  ],
+  "필드의 위치가 잘못되었습니다": [
+    "Invalid Field position",
+    "無効なフィールド位置"
+  ],
+  "보고서 설정 데이터 읽는 중": [
+    "Loading report settings",
+    "レポート設定の読み込み中"
+  ],
+  "커맨드 라인 명령어 처리 중": [
+    "Processing command lines",
+    "コマンドラインを実行中"
+  ],
+  "내보내기 한 파일이 없습니다": [
+    "There is no exported files",
+    "エクスポートファイルがありません"
+  ],
+  "이미지를 분석할 수 없습니다": [
+    "Failed to analyze image file",
+    "イメージファイルの分析に失敗しました"
+  ],
+  "분석기 도구를 읽고 있습니다": [
+    "Loading tools of analyzer",
+    "アナライザツールを読み込み中"
+  ],
+  "사건을 불러옵니다.\\n열기": [
+    "Load the case.\\nOpen",
+    "ケースを開く.\\n開く"
+  ],
+  "파일 내보내기를 시작합니다": [
+    "Starting to export files",
+    "エクスポート開始"
+  ],
+  "새로운 제조사를 추가합니다": [
+    "Add new Maker",
+    "新しいメーカを追加"
+  ],
+  "사건 내용을 초기화 합니다": [
+    "Initializing the Case",
+    ""
+  ],
+  "파일 내보내기를 종료합니다": [
+    "Finishing file export",
+    "エクスポート終了中"
+  ],
+  "선택한 툴을 위로 보냅니다": [
+    "Bring selected tool forward",
+    "選択したツールを前面へ"
+  ],
+  "중복된 아이템이 존재합니다": [
+    "Duplicated item exists",
+    "重複した項目があります"
+  ],
+  "모델이 설정되지 않았습니다": [
+    "Model name is not assigned",
+    "機種名が登録されていません"
+  ],
+  "작업을 실행할 수 없습니다": [
+    "Can't execute the job",
+    "ジョブを実行できません"
+  ],
+  "증거물 정보를 확인하십시오": [
+    "Check the evidence information",
+    "証拠情報を確認してください"
+  ],
+  "선택한 키워드를 삭제합니다": [
+    "Delete selected keyword",
+    "選択したキーワードを削除"
+  ],
+  "분석을 중단할 수 없습니다": [
+    "Failed to stop analysis",
+    "分析の中断に失敗しました"
+  ],
+  "프로그램 정보를 표시합니다": [
+    "Display program information",
+    "プログラム情報を表示"
+  ],
+  "MD5 해시 값이 다릅니다": [
+    "MD5 hash value is different",
+    ""
+  ],
+  "행 번호(%d ~ %d):": [
+    "Row No.(%d ~ %d)",
+    "行番号(%d ~ %d)"
+  ],
+  "이미지 자동 분석을 합니다": [
+    "Do automatic analysis",
+    "自動分析を実行"
+  ],
+  "선택된 키워드 : %d 개": [
+    "%d selected Keyword(s)",
+    "%d selected Keyword(s)"
+  ],
+  "작업 중인 사건을 저장하기": [
+    "Save cuurent case",
+    "現在のケースを保存"
+  ],
+  "자동 분석이 실패하였습니다": [
+    "Failed to perform automatic analysis",
+    "自動分析の実行に失敗しました"
+  ],
+  "'%s'을(를) 삭제합니다": [
+    "Delete '%s'",
+    "'%s'を削除"
+  ],
+  "분석기 테스트를 중지합니다": [
+    "Stop simulation of analyzer",
+    "アナライザのシュミレーションを停止"
+  ],
+  "텍스트 파일로 내보내는 중": [
+    "Exporting to text file",
+    ""
+  ],
+  "DateTime 오류입니다": [
+    "DateTime Error",
+    "DateTime Error"
+  ],
+  "보고서의 제목을 편집합니다": [
+    "Editing the title of report",
+    "Editing the title of report"
+  ],
+  "새로운 키워드를 생성합니다": [
+    "Create new keyword",
+    "新規キーワードを作成"
+  ],
+  "Korean (Korea)": [
+    "English (United States)",
+    "Japanese (Japan)"
+  ],
+  "LANGUAGE 18, 1": [
+    "LANGUAGE 9, 1",
+    "LANGUAGE LANG_JAPANESE, SUBLANG_JAPANESE_JAPAN"
+  ],
+  "사건 정보를 읽고 있습니다": [
+    "Loading case information",
+    "ケース情報を読み込み中"
+  ],
+  "사건 파일을 열고 있습니다": [
+    "Loading a case file",
+    "ケースファイルを読み込み中"
+  ],
+  "분석기 테스트를 실행합니다": [
+    "Run simulation of analyzer",
+    "アナライザのシュミレーションを実行"
+  ],
+  "화면 캡쳐가 실패하였습니다": [
+    "Failed to Screen Capture",
+    "画面キャプチャに失敗しました"
+  ],
+  "탭 이름을 항상 표시합니다": [
+    "Show always tap name",
+    "常にタップ名を表示"
+  ],
+  "작업 파일 자동 저장 간격": [
+    "Autosaving Interval of Workspace",
+    "ワークスペースの自動保存間隔"
+  ],
+  "사건 파일 자동 저장 간격": [
+    "Autosaving Interval of Workspace",
+    "ワークスペースの自動保存間隔"
+  ],
+  "프로그램을 종료하시겠습니까": [
+    "Do you want ot exit program",
+    "プログラムを終了しますか"
+  ],
+  "파일 시스템으로 변환합니다": [
+    "Reconstruct file system",
+    "ファイルシステムを再構築中"
+  ],
+  "분석 결과 리스트 설정하기": [
+    "Analysis Result List Settings",
+    "分析結果表示設定"
+  ],
+  "히스토리가 모두 삭제됩니다": [
+    "History will be deleted",
+    "履歴が削除されます"
+  ],
+  "작업 중인 사건을 닫습니다": [
+    "Close current case",
+    "現在のケースを閉じる"
+  ],
+  "기술 지원을 요청하십시오": [
+    "Please contact to technical support team",
+    "テクニカルサポートチームに問い合わせてください"
+  ],
+  "SQLite에서 불러오기": [
+    "Load from SQLite",
+    "SQLiteファイルを読み込む"
+  ],
+  "체크된 파일에서 검색하기": [
+    "Search the checked files",
+    ""
+  ],
+  "사용자정의툴을 삭제합니다": [
+    "Delete user defined tool",
+    "ユーザ定義ツールを削除"
+  ],
+  "기본 환경::글꼴 및 색": [
+    "Basic Configuration::Default Setting",
+    ""
+  ],
+  "보고서를 생성하시겠습니까": [
+    "Do you create the report",
+    "レポートを作成しますか"
+  ],
+  "분석기 파일을 불러옵니다": [
+    "Loading analyzer settings",
+    "アナライザ設定を読み込み中"
+  ],
+  "선택된 파일에서 검색하기": [
+    "Find in the selected files",
+    "選択したファイルを検索"
+  ],
+  "분석기 실행을 시작합니다": [
+    "Starting to execute analyzer",
+    "アナライザ実行開始"
+  ],
+  "분석기 실행을 종료합니다": [
+    "Finishing execution analyzer",
+    "アナライザ実行終了中"
+  ],
+  "선택한 모델을 복사합니다": [
+    "Copy selected Maker",
+    "選択したメーカを複製"
+  ],
+  "엑셀 파일로 내보내는 중": [
+    "Exporting to excel file",
+    ""
+  ],
+  "선택한 모델을 삭제합니다": [
+    "Delete selected Model",
+    "選択した機種を削除"
+  ],
+  "리포트 템플릿 이름 입력": [
+    "New report template name",
+    "新しいレポートテンプレート名"
+  ],
+  "글꼴의 크기를 정의합니다": [
+    "Select font size",
+    "フォントサイズを設定"
+  ],
+  "파일을 찾을 수 없습니다": [
+    "Can't find the file",
+    "ファイルを見つけることが出来ません"
+  ],
+  "GDI+ 모듈 초기화 중": [
+    "Initializing GDI+ module",
+    "GDI+モジュールの初期化"
+  ],
+  "모델이 존재하지 않습니다": [
+    "No Model Found",
+    "機種が見つかりません"
+  ],
+  "툴을 추가할 수 없습니다": [
+    "New tool can't be added",
+    "新しいツールが開けません"
+  ],
+  "파일 시스템을 설정합니다": [
+    "Configure file system",
+    "ファイルシステムを設定"
+  ],
+  "등록후 사용하시겠습니까?": [
+    "Register it now?",
+    "登録しますか？"
+  ],
+  "선택된 아이템이 있습니다": [
+    "Selected item exists in the table",
+    "選択した項目はテーブルに存在します"
+  ],
+  "암호가 일치하지 않습니다": [
+    "Password does not match",
+    "パスワードが一致しません"
+  ],
+  "파일 시스템을 분석합니다": [
+    "Reconstruct file system",
+    "ファイルシステムの再構築中"
+  ],
+  "시간을 12시간으로 표시": [
+    "Hour in 12-hour format",
+    "12時間表示"
+  ],
+  "시간을 24시간으로 표시": [
+    "Hour in 24-hour format",
+    "24時間表示"
+  ],
+  "[활성 데이터 분석시간]": [
+    "[Active data analysis time]",
+    "[通常データ分析時間]"
+  ],
+  "[삭제 데이터 분석시간]": [
+    "[Deleted data analysis time]",
+    "[削除データ分析時間]"
+  ],
+  "표기법은 다음과 같습니다": [
+    "Notation is as follows",
+    "表記は以下の通りです"
+  ],
+  "삭제 레코드를 분석합니다": [
+    "Analyze deleted record",
+    "削除レコードの分析"
+  ],
+  "임시 폴더에 파일 복사중": [
+    "Copying files to temporary folder",
+    "テンポラリーフォルダへファイルをコピー中"
+  ],
+  "파일로 내보내기를 합니다": [
+    "Export to a file",
+    "ファイルへエクスポート"
+  ],
+  "인쇄를 합니다.\\n인쇄": [
+    "Print.\\nPrint",
+    "印刷.\\n印刷"
+  ],
+  "기본 환경::파일 연결": [
+    "Basic Configuration::File Connection",
+    ""
+  ],
+  "기본 환경::기본 설정": [
+    "Basic Configuration::Default Setting",
+    ""
+  ],
+  "텍스트 파일로 내보내기": [
+    "Text file export",
+    ""
+  ],
+  "윈도우 템플릿 생성 중": [
+    "Creating window templates",
+    "画面テンプレート作成中"
+  ],
+  "이미 모델이 존재합니다": [
+    "Same Model Exists",
+    "同じ機種が存在します"
+  ],
+  "SQLite로 저장하기": [
+    "Save as SQLite",
+    "SQLite形式で保存する"
+  ],
+  "최근 분석기 설정 파일": [
+    "Recent Analyzer Settings",
+    "最近使用したアナライザ設定"
+  ],
+  "인쇄 옵션을 변경합니다": [
+    "Change page setup",
+    "ページ設定を変更する"
+  ],
+  "인쇄 미리보기를 합니다": [
+    "Print Preview",
+    "印刷プレビュー"
+  ],
+  "결과 리스트 설정 파일": [
+    "Setting file of result list",
+    "結果一覧のファイル設定"
+  ],
+  "자동 분석을 시작합니다": [
+    "Starting automatic analysis",
+    "自動分析開始"
+  ],
+  "자동 분석을 종료합니다": [
+    "Finishing automatic analysis",
+    "自動分析終了中"
+  ],
+  "분석을 계속하시겠습니까": [
+    "Continue to analyze",
+    "分析を続けます"
+  ],
+  "이미지를 내보내기합니다": [
+    "Export image file",
+    "イメージファイルをエクスポート"
+  ],
+  "YAFFS를 복원합니다": [
+    "Reconstructing YAFFS",
+    "YAFFS再構築中"
+  ],
+  "현재 컬럼을 선택합니다": [
+    "Select current column",
+    "現在のカラムを選択"
+  ],
+  "선택된 파일이 없습니다": [
+    "No files selected",
+    "ファイルが選択されていません"
+  ],
+  "다시 확인하여 주십시오": [
+    "Check it again",
+    "もう一度チェックしてください"
+  ],
+  "글꼴의 색을 정의합니다": [
+    "Select font color",
+    "フォント色を設定"
+  ],
+  "최근 분석기 파일 영역": [
+    "Recent Analyzer file Range",
+    ""
+  ],
+  "기존의 툴을 가져옵니다": [
+    "Load tools",
+    "ツールを読み込む"
+  ],
+  "분석기 페이지 생성 중": [
+    "Creating analyzer page",
+    "アナライザページを作成中"
+  ],
+  "체크된 파일만 내보내기": [
+    "Export only the selected files",
+    "選択したファイルのみエクスポート"
+  ],
+  "보고서 페이지 생성 중": [
+    "Creating report page",
+    "レポートページを作成中"
+  ],
+  "증거물 페이지 생성 중": [
+    "Creating evidence page",
+    "証拠ページを作成中"
+  ],
+  "등록되지 않은 값입니다": [
+    "Unregistered value",
+    "未登録の値です"
+  ],
+  "현재 화면을 저장합니다": [
+    "Save the current screen",
+    "現在の画面をキャプチャ"
+  ],
+  "작업을 다시 실행합니다": [
+    "Redo job",
+    "ジョブを繰り返す"
+  ],
+  "체크된 파일만 계산하기": [
+    "Calculate the check files",
+    ""
+  ],
+  "모두 삭제하시겠습니까?": [
+    "Delete all?",
+    "全て削除しますか？"
+  ],
+  "파일을 열 수 없습니다": [
+    "Can't open the file",
+    "ファイルを開けません"
+  ],
+  "보고서 자동 생성 방식": [
+    "Report Creation Option",
+    "レポート作成オプション"
+  ],
+  "트루타입 글꼴 검색 중": [
+    "Searching true-type fonts",
+    "Trueタイプフォントを検索"
+  ],
+  "사건 파일을 불러옵니다": [
+    "Loading a case file",
+    "ケースファイルを読み込み中"
+  ],
+  "체크된 파일만 검색하기": [
+    "Searh for checked files",
+    "Searh for checked files"
+  ],
+  "유효한 링크가 아닙니다": [
+    "Invalid link",
+    "無効なリンクです"
+  ],
+  "이름을 입력해야 합니다": [
+    "Enter a name",
+    "名前を入力してください"
+  ],
+  "성공: %s실패: %s": [
+    "Success: %sFailure: %s",
+    ""
+  ],
+  "공용 컨트롤 초기화 중": [
+    "Initializing common controls",
+    "共通コントロールの初期化"
+  ],
+  "암호 사용 여부: %d": [
+    "Use Password or not: %d",
+    ""
+  ],
+  "엑셀 파일로 내보내기": [
+    "Export to Excel file",
+    ""
+  ],
+  "최근 사건 파일 영역": [
+    "Recent case file range",
+    ""
+  ],
+  "내용이 변경되었습니다": [
+    "Contents are changed",
+    "内容が変更されました"
+  ],
+  "다시 설정해 주십시오": [
+    "Select other program",
+    "他のプログラムを選択してください"
+  ],
+  "모델명을 입력하십시오": [
+    "Please enter the Model",
+    "機種を入力してください"
+  ],
+  "분석 페이지 생성 중": [
+    "Creating analysis page",
+    "分析ページを作成中"
+  ],
+  "로고 이미지 사용하기": [
+    "Use logo",
+    "ロゴを使用"
+  ],
+  "검색어를 입력하십시오": [
+    "Enter a search keyword",
+    "検索キーワードを入力してください"
+  ],
+  "선택된 툴이 없습니다": [
+    "No tools are selected",
+    "ツールが選択されていません"
+  ],
+  "다른 파일로 연결하기": [
+    "Link to another image file",
+    "他のイメージファイルにリンクする"
+  ],
+  "오전/오후 여부 표시": [
+    "A.M./P.M. indicator for 12-hour clock",
+    "12時間表示でのA.M/P.M.表示"
+  ],
+  "모두 삭제하시겠습니까": [
+    "Do you want to remove all",
+    ""
+  ],
+  "파일 형식 세부 정보": [
+    "Detailed information of extension",
+    "拡張子の詳細情報"
+  ],
+  "작업이 완료되었습니다": [
+    "Job has completed",
+    ""
+  ],
+  "시작 페이지 생성 중": [
+    "Creating start page",
+    "スタートページを作成中"
+  ],
+  "사건 페이지 생성 중": [
+    "Creating case page",
+    "ケースページを作成中"
+  ],
+  "파일 시스템 변환 중": [
+    "Reconstructing File System",
+    "ファイルシステム再構築中"
+  ],
+  "EFS2를 복원합니다": [
+    "Reconstructing EFS2",
+    "EFS2再構築中"
+  ],
+  "달 이름을 모두 표시": [
+    "Full month name",
+    "正式月表記名"
+  ],
+  "리포트 컨트롤 테스트": [
+    "Report Control Test",
+    "レポートコントロールテスト"
+  ],
+  "프로그램을 시작합니다": [
+    "Starting up the program",
+    "プログラム起動中"
+  ],
+  "달 이름을 짧게 표시": [
+    "Short month name",
+    "簡易月表記名"
+  ],
+  "주 이름을 모두 표시": [
+    "Full week name",
+    "正式週表記名"
+  ],
+  "주 이름을 짧게 표시": [
+    "Short week name",
+    "簡易週表記名"
+  ],
+  "프로그램을 종료합니다": [
+    "Exit program",
+    "プログラムを終了"
+  ],
+  "해시 값을 계산합니다": [
+    "Calculate hash",
+    "ハッシュを計算"
+  ],
+  "결과 리스트 설정하기": [
+    "Result List Settings",
+    "結果一覧設定"
+  ],
+  "비밀번호를 입력하세요": [
+    "Enter password",
+    "パスワードを入力してください"
+  ],
+  "몇 번째 일인지 표시": [
+    "Day of year as decimal number",
+    "通年を10進数で表記"
+  ],
+  "새 사건을 생성합니다": [
+    "Create new case",
+    "新しいケースを作成"
+  ],
+  "툴을 새로 생성합니다": [
+    "Create new tool",
+    "新しいツールを作成"
+  ],
+  "삭제 데이터 분석시간": [
+    "Deleted data analysis time",
+    "削除データ分析時間"
+  ],
+  "기본 환경::디렉터리": [
+    "Basic Configuration::Directory",
+    ""
+  ],
+  "로고 위치 (머리글)": [
+    "Logo position (Header)",
+    ""
+  ],
+  "새 테이블 이름 입력": [
+    "New Table Name",
+    "新規テーブル名"
+  ],
+  "이미지 파일 복사 중": [
+    "Copying image files",
+    "イメージファイルコピー中"
+  ],
+  "활성 데이터 분석시간": [
+    "Active data analysis time",
+    "通常データ分析時間"
+  ],
+  "해시 값을 설정합니다": [
+    "Set hash",
+    "ハッシュ設定"
+  ],
+  "잠시만 기다려주십시오": [
+    "Please wait for a moment",
+    "しばらくお待ちください"
+  ],
+  "이름 바꾸기(&M)": [
+    "Change name (&M)",
+    ""
+  ],
+  "검색 개수 : %d": [
+    "Search result count: %d",
+    ""
+  ],
+  "엑셀파일로 변환하기": [
+    "Export to Microsoft Excel",
+    "Microsoft Excelにエクスポートする"
+  ],
+  "레이아웃 이름 입력": [
+    "Input the Layout Name",
+    ""
+  ],
+  "해시 값이 다릅니다": [
+    "Hash value mismatches",
+    "ハッシュ値が一致しません"
+  ],
+  "이미지를 삭제합니다": [
+    "Remove image file",
+    "イメージファイルの削除"
+  ],
+  "다시 확인하지 않음": [
+    "Do not remind later",
+    "以後、リマインドしない"
+  ],
+  "윈도우 설정 따르기": [
+    "Comply with Windows Settings",
+    "Windowsの設定を適用"
+  ],
+  "테마 스킨 적용 중": [
+    "Applying theme",
+    "テーマを反映中"
+  ],
+  "보고서를 인쇄합니다": [
+    "Print report",
+    "レポートを印刷"
+  ],
+  "사건 파일 압축 중": [
+    "Compressing case file",
+    "ケースファイル圧縮中"
+  ],
+  "설정 창을 띄웁니다": [
+    "Show settings",
+    "設定を表示"
+  ],
+  "삭제 파일 복원 중": [
+    "Recovering Deleted Files",
+    "削除ファイル復元中"
+  ],
+  "팬 윈도우 생성 중": [
+    "Creating pane windows",
+    "ペインウインドウを作成中"
+  ],
+  "다른 이름으로 저장": [
+    "Save as",
+    "名前を付けて保存"
+  ],
+  "활성데이터 분석시간": [
+    "Active data analysis time",
+    "通常データ分析時間"
+  ],
+  "이미 열려 있습니다": [
+    "Already opened",
+    "既に開かれています"
+  ],
+  "최근에 사용한 파일": [
+    "Recent Files",
+    "最近使用したファイル"
+  ],
+  "이름을 입력하십시오": [
+    "Enter a name",
+    "名前を入力してください"
+  ],
+  "삭제데이터 분석시간": [
+    "Deleted data analysis time",
+    "削除データ分析時間"
+  ],
+  "스크립트 오류입니다": [
+    "Error in script",
+    "Error in script"
+  ],
+  "파일 정보 내보내기": [
+    "Exporting file information",
+    "ファイル情報をエクスポートする"
+  ],
+  "모바일 분석 보고서": [
+    "Analysis Result of Mobile Phone",
+    "モバイルフォンの分析結果"
+  ],
+  "설정 파일 읽는 중": [
+    "Loading setting files",
+    "設定ファイルの読み込み中"
+  ],
+  "다른 파일 선택하기": [
+    "Select Another File",
+    "他のファイルを選択する"
+  ],
+  "임시 폴더 정리 중": [
+    "Organizing temporary folder",
+    "Organizing temporary folder"
+  ],
+  "주 윈도우 생성 중": [
+    "Creating main window",
+    "メイン画面作成中"
+  ],
+  "EXT를 복원합니다": [
+    "Reconstructing EXT",
+    "EXT再構築中"
+  ],
+  "드라이브 남은 용량": [
+    "Available Disk Space",
+    "利用可能なディスク容量"
+  ],
+  "연도를 2자만 표시": [
+    "Year as 2 digit decimal",
+    "年を2桁の10進数で表記"
+  ],
+  "FAT를 복원합니다": [
+    "Reconstructing FAT",
+    "FAT再構築中"
+  ],
+  "설정을 확인하십시오": [
+    "Check settings",
+    "設定をチェック"
+  ],
+  "이미지를 추가합니다": [
+    "Add image file",
+    "イメージファイルを追加"
+  ],
+  "윈도우즈 기본 설정": [
+    "Windows default settings",
+    "Windowsデフォルト設定"
+  ],
+  "연결 프로그램 없음": [
+    "No program linked",
+    "リンクプログラムなし"
+  ],
+  "로그를 확인하십시오": [
+    "Check log",
+    "ログを確認してください"
+  ],
+  "이미지를 획득합니다": [
+    "Imaging from device",
+    "デバイスからイメージを作成"
+  ],
+  "맨 앞으로 가져오기": [
+    "Bring to front",
+    "最前面へ移動"
+  ],
+  "증거물 정보 헤더": [
+    "Evidence Information Header",
+    ""
+  ],
+  "의뢰자 정보 헤더": [
+    "Client Information Header",
+    ""
+  ],
+  "분석자 정보 헤더": [
+    "Analyst Information Header",
+    ""
+  ],
+  "증거물 목록 영역": [
+    "Evidence list range",
+    ""
+  ],
+  "증거물 상세 영역": [
+    "Evidence detailed range",
+    ""
+  ],
+  "일을 숫자로 표시": [
+    "Day of month as decimal number",
+    "月日を10進数で表記"
+  ],
+  "접수자 & 접수일": [
+    "Recipient & Date",
+    ""
+  ],
+  "달을 숫자로 표시": [
+    "Month as decimal number",
+    "月を10進数で表記"
+  ],
+  "덮어 쓰시겠습니까": [
+    "Overwrite",
+    "上書き"
+  ],
+  "파일정보 내보내기": [
+    "File Information Export",
+    ""
+  ],
+  "연도를 모두 표시": [
+    "Year as 4 digit decimal",
+    "年を4桁の10進数で表記"
+  ],
+  "계속하시겠습니까?": [
+    "Continue?",
+    "継けますか"
+  ],
+  "파일 경로: %s": [
+    "Path: %s",
+    ""
+  ],
+  "계속 하시겠습니까": [
+    "Continue",
+    "継ける"
+  ],
+  "사용자 정의 설정": [
+    "User defined settings",
+    "ユーザ定義設定"
+  ],
+  "사건을 불러옵니다": [
+    "Open case",
+    "ケースを開く"
+  ],
+  "작업을 취소합니다": [
+    "Cancel job",
+    "ジョブをキャンセル"
+  ],
+  "등록된 파일 형식": [
+    "Registered File Type",
+    "登録されたファイル種別"
+  ],
+  "분석기 파일 열기": [
+    "Open Analyzer Settings",
+    "アナライザ設定を開く"
+  ],
+  "새 분석기 만들기": [
+    "Create New Analyzer",
+    "新規アナライザを作成"
+  ],
+  "분석 데이터 준비": [
+    "Preparing data for analysis",
+    "Preparing data for analysis"
+  ],
+  "필드 툴 추가하기": [
+    "Add Field Tool",
+    "フィールドツールを追加"
+  ],
+  "대소문자 구분하기": [
+    "Case Sensitive",
+    "大文字と小文字を区別"
+  ],
+  "가나다ABC123": [
+    "ABC123",
+    ""
+  ],
+  "이미지 검증 결과": [
+    "Image verification result",
+    ""
+  ],
+  "목록에서 제거하기": [
+    "Remove from list",
+    "一覧から削除"
+  ],
+  "분석기 설정 파일": [
+    "Analyzer Settings",
+    "アナライザ設定"
+  ],
+  "결과 테이블 목록": [
+    "Result Template List",
+    "結果テンプレートリスト"
+  ],
+  "파일 시스템 설정": [
+    "File system Setup",
+    "ファイルシステム設定"
+  ],
+  "사건을 생성합니다": [
+    "Create a Case",
+    ""
+  ],
+  "분석을 중지합니다": [
+    "Stop analysis",
+    "分析を停止"
+  ],
+  "대상 경로: %s": [
+    "Destination Path: %s",
+    "出力先のパス: %s"
+  ],
+  "보고서::내보내기": [
+    "Report::Export",
+    ""
+  ],
+  "파일을 복원합니다": [
+    "Recover deleted files",
+    "削除ファイルを復元"
+  ],
+  "유니코드-빅엔디안": [
+    "Unicode-BE",
+    "Unicode-BE"
+  ],
+  "보고서 제목 편집": [
+    "Edit report title",
+    "レポートのタイトルを編集"
+  ],
+  "글꼴을 정의합니다": [
+    "Select font",
+    "フォントを選択"
+  ],
+  "결과 템플릿 관리": [
+    "Result Templates",
+    "結果テンプレート"
+  ],
+  "파일 시스템 분석": [
+    "File system analysis",
+    ""
+  ],
+  "파일 시스템 변환": [
+    "File System Reconstruction",
+    "ファイルシステム再構築"
+  ],
+  "엑셀파일로 변환중": [
+    "Exporting to Microsoft Excel",
+    "Microsoft Excelにエクスポート中"
+  ],
+  "레코드 분석 도구": [
+    "Record Tool",
+    "レコードツール"
+  ],
+  "이미지 파일 읽기": [
+    "Insert logo file",
+    "ロゴファイルを挿入"
+  ],
+  "결과 리스트 설정": [
+    "Result List Settings",
+    "結果一覧設定"
+  ],
+  "페이지 여백 설정": [
+    "Page Margin Settings",
+    "ページマージン設定"
+  ],
+  "저장하시겠습니까?": [
+    "Save now?",
+    "保存しますか？"
+  ],
+  "일반 글꼴 및 색": [
+    "General Font and Color",
+    ""
+  ],
+  "기본 작업 위치": [
+    "Default workspace location",
+    "デフォルト作業領域"
+  ],
+  "맨 뒤로 보내기": [
+    "Send to back",
+    "背面に送る"
+  ],
+  "자세히 표시하기": [
+    "Show Details",
+    "詳細形式で見る"
+  ],
+  "모든 연결 끊기": [
+    "Disconnect All",
+    "すべてを切断"
+  ],
+  "간략히 표시하기": [
+    "Show Brief",
+    "簡易形式で見る"
+  ],
+  "임시 파일 위치": [
+    "Temporary file location",
+    "一時ファイル領域"
+  ],
+  "보고서 작성 중": [
+    "Creating Report",
+    "レポート作成中"
+  ],
+  "해시값 계산하기": [
+    "Calculate Hash",
+    "Calculate Hash"
+  ],
+  "내용을 찾습니다": [
+    "Find in files",
+    "ファイルの中身を検索"
+  ],
+  "DB 분석 에러": [
+    "DB Analysis Error",
+    "DB分析エラー"
+  ],
+  "앞으로 가져오기": [
+    "Bring forward",
+    "前面に移動"
+  ],
+  "삭제 파일 복원": [
+    "Recover Deleted Files",
+    "削除ファイルを復元します"
+  ],
+  "로그 상세 보기": [
+    "Detailed Log View",
+    "詳細ログビュー"
+  ],
+  "전체 작업 상황": [
+    "Total progress",
+    "Total progress"
+  ],
+  "파일을 찾습니다": [
+    "Find files",
+    "ファイル名を検索"
+  ],
+  "분석::내보내기": [
+    "Analysos::Export",
+    ""
+  ],
+  "현재 작업 상황": [
+    "Current progress",
+    "Current progress"
+  ],
+  "보고서:편집모드": [
+    "Report::Editing Mode",
+    ""
+  ],
+  "보고서::보고서": [
+    "Report::Report",
+    ""
+  ],
+  "보고서::페이지": [
+    "Report::Page",
+    ""
+  ],
+  "현재 작업 목록": [
+    "Current Job List",
+    "現在のジョブ一覧"
+  ],
+  "확장자:   .%s": [
+    "Extension:   .%s",
+    ""
+  ],
+  "최근 사건 파일": [
+    "Recent Cases",
+    "最近使用したケース"
+  ],
+  "북마크 추가하기": [
+    "Add Bookmark",
+    "ブックマークを追加"
+  ],
+  "보고서 생성하기": [
+    "Create Report",
+    "レポートを作成します"
+  ],
+  "새 사건 만들기": [
+    "Create New Case",
+    "新しいケースを作成"
+  ],
+  "암호 사용 여부": [
+    "Using Password",
+    "パスワード使用中"
+  ],
+  "증거물 삭제하기": [
+    "Remove Evidence",
+    "証拠ファイルを削除する"
+  ],
+  "엑셀로 내보내기": [
+    "Export to Microsoft Excel",
+    "Microsoft Excelへエクスポート"
+  ],
+  "머리글과 바닥글": [
+    "Header and Footer",
+    ""
+  ],
+  "삭제하시겠습니까": [
+    "Delete?",
+    "削除しますか？"
+  ],
+  "활성 코드페이지": [
+    "Active Codepage",
+    ""
+  ],
+  "새 아이템 입력": [
+    "New Item",
+    "新規項目"
+  ],
+  "처음 생성 일시": [
+    "Created Time",
+    "作成時刻"
+  ],
+  "중복된 값입니다": [
+    "Duplicated Value",
+    "値が重複しています"
+  ],
+  "모든 내용 찾기": [
+    "Find All",
+    "全てを検索"
+  ],
+  "최근 수정 일시": [
+    "Last Modified Time",
+    "最終更新時刻"
+  ],
+  "사건 파일 열기": [
+    "Open Case File",
+    "ケースファイルを開く"
+  ],
+  "샘플ABC123": [
+    "SampleABC123",
+    "SampleABC123"
+  ],
+  "파일 경로 오류": [
+    "Invalid File Path",
+    "無効なファイルパス"
+  ],
+  "키워드 검색하기": [
+    "Keyword Search",
+    ""
+  ],
+  "분석 설정 없음": [
+    "No Analyzer Settings",
+    "アナライザ設定がありません"
+  ],
+  "언어 및 시간대": [
+    "Language and Time Zone",
+    "言語及びタイムゾーン"
+  ],
+  "유효 날짜 설정": [
+    "Valid Range Setting",
+    "有効範囲設定"
+  ],
+  "파일시스템 관리": [
+    "File System Settings",
+    "ファイルシステム設定"
+  ],
+  "분석 결과 설정": [
+    "Analsys Result Setting",
+    "分析結果設定"
+  ],
+  "툴을 저장합니다": [
+    "Save tools",
+    "ツールを保存"
+  ],
+  "저장하시겠습니까": [
+    "Save the change",
+    "変更を保存する"
+  ],
+  "도움말을 봅니다": [
+    "Show help",
+    "ヘルプを表示"
+  ],
+  "Pane 관리자": [
+    "Pane Manager",
+    ""
+  ],
+  "페이지 이동하기": [
+    "Move to page",
+    "ページへ移動"
+  ],
+  "사진 포함하기": [
+    "Include photoes",
+    "写真を含む"
+  ],
+  "증거물: %s": [
+    "Evicence: %s",
+    ""
+  ],
+  "오른쪽(&R)": [
+    "Right(&R)",
+    ""
+  ],
+  "제조사와 모델": [
+    "Maker and Model",
+    ""
+  ],
+  "아래쪽(&B)": [
+    "Bottom(&B)",
+    ""
+  ],
+  "날짜 및 시간": [
+    "Date and Time",
+    ""
+  ],
+  "사건 불러오기": [
+    "Open Case",
+    "ケースを開く"
+  ],
+  "경로 설정 중": [
+    "Setting paths",
+    "設定パス"
+  ],
+  "파일명: %s": [
+    "File name: %s",
+    ""
+  ],
+  "인쇄를 합니다": [
+    "Print",
+    "印刷"
+  ],
+  "보고서 생성중": [
+    "Creating Report",
+    "レポートを作成中"
+  ],
+  "카메라 제조사": [
+    "Camera maker",
+    ""
+  ],
+  "암호 사용하기": [
+    "Use Password",
+    "パスワードを適用"
+  ],
+  "대소문자 구분": [
+    "Case Sensitive",
+    "大文字と小文字の区別"
+  ],
+  "영문으로 표시": [
+    "English Notation",
+    "英語表記"
+  ],
+  "최근 수정일시": [
+    "Last Modified Time",
+    "最終更新時刻"
+  ],
+  "정의되지 않음": [
+    "Undefined",
+    "未定義"
+  ],
+  "홈::분석설정": [
+    "Home::Analysis setting",
+    ""
+  ],
+  "프로그램 선택": [
+    "Select Program",
+    "プログラムを選ぶ"
+  ],
+  "모두 재 설정": [
+    "Reset All",
+    "すべてリセット"
+  ],
+  "프로그램 종료": [
+    "Exit program",
+    "プログラムを終了する"
+  ],
+  "처음 생성일시": [
+    "Created Time",
+    "作成時刻"
+  ],
+  "분석기::파일": [
+    "Analyzer::File",
+    ""
+  ],
+  "HTML 변환": [
+    "HTML conversion",
+    ""
+  ],
+  "기타 프로그램": [
+    "Other programs",
+    "他のプログラム"
+  ],
+  "분석기::정렬": [
+    "Analyzer::Sorting",
+    ""
+  ],
+  "분석기::표시": [
+    "Analyzer::Display",
+    ""
+  ],
+  "사건 내보내기": [
+    "Exporting Case",
+    "ケースをエクスポートする"
+  ],
+  "파일 내보내기": [
+    "Exporting files",
+    "ファイルをエクスポートする"
+  ],
+  "툴을 닫습니다": [
+    "Close tool",
+    "ツールを閉じる"
+  ],
+  "보고서::글꼴": [
+    "Report::Font",
+    ""
+  ],
+  "새 이름 일력": [
+    "New Name",
+    "新規名称"
+  ],
+  "머리글 바닥글": [
+    "Header Footer",
+    ""
+  ],
+  "해시 값 계산": [
+    "Calculate Hash",
+    "ハッシュ値を計算する"
+  ],
+  "보고서::인쇄": [
+    "Report::Print",
+    ""
+  ],
+  "검색창::검색": [
+    "Search window::Search",
+    ""
+  ],
+  "새그룹(&N)": [
+    "New Groupd(&N)",
+    ""
+  ],
+  "실행 프로그램": [
+    "Executions",
+    "実行"
+  ],
+  "연결 프로그램": [
+    "Default Application",
+    "デフォルトアプリケーション"
+  ],
+  "리포트 템플릿": [
+    "Report Template",
+    "レポートテンプレート"
+  ],
+  "탭 이름 표시": [
+    "Show Tap Name",
+    "タップ名を表示する"
+  ],
+  "목록에서 제거": [
+    "Remove from list",
+    "リストから削除"
+  ],
+  "의뢰자 연락처": [
+    "Client contact",
+    ""
+  ],
+  "의뢰자 이메일": [
+    "Client Email",
+    ""
+  ],
+  "모두 삭제하기": [
+    "Clear all",
+    "全てをクリア"
+  ],
+  "분석자 연락처": [
+    "Analyst Contact",
+    ""
+  ],
+  "분석자 이메일": [
+    "Analyst Email",
+    ""
+  ],
+  "분석기::확대": [
+    "Analyzer::Zoom In",
+    ""
+  ],
+  "변환된 날짜": [
+    "Transformed Date",
+    "変換日時"
+  ],
+  "파일 시스템": [
+    "File system",
+    "ファイルシステム"
+  ],
+  "키워드 삭제": [
+    "Delete keyword",
+    "キーワードを削除"
+  ],
+  "새로 만들기": [
+    "New",
+    "新規"
+  ],
+  "최근 수정일": [
+    "Last Modified Date",
+    "最終更新日"
+  ],
+  "마운트 해제": [
+    "Unmount",
+    "アンマウント"
+  ],
+  "데이타 종류": [
+    "Datatype",
+    "データタイプ"
+  ],
+  "행 이동하기": [
+    "Move to row",
+    "列へ移動"
+  ],
+  "이름 바꾸기": [
+    "Rename",
+    "リネーム"
+  ],
+  "내용 초기화": [
+    "Initialization",
+    ""
+  ],
+  "분석자 성명": [
+    "Analyst name",
+    ""
+  ],
+  "의뢰자 성명": [
+    "Client name",
+    ""
+  ],
+  "키워드 검색": [
+    "Keyword Search",
+    ""
+  ],
+  "삭제(&D)": [
+    "Delete(&D)",
+    ""
+  ],
+  "이미징 모델": [
+    "Imaging Model",
+    "イメージ作成機種"
+  ],
+  "편집(&E)": [
+    "Edit(&E)",
+    ""
+  ],
+  "페이지 번호": [
+    "Page No.",
+    "ページ番号"
+  ],
+  "변환된 시간": [
+    "Transformed Time",
+    "変換時間"
+  ],
+  "분석결과생성": [
+    "Creating Analysis Result",
+    "分析結果を作成しています"
+  ],
+  "이미징 방법": [
+    "Imaging Method",
+    "イメージ作成方法"
+  ],
+  "대소문자구분": [
+    "Case Sensitive",
+    "大文字と小文字の区別"
+  ],
+  "분석::해시": [
+    "Analysis::Hash",
+    ""
+  ],
+  "이미징 일시": [
+    "Imaging DateTime",
+    "イメージ作成日時"
+  ],
+  "보고서 목차": [
+    "Table of contents of report",
+    "レポート本文の表"
+  ],
+  "분석::분석": [
+    "Analysis::Analysis",
+    ""
+  ],
+  "홈::이미지": [
+    "Home::Image",
+    ""
+  ],
+  "이미지 검증": [
+    "Image Verification",
+    ""
+  ],
+  "이미지 높이": [
+    "Image height",
+    ""
+  ],
+  "이미지 너비": [
+    "Image width",
+    ""
+  ],
+  "카메라 모델": [
+    "Camera model",
+    ""
+  ],
+  "경로: %s": [
+    "Path: %s",
+    ""
+  ],
+  "이름: %s": [
+    "Name: %s",
+    ""
+  ],
+  "의뢰자 정보": [
+    "Client Information",
+    ""
+  ],
+  "분석자 정보": [
+    "Analyst Information",
+    ""
+  ],
+  "증거물 목록": [
+    "Evicence list",
+    ""
+  ],
+  "오른쪽 맞춤": [
+    "Align Rights",
+    "右へ整列"
+  ],
+  "북마크 폴더": [
+    "Bookmark folder",
+    ""
+  ],
+  "기본값 저장": [
+    "Save as Default",
+    "デフォルトとして保存"
+  ],
+  "위쪽(&T)": [
+    "Top(&T)",
+    ""
+  ],
+  "이미지 열기": [
+    "Open image",
+    "イメージを開く"
+  ],
+  "증거물 정보": [
+    "Evicence Information",
+    ""
+  ],
+  "페이지 설정": [
+    "Page Setting",
+    ""
+  ],
+  "모델명 검색": [
+    "Model search",
+    ""
+  ],
+  "오프셋 설정": [
+    "Offset Settings",
+    "オフセット設定"
+  ],
+  "증거물 삭제": [
+    "Removing Evidence",
+    "証拠ファイルを削除"
+  ],
+  "정규 표현식": [
+    "Regular Expression",
+    "正規表現"
+  ],
+  "프린터 설정": [
+    "Printer Setup",
+    "Printer Setup"
+  ],
+  "보고서 갱신": [
+    "Updating Report",
+    "レポートを更新中"
+  ],
+  "보고서 생성": [
+    "Creating Report",
+    "レポート作成中"
+  ],
+  "키워드 생성": [
+    "New Keyword",
+    "新しいキーワード"
+  ],
+  "분석기 설정": [
+    "Analyzer Setting",
+    "アナライザ設定"
+  ],
+  "눈금선 표시": [
+    "Show Guide Line",
+    "ガイドラインを表示する"
+  ],
+  "왼쪽(&L)": [
+    "Left(&L)",
+    ""
+  ],
+  "시스템 정보": [
+    "System Information",
+    "システム情報"
+  ],
+  "레코드 개수": [
+    "Record Count",
+    "Record Count"
+  ],
+  "뒤로 보내기": [
+    "Send Backward",
+    "背面に送る"
+  ],
+  "아래쪽 맞춤": [
+    "Align Bottoms",
+    "下へ整列"
+  ],
+  "분석 기준일": [
+    "Analysis Date",
+    "分析日"
+  ],
+  "제목 오른쪽": [
+    "Right of title",
+    "タイトルの右側"
+  ],
+  "코드 페이지": [
+    "Codepage",
+    ""
+  ],
+  "파일시그너처": [
+    "File signature",
+    "ファイルシグネチャ"
+  ],
+  "분석기 파일": [
+    "Analyzer Settings",
+    "アナライザ設定"
+  ],
+  "문자열 표시": [
+    "Display String",
+    "表示設定"
+  ],
+  "사건 만들기": [
+    "New Case",
+    "新しいケース"
+  ],
+  "전체 편집": [
+    "Full Edit",
+    "フル編集"
+  ],
+  "검색 개수": [
+    "Result Count",
+    "結果回数"
+  ],
+  "글꼴 크기": [
+    "Font size",
+    ""
+  ],
+  "테마 색깔": [
+    "Theme color",
+    ""
+  ],
+  "표준 색깔": [
+    "Standard color",
+    ""
+  ],
+  "파일 연결": [
+    "Link File",
+    "リンクファイル"
+  ],
+  "사건 이름": [
+    "Case name",
+    ""
+  ],
+  "파일 복원": [
+    "Recovery",
+    "復元"
+  ],
+  "항목 글꼴": [
+    "Item font",
+    ""
+  ],
+  "항목 배경": [
+    "Item background",
+    ""
+  ],
+  "항목 전경": [
+    "Item foreground",
+    ""
+  ],
+  "자동 분석": [
+    "Automatic Analysis",
+    "自動分析"
+  ],
+  "기본 글꼴": [
+    "Default font",
+    ""
+  ],
+  "사건 개요": [
+    "Summary",
+    "概要"
+  ],
+  "기본 환경": [
+    "Default Environment",
+    "デフォルト環境"
+  ],
+  "기본 설정": [
+    "Default Settings",
+    "デフォルト設定"
+  ],
+  "결과 목록": [
+    "Result List",
+    "結果一覧"
+  ],
+  "간략 보기": [
+    "Quick View",
+    "クイックビュー"
+  ],
+  "문서 저장": [
+    "Save Report",
+    "レポートを保存"
+  ],
+  "편집 모드": [
+    "Edit Mode",
+    "編集モード"
+  ],
+  "폰 이미지": [
+    "Phone image",
+    ""
+  ],
+  "분석 중지": [
+    "Stop Ananlysis",
+    "分析を中止する"
+  ],
+  "연결 없음": [
+    "No Link",
+    "リンクなし"
+  ],
+  "빠른 편집": [
+    "Quick Edit",
+    "クイック編集"
+  ],
+  "파일 크기": [
+    "File size",
+    ""
+  ],
+  "파일 경로": [
+    "File path",
+    ""
+  ],
+  "사건 번호": [
+    "Case No.",
+    ""
+  ],
+  "사건 정보": [
+    "Case Information",
+    ""
+  ],
+  "사건 영역": [
+    "Case range",
+    ""
+  ],
+  "그룹 삭제": [
+    "Delete group",
+    "グループを削除"
+  ],
+  "파일탐색기": [
+    "File Explorer",
+    "ファイルエクスプローラ"
+  ],
+  "사건 닫기": [
+    "Close Case",
+    "ケースを閉じる"
+  ],
+  "파일 이름": [
+    "File name",
+    ""
+  ],
+  "파일 열기": [
+    "Open File",
+    "ファイルを開く"
+  ],
+  "분석 환경": [
+    "Analysis Environment",
+    "分析環境"
+  ],
+  "레코드설정": [
+    "Record Settings",
+    "レコード設定"
+  ],
+  "모델 검색": [
+    "Model Search",
+    "機種検索"
+  ],
+  "왼쪽 맞춤": [
+    "Align Lefts",
+    "左へ整列"
+  ],
+  "변환 형식": [
+    "Transform Type",
+    "変換種別"
+  ],
+  "로고 위치": [
+    "Logo position",
+    "ロゴの位置"
+  ],
+  "제목 왼쪽": [
+    "Left of title",
+    "タイトルの左側"
+  ],
+  "덤프 종류": [
+    "Image Type",
+    "イメージの種別"
+  ],
+  "이씨플랫폼": [
+    "ECPLATFORM",
+    "AOS Technologies,Inc."
+  ],
+  "위쪽 맞춤": [
+    "Align Tops",
+    "上へ整列"
+  ],
+  "초기화 중": [
+    "Initializing",
+    "初期化"
+  ],
+  "파일 저장": [
+    "Save Case",
+    "ケースを保存する"
+  ],
+  "대상 파일": [
+    "Target File",
+    "ターゲットファイル"
+  ],
+  "대상 경로": [
+    "Destination Path",
+    "出力先のパス"
+  ],
+  "사건 파일": [
+    "Case File",
+    "ケースファイル"
+  ],
+  "파일시스템": [
+    "File System",
+    "ファイルシステム"
+  ],
+  "배포 도구": [
+    "Distribution Tool",
+    "分布ツール"
+  ],
+  "홈::도움": [
+    "Home::Help",
+    ""
+  ],
+  "분을 표시": [
+    "Display minute",
+    "分を表示"
+  ],
+  "표시창선택": [
+    "Docking panes",
+    "ペインの表示"
+  ],
+  "범죄 유형": [
+    "Case Type",
+    "ケースの種類"
+  ],
+  "위치 설정": [
+    "Location settings",
+    "位置設定"
+  ],
+  "검색 위치": [
+    "Search Position",
+    "検索位置"
+  ],
+  "분석 설정": [
+    "Analyzer Settings",
+    "アナライザ設定"
+  ],
+  "저장 위치": [
+    "Save Foler",
+    "保存先フォルダ"
+  ],
+  "요구 사항": [
+    "Requirement",
+    "要件"
+  ],
+  "진행 상황": [
+    "Progress",
+    "進捗"
+  ],
+  "검색 방식": [
+    "Search Tool",
+    "検索ツール"
+  ],
+  "코드페이지": [
+    "Codepage",
+    "コードページ"
+  ],
+  "필터 설정": [
+    "Filter Setup",
+    "Filter Setup"
+  ],
+  "모두 삭제": [
+    "Remove all",
+    "全てを削除"
+  ],
+  "초를 표시": [
+    "Display second",
+    "秒を表示"
+  ],
+  "오류 보고": [
+    "Error report",
+    "エラーレポート"
+  ],
+  "표시 항목": [
+    "Display Items",
+    "表示項目"
+  ],
+  "사건 열기": [
+    "Open Case File",
+    "ケースファイルを開く"
+  ],
+  "모든 파일": [
+    "All files",
+    "全てのファイル"
+  ],
+  "그룹 생성": [
+    "New Group",
+    "新しいグループ"
+  ],
+  "인쇄 설정": [
+    "Print Setup",
+    "印刷設定"
+  ],
+  "파일전체": [
+    "Whole File",
+    "ファイル全体"
+  ],
+  "기본설정": [
+    "Set Default",
+    "デフォルトに戻す"
+  ],
+  "검색결과": [
+    "Search Results",
+    "結果を検索中"
+  ],
+  "분석기관": [
+    "Analysis Organization",
+    "分析組織"
+  ],
+  "예외처리": [
+    "Exception Handling",
+    "例外処理中"
+  ],
+  "프로그램": [
+    "Program",
+    "プログラム"
+  ],
+  "취소 중": [
+    "Canceling",
+    "中断しています"
+  ],
+  "불러오기": [
+    "Open",
+    "開く"
+  ],
+  "사건번호": [
+    "Case No.",
+    "ケース番号"
+  ],
+  "도구이름": [
+    "Tool Name",
+    "ツール名"
+  ],
+  "옵셋설정": [
+    "Offset Setting",
+    "オフセット設定"
+  ],
+  "분석정보": [
+    "Analysis Information ",
+    "調査情報"
+  ],
+  "파일설정": [
+    "File Settings",
+    "ファイル設定"
+  ],
+  "삭제하기": [
+    "Remove",
+    "削除"
+  ],
+  "의뢰기관": [
+    "Client Organization",
+    "依頼組織"
+  ],
+  "툴 검색": [
+    "Tool Search",
+    ""
+  ],
+  "사건개요": [
+    "Summary",
+    "概要"
+  ],
+  "찾아보기": [
+    "Browse",
+    "閲覧"
+  ],
+  "행 번호": [
+    "Row No.",
+    "行番号"
+  ],
+  "범죄유형": [
+    "Case Type",
+    "ケースの種類"
+  ],
+  "축소하기": [
+    "Zoom Out",
+    "ズームアウト"
+  ],
+  "확대하기": [
+    "Zoom In",
+    "ズームイン"
+  ],
+  "실행취소": [
+    "Undo",
+    "取り消す"
+  ],
+  "다시실행": [
+    "Redo",
+    "やり直す"
+  ],
+  "종료하기": [
+    "Exit",
+    "終了"
+  ],
+  "환경설정": [
+    "Configuration",
+    "構成"
+  ],
+  "원래대로": [
+    "Revert",
+    "戻す"
+  ],
+  "붙여넣기": [
+    "Paste",
+    "貼り付け"
+  ],
+  "시작위치": [
+    "Offset",
+    "オフセット"
+  ],
+  "부 타입": [
+    "Subtype",
+    "サブタイプ"
+  ],
+  "주 타입": [
+    "Type",
+    "タイプ"
+  ],
+  "이름없음": [
+    "No name",
+    "無題"
+  ],
+  "분석 중": [
+    "Analyzing",
+    "分析中"
+  ],
+  "분석결과": [
+    "Analysis Result",
+    "分析結果"
+  ],
+  "로그보기": [
+    "View Log",
+    "ビューログ"
+  ],
+  "중복검사": [
+    "Duplication Check",
+    "重複チェック"
+  ],
+  "분(M)": [
+    "Min",
+    "最小"
+  ],
+  "화면캡쳐": [
+    "Screen Capture",
+    "画面キャプチャ"
+  ],
+  "내보내기": [
+    "Export",
+    "エクスポート"
+  ],
+  "편집모드": [
+    "Edit Mode",
+    "編集モード"
+  ],
+  "찾기대상": [
+    "Domain",
+    "ドメイン"
+  ],
+  "유니코드": [
+    "Unicode",
+    "Unicode"
+  ],
+  "내용검색": [
+    "Contents Search",
+    "目次検索"
+  ],
+  "툴 상자": [
+    "Toolbox",
+    "ゴミ箱"
+  ],
+  "파일찾기": [
+    "File Name Search",
+    "ファイル名検索"
+  ],
+  "증거물명": [
+    "Evidence Name",
+    "証拠名"
+  ],
+  "간략보기": [
+    "Quick View",
+    "クイックビュー"
+  ],
+  "요구사항": [
+    "Requirement",
+    "要件"
+  ],
+  "새분석기": [
+    "New",
+    "新規"
+  ],
+  "갱신하기": [
+    "Update",
+    "更新"
+  ],
+  "툴 설정": [
+    "",
+    ""
+  ],
+  "인쇄하기": [
+    "Print",
+    "印刷"
+  ],
+  "미리보기": [
+    "Preview",
+    "プレビュー"
+  ],
+  "가져오기": [
+    "Import",
+    "インポート"
+  ],
+  "기울임꼴": [
+    "Italic",
+    "斜体"
+  ],
+  "헥사코드": [
+    "HexCode",
+    "16進コード"
+  ],
+  "디렉터리": [
+    "Directory",
+    "ディレクトリ"
+  ],
+  "무시하기": [
+    "Ignore",
+    "無視"
+  ],
+  "검색하기": [
+    "Search",
+    "検索"
+  ],
+  "분석설정": [
+    "Analyzer Setting",
+    "アナライザ設定"
+  ],
+  "분석하기": [
+    "Analysis",
+    "分析"
+  ],
+  "글꼴 색": [
+    "",
+    ""
+  ],
+  "취소하기": [
+    "Cancel",
+    "キャンセル"
+  ],
+  "모  델": [
+    "Model",
+    "モデル"
+  ],
+  "파일명": [
+    "File Name",
+    "ファイル名"
+  ],
+  "저장일": [
+    "Saved Date",
+    "Saved Date"
+  ],
+  "미정의": [
+    "Undefined",
+    "未定義"
+  ],
+  "아니오": [
+    "No",
+    "いいえ"
+  ],
+  "미사용": [
+    "Unused",
+    "未使用"
+  ],
+  "키워드": [
+    "Keyword",
+    "キーワード"
+  ],
+  "사건명": [
+    "Case Name",
+    "ケースの名前"
+  ],
+  "보고서": [
+    "Report",
+    "レポート"
+  ],
+  "크  기": [
+    "Size",
+    "サイズ"
+  ],
+  "문자열": [
+    "String",
+    "文字列"
+  ],
+  "표현식": [
+    "Expression",
+    "表現"
+  ],
+  "확장자": [
+    "Extension",
+    "拡張子"
+  ],
+  "해결책": [
+    "Solution",
+    "ソリューション"
+  ],
+  "가운데": [
+    "Center",
+    "中央"
+  ],
+  "디버깅": [
+    "Debugging",
+    "デバッグ中"
+  ],
+  "새사건": [
+    "New",
+    "新規"
+  ],
+  "테이블": [
+    "Table",
+    "表"
+  ],
+  "초기화": [
+    "Reset",
+    "リセット"
+  ],
+  "의뢰자": [
+    "Client",
+    "依頼人"
+  ],
+  "관리자": [
+    "Manager",
+    "管理"
+  ],
+  "페이지": [
+    "Page",
+    "ページ"
+  ],
+  "연락처": [
+    "Contact",
+    "問い合わせ"
+  ],
+  "이메일": [
+    "Email",
+    "Eメール"
+  ],
+  "머릿글": [
+    "Header",
+    "ヘッダ"
+  ],
+  "카메라": [
+    "Camera",
+    "カメラ"
+  ],
+  "새그룹": [
+    "New Group",
+    "新しいグループ"
+  ],
+  "파티션": [
+    "Partition",
+    "パーティション"
+  ],
+  "엔트리": [
+    "Entry",
+    "登録"
+  ],
+  "툴목록": [
+    "Tool List",
+    "ツール一覧"
+  ],
+  "분석자": [
+    "Investigator",
+    "調査員"
+  ],
+  "분석관": [
+    "Investigator",
+    "調査員"
+  ],
+  "머리글": [
+    "Header",
+    "ヘッダ"
+  ],
+  "섹터맵": [
+    "Sector Map",
+    "セクタマップ"
+  ],
+  "오른쪽": [
+    "Right",
+    "右"
+  ],
+  "아래쪽": [
+    "Bottom",
+    "下"
+  ],
+  "바닥글": [
+    "Footer",
+    "フッタ"
+  ],
+  "증거물": [
+    "Evidence",
+    "証拠"
+  ],
+  "북마크": [
+    "Bookmark",
+    "ブックマーク"
+  ],
+  "가나다": [
+    "abc",
+    "あいう"
+  ],
+  "탐색기": [
+    "Explorer",
+    "エクスプローラ"
+  ],
+  "검색창": [
+    "Search Window",
+    "検索ウィンドウ"
+  ],
+  "제조사": [
+    "Maker",
+    "メーカ"
+  ],
+  "고    급": [
+    "Advanced",
+    "高度"
+  ],
+  "오프셋": [
+    "Offset",
+    "オフセット"
+  ],
+  "분석기": [
+    "Analyzer",
+    "アナライザ"
+  ],
+  "이미지": [
+    "Image",
+    "イメージ"
+  ],
+  "도움말": [
+    "Help",
+    "ヘルプ"
+  ],
+  "작성일": [
+    "Reporting Date",
+    "作成日"
+  ],
+  "접수일": [
+    "Receipt Date",
+    "受信日"
+  ],
+  "접수자": [
+    "Recipient",
+    "受信者"
+  ],
+  "시리얼": [
+    "Serial No.",
+    "シリアル番号"
+  ],
+  "도움": [
+    "Help",
+    "ヘルプ"
+  ],
+  "날짜": [
+    "Date",
+    "日時"
+  ],
+  "형식": [
+    "Format",
+    "フォーマット"
+  ],
+  "모델": [
+    "Model",
+    "機種"
+  ],
+  "비고": [
+    "Note",
+    "注意事項"
+  ],
+  "주의": [
+    "Notice : New settings will be applied when you restart",
+    "注意：新規設定は再起動時に反映されます"
+  ],
+  "사건": [
+    "Case",
+    "ケース"
+  ],
+  "높이": [
+    "Height",
+    "高さ"
+  ],
+  "결과": [
+    "Result",
+    "結果"
+  ],
+  "검증": [
+    "Verify",
+    "確認"
+  ],
+  "삭제": [
+    "Delete",
+    "削除"
+  ],
+  "제거": [
+    "Remove",
+    "移動"
+  ],
+  "시간": [
+    "Time",
+    "時間"
+  ],
+  "저장": [
+    "Save",
+    "保存"
+  ],
+  "실행": [
+    "Run",
+    "実行"
+  ],
+  "기본": [
+    "Basic",
+    "基本"
+  ],
+  "항목": [
+    "Item",
+    "項目"
+  ],
+  "오류": [
+    "Error",
+    "エラー"
+  ],
+  "경고": [
+    "Warning",
+    "警告"
+  ],
+  "복사": [
+    "Copy",
+    "コピー"
+  ],
+  "추가": [
+    "Add",
+    "追加"
+  ],
+  "목록": [
+    "List",
+    "リスト"
+  ],
+  "너비": [
+    "Width",
+    "幅"
+  ],
+  "검색": [
+    "Search",
+    "検索"
+  ],
+  "전경": [
+    "Foreground",
+    "文字表示"
+  ],
+  "배경": [
+    "Background",
+    "背景"
+  ],
+  "굵게": [
+    "Bold",
+    "太字"
+  ],
+  "제목": [
+    "Title",
+    "タイトル"
+  ],
+  "사진": [
+    "Photo",
+    "写真"
+  ],
+  "인쇄": [
+    "Print",
+    "印刷"
+  ],
+  "주석": [
+    "Comment",
+    "コメント"
+  ],
+  "종류": [
+    "Category",
+    "カテゴリ"
+  ],
+  "내용": [
+    "Contents",
+    "目次"
+  ],
+  "크기": [
+    "Size",
+    "サイズ"
+  ],
+  "경로": [
+    "Path",
+    "パス"
+  ],
+  "번호": [
+    "No.",
+    "No."
+  ],
+  "파일": [
+    "File",
+    "ファイル"
+  ],
+  "폴더": [
+    "Folder",
+    "フォルダ"
+  ],
+  "위쪽": [
+    "Top",
+    "上"
+  ],
+  "옵셋": [
+    "Offset",
+    "オフセット"
+  ],
+  "분석": [
+    "Analysis",
+    "分析"
+  ],
+  "왼쪽": [
+    "Left",
+    "左"
+  ],
+  "헥사": [
+    "Hex",
+    "16進"
+  ],
+  "정보": [
+    "Information",
+    "情報"
+  ],
+  "보기": [
+    "View",
+    "ビュー"
+  ],
+  "고급": [
+    "Advanced",
+    "高度"
+  ],
+  "로그": [
+    "Log",
+    "ログ"
+  ],
+  "용지": [
+    "Paper",
+    "用紙"
+  ],
+  "표준": [
+    "Standard",
+    "標準"
+  ],
+  "여백": [
+    "Margin",
+    "余白"
+  ],
+  "해시": [
+    "Hash",
+    "ハッシュ"
+  ],
+  "편집": [
+    "Edit",
+    "編集"
+  ],
+  "위치": [
+    "Position",
+    "位置"
+  ],
+  "길이": [
+    "Length",
+    "長さ"
+  ],
+  "일반": [
+    "General",
+    "一般"
+  ],
+  "헤더": [
+    "Header",
+    "ヘッダ"
+  ],
+  "성명": [
+    "Name",
+    "名前"
+  ],
+  "이름": [
+    "Name",
+    "名前"
+  ],
+  "테마": [
+    "Theme",
+    "テーマ"
+  ],
+  "기관": [
+    "Organization",
+    "組織"
+  ],
+  "맞춤": [
+    "Align",
+    "整列"
+  ],
+  "색깔": [
+    "Color",
+    "色"
+  ],
+  "가로": [
+    "Horizontal",
+    "水平"
+  ],
+  "세로": [
+    "Vertical",
+    "垂直"
+  ],
+  "글꼴": [
+    "Font",
+    "フォント"
+  ],
+  "열기": [
+    "Open",
+    "開く"
+  ],
+  "간격": [
+    "Interval",
+    "間隔"
+  ],
+  "무시": [
+    "Ignore",
+    "無視"
+  ],
+  "표지": [
+    "Cover",
+    "カバー"
+  ],
+  "목차": [
+    "Table of Contents",
+    "目次"
+  ],
+  "로고": [
+    "Logo",
+    "ロゴ"
+  ],
+  "선택": [
+    "Selection",
+    "選択"
+  ],
+  "닫기": [
+    "Close",
+    "閉じる"
+  ],
+  "코드": [
+    "Code",
+    "コード"
+  ],
+  "수준": [
+    "Level",
+    "レベル"
+  ],
+  "확인": [
+    "OK",
+    "OK"
+  ],
+  "활성": [
+    "Active",
+    "通常"
+  ],
+  "실패": [
+    "Failure",
+    "失敗"
+  ],
+  "성공": [
+    "Success",
+    "成功"
+  ],
+  "입력": [
+    "Input",
+    "Input"
+  ],
+  "출처": [
+    "Source",
+    "Source"
+  ],
+  "변환": [
+    "Conversion",
+    "変換"
+  ],
+  "옵션": [
+    "Options",
+    "オプション"
+  ],
+  "중지": [
+    "Stop",
+    "中止"
+  ],
+  "획득": [
+    "Extraction",
+    "抽出"
+  ],
+  "암호": [
+    "Password",
+    "パスワード"
+  ],
+  "죄명": [
+    "Crime Name",
+    "犯罪名"
+  ],
+  "축소": [
+    "Zoom Out",
+    "ズームアウト"
+  ],
+  "시작": [
+    "Start",
+    "スタート"
+  ],
+  "준비": [
+    "Ready",
+    "待機"
+  ],
+  "순번": [
+    "Index",
+    "インデックス"
+  ],
+  "복원": [
+    "Recovered",
+    "復元"
+  ],
+  "확대": [
+    "Zoom In",
+    "ズームイン"
+  ],
+  "설정": [
+    "Settings",
+    "設定"
+  ],
+  "속성": [
+    "Property",
+    "プロパティ"
+  ],
+  "분류": [
+    "Category",
+    "カテゴリ"
+  ],
+  "정렬": [
+    "Align",
+    "整列"
+  ],
+  "표시": [
+    "Display",
+    "表示"
+  ],
+  "취소": [
+    "Cancel",
+    "キャンセル"
+  ],
+  "순서": [
+    "Order",
+    "順序"
+  ],
+  "좌표": [
+    "Coordinates",
+    "Coordinates"
+  ],
+  "출력": [
+    "Output",
+    "Output"
+  ],
+  "툴": [
+    "Tool",
+    "ツール"
+  ],
+  "예": [
     "Yes",
     "はい"
   ],
-  "홈12": [
+  "홈": [
     "Home",
     "ホーム"
   ],
-  "색1": [
+  "색": [
     "Color",
     "色"
   ],

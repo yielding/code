@@ -1,16 +1,16 @@
+// Argument Dependent Loopup
 namespace N
 {
   class A 
-  {
-  };
+  {};
 
   template <typename T1> 
   T1 operator + (T1 op1, T1 op2) { return op1; }
 }
 
 template <typename T> 
-class B {
-};
+class B
+{};
 
 int main(int argc, char const* argv[])
 {

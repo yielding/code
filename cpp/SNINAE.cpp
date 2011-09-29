@@ -1,4 +1,4 @@
-// Substition failure is not an error
+// Substition Failure Is Not An Error
 #include <iostream>
 
 using namespace std;
@@ -23,4 +23,3 @@ int main(int argc, char const* argv[])
 
   return 0;
 }
-

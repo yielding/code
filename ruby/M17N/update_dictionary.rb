@@ -11,7 +11,6 @@ require 'rexml/document'
 #
 #
 ################################################################################
-module MD
 class String
   def korean?
     self.index(/\p{Hangul}/) != nil
@@ -175,7 +174,6 @@ class MDDictionary
       end
     }
   end
-end
 end
 
 ################################################################################
