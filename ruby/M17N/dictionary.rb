@@ -81,22 +81,29 @@ module MD
 
   # 공통 처리
   class ResourceFile
-    def initialize name
-      @w = "w"
-      @r = "r"
+    def initialize fileinfo
+      name, @params = fileinfo
       @kor, @eng, @jpn = name.split(/:/)
       @dictionary = nil
+      @w = "w"
+      @r = "r"
+    end
+
+    def ResourceFile.factory fileinfo
+      first, _, _ = fileinfo[0].split(/:/)  # first:second:third
+      class_  = { ".xml" => XMLFile, ".xaml" => XAMLFile, ".rc" => RCFile }
+      return class_[File.extname(first)].new(fileinfo)
     end
 
     def read
       File.open(@kor, @r).read()
     end
 
-    def save_english text
+    def save_eng text
       File.open(@eng, @w) { |f| f.write(text) }
     end
 
-    def save_japanese text
+    def save_jpn text
       File.open(@jpn, @w) { |f| f.write(text) }
     end
 
@@ -140,9 +147,8 @@ module MD
   end
 
   class XMLFile < ResourceFile
-    def initialize filename, params
+    def initialize filename 
       super filename
-      @params = params
     end
 
     def extract_key
@@ -206,69 +212,52 @@ end
 #
 ################################################################################
 if __FILE__ == $PROGRAM_NAME
-  kor_xaml_files = %w{
-    ./CasePage.xaml:./CasePage_eng.xaml:./CasePage_jpn.xaml
-    ./EvidenceInfo.xaml:./EvidenceInfo_eng.xaml:./EvidenceInfo_jpn.xaml
+  xamls = {
+    "./CasePage.xaml:./CasePage_eng.xaml:./CasePage_jpn.xaml" => {},
+    "./EvidenceInfo.xaml:./EvidenceInfo_eng.xaml:./EvidenceInfo_jpn.xaml" => {}
   }
 
-  kor_xml_files = {
+  xmls = {
     "./Logs.xml:./Logs_eng.xml:./Logs_jpn.xml" => { 
-      "Logs/Category/Log" => "title",
-      "Logs/Category/Log/Content" => "",
-      "Logs/Category/Log/Solution" => ""
+      "Logs/Category/Log"              => "title",   # key.attribute => value
+      "Logs/Category/Log/Content"      => "",        # key => text
+      "Logs/Category/Log/Solution"     => ""
     },
     "./StringTable.xml:./StringTable_eng.xml:./StringTable_jpn.xml" => { 
-      "StringTable/Category/String" => "" 
+      "StringTable/Category/String"    => "" 
     },
     "./Dialogs.xml:./Dialogs_eng.xml:./Dialogs_jpn.xml" => {
-      "Dialogs/Dialog/WindowTitle" => "",
+      "Dialogs/Dialog/WindowTitle"     => "",
       "Dialogs/Dialog/MainInstruction" => "",
-      "Dialogs/Dialog/Content" => "",
-      "Dialogs/Dialog/Verification" => "",
-      "Dialogs/Dialog/Buttons/Button" => "",
+      "Dialogs/Dialog/Content"         => "",
+      "Dialogs/Dialog/Verification"    => "",
+      "Dialogs/Dialog/Buttons/Button"  => "",
       "Dialogs/Dialog/Buttons/CommandLink/Text" => "",
       "Dialogs/Dialog/Buttons/CommandLink/Explanation" => ""
     }
   }
 
-  kor_rc_files = %w{ 
-    ./Besmaster.rc:./Besmaster_eng.rc:./Besmaster_jpn.rc 
+  rcs = { 
+    "./Besmaster.rc:./Besmaster_eng.rc:./Besmaster_jpn.rc" => {}
   }
 
   #
   # begin processing
   #
   dict1 = MD::Dictionary.new("kje_dictionary.json")
-
-  kor_xaml_files.each { |filename|
-    f = MD::XAMLFile.new(filename)
+  resource_files = xamls.merge(xmls).merge(rcs)
+  resource_files.each { |file| 
+    f = MD::ResourceFile.factory(file)
     dict1.update(f.extract_key)
   }
 
-  kor_xml_files.each { |filename, param|
-    f = MD::XMLFile.new(filename, param)
-    dict1.update(f.extract_key)
-  }
+  dict1.print
+  dict1.save
 
-  kor_rc_files.each { |filename|
-    f = MD::RCFile.new(filename)
-    dict1.update(f.extract_key)
-  }
- 
-  #dict1.print
-  #dict1.save
-
-  # 
-  # f.save_to의 이름을 어떻게 만들 것인가?
-  # 데이타에 다 표기한다.
-  #
-  kor_xaml_files.each { |filename|
-    f   = MD::XAMLFile.new(filename)
-    eng = f.with(dict1).to_english
-    f.save_english(eng)
-
-    jpn = f.with(dict1).to_japanese
-    f.save_japanese(jpn)
+  files.each { |file|
+    f = MD::ResourceFile.factory(file)
+    f.save_eng(f.with(dict1).to_english)
+    f.save_jpn(f.with(dict1).to_japanese)
   }
   
 end

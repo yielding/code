@@ -3,5 +3,4 @@ a.out
 .DS_Store
 *.bundle
 *.log
-
-ruby/.DS_Store
+*.swp
