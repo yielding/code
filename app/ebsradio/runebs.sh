@@ -31,3 +31,5 @@ sleep 1
 #       http://developer.kde.org/~wheeler/taglib.html
 ###################################################################
 /Users/yielding/ebsradio/tagwriter -t "$program $date" -a "EBS" -A "$program $year $month" -g "Podcast" -y "$year" -T "$day" $filename
+
+mv $filename /Users/yielding/Dropbox/ebs
