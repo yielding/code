@@ -51,8 +51,10 @@ module MD
     end 
 
     def save
-      sorted = sort_by_length
-      File.open(@file, "w") { |f| f.write(JSON.pretty_generate(sorted)) }
+      unless @file.empty?
+        sorted = sort_by_length
+        File.open(@file, "w") { |f| f.write(JSON.pretty_generate(sorted)) }
+      end
     end
 
     def print
@@ -91,10 +93,25 @@ module MD
 
     def ResourceFile.factory fileinfo
       first, _, _ = fileinfo[0].split(/:/)  # first:second:third
-      class_  = { ".xml" => XMLFile, ".xaml" => XAMLFile, ".rc" => RCFile }
+      class_  = { ".xml"  => XMLFile, 
+                  ".xaml" => XAMLFile, 
+                  ".rc"   => RCFile, 
+                  ".tsf"  => TSFFile }
       return class_[File.extname(first)].new(fileinfo)
     end
 
+    def extract_key
+      keys = Set.new
+      read.each_line { |l|
+        if l.has_korean?
+          l.strip!
+          keys.add(l.extract_korean)
+        end
+      }
+
+      keys.to_a
+    end
+    
     def read
       File.open(@kor, @r).read()
     end
@@ -142,7 +159,7 @@ module MD
         end
       }
 
-      keys
+      keys.to_a
     end
   end
 
@@ -190,74 +207,13 @@ module MD
     def initialize filename
       super filename
     end
-
-    def extract_key
-      keys = Set.new
-      read.each_line { |l|
-        if l.has_korean?
-          l.strip!
-          keys.add(l.extract_korean)
-        end
-      }
-
-      keys.to_a
-    end
   end
 
-end
-
-################################################################################
-#
-#
-#
-################################################################################
-if __FILE__ == $PROGRAM_NAME
-  xamls = {
-    "./CasePage.xaml:./CasePage_eng.xaml:./CasePage_jpn.xaml" => {},
-    "./EvidenceInfo.xaml:./EvidenceInfo_eng.xaml:./EvidenceInfo_jpn.xaml" => {}
-  }
-
-  xmls = {
-    "./Logs.xml:./Logs_eng.xml:./Logs_jpn.xml" => { 
-      "Logs/Category/Log"              => "title",   # key.attribute => value
-      "Logs/Category/Log/Content"      => "",        # key => text
-      "Logs/Category/Log/Solution"     => ""
-    },
-    "./StringTable.xml:./StringTable_eng.xml:./StringTable_jpn.xml" => { 
-      "StringTable/Category/String"    => "" 
-    },
-    "./Dialogs.xml:./Dialogs_eng.xml:./Dialogs_jpn.xml" => {
-      "Dialogs/Dialog/WindowTitle"     => "",
-      "Dialogs/Dialog/MainInstruction" => "",
-      "Dialogs/Dialog/Content"         => "",
-      "Dialogs/Dialog/Verification"    => "",
-      "Dialogs/Dialog/Buttons/Button"  => "",
-      "Dialogs/Dialog/Buttons/CommandLink/Text" => "",
-      "Dialogs/Dialog/Buttons/CommandLink/Explanation" => ""
-    }
-  }
-
-  rcs = { 
-    "./Besmaster.rc:./Besmaster_eng.rc:./Besmaster_jpn.rc" => {}
-  }
-
-  #
-  # begin processing
-  #
-  dict1 = MD::Dictionary.new("kje_dictionary.json")
-  resource_files = xamls.merge(xmls).merge(rcs)
-  resource_files.each { |file| 
-    f = MD::ResourceFile.factory(file)
-    dict1.update(f.extract_key)
-  }
-
-  dict1.print
-  dict1.save
-
-  files.each { |file|
-    f = MD::ResourceFile.factory(file)
-    f.save_eng(f.with(dict1).to_english)
-    f.save_jpn(f.with(dict1).to_japanese)
-  }
-  
+  class TSFFile < ResourceFile
+    def initialize filename
+      super filename
+      @w = "w:utf-16le"
+      @r = "r:utf-16le:utf-8"
+    end
+  end
 end
