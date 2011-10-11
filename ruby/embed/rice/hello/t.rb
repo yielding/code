@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby -wKU
 
-require "tt"
+require_relative "tt"
 
 t = Test.new
 #t.foo = 10

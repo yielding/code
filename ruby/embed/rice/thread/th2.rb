@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby -wKU
 require 'socket' 
 #require 'resolv-replace' 
 

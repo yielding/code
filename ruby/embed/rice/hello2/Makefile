@@ -78,7 +78,7 @@ vendorlibdir = $(vendordir)/$(ruby_version)
 vendorarchdir = $(vendorlibdir)/$(sitearch)
 
 
-CC = gcc
+CC = /usr/bin/gcc-4.2
 CXX = g++
 LIBRUBY = $(LIBRUBY_SO)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
@@ -95,9 +95,9 @@ warnflags = -Wextra -Wno-unused-parameter -Wno-parentheses -Wpointer-arith -Wwri
 CFLAGS   = -fno-common $(cflags)  -fno-common -pipe 
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
 DEFS     = 
-CPPFLAGS =  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE $(DEFS) $(cppflags)  -I/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems/rice-1.4.2/ruby/lib/include
+CPPFLAGS =  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE $(DEFS) $(cppflags)  -I/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems/rice-1.4.3/ruby/lib/include
 CXXFLAGS = $(CFLAGS)  -Wall -g
-ldflags  = -L. -L/usr/local/lib  -L/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems/rice-1.4.2/ruby/lib/lib
+ldflags  = -L. -L/usr/local/lib  -L/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems/rice-1.4.3/ruby/lib/lib
 dldflags = -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress -Wl,-flat_namespace
 ARCH_FLAG = 
 DLDFLAGS = $(ldflags) $(dldflags)

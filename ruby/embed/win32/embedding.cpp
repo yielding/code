@@ -27,8 +27,8 @@ t_add(VALUE self, VALUE obj)
 
 void init_extension()
 {
-	// °´Ã¼¸¦ »ý¼ºÇÒ¶§ C++ appÀÇ Àü¿ª º¯¼ö¸¦ ÂüÁ¶ÇØ¼­ Å¬·¡½º¸¦ ¸¸µé¸é µÇ°Ú´Ù.
-	// Áï, Àü¿ªº¯¼ö¸¦ À§ÇÑ ÀÎÅÍÆäÀÌ½º¸¦ µû·Î ¸¸µé ÇÊ¿ä°¡ ¾ø´Ù.
+	// ê°ì²´ë¥¼ ìƒì„±í• ë•Œ C++ appì˜ ì „ì—­ ë³€ìˆ˜ë¥¼ ì°¸ì¡°í•´ì„œ í´ëž˜ìŠ¤ë¥¼ ë§Œë“¤ë©´ ë˜ê² ë‹¤.
+	// ì¦‰, ì „ì—­ë³€ìˆ˜ë¥¼ ìœ„í•œ ì¸í„°íŽ˜ì´ìŠ¤ë¥¼ ë”°ë¡œ ë§Œë“¤ í•„ìš”ê°€ ì—†ë‹¤.
 	cTest = rb_define_class("MyTest", rb_cObject);
 	rb_define_method(cTest, "initialize", RUBY_METHOD_FUNC(t_init), 0);
 	rb_define_method(cTest, "add", RUBY_METHOD_FUNC(t_add), 1);

@@ -41,7 +41,7 @@ end
 RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.2-p290"
 RVM_INC = "#{RVM}/include/ruby-1.9.1"
 RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems"
-RICE    = "#{RVM_GEM}/rice-1.4.2/ruby/lib"
+RICE    = "#{RVM_GEM}/rice-1.4.3/ruby/lib"
 
 $INCS = " -I. -I/opt/local/include"
 if defined? INCS

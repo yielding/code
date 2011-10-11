@@ -9,9 +9,9 @@ task :default => [TARGET]
 CLEAN.include("*.o")
 CLOBBER.include(TARGET)
 
-LDFLAGS  = '-L/opt/local/lib/ruby/gems/1.8/gems/rice-1.0.2/ruby/lib/lib'
+LDFLAGS  = '-L/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems/rice-1.4.3/ruby/lib/lib'
 LIBS     = '-lruby.1.9.1 -lobjc -ldl -lrice -lpthread'
-CXXFLAGS = '-I/Users/yielding/.rvm/rubies/ruby-1.9.2-p0/include/ruby-1.9.1/x86_64-darwin10.4.0 -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p0/include/ruby-1.9.1 -I/Users/yielding/.rvm/gems/ruby-1.9.2-p0/gems/rice-1.4.0'
+CXXFLAGS = '-I/Users/yielding/.rvm/rubies/ruby-1.9.2-p290/include/ruby-1.9.1/x86_64-darwin11.1.0 -I/Users/yielding/.rvm/rubies/ruby-1.9.2-p290/include/ruby-1.9.1 -I/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems/rice-1.4.3'
 SRC      = FileList['*.cpp']
 OBJ      = SRC.ext('o')
 
