@@ -1,11 +1,3 @@
-//
-//  MyObj.m
-//  test_objc_interface
-//
-//  Created by Lee Chang Ha on 11. 10. 10..
-//  Copyright (c) 2011년 heaven. All rights reserved.
-//
-
 #import "MyObj.h"
 
 #include <vector>
@@ -14,13 +6,12 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface MyObj () {
+@interface MyObj() {
 @private
   int temp1;
 }
 
 - (int)test_add:(int) a to:(int)b;
-
 @end
 
 ////////////////////////////////////////////////////////////////////////////////
