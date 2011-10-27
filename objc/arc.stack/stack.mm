@@ -7,8 +7,8 @@
 @end
 
 @implementation Stack { 
-  @private  
-    NSMutableArray* _array; 
+@private  
+  NSMutableArray* _array; 
 }
 
 - (id) init {
@@ -23,7 +23,7 @@
 }
 
 - (id) pop {
-  id x = [_array lastObject];
+  auto x = [_array lastObject];
   return x;
 }
 

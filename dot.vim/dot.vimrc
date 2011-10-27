@@ -1,6 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
-" Last modified : 2010년 11월 11일 목요일 01시 35분 47초 KST by yielding
+" Last modified : 2011년 10월 18일 화요일 11시 08분 07초 KST by yielding
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -118,6 +118,7 @@ Bundle 'gmarik/vundle'
 
 " My Bundles here:
 "
+"Bundle 'Rainbow-Parenthsis-Bundle'
 Bundle 'Conque-Shell'
 Bundle 'EnhCommentify.vim'
 Bundle 'FuzzyFinder'
@@ -141,7 +142,7 @@ Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'snipMate'
 Bundle 'tpope/vim-fugitive'
 Bundle 'wordlist.vim'
-Bundle 'clang-complete'  
+"Bundle 'clang-complete'   " install using github directly
 Bundle 'coffee.vim'
 Bundle 'vim-coffee-script'
 
@@ -149,7 +150,7 @@ Bundle 'vim-coffee-script'
 Bundle 'git://git.wincent.com/command-t.git'
 " ...
 
- filetype plugin indent on     " required! 
+filetype plugin indent on     " required! 
 "-----------------------------------------------------------------------------
 "
 " Show Marks
@@ -232,7 +233,8 @@ endif
 "-----------------------------------------------------------------------------
 set dictionary=
 
-set tags=./tags,~/.vim/tags/boost,~/.vim/tags/stl
+set tags=~/.vim/tags/boost,~/.vim/tags/stl
+set tags+=tags;$HOME
 
 set path=.,/usr/include/c++/4.2.1,/opt/local/include
 set path+=~/develop/include
@@ -240,7 +242,7 @@ set path+=~/develop/include
 set popt=syntax:y,number:y
 
 if MySys() == "mac"
-  set guifont=Menlo\ Regular:h14
+  set guifont=Menlo\ Regular:h12
   set shell=/opt/local/bin/bash
 elseif MySys() == "Windows_NT"
   set guifont=Fixedsys:h12
@@ -253,33 +255,39 @@ endfunction
 
 autocmd Syntax cpp call EnhanceCppSyntax() 
 
-function! QuickFixAndFindTab(command)
-  let curn = bufnr("%")
-  cexpr system(a:command)
-  let newn = bufnr("%")
-  exe "b " . curn
-  let tabnr = 0
-  if newn != curn
-    for i in range(tabpagenr('$'))
-      for bufn in tabpagebuflist(i + 1)
-        if bufn == newn
-          let tabnr = i + 1
-          break
-        endif
-      endfor
-    endfor
-    if tabnr == 0
-      tabe
-      exe "b " . newn
-    else
-      exe "tabn " . tabnr
-    endif
-  endif
-  cw
-endfunction
 
-noremap ,r :call  QuickFixAndFindTab("rake")<CR>
-noremap ,m :call  QuickFixAndFindTab("make")<CR>
+"-----------------------------------------------------------------------------
+"
+" Using short cuts like <F6> etc is better options to me
+"
+"-----------------------------------------------------------------------------
+"function! QuickFixAndFindTab(command)
+"  let curn = bufnr("%")
+"  cexpr system(a:command)
+"  let newn = bufnr("%")
+"  exe "b " . curn
+"  let tabnr = 0
+"  if newn != curn
+"    for i in range(tabpagenr('$'))
+"      for bufn in tabpagebuflist(i + 1)
+"        if bufn == newn
+"          let tabnr = i + 1
+"          break
+"        endif
+"      endfor
+"    endfor
+"    if tabnr == 0
+"      tabe
+"      exe "b " . newn
+"    else
+"      exe "tabn " . tabnr
+"    endif
+"  endif
+"  cw
+"endfunction
+"
+"noremap ,r :call  QuickFixAndFindTab("rake")<CR>
+"noremap ,m :call  QuickFixAndFindTab("make")<CR>
 
 "------------------- misc
 let _project  ='~/develop/app/panther2/p2.project'
@@ -494,11 +502,11 @@ map ,cc : call CharCount() <cr>
 "-----------------------------------------------------------------------------
 function! AlwaysCD()
   if bufname("") !~ "^ftp://"
-    lcd %:p:h
+    lcd %:p:h:gs/ /\\ /
   endif
 endfunction
 
-map ,h :cd %:p:h<CR>
+map ,h :cd %:p:h:gs/ /\\ /<CR>
 
 "-----------------------------------------------------------------------------
 "
@@ -559,8 +567,7 @@ command! -nargs=0 OUTLINE call <SID>OutlineToggle()
 "color kellys
 "color jellybeans
 if (has('gui_running')) 
-  "color clarity
-  color jellybeans
+  color clarity
 else
   color jellybeans
 endif
@@ -592,7 +599,7 @@ au FileType ruby set omnifunc=rubycomplete#Complete
 au FileType ruby let g:rubycomplete_buffer_loading = 1
 au FileType ruby let g:rubycomplete_rails = 1
 au FileType ruby let g:rubycomplete_classes_in_global = 1
-au FileType ruby map <C-R> :!ruby %<CR>
+au FileType ruby noremap ,r :!ruby %<CR>
 
 "-----------------------------------------------------------------------------
 "
@@ -628,7 +635,7 @@ endfunction
 let loaded_matchparen = 0
 
 if (has('gui_running')) 
-  set transparency=15
+  set transparency=10
 endif
 
 "-----------------------------------------------------------------------------
