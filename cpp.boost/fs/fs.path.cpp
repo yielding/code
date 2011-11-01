@@ -1,11 +1,8 @@
 #include <boost/filesystem/operations.hpp>
-
-
-namespace fs = boost::filesystem;
-
 #include <iostream>
 
 using namespace std;
+namespace fs = boost::filesystem;
 
 int main(int argc, char const* argv[])
 {

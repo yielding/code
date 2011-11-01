@@ -10,7 +10,8 @@ CLEAN.include("*.o").include("Makefile").include("*.log")
 CLOBBER.include(TARGET).include("*.bun*")
 
 LIBS      = ""
-CXXFLAGS  = "-I/Users/yielding/opensource/boost-trunk"
+#CXXFLAGS  = "-I/Users/yielding/opensource/boost-trunk"
+CXXFLAGS  = "-I/opt/local/include"
 SRC       = FileList["http_parser.cpp"]
 OBJ       = SRC.ext('o')
 

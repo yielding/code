@@ -20,7 +20,7 @@ if defined? CXX
   $CXX = "g++-mp-4.6" if CXX =~ /c\+\+0x/
 end
 
-$CXXFLAGS =" -DPOSIX -std=c++0x"
+$CXXFLAGS = " -DPOSIX -std=c++0x"
 if defined? CXXFLAGS
   CXXFLAGS.split.each do |f|
     flag = case f

@@ -15,25 +15,25 @@ using boost::property_tree::ptree;
 ////////////////////////////////////////////////////////////////////////////////
 void print_all(ptree& pt, int space)
 {
-    string tab; 
-    for (int i=0; i<space; i++) tab += " ";
+  string tab; 
+  for (int i=0; i<space; i++) tab += " ";
 
-    for (auto beg=pt.begin(), end=pt.end(); beg != end; ++beg)
+  for (auto beg=pt.begin(), end=pt.end(); beg != end; ++beg)
+  {
+    if (beg->first == "<xmlattr>")
+      continue;
+
+    cout << tab << beg->first;
+
+    if (!beg->second.empty())
     {
-        if (beg->first == "<xmlattr>")
-            continue;
-        
-        cout << tab << beg->first;
-
-        if (!beg->second.empty())
-        {
-            print_all(beg->second, space + 2);
-        }
-        else
-        {
-            cout << tab << "[" << beg->second.data() << "]" << endl;
-        }
+      print_all(beg->second, space + 2);
     }
+    else
+    {
+      cout << tab << "[" << beg->second.data() << "]" << endl;
+    }
+  }
 }
 
 //
@@ -41,62 +41,62 @@ void print_all(ptree& pt, int space)
 //
 void print_selected(ptree& pt, string const& key, vector<int> const& selection)
 {
-    using namespace boost;
+  using namespace boost;
 
-    auto pbeg = pt.get_child(key).begin();
-    auto pend = pt.get_child(key).end();
+  auto pbeg = pt.get_child(key).begin();
+  auto pend = pt.get_child(key).end();
 
-    while (pbeg != pend)
+  while (pbeg != pend)
+  {
+    ptree::iterator beg = pbeg->second.begin();
+    ptree::iterator end = pbeg->second.end();
+    int index = 0;
+    while (beg != end)
     {
-        ptree::iterator beg = pbeg->second.begin();
-        ptree::iterator end = pbeg->second.end();
-        int index = 0;
-        while (beg != end)
-        {
-            if (find(selection.begin(), selection.end(), index) != selection.end())
-            {
-                string key   = beg->second.data(); beg++;
-                string value = beg->second.data(); beg++;
+      if (find(selection.begin(), selection.end(), index) != selection.end())
+      {
+        string key   = beg->second.data(); beg++;
+        string value = beg->second.data(); beg++;
 
-                cout << "key   : " << key   << endl
-                     << "value : " << value << endl << endl;
-            }
-            else
-            {
-                std::advance(beg, 2);
-            }
-            index++;
-        }
-        ++pbeg;
+        cout << "key   : " << key   << endl
+          << "value : " << value << endl << endl;
+      }
+      else
+      {
+        std::advance(beg, 2);
+      }
+      index++;
     }
+    ++pbeg;
+  }
 }
 
 int main()
 {
-    try
-    {
-        ptree pt;
-        // read_xml("History.xml", pt);
-        read_xml("History.html", pt);
+  try
+  {
+    ptree pt;
+    // read_xml("History.xml", pt);
+    read_xml("History.html", pt);
 
-        vector<int> sel;
-        sel.push_back(0);
-        sel.push_back(1);
-        sel.push_back(2);
+    vector<int> sel;
+    sel.push_back(0);
+    sel.push_back(1);
+    sel.push_back(2);
 
-        string key = "plist.dict.array";
-        // string key = "html.body";
-        print_selected(pt, key, sel);
+    string key = "plist.dict.array";
+    // string key = "html.body";
+    print_selected(pt, key, sel);
 
-        // print_all(pt, 0);
+    // print_all(pt, 0);
 
-    }
-    catch (std::exception &e)
-    {
-        std::cout << "error: " << e.what() << "\n";
-    }
+  }
+  catch (std::exception &e)
+  {
+    std::cout << "error: " << e.what() << "\n";
+  }
 
-    return 0;
+  return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,7 @@ TEST_SRCS = %w{ TestPtreeParser.cpp }
 APP       = "main"
 APP_TEST  = "test.main"
 INCS      = "/Users/yielding/develop/include"
-CXX       = "clang++"      # c++0x, clang++, blank
+CXX       = "c++0x"        # c++0x, clang++, blank
 CXXFLAGS  = ":debug"       # :debug, :nodebug
 LIBS      = ":f :s"
 
