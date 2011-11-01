@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+SRCS      = %w{fs.basic.cpp}
+TEST_SRCS = %w{test_fs.basic.cpp}
+APP       = "fs.basic"
+APP_TEST  = "test_fs.basic"
+CXX       = "c++0x"
+CXXFLAGS  = ":v :d :w"   # :d , :w=-Wall :O0 :O3
+LDFLAGS   = ""
+LIBS      = ":s :f"
+
+load '~/code/build/app2.rake'
+# CLOBBER.include("a.out")

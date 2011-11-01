@@ -1,10 +1,10 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby
 
 File.open('log.bin', 'rb:binary') { |f|
   count = 0
-  f.bytes.each {|byte|
+  f.bytes.each { |byte|
     puts if count % 4 == 0
-    printf "%d ",  byte
+    printf "%-4d", byte
     count += 1
   }
 }

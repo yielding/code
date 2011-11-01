@@ -71,6 +71,7 @@ if defined? LDFLAGS
 end
 
 BOOST = {
+  :c => " -lboost_chrono-mt",
   :t => " -lboost_thread-mt",     :s => " -lboost_system-mt",
   :f => " -lboost_filesystem-mt", :d => " -lboost_date_time-mt",
   :r => " -lboost_regex-mt"
