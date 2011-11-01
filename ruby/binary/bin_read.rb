@@ -19,7 +19,5 @@ class Points < BinData::Record
 end
 
 io = File.open("log.bin")
-# 1.upto(128) { p  Point.read(io) }
 pt = Points.read(io)
-
 pt.points.each { |pt|  puts "x: #{pt.x}, y: #{pt.y}" }
