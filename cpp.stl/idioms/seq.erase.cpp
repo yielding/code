@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 vector<int> erase1(vector<int> v, int val)
 {
   for (auto i=v.begin(); i != v.end(); )
