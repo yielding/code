@@ -18,7 +18,7 @@ int main ()
   // Output the original list.
   //
   cout << "For the list: ";
-  copy(l.begin(),l.end(),ostream_iterator<int>(cout," "));
+  copy(l.begin(),l.end(), ostream_iterator<int>(cout," "));
   cout << endl << endl;
   cout << "When the iterator is initialized to l.begin()," 
        << endl << "it points to " << *itr << endl << endl;

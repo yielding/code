@@ -1,4 +1,3 @@
-// refer (1)
 #include <numeric>       // For accumulate.
 #include <vector>        // For vector.
 #include <functional>    // For multiplies.

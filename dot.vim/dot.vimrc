@@ -1,6 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
-" Last modified : 2011년 10월 18일 화요일 11시 08분 07초 KST by yielding
+" Last modified : 2011년 11월  3일 목요일 09시 15분 06초 KST by yielding
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -118,7 +118,6 @@ Bundle 'gmarik/vundle'
 
 " My Bundles here:
 "
-"Bundle 'Rainbow-Parenthsis-Bundle'
 Bundle 'Conque-Shell'
 Bundle 'EnhCommentify.vim'
 Bundle 'FuzzyFinder'
@@ -206,13 +205,13 @@ let _test  = '~/test/'
 if MySys() == "Windows_NT"
   let _vimrc  = '$VIM/_vimrc'
   let _gvimrc = '$VIM/_gvimrc'
-  let _ctags   = "c:/windows/system32/ctags "
+  let _ctags  = "c:/windows/system32/ctags "
   map   <C-Z> :!start cmd<CR>
 else
   let _vimrc  = '~/.vimrc'
   let _gvimrc = '~/.gvimrc'
   let _ctags  = "ctags "
-  map   <C-Z> :!bash<CR>
+  map   <C-Z> :ConqueTermSplit bash<CR>
 endif
 
 "-----------------------------------------------------------------------------

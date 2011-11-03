@@ -20,7 +20,6 @@ private:
   };
 
 public:
-
   udp_relay_server(boost::asio::io_service& io_service, short port)
     : socket_(io_service, udp::endpoint(udp::v4(), port))
     , timer_(io_service)
