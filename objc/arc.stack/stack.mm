@@ -1,9 +1,15 @@
 #import <Foundation/Foundation.h>
 #import <Foundation/NSValue.h>
 
-@interface Stack : NSObject { }
-- (void) push:(id) x;
-- (id)   pop; 
+#include <iostream>
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+@interface Stack: NSObject { }
+- (void) push:(id)x;
+-   (id) pop; 
 @end
 
 @implementation Stack { 
@@ -18,6 +24,11 @@
   return self;
 }
 
+- (void) dealloc {
+  // std::cout << "이창하leech\n";
+  NSLog(@"[Stack dealloc]\n");
+}
+
 - (void) push:(id) x {
   [_array addObject: x];
 }
@@ -29,18 +40,26 @@
 
 @end
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 int main (int argc, const char * argv[])
 {
-  @autoreleasepool
-  {
-    Stack* stack = [[Stack alloc] init];
+  @autoreleasepool {
+    auto stack = [[Stack alloc] init];
 
-    for (auto i=0; i<10; i++)
-      [stack push:[NSNumber numberWithInt:i]];
-
-    for (auto i=0; i<10; i++)
-      NSLog(@"Hello, World! %d", [[stack pop] intValue]);
+    int const iter = 2;
+    for (auto i=0; i<iter; i++) [stack push:[NSNumber numberWithInt:i]];
+    for (auto i=0; i<iter; i++) NSLog(@"Hello, World! %d", [[stack pop] intValue]);
   }
 
   return 0;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////

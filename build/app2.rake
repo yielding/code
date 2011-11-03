@@ -30,6 +30,7 @@ if defined? CXXFLAGS
            when /:O0/; " -O0"
            when /:O3/; " -O3"
            when /:Os/; " -Os"
+           when /:arc/; " -fobjc-arc"
            else
              " -D#{f}"
            end

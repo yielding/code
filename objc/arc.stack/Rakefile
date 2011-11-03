@@ -1,14 +1,13 @@
 # -*- ruby -*-
 
-SRCS      = %w{stack.mm}
-TEST_SRCS = %w{test_stack.mm}
+SRCS      = %w{ stack.mm }
+TEST_SRCS = %w{ test_stack.mm }
 APP       = "stack"
 APP_TEST  = "test_stack"
 CXX       = "clang++"
-CXXFLAGS  = ":v :d :w"   # :d , :w=-Wall :O0 :O3
+CXXFLAGS  = ":v :d :w :arc"   # :d , :w => -Wall :arc => -fobjc-arc
 LDFLAGS   = ""
 FRAMEWORKS= "Foundation"
 LIBS      = ":s :f"
 
 load '~/code/build/app2.rake'
-# CLOBBER.include("a.out")
