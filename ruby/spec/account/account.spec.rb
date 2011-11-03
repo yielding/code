@@ -1,4 +1,4 @@
-require "account"
+require_relative "account"
 
 describe Account, "when first created" do
   before (:each) do

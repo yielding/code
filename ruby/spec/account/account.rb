@@ -1,4 +1,4 @@
-require "money"
+require_relative "money"
 
 class Account
   attr_accessor :balance

@@ -1,4 +1,4 @@
-require 'bowling'
+require_relative 'bowling'
 
 describe Bowling do
   before(:each) do
