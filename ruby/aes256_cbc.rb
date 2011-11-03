@@ -24,7 +24,8 @@ puts("Encrypted text: " + e.to_s())
 cipher = OpenSSL::Cipher::Cipher.new("AES-256-CBC")
 cipher.decrypt
 cipher.key = key
-cipher.iv = iv
+cipher.iv  = iv
 d = cipher.update(e) << cipher.final
 
-puts("Plain text: " + d.to_s())
+# puts("Plain text:#{d} " + d.to_s())
+puts "Plain text:#{d}"

@@ -2,8 +2,8 @@
 
 SRCS     = %w{random.plot.cpp}
 APP      = "random.plot"
-APP_TEST = "test.random.plot"
+TEST_APP = "test.random.plot"
 CXX      = "clang++"
-CXXFLAGS = :nodebug
+CXXFLAGS = ":v :Os"
 
 load '~/code/build/app2.rake'
