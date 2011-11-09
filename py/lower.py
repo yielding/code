@@ -1,4 +1,5 @@
-#!/usr/local/bin/python2.0
+#!/usr/bin/env python2.7
+
 import os
 import glob
 import re
