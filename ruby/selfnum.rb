@@ -12,7 +12,7 @@ end
 
 class Array
   def sum
-    inject { |s, v| s += v}
+    self.reduce(:+)
   end
 
   def selfnum
