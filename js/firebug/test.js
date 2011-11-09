@@ -1,4 +1,4 @@
-//implementing a stack, create a object
+// implementing a stack, create a object
 function Stack() {
   this.list = [];
 }

@@ -49,8 +49,7 @@ int main (int argc, const char * argv[])
 {
   @autoreleasepool {
     auto stack = [[Stack alloc] init];
-
-    int const iter = 2;
+    auto  iter = 2;
     for (auto i=0; i<iter; i++) [stack push:[NSNumber numberWithInt:i]];
     for (auto i=0; i<iter; i++) NSLog(@"Hello, World! %d", [[stack pop] intValue]);
   }
