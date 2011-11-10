@@ -6,7 +6,7 @@ require "expect"
 $expect_verbose = true
 PTY.spawn("/usr/bin/su - ") do |reader, writer, pid|
   reader.expect("Password:")
-  writer.puts "alsrudk!"
+  writer.puts "als*****"
   answer = reader.gets
 
   puts "ok #{answer}"
