@@ -10,7 +10,6 @@ iv  = cipher.random_iv()
 
 puts "key: #{key}, iv: #{iv}"
 
-
 #---- Encrypt
 text = "Hello, World!"
 cipher.encrypt
