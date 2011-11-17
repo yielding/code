@@ -4,7 +4,6 @@ require 'bindata'
 
 class Point < BinData::Record
   endian :little
-
   uint16 :x 
   uint16 :y 
 end

@@ -8,3 +8,4 @@ OSX_LIBS = ""
 DIR = File.dirname __FILE__
 
 load '~/code/build/app.rake'
+CLOBBER.add(["a.out", "log.bin"])
