@@ -16,7 +16,19 @@ class Points < BinData::Record
   end
 end
 
-io = File.open("log.bin")
-pt = Points.read(io)
-p pt.snapshot
-pt.points.each { |pt|  puts "x: #{pt.x}, y: #{pt.y}" }
+# io = File.open("log.bin")
+# pt = Points.read(io)
+# p pt.snapshot
+# pt.points.each { |pt|  puts "x: #{pt.x}, y: #{pt.y}" }
+
+class PointArray < BinData::Array
+  endian :little
+  default_parameter :initial_length => 128
+
+  point
+end
+
+io  = File.open("log.bin")
+arr = PointArray.new
+arr.read(io)
+arr.each { |pt| puts "x: #{pt.x}, y: #{pt.y}" }

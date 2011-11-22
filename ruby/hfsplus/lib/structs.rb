@@ -7,8 +7,9 @@ class HFSPlusExtentDescriptor < BinData::Record
   uint32 :blockCount
 end
 
-class HFSPlusExtentRecord < BinData::Record
-  array 
+class HFSPlusExtentRecord < BinData::Array
+  default_parameter :initial_length => 8
+  hfs_plus_extent_descriptor
 end
 
 class HFSPlusForkData < BinData::Record
@@ -17,7 +18,7 @@ class HFSPlusForkData < BinData::Record
   uint64 :logicalSize
   uint32 :clumpSze
   uint32 :totalBlocks
-  array  :HFSPlusExtentDescriptor, :type => :HFSPlusExtentDescriptor, :initial_length => 8
+  hfs_plus_extent_record :extentRecords
 end
 
 class HFSPlusVolumeHeader < BinData::Record
@@ -43,9 +44,11 @@ class HFSPlusVolumeHeader < BinData::Record
   uint32 :nextCatalogID
   uint32 :writeCount
   uint64 :encodingsBitmap
+
   array  :finderInfo, :type => :uint32, :initial_length => 8
-  allocationFile :HFSPlusForkData
-  extentsFile    :HFSPlusForkData
-  attributesFile :HFSPlusForkData
-  startupFile    :HFSPlusForkData
+
+  hfs_plus_fork_data :allocationFile
+  hfs_plus_fork_data :extentsFile
+  hfs_plus_fork_data :attributesFile
+  hfs_plus_fork_data :startupFile
 end

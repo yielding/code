@@ -6,4 +6,3 @@ IO.popen('pbcopy', 'r+') do |pb|
   puts "#result : #{r}"
   # pb.puts "result : #{r}"
 end
-
