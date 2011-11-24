@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby -wKU
-
 require "pp"
 
 class Mbdb

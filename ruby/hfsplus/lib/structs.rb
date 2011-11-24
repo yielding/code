@@ -2,7 +2,6 @@ require "bindata"
 
 class HFSPlusExtentDescriptor < BinData::Record
   endian :big
-
   uint32 :startBlock
   uint32 :blockCount
 end
@@ -14,7 +13,6 @@ end
 
 class HFSPlusForkData < BinData::Record
   endian :big
-
   uint64 :logicalSize
   uint32 :clumpSze
   uint32 :totalBlocks
@@ -23,7 +21,6 @@ end
 
 class HFSPlusVolumeHeader < BinData::Record
   endian :big
-
   uint16 :signature
   uint16 :version
   uint32 :attributes

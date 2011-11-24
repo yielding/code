@@ -1,4 +1,4 @@
-require "bindata"
+require "structs"
 
 class HFSFile
   def initialize
