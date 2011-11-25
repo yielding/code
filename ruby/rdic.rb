@@ -4,7 +4,7 @@ require "net/http"
 require "nokogiri"
 
 a1 = "http://kr.dictionary.search.yahoo.com"
-a2 = "/search/dictionaryp?prop=&subtype=eng&target=&p=hi"
+a2 = "/search/dictionaryp?prop=&subtype=eng&target=&p=apple"
 
 url = URI.parse(a1)
 res = Net::HTTP.start(url.host, url.port) { |http|
