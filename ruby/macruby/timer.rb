@@ -1,3 +1,5 @@
+#!/usr/bin/env macruby
+
 framework 'Foundation'
 
 class GameLoop
@@ -16,7 +18,6 @@ class GameLoop
   def stop_refreshing
     @timer.invalidate && @timer = nil if @timer
   end
-
 end
 
 GameLoop.new.start

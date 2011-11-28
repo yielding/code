@@ -1,3 +1,5 @@
+#!/usr/bin/env macruby
+
 framework 'Cocoa'
 
 class CustomView < NSView
