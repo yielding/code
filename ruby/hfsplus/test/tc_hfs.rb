@@ -4,16 +4,17 @@ require "hfs"
 
 class TestHFS < Test::Unit::TestCase
   def setup
-    @io = File.open("data/hfsplus.bin")
-    @io.read(1024)
+    @filename =
+      "/Users/yielding/opensource/iphone-dataprotection2/fdf9c530991d48c573a1f6beaa73daa08587e973/data.img"
   end
 
   def teardown
-    @io.close
   end
 
   def test_read_header
-    header = HFSPlusVolumeHeader.read(@io)
+    io = File.open("data/hfsplus.bin")
+    io.read(1024)
+    header = HFSPlusVolumeHeader.read(io)
     assert_equal(header.signature, 0x4858)
     assert_equal(header.version, 0x0005)
     assert_equal(header.attributes, 0xc0002100)
@@ -23,5 +24,13 @@ class TestHFS < Test::Unit::TestCase
     assert(b1 || b2)
     assert_equal(header.journalInfoBlock, 0x1d)
     assert_equal(header.createDate, 0xca9d1f92)
+  end
+
+  def test_volume_create
+    v = HFSVolume.new(@filename)
+    h = v.header
+    assert h.signature == 0x4858 or h.signature == 0x482B
+    assert_equal(h.blockSize, 8 *1024)
+    assert_equal(File.size(@filename), h.totalBlocks * h.blockSize)
   end
 end
