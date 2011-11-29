@@ -86,6 +86,93 @@ class HFSPlusVolumeHeader < BinData::Record
 
   hfs_plus_fork_data :allocationFile
   hfs_plus_fork_data :extentsFile
+  hfs_plus_fork_data :catalogFile
   hfs_plus_fork_data :attributesFile
   hfs_plus_fork_data :startupFile
 end
+
+class BTNodeDescriptor < BinData::Record
+  endian :big
+  uint32 :fLink
+  uint32 :bLink
+  int8   :kind
+  uint8  :height
+  uint16 :numRecords
+  uint16 :reserved
+end
+  
+class BTHeaderRec < BinData::Record
+  endian :big
+  uint16 :treeDepth
+  uint32 :rootNode
+  uint32 :leafRecords
+  uint32 :firstLeafNode
+  uint32 :lastLeafNode
+  uint16 :nodeSize
+  uint16 :maxKeyLength
+  uint32 :totalNodes
+  uint32 :freeNodes
+  uint16 :reserved1
+  uint32 :clumpSize
+  uint8  :btreeType
+  uint8  :keyCompareType
+  uint32 :attributes
+
+  array  :reserved3, :type => :uint32, :initial_length => 16
+end
+
+HFSUniStr255 = Struct("HFSUniStr255",
+    uint16  :length
+    String("unicode", lambda ctx: ctx["length"] * 2, encoding="utf-16-be")
+)
+
+HFSPlusAttrKey = Struct("HFSPlusAttrKey",
+    uint16  :keyLength
+    uint16  :pad
+    uint32  :fileID
+    uint32  :startBlock
+    HFSUniStr255,
+    #uint32 ("nodeNumber")
+)
+
+HFSPlusAttrData = Struct("HFSPlusAttrData",
+    uint32  :recordType
+    Array(2, uint32 ("reserved")),
+    uint32  :size
+    MetaField("data", lambda ctx: ctx["size"])
+)
+
+HFSPlusCatalogKey = Struct("HFSPlusCatalogKey",
+    uint16  :keyLength
+    uint32  :parentID
+    HFSUniStr255
+)
+
+HFSPlusBSDInfo = Struct("HFSPlusBSDInfo",
+    uint32  :ownerID
+    uint32  :groupID
+    uint8 ("adminFlags"),
+    uint8 ("ownerFlags"),
+    uint16 ("fileMode"),
+    uint32 ("union_special")
+)
+
+Point = Struct("Point",
+    int16 ("v"),
+    int16 ("h")
+)
+
+Rect = Struct("Rect",
+    int16 ("top"),
+    int16 ("left"),
+    int16 ("bottom"),
+    int16 ("right")
+)
+
+FileInfo = Struct("FileInfo",
+    uint32 ("fileType"),
+    uint32 ("fileCreator"),
+    uint16 ("finderFlags"),
+    Point,
+    uint16 ("reservedField")
+)

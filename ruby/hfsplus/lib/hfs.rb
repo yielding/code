@@ -42,9 +42,8 @@ class HFSFile
   def read_all_buffer(truncate=true)
     r = ""
     0.upto(@total_blocks-1) { |i| r += self.read_block_at(i) }
-    r = r.first(@logical_size) if truncate
 
-    return r
+    truncate ? r.slice(0, @logical_size) : r
   end
 
   def read_block_at(nth)
@@ -59,7 +58,8 @@ class HFSFile
            not @volume.block_in_use?(lba)
            puts "FAIL, block ${n} not marked as used"
         end
-        @volume.read(lba * bs, bs)
+
+        return @volume.read(lba * bs, bs)
       end
     end
     ""
@@ -79,8 +79,8 @@ class HFSVolume
       @header = HFSPlusVolumeHeader.read(data[0x400..0x800])
     rescue
       raise Exception "exception while reading header"
-    ensure
       @file.close
+    ensure
     end
 
     @block_size = @header.blockSize
@@ -91,12 +91,12 @@ class HFSVolume
     @allocation_file   = HFSFile.new(self, @header.allocationFile, KHFSAllocationFileID)
     @allocation_bitmap = @allocation_file.read_all_buffer
     @extents_file = HFSFile.new(self, @header.extentsFile, KHFSExtentsFileID)
-    @extents_tree = ExtentsOverflowTree.new(@extents_file)
+#     @extents_tree = ExtentsOverflowTree.new(@extents_file)
     @catalog_file = HFSFile.new(self, @header.catalogFile, KHFSCatalogFileID)
-    @xattr_file   = HFSFile.new(self, @header.attributesFile, KFHSAttributesFileID)
-    @catalog_tree = CatalogTree.new(@catalog_file)
-    @xattr_tree   = AttributesTree.new(@xattr_file)
-    @has_journal  = @header.attributes & ( 1 << KHFSVolumeJournaledBit)
+#     @xattr_file   = HFSFile.new(self, @header.attributesFile, KFHSAttributesFileID)
+#     @catalog_tree = CatalogTree.new(@catalog_file)
+#     @xattr_tree   = AttributesTree.new(@xattr_file)
+#     @has_journal  = @header.attributes & ( 1 << KHFSVolumeJournaledBit)
   end
 
   def block_in_use? block
@@ -184,8 +184,8 @@ class HFSVolume
 end
 
 if __FILE__ == $PROGRAM_NAME
-  v = HFSVolme.new("myramdisk.dmg", offset=0x40)
-  v.listFolderContents("/")
-  puts v.read_file("/usr/local/share/restore/imeisv_svn.plist")
-  puts v.list_xattrs("/usr/local/share/restore/imeisv_svn.plist")
+#   v = HFSVolme.new("myramdisk.dmg", offset=0x40)
+#   v.listFolderContents("/")
+#   puts v.read_file("/usr/local/share/restore/imeisv_svn.plist")
+#   puts v.list_xattrs("/usr/local/share/restore/imeisv_svn.plist")
 end
