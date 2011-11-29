@@ -32,7 +32,11 @@ class HFSFile
     end
   end
 
-  def read_all(output_file, truncate=true)
+  def read_all(out_file, truncate=true)
+    f = File.open(out_file, "wb")
+    0.upto(@total_blocks-1) { |i| f.write(read_block(i)) }
+    f.truncate(@logicalSize) if truncate
+    f.close
   end
 
   def read_all_buffer(truncate=true)
@@ -122,24 +126,54 @@ class HFSVolume
   end
 
   def unallocated_blocks
+    0.upto(@header.totalBlocks-1) { |nth|
+      yield nth, read(nth * @block_size,  @block_size) unless block_in_use? nth
+    }
   end
 
-  def get_extents_overflow_for_file
+  def get_extents_overflow_for_file(fileID, forkType, startBlock)
+    @extents_tree.search_extents(fileID, forkType, startBlock)
   end
 
-  def get_xattr
+  def get_xattr(fileID, name)
+    @xattr_tree.search_extents(fileID, name)
   end
 
   def get_file_by_path(path)
+    @catalog_tree.get_record_from_path(path)
   end
 
   def list_folder_contents(path)
+    key, value = @catalog_tree.get_record_from_path(path)
+    return if key.nil? or value.recordType != KHFSPlusFolderRecord
+
+    @catalog_tree.get_folder_contents(value.folderID).each { |k, v|
+      puts "folder" if v.recordType == KHFSPlusFolderRecord
+      puts "file"   if v.recordType == KHFSPlusFileRecord
+    }
   end
 
   def list_xattrs(path)
+    k, v = @catalog_tree.get_record_from_path(path)
+    return @xattr_tree.get_all_xattrs(v.fileID)   if k and v.recordType == KHFSPlusFileRecord
+    return @xattr_tree.get_all_xattrs(v.folderID) if k and v.recordType == KHFSPlusFolderRecord
   end
 
   def read_file(path, return_str=false)
+    k, v = @catalog_tree.get_record_from_path(path)
+    if v.nil?
+      puts "File ${path} not found"
+      return
+    end
+
+    return unless v.recordType == KHFSPlusFileRecord
+    xattr = get_xattr(v.fileID, "com.apple.decmpfs")
+    if xattr
+      puts "compressed"
+    end
+
+    f = HFSFile.new(self, v.dataFork, v.fileID)
+    return return_str ? f.read_all_buffer : f.read_all(path)
   end
 
   def read_journal
