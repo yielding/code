@@ -12,22 +12,22 @@ KHFSRepairCatalogFileID     = 14
 KHFSBogusExtentFileID       = 15
 KHFSFirstUserCatalogNodeID  = 16
 
-KBTLeafNode       = -1
-KBTIndexNode      =  0
-KBTHeaderNode     =  1
-KBTMapNode        =  2
+KBTLeafNode                 = -1
+KBTIndexNode                =  0
+KBTHeaderNode               =  1
+KBTMapNode                  =  2
 
 KHFSPlusFolderRecord        = 0x0001
 KHFSPlusFileRecord          = 0x0002
 KHFSPlusFolderThreadRecord  = 0x0003
 KHFSPlusFileThreadRecord    = 0x0004
 
-KHFSPlusAttrInlineData  = 0x10
-KHFSPlusAttrForkData    = 0x20
-KHFSPlusAttrExtents     = 0x30
+KHFSPlusAttrInlineData      = 0x10
+KHFSPlusAttrForkData        = 0x20
+KHFSPlusAttrExtents         = 0x30
 
-KForkTypeData = 0
-KForkTypeRsrc = 0xFF
+KForkTypeData               = 0
+KForkTypeRsrc               = 0xFF
 
 KHFSVolumeHardwareLockBit       =  7
 KHFSVolumeUnmountedBit          =  8
@@ -127,6 +127,9 @@ class HFSUniStr255 < BinData::Record
   array  :unicode, :type => :uint8, :inital_length => lambda { length_ * 2 }
 end
 
+class HFSPlusAttrKey < BinData::Record
+end
+
 # HFSPlusAttrKey = Struct("HFSPlusAttrKey",
 #     uint16  :keyLength
 #     uint16  :pad
@@ -136,6 +139,8 @@ end
 #     #uint32 ("nodeNumber")
 # )
 
+class HFSPlusAttrData < BinData::Record
+end
 # HFSPlusAttrData = Struct("HFSPlusAttrData",
 #     uint32  :recordType
 #     Array(2, uint32 ("reserved")),
@@ -143,11 +148,12 @@ end
 #     MetaField("data", lambda ctx: ctx["size"])
 # )
 
-# HFSPlusCatalogKey = Struct("HFSPlusCatalogKey",
-#     uint16  :keyLength
-#     uint32  :parentID
-#     HFSUniStr255
-# )
+class HFSPlusCatalogKey < BinData::Record
+  endian :big
+  uint16 :keyLength
+  uint32 :parentID
+  hfs_uni_str255 :nodeName
+end
 
 # HFSPlusBSDInfo = Struct("HFSPlusBSDInfo",
 #     uint32  :ownerID
@@ -176,4 +182,211 @@ end
 #     uint16 ("finderFlags"),
 #     Point,
 #     uint16 ("reservedField")
+# )
+
+class ExtendedFileInfo < BinData::Record
+end
+
+# ExtendedFileInfo = Struct("ExtendedFileInfo",
+#     Array(4, SBInt16("reserved1")),
+#     UBInt16("extendedFinderFlags"),
+#     SBInt16("reserved2"),
+#     SBInt32("putAwayFolderID")
+# )
+
+class FolderInfo < BinData::Record
+end
+
+# FolderInfo = Struct("FolderInfo",
+#     Rect,
+#     UBInt16("finderFlags"),
+#     Point,
+#     UBInt16("reservedField")
+# )
+
+class ExtendedFileInfo < BinData::Record
+end
+
+# ExtendedFolderInfo = Struct("ExtendedFolderInfo", 
+#     Point,
+#     SBInt32("reserved1"),
+#     UBInt16("extendedFinderFlags"),
+#     SBInt16("reserved2"),
+#     SBInt32("putAwayFolderID")
+# )
+
+class HFSPlusCatalogFolder < BinData::Record
+end
+
+# HFSPlusCatalogFolder = Struct("HFSPlusCatalogFolder",
+#     UBInt16("flags"),
+#     UBInt32("valence"),
+#     UBInt32("folderID"),
+#     UBInt32("createDate"),
+#     UBInt32("contentModDate"),
+#     UBInt32("attributeModDate"),
+#     UBInt32("accessDate"),
+#     UBInt32("backupDate"),
+#     HFSPlusBSDInfo,
+#     FolderInfo,
+#     ExtendedFolderInfo,
+#     UBInt32("textEncoding"),
+#     UBInt32("reserved")
+# )
+
+class HFSPlusCatalogFile < BinData::Record
+end
+
+# HFSPlusCatalogFile = Struct("HFSPlusCatalogFile",
+#     UBInt16("flags"),
+#     UBInt32("reserved1"),
+#     UBInt32("fileID"),
+#     UBInt32("createDate"),
+#     UBInt32("contentModDate"),
+#     UBInt32("attributeModDate"),
+#     UBInt32("accessDate"),
+#     UBInt32("backupDate"),
+#     HFSPlusBSDInfo,
+#     FileInfo,
+#     ExtendedFileInfo,
+#     UBInt32("textEncoding"),
+#     UBInt32("reserved2"),
+#     Struct("dataFork", Embed(HFSPlusForkData)),
+#     Struct("resourceFork", Embed(HFSPlusForkData))
+# )
+
+class HFSPlusCatalogThread< BinData::Record
+end
+
+# HFSPlusCatalogThread = Struct("HFSPlusCatalogThread",
+#     SBInt16("reserved"),
+#     UBInt32("parentID"),
+#     HFSUniStr255,
+# )
+
+
+class HFSPlusCatalogData < BinData::Record
+end
+
+# HFSPlusCatalogData = Struct("HFSPlusCatalogData",
+#     UBInt16("recordType"),
+#     Switch("data", lambda ctx: ctx["recordType"],
+#     {
+#         kHFSPlusFolderRecord : HFSPlusCatalogFolder,
+#         kHFSPlusFileRecord : HFSPlusCatalogFile,
+#         kHFSPlusFolderThreadRecord: HFSPlusCatalogThread,
+#         kHFSPlusFileThreadRecord: HFSPlusCatalogThread
+#     },
+#     #default=HFSPlusCatalogFolder #XXX: should not reach
+#     )
+# )
+
+class HFSPlusExtentKey < BinData::Record
+end
+
+# HFSPlusExtentKey = Struct("HFSPlusExtentKey",
+#     UBInt16("keyLength"),
+#     UBInt8("forkType"),
+#     UBInt8("pad"),
+#     UBInt32("fileID"),
+#     UBInt32("startBlock")
+# )
+
+class HFSPlusDecmpfs < BinData::Record
+end
+
+# HFSPlusDecmpfs = Struct("HFSPlusDecmpfs ",
+#    ULInt32("compression_magic"),
+#    ULInt32("compression_type"),
+#    ULInt64("uncompressed_size"),
+# )
+
+class HFSPlusCmpfRsrcHead < BinData::Record
+end
+
+# HFSPlusCmpfRsrcHead = Struct("HFSPlusCmpfRsrcHead",
+#     UBInt32("headerSize"),
+#     UBInt32("totalSize"),
+#     UBInt32("dataSize"),
+#     UBInt32("flags")
+# )
+
+class HFSPlusCmpfRsrcBlock < BinData::Record
+end
+# HFSPlusCmpfRsrcBlock = Struct("HFSPlusCmpfRsrcBlock",
+#     ULInt32("offset"),
+#     ULInt32("size")
+# )
+
+class HFSPlusCmpfRsrcBlockHead< BinData::Record
+end
+
+# HFSPlusCmpfRsrcBlockHead = Struct("HFSPlusCmpfRsrcBlockHead",
+#     UBInt32("dataSize"),
+#     ULInt32("numBlocks"),
+#     Array(lambda ctx:ctx["numBlocks"], HFSPlusCmpfRsrcBlock)
+# )
+
+class HFSPlusCmpfEnd< BinData::Record
+end
+
+# HFSPlusCmpfEnd = Struct("HFSPlusCmpfEnd",
+#     Array(6, UBInt32("pad")),
+#     UBInt16("unk1"),
+#     UBInt16("unk2"),
+#     UBInt16("unk3"),
+#     UBInt32("magic"),
+#     UBInt32("flags"),
+#     UBInt64("size"),
+#     UBInt32("unk4")
+# )
+
+#
+# Journal stuff
+#
+
+class JournalInfoBlock < BinData::Record
+end
+
+# JournalInfoBlock = Struct("JournalInfoBlock",
+#     UBInt32("flags"),
+#     Array(8, UBInt32("device_signature")),
+#     UBInt64("offset"),
+#     UBInt64("size"),
+#     Array(32, UBInt32("reserved"))
+# )
+
+class JournalHeader < BinData::Record
+end
+
+# journal_header = Struct("journal_header",
+#     ULInt32("magic"),
+#     ULInt32("endian"),
+#     ULInt64("start"),
+#     ULInt64("end"),
+#     ULInt64("size"),
+#     ULInt32("blhdr_size"),
+#     ULInt32("checksum"),
+#     ULInt32("jhdr_size")
+# )
+
+class JournalBlockInfo < BinData::Record
+end
+
+# block_info = Struct("block_info",
+#     ULInt64("bnum"),
+#     ULInt32("bsize"),
+#     ULInt32("next")
+# )
+
+class JournalBlockListHeader < BinData::Record
+end
+
+# block_list_header = Struct("block_list_header",
+#     ULInt16("max_blocks"),
+#     ULInt16("num_blocks"),
+#     ULInt32("bytes_used"),
+#     SLInt32("checksum"),
+#     UBInt32("pad"),
+#     Array(lambda ctx:ctx["num_blocks"], block_info)
 # )

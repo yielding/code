@@ -4,8 +4,7 @@ require "hfs"
 
 class TestHFS < Test::Unit::TestCase
   def setup
-    @filename =
-      "/Users/yielding/opensource/iphone-dataprotection2/fdf9c530991d48c573a1f6beaa73daa08587e973/data.img"
+    @filename = "data/HFSPlus.dmg"
   end
 
   def teardown

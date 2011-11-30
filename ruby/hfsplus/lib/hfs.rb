@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "structs"
+require "btree"
 
 class HFSFile
   def initialize(volume, hfsfork, fileID, deleted=false)
@@ -76,7 +77,7 @@ class HFSVolume
 
     begin
       data = read(0, 0x1000)
-      @header = HFSPlusVolumeHeader.read(data[0x400..0x800])
+      @header = HFSPlusVolumeHeader.read(data[0x400...0x800])
     rescue
       raise Exception "exception while reading header"
       @file.close
@@ -91,8 +92,8 @@ class HFSVolume
     @allocation_file   = HFSFile.new(self, @header.allocationFile, KHFSAllocationFileID)
     @allocation_bitmap = @allocation_file.read_all_buffer
     @extents_file = HFSFile.new(self, @header.extentsFile, KHFSExtentsFileID)
-#     @extents_tree = ExtentsOverflowTree.new(@extents_file)
-    @catalog_file = HFSFile.new(self, @header.catalogFile, KHFSCatalogFileID)
+    @extents_tree = ExtentsOverflowTree.new(@extents_file)
+#     @catalog_file = HFSFile.new(self, @header.catalogFile, KHFSCatalogFileID)
 #     @xattr_file   = HFSFile.new(self, @header.attributesFile, KFHSAttributesFileID)
 #     @catalog_tree = CatalogTree.new(@catalog_file)
 #     @xattr_tree   = AttributesTree.new(@xattr_file)
@@ -100,7 +101,7 @@ class HFSVolume
   end
 
   def block_in_use? block
-    this_byte = @allocation_bitmap[block / 8]
+    this_byte = @allocation_bitmap[block / 8].ord
     return (this_byte & (1 << (7 - (block % 8)))) != 0
   end
 
@@ -184,7 +185,7 @@ class HFSVolume
 end
 
 if __FILE__ == $PROGRAM_NAME
-#   v = HFSVolme.new("myramdisk.dmg", offset=0x40)
+#   v = HFSVolme.new("data/HFSPlus.dmg", offset=0x40)
 #   v.listFolderContents("/")
 #   puts v.read_file("/usr/local/share/restore/imeisv_svn.plist")
 #   puts v.list_xattrs("/usr/local/share/restore/imeisv_svn.plist")
