@@ -121,58 +121,59 @@ class BTHeaderRec < BinData::Record
   array  :reserved3, :type => :uint32, :initial_length => 16
 end
 
-HFSUniStr255 = Struct("HFSUniStr255",
-    uint16  :length
-    String("unicode", lambda ctx: ctx["length"] * 2, encoding="utf-16-be")
-)
+class HFSUniStr255 < BinData::Record
+  endian :big
+  uint16 :length_
+  array  :unicode, :type => :uint8, :inital_length => lambda { length_ * 2 }
+end
 
-HFSPlusAttrKey = Struct("HFSPlusAttrKey",
-    uint16  :keyLength
-    uint16  :pad
-    uint32  :fileID
-    uint32  :startBlock
-    HFSUniStr255,
-    #uint32 ("nodeNumber")
-)
+# HFSPlusAttrKey = Struct("HFSPlusAttrKey",
+#     uint16  :keyLength
+#     uint16  :pad
+#     uint32  :fileID
+#     uint32  :startBlock
+#     HFSUniStr255,
+#     #uint32 ("nodeNumber")
+# )
 
-HFSPlusAttrData = Struct("HFSPlusAttrData",
-    uint32  :recordType
-    Array(2, uint32 ("reserved")),
-    uint32  :size
-    MetaField("data", lambda ctx: ctx["size"])
-)
+# HFSPlusAttrData = Struct("HFSPlusAttrData",
+#     uint32  :recordType
+#     Array(2, uint32 ("reserved")),
+#     uint32  :size
+#     MetaField("data", lambda ctx: ctx["size"])
+# )
 
-HFSPlusCatalogKey = Struct("HFSPlusCatalogKey",
-    uint16  :keyLength
-    uint32  :parentID
-    HFSUniStr255
-)
+# HFSPlusCatalogKey = Struct("HFSPlusCatalogKey",
+#     uint16  :keyLength
+#     uint32  :parentID
+#     HFSUniStr255
+# )
 
-HFSPlusBSDInfo = Struct("HFSPlusBSDInfo",
-    uint32  :ownerID
-    uint32  :groupID
-    uint8 ("adminFlags"),
-    uint8 ("ownerFlags"),
-    uint16 ("fileMode"),
-    uint32 ("union_special")
-)
+# HFSPlusBSDInfo = Struct("HFSPlusBSDInfo",
+#     uint32  :ownerID
+#     uint32  :groupID
+#     uint8 ("adminFlags"),
+#     uint8 ("ownerFlags"),
+#     uint16 ("fileMode"),
+#     uint32 ("union_special")
+# )
 
-Point = Struct("Point",
-    int16 ("v"),
-    int16 ("h")
-)
+# Point = Struct("Point",
+#     int16 ("v"),
+#     int16 ("h")
+# )
 
-Rect = Struct("Rect",
-    int16 ("top"),
-    int16 ("left"),
-    int16 ("bottom"),
-    int16 ("right")
-)
+# Rect = Struct("Rect",
+#     int16 ("top"),
+#     int16 ("left"),
+#     int16 ("bottom"),
+#     int16 ("right")
+# )
 
-FileInfo = Struct("FileInfo",
-    uint32 ("fileType"),
-    uint32 ("fileCreator"),
-    uint16 ("finderFlags"),
-    Point,
-    uint16 ("reservedField")
-)
+# FileInfo = Struct("FileInfo",
+#     uint32 ("fileType"),
+#     uint32 ("fileCreator"),
+#     uint16 ("finderFlags"),
+#     Point,
+#     uint16 ("reservedField")
+# )
