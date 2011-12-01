@@ -1,6 +1,13 @@
 HFS+ ruby implementation
 ========================
-  * 전략.
-    > autotest
-    > BinData
-    > reduce
+ * Strategy.
+   > autotest
+   > BinData
+   > reduce
+
+ * What should I test
+   > Every data types declared in structs.rb
+
+ * Thinngs to remember
+   1 choice시 공통 필드 하나를 가져오기 recordType
+   1 
