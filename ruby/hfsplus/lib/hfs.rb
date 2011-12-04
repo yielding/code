@@ -4,6 +4,8 @@ require "structs"
 require "btree"
 
 class HFSFile
+  attr_reader :block_size
+
   def initialize(volume, hfsfork, fileID, deleted=false)
     @volume       = volume
     @block_size   = volume.block_size
@@ -13,41 +15,39 @@ class HFSFile
     @extents      = []
     @deleted      = deleted
 
-    bc = 0
+    bc = 0;
     hfsfork.extentRecords.each { |extent|
       @extents << extent
       bc += extent.blockCount
     }
 
-    until bc == hfsfork.totalBlocks
+    while bc != hfsfork.totalBlocks
       key, value = @volume.get_extents_overflow_for_file(@fileID, bc)
       unless value
         puts "extents overflow missing, startblock=#{bc}"
         break
       end
 
-      value.each { |extent| 
-        @extents << extent; 
-        bc += extent.blockCount
-      }
+      value.each { |ext| @extents << ext; bc += ext.blockCount }
     end
   end
 
   def read_all(out_file, truncate=true)
     f = File.open(out_file, "wb")
-    0.upto(@total_blocks-1) { |i| f.write(read_block(i)) }
+    0.upto(@total_blocks-1) { |i| f.write(read_block_at(i)) }
     f.truncate(@logicalSize) if truncate
     f.close
   end
 
   def read_all_buffer(truncate=true)
     r = ""
-    0.upto(@total_blocks-1) { |i| r += self.read_block_at(i) }
+    0.upto(@total_blocks-1) { |i| r += self.read_block_at i  }
 
-    truncate ? r.slice(0, @logical_size) : r
+    truncate ? r.slice(0, @logical_size) 
+             : r
   end
 
-  def read_block_at(nth)
+  def read_block_at nth 
     bs = @volume.block_size
     raise Exception("BLOCK OUT OF BOUND ") if nth * bs > @logical_size
     bc = 0
