@@ -12,7 +12,7 @@ filename="/Users/yielding/ebsradio/"$program$date".mp3"
 ###################################################################
 # Record streaming audio
 ###################################################################
-/Users/yielding/ebsradio/ebs ${filename} ${duration}
+/Users/yielding/code/app/ebsradio/ebs ${filename} ${duration}
 
 sleep 1
 
@@ -30,6 +30,6 @@ sleep 1
 #   tagLib's website is 
 #       http://developer.kde.org/~wheeler/taglib.html
 ###################################################################
-/Users/yielding/ebsradio/tagwriter -t "$program $date" -a "EBS" -A "$program $year $month" -g "Podcast" -y "$year" -T "$day" $filename
+/Users/yielding/code/app/ebsradio/tagwriter -t "$program $date" -a "EBS" -A "$program $year $month" -g "Podcast" -y "$year" -T "$day" $filename
 
 mv $filename /Users/yielding/Dropbox/ebs

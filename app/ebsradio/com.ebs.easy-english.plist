@@ -6,7 +6,7 @@
 	<string>EBSRadio_EasyEnglish</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/yielding/ebsradio/runebs.sh</string>
+    <string>/Users/yielding/code/app/ebsradio/runebs.sh</string>
 		<string>EasyEnglish</string>
 		<string>20</string>
 	</array>

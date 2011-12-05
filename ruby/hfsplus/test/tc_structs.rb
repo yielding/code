@@ -15,4 +15,7 @@ class TestStructs < Test::Unit::TestCase
     assert_equal(offsets, [*0x11..0x1a])
     assert_equal(arr, [*0x11..0x1a])
   end
+
+  def test_additional
+  end
 end
