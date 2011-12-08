@@ -352,7 +352,7 @@ end
 class JournalBlockInfo < BinData::Record
   endian :little
   uint64 :bnum
-  uint32 :bsize        # name conflict
+  uint32 :bsize
   uint32 :next_        # name conflict
 end
 
