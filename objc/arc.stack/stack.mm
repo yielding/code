@@ -14,27 +14,27 @@
 
 @implementation Stack { 
 @private  
-  NSMutableArray* _array; 
+  NSMutableArray* m_array; 
 }
 
 - (id) init {
   if (self = [super init])
-    _array = [NSMutableArray array];
+    m_array = [NSMutableArray array];
 
   return self;
 }
 
 - (void) dealloc {
-  // std::cout << "이창하leech\n";
   NSLog(@"[Stack dealloc]\n");
 }
 
 - (void) push:(id) x {
-  [_array addObject: x];
+  [m_array addObject: x];
 }
 
 - (id) pop {
-  auto x = [_array lastObject];
+  auto x = [m_array lastObject];
+  [m_array removeLastObject];
   return x;
 }
 
@@ -49,9 +49,10 @@ int main (int argc, const char * argv[])
 {
   @autoreleasepool {
     auto stack = [[Stack alloc] init];
-    auto  iter = 2;
+    auto  iter = 10;
     for (auto i=0; i<iter; i++) [stack push:[NSNumber numberWithInt:i]];
-    for (auto i=0; i<iter; i++) NSLog(@"Hello, World! %d", [[stack pop] intValue]);
+    for (auto i=0; i<iter; i++) 
+      NSLog(@"Hello, World! %d", [[stack pop] intValue]);
   }
 
   return 0;

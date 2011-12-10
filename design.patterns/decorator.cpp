@@ -40,7 +40,7 @@ private:
 class CoffeeDecorator: public ICoffee
 {
 public:
-  CoffeeDecorator(ICoffee* coffee) :m_coffee(coffee)
+  CoffeeDecorator(ICoffee* coffee): m_coffee(coffee)
   {}
 
   double cost()       { return m_coffee->cost(); }
@@ -53,8 +53,7 @@ protected:
 class Milk: public CoffeeDecorator
 {
 public:
-  Milk(ICoffee* coffee)
-    : CoffeeDecorator(coffee)
+  Milk(ICoffee* coffee): CoffeeDecorator(coffee)
   {
     m_cost = 9.5;
     m_ingredient = "Milk";

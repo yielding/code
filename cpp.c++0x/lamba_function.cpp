@@ -7,10 +7,7 @@ using namespace boost;
 class Object
 {
 public:
-  Object()
-  {
-    m_x = 0;
-  }
+  Object() { m_x = 0; }
 
   virtual ~Object()
   {}
@@ -21,10 +18,7 @@ public:
     return m_x;
   }
 
-  int result()
-  {
-    return m_x;
-  }
+  int result() { return m_x; }
 
 private:
   int m_x;
