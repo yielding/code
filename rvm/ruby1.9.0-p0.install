@@ -1,0 +1,2 @@
+rvm pkg install openssl
+rvm install 1.9.3 -C --with-openssl-dir=$HOME/.rvm/usr --with-gcc=clang
