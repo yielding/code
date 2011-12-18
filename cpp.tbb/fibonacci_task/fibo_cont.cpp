@@ -73,11 +73,11 @@ int64_t parallel_fib(int64_t n)
 
 int main(int argc, char const* argv[])
 {
-  int nthread = task_scheduler_init::automatic;
+  // int nthread = task_scheduler_init::automatic;
 
-  task_scheduler_init init(nthread);
+  task_scheduler_init init(10);
 
-  cout << "thread no: " << nthread << endl;
+  cout << "thread no: " << 10 << endl;
   tick_count t0 = tick_count::now();
   int n = strtol(argv[2], 0, 0);
   if (string(argv[1]) == "s") 

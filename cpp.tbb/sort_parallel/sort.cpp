@@ -15,9 +15,9 @@ int main(int argc, char const* argv[])
   const int TESTSIZ = 120 * 3000;
 
   std::vector<int> vi(TESTSIZ);
-  for (int i = 0; i < TESTSIZ; ++i) vi[i] = rand();
+  for (int i=0; i<TESTSIZ; ++i) vi[i] = rand();
 
-  for (int i = 0; i < 10; ++i)
+  for (int i=0; i<10; ++i)
   {
     std::vector<int> vi_clone1(vi);
     std::vector<int> vi_clone2(vi);

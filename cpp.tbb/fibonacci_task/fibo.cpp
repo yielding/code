@@ -67,9 +67,9 @@ int main(int argc, char const* argv[])
   tick_count t0 = tick_count::now();
   int n = strtol(argv[2], 0, 0);
   if (string(argv[1]) == "s") 
-      cout << str(format("serial %d: %d\n") % n % serial_fib(n));
+    cout << str(format("serial %d: %d\n") % n % serial_fib(n));
   else
-      cout << str(format("parallel %d: %d\n") % n % parallel_fib(n));
+    cout << str(format("parallel %d: %d\n") % n % parallel_fib(n));
   tick_count t1 = tick_count::now();
 
   cout << str(format("elapsed: %d seconds\n") % (t1-t0).seconds());
