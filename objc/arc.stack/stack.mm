@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface Stack: NSObject { }
 - (void) push:(id)x;
--   (id) pop; 
+- ( id ) pop; 
 @end
 
 @implementation Stack { 
@@ -17,25 +17,32 @@
   NSMutableArray* m_array; 
 }
 
-- (id) init {
+- (id) init
+{
   if (self = [super init])
+  {
     m_array = [NSMutableArray array];
+  }
 
   return self;
 }
 
-- (void) dealloc {
+- (void) dealloc
+{
   NSLog(@"[Stack dealloc]\n");
 }
 
-- (void) push:(id) x {
-  [m_array addObject: x];
+- (void) push:(id) item
+{
+  [m_array addObject: item];
 }
 
-- (id) pop {
-  auto x = [m_array lastObject];
+- (id) pop 
+{
+  auto last = [m_array lastObject];
   [m_array removeLastObject];
-  return x;
+
+  return last;
 }
 
 @end
@@ -45,17 +52,18 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-int main (int argc, const char * argv[])
+int main(int argc, const char * argv[])
 {
-  @autoreleasepool {
-    auto stack = [[Stack alloc] init];
-    auto  iter = 10;
-    for (auto i=0; i<iter; i++) [stack push:[NSNumber numberWithInt:i]];
-    for (auto i=0; i<iter; i++) 
-      NSLog(@"Hello, World! %d", [[stack pop] intValue]);
-  }
+    @autoreleasepool
+    {
+        auto stack = [[Stack alloc] init];
+        auto  iter = 10;
+        for (auto i=0; i<iter; i++) [stack push:[NSNumber numberWithInt:i]];
+        for (auto i=0; i<iter; i++) 
+            NSLog(@"Hello, World! %d", [[stack pop] intValue]);
+    }
 
-  return 0;
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

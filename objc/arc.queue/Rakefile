@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+SRCS      = %w{ queue.mm }
+TEST_SRCS = %w{ test_queue.mm }
+APP       = "queue"
+APP_TEST  = "test_queue"
+CXX       = "clang++"
+CXXFLAGS  = ":v :d :w :arc"   # :d , :w => -Wall :arc => -fobjc-arc
+LDFLAGS   = ""
+FRAMEWORKS= "Foundation"
+LIBS      = ":s :f"
+
+load '~/code/build/app2.rake'
