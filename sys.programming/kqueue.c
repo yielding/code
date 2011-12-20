@@ -74,7 +74,7 @@ static void usage ()
 }
 
 static int
-all_digits (register char const *const s)
+all_digits(register char const *const s)
 {
     register char const *r;
 
