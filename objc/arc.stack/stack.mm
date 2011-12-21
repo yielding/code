@@ -54,16 +54,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, const char * argv[])
 {
-    @autoreleasepool
-    {
-        auto stack = [[Stack alloc] init];
-        auto  iter = 10;
-        for (auto i=0; i<iter; i++) [stack push:[NSNumber numberWithInt:i]];
-        for (auto i=0; i<iter; i++) 
-            NSLog(@"Hello, World! %d", [[stack pop] intValue]);
-    }
+  @autoreleasepool
+  {
+    auto stack = [[Stack alloc] init];
+    auto  iter = 10;
+    for (auto i=0; i<iter; i++) [stack push:[NSNumber numberWithInt:i]];
+    for (auto i=0; i<iter; i++) 
+      NSLog(@"Hello, World! %d", [[stack pop] intValue]);
 
-    return 0;
+  }
+
+  return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

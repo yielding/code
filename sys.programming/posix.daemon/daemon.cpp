@@ -31,10 +31,9 @@ void daemon_init(const char *pname, int facility)
 
 void daemon_init2()
 {
-  int   i;
   pid_t pid;
-
-  if ((pid = fork()) != 0) exit(0);
+  if ((pid = fork()) != 0) 
+      exit(0);
 
   setsid();
   signal(SIGHUP, SIG_IGN);
@@ -42,7 +41,8 @@ void daemon_init2()
   chdir("/");
 
   umask(0);
-  for (i=0; i<MAXFD; i++) close(i);
+  for (int i=0; i<MAXFD; i++) 
+      close(i);
 }
 
 int main(int argc, char const* argv[])
