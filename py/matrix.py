@@ -7,4 +7,5 @@ print ma
 
 mb = resize(array((0), Float),(10,10))
 mb[1][2] = 1.2
+
 print mb
