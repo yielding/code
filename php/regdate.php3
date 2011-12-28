@@ -2,10 +2,10 @@
 <?
 
 function getRDate(&$arr, $day, $count) {
-    for ($i=0; $i<$count; $i++) {
-        $arr[$i] = sprintf("%02d", rand(1, $day));
-    }
-    sort($arr);
+  for ($i=0; $i<$count; $i++) {
+    $arr[$i] = sprintf("%02d", rand(1, $day));
+  }
+  sort($arr);
 }
 
 srand((double)microtime() * 1000000);
@@ -23,12 +23,12 @@ $res = mysql_query($sql, $db);
 $num = mysql_num_rows($res);
 
 for ($i=0; $i<$count; $i++) {
-    $name  = mysql_result($res, $i, "name");
-    $svcid = mysql_result($res, $i, "id");
-    $sql   = "update sys_svc_users 
+  $name  = mysql_result($res, $i, "name");
+  $svcid = mysql_result($res, $i, "id");
+  $sql   = "update sys_svc_users 
     set regdt   = to_date('2000/80/$index[$i]', 'yyyy/mm/dd')
     where svcid = '$svcid'";
-    echo "$sql\n";
+  echo "$sql\n";
 }
 
 ?>

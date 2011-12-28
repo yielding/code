@@ -27,31 +27,26 @@
   NSMutableArray* m_array; 
 }
 
-- (id) init
-{
+- (id) init {
   if (self = [super init])
     m_array = [NSMutableArray array];
 
   return self;
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
   NSLog(@"[Stack dealloc]\n");
 }
 
-- (void) push:(id) item
-{
+- (void) push:(id) item {
   [m_array addObject: item];
 }
 
-- (void) enque:(id) item
-{
+- (void) enque:(id) item {
   [self push:item];
 }
 
-- (id) shift2
-{
+- (id) shift2 {
   if ([m_array count] == 0)
   {
     auto e = [NSException exceptionWithName: @"HotTea"
@@ -96,8 +91,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, const char * argv[])
 {
-  @autoreleasepool
-  {
+  @autoreleasepool {
     auto queue = [[Queue alloc] init];
     auto iter  = 10;
     for (auto i=0; i<iter; i++) [queue push:[NSNumber numberWithInt:i]];
@@ -116,16 +110,11 @@ int main(int argc, const char * argv[])
     }
     */
 
-    @try
-    {
+    @try {
       NSLog(@"Hello %d\n", [[queue shift2] intValue]);
-    }
-    @catch (NSException* e)
-    {
+    } @catch (NSException* e) {
       NSLog(@"cating %@ reason %@", [e name], [e reason]);
-    }
-    @finally
-    {
+    } @finally {
       NSLog(@"finally");
     }
   }
