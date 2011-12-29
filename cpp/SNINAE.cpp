@@ -8,11 +8,11 @@ struct Test
   typedef int type;
 };
 
-template <typename T> 
+template <typename T>         // 1
 void f(typename T::type)
 {}
 
-template <typename T> 
+template <typename T>         // 2
 void f(T)
 {}
 
