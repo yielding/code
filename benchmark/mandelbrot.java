@@ -1,12 +1,10 @@
 import java.util.*;
 
-class Mandelbrot
-{  
+class Mandelbrot {  
   static int BAILOUT = 16;
   static int MAX_ITERATIONS = 1000;
 
-  private static int iterate(float x, float y)
-  {
+  private static int iterate(float x, float y) {
     float cr = y-0.5f;
     float ci = x;
     float zi = 0.0f;
@@ -26,11 +24,10 @@ class Mandelbrot
     }
   }
 
-  public static void main(String args[])
-  {
+  public static void main(String args[]) {
     Date d1 = new Date();
 
-    int x,y;
+    int x, y;
     for (y = -39; y <= 39; y++) {
       System.out.print("\n");
       for (x = -39; x <= 39; x++) {
@@ -38,7 +35,6 @@ class Mandelbrot
           System.out.print("*");
         else
           System.out.print(" ");
-
       }
     }
 
@@ -47,4 +43,3 @@ class Mandelbrot
     System.out.println("\nJava Elapsed: " + diff/1000.0f);
   }
 }
-

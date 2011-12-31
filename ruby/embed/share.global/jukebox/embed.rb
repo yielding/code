@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
-$: << "."
 require 'pp'
-require 'CDJukebox'
+require_relative 'CDJukebox'
 
 #puts $jukebox.seek_time
 

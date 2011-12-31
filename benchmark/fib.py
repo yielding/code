@@ -6,6 +6,6 @@ def fib(n):
   else:
     return fib(n-1) + fib(n-2)
 
-for i in range(36):
+for i in xrange(36):
   print "n=%d => %d" % (i, fib(i))
 

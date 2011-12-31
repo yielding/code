@@ -39,16 +39,16 @@ if defined? CXXFLAGS
   end
 end
 
-RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.2-p290"
+RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.3-p0"
 RVM_INC = "#{RVM}/include/ruby-1.9.1"
-RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems"
+RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems"
 RICE    = "#{RVM_GEM}/rice-1.4.3/ruby/lib"
 
 $INCS = " -I. -I/opt/local/include"
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
-            when /:rice/ ; " -I#{RVM_INC}/x86_64-darwin11.1.0 -I#{RVM_INC} -I#{RICE}/include"
+            when /:rice/ ; " -I#{RVM_INC}/x86_64-darwin11.2.0 -I#{RVM_INC} -I#{RICE}/include"
             else
              " -I#{i}"
             end

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby -wKU
 
-require "./hello2"
 require "pp"
+require_relative "hello2"
 
 t = Test.new
 puts t.hello

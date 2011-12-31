@@ -348,9 +348,7 @@ int main()
   // 4. run script
   int state = eval_file("/Users/yielding/code/ruby/embed/rice/thread/embed.rb");
   if (state) 
-  {
     printf("error on eval_file(\"embed.rb\");\n");
-  }
 
   // 5. finalize
   ruby_cleanup(0);

@@ -1,1 +1,2 @@
 gcc example.m -o example -framework Foundation -framework MacRuby -fobjc-gc
+clang++ example.mm -o example -fobjc-gc -std=c++0x -framework Foundation -framework MacRuby 

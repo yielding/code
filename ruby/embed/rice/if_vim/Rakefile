@@ -9,13 +9,13 @@ task :default => [TARGET]
 CLEAN.include("*.o")
 CLOBBER.include(TARGET)
 
-RVM      = "/Users/yielding/.rvm/rubies/ruby-1.9.2-p290"
+RVM      = "/Users/yielding/.rvm/rubies/ruby-1.9.3-p0"
 RVM_INC  = "#{RVM}/include/ruby-1.9.1"
 RVM_LIB  = "#{RVM}/lib"
-RVM_GEM  = "/Users/yielding/.rvm/gems/ruby-1.9.2-p290/gems"
+RVM_GEM  = "/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems"
 RICE     = "#{RVM_GEM}/rice-1.4.3/ruby/lib"
 SRC      = FileList['*.cpp']
-CXXFLAGS = "-I#{RVM_INC}/x86_64-darwin11.1.0 -I#{RVM_INC} -I#{RICE}/include"
+CXXFLAGS = "-I#{RVM_INC}/x86_64-darwin11.2.0 -I#{RVM_INC} -I#{RICE}/include"
 LDFLAGS  = "-L#{RVM}/lib -L#{RICE}/lib"
 LIBS     = '-lruby -lobjc -ldl -lrice'
 OBJ      = SRC.ext('o')

@@ -18,7 +18,7 @@ extern "C"
 void Init_hello2()
 {
   Class rb_cTest =
-      define_class("Test")
-        .define_method("initialize", &test_initialize)
-        .define_method("hello", &test_hello);
+    define_class("Test")
+      .define_method("initialize", &test_initialize)
+      .define_method("hello", &test_hello);
 }

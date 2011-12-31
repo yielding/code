@@ -1,4 +1,4 @@
-#include "rubyeval.h"
+#include "ruby19eval.h"
 
 extern "C" void Init_Test();
 extern "C" void Init_Test2();
@@ -6,7 +6,7 @@ extern "C" void Init_map();
 
 int main()
 {
-  RubyEval* rb = RubyEval::instance();
+  Ruby19Eval* rb = Ruby19Eval::instance();
   Init_Test();
   Init_Test2();
   Init_map();
