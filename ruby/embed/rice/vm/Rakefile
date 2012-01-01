@@ -1,0 +1,39 @@
+#-*- ruby -*-   
+
+require 'rake/clean'
+
+TARGET = 'main'
+
+task :default => [TARGET]
+
+CLEAN.include("*.o")
+CLOBBER.include(TARGET)
+
+RVM      = "/Users/yielding/.rvm/rubies/ruby-1.9.3-p0"
+RVM_INC  = "#{RVM}/include/ruby-1.9.1"
+RVM_LIB  = "#{RVM}/lib"
+RVM_GEM  = "/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems"
+RICE     = "#{RVM_GEM}/rice-1.4.3/ruby/lib"
+SRC      = FileList['*.cpp']
+CXXFLAGS = "-I#{RVM_INC}/x86_64-darwin11.2.0 -I#{RVM_INC} -I#{RICE}/include -I/opt/local/include"
+LDFLAGS  = "-L#{RVM}/lib -L#{RICE}/lib"
+LIBS     = '-lruby -lobjc -ldl -lrice'
+OBJ      = SRC.ext('o')
+
+rule '.o' => '.cpp' do |t|
+  sh "clang++ -O2 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
+end
+
+file TARGET => OBJ do
+  sh "clang++ -o main #{OBJ} #{LDFLAGS} #{LIBS}"
+end
+                
+task :run => [TARGET] do
+  sh "./#{TARGET}"
+end
+
+file 'ruby19eval.o' => ['ruby19eval.cpp']
+file 'map.o' => ['map.cpp']
+file 'test.o' => ['test.cpp']
+file 'test2.o' => ['test2.cpp']
+file 'main.o' => ['main.cpp']
