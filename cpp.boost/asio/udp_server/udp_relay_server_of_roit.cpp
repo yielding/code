@@ -79,7 +79,7 @@ private:
   void do_timer()
   {
     timer_.expires_from_now(posix_time::milliseconds(MIN_SLEEP_DELAY));
-    timer_.async_wait(bind(&udp_relay_server::handle_timer,this, placeholders::error));
+    timer_.async_wait(bind(&udp_relay_server::handle_timer, this, placeholders::error));
   }
 
   void handle_timer(const system::error_code & ec)
