@@ -119,19 +119,15 @@ public:
 
   void do_timer()
   {
-    if (m_res == true)
+    if (m_res == true || m_try_count <= 0)
       return;
 
-    if (m_try_count > 0)
-    {
-      m_try_count--;
-      cout << "m_try_count : " << m_try_count << endl;
+    m_try_count--;
+    cout << "m_try_count : " << m_try_count << endl;
 
-      m_timer.expires_from_now(posix_time::seconds(1));
-      m_timer.async_wait(bind(&HTMLParser::do_timer, this));
-    }
+    m_timer.expires_from_now(posix_time::seconds(1));
+    m_timer.async_wait(bind(&HTMLParser::do_timer, this));
   }
-
 
 private:
   bool m_res;
@@ -148,7 +144,7 @@ private:
 int main()
 {
   HTMLParser parser;
-  cout << (parser.parse_within(20) ? "ok" : "fail");
+  cout << (parser.parse_within(10) ? "ok" : "fail");
 
   return 0;
 }

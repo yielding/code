@@ -1,9 +1,8 @@
-#include <boost/unordered_map.hpp>
+#include <unordered_map>
 #include <iostream>
 #include <cassert>
 
 using namespace std;
-using namespace boost;
 
 int main(int argc, char const* argv[])
 {
