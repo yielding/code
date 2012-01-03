@@ -1,0 +1,11 @@
+# -*- ruby -*-
+
+SRCS      = %w{ ./addressof.cpp }
+TEST_SRCS = %w{ ./test_addressof.cpp }
+APP       = "addressof"
+CXX       = "c++0x"
+CXXFLAGS  = ":d"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
