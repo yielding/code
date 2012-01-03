@@ -1,8 +1,8 @@
 # -*- ruby -*-
 
-SRCS      = %w{ ./addressof.cpp }
-TEST_SRCS = %w{ ./test_addressof.cpp }
-APP       = "addressof"
+SRCS      = %w{ ./time_point.cpp }
+TEST_SRCS = %w{ ./test_time_point.cpp }
+APP       = "time_point"
 CXX       = "c++0x"
 CXXFLAGS  = ":d"
 

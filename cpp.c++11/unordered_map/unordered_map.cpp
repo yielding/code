@@ -7,6 +7,7 @@ using namespace std;
 int main(int argc, char const* argv[])
 {
   typedef unordered_map<string, int> map;
+
   map x;
 
   x["one"] = 1;
