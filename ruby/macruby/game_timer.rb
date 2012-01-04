@@ -1,13 +1,13 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env macruby
 
 framework 'Foundation'
 
 class GameLoop
   def start
     @timer = NSTimer.scheduledTimerWithTimeInterval 0.06,
-                                           target: self,
-                                           selector: 'refresh_screen:',
-                                           userInfo: nil,
+                                            target: self,
+                                          selector: 'refresh_screen:',
+                                          userInfo: nil,
                                            repeats: true
   end
 
