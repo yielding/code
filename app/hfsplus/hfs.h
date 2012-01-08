@@ -2,6 +2,8 @@
 #define HFSPLUS_HFSPLUS_H
 
 #include "ByteBuffer.h"
+
+#include <cstring>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -652,7 +654,7 @@ struct HFSPlusAttrData
     uint32_t    recordType;
     uint32_t    reserved[2];
     uint32_t    size;
-    std::vector<uint8_t> data;
+    uint8_t     data[0];
 } PACKED;
 
 struct HFSPlusAttrRecord
@@ -670,7 +672,7 @@ struct HFSPlusAttrKey
 
     HFSPlusAttrKey(uint32_t cnid, uint32_t sb, uint16_t name_len)
     {
-        memset(&name, 0, sizeof(HFSUniStr255));
+        std::memset(&name, 0, sizeof(HFSUniStr255));
         keyLength   = sizeof(HFSPlusAttrKey) - sizeof(HFSUniStr255) + 2 + (2 * name_len);
         pad         = 0;
         fileID      = cnid;
