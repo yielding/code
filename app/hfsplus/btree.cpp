@@ -17,7 +17,7 @@ BTree::BTree(HFSFile* file)
   assert(btnode.kind == kBTHeaderNode);
 
   // TODO here
-  auto header = ;
+  // auto header = ;
 }
 
 bool BTree::node_in_use(uint32_t no)
