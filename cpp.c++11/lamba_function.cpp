@@ -1,8 +1,7 @@
 #include <iostream>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 using namespace std;
-using namespace boost;
 
 class Object
 {
@@ -68,10 +67,9 @@ private:
 };
 
 template <typename FuncT> 
-boost::shared_ptr<Closure> 
-make_lambda_closure(FuncT f)
+auto make_lambda_closure(FuncT f) -> shared_ptr<Closure> 
 {
-  return boost::shared_ptr<Closure>(new LambdaClosure<FuncT>(f));
+  return shared_ptr<Closure>(new LambdaClosure<FuncT>(f));
 }
 
 int main(int argc, char const* argv[])

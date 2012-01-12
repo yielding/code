@@ -2,11 +2,18 @@
 
 APP       = "hfsplus"
 APP_TEST  = "test_#{APP}"
-SRCS      = %w{ main.cpp }
+SRCS      = %w{ ./main.cpp 
+                ./hfs_file.cpp
+                ./hfs_volume.cpp
+                ./hfs_header.cpp
+                ./catalog_btree.cpp
+                ./develop/src/ByteBuffer.cpp
+              }
+
 TEST_SRCS = %w{ ./hfs_header.cpp ./test_hfs_header.cpp
                 ./hfs_volume.cpp ./test_hfs_volume.cpp
                 ./hfs_file.cpp   ./test_hfs_file.cpp
-                ./btree.cpp      ./test_btree.cpp
+                                 ./test_btree.cpp
 
                 ./develop/src/ByteBuffer.cpp ./test_byte_buffer.cpp 
               }

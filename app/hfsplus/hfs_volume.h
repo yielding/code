@@ -8,10 +8,14 @@ using namespace utility::hex;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+class HFSFile;
+class CatalogTree;
+
 class HFSVolume
 {
 public:
   HFSVolume(int64_t offset=0);
+  ~HFSVolume();
 
 public:
   bool open(char const* filename);
@@ -21,7 +25,7 @@ public:
 
 
 public:
-  size_t     block_size() { return m_block_size; }
+  uint32_t   block_size() { return m_block_size; }
 
 
 private:
@@ -31,6 +35,11 @@ private:
   HFSPlusVolumeHeader m_header;
 
 private:
+  HFSFile*     m_catalog_file;
+  CatalogTree* m_catalog_tree;
+
+private:
+  bool         m_opened;
   std::fstream m_stream;
   std::string  m_filename;
 };

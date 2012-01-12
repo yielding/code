@@ -1,34 +1,21 @@
-#include "hfs_file.h"
-#include "hfs_volume.h"
+#include "catalog_btree.h"
 
-#include <gtest/gtest.h>
 #include <iostream>
 
 using namespace std;
-using namespace utility::hex;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class HFSBTreeTest: public testing::Test
+CatalogTree::CatalogTree(HFSFile* file)
+  : BTree<CatalogTree>(file)
 {
-protected:
-  virtual void SetUp()
-  {
-    HFSVolume v;
-    auto res = v.open("data/HFSPlus.dmg");
-    EXPECT_EQ(res, true);
-  }
+    cout << "xjdlfjklsjfkldjsfklsjdklfsjdklfjsdklfjklsfjksdkljf\n";
+}
 
-  virtual void TearDown()
-  {
-  }
-};
-
-TEST_F(HFSBTreeTest, ReadHeader)
+CatalogTree::~CatalogTree()
 {
-    EXPECT_EQ(1, 1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

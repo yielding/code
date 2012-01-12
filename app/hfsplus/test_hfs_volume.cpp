@@ -34,6 +34,11 @@ TEST_F(HFSVolumeTest, ReadVolumeHeader)
   EXPECT_EQ(1, 1);
 }
 
+TEST_F(HFSVolumeTest, VolumeRead)
+{
+  EXPECT_EQ(1, 1);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //

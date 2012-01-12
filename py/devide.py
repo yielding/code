@@ -6,6 +6,4 @@ def devide(a, b):
   r = a - q*b
   return (q, r)
 
-
-
 print devide(10, 2)

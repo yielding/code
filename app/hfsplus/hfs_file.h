@@ -18,6 +18,8 @@ public:
   auto read_all_to_buffer(bool trunc) -> utility::hex::ByteBuffer;
   void read_all_to_file(char const* filename, bool trunc);
 
+  uint32_t block_size() { return m_block_size; }
+
 protected:
   HFSVolume*       m_volume;
   uint32_t         m_block_size;

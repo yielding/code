@@ -24,14 +24,11 @@ HFSFile::HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bo
   m_extents.clear();
   uint32_t bc = 0;
 
-  for (size_t i=0; i<8; i++)
+  for (auto i=0; i<8; i++)
   {
-    HFSPlusExtentDescriptor extent;
-    extent.startBlock = fork.extents[i].startBlock;
-    extent.blockCount = fork.extents[i].blockCount;
-    bc += extent.blockCount;
-    
+    auto& extent = fork.extents[i];
     m_extents.push_back(extent);
+    bc += extent.blockCount;
   }
 
   // 
@@ -56,7 +53,8 @@ auto HFSFile::read_block(uint32_t nth) -> utility::hex::ByteBuffer
     bc += it->blockCount;
     if (nth < bc)
     {
-      auto lba = it->startBlock + (nth - it->blockCount);
+      int64_t lba = it->startBlock + (nth - (bc - it->blockCount));
+      // TODO some check
       return m_volume->read(lba * bs, bs);
     }
   }
@@ -67,7 +65,7 @@ auto HFSFile::read_block(uint32_t nth) -> utility::hex::ByteBuffer
 auto HFSFile::read_all_to_buffer(bool trunc) -> utility::hex::ByteBuffer
 {
   ByteBuffer result;
-  for (size_t i=0; i<m_total_blocks; i++)
+  for (uint32_t i=0; i<m_total_blocks; i++)
   {
     auto b = read_block(i);
     result.append(b);
@@ -81,7 +79,7 @@ void HFSFile::read_all_to_file(char const* filename, bool trunc)
   ofstream ofs;
   ofs.open(filename, ios_base::binary);
 
-  for (size_t i=0; i<m_total_blocks; i++)
+  for (uint32_t i=0; i<m_total_blocks; i++)
   {
     auto b = read_block(i);
     ofs.write((char const*)b, m_block_size);

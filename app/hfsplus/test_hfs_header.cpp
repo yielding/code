@@ -41,7 +41,6 @@ public:
 
 protected:
   HFSPlusVolumeHeader m_header;
-
 };
 
 TEST_F(HFSHeaderTest, True)
@@ -71,8 +70,6 @@ TEST_F(HFSHeaderTest, ReadVolumeHeader)
 
   auto sz = m_header.totalBlocks * m_header.blockSize;
   EXPECT_EQ(fs::file_size("data/HFSPlus.dmg"), sz);
-
-
 }
 
 TEST_F(HFSHeaderTest, ReadVolumeJournal)
