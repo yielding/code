@@ -13,7 +13,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DF97ADA614C0114900739F5A"
+               BlueprintIdentifier = "DF97ADD914C01ED700739F5A"
                BuildableName = "hfsplus"
                BlueprintName = "hfsplus"
                ReferencedContainer = "container:hfsplus.xcodeproj">
@@ -31,7 +31,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DF97ADA614C0114900739F5A"
+            BlueprintIdentifier = "DF97ADD914C01ED700739F5A"
             BuildableName = "hfsplus"
             BlueprintName = "hfsplus"
             ReferencedContainer = "container:hfsplus.xcodeproj">
@@ -49,7 +49,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DF97ADA614C0114900739F5A"
+            BlueprintIdentifier = "DF97ADD914C01ED700739F5A"
             BuildableName = "hfsplus"
             BlueprintName = "hfsplus"
             ReferencedContainer = "container:hfsplus.xcodeproj">
@@ -67,7 +67,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DF97ADA614C0114900739F5A"
+            BlueprintIdentifier = "DF97ADD914C01ED700739F5A"
             BuildableName = "hfsplus"
             BlueprintName = "hfsplus"
             ReferencedContainer = "container:hfsplus.xcodeproj">

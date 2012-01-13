@@ -91,7 +91,7 @@ auto ByteBuffer::offset() -> int64_t
 
 auto ByteBuffer::offset(int64_t o) -> ByteBuffer&
 {
-    m_offset = uint32_t(o);
+    m_offset = o;
 
     return *this;
 }
