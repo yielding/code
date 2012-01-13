@@ -16,7 +16,6 @@ HFSVolume::HFSVolume(int64_t offset)
 {
 }
 
-
 HFSVolume::~HFSVolume()
 {
   if (m_opened)
