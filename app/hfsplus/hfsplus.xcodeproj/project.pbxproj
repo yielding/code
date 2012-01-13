@@ -1,0 +1,281 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DF97ADAC14C0114900739F5A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADAB14C0114900739F5A /* main.cpp */; };
+		DF97ADAE14C0114900739F5A /* hfsplus.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DF97ADAD14C0114900739F5A /* hfsplus.1 */; };
+		DF97ADBE14C017FC00739F5A /* catalog_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADB414C017FC00739F5A /* catalog_btree.cpp */; };
+		DF97ADBF14C017FC00739F5A /* emf_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADB614C017FC00739F5A /* emf_file.cpp */; };
+		DF97ADC014C017FC00739F5A /* emf_volume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADB714C017FC00739F5A /* emf_volume.cpp */; };
+		DF97ADC114C017FC00739F5A /* hfs_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADB814C017FC00739F5A /* hfs_file.cpp */; };
+		DF97ADC214C017FC00739F5A /* hfs_header.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADBA14C017FC00739F5A /* hfs_header.cpp */; };
+		DF97ADC314C017FC00739F5A /* hfs_volume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADBB14C017FC00739F5A /* hfs_volume.cpp */; };
+		DF97ADC414C017FC00739F5A /* journal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADBD14C017FC00739F5A /* journal.cpp */; };
+		DF97ADC614C0180900739F5A /* ByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADC514C0180900739F5A /* ByteBuffer.cpp */; };
+		DF97ADCB14C0193000739F5A /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF97ADCA14C0193000739F5A /* libboost_system-mt.a */; };
+		DF97ADCD14C0193E00739F5A /* libboost_filesystem-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF97ADCC14C0193E00739F5A /* libboost_filesystem-mt.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DF97ADA514C0114900739F5A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				DF97ADAE14C0114900739F5A /* hfsplus.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		DF97ADA714C0114900739F5A /* hfsplus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hfsplus; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF97ADAB14C0114900739F5A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		DF97ADAD14C0114900739F5A /* hfsplus.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = hfsplus.1; sourceTree = "<group>"; };
+		DF97ADB414C017FC00739F5A /* catalog_btree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = catalog_btree.cpp; sourceTree = "<group>"; };
+		DF97ADB514C017FC00739F5A /* catalog_btree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = catalog_btree.h; sourceTree = "<group>"; };
+		DF97ADB614C017FC00739F5A /* emf_file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = emf_file.cpp; sourceTree = "<group>"; };
+		DF97ADB714C017FC00739F5A /* emf_volume.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = emf_volume.cpp; sourceTree = "<group>"; };
+		DF97ADB814C017FC00739F5A /* hfs_file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hfs_file.cpp; sourceTree = "<group>"; };
+		DF97ADB914C017FC00739F5A /* hfs_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hfs_file.h; sourceTree = "<group>"; };
+		DF97ADBA14C017FC00739F5A /* hfs_header.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hfs_header.cpp; sourceTree = "<group>"; };
+		DF97ADBB14C017FC00739F5A /* hfs_volume.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hfs_volume.cpp; sourceTree = "<group>"; };
+		DF97ADBC14C017FC00739F5A /* hfs_volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hfs_volume.h; sourceTree = "<group>"; };
+		DF97ADBD14C017FC00739F5A /* journal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = journal.cpp; sourceTree = "<group>"; };
+		DF97ADC514C0180900739F5A /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ByteBuffer.cpp; path = develop/src/ByteBuffer.cpp; sourceTree = "<group>"; };
+		DF97ADCA14C0193000739F5A /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "../../../../../opt/local/lib/libboost_system-mt.a"; sourceTree = "<group>"; };
+		DF97ADCC14C0193E00739F5A /* libboost_filesystem-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-mt.a"; path = "../../../../../opt/local/lib/libboost_filesystem-mt.a"; sourceTree = "<group>"; };
+		DF97ADCE14C0196C00739F5A /* ByteBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ByteBuffer.h; path = develop/include/ByteBuffer.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DF97ADA414C0114900739F5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF97ADCB14C0193000739F5A /* libboost_system-mt.a in Frameworks */,
+				DF97ADCD14C0193E00739F5A /* libboost_filesystem-mt.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DF97AD9C14C0114900739F5A = {
+			isa = PBXGroup;
+			children = (
+				DF97ADCC14C0193E00739F5A /* libboost_filesystem-mt.a */,
+				DF97ADCA14C0193000739F5A /* libboost_system-mt.a */,
+				DF97ADAA14C0114900739F5A /* hfsplus */,
+				DF97ADA814C0114900739F5A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DF97ADA814C0114900739F5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DF97ADA714C0114900739F5A /* hfsplus */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DF97ADAA14C0114900739F5A /* hfsplus */ = {
+			isa = PBXGroup;
+			children = (
+				DF97ADC714C0180F00739F5A /* develop */,
+				DF97ADAB14C0114900739F5A /* main.cpp */,
+				DF97ADB414C017FC00739F5A /* catalog_btree.cpp */,
+				DF97ADB514C017FC00739F5A /* catalog_btree.h */,
+				DF97ADB614C017FC00739F5A /* emf_file.cpp */,
+				DF97ADB714C017FC00739F5A /* emf_volume.cpp */,
+				DF97ADB814C017FC00739F5A /* hfs_file.cpp */,
+				DF97ADB914C017FC00739F5A /* hfs_file.h */,
+				DF97ADBA14C017FC00739F5A /* hfs_header.cpp */,
+				DF97ADBB14C017FC00739F5A /* hfs_volume.cpp */,
+				DF97ADBC14C017FC00739F5A /* hfs_volume.h */,
+				DF97ADBD14C017FC00739F5A /* journal.cpp */,
+				DF97ADAD14C0114900739F5A /* hfsplus.1 */,
+			);
+			path = hfsplus;
+			sourceTree = "<group>";
+		};
+		DF97ADC714C0180F00739F5A /* develop */ = {
+			isa = PBXGroup;
+			children = (
+				DF97ADCE14C0196C00739F5A /* ByteBuffer.h */,
+				DF97ADC514C0180900739F5A /* ByteBuffer.cpp */,
+			);
+			name = develop;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DF97ADA614C0114900739F5A /* hfsplus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DF97ADB114C0114900739F5A /* Build configuration list for PBXNativeTarget "hfsplus" */;
+			buildPhases = (
+				DF97ADA314C0114900739F5A /* Sources */,
+				DF97ADA414C0114900739F5A /* Frameworks */,
+				DF97ADA514C0114900739F5A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = hfsplus;
+			productName = hfsplus;
+			productReference = DF97ADA714C0114900739F5A /* hfsplus */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DF97AD9E14C0114900739F5A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = heaven;
+			};
+			buildConfigurationList = DF97ADA114C0114900739F5A /* Build configuration list for PBXProject "hfsplus" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DF97AD9C14C0114900739F5A;
+			productRefGroup = DF97ADA814C0114900739F5A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DF97ADA614C0114900739F5A /* hfsplus */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DF97ADA314C0114900739F5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF97ADAC14C0114900739F5A /* main.cpp in Sources */,
+				DF97ADBE14C017FC00739F5A /* catalog_btree.cpp in Sources */,
+				DF97ADBF14C017FC00739F5A /* emf_file.cpp in Sources */,
+				DF97ADC014C017FC00739F5A /* emf_volume.cpp in Sources */,
+				DF97ADC114C017FC00739F5A /* hfs_file.cpp in Sources */,
+				DF97ADC214C017FC00739F5A /* hfs_header.cpp in Sources */,
+				DF97ADC314C017FC00739F5A /* hfs_volume.cpp in Sources */,
+				DF97ADC414C017FC00739F5A /* journal.cpp in Sources */,
+				DF97ADC614C0180900739F5A /* ByteBuffer.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		DF97ADAF14C0114900739F5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = hfsplus/develop/include;
+			};
+			name = Debug;
+		};
+		DF97ADB014C0114900739F5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = hfsplus/develop/include;
+			};
+			name = Release;
+		};
+		DF97ADB214C0114900739F5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DF97ADB314C0114900739F5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DF97ADA114C0114900739F5A /* Build configuration list for PBXProject "hfsplus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DF97ADAF14C0114900739F5A /* Debug */,
+				DF97ADB014C0114900739F5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DF97ADB114C0114900739F5A /* Build configuration list for PBXNativeTarget "hfsplus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DF97ADB214C0114900739F5A /* Debug */,
+				DF97ADB314C0114900739F5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DF97AD9E14C0114900739F5A /* Project object */;
+}
