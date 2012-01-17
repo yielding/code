@@ -76,7 +76,7 @@ typedef const HFSUniStr255 *ConstHFSUniStr255Param;
 
 struct HFSPlusExtentDescriptor
 {
-  static size_t size_of() { return 2*4; }
+  static uint32_t size_of() { return 2*4; }
 
   void read_from(utility::hex::ByteBuffer& b)
   {
@@ -160,9 +160,9 @@ enum  // BTree Node type
 
 struct BTNodeDescriptor
 {
-  static size_t size_of() { return 2*4 + 2*1 + 2*2; }
+  static uint32_t size_of() { return 2*4 + 2*1 + 2*2; }
 
-  void read_from(utility::hex::ByteBuffer& b, size_t offset=0)
+  void read_from(utility::hex::ByteBuffer& b, uint32_t offset=0)
   {
     if (offset > 0)
       b.offset(offset);
@@ -188,7 +188,12 @@ struct BTNodeDescriptor
 
 struct BTHeaderRec
 {
-  void read_from(utility::hex::ByteBuffer& b, size_t offset)
+  static uint32_t size_of()
+  {
+    return 1*2 + 4*4 + 2*2 + 4*2 + 1*2 + 1*4 + 2*1 + 1*4 + 16*4; //106
+  }
+  
+  void read_from(utility::hex::ByteBuffer& b, uint32_t offset)
   {
     if (offset > 0)
       b.offset(offset);
@@ -227,7 +232,7 @@ struct BTHeaderRec
   uint8_t  keyCompareType;
   uint32_t attributes;     // long aligned again
   uint32_t reserved3[16];
-} PACKED;
+};
 
 struct HFSPlusExtentKey
 {

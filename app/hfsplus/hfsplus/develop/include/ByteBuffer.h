@@ -21,6 +21,7 @@ public:
     enum { beg = 0, cur = 1, end = 2 };
 
 public:
+    // This constructor is for network I/O
     ByteBuffer(size_t size=0);
 
     // This constructor is for hex conversion
@@ -38,64 +39,65 @@ public:  // operators
     operator void const*()     { return (void const*)m_buffer.data(); }
 
 public:  // query
-    auto has_remaining() -> bool;
-    auto remaining() -> int64_t;
-    auto empty() -> bool;
-    auto size() -> int64_t     { return int64_t(m_buffer.size());     }
-    auto capacity() -> int64_t { return int64_t(m_buffer.capacity()); }
-    auto reserve(size_t) -> size_t;
+    bool    has_remaining();
+    int64_t remaining();
+    bool    empty();
+    int64_t size()             { return int64_t(m_buffer.size());     }
+    int64_t capacity()         { return int64_t(m_buffer.capacity()); }
+    size_t  reserve(size_t);
 
 public:
-    auto offset() -> int64_t;
-    auto offset(int64_t o) -> ByteBuffer&;
-    auto reset() -> ByteBuffer&;
-    auto flip()  -> ByteBuffer&; 
+    int64_t     offset();
+    ByteBuffer& offset(uint32_t o);
+    ByteBuffer& reset();
+    ByteBuffer& flip();
 
-    auto get_buffer() -> buffer_t&;
-    auto get_buffer(uint32_t size) -> buffer_t& ;
+    buffer_t&   get_buffer();
+    buffer_t&   get_buffer(uint32_t size);
 
-    auto skip(uint32_t offset) -> ByteBuffer&;
-    auto unget(uint32_t offset) -> ByteBuffer&;
-    auto append(ByteBuffer& b) -> ByteBuffer&;
-    auto append(uint8_t* b, size_t sz) -> ByteBuffer&;
+    ByteBuffer& skip(uint32_t offset);
+    ByteBuffer& unget(uint32_t offset);
+    ByteBuffer& append(ByteBuffer& b);
+    ByteBuffer& append(uint8_t* b, size_t sz);
+    ByteBuffer  slice(uint32_t from, uint32_t to);
 
-    auto load(buffer_t& buffer) -> void;
-    auto peek1_at(uint32_t offset, int start=cur) -> uint8_t;
+    void        load(buffer_t& buffer);
+    uint8_t     peek1_at(uint32_t offset, int start=cur);
 
     // network I/O interface
-    auto get_uint2_net() -> uint16_t;
-    auto get_int2_net()  -> int16_t; 
-    auto get_int4_net()  -> int32_t;
-    auto get_uint4_net() -> uint32_t; 
+    uint16_t    get_uint2_net();
+    int16_t     get_int2_net();
+    int32_t     get_int4_net();
+    uint32_t    get_uint4_net();
 
-    auto set_uint2_net(uint16_t) -> ByteBuffer&;
-    auto set_uint4_net(uint32_t) -> ByteBuffer&;
+    ByteBuffer& set_uint2_net(uint16_t);
+    ByteBuffer& set_uint4_net(uint32_t);
 
-    auto set_uint1(uint8_t) -> ByteBuffer&;
-    auto set_string(char const* src) -> ByteBuffer&;
-    auto set_binary(uint8_t* src, uint32_t size) -> ByteBuffer&;
+    ByteBuffer& set_uint1(uint8_t);
+    ByteBuffer& set_string(char const* src);
+    ByteBuffer& set_binary(uint8_t* src, uint32_t size);
 
-    auto get_int1()     -> int8_t;
-    auto get_uint1()    -> uint8_t;
-    auto get_int2_be()  -> int16_t;
-    auto get_uint2_be() -> uint16_t;
-    auto get_int2_le()  -> int16_t;
-    auto get_uint2_le() -> uint16_t;
-    auto get_uint3_be() -> uint32_t;
-    auto get_int4_be()  -> int32_t;
-    auto get_int4_le()  -> int32_t;
-    auto get_uint4_be() -> uint32_t;
-    auto get_uint4_le() -> uint32_t;
-    auto get_int8_be()  -> int64_t;
+    int8_t   get_int1();
+    uint8_t  get_uint1();
+    int16_t  get_int2_be();
+    uint16_t get_uint2_be();
+    int16_t  get_int2_le();
+    uint16_t get_uint2_le();
+    uint32_t get_uint3_be();
+    int32_t  get_int4_be();
+    int32_t  get_int4_le();
+    uint32_t get_uint4_be();
+    uint32_t get_uint4_le();
+    int64_t  get_int8_be();
 
-    auto get_uint8_le() -> uint64_t;
-    auto get_uint8_be() -> uint64_t;
-    auto get_binary(uint32_t size) -> uint8_t*;
+    uint64_t get_uint8_le();
+    uint64_t get_uint8_be();
+    uint8_t* get_binary(uint32_t size);
 
-    auto get_hex_string(uint32_t size) -> std::string;
-    auto get_string() -> std::string;
-    auto get_string(size_t size) -> std::string;
-    auto c_str() -> char const*;
+    std::string get_hex_string(uint32_t size);
+    std::string get_string();
+    std::string get_string(size_t size);
+    char const* c_str();
 
 public:
     template<typename IntType>

@@ -11,26 +11,24 @@
 #define new DEBUG_NEW
 #endif
 
-using namespace std;
-
 namespace utility { namespace hex {    
 ////////////////////////////////////////////////////////////////////////////////
 //
-// This constructor is to allocate initial buffer which is necessary for file 
-// read.
+//
 //
 ////////////////////////////////////////////////////////////////////////////////
+// this constructor is for network I/O
 ByteBuffer::ByteBuffer(size_t size)
-    : m_offset(0) 
-{ 
-    if (size > 0)
-        m_buffer.resize(size); 
-}
-
-// This constructor is for pre-existing buffer
-ByteBuffer::ByteBuffer(uint8_t* buffer, size_t sz)
     : m_offset(0)
 {
+    if (size > 0)
+        m_buffer.resize(size);
+}
+
+// this constructor is for hex conversion
+ByteBuffer::ByteBuffer(uint8_t* buffer, size_t sz)
+{
+    m_offset = 0;
     m_buffer.reserve(sz);
     m_buffer.assign(buffer, buffer + sz);
 }
@@ -46,16 +44,16 @@ ByteBuffer::ByteBuffer(ByteBuffer const& rhs)
 
 ByteBuffer::ByteBuffer(ByteBuffer&& rhs)
 {
-    m_offset = rhs.m_offset;
     m_buffer.swap(rhs.m_buffer);
+    m_offset = rhs.m_offset;
 }
 
-auto ByteBuffer::operator=(ByteBuffer const& rhs) -> ByteBuffer& 
+ByteBuffer& ByteBuffer::operator=(ByteBuffer const& rhs)
 {
     if (this != &rhs)
     {
         ByteBuffer b(rhs);
-        std::swap(m_offset, b.m_offset);
+        std::swap(m_offset,  b.m_offset);
         m_buffer.swap(b.m_buffer);
     }
 
@@ -64,7 +62,7 @@ auto ByteBuffer::operator=(ByteBuffer const& rhs) -> ByteBuffer&
 
 auto ByteBuffer::has_remaining() -> bool 
 {
-    return m_offset < m_buffer.size();
+    return m_offset < (int64_t)m_buffer.size();
 }
 
 auto ByteBuffer::remaining() -> int64_t
@@ -89,7 +87,7 @@ auto ByteBuffer::offset() -> int64_t
     return m_offset;
 }
 
-auto ByteBuffer::offset(int64_t o) -> ByteBuffer&
+auto ByteBuffer::offset(uint32_t o) -> ByteBuffer&
 {
     m_offset = o;
 
@@ -140,6 +138,19 @@ auto ByteBuffer::append(uint8_t* b, size_t sz) -> ByteBuffer&
     return *this;
 }
 
+auto ByteBuffer::slice(uint32_t from, uint32_t to) -> ByteBuffer  
+{
+  if (from > to)
+    throw std::runtime_error("ByteBuffer::slice() : wrong index");
+
+  ByteBuffer result;
+  auto& buffer = result.get_buffer();
+
+  buffer.assign(m_buffer.begin() + from, m_buffer.begin() + to);
+
+  return result;
+}
+
 auto ByteBuffer::load(buffer_t& buffer) -> void
 {
     m_buffer.swap(buffer);
@@ -147,21 +158,21 @@ auto ByteBuffer::load(buffer_t& buffer) -> void
 
 auto ByteBuffer::peek1_at(uint32_t offset, int start) -> uint8_t
 {
-    auto index = m_buffer.size() + 1;
+    int64_t index = m_buffer.size() + 1;
 
     if (start == cur) index = m_offset + offset;
     if (start == beg) index = offset;
     if (start == end) index = m_offset - offset;
 
-    if (index >= m_buffer.size())
-        throw std::runtime_error("byte_byffer::peek1_at()");
+    if (index >= (int64_t)m_buffer.size() || index < 0)
+        throw std::runtime_error("ByteBuffer::peek1_at()");
 
-    return m_buffer[index];
+    return m_buffer[size_type(index)];
 }
 
 auto ByteBuffer::get_int1() -> int8_t
 { 
-    int8_t res = (int8_t)m_buffer[m_offset];
+    int8_t res = (int8_t)m_buffer[size_type(m_offset)];
     m_offset++;
 
     return res;
@@ -169,10 +180,7 @@ auto ByteBuffer::get_int1() -> int8_t
 
 auto ByteBuffer::get_uint1() -> uint8_t
 {
-    if (m_offset >= m_buffer.size())
-      throw std::runtime_error("get_uint1(): index out of range");
-
-    uint8_t res = m_buffer[m_offset];
+    uint8_t res = m_buffer[size_type(m_offset)];
     m_offset++;
 
     return res;
@@ -180,7 +188,7 @@ auto ByteBuffer::get_uint1() -> uint8_t
 
 auto ByteBuffer::get_uint2_net() -> uint16_t 
 {
-    uint16_t res = *(uint16_t *)(uint8_t *)&m_buffer[m_offset];
+    uint16_t res = *(uint16_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 2;
 
     return endian_swap_bytes<BIG_ENDIAN_ORDER, HOST_ENDIAN_ORDER>(res);
@@ -188,7 +196,7 @@ auto ByteBuffer::get_uint2_net() -> uint16_t
 
 auto ByteBuffer::get_int2_net() -> int16_t 
 {
-    int16_t res = *(int16_t *)(uint8_t *)&m_buffer[m_offset];
+    int16_t res = *(int16_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 2;
 
     return endian_swap_bytes<BIG_ENDIAN_ORDER, HOST_ENDIAN_ORDER>(res);
@@ -196,7 +204,7 @@ auto ByteBuffer::get_int2_net() -> int16_t
 
 auto ByteBuffer::get_int4_net() -> int32_t
 {
-    int32_t res = *(int32_t*)(uint8_t*)&m_buffer[m_offset];
+    int32_t res = *(int32_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 4;
 
     return endian_swap_bytes<BIG_ENDIAN_ORDER, HOST_ENDIAN_ORDER>(res);
@@ -204,7 +212,7 @@ auto ByteBuffer::get_int4_net() -> int32_t
 
 auto ByteBuffer::get_uint4_net() -> uint32_t 
 {
-    uint32_t res = *(uint32_t*)(uint8_t*)&m_buffer[m_offset];
+    uint32_t res = *(uint32_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 4;
 
     return endian_swap_bytes<BIG_ENDIAN_ORDER, HOST_ENDIAN_ORDER>(res);
@@ -212,7 +220,7 @@ auto ByteBuffer::get_uint4_net() -> uint32_t
 
 int16_t ByteBuffer::get_int2_le()
 {
-    int16_t res = *(int16_t*)(uint8_t*)&m_buffer[m_offset];
+    int16_t res = *(int16_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 2;
 
     return res;
@@ -220,7 +228,7 @@ int16_t ByteBuffer::get_int2_le()
 
 uint16_t ByteBuffer::get_uint2_le()
 {
-    uint16_t res = *(uint16_t*)(uint8_t*)&m_buffer[m_offset];
+    uint16_t res = *(uint16_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 2;
 
     return res;
@@ -248,7 +256,7 @@ auto ByteBuffer::get_int4_be() -> int32_t
 
 auto ByteBuffer::get_int4_le() -> int32_t
 {
-    int32_t res = *(int32_t*)(uint8_t*)&m_buffer[m_offset];
+    int32_t res = *(int32_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 4;
 
     return res;
@@ -261,7 +269,7 @@ auto ByteBuffer::get_uint4_be() -> uint32_t
 
 uint32_t ByteBuffer::get_uint4_le()
 {
-    uint32_t res = *(uint32_t*)(uint8_t*)&m_buffer[m_offset];
+    uint32_t res = *(uint32_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 4;
 
     return res;
@@ -279,7 +287,7 @@ auto ByteBuffer::get_int8_be() -> int64_t
 
 auto  ByteBuffer::get_uint8_le() -> uint64_t
 {
-    uint64_t res = *(uint64_t*)(uint8_t*)&m_buffer[m_offset];
+    uint64_t res = *(uint64_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 8;
 
     return res;
@@ -288,23 +296,23 @@ auto  ByteBuffer::get_uint8_le() -> uint64_t
 auto ByteBuffer::get_binary(uint32_t size) -> uint8_t* 
 {
     if (m_offset + size > int64_t(m_buffer.size()))
-        throw std::runtime_error("byte_byffer::get_binary(size)");
+        throw std::runtime_error("ByteBuffer::get_binary(size)");
 
-    uint8_t* res = (uint8_t*)&m_buffer[m_offset];
+    uint8_t* res = (uint8_t*)&m_buffer[size_type(m_offset)];
     m_offset += size;
 
     return res;
 }
 
-auto ByteBuffer::get_hex_string(uint32_t size) -> string 
+auto ByteBuffer::get_hex_string(uint32_t size) -> std::string 
 {
-    string result;
+    std::string result;
 
     for (uint32_t i=0; i<size; i++)
     {
         char b[10] = { 0 };
-        sprintf(b, "%02x", m_buffer[m_offset + i]);
-        result += string(b);
+        sprintf(b, "%02x", m_buffer[size_type(m_offset + i)]);
+        result += std::string(b);
     }
 
     m_offset += size;
@@ -312,21 +320,21 @@ auto ByteBuffer::get_hex_string(uint32_t size) -> string
     return result;
 }
 
-auto ByteBuffer::get_string() -> string 
+auto ByteBuffer::get_string() -> std::string 
 {
-    auto offset = m_offset;
-    for (; m_buffer[offset] != 0; ++offset);
-    auto size = offset - m_offset; 
+    int64_t offset = m_offset;
+    for (; m_buffer[size_type(offset)] != 0; ++offset);
+    int64_t size = offset - m_offset; 
 
-    string result = get_string(size);
+    std::string result = get_string(size_t(size));
     m_offset += 1; // consume NULL
 
     return result;
 }
 
-auto ByteBuffer::get_string(size_t size) -> string 
+auto ByteBuffer::get_string(size_t size) -> std::string 
 {
-    string result((char*)&m_buffer[m_offset], size);
+    std::string result((char*)&m_buffer[size_type(m_offset)], size);
     m_offset += size;  
 
     return result;
@@ -334,8 +342,8 @@ auto ByteBuffer::get_string(size_t size) -> string
 
 auto ByteBuffer::c_str() -> char const* 
 {
-    char const* res = (char const*)&m_buffer[m_offset];
-    for (; m_buffer[m_offset] != 0; ++m_offset);
+    char const* res = (char const*)&m_buffer[size_type(m_offset)];
+    for (; m_buffer[size_type(m_offset)] != 0; ++m_offset);
     m_offset++;
 
     return res;

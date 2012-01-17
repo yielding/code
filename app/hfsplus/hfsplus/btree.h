@@ -4,6 +4,7 @@
 #include "hfs_file.h"
 
 #include <iostream>
+#include <boost/tuple/tuple.hpp>
 
 using namespace utility::hex;
 using namespace std;
@@ -23,7 +24,7 @@ public:
 public:
   auto node_in_use(uint32_t no) -> bool;
   auto read_node(uint32_t node_no) -> ByteBuffer;
-  auto node_btree_node(uint32_t node_no) -> void;
+  auto read_btree_node(uint32_t node_no) -> std::pair<int, vector<ByteBuffer>>;
 
 private:
   HFSTree const& self() 
@@ -33,6 +34,7 @@ private:
 
 private:
   BTHeaderRec m_header_record;
+  BTNodeDescriptor m_last_btnode;
 
   HFSFile*   m_file;
   uint32_t   m_nodes_in_block;
@@ -54,21 +56,25 @@ BTree<HFSTree>::BTree(HFSFile* file)
   BTNodeDescriptor btnode;
   btnode.read_from(b0);
 
-  if (btnode.kind == kBTHeaderNode)
+  if (btnode.kind != kBTHeaderNode)
     cout << "Should be THeaderNode not not die~~~~~~~~~~~\n";
-  // assert(btnode.kind == kBTHeaderNode);
 
+  
   m_header_record.read_from(b0, BTNodeDescriptor::size_of());
 
   m_node_size       = m_header_record.nodeSize;
-cout << "m_node_size : " << m_node_size << endl;
 
   m_nodes_in_block  = file->block_size() / m_node_size;
   m_blocks_for_node = m_node_size / file->block_size();
   m_last_record_no  = 0;
 
+  
   // TODO here
   // auto header = ;
+  
+  int type;
+  vector<ByteBuffer> buffers;
+  boost::tie(type, buffers) = read_btree_node(0);
 }
 
 template <typename HFSTree>
@@ -86,10 +92,60 @@ ByteBuffer BTree<HFSTree>::read_node(uint32_t node_no)
 }
 
 template <typename HFSTree>
-auto BTree<HFSTree>::node_btree_node(uint32_t node_no) -> void
+auto BTree<HFSTree>::read_btree_node(uint32_t node_no) 
+  -> std::pair<int, vector<ByteBuffer>>
 {
   m_last_record_no = node_no;
   auto node = read_node(node_no);
+  BTNodeDescriptor btnode;
+  btnode.read_from(node);
+  m_last_btnode = btnode;
+  
+  // REMARK
+  // read one more offset to find out the end of macrec.
+  node.offset(uint32_t(node.size() - 2*(btnode.numRecords+1)));
+  vector<uint16_t> offsets;
+  for (auto i=0; i<=btnode.numRecords; i++) offsets.push_back(node.get_uint2_be());
+    
+  vector<ByteBuffer> buffers;
+  int res_type;
+  if (btnode.kind == kBTHeaderNode)
+  {
+    /**
+    // BTHeaderRec hdr; hdr.read_from(node, BTNodeDescriptor::size_of());
+    **/
+    
+    uint32_t start = BTNodeDescriptor::size_of();
+    auto header = node.slice(start, start + BTHeaderRec::size_of());
+    buffers.push_back(header);
+    
+    auto from = offsets[offsets.size()-3];
+    auto to   = offsets[offsets.size()-4];
+    auto maprec = node.slice(from, to);
+    buffers.push_back(maprec);
+    res_type = kBTHeaderNode;
+  }
+  else if (btnode.kind == kBTIndexNode)
+  {
+    for (int i=0; i<btnode.numRecords; i++)
+    {
+      auto offset = offsets[btnode.numRecords-i-1];
+      
+      
+    }
+    
+    res_type = kBTIndexNode;
+  }
+  else if (btnode.kind == kBTLeafNode)
+  {
+    res_type = kBTLeafNode;
+  }
+  else
+  {
+    res_type = -10;
+  }
+  
+  return make_pair(kBTHeaderNode, buffers);
 }
 
 template <typename HFSTree>

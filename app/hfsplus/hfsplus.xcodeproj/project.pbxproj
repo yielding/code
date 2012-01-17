@@ -52,6 +52,7 @@
 		DF97ADFF14C0202900739F5A /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "../../../../../opt/local/lib/libboost_system-mt.a"; sourceTree = "<group>"; };
 		DF97AE0314C020D000739F5A /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ByteBuffer.cpp; path = develop/src/ByteBuffer.cpp; sourceTree = "<group>"; };
 		DFA0510314C0225E000B475C /* ByteBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ByteBuffer.h; path = develop/include/ByteBuffer.h; sourceTree = "<group>"; };
+		DFA3A3A914C3F09200421E54 /* btree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btree.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +91,7 @@
 			children = (
 				DFA0510514C02269000B475C /* develop */,
 				DF97ADE714C01F2F00739F5A /* catalog_btree.cpp */,
+				DFA3A3A914C3F09200421E54 /* btree.h */,
 				DF97ADE814C01F2F00739F5A /* catalog_btree.h */,
 				DF97ADE914C01F2F00739F5A /* emf_file.cpp */,
 				DF97ADEA14C01F2F00739F5A /* emf_volume.cpp */,
