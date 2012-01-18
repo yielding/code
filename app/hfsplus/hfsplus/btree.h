@@ -130,14 +130,25 @@ auto BTree<HFSTree>::read_btree_node(uint32_t node_no)
     for (int i=0; i<btnode.numRecords; i++)
     {
       auto offset = offsets[btnode.numRecords-i-1];
-      
-      
+      // TODO 여기가 제일 어렵네...
+      // child 는 UBInt32("nodeNumber"): unsigned big-endian 32bit integer
+      offset = self().parse_key(node, offset);
+      auto child = node.slice(offset, offset+4);
+      buffers.push_back(child);
     }
     
     res_type = kBTIndexNode;
   }
   else if (btnode.kind == kBTLeafNode)
   {
+    for (int i=0; i<btnode.numRecords; i++)
+    {
+      auto offset = offsets[btnode.numRecords-i-1];
+      offset = self().parse_key(node, offset);
+      auto data = self().parse_data(node, offset);
+      buffers.push_back(data);
+    }
+    
     res_type = kBTLeafNode;
   }
   else

@@ -2,6 +2,8 @@
 #define CATALOG_BTREE_H_53HYMVEK
 
 #include "btree.h"
+
+using namespace utility::hex;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -12,6 +14,18 @@ class CatalogTree: public BTree<CatalogTree>
 public:
   CatalogTree(HFSFile* file);
   ~CatalogTree();
+  
+public:
+  uint32_t parse_key(ByteBuffer& b, uint32_t offset) const
+  {
+    return offset;
+  }
+  
+  ByteBuffer parse_data(ByteBuffer& b, uint32_t offset) const
+  {
+    return b;
+  }
+  
 };
 
 ////////////////////////////////////////////////////////////////////////////////
