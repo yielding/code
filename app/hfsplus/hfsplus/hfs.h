@@ -160,6 +160,13 @@ enum  // BTree Node type
 
 struct BTNodeDescriptor
 {
+  BTNodeDescriptor() {}
+  
+  BTNodeDescriptor(utility::hex::ByteBuffer& b, uint32_t offset=0)
+  {
+    read_from(b, offset);
+  }
+  
   static uint32_t size_of() { return 2*4 + 2*1 + 2*2; }
 
   void read_from(utility::hex::ByteBuffer& b, uint32_t offset=0)
