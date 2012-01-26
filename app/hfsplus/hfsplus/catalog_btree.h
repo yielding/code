@@ -16,12 +16,12 @@ public:
   ~CatalogTree();
   
 public:
-  uint32_t parse_key(ByteBuffer& b, uint32_t offset) const
+  ByteBuffer parse_key(ByteBuffer& b, uint16_t& offset) const
   {
-    return offset;
+    return b;
   }
   
-  ByteBuffer parse_data(ByteBuffer& b, uint32_t offset) const
+  ByteBuffer parse_data(ByteBuffer& b, uint16_t& offset) const
   {
     return b;
   }
