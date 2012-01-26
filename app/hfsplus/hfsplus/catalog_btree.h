@@ -3,7 +3,10 @@
 
 #include "btree.h"
 
+#include <string>
+
 using namespace utility::hex;
+using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -28,9 +31,10 @@ public:
   
   void print_leaf(BufferPair const&)
   {
-    
   }
-  
+
+public:
+  get_record_from_path(string const& path);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
