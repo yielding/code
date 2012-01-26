@@ -61,7 +61,6 @@ int main(int argc, const char * argv[])
     for (auto i=0; i<iter; i++) [stack push:[NSNumber numberWithInt:i]];
     for (auto i=0; i<iter; i++) 
       NSLog(@"Hello, World! %d", [[stack pop] intValue]);
-
   }
 
   return 0;
