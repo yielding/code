@@ -142,7 +142,7 @@
 		DF97ADD114C01ED700739F5A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = heaven;
 			};
 			buildConfigurationList = DF97ADD414C01ED700739F5A /* Build configuration list for PBXProject "hfsplus" */;

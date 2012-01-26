@@ -44,9 +44,11 @@ public:
   auto read_btree_node(uint32_t node_no) -> BTreeNode;
   auto read_empty_space() -> ByteBuffer;
 
-  auto search(ByteBuffer key, uint32_t node_no=0xFFFFFFFF) -> BufferPair;
+  auto search(ByteBuffer& key, uint32_t node_no=0xFFFFFFFF) -> BufferPair;
+  auto search_multiple(ByteBuffer& search_key, Callback& call) -> BTreeNode;
   auto traverse(uint32_t node_no, Callback& call, uint32_t count=0) -> uint32_t;
-
+  auto traverse_leaf_nodes(Callback& call) -> uint32_t;
+  
 private:
   HFSTree const& self() 
   { 
@@ -63,6 +65,7 @@ private:
   uint32_t   m_blocks_for_node;
   uint32_t   m_node_size;
   uint32_t   m_last_record_no;
+  uint32_t   m_last_node_no;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +138,7 @@ ByteBuffer BTree<HFSTree>::read_node(uint32_t node_no)
 template <typename HFSTree>
 auto BTree<HFSTree>::read_btree_node(uint32_t node_no) -> BTreeNode
 {
-  m_last_record_no = node_no;
+  m_last_node_no = node_no;
   auto node_buffer = read_node(node_no);
   BTNodeDescriptor btnode(node_buffer);
   m_last_btnode = btnode;
@@ -194,7 +197,8 @@ auto BTree<HFSTree>::read_btree_node(uint32_t node_no) -> BTreeNode
 }
 
 template <typename HFSTree>
-auto BTree<HFSTree>::search(ByteBuffer search_key, uint32_t node_no_) -> BufferPair
+auto BTree<HFSTree>::search(ByteBuffer& search_key, uint32_t node_no_) 
+  -> BufferPair
 {
   auto node_no = (node_no_ == 0xFFFFFFFF)
     ? m_header_record.rootNode
@@ -244,22 +248,67 @@ auto BTree<HFSTree>::traverse(uint32_t node_no_, Callback& call, uint32_t count)
     : node_no_;
 
   auto node = this->read_btree_node(node_no);
+  auto& buffer = node.data;
   if (node.type == kBTIndexNode)
   {
-    
+    for (auto i=0; i<buffer.size(); i++)
+      count += traverse(buffer[i], call);
   }
   else if (node.type == kBTLeafNode)
   {
-    
+    for (auto it=buffer.begin(); it != buffer.end(); ++it)
+    {
+      call.empty() ? self().print_leaf(*it) : call(*it);
+      count++;
+    }
   }
   
   return count;
 }
 
-//template <typename HFSTree>
-//auto BTree<HFSTree>::search_multiple(uint32_t node_no) -> ?
-//{
-//}
+template <typename HFSTree>
+auto BTree<HFSTree>::traverse_leaf_nodes(Callback& call) -> uint32_t
+{
+  auto node_no = m_header_record.firstLeafNode;
+  uint32_t count = 0;
+  while (node_no != 0)
+  {
+    auto node = read_btree_node(node_no);
+    count += node.data.size();
+    
+    for (auto it=node.data.begin(); it != node.data.end(); ++it)
+      call.empty() ? self().print_leaf() : call(*it);
+    
+    node_no = m_last_btnode.fLink;
+  }
+  
+  return count;
+}
+
+template <typename HFSTree>
+auto BTree<HFSTree>::search_multiple(ByteBuffer& search_key, Callback& call) -> BTreeNode
+{
+  search(search_key);
+  auto node_no = m_last_node_no;
+  auto record_no = m_last_record_no;
+  BTreeNode node;
+  while (node_no != 0)
+  {
+    auto node_ = read_btree_node(node_no);
+    for (auto it=node_.data.begin(); it!=node_.data.end(); ++it)
+    {
+      if (call(*it))
+        node.data.push_back(*it);
+      else
+        return node;
+    }
+    
+    node_no = m_last_btnode.fLink;
+    record_no = 0;
+  }
+  
+  return node;
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
