@@ -1,6 +1,7 @@
 #include "hfs.h"
 
 #include <fstream>
+#include <string>
 
 using namespace utility::hex;
 ////////////////////////////////////////////////////////////////////////////////
@@ -23,7 +24,8 @@ public:
   ByteBuffer read(int64_t offset, size_t sz);
   size_t     read(int64_t offset, uint8_t* buffer, size_t sz);
 
-
+  void list_folder_contents(std::string const& path);
+  
 public:
   uint32_t   block_size() { return m_block_size; }
 

@@ -11,6 +11,8 @@ int main(int argc, char const* argv[])
   if (!v.open("/Users/yielding/tmp/hfsplus/hfsplus/data/HFSPlus.dmg"))
     return false;
 
+  v.list_folder_contents("/");
+  
   cout << "open ok\n";
 
   return 0;

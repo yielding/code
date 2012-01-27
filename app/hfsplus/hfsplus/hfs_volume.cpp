@@ -62,6 +62,12 @@ bool HFSVolume::open(char const* filename)
   return true;
 }
 
+void HFSVolume::list_folder_contents(string const& path)
+{
+  auto record = m_catalog_tree->get_record_from_path(path);
+  
+}
+
 ByteBuffer HFSVolume::read(int64_t offset, size_t sz)
 {
   ByteBuffer b(sz);

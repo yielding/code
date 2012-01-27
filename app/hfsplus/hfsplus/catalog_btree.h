@@ -3,6 +3,7 @@
 
 #include "btree.h"
 
+#include <boost/algorithm/string.hpp>
 #include <string>
 
 using namespace utility::hex;
@@ -33,8 +34,25 @@ public:
   {
   }
 
-public:
-  get_record_from_path(string const& path);
+protected:
+  search_by_cnid(HFSCatalogNodeID cnid)
+  {
+    auto thr_record = search
+  }
+  
+  void get_record_from_path(string const& path)
+  {
+    if (!boost::starts_with(path, "/"))
+      return;
+      // return make_pair(nullptr, nullptr);
+    
+    if (path == "/")
+      return search_by_cnid(kHFSRootFolderID);
+    
+    // TODO
+    
+  }
+  
 };
 
 ////////////////////////////////////////////////////////////////////////////////
