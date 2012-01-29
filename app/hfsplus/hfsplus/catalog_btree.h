@@ -38,7 +38,8 @@ class CatalogTree;
 template <> 
 struct BTreeTraits<CatalogTree>
 {
-  typedef CatalogTreeNode Node;
+  typedef CatalogTreeNode   Node;
+  typedef CatalogLeafRecord LeafRecord;
   typedef HFSPlusCatalogKey SearchKey;
 };
 
@@ -54,12 +55,13 @@ public:
   ~CatalogTree();
   
 public:
-  int compare_keys(HFSPlusCatalogKey const& key1, ByteBuffer& key2) const
+  int compare_keys(HFSPlusCatalogKey const& key1, HFSPlusCatalogKey const& key2) const
   {
     return -1;
   }
 
-  auto read_index_record(ByteBuffer& buffer, uint32_t offset) -> CatalogIndexRecord
+  auto read_index_record(ByteBuffer& buffer, uint32_t offset) const 
+    -> CatalogIndexRecord
   {
     CatalogIndexRecord record;
     record.key.read_from(buffer);
@@ -68,7 +70,8 @@ public:
     return record;
   }
 
-  auto read_leaf_record(ByteBuffer& buffer, uint32_t offset) -> CatalogLeafRecord
+  auto read_leaf_record(ByteBuffer& buffer, uint32_t offset) const 
+    -> CatalogLeafRecord
   {
     CatalogLeafRecord record;
     record.key.read_from(buffer);
@@ -82,17 +85,18 @@ public:
   }
 
 protected:
-  // REMARK찾고자 하는 파일의 CNID를 아는 경우
-  // 1. search CatalogKey.parientID = cnid, name = "" -> thread record
-  // 2. search CatalogKey.parentId = thread.parentID, name=thread.name
-  auto search_by_cnid(HFSCatalogNodeID cnid) -> HFSPlusCatalogFile
+  auto search_by_cnid(HFSCatalogNodeID cnid) -> CatalogLeafRecord
   {
-    HFSPlusCatalogFile file;
     HFSPlusCatalogKey key;
+    key.parentID = cnid;
+
+    auto thread = search(key);
+    assert(thread.data.recordType == 3 || thread.data.recordType == 4);
     
-    // search(key);
+    key.parentID = thread.data.thread.parentID;
+    key.nodeName = thread.data.thread.nodeName;
     
-    return file;
+    return search(key);
   }
   
   void get_record_from_path(string const& path)

@@ -36,6 +36,7 @@ class BTree
 {
 public:
   typedef typename BTreeTraits<HFSTree>::Node BTreeNode;
+  typedef typename BTreeTraits<HFSTree>::LeafRecord LeafRecord;
   typedef typename BTreeTraits<HFSTree>::SearchKey SearchKey;
   
 public:
@@ -44,10 +45,11 @@ public:
 public:
   auto node_in_use(uint32_t no) -> bool;
   
-  auto read_empty_space() -> ByteBuffer;
+  auto read_empty_space() 
+    -> ByteBuffer;
   
   auto search(SearchKey const& key, uint32_t node_no=0xFFFFFFFF) 
-    -> BufferPair;
+    -> LeafRecord;
   
   auto search_multiple(ByteBuffer& search_key, Callback& call) 
     -> BTreeNode;
@@ -73,12 +75,12 @@ private:
   BTNodeDescriptor m_last_btnode;
   ByteBuffer m_maprec;
 
-  HFSFile*   m_file;
-  uint32_t   m_nodes_in_block;
-  uint32_t   m_blocks_for_node;
-  uint32_t   m_node_size;
-  uint32_t   m_last_record_no;
-  uint32_t   m_last_node_no;
+  HFSFile* m_file;
+  uint32_t m_nodes_in_block;
+  uint32_t m_blocks_for_node;
+  uint32_t m_node_size;
+  uint32_t m_last_record_no;
+  uint32_t m_last_node_no;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -194,33 +196,12 @@ auto BTree<HFSTree>::read_btree_node(uint32_t node_no)
     }
   }
 
-  /*
-  if (btnode.kind == kBTLeafNode)
-  {
-    node.type = kBTLeafNode;
-    for (int i=0; i<btnode.numRecords; i++)
-    {
-      auto offset = offsets[btnode.numRecords-i-1];
-      auto record = self().read_leaf_record(node_buffer, offset);
-      node.lrecs.push_back(record);
-    
-//      record.key   = self().parse_key(node_buffer, offset);
-//      record.value = self().parse_data(node_buffer, offset);
-    }
-  }
-  else
-  {
-    node.type = -10;
-  }
-  */
-  
   return node;
 }
 
 template <typename HFSTree> 
-// template <typename SearchKey>
 auto BTree<HFSTree>::search(SearchKey const& search_key, uint32_t node_no_) 
-  -> BufferPair
+  -> LeafRecord
 {
   auto node_no = (node_no_ == 0xFFFFFFFF)
     ? m_header_record.rootNode
@@ -229,26 +210,24 @@ auto BTree<HFSTree>::search(SearchKey const& search_key, uint32_t node_no_)
   auto node = this->read_btree_node(node_no);
   if (node.type == kBTIndexNode)
   {
-    for (auto i=0; i<node.data.size(); i++)
+    for (auto i=0; i<node.irecs.size(); i++)
     {
-      if (self().compare_keys(search_key, node.data[i].first) >= 0)
+      if (self().compare_keys(search_key, node.irecs[i].key) >= 0)
         continue;
       
       auto j = (i > 0) ? i - 1 : 0;
-      return search(search_key, node.data[j]);
+      return search(search_key, node.irecs[j].pointer);
     }
     
-    return search(search_key, node.data[node.data.size()-1]);
+    return search(search_key, node.irecs[node.irecs.size()-1].pointer);
   }
 
   if (node.type == kBTLeafNode)
   {
     m_last_record_no = 0;
-    for (auto it=node.data.begin(); it != node.data.end(); ++it)
+    for (auto it=node.lrecs.begin(); it != node.lrecs.end(); ++it)
     {
-      auto key    = it->first;
-      auto value  = it->second;
-      auto result = self().compareKey(search_key, key);
+      auto result = self().compare_keys(search_key, it->key);
       if (result == 0)
         return *it;
       
@@ -259,7 +238,7 @@ auto BTree<HFSTree>::search(SearchKey const& search_key, uint32_t node_no_)
     }
   }
 
-  return make_pair(ByteBuffer(), ByteBuffer());
+  return LeafRecord();
 }
 
 template <typename HFSTree>
@@ -309,7 +288,8 @@ auto BTree<HFSTree>::traverse_leaf_nodes(Callback& call) -> uint32_t
 }
 
 template <typename HFSTree>
-auto BTree<HFSTree>::search_multiple(ByteBuffer& search_key, Callback& call) -> BTreeNode
+auto BTree<HFSTree>::search_multiple(ByteBuffer& search_key, Callback& call) 
+  -> BTreeNode
 {
   search(search_key);
   auto node_no = m_last_node_no;
