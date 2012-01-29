@@ -14,31 +14,36 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-struct CatalogIndexRec
+struct CatalogIndexRecord
 {
   HFSPlusCatalogKey key;
   uint32_t pointer;
 };
 
-struct CatalogLeafRec
+struct CatalogLeafRecord
 {
   HFSPlusCatalogKey key;
 
 };
 
-struct CatalogNode
+struct CatalogTreeNode
 {
   int type;
-  vector<CatalogIndexRec> irecs;
-  vector<CatalogLeafRec> lrecs;
+  vector<CatalogIndexRecord> irecs;
+  vector<CatalogLeafRecord> lrecs;
+};
+
+class CatalogTree;
+
+template <> 
+struct BTreeTraits<CatalogTree>
+{
+  typedef CatalogTreeNode Node;
+  typedef HFSPlusCatalogKey SearchKey;
 };
 
 class CatalogTree: public BTree<CatalogTree>
 {
-public:
-  typedef HFSPlusCatalogKey SKey;
-  typedef CatalogNode Node;
-  
 public:
   CatalogTree(HFSFile* file);
   ~CatalogTree();
@@ -79,7 +84,8 @@ protected:
   {
     HFSPlusCatalogFile file;
     HFSPlusCatalogKey key;
-    search(key);
+    
+    // search(key);
     
     return file;
   }

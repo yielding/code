@@ -17,10 +17,6 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 namespace {
   typedef pair<ByteBuffer, ByteBuffer> BufferPair;
-  struct BTreeNode {
-    int type;
-    vector<BufferPair> data;
-  };
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,9 +28,16 @@ class HFSFile;
 
 typedef boost::function<void(BufferPair const&)> Callback;
 
+template <typename HFSTree> 
+struct BTreeTraits;
+
 template <typename HFSTree>
 class BTree
 {
+public:
+  typedef typename BTreeTraits<HFSTree>::Node BTreeNode;
+  typedef typename BTreeTraits<HFSTree>::SearchKey SearchKey;
+  
 public:
   BTree(HFSFile* file);
 
@@ -43,7 +46,7 @@ public:
   
   auto read_empty_space() -> ByteBuffer;
   
-  template <typename SearchKey>
+  //template <typename SearchKey>
   auto search(SearchKey const& key, uint32_t node_no=0xFFFFFFFF) 
     -> BufferPair;
   
@@ -162,7 +165,7 @@ auto BTree<HFSTree>::read_node(uint32_t node_no) -> ByteBuffer
 
 template <typename HFSTree>
 auto BTree<HFSTree>::read_btree_node(uint32_t node_no) 
-  -> HFSTree::Node
+  -> BTreeNode
 {
   m_last_node_no = node_no;
 
@@ -171,15 +174,21 @@ auto BTree<HFSTree>::read_btree_node(uint32_t node_no)
   
   auto offsets = read_offsets(btnode, node_buffer);
 
-  HFSTree::Node node;
+  BTreeNode node;
   node.type = btnode.kind;
-  auto self = self();
   for (auto i=0; i<btnode.numRecords; i++)
   {
     auto offset = offsets[btnode.numRecords-i-1];
-    auto record = (node.type == kBTIndexNode) 
-      ? ( self.read_index_record(node_buffer, offset), node.irecs.push_back(record) )
-      : ( self.read_leaf_record(node_buffer, offset),  node.lrecs.push_back(record) );
+    if (node.type == kBTIndexNode)
+    {
+      auto record = self().read_index_record(node_buffer, offset);
+      node.irecs.push_back(record);
+    }
+    else
+    {
+      auto record = self().read_leaf_record(node_buffer, offset);
+      node.lrecs.push_back(record);
+    }
   }
 
   /*
@@ -218,7 +227,8 @@ auto BTree<HFSTree>::read_btree_node(uint32_t node_no)
   return node;
 }
 
-template <typename HFSTree> template <typename SearchKey>
+template <typename HFSTree> 
+// template <typename SearchKey>
 auto BTree<HFSTree>::search(SearchKey const& search_key, uint32_t node_no_) 
   -> BufferPair
 {
