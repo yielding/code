@@ -46,7 +46,6 @@ public:
   
   auto read_empty_space() -> ByteBuffer;
   
-  //template <typename SearchKey>
   auto search(SearchKey const& key, uint32_t node_no=0xFFFFFFFF) 
     -> BufferPair;
   
@@ -97,7 +96,7 @@ BTree<HFSTree>::BTree(HFSFile* file)
   if (btnode.kind != kBTHeaderNode)
     throw std::runtime_error("Headernode type should be kbBTHeaderNode");
                              
-  m_header_record.read_from(b0, BTNodeDescriptor::size_of());
+  m_header_record.read_from(b0, BTNodeDescriptor::size_of);
 
   m_node_size       = m_header_record.nodeSize;
   m_nodes_in_block  = file->block_size() / m_node_size;
@@ -184,28 +183,19 @@ auto BTree<HFSTree>::read_btree_node(uint32_t node_no)
       auto record = self().read_index_record(node_buffer, offset);
       node.irecs.push_back(record);
     }
-    else
+    else if (node.type == kBTLeafNode)
     {
       auto record = self().read_leaf_record(node_buffer, offset);
       node.lrecs.push_back(record);
     }
+    else
+    {
+      assert(0);
+    }
   }
 
   /*
-  if (btnode.kind == kBTIndexNode)
-  {
-    node.type = kBTIndexNode;
-    for (int i=0; i<btnode.numRecords; i++)
-    {
-      auto offset = offsets[btnode.numRecords-i-1];
-      auto record = self().read_index_record(node_buffer, offset);
-      node.irecs.push_back(record); 
-
-//      node_buffset.offset(offset); record.key = self().parse_key(node_buffer, offset);
-//      node_buffset.offset(offset); record.pointer = node_buffer.get_uint4_be();
-    }
-  }
-  else if (btnode.kind == kBTLeafNode)
+  if (btnode.kind == kBTLeafNode)
   {
     node.type = kBTLeafNode;
     for (int i=0; i<btnode.numRecords; i++)

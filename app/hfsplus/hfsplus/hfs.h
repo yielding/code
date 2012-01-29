@@ -4,22 +4,13 @@
 #include "ByteBuffer.h"
 
 #include <cstring>
+#include <stdexcept>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include "begin_packed.h"
-
-/*
-   struct BTKey
-   {
-   uint16_t keyLength;
-   uint8_t  data[0];
-   } PACKED;
-
-   typedef BTKey* PBTKey;
-   */
+// #include "begin_packed.h"
 
 #define STR_SIZE(str) (sizeof(uint16_t) + (sizeof(uint16_t) * (str).length))
 
@@ -41,8 +32,11 @@ enum {
 
 struct HFSUniStr255
 {
-  enum { size_of = 2 + 2*255 };
-    
+  size_t size() const
+  {
+    return 2 + length*2;
+  }
+  
   bool operator==(HFSUniStr255 const& rhs) const 
   {
     if (this != &rhs)
@@ -110,7 +104,7 @@ struct HFSPlusForkData
   uint32_t clumpSize;
   uint32_t totalBlocks;
   HFSPlusExtentRecord extents;
-} PACKED;
+};
 
 struct HFSPlusVolumeHeader 
 {
@@ -149,7 +143,7 @@ struct HFSPlusVolumeHeader
   HFSPlusForkData catalogFile;
   HFSPlusForkData attributesFile;
   HFSPlusForkData startupFile;
-} PACKED;
+};
 
 #define FLAG_DECRYPTING 0x454d4664  // EMFd big endian
 #define FLAG_DECRYPTED  0x454d4644  // EMFD big endian
@@ -164,6 +158,8 @@ enum  // BTree Node type
 
 struct BTNodeDescriptor
 {
+  enum { size_of = 2*4 + 2*1 + 2*2 };
+
   BTNodeDescriptor() {}
   
   BTNodeDescriptor(utility::hex::ByteBuffer& b, uint32_t offset=0)
@@ -171,8 +167,6 @@ struct BTNodeDescriptor
     read_from(b, offset);
   }
   
-  static uint32_t size_of() { return 2*4 + 2*1 + 2*2; }
-
   void read_from(utility::hex::ByteBuffer& b, uint32_t offset=0)
   {
     if (offset > 0)
@@ -268,12 +262,10 @@ struct HFSPlusExtentKey
   uint8_t  pad;
   HFSCatalogNodeID fileID;
   uint32_t startBlock;
-} PACKED;
+};
 
 struct HFSPlusCatalogKey
 {
-  enum { size_of = 2 + 4 + HFSUniStr255::size_of };
-  
   bool operator==(HFSPlusCatalogKey const& rhs) const
   {
     if (this != &rhs)
@@ -296,7 +288,7 @@ struct HFSPlusCatalogKey
   uint16_t         keyLength;
   HFSCatalogNodeID parentID;
   HFSUniStr255     nodeName;
-} PACKED;
+};
 
 typedef HFSPlusCatalogKey* PHFSPlusCatalogKey;
 
@@ -310,7 +302,7 @@ struct HFSPoint
 
   int16_t v;
   int16_t h;
-} PACKED;
+};
 
 struct HFSRect
 {
@@ -326,7 +318,7 @@ struct HFSRect
   int16_t left;
   int16_t bottom;
   int16_t right;
-} PACKED;
+};
 
 // OSType is a 32-bit value made by packing four 1-byte characters 
 // together.
@@ -386,7 +378,7 @@ struct FileInfo
   uint16_t  finderFlags;
   HFSPoint  location;           // File's location in the folder.
   uint16_t  reservedField;
-} PACKED;
+};
 
 struct ExtendedFileInfo
 {
@@ -402,7 +394,7 @@ struct ExtendedFileInfo
   uint16_t  extendedFinderFlags;
   int16_t   reserved2;
   int32_t   putAwayFolderID;
-} PACKED;
+};
 
 struct FolderInfo
 {
@@ -418,7 +410,7 @@ struct FolderInfo
   uint16_t  finderFlags;
   HFSPoint  location;           // Folder's location in the parent folder. If set to {0, 0}, the Finder 
   uint16_t  reservedField;      // will place the item automatically 
-} PACKED;
+};
 
 struct ExtendedFolderInfo
 {
@@ -436,7 +428,7 @@ struct ExtendedFolderInfo
   uint16_t  extendedFinderFlags;
   int16_t   reserved2;
   int32_t   putAwayFolderID;
-} PACKED;
+};
 
 #ifndef _STAT_H_
 #ifndef _SYS_STAT_H
@@ -497,7 +489,7 @@ struct HFSPlusBSDInfo
     uint32_t  linkCount;
     uint32_t  rawDevice;
   } special;
-} PACKED;
+};
 
 enum {
   kHFSPlusFolderRecord        = 0x0001,
@@ -563,7 +555,7 @@ struct HFSPlusCatalogFolder
   ExtendedFolderInfo finderInfo;
   uint32_t           textEncoding;
   uint32_t           folderCount;
-} PACKED;
+};
 
 typedef HFSPlusCatalogFolder* PHFSPlusCatalogFolder;
 
@@ -589,11 +581,6 @@ struct HFSPlusCatalogFile
     resourceFork.read_from(b);
   }
 
-  bool is_symlink()
-  {
-    return (permissions.fileMode & S_IFLNK) == S_IFLNK;
-  }
-
   int16_t             recordType;
   uint16_t            flags;
   uint32_t            reserved1;
@@ -611,7 +598,7 @@ struct HFSPlusCatalogFile
 
   HFSPlusForkData     dataFork;
   HFSPlusForkData     resourceFork;
-} PACKED;
+};
 
 typedef HFSPlusCatalogFile* PHFSPlusCatalogFile;
 
@@ -629,14 +616,47 @@ struct HFSPlusCatalogThread
   int16_t             reserved;
   HFSCatalogNodeID    parentID;
   HFSUniStr255        nodeName;
-} PACKED;
+};
 
 typedef HFSPlusCatalogThread* PHFSPlusCatalogThread;
 
-enum {
+union HFSPlusCatalogData
+{
+  bool is_folder() { return recordType == kHFSPlusFolderRecord;     }
+  bool is_file()   { return recordType == kHFSPlusFileRecord;       }
+  bool is_thread() { return (recordType == 3) || (recordType == 4); } 
+
+  void read_from(utility::hex::ByteBuffer& b)
+  {
+    recordType = b.get_int2_be();
+    b.unget(2);
+
+    switch(recordType) {
+      case 1: folder.read_from(b); break;
+      case 2:   file.read_from(b); break;
+      case 3:
+      case 4: thread.read_from(b); break;
+      default:
+        throw std::runtime_error("undefined catalog record type");
+    }
+  }
+
+  int16_t recordType;
+  HFSPlusCatalogFile file;
+  HFSPlusCatalogFolder folder;
+  HFSPlusCatalogThread thread;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+enum 
+{
   kHFSPlusAttrInlineData = 0x10,
-  kHFSPlusAttrForkData = 0x20,
-  kHFSPlusAttrExtents	= 0x30
+  kHFSPlusAttrForkData   = 0x20,
+  kHFSPlusAttrExtents	   = 0x30
 };
 
 struct HFSPlusAttrForkData
@@ -651,7 +671,7 @@ struct HFSPlusAttrForkData
   uint32_t 	recordType;
   uint32_t 	reserved;
   HFSPlusForkData theFork;
-} PACKED;
+};
 
 struct HFSPlusAttrExtents
 {
@@ -675,7 +695,7 @@ struct HFSPlusAttrData
     for (int i=0; i<2; i++) reserved[i] = b.get_uint4_be();
     size = b.get_uint4_be();
 
-    // ¾Æ·¡ ÄÚµå´Â º°·Îµµ Ã¤¿ö¾ß ÇÑ´Ù.
+    // ì•„ëž˜ ì½”ë“œëŠ” ë³„ë¡œë„ ì±„ì›Œì•¼ í•œë‹¤.
     // for (uint32_t i=0; i<size; ++i)  data.push_back(b.get_uint1());
   }
 
@@ -683,7 +703,7 @@ struct HFSPlusAttrData
   uint32_t reserved[2];
   uint32_t size;
   uint8_t  data[0];
-} PACKED;
+};
 
 struct HFSPlusAttrRecord
 {
@@ -728,7 +748,6 @@ struct HFSPlusAttrKey
     fileID      = b.get_uint4_be();
     startBlock  = b.get_uint4_be();
 
-    // ÀÐ´Â ºÎºÐÀÌ ³ª´©¾îÁ® ÀÖ´Ù. ÁÖÀÇ
     name.length = b.get_uint2_be();
     // name.read_from(b);
   }
@@ -738,7 +757,7 @@ struct HFSPlusAttrKey
   uint32_t     fileID;
   uint32_t     startBlock;
   HFSUniStr255 name;
-} PACKED;
+} ;
 
 typedef HFSPlusAttrKey* PHFSPlusAttrKey;
 
@@ -746,30 +765,6 @@ enum {
   kHardLinkFileType = 0x686C6E6B,  /* 'hlnk' */
   kHFSPlusCreator   = 0x6866732B   /* 'hfs+' */
 };
-
-struct HFSPlusCatalogRecord
-{
-  bool is_folder() { return recordType == kHFSPlusFolderRecord;   }
-  bool is_file()   { return recordType == kHFSPlusFileRecord;     }
-  PHFSPlusCatalogThread to_thread() { return PHFSPlusCatalogThread(this); }
-  PHFSPlusCatalogFile   to_file()   { return PHFSPlusCatalogFile(this);   }
-  PHFSPlusCatalogFolder to_folder() { return PHFSPlusCatalogFolder(this); }
-
-  //bool is_attr_inline { return recordType == kHFSPlusAttrInlineData; }
-
-  int16_t recordType;
-  uint8_t data[0];
-} PACKED;
-
-typedef HFSPlusCatalogRecord* PHFSPlusCatalogRecord;
-
-struct CatalogRecord
-{
-  HFSUniStr255 name;
-  HFSPlusCatalogRecord* record;
-};
-
-typedef std::vector<CatalogRecord> CatalogRecordList;
 
 typedef std::vector<std::string> XAttrList;
 
@@ -868,5 +863,5 @@ struct block_list_header
 #define APPLE_TO_UNIX_TIME(x) ((x) - TIME_OFFSET_FROM_UNIX)
 #define UNIX_TO_APPLE_TIME(x) ((x) + TIME_OFFSET_FROM_UNIX)
 
-#include "end_packed.h"
+// #include "end_packed.h"
 #endif

@@ -22,15 +22,15 @@ struct CatalogIndexRecord
 
 struct CatalogLeafRecord
 {
-  HFSPlusCatalogKey key;
-
+  HFSPlusCatalogKey  key;
+  HFSPlusCatalogData data;
 };
 
 struct CatalogTreeNode
 {
   int type;
   vector<CatalogIndexRecord> irecs;
-  vector<CatalogLeafRecord> lrecs;
+  vector<CatalogLeafRecord>  lrecs;
 };
 
 class CatalogTree;
@@ -42,6 +42,11 @@ struct BTreeTraits<CatalogTree>
   typedef HFSPlusCatalogKey SearchKey;
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 class CatalogTree: public BTree<CatalogTree>
 {
 public:
@@ -49,27 +54,27 @@ public:
   ~CatalogTree();
   
 public:
-  ByteBuffer parse_key(ByteBuffer& b, uint16_t& offset) const
-  {
-    return b;
-  }
-  
-  ByteBuffer parse_data(ByteBuffer& b, uint16_t& offset) const
-  {
-    return b;
-  }
-  
   int compare_keys(HFSPlusCatalogKey const& key1, ByteBuffer& key2) const
   {
     return -1;
   }
 
-  void read_index_record(ByteBuffer& buffer, uint32_t offset)
+  auto read_index_record(ByteBuffer& buffer, uint32_t offset) -> CatalogIndexRecord
   {
+    CatalogIndexRecord record;
+    record.key.read_from(buffer);
+    record.pointer = buffer.get_uint4_be();
+
+    return record;
   }
 
-  void read_leaf_record(ByteBuffer& buffer, uint32_t offset)
+  auto read_leaf_record(ByteBuffer& buffer, uint32_t offset) -> CatalogLeafRecord
   {
+    CatalogLeafRecord record;
+    record.key.read_from(buffer);
+    record.data.read_from(buffer);
+
+    return record;
   }
   
   void print_leaf(BufferPair const&)
