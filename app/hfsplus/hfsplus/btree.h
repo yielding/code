@@ -15,7 +15,7 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace  {
+namespace {
   typedef pair<ByteBuffer, ByteBuffer> BufferPair;
   struct BTreeNode {
     int type;
@@ -40,18 +40,29 @@ public:
 
 public:
   auto node_in_use(uint32_t no) -> bool;
-  auto read_node(uint32_t node_no) -> ByteBuffer;
-  auto read_btree_node(uint32_t node_no) -> BTreeNode;
+  
   auto read_empty_space() -> ByteBuffer;
-
-  auto search(ByteBuffer& key, uint32_t node_no=0xFFFFFFFF) -> BufferPair;
-  auto search_multiple(ByteBuffer& search_key, Callback& call) -> BTreeNode;
-  auto traverse(uint32_t node_no, Callback& call, uint32_t count=0) -> uint32_t;
+  
+  template <typename SearchKey>
+  auto search(SearchKey const& key, uint32_t node_no=0xFFFFFFFF) 
+    -> BufferPair;
+  
+  auto search_multiple(ByteBuffer& search_key, Callback& call) 
+    -> BTreeNode;
+  
+  auto traverse(uint32_t node_no, Callback& call, uint32_t count=0) 
+    -> uint32_t;
+  
   auto traverse_leaf_nodes(Callback& call) -> uint32_t;
   
+protected:
+  auto read_node(uint32_t node_no) -> ByteBuffer;
+  auto read_btree_node(uint32_t node_no) -> BTreeNode;
+  auto read_offsets(BTNodeDescriptor const& btnode, ByteBuffer& buffer)
+     -> vector<uint16_t>;
+
 private:
-  HFSTree const& self() 
-  { 
+  HFSTree const& self() { 
     return static_cast<HFSTree const&>(*this); 
   }
   
@@ -77,12 +88,12 @@ template <typename HFSTree>
 BTree<HFSTree>::BTree(HFSFile* file) 
   : m_file(file)
 {
-  auto b0 = m_file->read_block(0);
+  auto b0 = read_node(0);
   BTNodeDescriptor btnode(b0);
 
   if (btnode.kind != kBTHeaderNode)
-    cout << "Should be THeaderNode not not die~~~~~~~~~~~\n";
-
+    throw std::runtime_error("Headernode type should be kbBTHeaderNode");
+                             
   m_header_record.read_from(b0, BTNodeDescriptor::size_of());
 
   m_node_size       = m_header_record.nodeSize;
@@ -90,13 +101,27 @@ BTree<HFSTree>::BTree(HFSFile* file)
   m_blocks_for_node = m_node_size / file->block_size();
   m_last_record_no  = 0;
 
-  auto root_node = read_btree_node(0);
-  assert(root_node.data.size() == 2);
-  m_maprec = root_node.data[1].first;
+  auto offsets = read_offsets(btnode, b0);
+  auto from = offsets[offsets.size() - 3];
+  auto to   = offsets[offsets.size() - 4];
+  m_maprec  = b0.slice(from, to);
 }
 
 template <typename HFSTree>
-bool BTree<HFSTree>::node_in_use(uint32_t no)
+auto BTree<HFSTree>::read_offsets(BTNodeDescriptor const& btnode, ByteBuffer& buffer)
+  -> vector<uint16_t>
+{
+  vector<uint16_t> offsets;
+  
+  buffer.offset(uint32_t(buffer.size() - 2*(btnode.numRecords+1)));
+  for (auto i=0; i<=btnode.numRecords; i++) 
+    offsets.push_back(buffer.get_uint2_be());
+    
+  return offsets;
+}
+
+template <typename HFSTree>
+auto BTree<HFSTree>::node_in_use(uint32_t no) -> bool
 {
   auto this_byte = m_maprec[no / 8];
   return (this_byte & (1 << (7 - (no % 8)))) != 0;
@@ -104,9 +129,10 @@ bool BTree<HFSTree>::node_in_use(uint32_t no)
 
 // not tested
 template <typename HFSTree>
-ByteBuffer BTree<HFSTree>::read_empty_space()
+auto BTree<HFSTree>::read_empty_space() -> ByteBuffer 
 {
   ByteBuffer res;
+
   int64_t free_nodes = 0;
   for (uint32_t i=0; i<m_header_record.totalNodes; i++)
   {
@@ -118,12 +144,11 @@ ByteBuffer BTree<HFSTree>::read_empty_space()
   }
   
   assert(free_nodes == m_header_record.freeNodes);
-  
   return res;
 }
 
 template <typename HFSTree>
-ByteBuffer BTree<HFSTree>::read_node(uint32_t node_no)
+auto BTree<HFSTree>::read_node(uint32_t node_no) -> ByteBuffer
 {
   ByteBuffer node;
   for (auto i=0; i<m_blocks_for_node; i++)
@@ -136,68 +161,65 @@ ByteBuffer BTree<HFSTree>::read_node(uint32_t node_no)
 }
 
 template <typename HFSTree>
-auto BTree<HFSTree>::read_btree_node(uint32_t node_no) -> BTreeNode
+auto BTree<HFSTree>::read_btree_node(uint32_t node_no) 
+  -> HFSTree::Node
 {
   m_last_node_no = node_no;
+
   auto node_buffer = read_node(node_no);
-  BTNodeDescriptor btnode(node_buffer);
-  m_last_btnode = btnode;
+  BTNodeDescriptor btnode(node_buffer); m_last_btnode = btnode;
   
-  // REMARK
-  // read one more offset to find out the end of macrec.
-  node_buffer.offset(uint32_t(node_buffer.size() - 2*(btnode.numRecords+1)));
-  vector<uint16_t> offsets;
-  for (auto i=0; i<=btnode.numRecords; i++) 
-    offsets.push_back(node_buffer.get_uint2_be());
-    
-  BTreeNode node;
-  if (btnode.kind == kBTHeaderNode)
+  auto offsets = read_offsets(btnode, node_buffer);
+
+  HFSTree::Node node;
+  node.type = btnode.kind;
+  auto self = self();
+  for (auto i=0; i<btnode.numRecords; i++)
   {
-    uint32_t start = BTNodeDescriptor::size_of();
-    auto header = node_buffer.slice(start, start + BTHeaderRec::size_of());
-    node.data.push_back(make_pair(header, ByteBuffer()));
-    
-    auto from = offsets[offsets.size()-3];
-    auto to   = offsets[offsets.size()-4];
-    auto maprec = node_buffer.slice(from, to);
-    node.data.push_back(make_pair(maprec, ByteBuffer()));
-    node.type = kBTHeaderNode;
+    auto offset = offsets[btnode.numRecords-i-1];
+    auto record = (node.type == kBTIndexNode) 
+      ? ( self.read_index_record(node_buffer, offset), node.irecs.push_back(record) )
+      : ( self.read_leaf_record(node_buffer, offset),  node.lrecs.push_back(record) );
   }
-  else if (btnode.kind == kBTIndexNode)
+
+  /*
+  if (btnode.kind == kBTIndexNode)
   {
+    node.type = kBTIndexNode;
     for (int i=0; i<btnode.numRecords; i++)
     {
       auto offset = offsets[btnode.numRecords-i-1];
-      // TODO 여기가 제일 어렵네...
-      // child 는 UBInt32("nodeNumber"): unsigned big-endian 32bit integer
-      auto child = node_buffer.slice(offset, offset+4);
-      node.data.push_back(make_pair(child, ByteBuffer()));
+      auto record = self().read_index_record(node_buffer, offset);
+      node.irecs.push_back(record); 
+
+//      node_buffset.offset(offset); record.key = self().parse_key(node_buffer, offset);
+//      node_buffset.offset(offset); record.pointer = node_buffer.get_uint4_be();
     }
-    
-    node.type = kBTIndexNode;
   }
   else if (btnode.kind == kBTLeafNode)
   {
+    node.type = kBTLeafNode;
     for (int i=0; i<btnode.numRecords; i++)
     {
       auto offset = offsets[btnode.numRecords-i-1];
-      auto key   = self().parse_key(node_buffer, offset);
-      auto value = self().parse_data(node_buffer, offset);
-      node.data.push_back(make_pair(key, value));
-    }
+      auto record = self().read_leaf_record(node_buffer, offset);
+      node.lrecs.push_back(record);
     
-    node.type = kBTLeafNode; 
+//      record.key   = self().parse_key(node_buffer, offset);
+//      record.value = self().parse_data(node_buffer, offset);
+    }
   }
   else
   {
     node.type = -10;
   }
+  */
   
   return node;
 }
 
-template <typename HFSTree>
-auto BTree<HFSTree>::search(ByteBuffer& search_key, uint32_t node_no_) 
+template <typename HFSTree> template <typename SearchKey>
+auto BTree<HFSTree>::search(SearchKey const& search_key, uint32_t node_no_) 
   -> BufferPair
 {
   auto node_no = (node_no_ == 0xFFFFFFFF)
@@ -209,16 +231,17 @@ auto BTree<HFSTree>::search(ByteBuffer& search_key, uint32_t node_no_)
   {
     for (auto i=0; i<node.data.size(); i++)
     {
-      if (self().compare_keys(search_key, node.data[i].first) < 0)
-      {
-        if (i > 0) i--;
-        return search(search_key, node.data[i]);
-      }
+      if (self().compare_keys(search_key, node.data[i].first) >= 0)
+        continue;
+      
+      auto j = (i > 0) ? i - 1 : 0;
+      return search(search_key, node.data[j]);
     }
     
     return search(search_key, node.data[node.data.size()-1]);
   }
-  else if (node.type == kBTLeafNode)
+
+  if (node.type == kBTLeafNode)
   {
     m_last_record_no = 0;
     for (auto it=node.data.begin(); it != node.data.end(); ++it)

@@ -41,14 +41,18 @@ enum {
 
 struct HFSUniStr255
 {
+  enum { size_of = 2 + 2*255 };
+    
   bool operator==(HFSUniStr255 const& rhs) const 
   {
     if (this != &rhs)
     {
-      if (length != rhs.length) return false;
+      if (length != rhs.length) 
+        return false;
 
       for (uint16_t i=0; i<length; i++)
-        if (unicode[i] != rhs.unicode[i]) return false;
+        if (unicode[i] != rhs.unicode[i]) 
+          return false;
     }
 
     return true;
@@ -76,7 +80,7 @@ typedef const HFSUniStr255 *ConstHFSUniStr255Param;
 
 struct HFSPlusExtentDescriptor
 {
-  static uint32_t size_of() { return 2*4; }
+  enum { size_of = 2 * 4 };
 
   void read_from(utility::hex::ByteBuffer& b)
   {
@@ -268,6 +272,8 @@ struct HFSPlusExtentKey
 
 struct HFSPlusCatalogKey
 {
+  enum { size_of = 2 + 4 + HFSUniStr255::size_of };
+  
   bool operator==(HFSPlusCatalogKey const& rhs) const
   {
     if (this != &rhs)

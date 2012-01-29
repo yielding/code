@@ -64,7 +64,7 @@ bool HFSVolume::open(char const* filename)
 
 void HFSVolume::list_folder_contents(string const& path)
 {
-  auto record = m_catalog_tree->get_record_from_path(path);
+  // auto record = m_catalog_tree->get_record_from_path(path);
   
 }
 
