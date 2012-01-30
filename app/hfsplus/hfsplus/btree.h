@@ -26,7 +26,7 @@ namespace {
 ////////////////////////////////////////////////////////////////////////////////
 class HFSFile;
 
-typedef boost::function<void(BufferPair const&)> Callback;
+typedef boost::function<bool(HFSCatalogNodeID)> Callback;
 
 template <typename HFSTree> 
 struct BTreeTraits;
@@ -51,7 +51,7 @@ public:
   auto search(SearchKey const& key, uint32_t node_no=0xFFFFFFFF) 
     -> LeafRecord;
   
-  auto search_multiple(ByteBuffer& search_key, Callback& call) 
+  auto search_multiple(SearchKey const& key, Callback const& call) 
     -> BTreeNode;
   
   auto traverse(uint32_t node_no, Callback& call, uint32_t count=0) 
@@ -92,19 +92,28 @@ template <typename HFSTree>
 BTree<HFSTree>::BTree(HFSFile* file) 
   : m_file(file)
 {
-  auto b0 = read_node(0);
+  auto b0 = m_file->read_block(0);
   BTNodeDescriptor btnode(b0);
 
   if (btnode.kind != kBTHeaderNode)
     throw std::runtime_error("Headernode type should be kbBTHeaderNode");
                              
-  m_header_record.read_from(b0, BTNodeDescriptor::size_of);
+  m_header_record.read_from(b0);
 
   m_node_size       = m_header_record.nodeSize;
   m_nodes_in_block  = file->block_size() / m_node_size;
   m_blocks_for_node = m_node_size / file->block_size();
   m_last_record_no  = 0;
+  
+  for (int i=1; i<m_blocks_for_node; i++)
+  {
+    auto b1 = m_file->read_block(i);
+    b0.append(b1);
+  }
 
+//  auto b1 = m_file->read_block(<#uint32_t no#>)
+//  b0.append
+//  b0.append(m_file->read_block(1));
   auto offsets = read_offsets(btnode, b0);
   auto from = offsets[offsets.size() - 3];
   auto to   = offsets[offsets.size() - 4];
@@ -117,7 +126,8 @@ auto BTree<HFSTree>::read_offsets(BTNodeDescriptor const& btnode, ByteBuffer& bu
 {
   vector<uint16_t> offsets;
   
-  buffer.offset(uint32_t(buffer.size() - 2*(btnode.numRecords+1)));
+  uint32_t off = uint32_t(buffer.size() - 2*(btnode.numRecords+1)); 
+  buffer.offset(off);
   for (auto i=0; i<=btnode.numRecords; i++) 
     offsets.push_back(buffer.get_uint2_be());
     
@@ -127,7 +137,8 @@ auto BTree<HFSTree>::read_offsets(BTNodeDescriptor const& btnode, ByteBuffer& bu
 template <typename HFSTree>
 auto BTree<HFSTree>::node_in_use(uint32_t no) -> bool
 {
-  auto this_byte = m_maprec[no / 8];
+  auto buffer = m_maprec.get_buffer();
+  auto this_byte = buffer[no / 8];
   return (this_byte & (1 << (7 - (no % 8)))) != 0;
 }
 
@@ -179,7 +190,7 @@ auto BTree<HFSTree>::read_btree_node(uint32_t node_no)
   node.type = btnode.kind;
   for (auto i=0; i<btnode.numRecords; i++)
   {
-    auto offset = offsets[btnode.numRecords-i-1];
+    auto offset = offsets[btnode.numRecords-i];
     if (node.type == kBTIndexNode)
     {
       auto record = self().read_index_record(node_buffer, offset);
@@ -242,6 +253,40 @@ auto BTree<HFSTree>::search(SearchKey const& search_key, uint32_t node_no_)
 }
 
 template <typename HFSTree>
+auto BTree<HFSTree>::search_multiple(SearchKey const& key, Callback const& call) 
+  -> BTreeNode
+{
+  // 아래의 search에 의해 leaf에 대한 위치가 caching 될 것이라 사료됨.
+  search(key);
+  
+  auto node_no = m_last_node_no;
+  auto record_no = m_last_record_no;
+  BTreeNode node;
+  
+  while (node_no != 0)
+  {
+    auto node_ = read_btree_node(node_no);
+    if (node_.type == kBTIndexNode)
+      return node;
+    
+    auto it = node_.lrecs.begin();
+    advance(it, record_no);
+    for (; it!=node_.lrecs.end(); ++it)
+    {
+      if (call(it->key.parentID))
+        node.lrecs.push_back(*it);
+      else
+        return node;
+    }
+    
+    node_no = m_last_btnode.fLink;
+    record_no = 0;
+  }
+  
+  return node;
+}
+
+template <typename HFSTree>
 auto BTree<HFSTree>::traverse(uint32_t node_no_, Callback& call, uint32_t count) 
   -> uint32_t
 {
@@ -286,33 +331,6 @@ auto BTree<HFSTree>::traverse_leaf_nodes(Callback& call) -> uint32_t
   
   return count;
 }
-
-template <typename HFSTree>
-auto BTree<HFSTree>::search_multiple(ByteBuffer& search_key, Callback& call) 
-  -> BTreeNode
-{
-  search(search_key);
-  auto node_no = m_last_node_no;
-  auto record_no = m_last_record_no;
-  BTreeNode node;
-  while (node_no != 0)
-  {
-    auto node_ = read_btree_node(node_no);
-    for (auto it=node_.data.begin(); it!=node_.data.end(); ++it)
-    {
-      if (call(*it))
-        node.data.push_back(*it);
-      else
-        return node;
-    }
-    
-    node_no = m_last_btnode.fLink;
-    record_no = 0;
-  }
-  
-  return node;
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //

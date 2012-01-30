@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include <iostream>
 #include <vector>
@@ -22,13 +22,12 @@ struct product
 
 int main()
 {
-  std::vector<product> p(10);
+  std::vector<product> p;
 
   for (int i=0; i<10; i++) 
     p.push_back(product(" ", i));
 
-  vector<product>::iterator it = 
-    find_if(p.begin(), p.end(), bind(&product::m_id, _1) == 5);
+  auto it = find_if(p.begin(), p.end(), bind(&product::m_id, _1) == 5);
 
   it != p.end() 
     ? cout << "found valud: " << it->m_id

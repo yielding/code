@@ -4,6 +4,7 @@
 #include "ByteBuffer.h"
 
 #include <cstring>
+#include <string>
 #include <stdexcept>
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -32,6 +33,9 @@ enum {
 
 struct HFSUniStr255
 {
+  HFSUniStr255() :length(0)
+  {}
+  
   size_t size() const
   {
     return 2 + length*2;
@@ -64,6 +68,15 @@ struct HFSUniStr255
       throw std::runtime_error("key name out of bounds");
 
     for (auto i=0; i<length; i++) unicode[i] = b.get_uint2_be();
+  }
+  
+  std::string to_s()
+  {
+    std::string result;
+    for (int i=0; i<length; i++)
+      result.push_back(char(unicode[i] & 0xff));
+    
+    return result;
   }
 
   uint16_t length;
@@ -162,16 +175,13 @@ struct BTNodeDescriptor
 
   BTNodeDescriptor() {}
   
-  BTNodeDescriptor(utility::hex::ByteBuffer& b, uint32_t offset=0)
+  BTNodeDescriptor(utility::hex::ByteBuffer& b0)
   {
-    read_from(b, offset);
+    read_from(b0);
   }
   
-  void read_from(utility::hex::ByteBuffer& b, uint32_t offset=0)
+  void read_from(utility::hex::ByteBuffer& b)
   {
-    if (offset > 0)
-      b.offset(offset);
-
     fLink  = b.get_uint4_be();
     bLink  = b.get_uint4_be();
     kind   = b.get_int1();
@@ -193,16 +203,10 @@ struct BTNodeDescriptor
 
 struct BTHeaderRec
 {
-  static uint32_t size_of()
-  {
-    return 1*2 + 4*4 + 2*2 + 4*2 + 1*2 + 1*4 + 2*1 + 1*4 + 16*4; //106
-  }
+  enum { size_of = 1*2 + 4*4 + 2*2 + 4*2 + 1*2 + 1*4 + 2*1 + 1*4 + 16*4 }; // 106
   
-  void read_from(utility::hex::ByteBuffer& b, uint32_t offset)
+  void read_from(utility::hex::ByteBuffer& b)
   {
-    if (offset > 0)
-      b.offset(offset);
-
     treeDepth      = b.get_uint2_be();
     rootNode       = b.get_uint4_be();
     leafRecords    = b.get_uint4_be();
@@ -266,6 +270,12 @@ struct HFSPlusExtentKey
 
 struct HFSPlusCatalogKey
 {
+  HFSPlusCatalogKey()
+  {
+    keyLength = 0;
+    parentID = 0;
+  }
+  
   bool operator==(HFSPlusCatalogKey const& rhs) const
   {
     if (this != &rhs)
@@ -622,6 +632,10 @@ typedef HFSPlusCatalogThread* PHFSPlusCatalogThread;
 
 union HFSPlusCatalogData
 {
+  HFSPlusCatalogData() 
+    :recordType(0) 
+  {}
+  
   bool is_folder() { return recordType == kHFSPlusFolderRecord;     }
   bool is_file()   { return recordType == kHFSPlusFileRecord;       }
   bool is_thread() { return (recordType == 3) || (recordType == 4); } 

@@ -53,7 +53,7 @@ class TestKoreanString < Test::Unit::TestCase
 
   def test_korean_consonant_vowel
     a = ["ᄆ", "ᅵ", "ᆫ", "ᄀ", "ᅧ", "ᆼ", "ᄋ", "ᅡ"] 
-    b = @kamin.separate.reduce([]) { |r, e| r<< [e].pack("U*") }
+    b = @kamin.separate.reduce([]) { |r, e| r << [e].pack("U*") }
     assert_equal(a,b)
   end
 

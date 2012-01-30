@@ -64,8 +64,23 @@ bool HFSVolume::open(char const* filename)
 
 void HFSVolume::list_folder_contents(string const& path)
 {
-  // auto record = m_catalog_tree->get_record_from_path(path);
+  auto record = m_catalog_tree->get_record_from_path(path);
+  if (record.data.recordType != kHFSPlusFolderRecord)
+    return;
   
+  auto node = m_catalog_tree->get_folder_contents(record.data.folder.folderID);
+  
+  for (auto it=node.lrecs.begin(); it != node.lrecs.end(); ++it)
+  {
+    if (it->data.recordType == kHFSPlusFolderRecord)
+    {
+      cout << it->data.folder.folderID << " " << it->key.nodeName.to_s() << endl;
+    }
+    else if (it->data.recordType == kHFSPlusFileRecord)
+    {
+      cout << it->data.file.fileID << " " << it->key.nodeName.to_s() << endl;
+    }
+  }
 }
 
 ByteBuffer HFSVolume::read(int64_t offset, size_t sz)
