@@ -21,14 +21,17 @@ public:
 public:
   bool open(char const* filename);
 
-  ByteBuffer read(int64_t offset, size_t sz);
-  size_t     read(int64_t offset, uint8_t* buffer, size_t sz);
+  auto read(int64_t offset, size_t sz) -> ByteBuffer;
+  auto read(int64_t offset, uint8_t* buffer, size_t sz) -> size_t;
 
-  void list_folder_contents(std::string const& path);
+  auto list_folder_contents(std::string const& path) -> void;
+  auto read_file(std::string const& path, std::string const& mp) -> bool;
   
 public:
-  uint32_t   block_size() { return m_block_size; }
-
+  auto block_size() -> uint32_t 
+  { 
+    return m_block_size; 
+  }
 
 private:
   int64_t  m_offset;

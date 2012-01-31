@@ -35,6 +35,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DF13C20314D766AF0027BB8A /* hfs_volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hfs_volume.h; sourceTree = "<group>"; };
 		DF97ADDA14C01ED700739F5A /* hfsplus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hfsplus; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF97ADDE14C01ED700739F5A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DF97ADE014C01ED700739F5A /* hfsplus.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = hfsplus.1; sourceTree = "<group>"; };
@@ -89,6 +90,7 @@
 		DF97ADDD14C01ED700739F5A /* hfsplus */ = {
 			isa = PBXGroup;
 			children = (
+				DF13C20314D766AF0027BB8A /* hfs_volume.h */,
 				DFA0510514C02269000B475C /* develop */,
 				DF97ADE714C01F2F00739F5A /* catalog_btree.cpp */,
 				DFA3A3A914C3F09200421E54 /* btree.h */,

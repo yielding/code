@@ -83,7 +83,7 @@ void HFSVolume::list_folder_contents(string const& path)
   }
 }
 
-ByteBuffer HFSVolume::read(int64_t offset, size_t sz)
+auto HFSVolume::read(int64_t offset, size_t sz) -> ByteBuffer
 {
   ByteBuffer b(sz);
   auto rd = this->read(offset, (uint8_t*)b, sz);
@@ -101,6 +101,27 @@ size_t HFSVolume::read(int64_t offset, uint8_t* buffer, size_t sz)
   m_stream.read((char*)buffer, sz);
 
   return size_t(m_stream.gcount());
+}
+
+auto HFSVolume::read_file(string const& path, string const& mp) -> bool
+{
+  auto r = m_catalog_tree->get_record_from_path(path);
+  if (r.data.recordType != kHFSPlusFileRecord)
+    return false;
+  
+  // TODO
+  /*
+  auto xattr = get_xattr(r.data.file.fileID, "com.apple.decmpfs");
+  if ()
+  {
+    
+  }
+  */
+  
+  HFSFile f(this, r.data.file.dataFork, r.data.file.fileID);
+  f.read_all_to_file(path, mp, true);
+  
+  return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

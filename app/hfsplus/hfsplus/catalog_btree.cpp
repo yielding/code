@@ -90,10 +90,10 @@ auto CatalogTree::get_record_from_path(string const& path) -> CatalogLeafRecord
   if (path == "/")
     return search_by_cnid(kHFSRootFolderID);
     
-    HFSCatalogNodeID parentID = kHFSRootFolderID;
+  HFSCatalogNodeID parentID = kHFSRootFolderID;
     
-    // REMAKR: pc[0] is always empty
-    vector<string> pc; split(pc, path, is_any_of("/"));
+  // REMAKR: pc[0] is always empty
+  vector<string> pc; split(pc, path, is_any_of("/"));
   
   for (auto i=1; i<pc.size(); i++)
   {
@@ -101,15 +101,15 @@ auto CatalogTree::get_record_from_path(string const& path) -> CatalogLeafRecord
     
     HFSPlusCatalogKey key;
     key.parentID = parentID;
+    key.nodeName.from_ascii(path);
     leaf = search(key);
     if (leaf.empty())
       return leaf;
     
     if (leaf.data.recordType == kHFSPlusFolderRecord)
       parentID = leaf.data.folder.folderID;
-      else
-        break;
-    
+    else
+      break;
   }
   
   return leaf;

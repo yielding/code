@@ -27,7 +27,8 @@ int main()
   for (int i=0; i<10; i++) 
     p.push_back(product(" ", i));
 
-  auto it = find_if(p.begin(), p.end(), bind(&product::m_id, _1) == 5);
+  vector<product>::iterator it = 
+    find_if(p.begin(), p.end(), bind(&product::m_id, _1) == 5);
 
   it != p.end() 
     ? cout << "found valud: " << it->m_id

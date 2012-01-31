@@ -2,10 +2,12 @@
 #include "hfs_volume.h"
 
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 
 using namespace std;
 using namespace utility::hex;
+using namespace boost;
       namespace fs = boost::filesystem;
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -74,10 +76,14 @@ auto HFSFile::read_all_to_buffer(bool trunc) -> utility::hex::ByteBuffer
   return result;
 }
 
-void HFSFile::read_all_to_file(char const* filename, bool trunc)
+void HFSFile::read_all_to_file(string const& filename, string const& point, bool trunc)
 {
+  string path = ends_with(point, "/")
+    ? point + filename
+    : point + "/" + filename;
+
   ofstream ofs;
-  ofs.open(filename, ios_base::binary);
+  ofs.open(path.c_str(), ios_base::binary);
 
   for (uint32_t i=0; i<m_total_blocks; i++)
   {
@@ -87,7 +93,7 @@ void HFSFile::read_all_to_file(char const* filename, bool trunc)
 
   ofs.close();
 
-  fs::resize_file(filename, m_logical_size);
+  fs::resize_file(path, m_logical_size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

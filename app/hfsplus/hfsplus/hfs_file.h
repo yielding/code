@@ -16,7 +16,7 @@ public:
 
   auto read_block(uint32_t no) -> utility::hex::ByteBuffer;
   auto read_all_to_buffer(bool trunc) -> utility::hex::ByteBuffer;
-  void read_all_to_file(char const* filename, bool trunc);
+  void read_all_to_file(std::string const& filename, std::string const& point, bool trunc=true);
 
   uint32_t block_size() { return m_block_size; }
 

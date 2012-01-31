@@ -11,10 +11,10 @@ int main(int argc, char const* argv[])
   if (!v.open("/Users/yielding/code/app/hfsplus/hfsplus/data/HFSPlus.dmg"))
     return false;
 
-  v.list_folder_contents("/");
+  // v.list_folder_contents("/");
   
-  cout.flush();
-  cout << "open ok\n";
-
+  if (v.read_file("README.md", "/Users/yielding/tmp"))
+    cout << "ok\n";
+  
   return 0;
 }

@@ -11,7 +11,6 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-// #include "begin_packed.h"
 
 #define STR_SIZE(str) (sizeof(uint16_t) + (sizeof(uint16_t) * (str).length))
 
@@ -77,6 +76,13 @@ struct HFSUniStr255
       result.push_back(char(unicode[i] & 0xff));
     
     return result;
+  }
+  
+  // TODO: for Korean
+  void from_ascii(std::string const& s)
+  {
+    for (int i=0; i<s.size(); i++) unicode[i] = s[i];
+    length = s.size();
   }
 
   uint16_t length;
@@ -632,8 +638,7 @@ typedef HFSPlusCatalogThread* PHFSPlusCatalogThread;
 
 union HFSPlusCatalogData
 {
-  HFSPlusCatalogData() 
-    :recordType(0) 
+  HFSPlusCatalogData() :recordType(0) 
   {}
   
   bool is_folder() { return recordType == kHFSPlusFolderRecord;     }
@@ -877,5 +882,4 @@ struct block_list_header
 #define APPLE_TO_UNIX_TIME(x) ((x) - TIME_OFFSET_FROM_UNIX)
 #define UNIX_TO_APPLE_TIME(x) ((x) + TIME_OFFSET_FROM_UNIX)
 
-// #include "end_packed.h"
 #endif
