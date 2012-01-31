@@ -101,7 +101,8 @@ auto CatalogTree::get_record_from_path(string const& path) -> CatalogLeafRecord
     
     HFSPlusCatalogKey key;
     key.parentID = parentID;
-    key.nodeName.from_ascii(path);
+    key.nodeName.from_ascii(pc[i]);
+    key.keyLength = 6 + 2*pc[i].size();
     leaf = search(key);
     if (leaf.empty())
       return leaf;

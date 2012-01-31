@@ -90,7 +90,6 @@
 		DF97ADDD14C01ED700739F5A /* hfsplus */ = {
 			isa = PBXGroup;
 			children = (
-				DF13C20314D766AF0027BB8A /* hfs_volume.h */,
 				DFA0510514C02269000B475C /* develop */,
 				DF97ADE714C01F2F00739F5A /* catalog_btree.cpp */,
 				DFA3A3A914C3F09200421E54 /* btree.h */,
@@ -100,6 +99,7 @@
 				DF97ADEB14C01F2F00739F5A /* hfs_file.cpp */,
 				DF97ADEC14C01F2F00739F5A /* hfs_file.h */,
 				DF97ADED14C01F2F00739F5A /* hfs_header.cpp */,
+				DF13C20314D766AF0027BB8A /* hfs_volume.h */,
 				DF97ADEE14C01F2F00739F5A /* hfs_volume.cpp */,
 				DF97ADEF14C01F2F00739F5A /* hfs.h */,
 				DF97ADF014C01F2F00739F5A /* journal.cpp */,

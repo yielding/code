@@ -223,11 +223,11 @@ auto BTree<HFSTree>::search(SearchKey const& search_key, uint32_t node_no_)
   {
     for (auto i=0; i<node.irecs.size(); i++)
     {
-      if (self().compare_keys(search_key, node.irecs[i].key) >= 0)
-        continue;
-      
-      auto j = (i > 0) ? i - 1 : 0;
-      return search(search_key, node.irecs[j].pointer);
+      if (self().compare_keys(search_key, node.irecs[i].key) < 0)
+      {
+        auto j = (i > 0) ? i - 1 : i;
+        return search(search_key, node.irecs[j].pointer);
+      }
     }
     
     return search(search_key, node.irecs[node.irecs.size()-1].pointer);
