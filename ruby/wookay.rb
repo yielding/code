@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby -wKU
+
 # wookay_ext
 # 2006  wookay
 
