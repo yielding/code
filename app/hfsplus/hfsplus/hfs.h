@@ -439,7 +439,7 @@ struct ExtendedFolderInfo
     putAwayFolderID = b.get_int4_be();
   }
 
-  HFSPoint     scrollPosition;     // Scroll position (for icon views)
+  HFSPoint  scrollPosition;     // Scroll position (for icon views)
   int32_t   reserved1;
   uint16_t  extendedFinderFlags;
   int16_t   reserved2;

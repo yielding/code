@@ -111,9 +111,6 @@ BTree<HFSTree>::BTree(HFSFile* file)
     b0.append(b1);
   }
 
-//  auto b1 = m_file->read_block(<#uint32_t no#>)
-//  b0.append
-//  b0.append(m_file->read_block(1));
   auto offsets = read_offsets(btnode, b0);
   auto from = offsets[offsets.size() - 3];
   auto to   = offsets[offsets.size() - 4];
@@ -240,7 +237,10 @@ auto BTree<HFSTree>::search(SearchKey const& search_key, uint32_t node_no_)
     {
       auto result = self().compare_keys(search_key, it->key);
       if (result == 0)
+      {
+        it->empty(false);
         return *it;
+      }
       
       if (result < 0)
         break;

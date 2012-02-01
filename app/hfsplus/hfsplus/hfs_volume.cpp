@@ -1,5 +1,6 @@
 #include "hfs_volume.h"
 #include "hfs_file.h"
+#include "extents_btree.h"
 #include "catalog_btree.h"
 
 #include <cassert>
@@ -21,6 +22,7 @@ HFSVolume::~HFSVolume()
   if (m_opened)
   {
     m_opened = false;
+    delete m_allocation_file;
     delete m_catalog_tree;
     delete m_catalog_file;
   }
@@ -51,15 +53,31 @@ bool HFSVolume::open(char const* filename)
 
   m_block_size = m_header.blockSize;
 
-
   // TODO here
-  // m_allocation_file
+  m_allocation_file = new HFSFile(this, m_header.allocationFile, kHFSAllocationFileID);
+  m_allocatioin_bitmap = m_allocation_file->read_all_to_buffer();
+  m_extents_file = new HFSFile(this, m_header.extentsFile, kHFSExtentsFileID);
+  m_extents_tree = new ExtentsTree(m_extents_file);
   m_catalog_file = new HFSFile(this, m_header.catalogFile, kHFSCatalogFileID);
   m_catalog_tree = new CatalogTree(m_catalog_file);
+
+  // TODO
+  //
+  // m_metadat_dir = m_catalog_file->metadata_dir_id();
+  //
+  // auto buffer = m_attribute_file->get_attribute(kHFSRootParentID, "com.apple.system.cprotect", &buffer);
+  // if (buffer.size() > 0)
+  //   m_cp_root.read_from(buffer);
 
   m_opened = true;
 
   return true;
+}
+
+auto HFSVolume::get_extents_overflow_for_file(HFSPlusExtentKey const& key)
+-> ExtentsLeafRecord
+{
+  return m_extents_tree->search_extents(key);
 }
 
 void HFSVolume::list_folder_contents(string const& path)

@@ -1,5 +1,6 @@
 #include "hfs_file.h"
 #include "hfs_volume.h"
+#include "extents_btree.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
@@ -34,11 +35,25 @@ HFSFile::HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bo
   }
 
   // 
-  // TODO here
+  // TODO verify
   //
   while (bc != fork.totalBlocks)
   {
-    // m_volume->get_extent_overflow_for_file(m_fileID, bc);
+    // 0 == kForkTypeData, 1 == kForkTypeResource
+    HFSPlusExtentKey key(0, m_fileID, bc);
+    auto extents = m_volume->get_extents_overflow_for_file(key);
+    if (extents.empty())
+    {
+      cout << "extents overflow missing, startblock=" << bc << endl;
+      break;
+    }
+    
+    for (int i=0; i<8; i++)
+    {
+      auto& extent = extents.data[i];
+      m_extents.push_back(extent);
+      bc += extent.blockCount;
+    }
   }
 }
 
@@ -72,8 +87,10 @@ auto HFSFile::read_all_to_buffer(bool trunc) -> utility::hex::ByteBuffer
     auto b = read_block(i);
     result.append(b);
   }
-
-  return result;
+  
+  return trunc 
+    ? result.slice(0, uint32_t(m_logical_size))
+    : result;
 }
 
 void HFSFile::read_all_to_file(string const& filename, string const& point, bool trunc)

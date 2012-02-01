@@ -19,11 +19,15 @@ struct CatalogIndexRecord
 
 struct CatalogLeafRecord
 {
-  bool empty()
-  {
-    return data.recordType == 0;
+  CatalogLeafRecord() { m_empty = true; }
+
+  void empty(bool v) { m_empty = v; }
+  bool empty() const { 
+    if (m_empty) assert(data.recordType == 0); 
+    return m_empty;
   }
   
+  bool m_empty;
   HFSPlusCatalogKey  key;
   HFSPlusCatalogData data;
 };

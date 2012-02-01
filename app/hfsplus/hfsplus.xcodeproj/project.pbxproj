@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF12D82D14D8D15200D9B578 /* unicode_compare.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82C14D8D15200D9B578 /* unicode_compare.cpp */; };
+		DF12D83114D9026600D9B578 /* extents_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82F14D9026600D9B578 /* extents_btree.cpp */; };
 		DF97ADDF14C01ED700739F5A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADDE14C01ED700739F5A /* main.cpp */; };
 		DF97ADE114C01ED700739F5A /* hfsplus.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DF97ADE014C01ED700739F5A /* hfsplus.1 */; };
 		DF97ADF114C01F2F00739F5A /* catalog_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADE714C01F2F00739F5A /* catalog_btree.cpp */; };
@@ -35,6 +37,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DF12D82C14D8D15200D9B578 /* unicode_compare.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unicode_compare.cpp; sourceTree = "<group>"; };
+		DF12D82F14D9026600D9B578 /* extents_btree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = extents_btree.cpp; sourceTree = "<group>"; };
+		DF12D83014D9026600D9B578 /* extents_btree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extents_btree.h; sourceTree = "<group>"; };
 		DF13C20314D766AF0027BB8A /* hfs_volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hfs_volume.h; sourceTree = "<group>"; };
 		DF97ADDA14C01ED700739F5A /* hfsplus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hfsplus; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF97ADDE14C01ED700739F5A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -90,6 +95,9 @@
 		DF97ADDD14C01ED700739F5A /* hfsplus */ = {
 			isa = PBXGroup;
 			children = (
+				DF12D82F14D9026600D9B578 /* extents_btree.cpp */,
+				DF12D83014D9026600D9B578 /* extents_btree.h */,
+				DF12D82C14D8D15200D9B578 /* unicode_compare.cpp */,
 				DFA0510514C02269000B475C /* develop */,
 				DF97ADE714C01F2F00739F5A /* catalog_btree.cpp */,
 				DFA3A3A914C3F09200421E54 /* btree.h */,
@@ -178,6 +186,8 @@
 				DF97ADF614C01F2F00739F5A /* hfs_volume.cpp in Sources */,
 				DF97ADF714C01F2F00739F5A /* journal.cpp in Sources */,
 				DF97AE0414C020D000739F5A /* ByteBuffer.cpp in Sources */,
+				DF12D82D14D8D15200D9B578 /* unicode_compare.cpp in Sources */,
+				DF12D83114D9026600D9B578 /* extents_btree.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

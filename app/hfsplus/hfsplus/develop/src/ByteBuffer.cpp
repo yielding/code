@@ -143,6 +143,9 @@ auto ByteBuffer::slice(uint32_t from, uint32_t to) -> ByteBuffer
   if (from > to)
     throw std::runtime_error("ByteBuffer::slice() : wrong index");
 
+  if (from == 0 && to == m_buffer.size())
+    return *this;
+  
   ByteBuffer result;
   auto& buffer = result.get_buffer();
 

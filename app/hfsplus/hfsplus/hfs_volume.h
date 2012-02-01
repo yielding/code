@@ -11,6 +11,8 @@ using namespace utility::hex;
 ////////////////////////////////////////////////////////////////////////////////
 class HFSFile;
 class CatalogTree;
+class ExtentsTree;
+struct ExtentsLeafRecord;
 
 class HFSVolume
 {
@@ -26,12 +28,12 @@ public:
 
   auto list_folder_contents(std::string const& path) -> void;
   auto read_file(std::string const& path, std::string const& mp) -> bool;
+
+  auto get_extents_overflow_for_file(HFSPlusExtentKey const& key)
+  -> ExtentsLeafRecord;
   
 public:
-  auto block_size() -> uint32_t 
-  { 
-    return m_block_size; 
-  }
+  auto block_size() -> uint32_t { return m_block_size; }
 
 private:
   int64_t  m_offset;
@@ -40,7 +42,11 @@ private:
   HFSPlusVolumeHeader m_header;
 
 private:
+  HFSFile*     m_allocation_file;
+  ByteBuffer   m_allocatioin_bitmap;
+  HFSFile*     m_extents_file;
   HFSFile*     m_catalog_file;
+  ExtentsTree* m_extents_tree;
   CatalogTree* m_catalog_tree;
 
 private:
