@@ -8,50 +8,20 @@
 using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 //
-// REMARK which is better (k, v) or { k; v; }
-//
-////////////////////////////////////////////////////////////////////////////////
-struct AttributeIndexRecord
-{
-  HFSPlusCatalogKey key;
-  uint32_t pointer;
-};
-
-struct AttributeLeafRecord
-{
-  AttributeLeafRecord() { m_empty = true; }
-
-  void empty(bool v) { m_empty = v; }
-  bool empty() const { 
-    if (m_empty) assert(data.recordType == 0); 
-    return m_empty;
-  }
-  
-  bool m_empty;
-  HFSPlusCatalogKey  key;
-  HFSPlusCatalogData data;
-};
-
-struct AttributeTreeNode
-{
-  int type;
-  vector<AttributeIndexRecord> irecs;
-  vector<AttributeLeafRecord>  lrecs;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-//
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+typedef BTreeRecord<HFSPlusAttrKey, HFSPlusAttrData> AttrRecord;
+typedef BTreeNode<AttrRecord> AttrNode;
+
 class AttributeTree;
 
 template <> 
 struct BTreeTraits<AttributeTree>
 {
-  typedef AttributeTreeNode   Node;
-  typedef AttributeLeafRecord LeafRecord;
-  typedef HFSPlusAttrKey      SearchKey;
+  typedef AttrNode Node;
+  typedef AttrRecord Record;
+  typedef HFSPlusAttrKey SearchKey;
 };
 
 class AttributeTree: public BTree<AttributeTree>
@@ -63,16 +33,10 @@ public:
 public:
   int compare_keys(HFSPlusAttrKey const& key1, HFSPlusAttrKey const& key2) const;
 
-  auto read_index_record(ByteBuffer& buffer, uint32_t offset) const 
-    -> AttributeIndexRecord;
-
-  auto read_leaf_record(ByteBuffer& buffer, uint32_t offset) const 
-    -> AttributeLeafRecord;
-  
 public:
-  auto get_all_attributes(HFSCatalogNodeID folderID) -> AttributeTreeNode;
+  auto get_all_attributes(HFSCatalogNodeID folderID) -> AttrNode;
 
-  auto get_attribute(HFSCatalogNodeID cnid, std::string const& key) -> AttributeLeafRecord;
+  auto get_attribute(HFSCatalogNodeID cnid, std::string const& key) -> AttrRecord;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

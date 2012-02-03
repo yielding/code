@@ -6,7 +6,7 @@
 using namespace utility::hex;
 ////////////////////////////////////////////////////////////////////////////////
 //
-//
+// Forward declarations
 //
 ////////////////////////////////////////////////////////////////////////////////
 class HFSFile;
@@ -14,8 +14,16 @@ class CatalogTree;
 class ExtentsTree;
 class AttributeTree;
 
-struct ExtentsLeafRecord;
+template <typename KeyT, typename ValueT>
+class BTreeRecord;
 
+typedef BTreeRecord<HFSPlusExtentKey, HFSPlusExtentData> ExtentsRecord;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 class HFSVolume
 {
 public:
@@ -32,7 +40,7 @@ public:
   auto read_file(std::string const& path, std::string const& mp) -> bool;
 
   auto get_extents_overflow_for_file(HFSPlusExtentKey const& key)
-  -> ExtentsLeafRecord;
+  -> ExtentsRecord;
   
 public:
   auto block_size() -> uint32_t { return m_block_size; }

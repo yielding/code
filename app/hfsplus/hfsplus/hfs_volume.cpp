@@ -6,6 +6,7 @@
 
 #include <cassert>
 #include <stdexcept>
+#include <iomanip>
 
 using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +55,6 @@ bool HFSVolume::open(string const& filename)
 
   m_block_size = m_header.blockSize;
 
-  // TODO here
   m_allocation_file = new HFSFile(this, m_header.allocationFile, kHFSAllocationFileID);
   m_allocatioin_bitmap = m_allocation_file->read_all_to_buffer();
   m_extents_file = new HFSFile(this, m_header.extentsFile, kHFSExtentsFileID);
@@ -62,14 +62,13 @@ bool HFSVolume::open(string const& filename)
   m_catalog_file = new HFSFile(this, m_header.catalogFile, kHFSCatalogFileID);
   m_catalog_tree = new CatalogTree(m_catalog_file);
 
-
   m_opened = true;
 
   return true;
 }
 
 auto HFSVolume::get_extents_overflow_for_file(HFSPlusExtentKey const& key)
--> ExtentsLeafRecord
+-> ExtentsRecord
 {
   return m_extents_tree->search_extents(key);
 }
@@ -82,15 +81,17 @@ void HFSVolume::list_folder_contents(string const& path)
   
   auto node = m_catalog_tree->get_folder_contents(record.data.folder.folderID);
   
-  for (auto it=node.lrecs.begin(); it != node.lrecs.end(); ++it)
+  for (auto it=node.recs.begin(); it != node.recs.end(); ++it)
   {
     if (it->data.recordType == kHFSPlusFolderRecord)
     {
-      cout << it->data.folder.folderID << " " << it->key.nodeName.to_s() << endl;
+      cout << right << setw(5) << it->data.folder.folderID 
+           << " "   << it->key.nodeName.to_s() << endl;
     }
     else if (it->data.recordType == kHFSPlusFileRecord)
     {
-      cout << it->data.file.fileID << " " << it->key.nodeName.to_s() << endl;
+      cout << right << setw(5) << it->data.file.fileID 
+           << " "   << it->key.nodeName.to_s() << endl;
     }
   }
 }

@@ -55,38 +55,15 @@ int AttributeTree::compare_keys(HFSPlusAttrKey const& l, HFSPlusAttrKey const& r
   return 0;
 }
 
-// TODO REFACTOR to btree with template
-auto AttributeTree::read_index_record(ByteBuffer& buffer, uint32_t offset) const 
-  -> AttributeIndexRecord
+auto AttributeTree::get_all_attributes(HFSCatalogNodeID folderID) -> AttrNode
 {
-  AttributeIndexRecord record;
-  buffer.offset(offset);
-  record.key.read_from(buffer);
-  record.pointer = buffer.get_uint4_be();
-  
-  return record;
-}
-
-auto AttributeTree::read_leaf_record(ByteBuffer& buffer, uint32_t offset) const 
-  -> AttributeLeafRecord
-{
-  AttributeLeafRecord record;
-  buffer.offset(offset);
-  record.key.read_from(buffer);
-  record.data.read_from(buffer);
-  
-  return record;
-}
-
-auto AttributeTree::get_all_attributes(HFSCatalogNodeID folderID) -> AttributeTreeNode
-{
-  AttributeTreeNode node;
+  AttrNode node;
   return node;
 }
 
-auto AttributeTree::get_attribute(HFSCatalogNodeID cnid, string const& key) -> AttributeLeafRecord
+auto AttributeTree::get_attribute(HFSCatalogNodeID cnid, string const& key) -> AttrRecord
 {
-  AttributeLeafRecord record;
+  AttrRecord record;
   
   return record;
 }

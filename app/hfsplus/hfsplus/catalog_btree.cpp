@@ -55,7 +55,7 @@ int CatalogTree::compare_keys(HFSPlusCatalogKey const& l, HFSPlusCatalogKey cons
                             r.nodeName.unicode, r.nodeName.length);
 }
 
-auto CatalogTree::search_by_cnid(HFSCatalogNodeID cnid) -> CatalogLeafRecord
+auto CatalogTree::search_by_cnid(HFSCatalogNodeID cnid) -> CatalogRecord
 {
   HFSPlusCatalogKey key;
   key.parentID = cnid;
@@ -69,14 +69,14 @@ auto CatalogTree::search_by_cnid(HFSCatalogNodeID cnid) -> CatalogLeafRecord
     return search(key);
   }
   
-  return CatalogLeafRecord();
+  return CatalogRecord();
 }
 
-auto CatalogTree::get_record_from_path(string const& path) -> CatalogLeafRecord
+auto CatalogTree::get_record_from_path(string const& path) -> CatalogRecord
 {
   using namespace boost;
   
-  CatalogLeafRecord leaf;
+  CatalogRecord leaf;
   if (!boost::starts_with(path, "/"))
     return leaf;
   
@@ -92,6 +92,7 @@ auto CatalogTree::get_record_from_path(string const& path) -> CatalogLeafRecord
   {
     if (pc[i].empty()) break;
     
+    // TODO REFACTOR
     HFSPlusCatalogKey key;
     key.parentID = parentID;
     key.nodeName.from_ascii(pc[i]);
@@ -109,30 +110,22 @@ auto CatalogTree::get_record_from_path(string const& path) -> CatalogLeafRecord
   return leaf;
 }
 
-auto CatalogTree::read_index_record(ByteBuffer& buffer, uint32_t offset) const 
-  -> CatalogIndexRecord
-{
-  CatalogIndexRecord record;
-  buffer.offset(offset);
-  record.key.read_from(buffer);
-  record.pointer = buffer.get_uint4_be();
-  
-  return record;
-}
-
+/*
 auto CatalogTree::read_leaf_record(ByteBuffer& buffer, uint32_t offset) const 
-  -> CatalogLeafRecord
+  -> CatalogRecord
 {
-  CatalogLeafRecord record;
+  CatalogRecord record(kBTLeafNode);
+  
   buffer.offset(offset);
   record.key.read_from(buffer);
   record.data.read_from(buffer);
   
   return record;
 }
+*/
 
 auto CatalogTree::get_folder_contents(HFSCatalogNodeID folderID)
-  -> CatalogTreeNode
+  -> CatalogNode
 {
   using namespace boost;
 

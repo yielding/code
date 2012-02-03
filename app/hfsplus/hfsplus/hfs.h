@@ -32,10 +32,7 @@ struct HFSUniStr255
   HFSUniStr255() :length(0)
   {}
   
-  size_t size() const
-  {
-    return 2 + length*2;
-  }
+  size_t size() const { return 2 + length*2; }
   
   bool operator==(HFSUniStr255 const& rhs) const 
   {
@@ -58,12 +55,14 @@ struct HFSUniStr255
   void read_from(utility::hex::ByteBuffer& b)
   {
     length = b.get_uint2_be();
+    
     if (length > 255)
       throw std::runtime_error("key name out of bounds");
 
     for (auto i=0; i<length; i++) unicode[i] = b.get_uint2_be();
   }
   
+  // TODO
   std::string to_s()
   {
     std::string result;
@@ -103,6 +102,18 @@ struct HFSPlusExtentDescriptor
 typedef HFSPlusExtentDescriptor* PHFSPlusExtentDescriptor;
 typedef HFSPlusExtentDescriptor  HFSPlusExtentRecord[8];
 typedef std::vector<HFSPlusExtentDescriptor> HFSPlusExtentDescriptors;
+
+// REMARK: duplication
+struct HFSPlusExtentData
+{
+  void read_from(utility::hex::ByteBuffer& b)
+  {
+    for (int i=0; i<8; i++) 
+      extents[i].read_from(b);
+  }
+  
+  HFSPlusExtentRecord extents;
+};
 
 struct HFSPlusForkData
 {
@@ -164,6 +175,7 @@ struct HFSPlusVolumeHeader
 
 enum  // BTree Node type
 {  
+  kBEmpty           = -2,
   kBTLeafNode       = -1,
   kBTIndexNode      =  0,
   kBTHeaderNode     =  1,
@@ -340,12 +352,10 @@ typedef FourCharCode  OSType;
 enum {
   kIsOnDesk       = 0x0001,     // Files and folders (System 6) 
   kColor          = 0x000E,     // Files and folders 
-  kIsShared       = 0x0040,     // Files only (Applications only) If 
-  // clear, the application needs to write to its resource fork, 
-  // and therefore cannot be shared on a server 
-  kHasNoINITs     = 0x0080,     // Files only (Extensions/Control 
-  // Panels only) 
-  // This file contains no INIT resource 
+  kIsShared       = 0x0040,     // Files only (Applications only) If clear, the application 
+                                // needs to write to its resource fork, and therefore cannot be shared on a server 
+  kHasNoINITs     = 0x0080,     // Files only (Extensions/Control Panels only) 
+                                // This file contains no INIT resource 
   kHasBeenInited  = 0x0100,     // Files only.  Clear if the file contains desktop database resources 
   // ('BNDL', 'FREF', 'open', 'kind'...) that have not been added yet.
   // Set only by the Finder. 

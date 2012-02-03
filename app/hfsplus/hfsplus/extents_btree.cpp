@@ -11,14 +11,6 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace {
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
 ExtentsTree::ExtentsTree(HFSFile* file)
   : BTree<ExtentsTree>(file)
 {
@@ -38,38 +30,12 @@ int ExtentsTree::compare_keys(HFSPlusExtentKey const& l, HFSPlusExtentKey const&
 
   if (l.keyLength == r.keyLength) return 0;
 
-  if (l.keyLength < r.keyLength) return -1;
-  if (l.keyLength > r.keyLength) return  1;
-
-  return 0;
+  return (l.keyLength < r.keyLength) ? -1 : 1;
 }
 
-auto ExtentsTree::read_index_record(ByteBuffer& buffer, uint32_t offset) const 
-  -> ExtentsIndexRecord
-{
-  ExtentsIndexRecord record;
-  buffer.offset(offset);
-  record.key.read_from(buffer);
-  record.pointer = buffer.get_uint4_be();
-
-  return record;
-}
-
-auto ExtentsTree::read_leaf_record(ByteBuffer& buffer, uint32_t offset) const 
-  -> ExtentsLeafRecord
-{
-  buffer.offset(offset);
-  
-  ExtentsLeafRecord record;
-  record.key.read_from(buffer);
-  for (int i=0; i<8; i++) 
-    record.data[i].read_from(buffer);
-    
-  return record;
-}
-
+// TODO
 auto ExtentsTree::search_extents(HFSPlusExtentKey const& key)
-  -> ExtentsLeafRecord
+  -> ExtentsRecord
 {
   return search(key);
 }

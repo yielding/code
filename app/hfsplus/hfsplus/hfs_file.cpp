@@ -35,14 +35,14 @@ HFSFile::HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bo
   }
 
   // 
-  // TODO verify
+  // TODO be verified
   //
   while (bc != fork.totalBlocks)
   {
     // 0 == kForkTypeData, 1 == kForkTypeResource
     HFSPlusExtentKey key(0, m_fileID, bc);
-    auto extents = m_volume->get_extents_overflow_for_file(key);
-    if (extents.empty())
+    auto overflow = m_volume->get_extents_overflow_for_file(key);
+    if (overflow.empty())
     {
       cout << "extents overflow missing, startblock=" << bc << endl;
       break;
@@ -50,14 +50,14 @@ HFSFile::HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bo
     
     for (int i=0; i<8; i++)
     {
-      auto& extent = extents.data[i];
+      auto& extent = overflow.data.extents[i];
       m_extents.push_back(extent);
       bc += extent.blockCount;
     }
   }
 }
 
-// NOT Tested
+// TODO Tested
 auto HFSFile::read_block(uint32_t nth) -> utility::hex::ByteBuffer
 {
   auto bs = m_volume->block_size();
