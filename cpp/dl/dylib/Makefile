@@ -9,7 +9,7 @@ driver: main.cpp polygon.hpp triangle.dylib
 	$(CXX) $(CXXFLAGS) -o driver main.cpp -ldl -DPOSIX
 
 triangle.dylib: triangle.cpp polygon.hpp
-	$(CXX) $(CXXFLAGS) -dynamiclib -arch i386 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5u.sdk triangle.cpp -o triangle.dylib
+	$(CXX) $(CXXFLAGS) -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk triangle.cpp -o triangle.dylib
 
 clean:
 	rm -f driver triangle.dylib *.o
