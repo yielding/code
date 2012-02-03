@@ -1,5 +1,5 @@
-#ifndef CATALOG_BTREE_H_53HYMVEK
-#define CATALOG_BTREE_H_53HYMVEK
+#ifndef ATTRIBUTE_BTREE_H_J838DMAI
+#define ATTRIBUTE_BTREE_H_J838DMAI
 
 #include "btree.h"
 
@@ -8,18 +8,18 @@
 using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 //
-// REMARK which is better (k, v) or { k; v }
+// REMARK which is better (k, v) or { k; v; }
 //
 ////////////////////////////////////////////////////////////////////////////////
-struct CatalogIndexRecord
+struct AttributeIndexRecord
 {
   HFSPlusCatalogKey key;
   uint32_t pointer;
 };
 
-struct CatalogLeafRecord
+struct AttributeLeafRecord
 {
-  CatalogLeafRecord() { m_empty = true; }
+  AttributeLeafRecord() { m_empty = true; }
 
   void empty(bool v) { m_empty = v; }
   bool empty() const { 
@@ -32,11 +32,11 @@ struct CatalogLeafRecord
   HFSPlusCatalogData data;
 };
 
-struct CatalogTreeNode
+struct AttributeTreeNode
 {
   int type;
-  vector<CatalogIndexRecord> irecs;
-  vector<CatalogLeafRecord>  lrecs;
+  vector<AttributeIndexRecord> irecs;
+  vector<AttributeLeafRecord>  lrecs;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,42 +44,35 @@ struct CatalogTreeNode
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class CatalogTree;
+class AttributeTree;
 
 template <> 
-struct BTreeTraits<CatalogTree>
+struct BTreeTraits<AttributeTree>
 {
-  typedef CatalogTreeNode   Node;
-  typedef CatalogLeafRecord LeafRecord;
-  typedef HFSPlusCatalogKey SearchKey;
+  typedef AttributeTreeNode   Node;
+  typedef AttributeLeafRecord LeafRecord;
+  typedef HFSPlusAttrKey      SearchKey;
 };
 
-class CatalogTree: public BTree<CatalogTree>
+class AttributeTree: public BTree<AttributeTree>
 {
 public:
-  CatalogTree(HFSFile* file);
-  ~CatalogTree();
+  AttributeTree(HFSFile* file);
+  ~AttributeTree();
   
 public:
-  int compare_keys(HFSPlusCatalogKey const& key1, HFSPlusCatalogKey const& key2) const;
+  int compare_keys(HFSPlusAttrKey const& key1, HFSPlusAttrKey const& key2) const;
 
   auto read_index_record(ByteBuffer& buffer, uint32_t offset) const 
-    -> CatalogIndexRecord;
+    -> AttributeIndexRecord;
 
   auto read_leaf_record(ByteBuffer& buffer, uint32_t offset) const 
-    -> CatalogLeafRecord;
+    -> AttributeLeafRecord;
   
-  auto metadata_dir_id() -> HFSCatalogNodeID;
-  
-  void print_leaf(BufferPair const&);
-
 public:
-  auto get_record_from_path(string const& path) -> CatalogLeafRecord;
-  
-  auto get_folder_contents(HFSCatalogNodeID folderID) -> CatalogTreeNode;
+  auto get_all_attributes(HFSCatalogNodeID folderID) -> AttributeTreeNode;
 
-protected:
-  auto search_by_cnid(HFSCatalogNodeID cnid) -> CatalogLeafRecord;
+  auto get_attribute(HFSCatalogNodeID cnid, std::string const& key) -> AttributeLeafRecord;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF1117F114DB726700363D88 /* attribute_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF1117EF14DB726700363D88 /* attribute_btree.cpp */; };
 		DF12D82D14D8D15200D9B578 /* unicode_compare.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82C14D8D15200D9B578 /* unicode_compare.cpp */; };
 		DF12D83114D9026600D9B578 /* extents_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82F14D9026600D9B578 /* extents_btree.cpp */; };
 		DF97ADDF14C01ED700739F5A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADDE14C01ED700739F5A /* main.cpp */; };
@@ -37,6 +38,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DF0047F614DB5DC700C2B218 /* emf_volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = emf_volume.h; sourceTree = "<group>"; };
+		DF1117EF14DB726700363D88 /* attribute_btree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = attribute_btree.cpp; sourceTree = "<group>"; };
+		DF1117F014DB726700363D88 /* attribute_btree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = attribute_btree.h; sourceTree = "<group>"; };
 		DF12D82C14D8D15200D9B578 /* unicode_compare.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unicode_compare.cpp; sourceTree = "<group>"; };
 		DF12D82F14D9026600D9B578 /* extents_btree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = extents_btree.cpp; sourceTree = "<group>"; };
 		DF12D83014D9026600D9B578 /* extents_btree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extents_btree.h; sourceTree = "<group>"; };
@@ -95,6 +99,9 @@
 		DF97ADDD14C01ED700739F5A /* hfsplus */ = {
 			isa = PBXGroup;
 			children = (
+				DF1117EF14DB726700363D88 /* attribute_btree.cpp */,
+				DF1117F014DB726700363D88 /* attribute_btree.h */,
+				DF0047F614DB5DC700C2B218 /* emf_volume.h */,
 				DF12D82F14D9026600D9B578 /* extents_btree.cpp */,
 				DF12D83014D9026600D9B578 /* extents_btree.h */,
 				DF12D82C14D8D15200D9B578 /* unicode_compare.cpp */,
@@ -188,6 +195,7 @@
 				DF97AE0414C020D000739F5A /* ByteBuffer.cpp in Sources */,
 				DF12D82D14D8D15200D9B578 /* unicode_compare.cpp in Sources */,
 				DF12D83114D9026600D9B578 /* extents_btree.cpp in Sources */,
+				DF1117F114DB726700363D88 /* attribute_btree.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

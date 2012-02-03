@@ -2,6 +2,7 @@
 #include "hfs_file.h"
 #include "extents_btree.h"
 #include "catalog_btree.h"
+#include "attribute_btree.h"
 
 #include <cassert>
 #include <stdexcept>
@@ -28,9 +29,9 @@ HFSVolume::~HFSVolume()
   }
 }
 
-bool HFSVolume::open(char const* filename)
+bool HFSVolume::open(string const& filename)
 {
-  m_stream.open(filename, ios_base::in | ios_base::out | ios_base::binary);
+  m_stream.open(filename.c_str(), ios_base::in | ios_base::out | ios_base::binary);
   if (!m_stream.is_open())
     return false;
 
@@ -61,13 +62,6 @@ bool HFSVolume::open(char const* filename)
   m_catalog_file = new HFSFile(this, m_header.catalogFile, kHFSCatalogFileID);
   m_catalog_tree = new CatalogTree(m_catalog_file);
 
-  // TODO
-  //
-  // m_metadat_dir = m_catalog_file->metadata_dir_id();
-  //
-  // auto buffer = m_attribute_file->get_attribute(kHFSRootParentID, "com.apple.system.cprotect", &buffer);
-  // if (buffer.size() > 0)
-  //   m_cp_root.read_from(buffer);
 
   m_opened = true;
 

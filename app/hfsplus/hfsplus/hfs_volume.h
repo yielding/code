@@ -12,16 +12,18 @@ using namespace utility::hex;
 class HFSFile;
 class CatalogTree;
 class ExtentsTree;
+class AttributeTree;
+
 struct ExtentsLeafRecord;
 
 class HFSVolume
 {
 public:
   HFSVolume(int64_t offset=0);
-  ~HFSVolume();
+  virtual ~HFSVolume();
 
 public:
-  bool open(char const* filename);
+  virtual auto open(std::string const& filename) -> bool;
 
   auto read(int64_t offset, size_t sz) -> ByteBuffer;
   auto read(int64_t offset, uint8_t* buffer, size_t sz) -> size_t;
@@ -35,19 +37,21 @@ public:
 public:
   auto block_size() -> uint32_t { return m_block_size; }
 
+protected:
+  HFSFile*     m_allocation_file;
+  ByteBuffer   m_allocatioin_bitmap;
+  HFSFile*     m_extents_file;
+  HFSFile*     m_catalog_file;
+  HFSFile*     m_attribute_file;
+  ExtentsTree* m_extents_tree;
+  CatalogTree* m_catalog_tree;
+  AttributeTree* m_attribute_tree;
+  
 private:
   int64_t  m_offset;
   uint32_t m_block_size;
 
   HFSPlusVolumeHeader m_header;
-
-private:
-  HFSFile*     m_allocation_file;
-  ByteBuffer   m_allocatioin_bitmap;
-  HFSFile*     m_extents_file;
-  HFSFile*     m_catalog_file;
-  ExtentsTree* m_extents_tree;
-  CatalogTree* m_catalog_tree;
 
 private:
   bool         m_opened;

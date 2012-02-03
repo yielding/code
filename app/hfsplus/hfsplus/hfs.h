@@ -11,9 +11,6 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-
-#define STR_SIZE(str) (sizeof(uint16_t) + (sizeof(uint16_t) * (str).length))
-
 typedef uint32_t HFSCatalogNodeID;
 
 enum {
@@ -44,12 +41,10 @@ struct HFSUniStr255
   {
     if (this != &rhs)
     {
-      if (length != rhs.length) 
-        return false;
+      if (length != rhs.length) return false;
 
-      for (uint16_t i=0; i<length; i++)
-        if (unicode[i] != rhs.unicode[i]) 
-          return false;
+      for (auto i=0; i<length; i++)
+        if (unicode[i] != rhs.unicode[i]) return false;
     }
 
     return true;
