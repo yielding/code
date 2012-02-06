@@ -138,6 +138,13 @@ auto ByteBuffer::append(uint8_t* b, size_t sz) -> ByteBuffer&
     return *this;
 }
 
+auto ByteBuffer::append(uint8_t b) -> ByteBuffer&
+{
+  m_buffer.push_back(b);
+
+    return *this;
+}
+
 auto ByteBuffer::slice(uint32_t from, uint32_t to) -> ByteBuffer  
 {
   if (from > to)

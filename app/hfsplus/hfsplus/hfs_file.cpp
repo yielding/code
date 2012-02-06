@@ -57,6 +57,10 @@ HFSFile::HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bo
   }
 }
 
+HFSFile::~HFSFile()
+{
+}
+
 // TODO Tested
 auto HFSFile::read_block(uint32_t nth) -> utility::hex::ByteBuffer
 {

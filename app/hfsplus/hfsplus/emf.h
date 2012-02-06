@@ -11,12 +11,19 @@
 #define CLASS_DKEY      4
 
 #define CPROTECT_V2_LENGTH 0x38  // 56
+#define CPROTECT_V4_LENGTH 0x4C  // 76
 #define CP_WRAPPEDKEYSIZE    40  /* 2x4 = 8, 8x8 = 64 */
 
 // http://www.opensource.apple.com/source/xnu/xnu-1699.22.73/bsd/sys/cprotect.h
+
 struct cprotect_xattr_v2
 {
-  void read_from(utility::hex::ByteBuffer& b)
+  cprotect_xattr_v2(utility::hex::ByteBuffer b)
+  {
+    read_from(b);
+  }
+
+  void read_from(utility::hex::ByteBuffer b)
   {
     xattr_major_version = b.get_uint2_le();
     xattr_minor_version = b.get_uint2_le();
@@ -31,15 +38,18 @@ struct cprotect_xattr_v2
   uint16_t xattr_minor_version; // =0
   uint32_t flags;               // leaks stack dword in one code path (cp_handle_vnop)
   uint32_t persistent_class;
-  uint32_t key_size;            //0x28
+  uint32_t key_size;            // 0x28
   uint8_t  persistent_key[0x28];
 };
 
-#define CPROTECT_V4_LENGTH    0x4C  //76
-
 struct cprotect_xattr_v4
 {
-  void read_from(utility::hex::ByteBuffer& b)
+  cprotect_xattr_v4(utility::hex::ByteBuffer b)
+  {
+    read_from(b);
+  }
+
+  void read_from(utility::hex::ByteBuffer b)
   {
     xattr_major_version = b.get_uint2_le();
     xattr_minor_version = b.get_uint2_le();
@@ -62,6 +72,11 @@ struct cprotect_xattr_v4
 
 struct cp_root_xattr
 {
+  cp_root_xattr(utility::hex::ByteBuffer& b)
+  {
+    read_from(b);
+  }
+  
   void read_from(utility::hex::ByteBuffer& b)
   {
     major_version = b.get_uint2_le();

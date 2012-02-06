@@ -12,12 +12,11 @@ using namespace std;
 //
 ////////////////////////////////////////////////////////////////////////////////
 namespace {
-  const uint16_t METADATA_DIR[] = 
-  {
-    0, 0, 0, 0, 
-    'H', 'F', 'S', '+', ' ', 
-    'P', 'r', 'i', 'v', 'a', 't', 'e', ' ', 'D', 'a', 't', 'a'
+  const uint8_t METADATA_DIR[] = {
+    0, 0, 0, 0, 'H', 'F', 'S', '+', ' ', 'P', 'r', 'i', 'v', 'a', 't', 'e', ' ', 'D', 'a', 't', 'a'
   };
+
+  const size_t METADATA_SIZE = sizeof(METADATA_DIR);  // 21
 
   bool compare_id(HFSCatalogNodeID first, HFSCatalogNodeID second)
   {
@@ -36,10 +35,6 @@ CatalogTree::CatalogTree(HFSFile* file)
 }
 
 CatalogTree::~CatalogTree()
-{
-}
-
-void CatalogTree::print_leaf(BufferPair const&)
 {
 }
 
@@ -110,20 +105,6 @@ auto CatalogTree::get_record_from_path(string const& path) -> CatalogRecord
   return leaf;
 }
 
-/*
-auto CatalogTree::read_leaf_record(ByteBuffer& buffer, uint32_t offset) const 
-  -> CatalogRecord
-{
-  CatalogRecord record(kBTLeafNode);
-  
-  buffer.offset(offset);
-  record.key.read_from(buffer);
-  record.data.read_from(buffer);
-  
-  return record;
-}
-*/
-
 auto CatalogTree::get_folder_contents(HFSCatalogNodeID folderID)
   -> CatalogNode
 {
@@ -145,16 +126,13 @@ auto CatalogTree::get_folder_contents(HFSCatalogNodeID folderID)
 
 auto CatalogTree::metadata_dir_id() -> HFSCatalogNodeID
 {
-  HFSPlusCatalogKey key;
-  key.nodeName.length = sizeof(METADATA_DIR) / sizeof(uint16_t);
-  key.keyLength = sizeof(key.parentID) + sizeof(key.nodeName.length) + sizeof(METADATA_DIR);
-  key.parentID  = kHFSRootFolderID;
-  memcpy(key.nodeName.unicode, METADATA_DIR, sizeof(METADATA_DIR));
-  
+  string name((char const*)METADATA_DIR, METADATA_SIZE);
+  HFSPlusCatalogKey key(kHFSRootFolderID, name);
+
   auto record = search(key);
   return record.empty() 
-      ? -1 
-      : record.data.folder.folderID;
+    ? -1 
+    : record.data.folder.folderID;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

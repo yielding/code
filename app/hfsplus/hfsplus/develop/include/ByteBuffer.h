@@ -59,6 +59,7 @@ public:
     ByteBuffer& unget(uint32_t offset);
     ByteBuffer& append(ByteBuffer& b);
     ByteBuffer& append(uint8_t* b, size_t sz);
+    ByteBuffer& append(uint8_t b);
     ByteBuffer  slice(uint32_t from, uint32_t to);
 
     void        load(buffer_t& buffer);

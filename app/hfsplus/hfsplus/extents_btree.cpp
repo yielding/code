@@ -2,7 +2,6 @@
 #include "unicode_compare.h"
 
 #include <boost/algorithm/string.hpp>
-#include <boost/bind.hpp>
 #include <iostream>
 
 using namespace std;

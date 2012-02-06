@@ -22,6 +22,10 @@
 		DF97ADFE14C0202000739F5A /* libboost_filesystem-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF97ADFD14C0202000739F5A /* libboost_filesystem-mt.a */; };
 		DF97AE0014C0202900739F5A /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF97ADFF14C0202900739F5A /* libboost_system-mt.a */; };
 		DF97AE0414C020D000739F5A /* ByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97AE0314C020D000739F5A /* ByteBuffer.cpp */; };
+		DFE2117814DF9A2E004B7B52 /* PTreeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFE2117714DF9A2E004B7B52 /* PTreeParser.cpp */; };
+		DFE2117C14DFA14D004B7B52 /* HexUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFE2117B14DFA14D004B7B52 /* HexUtil.cpp */; };
+		DFE2117E14DFA332004B7B52 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFE2117D14DFA332004B7B52 /* libssl.a */; };
+		DFE2118014DFA458004B7B52 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFE2117F14DFA458004B7B52 /* libcrypto.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -63,6 +67,11 @@
 		DF97AE0314C020D000739F5A /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ByteBuffer.cpp; path = develop/src/ByteBuffer.cpp; sourceTree = "<group>"; };
 		DFA0510314C0225E000B475C /* ByteBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ByteBuffer.h; path = develop/include/ByteBuffer.h; sourceTree = "<group>"; };
 		DFA3A3A914C3F09200421E54 /* btree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btree.h; sourceTree = "<group>"; };
+		DFE2117714DF9A2E004B7B52 /* PTreeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PTreeParser.cpp; path = develop/src/PTreeParser.cpp; sourceTree = "<group>"; };
+		DFE2117A14DF9A69004B7B52 /* PTreeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PTreeParser.h; path = develop/include/PTreeParser.h; sourceTree = "<group>"; };
+		DFE2117B14DFA14D004B7B52 /* HexUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HexUtil.cpp; path = develop/src/HexUtil.cpp; sourceTree = "<group>"; };
+		DFE2117D14DFA332004B7B52 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../../../opt/local/lib/libssl.a; sourceTree = "<group>"; };
+		DFE2117F14DFA458004B7B52 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../opt/local/lib/libcrypto.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +81,8 @@
 			files = (
 				DF97ADFE14C0202000739F5A /* libboost_filesystem-mt.a in Frameworks */,
 				DF97AE0014C0202900739F5A /* libboost_system-mt.a in Frameworks */,
+				DFE2117E14DFA332004B7B52 /* libssl.a in Frameworks */,
+				DFE2118014DFA458004B7B52 /* libcrypto.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				DF97ADFD14C0202000739F5A /* libboost_filesystem-mt.a */,
+				DFE2117D14DFA332004B7B52 /* libssl.a */,
+				DFE2117F14DFA458004B7B52 /* libcrypto.a */,
 				DF97ADFF14C0202900739F5A /* libboost_system-mt.a */,
 				DF97ADDD14C01ED700739F5A /* hfsplus */,
 				DF97ADDB14C01ED700739F5A /* Products */,
@@ -127,6 +140,9 @@
 		DFA0510514C02269000B475C /* develop */ = {
 			isa = PBXGroup;
 			children = (
+				DFE2117B14DFA14D004B7B52 /* HexUtil.cpp */,
+				DFE2117A14DF9A69004B7B52 /* PTreeParser.h */,
+				DFE2117714DF9A2E004B7B52 /* PTreeParser.cpp */,
 				DF97AE0314C020D000739F5A /* ByteBuffer.cpp */,
 				DFA0510314C0225E000B475C /* ByteBuffer.h */,
 			);
@@ -196,6 +212,8 @@
 				DF12D82D14D8D15200D9B578 /* unicode_compare.cpp in Sources */,
 				DF12D83114D9026600D9B578 /* extents_btree.cpp in Sources */,
 				DF1117F114DB726700363D88 /* attribute_btree.cpp in Sources */,
+				DFE2117814DF9A2E004B7B52 /* PTreeParser.cpp in Sources */,
+				DFE2117C14DFA14D004B7B52 /* HexUtil.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

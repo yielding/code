@@ -36,17 +36,11 @@ public:
   ~CatalogTree();
   
 public:
-  int compare_keys(HFSPlusCatalogKey const& key1, HFSPlusCatalogKey const& key2) const;
+  auto compare_keys(HFSPlusCatalogKey const& key1, HFSPlusCatalogKey const& key2) const 
+    -> int;
 
-  /*
-  auto read_leaf_record(ByteBuffer& buffer, uint32_t offset) const 
-    -> CatalogRecord;
-  */
-  
   auto metadata_dir_id() -> HFSCatalogNodeID;
   
-  void print_leaf(BufferPair const&);
-
 public:
   auto get_record_from_path(string const& path) -> CatalogRecord;
   

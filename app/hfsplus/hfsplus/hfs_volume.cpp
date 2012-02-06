@@ -61,10 +61,20 @@ bool HFSVolume::open(string const& filename)
   m_extents_tree = new ExtentsTree(m_extents_file);
   m_catalog_file = new HFSFile(this, m_header.catalogFile, kHFSCatalogFileID);
   m_catalog_tree = new CatalogTree(m_catalog_file);
+  m_attribute_file = new HFSFile(this, m_header.attributesFile, kHFSAttributesFileID);
+  m_attribute_tree = new AttributeTree(m_attribute_file);
+
+  // TODO journal
 
   m_opened = true;
 
   return true;
+}
+
+auto HFSVolume::id() -> int64_t
+{
+  ByteBuffer b((uint8_t*)&m_header.finderInfo[6], 8);
+  return b.get_int8_be();
 }
 
 auto HFSVolume::get_extents_overflow_for_file(HFSPlusExtentKey const& key)
@@ -122,7 +132,7 @@ auto HFSVolume::read_file(string const& path, string const& mp) -> bool
   if (r.data.recordType != kHFSPlusFileRecord)
     return false;
   
-  // TODO
+  // TODO for compressed image
   /*
   auto xattr = get_xattr(r.data.file.fileID, "com.apple.decmpfs");
   if ()
@@ -135,6 +145,15 @@ auto HFSVolume::read_file(string const& path, string const& mp) -> bool
   f.read_all_to_file(path, mp, true);
   
   return true;
+}
+
+auto HFSVolume::read_journal() -> ByteBuffer
+{
+  int64_t beg = m_header.journalInfoBlock * m_block_size;
+  auto b0 = read(beg, m_block_size);
+  JournalInfoBlock jib(b0);
+  
+  return read(beg, size_t(jib.size));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

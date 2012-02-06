@@ -13,6 +13,7 @@ class HFSFile
 {
 public:
   HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bool deleted=false);
+  virtual ~HFSFile();
 
   auto read_block(uint32_t no) -> utility::hex::ByteBuffer;
   auto read_all_to_buffer(bool trunc=true) -> utility::hex::ByteBuffer;

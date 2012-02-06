@@ -29,8 +29,13 @@ enum {
 
 struct HFSUniStr255
 {
-  HFSUniStr255() :length(0)
+  HFSUniStr255(): length(0)
   {}
+
+  HFSUniStr255(std::string const& name)
+  {
+    from_ascii(name);
+  }
   
   size_t size() const { return 2 + length*2; }
   
@@ -63,7 +68,7 @@ struct HFSUniStr255
   }
   
   // TODO
-  std::string to_s()
+  std::string to_s() const
   {
     std::string result;
     for (int i=0; i<length; i++)
@@ -71,8 +76,7 @@ struct HFSUniStr255
     
     return result;
   }
-  
-  // TODO: for Korean
+
   void from_ascii(std::string const& s)
   {
     for (int i=0; i<s.size(); i++) unicode[i] = s[i];
@@ -287,6 +291,13 @@ struct HFSPlusCatalogKey
   {
     keyLength = 0;
     parentID = 0;
+  }
+  
+  HFSPlusCatalogKey(HFSCatalogNodeID pid, std::string const& name_)
+  {
+    nodeName.from_ascii(name_);
+    parentID = pid;
+    keyLength = nodeName.size() + 4;
   }
   
   bool operator==(HFSPlusCatalogKey const& rhs) const
@@ -716,42 +727,35 @@ struct HFSPlusAttrData
   void read_from(utility::hex::ByteBuffer& b)
   {
     recordType = b.get_uint4_be();
+    if (recordType == kHFSPlusAttrForkData || recordType == kHFSPlusAttrExtents)
+      throw std::runtime_error("unsuppoprted Attribute type");
+    
     for (int i=0; i<2; i++) reserved[i] = b.get_uint4_be();
     size = b.get_uint4_be();
 
-    // 아래 코드는 별로도 채워야 한다.
-    // for (uint32_t i=0; i<size; ++i)  data.push_back(b.get_uint1());
+    for (uint32_t i=0; i<size; ++i)  data.push_back(b.get_uint1());
   }
 
   uint32_t recordType;
   uint32_t reserved[2];
   uint32_t size;
-  uint8_t  data[0];
+  std::vector<uint8_t> data;
 };
-
-struct HFSPlusAttrRecord
-{
-  uint32_t 	recordType;
-  uint8_t   data[0];
-};
-
-typedef HFSPlusAttrRecord* PHFSPlusAttrRecord;
 
 struct HFSPlusAttrKey
 {
   HFSPlusAttrKey() 
   {}
 
-  HFSPlusAttrKey(uint32_t cnid, uint32_t sb, uint16_t name_len)
+  HFSPlusAttrKey(uint32_t cnid, uint32_t sb, std::string const& name_)
   {
-    std::memset(&name, 0, sizeof(HFSUniStr255));
-    keyLength   = sizeof(HFSPlusAttrKey) - sizeof(HFSUniStr255) + 2 + (2 * name_len);
-    pad         = 0;
-    fileID      = cnid;
-    startBlock  = sb;
-    name.length = name_len;
+    pad = 0;
+    fileID = cnid;
+    startBlock = sb;
+    name.from_ascii(name_);
+    keyLength = (2 + name.length*2) + 2*2 + 2*4;
   }
-
+  
   bool operator==(HFSPlusAttrKey const& rhs) const
   {
     if (this != &rhs)
@@ -772,8 +776,8 @@ struct HFSPlusAttrKey
     fileID      = b.get_uint4_be();
     startBlock  = b.get_uint4_be();
 
-    name.length = b.get_uint2_be();
-    // name.read_from(b);
+    // name.length = b.get_uint2_be();
+    name.read_from(b);
   }
 
   uint16_t     keyLength;
@@ -799,6 +803,11 @@ typedef std::vector<std::string> XAttrList;
 ////////////////////////////////////////////////////////////////////////////////
 struct JournalInfoBlock 
 {
+  JournalInfoBlock(utility::hex::ByteBuffer& b)
+  {
+    read_from(b);
+  }
+  
   void read_from(utility::hex::ByteBuffer& b)
   {
     flags = b.get_uint4_be();

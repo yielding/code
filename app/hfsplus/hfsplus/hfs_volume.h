@@ -42,6 +42,15 @@ public:
   auto get_extents_overflow_for_file(HFSPlusExtentKey const& key)
   -> ExtentsRecord;
   
+  auto read_journal() -> ByteBuffer;
+  
+  auto id() -> int64_t;
+
+  virtual auto protection_version() -> int16_t
+  {
+    return 0;
+  }
+  
 public:
   auto block_size() -> uint32_t { return m_block_size; }
 

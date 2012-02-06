@@ -3,22 +3,12 @@
 
 #include "hfs_file.h"
 
-//#include <boost/tuple/tuple.hpp>
 #include <boost/function.hpp>
 #include <cassert>
 #include <iostream>
 
 using namespace utility::hex;
 using namespace std;
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-namespace {
-  typedef pair<ByteBuffer, ByteBuffer> BufferPair;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -34,12 +24,10 @@ struct BTreeTraits;
 template <typename KeyT, typename ValueT>
 struct BTreeRecord
 {
-  BTreeRecord(int t_=kBEmpty)
-  {
-    m_empty = (t_ == kBEmpty);
-  }
+  BTreeRecord(int t_=kBEmpty) { m_empty = (t_ == kBEmpty); }
   
   bool empty() const { return m_empty; }
+
   KeyT     key;
   ValueT   data;
   uint32_t pointer;
@@ -72,6 +60,8 @@ public:
   typedef typename BTreeTraits<HFSTree>::Node Node;
   typedef typename BTreeTraits<HFSTree>::Record Record;
   typedef typename BTreeTraits<HFSTree>::SearchKey SearchKey;
+
+  typedef boost::function<bool(Record)> Callback2;
   
 public:
   BTree(HFSFile* file);
@@ -91,7 +81,7 @@ public:
   auto traverse(uint32_t node_no, Callback& call, uint32_t count=0) 
     -> uint32_t;
   
-  auto traverse_leaf_nodes(Callback& call) -> uint32_t;
+  auto traverse_leaf_nodes(Callback2 call) -> uint32_t;
   
 protected:
   auto read_node(uint32_t node_no) -> ByteBuffer;
@@ -232,12 +222,10 @@ auto BTree<HFSTree>::read_btree_node(uint32_t node_no)
     if (node.index())
     {
       auto record = read_index_record<Record>(node_buffer, offset);
-      // auto record = self().read_index_record(node_buffer, offset);
       node.push_back(record);
     }
     else if (node.leaf())
     {
-      // auto record = self().read_leaf_record(node_buffer, offset);
       auto record = read_leaf_record<Record>(node_buffer, offset);
       node.recs.push_back(record);
     }
@@ -269,7 +257,7 @@ auto BTree<HFSTree>::read_leaf_record(ByteBuffer& buffer, uint32_t offset) const
 {
   buffer.offset(offset);
   
-  RecordT record;
+  RecordT record(kBTLeafNode);
   record.key.read_from(buffer);
   record.data.read_from(buffer);
   
@@ -291,8 +279,8 @@ auto BTree<HFSTree>::search(SearchKey const& search_key, uint32_t node_no_)
     {
       if (self().compare_keys(search_key, node.recs[i].key) < 0)
       {
-        auto j = (i > 0) ? i - 1 : i;
-        return search(search_key, node.recs[j].pointer);
+        auto index = (i > 0) ? i - 1 : i;
+        return search(search_key, node.recs[index].pointer);
       }
     }
     
@@ -356,22 +344,24 @@ template <typename HFSTree>
 auto BTree<HFSTree>::traverse(uint32_t node_no_, Callback& call, uint32_t count) 
   -> uint32_t
 {
+  if (call.empty())
+    return 0;
+  
   auto node_no = (node_no_ == 0xFFFFFFFF)
     ? m_header_record.rootNode
     : node_no_;
 
   auto node = this->read_btree_node(node_no);
-  auto& buffer = node.data;
-  if (node.type == kBTIndexNode)
+  if (node.index())
   {
-    for (auto i=0; i<buffer.size(); i++)
-      count += traverse(buffer[i], call);
+    for (auto i=0; i<node.recs.size(); i++)
+      count += traverse(node.recs[i], call);
   }
-  else if (node.type == kBTLeafNode)
+  else if (node.leaf())
   {
-    for (auto it=buffer.begin(); it != buffer.end(); ++it)
+    for (auto it=node.recs.begin(); it != node.recs.end(); ++it)
     {
-      call.empty() ? self().print_leaf(*it) : call(*it);
+      call(*it);
       count++;
     }
   }
@@ -380,18 +370,24 @@ auto BTree<HFSTree>::traverse(uint32_t node_no_, Callback& call, uint32_t count)
 }
 
 template <typename HFSTree>
-auto BTree<HFSTree>::traverse_leaf_nodes(Callback& call) -> uint32_t
+auto BTree<HFSTree>::traverse_leaf_nodes(Callback2 call) -> uint32_t
 {
-  auto node_no = m_header_record.firstLeafNode;
+  if (call.empty())
+    return 0;
+  
   uint32_t count = 0;
+  auto node_no = m_header_record.firstLeafNode;
   while (node_no != 0)
   {
-    auto node = read_btree_node(node_no);
-    count += node.data.size();
-    
-    for (auto it=node.data.begin(); it != node.data.end(); ++it)
-      call.empty() ? self().print_leaf() : call(*it);
-    
+    auto node = this->read_btree_node(node_no);
+    if (node.index())
+      continue;
+
+    count += node.recs.size();
+        
+    for (auto it=node.recs.begin(); it != node.recs.end(); ++it)
+      call(*it);
+      
     node_no = m_last_btnode.fLink;
   }
   

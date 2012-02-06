@@ -1,19 +1,9 @@
 #include "attribute_btree.h"
 
 #include <boost/algorithm/string.hpp>
-#include <boost/bind.hpp>
 #include <iostream>
 
 using namespace std;
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-namespace {
-
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -61,11 +51,20 @@ auto AttributeTree::get_all_attributes(HFSCatalogNodeID folderID) -> AttrNode
   return node;
 }
 
-auto AttributeTree::get_attribute(HFSCatalogNodeID cnid, string const& key) -> AttrRecord
+auto AttributeTree::get_attribute(HFSCatalogNodeID cnid, string const& name) 
+  -> ByteBuffer
 {
-  AttrRecord record;
-  
-  return record;
+  HFSPlusAttrKey key(cnid, 0,  name);
+  ByteBuffer buffer;
+
+  auto record = search(key);
+  if (!record.empty())
+  {
+    for (size_t i=0; i<record.data.size; ++i)
+      buffer.append(record.data.data[i]);
+  }
+
+  return buffer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

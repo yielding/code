@@ -36,7 +36,7 @@ public:
 public:
   auto get_all_attributes(HFSCatalogNodeID folderID) -> AttrNode;
 
-  auto get_attribute(HFSCatalogNodeID cnid, std::string const& key) -> AttrRecord;
+  auto get_attribute(HFSCatalogNodeID cnid, std::string const& key) -> ByteBuffer;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
