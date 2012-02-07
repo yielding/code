@@ -72,6 +72,8 @@
 		DFE2117B14DFA14D004B7B52 /* HexUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HexUtil.cpp; path = develop/src/HexUtil.cpp; sourceTree = "<group>"; };
 		DFE2117D14DFA332004B7B52 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../../../opt/local/lib/libssl.a; sourceTree = "<group>"; };
 		DFE2117F14DFA458004B7B52 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../opt/local/lib/libcrypto.a; sourceTree = "<group>"; };
+		DFEF0E3614E0ACC300D64E14 /* emf_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = emf_file.h; sourceTree = "<group>"; };
+		DFEF0E3714E0ACC300D64E14 /* emf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = emf.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,13 +114,15 @@
 		DF97ADDD14C01ED700739F5A /* hfsplus */ = {
 			isa = PBXGroup;
 			children = (
+				DFA0510514C02269000B475C /* develop */,
+				DFEF0E3614E0ACC300D64E14 /* emf_file.h */,
+				DFEF0E3714E0ACC300D64E14 /* emf.h */,
 				DF1117EF14DB726700363D88 /* attribute_btree.cpp */,
 				DF1117F014DB726700363D88 /* attribute_btree.h */,
 				DF0047F614DB5DC700C2B218 /* emf_volume.h */,
 				DF12D82F14D9026600D9B578 /* extents_btree.cpp */,
 				DF12D83014D9026600D9B578 /* extents_btree.h */,
 				DF12D82C14D8D15200D9B578 /* unicode_compare.cpp */,
-				DFA0510514C02269000B475C /* develop */,
 				DF97ADE714C01F2F00739F5A /* catalog_btree.cpp */,
 				DFA3A3A914C3F09200421E54 /* btree.h */,
 				DF97ADE814C01F2F00739F5A /* catalog_btree.h */,

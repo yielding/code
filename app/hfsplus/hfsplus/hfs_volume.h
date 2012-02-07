@@ -35,6 +35,8 @@ public:
 
   auto read(int64_t offset, size_t sz) -> ByteBuffer;
   auto read(int64_t offset, uint8_t* buffer, size_t sz) -> size_t;
+  
+  void write(int64_t offset, utility::hex::ByteBuffer& buffer);
 
   auto list_folder_contents(std::string const& path) -> void;
   auto read_file(std::string const& path, std::string const& mp) -> bool;
@@ -55,6 +57,7 @@ public:
   auto block_size() -> uint32_t { return m_block_size; }
 
 protected:
+  uint32_t     m_block_size;
   HFSFile*     m_allocation_file;
   ByteBuffer   m_allocatioin_bitmap;
   HFSFile*     m_extents_file;
@@ -66,7 +69,6 @@ protected:
   
 private:
   int64_t  m_offset;
-  uint32_t m_block_size;
 
   HFSPlusVolumeHeader m_header;
 

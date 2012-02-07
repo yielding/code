@@ -10,6 +10,8 @@
 #include <boost/format.hpp>
 #include <boost/bind.hpp>
 
+#include <openssl/sha.h>
+
 namespace fs = boost::filesystem;
 using namespace boost;
 using namespace utility::parser;
@@ -119,9 +121,14 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
     return false;
   }
 
-  auto fk = get_file_key_for_cprotect(cprotect);
+  AES_KEY fk, ik;
+  bool res;
+  tie(res, fk, ik) = get_file_keys_for_cprotect(cprotect);
   
-  EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk);
+  if (!res)
+    return false;
+  
+  EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk, ik);
   ef.decrypt_file();
   
   m_decrypted_counnt++;
@@ -129,13 +136,80 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
   return true;
 }
 
-auto EMFVolume::get_file_key_for_cprotect(ByteBuffer const& cp) -> AES_KEY
+auto EMFVolume::iv_for_lba(uint32_t lba, uint32_t* iv, bool add) -> void
 {
-  AES_KEY file_key;
-  
-  return file_key;
+  if (add)
+    lba += uint32_t(m_lba_offset);
+    
+  for (int i=0; i<4; i++)
+  {
+    lba = (lba & 1) ? 0x80000061 ^ (lba >> 1) : lba >> 1;
+    iv[i] = lba;
+  }
 }
 
+auto EMFVolume::get_file_keys_for_cprotect(ByteBuffer& cp) 
+  -> tuple<bool, AES_KEY, AES_KEY>
+{
+  AES_KEY file_key, iv_key; 
+  bool res = true;
+  
+  auto v = protection_version();
+  auto pwrapped_key = (v == 4)
+    ? cprotect_xattr_v4(cp).persistent_key
+    : cprotect_xattr_v2(cp).persistent_key;
+  
+  auto pclass = (v == 4)
+    ? cprotect_xattr_v4(cp).persistent_class
+    : cprotect_xattr_v2(cp).persistent_class;
+  
+  if (!unwrap_filekeys_for_class(pclass, pwrapped_key, file_key, iv_key))
+    res = false;
+  
+  return make_tuple(res, file_key, iv_key);
+}
+
+// 1. unwrap file key
+// 2. get iv key if protection_class == 4
+auto EMFVolume::unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key, AES_KEY& file_key, AES_KEY& ivkey)
+  -> bool
+{
+  if (pclass < 1 || pclass >= MAX_CLASS_KEYS)
+    return false;
+  
+  if ((m_class_keys_bitset & (1 << pclass)) == 0)
+  {
+    cerr << "class key " << pclass << " is not available\n";
+    return false;
+  }
+  
+  uint8_t fk[32] = { 0 };
+  if (AES_unwrap_key(&(m_class_keys[pclass-1]), NULL, fk, wrapped_key, 40) != 32)
+  {
+    cerr << "EMF_unwrap_filekey_forclass unwrap FAIL, protection_class_id=" 
+         << pclass << endl;
+    return false;
+  }
+  
+  AES_set_decrypt_key(fk, 32*8, &file_key);
+
+  if (m_protect_version == 4)
+  {
+    SHA_CTX ctx;
+    SHA1_Init(&ctx);
+    SHA1_Update(&ctx, fk, 32);
+    SHA1_Final(fk, &ctx);
+    /*
+    boost::crypto::sha1 sha_;
+    sha_.reset();
+    sha_.input(fk, fk+32);                   
+    sha_.to_buffer(fk);                     // set the sha1 hashed result into the 'fk'
+    */
+    AES_set_encrypt_key(fk, 16*8, &ivkey);  // takes only the first 16 bytes
+  }
+  
+  return true;  
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //

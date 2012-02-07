@@ -156,6 +156,18 @@ auto HFSVolume::read_journal() -> ByteBuffer
   return read(beg, size_t(jib.size));
 }
 
+auto HFSVolume::write(int64_t offset, utility::hex::ByteBuffer& b) 
+ -> void
+{
+  m_stream.seekp(offset, ios_base::beg);
+  if (m_stream.fail())
+    throw std::runtime_error("seekp for write error");
+  
+  // see the test code: ByteBuffer has an operator uint8_t*
+  uint8_t* buffer = b;
+  m_stream.write((char*)buffer, b.size());
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //

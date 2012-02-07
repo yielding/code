@@ -15,16 +15,18 @@ class EMFFile: public HFSFile
 {
 public:
   EMFFile(HFSVolume* volume, HFSPlusForkData const& fork, HFSCatalogNodeID fileID
-    , AES_KEY const& filekey, bool deleted=false);
+    , AES_KEY const& filekey, AES_KEY const& ivkey, bool deleted=false);
 
   virtual ~EMFFile();
 
 public:
   void decrypt_file();
+  void process_block(int64_t lba, utility::hex::ByteBuffer& buffer);
 
 private:
-  int64_t m_decrypt_offset;
-  AES_KEY m_ivkey;
+  int64_t  m_decrypt_offset;
+  uint16_t m_protection_version;
+  AES_KEY  m_file_key, m_ivkey;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

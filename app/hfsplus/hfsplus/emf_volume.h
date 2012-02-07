@@ -5,6 +5,7 @@
 #include "emf.h"
 
 #include <openssl/aes.h>
+#include <boost/tuple/tuple.hpp>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -24,18 +25,22 @@ public:
   void decrypt_all_files();
   bool decrypt_file(CatalogRecord const& r);
   
-  /*
-  void read_file(std::string const& path);
+  // void read_file(std::string const& path);
+
+  auto iv_for_lba(uint32_t lba, uint32_t* iv, bool add=true) -> void;
+
+  auto get_file_keys_for_cprotect(utility::hex::ByteBuffer& cp) 
+    -> boost::tuple<bool, AES_KEY, AES_KEY>;
   
-  void iv_for_lba(uint32_t lba);
-   */
+  auto unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key, AES_KEY& fkey, AES_KEY& ikey)
+    -> bool;
 
   virtual auto protection_version() -> int16_t
   {
     return m_protect_version;
   }
-
-  auto get_file_key_for_cprotect(utility::hex::ByteBuffer const& cp) -> AES_KEY;
+  
+  auto emfkey() -> AES_KEY& { return m_emfkey; }
 
 private:
   uint16_t m_protect_version;

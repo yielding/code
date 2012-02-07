@@ -31,7 +31,8 @@ struct cprotect_xattr_v2
     persistent_class = b.get_uint4_le();
     key_size = b.get_uint4_le();
     for (uint32_t i=0; i<key_size; ++i)
-      persistent_key[i] = b.get_uint1();
+      persistent_key.append(b.get_uint1());
+      // persistent_key[i] = b.get_uint1();
   }
   
   uint16_t xattr_major_version; // =2
@@ -39,7 +40,8 @@ struct cprotect_xattr_v2
   uint32_t flags;               // leaks stack dword in one code path (cp_handle_vnop)
   uint32_t persistent_class;
   uint32_t key_size;            // 0x28
-  uint8_t  persistent_key[0x28];
+  // uint8_t  persistent_key[0x28];
+  utility::hex::ByteBuffer persistent_key;
 };
 
 struct cprotect_xattr_v4
@@ -58,7 +60,8 @@ struct cprotect_xattr_v4
     key_size            = b.get_uint4_le();
     for (int i=0; i<20; i++)  padding[i] = b.get_uint1();
     for (uint32_t i=0; i<key_size; ++i)
-      persistent_key[i] = b.get_uint1();
+      persistent_key.append(b.get_uint1());
+      // persistent_key[i] = b.get_uint1();
   }
   
   uint16_t xattr_major_version; // =4
@@ -67,7 +70,8 @@ struct cprotect_xattr_v4
   uint32_t persistent_class;
   uint32_t key_size;            // 0x28
   uint8_t  padding[20];
-  uint8_t  persistent_key[1];
+  // uint8_t  persistent_key[1];
+  utility::hex::ByteBuffer persistent_key;
 };
 
 struct cp_root_xattr
