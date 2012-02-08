@@ -21,7 +21,7 @@ public:
 
 public:
   void decrypt_file();
-  void process_block(int64_t lba, utility::hex::ByteBuffer& buffer);
+  void process_block(int64_t lba, utility::hex::ByteBuffer& buffer, uint32_t bs=0);
 
 private:
   int64_t  m_decrypt_offset;

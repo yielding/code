@@ -826,6 +826,11 @@ struct JournalInfoBlock
 
 struct journal_header
 {
+  journal_header(utility::hex::ByteBuffer& b)
+  {
+    read_from(b);
+  }
+  
   void read_from(utility::hex::ByteBuffer& b)
   {
     magic      = b.get_uint4_le();

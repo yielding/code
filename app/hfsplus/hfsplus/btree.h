@@ -83,6 +83,8 @@ public:
   
   auto traverse_leaf_nodes(Callback2 call) -> uint32_t;
   
+  auto node_size() -> uint16_t { return m_header_record.nodeSize; }
+
 protected:
   auto read_node(uint32_t node_no) -> ByteBuffer;
   auto read_btree_node(uint32_t node_no) -> Node;
@@ -91,11 +93,11 @@ protected:
 
   template <typename RecordT>
   auto read_index_record(ByteBuffer& buffer, uint32_t offset) const 
-  -> RecordT;
+    -> RecordT;
   
   template <typename RecordT>
   auto read_leaf_record(ByteBuffer& buffer, uint32_t offset) const 
-  -> RecordT;
+    -> RecordT;
 
 private:
   HFSTree const& self() { 
@@ -168,10 +170,14 @@ auto BTree<HFSTree>::node_in_use(uint32_t no) -> bool
 {
   auto buffer = m_maprec.get_buffer();
   auto this_byte = buffer[no / 8];
+  
   return (this_byte & (1 << (7 - (no % 8)))) != 0;
 }
 
+//
+// TODO: very important!!!!!
 // not tested
+//
 template <typename HFSTree>
 auto BTree<HFSTree>::read_empty_space() -> ByteBuffer 
 {

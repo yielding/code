@@ -12,6 +12,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 typedef BTreeRecord<HFSPlusCatalogKey, HFSPlusCatalogData> CatalogRecord;
+typedef BTreeNode<CatalogRecord> CatalogNode;
 
 class EMFVolume: public HFSVolume
 {
@@ -24,9 +25,9 @@ public:
 public:
   void decrypt_all_files();
   bool decrypt_file(CatalogRecord const& r);
-  
-  // void read_file(std::string const& path);
 
+  void undelete();
+  
   auto iv_for_lba(uint32_t lba, uint32_t* iv, bool add=true) -> void;
 
   auto get_file_keys_for_cprotect(utility::hex::ByteBuffer& cp) 
@@ -35,12 +36,15 @@ public:
   auto unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key, AES_KEY& fkey, AES_KEY& ikey)
     -> bool;
 
-  virtual auto protection_version() -> int16_t
-  {
-    return m_protect_version;
-  }
+  virtual auto protection_version() 
+    -> int16_t  { return m_protect_version; }
   
-  auto emfkey() -> AES_KEY& { return m_emfkey; }
+  auto emfkey() 
+    -> AES_KEY& { return m_emfkey; }
+
+private:
+  auto carve_tree_node(utility::hex::ByteBuffer& journal)
+    -> CatalogNode;
 
 private:
   uint16_t m_protect_version;
@@ -52,7 +56,7 @@ private:
 
 private:
   std::vector<std::string> m_not_encrypted;
-  uint32_t m_decrypted_counnt;
+  uint32_t m_decrypted_count;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

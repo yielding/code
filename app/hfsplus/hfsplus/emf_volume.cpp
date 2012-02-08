@@ -12,18 +12,9 @@
 
 #include <openssl/sha.h>
 
-namespace fs = boost::filesystem;
 using namespace boost;
 using namespace utility::parser;
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-namespace {
-  
-}
-
+      namespace fs = boost::filesystem;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -101,11 +92,26 @@ auto EMFVolume::open(std::string const& filename) -> bool
   return true;
 }
 
+void EMFVolume::undelete()
+{
+  auto journal = read_journal();
+
+  // analyze_journal(j);
+}
+
+/*
+analyze_journal(j)
+{
+  filess = carve_tree_node<Catalog>(j)
+  attrs  = carve_tree_node<Attribute>(j);
+}
+*/
+
 void EMFVolume::decrypt_all_files()
 {
   m_not_encrypted.clear();
-  m_decrypted_counnt = 0;
-  m_catalog_tree->traverse_leaf_nodes(boost::bind(&EMFVolume::decrypt_file, this, _1));
+  m_decrypted_count = 0;
+  m_catalog_tree->traverse_leaf_nodes(bind(&EMFVolume::decrypt_file, this, _1));
 }
 
 bool EMFVolume::decrypt_file(CatalogRecord const& rec)
@@ -131,7 +137,7 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
   EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk, ik);
   ef.decrypt_file();
   
-  m_decrypted_counnt++;
+  m_decrypted_count++;
 
   return true;
 }
@@ -175,19 +181,27 @@ auto EMFVolume::unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key,
   -> bool
 {
   if (pclass < 1 || pclass >= MAX_CLASS_KEYS)
+  {
+    cerr << str(format("wrong protection class %d \n") % pclass);
     return false;
+  }
   
   if ((m_class_keys_bitset & (1 << pclass)) == 0)
   {
-    cerr << "class key " << pclass << " is not available\n";
+    cerr << str(format("class key %d is not available\n") % pclass);
     return false;
   }
   
   uint8_t fk[32] = { 0 };
-  if (AES_unwrap_key(&(m_class_keys[pclass-1]), NULL, fk, wrapped_key, 40) != 32)
+  auto wsize = AES_unwrap_key(&(m_class_keys[pclass-1]), NULL, fk, wrapped_key, 40);
+  if (wsize != 32)
   {
-    cerr << "EMF_unwrap_filekey_forclass unwrap FAIL, protection_class_id=" 
-         << pclass << endl;
+    auto msg = (pclass == 2 && wsize == 0x48)
+      ? "EMF unwrap curve25519 is not implemented yet"
+      : str(format("EMF unwrap failed for protection class %d") % pclass);
+    
+    cerr << msg << "\n";
+    
     return false;
   }
   
@@ -199,16 +213,112 @@ auto EMFVolume::unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key,
     SHA1_Init(&ctx);
     SHA1_Update(&ctx, fk, 32);
     SHA1_Final(fk, &ctx);
+
     /*
     boost::crypto::sha1 sha_;
     sha_.reset();
     sha_.input(fk, fk+32);                   
     sha_.to_buffer(fk);                     // set the sha1 hashed result into the 'fk'
     */
+    
     AES_set_encrypt_key(fk, 16*8, &ivkey);  // takes only the first 16 bytes
   }
   
   return true;  
+}
+
+auto EMFVolume::carve_tree_node(utility::hex::ByteBuffer& journal)
+  -> CatalogNode
+{
+  journal.flip();
+  journal_header jh(journal);
+
+  auto sector_size = jh.jhdr_size;
+  auto   node_size = m_catalog_tree->node_size();
+
+  CatalogNode files;
+  for (uint32_t i=0; ; ++i)
+  {
+    auto beg = sector_size * (i + 1); // skip header
+    auto end = beg + node_size;
+    if (end >= journal.size())
+      break;
+
+    auto base = beg;
+    journal.offset(beg);
+
+    try
+    {
+      BTNodeDescriptor btnode(journal);
+
+      if (btnode.kind != kBTLeafNode || btnode.height != 1)
+        continue;
+
+      auto offset_pos = end - 2 * btnode.numRecords;
+      journal.offset(offset_pos);
+      vector<uint16_t> offsets;
+      for (uint32_t i=0; i<btnode.numRecords; i++) offsets.push_back(journal.get_uint2_be());
+
+      for (size_t i=0; i<btnode.numRecords; i++)
+      {
+        auto pos = base + offsets[btnode.numRecords - i - 1];
+        journal.offset(pos);
+
+        bool has_exception = false;
+        HFSPlusCatalogKey key; 
+        try
+        {
+          key.read_from(journal);
+        }
+        catch(runtime_error&)
+        {
+          has_exception = true;
+        }
+
+        if (has_exception)
+          continue;
+
+        auto type = journal.get_uint2_be();
+        if (type != 2)                            // 2 == kHFSPlusFileRecord
+          continue;
+
+        journal.unget(2);
+        HFSPlusCatalogFile data;
+        data.read_from(journal);
+
+        // 
+        // TODO
+        //
+        /*
+         if (m_active_fileIDs.find(data.fileID) == m_active_fileIDs.end())
+           records.push_back(make_pair(key, data));
+         #ifdef DEBUG_
+         else
+           cout << "find active file id in journal " << data.fileID << endl;
+         #endif
+        */
+      }
+    }
+    catch(...)
+    {
+    }
+  }
+
+
+  for (auto it=recs.begin(); it != recs.end(); ++it)
+  {
+    if (has_same_data(files, it->first))
+      continue;
+
+    //             bool duplicated = false;
+    //             if (m_active_fileIDs.find(it->second.fileID) != m_active_fileIDs.end())
+    //                 duplicated = true;
+
+    // if (!m_allocation_file->block_in_use(it->second.dataFork.extents[0].startBlock))
+    files.push_back(*it);
+  }
+
+  return files;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

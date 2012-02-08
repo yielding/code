@@ -17,6 +17,9 @@ class AttributeTree;
 template <typename KeyT, typename ValueT>
 class BTreeRecord;
 
+template <typename HFSRecord>
+class BTreeNode;
+
 typedef BTreeRecord<HFSPlusExtentKey, HFSPlusExtentData> ExtentsRecord;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +45,7 @@ public:
   auto read_file(std::string const& path, std::string const& mp) -> bool;
 
   auto get_extents_overflow_for_file(HFSPlusExtentKey const& key)
-  -> ExtentsRecord;
+    -> ExtentsRecord;
   
   auto read_journal() -> ByteBuffer;
   
