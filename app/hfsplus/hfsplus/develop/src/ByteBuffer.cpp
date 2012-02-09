@@ -140,7 +140,7 @@ auto ByteBuffer::append(uint8_t* b, size_t sz) -> ByteBuffer&
 
 auto ByteBuffer::append(uint8_t b) -> ByteBuffer&
 {
-  m_buffer.push_back(b);
+    m_buffer.push_back(b);
 
     return *this;
 }

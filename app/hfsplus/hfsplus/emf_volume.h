@@ -6,6 +6,7 @@
 
 #include <openssl/aes.h>
 #include <boost/tuple/tuple.hpp>
+#include <set>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -43,8 +44,11 @@ public:
     -> AES_KEY& { return m_emfkey; }
 
 private:
-  auto carve_tree_node(utility::hex::ByteBuffer& journal)
-    -> CatalogNode;
+  auto carve_tree(utility::hex::ByteBuffer& journal)
+  -> std::vector<CatalogRecord>;
+
+  template <typename RecordT, typename NodeT=std::vector<RecordT>>
+  void carve_tree_node(utility::hex::ByteBuffer& journal, uint32_t start, uint32_t end, NodeT& node);
 
 private:
   uint16_t m_protect_version;
@@ -56,6 +60,7 @@ private:
 
 private:
   std::vector<std::string> m_not_encrypted;
+  std::set<CatalogRecord> m_active_files;
   uint32_t m_decrypted_count;
 };
 

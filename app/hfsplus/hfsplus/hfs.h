@@ -2,6 +2,7 @@
 #define HFSPLUS_HFSPLUS_H
 
 #include "ByteBuffer.h"
+#include "unicode_compare.h"
 
 #include <cstring>
 #include <string>
@@ -32,11 +33,6 @@ struct HFSUniStr255
   HFSUniStr255(): length(0)
   {}
 
-  HFSUniStr255(std::string const& name)
-  {
-    from_ascii(name);
-  }
-  
   size_t size() const { return 2 + length*2; }
   
   bool operator==(HFSUniStr255 const& rhs) const 
@@ -300,6 +296,18 @@ struct HFSPlusCatalogKey
     keyLength = nodeName.size() + 4;
   }
   
+  bool operator<(HFSPlusCatalogKey const& rhs) const
+  {
+    if (parentID < rhs.parentID)
+      return true;
+
+    if (parentID > rhs.parentID)
+      return false;
+
+    return FastUnicodeCompare(nodeName.unicode, nodeName.length, 
+        rhs.nodeName.unicode, rhs.nodeName.length) == -1;
+  }
+
   bool operator==(HFSPlusCatalogKey const& rhs) const
   {
     if (this != &rhs)

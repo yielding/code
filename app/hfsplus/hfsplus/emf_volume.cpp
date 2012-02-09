@@ -9,12 +9,21 @@
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include <boost/bind.hpp>
+#include <boost/tuple/tuple.hpp>
 
 #include <openssl/sha.h>
 
 using namespace boost;
 using namespace utility::parser;
       namespace fs = boost::filesystem;
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+namespace {
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -96,21 +105,17 @@ void EMFVolume::undelete()
 {
   auto journal = read_journal();
 
-  // analyze_journal(j);
+  auto res = carve_tree(journal);
+  for (auto i=0; i<res.size(); i++)
+    cout << res[i].data.file.fileID << endl; 
 }
-
-/*
-analyze_journal(j)
-{
-  filess = carve_tree_node<Catalog>(j)
-  attrs  = carve_tree_node<Attribute>(j);
-}
-*/
 
 void EMFVolume::decrypt_all_files()
 {
   m_not_encrypted.clear();
   m_decrypted_count = 0;
+  m_active_files.clear();
+
   m_catalog_tree->traverse_leaf_nodes(bind(&EMFVolume::decrypt_file, this, _1));
 }
 
@@ -120,6 +125,8 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
     return false;
 
   auto name = rec.key.nodeName.to_s();
+  cout << name << endl;
+  
   auto cprotect = m_attribute_tree->get_attribute(rec.data.file.fileID, "com.apple.system.cprotect");
   if (cprotect.empty())
   {
@@ -136,7 +143,10 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
   
   EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk, ik);
   ef.decrypt_file();
-  
+
+  CatalogRecord f(kBTLeafNode);
+
+  m_active_files.insert(rec);
   m_decrypted_count++;
 
   return true;
@@ -155,7 +165,7 @@ auto EMFVolume::iv_for_lba(uint32_t lba, uint32_t* iv, bool add) -> void
 }
 
 auto EMFVolume::get_file_keys_for_cprotect(ByteBuffer& cp) 
-  -> tuple<bool, AES_KEY, AES_KEY>
+  -> ::boost::tuple<bool, AES_KEY, AES_KEY>
 {
   AES_KEY file_key, iv_key; 
   bool res = true;
@@ -172,7 +182,7 @@ auto EMFVolume::get_file_keys_for_cprotect(ByteBuffer& cp)
   if (!unwrap_filekeys_for_class(pclass, pwrapped_key, file_key, iv_key))
     res = false;
   
-  return make_tuple(res, file_key, iv_key);
+  return ::boost::make_tuple(res, file_key, iv_key);
 }
 
 // 1. unwrap file key
@@ -213,22 +223,14 @@ auto EMFVolume::unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key,
     SHA1_Init(&ctx);
     SHA1_Update(&ctx, fk, 32);
     SHA1_Final(fk, &ctx);
-
-    /*
-    boost::crypto::sha1 sha_;
-    sha_.reset();
-    sha_.input(fk, fk+32);                   
-    sha_.to_buffer(fk);                     // set the sha1 hashed result into the 'fk'
-    */
-    
     AES_set_encrypt_key(fk, 16*8, &ivkey);  // takes only the first 16 bytes
   }
   
   return true;  
 }
 
-auto EMFVolume::carve_tree_node(utility::hex::ByteBuffer& journal)
-  -> CatalogNode
+auto EMFVolume::carve_tree(utility::hex::ByteBuffer& journal)
+  -> vector<CatalogRecord>
 {
   journal.flip();
   journal_header jh(journal);
@@ -237,6 +239,8 @@ auto EMFVolume::carve_tree_node(utility::hex::ByteBuffer& journal)
   auto   node_size = m_catalog_tree->node_size();
 
   CatalogNode files;
+
+  std::vector<CatalogRecord> f0, f1, f2;
   for (uint32_t i=0; ; ++i)
   {
     auto beg = sector_size * (i + 1); // skip header
@@ -244,81 +248,63 @@ auto EMFVolume::carve_tree_node(utility::hex::ByteBuffer& journal)
     if (end >= journal.size())
       break;
 
-    auto base = beg;
     journal.offset(beg);
+    carve_tree_node<CatalogRecord>(journal, beg, end, f0);
+  }
 
-    try
+  sort(f0.begin(), f0.end());
+  unique_copy(f0.begin(), f0.end(), back_inserter(f1));
+  set_difference(f1.begin(), f1.end(), m_active_files.begin(), m_active_files.end(), back_inserter(f2));
+
+  return f2;
+}
+
+//
+// TODO start, end의 데이타 타입이 uint32_t가 맞는지 확인
+//
+template <typename RecordT, typename NodeT>
+void EMFVolume::carve_tree_node(utility::hex::ByteBuffer& journal, uint32_t start, uint32_t end, NodeT& node)
+{
+  auto base = start;
+
+  try
+  {
+    BTNodeDescriptor btnode(journal);
+
+    if (btnode.kind != kBTLeafNode || btnode.height != 1)
+      return;
+
+    auto offset_pos = end - 2 * btnode.numRecords;
+    journal.offset(offset_pos);
+    vector<uint16_t> offsets;
+    for (auto i=0; i<btnode.numRecords; i++) offsets.push_back(journal.get_uint2_be());
+
+    for (auto i=0; i<btnode.numRecords; i++)
     {
-      BTNodeDescriptor btnode(journal);
+      auto pos = base + offsets[btnode.numRecords - i - 1];
+      journal.offset(pos);
 
-      if (btnode.kind != kBTLeafNode || btnode.height != 1)
-        continue;
-
-      auto offset_pos = end - 2 * btnode.numRecords;
-      journal.offset(offset_pos);
-      vector<uint16_t> offsets;
-      for (uint32_t i=0; i<btnode.numRecords; i++) offsets.push_back(journal.get_uint2_be());
-
-      for (size_t i=0; i<btnode.numRecords; i++)
+      try
       {
-        auto pos = base + offsets[btnode.numRecords - i - 1];
-        journal.offset(pos);
-
-        bool has_exception = false;
-        HFSPlusCatalogKey key; 
-        try
-        {
-          key.read_from(journal);
-        }
-        catch(runtime_error&)
-        {
-          has_exception = true;
-        }
-
-        if (has_exception)
-          continue;
+        RecordT rec(kBTLeafNode);
+        rec.key.read_from(journal);
 
         auto type = journal.get_uint2_be();
         if (type != 2)                            // 2 == kHFSPlusFileRecord
           continue;
 
         journal.unget(2);
-        HFSPlusCatalogFile data;
-        data.read_from(journal);
-
-        // 
-        // TODO
-        //
-        /*
-         if (m_active_fileIDs.find(data.fileID) == m_active_fileIDs.end())
-           records.push_back(make_pair(key, data));
-         #ifdef DEBUG_
-         else
-           cout << "find active file id in journal " << data.fileID << endl;
-         #endif
-        */
+        rec.data.read_from(journal);
+        node.push_back(rec);
+      }
+      catch(...)
+      {
       }
     }
-    catch(...)
-    {
-    }
   }
-
-
-  for (auto it=recs.begin(); it != recs.end(); ++it)
+  catch(...)
   {
-    if (has_same_data(files, it->first))
-      continue;
-
-    //             bool duplicated = false;
-    //             if (m_active_fileIDs.find(it->second.fileID) != m_active_fileIDs.end())
-    //                 duplicated = true;
-
-    // if (!m_allocation_file->block_in_use(it->second.dataFork.extents[0].startBlock))
-    files.push_back(*it);
   }
-
-  return files;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

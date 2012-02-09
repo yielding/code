@@ -5,9 +5,16 @@ APP_TEST  = "test_#{APP}"
 SRCS      = %w{ ./main.cpp 
                 ./hfs_file.cpp
                 ./hfs_volume.cpp
-                ./hfs_header.cpp
+                ./emf_file.cpp
+                ./emf_volume.cpp
                 ./catalog_btree.cpp
+                ./extents_btree.cpp
+                ./attribute_btree.cpp
+                ./unicode_compare.cpp
+                ./hfs_header.cpp
                 ./develop/src/ByteBuffer.cpp
+                ./develop/src/HexUtil.cpp
+                ./develop/src/PTreeParser.cpp
               }
 
 TEST_SRCS = %w{ ./hfs_header.cpp ./test_hfs_header.cpp
@@ -20,7 +27,7 @@ TEST_SRCS = %w{ ./hfs_header.cpp ./test_hfs_header.cpp
 INCS      = "./develop/include"
 CXX       = "c++11"          # c++0x, clang++, blank
 CXXFLAGS  = ":v :d"          # :d, :O0 :O3 :w = -Wall
-LIBS      = ":r :t :s :f"
+LIBS      = ":r :t :s :f ssl crypto"
 
 load "~/code/build/app2.rake"
 

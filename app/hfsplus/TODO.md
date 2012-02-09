@@ -7,11 +7,15 @@ TODO
     * virtual function 없애기
 
  3. implemantation
+    * union 없애기
+      BPlistRepr참고해서 variant로 구현한다.
+
     * attribute->get_all_attributes
     * ExtentsTree::search_extents 구현
     * console에서 HFSPlusStr255 정상 출력하기
     * KeyStore객체를 만든다.
       이때동안 고려하지 않았던 unwrapCurve25519를 unwrapKeyForClass 안에 구현한다.
+      -> emlpart 파일 decrypt
 
 DOING
 =====

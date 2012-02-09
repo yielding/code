@@ -26,7 +26,20 @@ struct BTreeRecord
 {
   BTreeRecord(int t_=kBEmpty) { m_empty = (t_ == kBEmpty); }
   
-  bool empty() const { return m_empty; }
+  bool empty() const 
+  { 
+    return m_empty; 
+  }
+  
+  bool operator<(BTreeRecord const& rhs) const
+  {
+    return key < rhs.key;
+  }
+  
+  bool operator==(BTreeRecord const& rhs) const
+  {
+    return key == rhs.key;
+  }
 
   KeyT     key;
   ValueT   data;
@@ -203,7 +216,7 @@ auto BTree<HFSTree>::read_node(uint32_t node_no) -> ByteBuffer
   ByteBuffer node;
   for (auto i=0; i<m_blocks_for_node; i++)
   {
-    auto b = m_file->read_block(node_no * m_blocks_for_node + i); 
+    ByteBuffer b = m_file->read_block(node_no * m_blocks_for_node + i); 
     node.append(b);
   }
 

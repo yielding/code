@@ -54,6 +54,7 @@ EMFFile::~EMFFile()
 
 void EMFFile::decrypt_file()
 {
+  /*
   m_decrypt_offset = 0;
   auto bs = m_block_size;
   for (auto it=m_extents.begin(); it !=m_extents.end(); ++it)
@@ -66,10 +67,11 @@ void EMFFile::decrypt_file()
       if (buffer.size() == bs)
       {
         process_block(lba, buffer, bs);
-        m_volume->write(from, buffer);
+        // m_volume->write(from, buffer);
       }
     }
   }
+  */
 }
 
 void EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
@@ -101,7 +103,7 @@ void EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
       AES_encrypt((const uint8_t*)iv, (uint8_t*)iv_out, &m_ivkey);
       AES_cbc_encrypt(b + i*size, b + i*size, size, &m_file_key, (uint8_t*)iv_out, AES_DECRYPT);
       m_decrypt_offset += size;
-      if (bs != m_block_size || i >= bs/0x1000)
+      if (bs != m_block_size || i >= bs/0x1000 - 1)
         break;
     }
   }

@@ -153,7 +153,7 @@ auto HFSVolume::read_journal() -> ByteBuffer
   auto b0 = read(beg, m_block_size);
   JournalInfoBlock jib(b0);
   
-  return read(beg, size_t(jib.size));
+  return read(jib.offset, size_t(jib.size));
 }
 
 auto HFSVolume::write(int64_t offset, utility::hex::ByteBuffer& b) 
