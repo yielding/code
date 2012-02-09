@@ -263,7 +263,7 @@ auto EMFVolume::carve_tree(utility::hex::ByteBuffer& journal)
 // TODO start, end의 데이타 타입이 uint32_t가 맞는지 확인
 //
 template <typename RecordT, typename NodeT>
-void EMFVolume::carve_tree_node(utility::hex::ByteBuffer& journal, uint32_t start, uint32_t end, NodeT& node)
+void EMFVolume::carve_tree_node(ByteBuffer& journal, uint32_t start, uint32_t end, NodeT& node)
 {
   auto base = start;
 
