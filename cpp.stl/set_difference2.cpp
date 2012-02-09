@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <iterator>
 #include <boost/lambda/lambda.hpp>
 
 using namespace std;
@@ -22,8 +21,7 @@ int main(int argc, char *argv[])
   set_difference(s1.begin(), s1.end(), s2.begin(), s2.end(), 
       back_inserter(s3));
 
-  for_each(s3.begin(), s3.end(), 
-      cout << _1 << " ");
+  for_each(s3.begin(), s3.end(), cout << _1 << " ");
 
   cout << endl;
 }
