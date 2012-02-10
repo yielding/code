@@ -3,9 +3,9 @@
  
 #include <iostream>
 
+using namespace std;
 int main ()
 {
-  using namespace std;
   //
   // Initialize a vector using an array.
   //
@@ -34,5 +34,6 @@ int main ()
     cout << *rev << " ";
 
   cout << endl;
+
   return 0;
 }

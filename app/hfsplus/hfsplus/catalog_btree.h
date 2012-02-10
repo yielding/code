@@ -40,14 +40,13 @@ public:
     -> int;
 
   auto metadata_dir_id() -> HFSCatalogNodeID;
+  auto search_by_cnid(HFSCatalogNodeID cnid) -> CatalogRecord;
   
 public:
   auto get_record_from_path(string const& path) -> CatalogRecord;
   
   auto get_folder_contents(HFSCatalogNodeID folderID) -> CatalogNode;
 
-protected:
-  auto search_by_cnid(HFSCatalogNodeID cnid) -> CatalogRecord;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

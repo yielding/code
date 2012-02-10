@@ -1,5 +1,7 @@
 #include "emf_file.h"
-#include "emf_volume.h"
+
+#include <openssl/aes.h>
+#include <openssl/sha.h>
 
 #include <boost/format.hpp>
 #include <boost/filesystem.hpp>
@@ -38,14 +40,25 @@ namespace {
 ////////////////////////////////////////////////////////////////////////////////
 EMFFile::EMFFile(HFSVolume* volume, HFSPlusForkData const& fork
   , HFSCatalogNodeID fileID
-  , AES_KEY const& filekey, AES_KEY const& ivkey
+  , HFSKey& filekey
   , bool deleted)
   : HFSFile(volume, fork, fileID, deleted)
 {
   m_protection_version = volume->protection_version();
   m_decrypt_offset = 0;
   m_file_key = filekey;
-  m_ivkey = ivkey;
+
+  auto fk = m_file_key.as_buffer();
+
+  if (m_protection_version == 4)
+  {
+    SHA_CTX ctx;
+    SHA1_Init(&ctx);
+    SHA1_Update(&ctx, fk, 32);
+    SHA1_Final(fk, &ctx);
+
+    m_ivkey.set_encrypt(fk, 16);
+  }
 }
 
 EMFFile::~EMFFile()
@@ -54,9 +67,10 @@ EMFFile::~EMFFile()
 
 void EMFFile::decrypt_file()
 {
+  /** /
   m_decrypt_offset = 0;
   auto bs = m_block_size;
-  for (auto it=m_extents.begin(); it !=m_extents.end(); ++it)
+  for (auto it=m_extents.begin(); it!=m_extents.end(); ++it)
   {
     for (uint32_t i=0; i<it->blockCount; ++i)
     {
@@ -70,6 +84,7 @@ void EMFFile::decrypt_file()
       }
     }
   }
+  / **/
 }
 
 void EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
@@ -78,30 +93,32 @@ void EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
 
   uint32_t iv[4] = { 0 };
   uint8_t*   b = buffer;
-  auto& emfkey = v->emfkey();
+  auto& emfkey = v->emfkey().as_aeskey();
 
   // 1. re-encrypt using emf key
   v->iv_for_lba(uint32_t(lba), iv);
   AES_cbc_encrypt(b, b, bs, &emfkey, (uint8_t*)iv, AES_ENCRYPT);
 
   // 2. decrypt with filekey
+  auto filekey = m_file_key.as_aeskey();
   if (v->protection_version() == 0)
   {
     v->iv_for_lba(uint32_t(lba), iv);
-    AES_cbc_encrypt(buffer, buffer, bs, &m_file_key, (uint8_t*)iv, AES_DECRYPT);
+    AES_cbc_encrypt(buffer, buffer, bs, &filekey, (uint8_t*)iv, AES_DECRYPT);
   }
   else
   {
     uint32_t iv_out[4] = { 0 };
-    auto size = (bs == m_block_size) ? 0x1000 : bs;
+    auto  size = (bs == m_block_size) ? 0x1000 : bs;
+    auto ivkey = m_ivkey.as_aeskey();
 
     for (uint32_t i=0; ; i++)
     {
       v->iv_for_lba((uint32_t)m_decrypt_offset, iv, false);
-      AES_encrypt((const uint8_t*)iv, (uint8_t*)iv_out, &m_ivkey);
-      AES_cbc_encrypt(b + i*size, b + i*size, size, &m_file_key, (uint8_t*)iv_out, AES_DECRYPT);
+      AES_encrypt((const uint8_t*)iv, (uint8_t*)iv_out, &ivkey);
+      AES_cbc_encrypt(b + i*size, b + i*size, size, &filekey, (uint8_t*)iv_out, AES_DECRYPT);
       m_decrypt_offset += size;
-      if (bs != m_block_size || i >= bs/0x1000)
+      if (bs != m_block_size || i >= bs/0x1000 - 1)
         break;
     }
   }

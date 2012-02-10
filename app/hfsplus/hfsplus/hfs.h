@@ -2,6 +2,7 @@
 #define HFSPLUS_HFSPLUS_H
 
 #include "ByteBuffer.h"
+#include "unicode_compare.h"
 
 #include <cstring>
 #include <string>
@@ -32,11 +33,6 @@ struct HFSUniStr255
   HFSUniStr255(): length(0)
   {}
 
-  HFSUniStr255(std::string const& name)
-  {
-    from_ascii(name);
-  }
-  
   size_t size() const { return 2 + length*2; }
   
   bool operator==(HFSUniStr255 const& rhs) const 
@@ -290,7 +286,7 @@ struct HFSPlusCatalogKey
   HFSPlusCatalogKey()
   {
     keyLength = 0;
-    parentID = 0;
+    parentID  = 0;
   }
   
   HFSPlusCatalogKey(HFSCatalogNodeID pid, std::string const& name_)
@@ -300,6 +296,23 @@ struct HFSPlusCatalogKey
     keyLength = nodeName.size() + 4;
   }
   
+  bool ok() const
+  {
+    return true;
+  }
+  
+  bool operator<(HFSPlusCatalogKey const& rhs) const
+  {
+    if (parentID < rhs.parentID)
+      return true;
+
+    if (parentID > rhs.parentID)
+      return false;
+
+    return FastUnicodeCompare(nodeName.unicode, nodeName.length, 
+        rhs.nodeName.unicode, rhs.nodeName.length) == -1;
+  }
+
   bool operator==(HFSPlusCatalogKey const& rhs) const
   {
     if (this != &rhs)
@@ -756,6 +769,38 @@ struct HFSPlusAttrKey
     keyLength = (2 + name.length*2) + 2*2 + 2*4;
   }
   
+  bool ok() const 
+  {
+    if (name.length > 255) return false;
+    if (name.to_s() != std::string("com.apple.system.cprotect")) return false;
+    
+    return true;
+  }
+  
+  bool operator<(HFSPlusAttrKey const& rhs) const
+  {
+    if (fileID < rhs.fileID) return true;
+    if (fileID > rhs.fileID) return false;
+    
+    uint16_t i;
+    for (i=0; i<name.length; i++)
+    {
+      if(i >= rhs.name.length) 
+        return false;
+      
+      uint16_t cl = name.unicode[i];
+      uint16_t cr = rhs.name.unicode[i];
+      
+      if (cl < cr) return true;
+      if (cl > cr) return false;
+    }
+    
+    if (i < rhs.name.length) 
+      return true;
+    
+    return false;
+  }
+  
   bool operator==(HFSPlusAttrKey const& rhs) const
   {
     if (this != &rhs)
@@ -785,7 +830,7 @@ struct HFSPlusAttrKey
   uint32_t     fileID;
   uint32_t     startBlock;
   HFSUniStr255 name;
-} ;
+};
 
 typedef HFSPlusAttrKey* PHFSPlusAttrKey;
 

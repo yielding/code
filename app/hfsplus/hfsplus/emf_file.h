@@ -2,20 +2,18 @@
 #define EMF_FILE_H_2N1X36JD
 
 #include "hfs_file.h"
-
-#include <openssl/aes.h>
+#include "emf_volume.h"
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class HFSVolume;
-
 class EMFFile: public HFSFile
 {
 public:
-  EMFFile(HFSVolume* volume, HFSPlusForkData const& fork, HFSCatalogNodeID fileID
-    , AES_KEY const& filekey, AES_KEY const& ivkey, bool deleted=false);
+  EMFFile(HFSVolume* volume, HFSPlusForkData const& fork_type
+    , HFSCatalogNodeID fileID 
+    , HFSKey& filekey, bool deleted=false);
 
   virtual ~EMFFile();
 
@@ -26,7 +24,7 @@ public:
 private:
   int64_t  m_decrypt_offset;
   uint16_t m_protection_version;
-  AES_KEY  m_file_key, m_ivkey;
+  HFSKey   m_file_key, m_ivkey;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

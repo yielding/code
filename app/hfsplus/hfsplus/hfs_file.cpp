@@ -76,7 +76,8 @@ auto HFSFile::read_block(uint32_t nth) -> utility::hex::ByteBuffer
     {
       int64_t lba = it->startBlock + (nth - (bc - it->blockCount));
       // TODO some check
-      return m_volume->read(lba * bs, bs);
+      ByteBuffer b = m_volume->read(lba * bs, bs);
+      return b;
     }
   }
 

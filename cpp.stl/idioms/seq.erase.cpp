@@ -36,10 +36,13 @@ int main(int argc, char const* argv[])
 {
   int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-  vector<int> v(arr, arr+10);
+  vector<int> v1(arr, arr+10);
+  pr(erase1(v1, 5));
+  cout << v1.capacity() << " " << v1.size() << endl;
 
-  pr(erase1(v, 5));
-  pr(erase2(v, 5));
+  vector<int> v2(arr, arr+10);
+  pr(erase2(v2, 5));
+  cout << v2.capacity() << " " << v2.size() << endl;
 
   return 0;
 }

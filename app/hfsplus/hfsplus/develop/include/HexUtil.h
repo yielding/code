@@ -1,11 +1,5 @@
 #pragma once
 
-#ifdef HEXUTIL_EXPORTS
-#define HEXUTIL_API __declspec(dllexport)
-#else
-#define HEXUTIL_API __declspec(dllimport)
-#endif
-
 #include <string>
 #include <vector>
 #include <stdint.h>
@@ -23,7 +17,7 @@ namespace utility {
 //  unicode(win) : utf16le
 //
 ////////////////////////////////////////////////////////////////////////////////
-class HEXUTIL_API Hex 
+class Hex 
 {
 public:
     typedef std::vector<uint8_t> bytes;

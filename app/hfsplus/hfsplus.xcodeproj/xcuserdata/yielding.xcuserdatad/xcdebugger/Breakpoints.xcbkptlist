@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "1.0">
+   <FileBreakpoints>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "hfsplus/catalog_btree.cpp"
+         timestampString = "350211626.728515"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "159"
+         endingLineNumber = "159">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "hfsplus/emf_file.h"
+         timestampString = "350293338.583198"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "38"
+         endingLineNumber = "38">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "hfsplus/main.cpp"
+         timestampString = "350473886.669111"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "32"
+         endingLineNumber = "32"
+         landmarkName = "main(int argc, char const* argv[])"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "hfsplus/hfs.h"
+         timestampString = "350529084.850699"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "804"
+         endingLineNumber = "804">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "hfsplus/main.cpp"
+         timestampString = "350562987.788013"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "16"
+         endingLineNumber = "16"
+         landmarkName = "main(int argc, char const* argv[])"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "hfsplus/emf_volume.cpp"
+         timestampString = "350563621.64101"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "259"
+         endingLineNumber = "259">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "hfsplus/emf_volume.cpp"
+         timestampString = "350563670.229126"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "256"
+         endingLineNumber = "256">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "hfsplus/emf_volume.cpp"
+         timestampString = "350563795.85881"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "219"
+         endingLineNumber = "219">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "hfsplus/emf_volume.cpp"
+         timestampString = "350563910.924445"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "329"
+         endingLineNumber = "329">
+         <Locations>
+            <Location
+               shouldBeEnabled = "Yes"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "std::vector&lt;BTreeRecord&lt;HFSPlusCatalogKey, HFSPlusCatalogData&gt;, std::allocator&lt;BTreeRecord&lt;HFSPlusCatalogKey, HFSPlusCatalogData&gt; &gt; &gt; EMFVolume::carve_tree_node&lt;BTreeRecord&lt;HFSPlusCatalogKey, HFSPlusCatalogData&gt;, std::vector&lt;BTreeRecord&lt;HFSPlusCatalogKey, HFSPlusCatalogData&gt;, std::allocator&lt;BTreeRecord&lt;HFSPlusCatalogKey, HFSPlusCatalogData&gt; &gt; &gt; &gt;(utility::hex::ByteBuffer&amp;, unsigned int)"
+               urlString = "file://localhost/Users/yielding/code/app/hfsplus/hfsplus/emf_volume.cpp"
+               timestampString = "350563910.938899"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "329"
+               endingLineNumber = "329">
+            </Location>
+            <Location
+               shouldBeEnabled = "Yes"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "std::vector&lt;BTreeRecord&lt;HFSPlusAttrKey, HFSPlusAttrData&gt;, std::allocator&lt;BTreeRecord&lt;HFSPlusAttrKey, HFSPlusAttrData&gt; &gt; &gt; EMFVolume::carve_tree_node&lt;BTreeRecord&lt;HFSPlusAttrKey, HFSPlusAttrData&gt;, std::vector&lt;BTreeRecord&lt;HFSPlusAttrKey, HFSPlusAttrData&gt;, std::allocator&lt;BTreeRecord&lt;HFSPlusAttrKey, HFSPlusAttrData&gt; &gt; &gt; &gt;(utility::hex::ByteBuffer&amp;, unsigned int)"
+               urlString = "file://localhost/Users/yielding/code/app/hfsplus/hfsplus/emf_volume.cpp"
+               timestampString = "350563910.93907"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "329"
+               endingLineNumber = "329">
+            </Location>
+         </Locations>
+      </FileBreakpoint>
+   </FileBreakpoints>
+</Bucket>
