@@ -47,6 +47,7 @@ int AttributeTree::compare_keys(HFSPlusAttrKey const& l, HFSPlusAttrKey const& r
 
 auto AttributeTree::get_all_attributes(HFSCatalogNodeID folderID) -> AttrNode
 {
+  assert(0);
   AttrNode node;
   return node;
 }

@@ -70,9 +70,12 @@ protected:
   CatalogTree* m_catalog_tree;
   AttributeTree* m_attribute_tree;
   
+protected:
+  uint64_t m_journal_offset;
+  uint32_t m_sector_size;
+
 private:
   int64_t  m_offset;
-
   HFSPlusVolumeHeader m_header;
 
 private:

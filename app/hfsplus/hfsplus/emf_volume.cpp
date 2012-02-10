@@ -9,7 +9,6 @@
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include <boost/bind.hpp>
-#include <boost/tuple/tuple.hpp>
 
 #include <openssl/sha.h>
 
@@ -29,11 +28,12 @@ namespace {
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-EMFVolume::EMFVolume(int64_t offset)
-  : HFSVolume(offset)
+EMFVolume::EMFVolume()
+  : HFSVolume(0)
   , m_protect_version(0)
   , m_lba_offset(0)
   , m_class_keys_bitset(0)
+  , m_class_keys(MAX_CLASS_KEYS)
 {
 }
 
@@ -70,14 +70,14 @@ auto EMFVolume::open(std::string const& filename) -> bool
     throw std::runtime_error("emf key does not exist in the key file");
 
   auto emf_bytes = utility::Hex::bytes_from_hexcode(emf);
-  AES_set_encrypt_key(&emf_bytes[0], 32*8, &m_emfkey);
+  m_emfkey.set_encrypt(&emf_bytes[0]);
 
   string dkey = ptree.get_string("DKey");
   if (dkey.empty())
     throw std::runtime_error("dkey key does not exist in the key file");
 
   auto dkey_bytes = utility::Hex::bytes_from_hexcode(dkey); 
-  AES_set_decrypt_key(&dkey_bytes[0], 32*8, &m_class_keys[CLASS_DKEY-1]);
+  m_class_keys[CLASS_DKEY-1].set_decrypt(&dkey_bytes[0]);
   m_class_keys_bitset |= 1 <<CLASS_DKEY;
   
   auto class_keys = ptree.get_dict("classKeys");
@@ -89,7 +89,7 @@ auto EMFVolume::open(std::string const& filename) -> bool
     {
       auto class_key_bytes = utility::Hex::bytes_from_hexcode(value);
       assert(class_key_bytes.size() == 32);
-      AES_set_decrypt_key(&class_key_bytes[0], 32*8, &(m_class_keys[klass-1]));
+      m_class_keys[klass-1].set_decrypt(&class_key_bytes[0]);
       m_class_keys_bitset |= 1 << klass;
     }
   }
@@ -97,17 +97,14 @@ auto EMFVolume::open(std::string const& filename) -> bool
   m_lba_offset = ptree.get_int("dataVolumeOffset");
   if (m_lba_offset == -1)
     throw std::runtime_error("lbaoffset key does not exist in the key file");
-    
+
   return true;
 }
 
 void EMFVolume::undelete()
 {
-  auto journal = read_journal();
-
-  auto res = carve_tree(journal);
-  for (auto i=0; i<res.size(); i++)
-    cout << res[i].data.file.fileID << endl; 
+  auto jnl = read_journal();
+  auto res = carve_journal(jnl);
 }
 
 void EMFVolume::decrypt_all_files()
@@ -125,7 +122,7 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
     return false;
 
   auto name = rec.key.nodeName.to_s();
-  cout << name << endl;
+//  cout << name << endl;
   
   auto cprotect = m_attribute_tree->get_attribute(rec.data.file.fileID, "com.apple.system.cprotect");
   if (cprotect.empty())
@@ -134,21 +131,19 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
     return false;
   }
 
-  AES_KEY fk, ik;
+  HFSKey fk;
   bool res;
-  tie(res, fk, ik) = get_file_keys_for_cprotect(cprotect);
+  tie(res, fk) = get_file_keys_for_cprotect(cprotect);
   
   if (!res)
     return false;
   
-  EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk, ik);
-  ef.decrypt_file();
-
-  CatalogRecord f(kBTLeafNode);
+//  EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk);
+//  ef.decrypt_file();
 
   m_active_files.insert(rec);
   m_decrypted_count++;
-
+  
   return true;
 }
 
@@ -165,11 +160,8 @@ auto EMFVolume::iv_for_lba(uint32_t lba, uint32_t* iv, bool add) -> void
 }
 
 auto EMFVolume::get_file_keys_for_cprotect(ByteBuffer& cp) 
-  -> ::boost::tuple<bool, AES_KEY, AES_KEY>
+  -> pair<bool, HFSKey>
 {
-  AES_KEY file_key, iv_key; 
-  bool res = true;
-  
   auto v = protection_version();
   auto pwrapped_key = (v == 4)
     ? cprotect_xattr_v4(cp).persistent_key
@@ -179,31 +171,33 @@ auto EMFVolume::get_file_keys_for_cprotect(ByteBuffer& cp)
     ? cprotect_xattr_v4(cp).persistent_class
     : cprotect_xattr_v2(cp).persistent_class;
   
-  if (!unwrap_filekeys_for_class(pclass, pwrapped_key, file_key, iv_key))
-    res = false;
-  
-  return ::boost::make_tuple(res, file_key, iv_key);
+  return unwrap_filekeys_for_class(pclass, pwrapped_key);
 }
 
+//
 // 1. unwrap file key
 // 2. get iv key if protection_class == 4
-auto EMFVolume::unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key, AES_KEY& file_key, AES_KEY& ivkey)
-  -> bool
+//
+auto EMFVolume::unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key)
+  -> pair<bool, HFSKey>
 {
+  HFSKey filekey;
+
   if (pclass < 1 || pclass >= MAX_CLASS_KEYS)
   {
     cerr << str(format("wrong protection class %d \n") % pclass);
-    return false;
+    return make_pair(false, filekey);
   }
   
   if ((m_class_keys_bitset & (1 << pclass)) == 0)
   {
     cerr << str(format("class key %d is not available\n") % pclass);
-    return false;
+    return make_pair(false, filekey);
   }
   
   uint8_t fk[32] = { 0 };
-  auto wsize = AES_unwrap_key(&(m_class_keys[pclass-1]), NULL, fk, wrapped_key, 40);
+  auto k = m_class_keys[pclass-1].as_aeskey();
+  auto wsize = AES_unwrap_key(&k, NULL, fk, wrapped_key, 40);
   if (wsize != 32)
   {
     auto msg = (pclass == 2 && wsize == 0x48)
@@ -212,49 +206,64 @@ auto EMFVolume::unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key,
     
     cerr << msg << "\n";
     
-    return false;
+    return make_pair(false, filekey);
   }
   
-  AES_set_decrypt_key(fk, 32*8, &file_key);
-
-  if (m_protect_version == 4)
-  {
-    SHA_CTX ctx;
-    SHA1_Init(&ctx);
-    SHA1_Update(&ctx, fk, 32);
-    SHA1_Final(fk, &ctx);
-    AES_set_encrypt_key(fk, 16*8, &ivkey);  // takes only the first 16 bytes
-  }
-  
-  return true;  
+  filekey.set_decrypt(fk);
+  return make_pair(true, filekey);
 }
 
-auto EMFVolume::carve_tree(utility::hex::ByteBuffer& journal)
+auto EMFVolume::carve_journal(ByteBuffer& journal)
   -> vector<CatalogRecord>
 {
-  journal.flip();
-  journal_header jh(journal);
-
-  auto sector_size = jh.jhdr_size;
-  auto   node_size = m_catalog_tree->node_size();
-
-  CatalogNode files;
+  auto node_size = m_catalog_tree->node_size();
 
   std::vector<CatalogRecord> f0, f1, f2;
-  for (uint32_t i=0; ; ++i)
-  {
-    auto beg = sector_size * (i + 1); // skip header
-    auto end = beg + node_size;
-    if (end >= journal.size())
-      break;
-
-    journal.offset(beg);
-    carve_tree_node<CatalogRecord>(journal, beg, end, f0);
-  }
-
+  f0 = carve_tree_node<CatalogRecord, vector<CatalogRecord>>(journal, node_size);
   sort(f0.begin(), f0.end());
+
+  // TODO
+  // remove_copy_if(f0.begin(), f0.end(), back_inserter(f1), bind());
+
   unique_copy(f0.begin(), f0.end(), back_inserter(f1));
-  set_difference(f1.begin(), f1.end(), m_active_files.begin(), m_active_files.end(), back_inserter(f2));
+  set_difference(f1.begin(), f1.end(), 
+                 m_active_files.begin(), m_active_files.end(), 
+                 back_inserter(f2));
+
+  std::vector<AttrRecord> a0, a1;
+  a0 = carve_tree_node<AttrRecord, vector<AttrRecord>>(journal, node_size);
+
+  sort(a0.begin(), a0.end());
+  unique_copy(a0.begin(), a0.end(), back_inserter(a1));
+
+  /*
+  // 1. 중복 제거된 키세트에서 AES_KEY pair 찾아낸다.
+  // 2. file key로 EMFFile을 만든다.
+  //    -> 
+  */
+  std::map<uint32_t, HFSKey> fks;
+  for (auto it=a1.begin(); it!=a1.end(); ++it)
+  {
+    if (it->key.name.to_s() != string("com.apple.system.cprotect"))
+      continue;
+
+    auto rec = m_catalog_tree->search_by_cnid(it->key.fileID);
+    if (rec.empty()) // not exist in catalog tree
+    {
+      HFSKey fk; 
+      bool res;
+      ByteBuffer b(&it->data.data[0], it->data.data.size());
+      tie(res, fk) = get_file_keys_for_cprotect(b);
+
+      auto newly = fks.insert(make_pair(it->key.fileID, fk)).second;
+      if (!newly)
+      {
+        int a;
+        a++;
+        // 한 fileID에 대해 여러 키가 존재.
+      }
+    }
+  }
 
   return f2;
 }
@@ -263,48 +272,58 @@ auto EMFVolume::carve_tree(utility::hex::ByteBuffer& journal)
 // TODO start, end의 데이타 타입이 uint32_t가 맞는지 확인
 //
 template <typename RecordT, typename NodeT>
-void EMFVolume::carve_tree_node(ByteBuffer& journal, uint32_t start, uint32_t end, NodeT& node)
+auto EMFVolume::carve_tree_node(ByteBuffer& journal, uint32_t node_size)
+  -> NodeT
 {
-  auto base = start;
+  NodeT result;
+  journal.flip();
 
-  try
+  for (uint32_t i=0; ; i++)
   {
-    BTNodeDescriptor btnode(journal);
+    auto beg = m_sector_size * (i + 1); // skip header
+    auto end = beg + node_size;
+    if (end >= journal.size())
+      break;
 
-    if (btnode.kind != kBTLeafNode || btnode.height != 1)
-      return;
-
-    auto offset_pos = end - 2 * btnode.numRecords;
-    journal.offset(offset_pos);
-    vector<uint16_t> offsets;
-    for (auto i=0; i<btnode.numRecords; i++) offsets.push_back(journal.get_uint2_be());
-
-    for (auto i=0; i<btnode.numRecords; i++)
+    journal.offset(beg);
+    try
     {
-      auto pos = base + offsets[btnode.numRecords - i - 1];
-      journal.offset(pos);
+      BTNodeDescriptor btnode(journal);
 
-      try
+      if (btnode.kind != kBTLeafNode || btnode.height != 1)
+        continue;
+
+      auto offset_pos = end - 2*btnode.numRecords;
+      journal.offset(offset_pos);
+      vector<uint16_t> offsets;
+      for (auto i=0; i<btnode.numRecords; i++) offsets.push_back(journal.get_uint2_be());
+
+      for (auto i=0; i<btnode.numRecords; i++)
       {
-        RecordT rec(kBTLeafNode);
-        rec.key.read_from(journal);
+        auto pos = beg + offsets[btnode.numRecords - i - 1];
+        journal.offset(pos);
 
-        auto type = journal.get_uint2_be();
-        if (type != 2)                            // 2 == kHFSPlusFileRecord
-          continue;
+        try
+        {
+          RecordT rec(kBTLeafNode);
+          rec.key.read_from(journal);
+          if (!rec.key.ok())
+            continue;
 
-        journal.unget(2);
-        rec.data.read_from(journal);
-        node.push_back(rec);
-      }
-      catch(...)
-      {
+          rec.data.read_from(journal);
+          result.push_back(rec);
+        }
+        catch(...)
+        {
+        }
       }
     }
+    catch(...)
+    {
+    }
   }
-  catch(...)
-  {
-  }
+
+  return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

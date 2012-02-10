@@ -29,9 +29,11 @@ public:
 
     ByteBuffer(ByteBuffer const& rhs);
     ByteBuffer(ByteBuffer&& rhs);
+    ~ByteBuffer() {}
+
     ByteBuffer& operator=(ByteBuffer const& rhs);
 
-    ~ByteBuffer() {}
+    bool operator == (ByteBuffer const& rhs) const;
 
 public:  // operators
     operator uint8_t*()        { return m_buffer.data(); }

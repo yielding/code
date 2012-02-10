@@ -60,6 +60,15 @@ ByteBuffer& ByteBuffer::operator=(ByteBuffer const& rhs)
     return *this;
 }
 
+// REMARK : offset을 비교해야할지는 고려해봐야 한다.
+bool ByteBuffer::operator==(ByteBuffer const& rhs) const
+{
+    if (this == &rhs)
+        return true;
+
+    return m_buffer == rhs.m_buffer;
+}
+
 auto ByteBuffer::has_remaining() -> bool 
 {
     return m_offset < (int64_t)m_buffer.size();

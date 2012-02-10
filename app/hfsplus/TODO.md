@@ -1,12 +1,14 @@
 TODO
 ====
  1. verification
-    HFSPlus
+    journal에서 carving한 내용을 윈도우와 비교해본다. (현재 조금 맞지 않음 다른 이유 중 하나는 catalog compare가 조금 다름)
 
  2. refactoring
     * virtual function 없애기
 
  3. implemantation
+    BTree::read_empty_space 진짜 중요.!!!
+
     * union 없애기
       BPlistRepr참고해서 variant로 구현한다.
 
@@ -20,13 +22,12 @@ TODO
 DOING
 =====
  1. verification
-    journal에서 carving한 내용을 윈도우와 비교해본다.
 
  2. refactoring
 
  3. implemantation
-    BTree::read_empty_space 진짜 중요.!!!
-
+    catalog_tree_node쪽 두 가지 다른 트리를 한번에 깔끔하게 처리하는 것
+    remove_copy_if를 carve_node안에서 처리
 DONE
 ====
  1. verification
