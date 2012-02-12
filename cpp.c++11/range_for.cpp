@@ -1,8 +1,10 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <boost/lambda/lambda.hpp>
 
 using namespace std;
+using namespace boost::lambda;
 
 int main(int argc, char const* argv[])
 {
@@ -16,6 +18,9 @@ int main(int argc, char const* argv[])
 
   cout << "\n";
   for (auto i : v) cout << i << " ";
+
+  cout << "\n";
+  for_each(v.begin(), v.end(), cout << _1 << " ");
 
   return 0;
 }
