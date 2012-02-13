@@ -58,12 +58,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "hfsplus/main.cpp"
-         timestampString = "350562987.788013"
+         filePath = "hfsplus/emf_volume.cpp"
+         timestampString = "350813646.176255"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "16"
-         endingLineNumber = "16"
+         startingLineNumber = "295"
+         endingLineNumber = "295">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "hfsplus/main.cpp"
+         timestampString = "350824194.470679"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "15"
+         endingLineNumber = "15"
          landmarkName = "main(int argc, char const* argv[])"
          landmarkType = "7">
       </FileBreakpoint>
@@ -73,73 +85,27 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "hfsplus/emf_volume.cpp"
-         timestampString = "350563621.64101"
+         timestampString = "350826637.557696"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "259"
-         endingLineNumber = "259">
+         startingLineNumber = "155"
+         endingLineNumber = "155"
+         landmarkName = "EMFVolume::undelete(string const&amp; undeletePath)"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "hfsplus/emf_volume.cpp"
-         timestampString = "350563670.229126"
+         filePath = "hfsplus/emf_file.cpp"
+         timestampString = "350826848.384187"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "256"
-         endingLineNumber = "256">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "hfsplus/emf_volume.cpp"
-         timestampString = "350563795.85881"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "219"
-         endingLineNumber = "219">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "hfsplus/emf_volume.cpp"
-         timestampString = "350563910.924445"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "329"
-         endingLineNumber = "329">
-         <Locations>
-            <Location
-               shouldBeEnabled = "Yes"
-               ignoreCount = "0"
-               continueAfterRunningActions = "No"
-               symbolName = "std::vector&lt;BTreeRecord&lt;HFSPlusCatalogKey, HFSPlusCatalogData&gt;, std::allocator&lt;BTreeRecord&lt;HFSPlusCatalogKey, HFSPlusCatalogData&gt; &gt; &gt; EMFVolume::carve_tree_node&lt;BTreeRecord&lt;HFSPlusCatalogKey, HFSPlusCatalogData&gt;, std::vector&lt;BTreeRecord&lt;HFSPlusCatalogKey, HFSPlusCatalogData&gt;, std::allocator&lt;BTreeRecord&lt;HFSPlusCatalogKey, HFSPlusCatalogData&gt; &gt; &gt; &gt;(utility::hex::ByteBuffer&amp;, unsigned int)"
-               urlString = "file://localhost/Users/yielding/code/app/hfsplus/hfsplus/emf_volume.cpp"
-               timestampString = "350563910.938899"
-               startingColumnNumber = "9223372036854775807"
-               endingColumnNumber = "9223372036854775807"
-               startingLineNumber = "329"
-               endingLineNumber = "329">
-            </Location>
-            <Location
-               shouldBeEnabled = "Yes"
-               ignoreCount = "0"
-               continueAfterRunningActions = "No"
-               symbolName = "std::vector&lt;BTreeRecord&lt;HFSPlusAttrKey, HFSPlusAttrData&gt;, std::allocator&lt;BTreeRecord&lt;HFSPlusAttrKey, HFSPlusAttrData&gt; &gt; &gt; EMFVolume::carve_tree_node&lt;BTreeRecord&lt;HFSPlusAttrKey, HFSPlusAttrData&gt;, std::vector&lt;BTreeRecord&lt;HFSPlusAttrKey, HFSPlusAttrData&gt;, std::allocator&lt;BTreeRecord&lt;HFSPlusAttrKey, HFSPlusAttrData&gt; &gt; &gt; &gt;(utility::hex::ByteBuffer&amp;, unsigned int)"
-               urlString = "file://localhost/Users/yielding/code/app/hfsplus/hfsplus/emf_volume.cpp"
-               timestampString = "350563910.93907"
-               startingColumnNumber = "9223372036854775807"
-               endingColumnNumber = "9223372036854775807"
-               startingLineNumber = "329"
-               endingLineNumber = "329">
-            </Location>
-         </Locations>
+         startingLineNumber = "151"
+         endingLineNumber = "151"
+         landmarkName = "EMFFile::process_block(int64_t lba, ByteBuffer&amp; buffer, uint32_t bs)"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

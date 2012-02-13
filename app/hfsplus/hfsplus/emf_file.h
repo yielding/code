@@ -11,7 +11,7 @@
 class EMFFile: public HFSFile
 {
 public:
-  EMFFile(HFSVolume* volume, HFSPlusForkData const& fork_type
+  EMFFile(HFSVolume* volume, HFSPlusForkData const& fork_data
     , HFSCatalogNodeID fileID 
     , HFSKey& filekey, bool deleted=false);
 
@@ -19,6 +19,7 @@ public:
 
 public:
   void decrypt_file();
+  bool decrypt_file_to(std::string const& path, bool tr=true);
   void process_block(int64_t lba, utility::hex::ByteBuffer& buffer, uint32_t bs=0);
 
 private:

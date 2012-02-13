@@ -49,15 +49,18 @@ EMFFile::EMFFile(HFSVolume* volume, HFSPlusForkData const& fork
   m_file_key = filekey;
 
   auto fk = m_file_key.as_buffer();
+  
+  uint8_t fk_[32] = { 0 };
+  memcpy(fk_, fk, 32);
 
   if (m_protection_version == 4)
   {
     SHA_CTX ctx;
     SHA1_Init(&ctx);
-    SHA1_Update(&ctx, fk, 32);
-    SHA1_Final(fk, &ctx);
+    SHA1_Update(&ctx, fk_, 32);
+    SHA1_Final(fk_, &ctx);
 
-    m_ivkey.set_encrypt(fk, 16);
+    m_ivkey.set_encrypt(fk_, 16);
   }
 }
 
@@ -65,12 +68,42 @@ EMFFile::~EMFFile()
 {
 }
 
-void EMFFile::decrypt_file()
+bool EMFFile::decrypt_file_to(string const& path, bool tr)
 {
-  /** /
+  ofstream ofs;
+  ofs.open(path.c_str(), ios_base::binary);
+  if (!ofs.is_open())
+    return false;
+
   m_decrypt_offset = 0;
   auto bs = m_block_size;
   for (auto it=m_extents.begin(); it!=m_extents.end(); ++it)
+  {
+    for (uint32_t i=0; i<it->blockCount; ++i)
+    {
+      auto  lba = int64_t(it->startBlock) + i;
+      auto from = lba * bs;
+      ByteBuffer buffer = m_volume->read(from, bs);
+      if (buffer.size() == bs)
+      {
+        process_block(lba, buffer, bs);
+        ofs.write(buffer, buffer.size());
+      }
+    }
+  }
+  
+  if (fs::file_size(path) > 0 && tr)
+    fs::resize_file(path, m_logical_size);
+
+  return true;
+}
+
+void EMFFile::decrypt_file()
+{
+  /**/
+  m_decrypt_offset = 0;
+  auto bs = m_block_size;
+  for (auto it=m_extents.begin(); it!=m_extents.end(); ++it) 
   {
     for (uint32_t i=0; i<it->blockCount; ++i)
     {
@@ -84,7 +117,8 @@ void EMFFile::decrypt_file()
       }
     }
   }
-  / **/
+
+  /**/
 }
 
 void EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
@@ -101,7 +135,7 @@ void EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
 
   // 2. decrypt with filekey
   auto filekey = m_file_key.as_aeskey();
-  if (v->protection_version() == 0)
+  if (v->protection_version() < 4)
   {
     v->iv_for_lba(uint32_t(lba), iv);
     AES_cbc_encrypt(buffer, buffer, bs, &filekey, (uint8_t*)iv, AES_DECRYPT);
@@ -110,7 +144,7 @@ void EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
   {
     uint32_t iv_out[4] = { 0 };
     auto  size = (bs == m_block_size) ? 0x1000 : bs;
-    auto ivkey = m_ivkey.as_aeskey();
+    auto& ivkey = m_ivkey.as_aeskey();
 
     for (uint32_t i=0; ; i++)
     {

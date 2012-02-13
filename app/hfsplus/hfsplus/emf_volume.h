@@ -5,6 +5,7 @@
 #include "emf.h"
 
 #include <openssl/aes.h>
+#include <map>
 #include <set>
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -29,6 +30,11 @@ struct HFSKey
       m_aeskey = rhs.m_aeskey;
       memcpy(m_fk, rhs.m_fk, m_size);
     }
+  }
+
+  bool operator<(HFSKey const& rhs) const
+  {
+    return memcmp(m_fk, rhs.m_fk, 32) < 0;
   }
 
   void set_decrypt(uint8_t* fk_, uint32_t sz=32)
@@ -67,7 +73,7 @@ public:
   void decrypt_all_files();
   bool decrypt_file(CatalogRecord const& r);
 
-  void undelete();
+  void undelete(std::string const&);
   
   auto iv_for_lba(uint32_t lba, uint32_t* iv, bool add=true) -> void;
 
@@ -85,7 +91,7 @@ public:
 
 private:
   auto carve_journal(utility::hex::ByteBuffer& journal)
-    -> std::vector<CatalogRecord>;
+    -> std::pair<std::vector<CatalogRecord>, std::map<uint32_t, HFSKey>>;
 
   template <typename RecordT, typename NodeT>
   auto carve_tree_node(ByteBuffer& journal, uint32_t node_size)
@@ -102,6 +108,8 @@ private:
 private:
   std::vector<std::string> m_not_encrypted;
   std::set<CatalogRecord> m_active_files;
+  std::set<HFSKey> m_active_file_keys;
+
   uint32_t m_decrypted_count;
 };
 

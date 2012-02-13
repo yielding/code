@@ -9,11 +9,11 @@ int main(int argc, char const* argv[])
 {
   /**/
   EMFVolume v;
-  if (!v.open("/Users/yielding/Desktop/data_20120107-0058.dmg"))
+  if (!v.open("/Volumes/Untitled/forensic.data/sjw.80d452e30b40fa0d9fcd46fdfe56a9f8fa55aeb8/data_20111201-0025.dmg"))
     return 1;
   
   v.decrypt_all_files();
-  v.undelete();
+  v.undelete("/Users/yielding/Desktop/deleted");
   
   /**/
   
