@@ -84,20 +84,6 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "hfsplus/emf_volume.cpp"
-         timestampString = "350826637.557696"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "155"
-         endingLineNumber = "155"
-         landmarkName = "EMFVolume::undelete(string const&amp; undeletePath)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
          filePath = "hfsplus/emf_file.cpp"
          timestampString = "350826848.384187"
          startingColumnNumber = "9223372036854775807"

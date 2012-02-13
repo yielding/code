@@ -131,61 +131,52 @@ void EMFVolume::undelete(string const& undeletePath)
   auto jnl = read_journal();
   auto res = carve_journal(jnl);
   auto files = res.first;
-  auto keys  = res.second;
+  auto key_map = res.second;
 
   for (auto it=files.begin(); it!=files.end(); ++it)
   {
     auto key  = it->key;
     auto data = it->data;
 
-    auto name = key.nodeName.to_s();
-    // DEBUG purpose
-    // cout << name << endl;
-
-    // if (!m_current_pos.empty())
-    //   m_current_pos(name);
-
-    auto pos = keys.find(data.file.fileID);
-    if (pos == keys.end())
+    auto keys = key_map[data.file.fileID];
+    if (keys.empty())
       continue;
 
-    string const to_save = get_new_filepath(name.c_str(), undeletePath.c_str());
+    auto name = key.nodeName.to_s();
+    auto to_save = get_new_filepath(name.c_str(), undeletePath.c_str());
     // cout << to_save << endl;
-
-    EMFFile ef(this, data.file.dataFork, data.file.fileID, pos->second);
-    ef.decrypt_file_to(to_save);
-
-    /*
-    auto buffer_from = decrypt_file_blocks(&catalog_data, *key_pair);
-    auto& buffer = buffer_from.first;
-    auto    from = buffer_from.second;
-    if (decrypted_ok(buffer))
+    for (auto jt=keys.begin(); jt!=keys.end();)
     {
-      key_arr.erase(key_pair);
-      result++;
-
-      write_file(to_save, buffer, catalog_data.dataFork.logicalSize);
-
-      auto lba = from / m_block_size;
-      if (m_decrypted.find(lba) == m_decrypted.end())
+      EMFFile ef(this, data.file.dataFork, data.file.fileID, *jt);
+      if (ef.decrypt_partial())
       {
-        m_decrypted.insert(lba);
-
-        // write to the image 
-        write(from, (uint8_t*)buffer, (size_t)catalog_data.dataFork.logicalSize);
-
-        //            string res = boost::str(boost::format("journal file (%d, %s) is carved\n") % lba % to_save);
-        //            OutputDebugStringA(res.c_str());
-        //            }
-        //            else
-        //            {
-        //            string res = boost::str(boost::format("lba %d is duplicated\n") % lba);
-        //            OutputDebugStringA(res.c_str());
+        ef.decrypt_file_to(to_save);
+        // ef.decrypt_file();
+        keys.erase(jt++);
+      }
+      else
+      {
+        ++jt;
       }
 
-      break;
-    }
+      /*
+      if (decrypted_ok(buffer))
+      {
+        key_arr.erase(key_pair);
+        result++;
+
+        auto lba = from / m_block_size;
+        if (m_decrypted.find(lba) == m_decrypted.end())
+        {
+          m_decrypted.insert(lba);
+
+          // REMARK win32 환경에서 아스키인 경우에도 아래 문장이 출력된다 
+          // OutputDebugStringA(res.c_str());
+        }
+        break;
+      }
     */
+    }
   }
 }
 
@@ -208,7 +199,8 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
   // TODO: Debug
   // cout << name << endl;
   
-  auto cprotect = m_attribute_tree->get_attribute(rec.data.file.fileID, "com.apple.system.cprotect");
+  auto cprotect = m_attribute_tree->get_attribute(rec.data.file.fileID, 
+                                                 "com.apple.system.cprotect");
   if (cprotect.empty())
   {
     m_not_encrypted.push_back(name);
@@ -302,7 +294,7 @@ auto EMFVolume::unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key)
 }
 
 auto EMFVolume::carve_journal(ByteBuffer& journal)
-  -> pair<vector<CatalogRecord>, map<uint32_t, HFSKey>>
+  -> pair<vector<CatalogRecord>, map<uint32_t, HFSKeys>>
 {
   auto node_size = m_catalog_tree->node_size();
 
@@ -318,25 +310,22 @@ auto EMFVolume::carve_journal(ByteBuffer& journal)
       m_active_files.begin(), m_active_files.end(), 
       back_inserter(f3));
 
-  std::vector<AttrRecord> a0, a1;
-  a0 = carve_tree_node<AttrRecord, vector<AttrRecord>>(journal, node_size);
-  sort(a0.begin(), a0.end());
-  unique_copy(a0.begin(), a0.end(), back_inserter(a1));
+  auto a0 = carve_tree_node<AttrRecord, vector<AttrRecord>>(journal, node_size);
 
-  map<uint32_t, HFSKey> fks;
-  for (auto it=a1.begin(); it!=a1.end(); ++it)
+  map<uint32_t, HFSKeys> fks;
+  for (auto it=a0.begin(); it!=a0.end(); ++it)
   {
     if (it->key.name.to_s() != string("com.apple.system.cprotect"))
+      continue;
+
+    if (it->data.data.size() <= 0)
       continue;
 
     auto rec = m_catalog_tree->search_by_cnid(it->key.fileID);
     if (!rec.empty()) // not exist in catalog tree
       continue;
-
-    HFSKey fk; 
-    if (it->data.data.size() <= 0)
-      continue;
     
+    HFSKey fk; 
     bool   key_exists;
     ByteBuffer b(&it->data.data[0], it->data.data.size());
     tie(key_exists, fk) = get_file_keys_for_cprotect(b);
@@ -344,19 +333,10 @@ auto EMFVolume::carve_journal(ByteBuffer& journal)
     if (!key_exists)
       continue;
 
-    auto newly = fks.insert(make_pair(it->key.fileID, fk)).second;
-    if (!newly)
-      assert(0);
-  }
-
-  map<uint32_t, HFSKey> uniq_keys;
-  for (auto it=fks.begin(); it!=fks.end(); ++it)
-  {
-    if (m_active_file_keys.find(it->second) == m_active_file_keys.end())
-      uniq_keys.insert(*it);
+    fks[it->key.fileID].insert(fk);
   }
         
-  return make_pair(f3, uniq_keys);
+  return make_pair(f3, fks);
 }
 
 //

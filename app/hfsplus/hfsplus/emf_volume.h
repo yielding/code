@@ -61,6 +61,13 @@ private:
   uint8_t  m_fk[32];
 };
 
+typedef std::set<HFSKey> HFSKeys;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 class EMFVolume: public HFSVolume
 {
 public:
@@ -91,7 +98,7 @@ public:
 
 private:
   auto carve_journal(utility::hex::ByteBuffer& journal)
-    -> std::pair<std::vector<CatalogRecord>, std::map<uint32_t, HFSKey>>;
+    -> std::pair<std::vector<CatalogRecord>, std::map<uint32_t, HFSKeys>>;
 
   template <typename RecordT, typename NodeT>
   auto carve_tree_node(ByteBuffer& journal, uint32_t node_size)
