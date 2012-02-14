@@ -15,32 +15,9 @@ using namespace boost;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace {
-  std::string get_new_filepath(char const* name, char const* folder)
-  {
-    int idx = 0;
-    string new_name;
-    do 
-    {
-      string filename = (idx > 0)
-        ? str(format("%s (%d)") % name % idx)
-        : name;
-      new_name = str(format("%s\\%s") % folder % filename);
-      idx++;
-    } while (fs::exists(new_name));
-
-    return new_name;
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
 EMFFile::EMFFile(HFSVolume* volume, HFSPlusForkData const& fork
   , HFSCatalogNodeID fileID
-  , HFSKey& filekey
+  , HFSKey const& filekey
   , bool deleted)
   : HFSFile(volume, fork, fileID, deleted)
 {
@@ -48,19 +25,17 @@ EMFFile::EMFFile(HFSVolume* volume, HFSPlusForkData const& fork
   m_decrypt_offset = 0;
   m_file_key = filekey;
 
+  // REMARK fk of filekey is updated..
   auto fk = m_file_key.as_buffer();
   
-  uint8_t fk_[32] = { 0 };
-  memcpy(fk_, fk, 32);
-
   if (m_protection_version == 4)
   {
     SHA_CTX ctx;
     SHA1_Init(&ctx);
-    SHA1_Update(&ctx, fk_, 32);
-    SHA1_Final(fk_, &ctx);
+    SHA1_Update(&ctx, fk, 32);
+    SHA1_Final(fk, &ctx);
 
-    m_ivkey.set_encrypt(fk_, 16);
+    m_ivkey.set_encrypt(fk, 16);
   }
 }
 
@@ -100,7 +75,6 @@ bool EMFFile::decrypt_file_to(string const& path, bool tr)
 
 void EMFFile::decrypt_file()
 {
-  /**/
   m_decrypt_offset = 0;
   auto bs = m_block_size;
   for (auto it=m_extents.begin(); it!=m_extents.end(); ++it) 
@@ -112,22 +86,31 @@ void EMFFile::decrypt_file()
       ByteBuffer buffer = m_volume->read(from, bs);
       if (buffer.size() == bs)
       {
-        process_block(lba, buffer, bs);
-        m_volume->write(from, buffer);
+        auto b = process_block(lba, buffer, bs);
+        m_volume->write(from, b);
       }
     }
   }
-
-  /**/
 }
 
-void EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
+uint32_t EMFFile::start_lba()
+{
+  return m_extents[0].startBlock;
+}
+
+bool EMFFile::decrypt_partial()
+{
+  return true;
+}
+
+auto EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
+  -> ByteBuffer&
 {
   auto v = dynamic_cast<EMFVolume*>(m_volume);
 
   uint32_t iv[4] = { 0 };
-  uint8_t*   b = buffer;
-  auto& emfkey = v->emfkey().as_aeskey();
+  uint8_t*     b = buffer;
+  auto&   emfkey = v->emfkey().as_aeskey();
 
   // 1. re-encrypt using emf key
   v->iv_for_lba(uint32_t(lba), iv);
@@ -140,7 +123,7 @@ void EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
     v->iv_for_lba(uint32_t(lba), iv);
     AES_cbc_encrypt(buffer, buffer, bs, &filekey, (uint8_t*)iv, AES_DECRYPT);
   }
-  else
+  else if (v->protection_version() == 4)
   {
     uint32_t iv_out[4] = { 0 };
     auto  size = (bs == m_block_size) ? 0x1000 : bs;
@@ -150,12 +133,19 @@ void EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
     {
       v->iv_for_lba((uint32_t)m_decrypt_offset, iv, false);
       AES_encrypt((const uint8_t*)iv, (uint8_t*)iv_out, &ivkey);
-      AES_cbc_encrypt(b + i*size, b + i*size, size, &filekey, (uint8_t*)iv_out, AES_DECRYPT);
+      AES_cbc_encrypt(b + i*size, b + i*size, size, &filekey, 
+                      (uint8_t*)iv_out, AES_DECRYPT);
       m_decrypt_offset += size;
       if (bs != m_block_size || i >= bs/0x1000 - 1)
         break;
     }
   }
+  else
+  {
+    throw std::runtime_error("EMFFile::process_block error");
+  }
+  
+  return buffer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

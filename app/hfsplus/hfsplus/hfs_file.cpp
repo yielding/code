@@ -61,30 +61,37 @@ HFSFile::~HFSFile()
 {
 }
 
-// TODO Tested
-auto HFSFile::read_block(uint32_t nth) -> utility::hex::ByteBuffer
+auto HFSFile::read_block(uint32_t nth) -> ByteBuffer
 {
-  auto bs = m_volume->block_size();
-  if (int64_t(nth) * bs > m_logical_size)
-    throw std::runtime_error("block out of bounds");
-
-  auto bc = 0;
-  for (auto it = m_extents.begin(); it != m_extents.end(); ++it)
+  if (m_logical_size > 0)
   {
-    bc += it->blockCount;
-    if (nth < bc)
+    auto bs = m_volume->block_size();
+    if (int64_t(nth) * bs > m_logical_size)
+      throw std::runtime_error("block out of bounds");
+
+    auto bc = 0;
+    for (auto it = m_extents.begin(); it != m_extents.end(); ++it)
     {
-      int64_t lba = it->startBlock + (nth - (bc - it->blockCount));
-      // TODO some check
-      ByteBuffer b = m_volume->read(lba * bs, bs);
-      return b;
+      bc += it->blockCount;
+      if (nth < bc)
+      {
+        int64_t lba = it->startBlock + (nth - (bc - it->blockCount));
+        auto buffer = m_volume->read(lba * bs, bs);
+        return process_block(lba, buffer, bs);
+      }
     }
   }
 
   return ByteBuffer();
 }
 
-auto HFSFile::read_all_to_buffer(bool trunc) -> utility::hex::ByteBuffer
+auto HFSFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
+-> ByteBuffer&
+{
+  return buffer;
+}
+
+auto HFSFile::read_all_to_buffer(bool trunc) -> ByteBuffer
 {
   ByteBuffer result;
   for (uint32_t i=0; i<m_total_blocks; i++)

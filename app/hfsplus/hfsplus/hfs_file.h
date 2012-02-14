@@ -8,6 +8,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 class HFSVolume;
+using utility::hex::ByteBuffer;
 
 class HFSFile
 {
@@ -15,8 +16,11 @@ public:
   HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bool deleted=false);
   virtual ~HFSFile();
 
-  auto read_block(uint32_t no) -> utility::hex::ByteBuffer;
-  auto read_all_to_buffer(bool trunc=true) -> utility::hex::ByteBuffer;
+  virtual auto read_block(uint32_t no) -> ByteBuffer;
+  virtual auto process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs) 
+   -> ByteBuffer&;
+  
+  auto read_all_to_buffer(bool trunc=true) -> ByteBuffer;
   void read_all_to_file(std::string const& filename, std::string const& point, bool trunc=true);
 
   uint32_t block_size() { return m_block_size; }

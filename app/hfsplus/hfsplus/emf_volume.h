@@ -61,6 +61,13 @@ private:
   uint8_t  m_fk[32];
 };
 
+typedef std::set<HFSKey> HFSKeys;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 class EMFVolume: public HFSVolume
 {
 public:
@@ -88,13 +95,17 @@ public:
   
   auto emfkey() 
     -> HFSKey& { return m_emfkey; }
-
+  
 private:
   auto carve_journal(utility::hex::ByteBuffer& journal)
-    -> std::pair<std::vector<CatalogRecord>, std::map<uint32_t, HFSKey>>;
+    -> std::pair<std::vector<CatalogRecord>, std::map<uint32_t, HFSKeys>>;
 
   template <typename RecordT, typename NodeT>
-  auto carve_tree_node(ByteBuffer& journal, uint32_t node_size)
+  auto carve_emf_journal(ByteBuffer& journal, uint32_t node_size)
+    -> NodeT;
+
+  template <typename RecordT, typename NodeT>
+  auto carve_tree_node(ByteBuffer& node, uint32_t sz)
     -> NodeT;
 
 private:
@@ -109,6 +120,7 @@ private:
   std::vector<std::string> m_not_encrypted;
   std::set<CatalogRecord> m_active_files;
   std::set<HFSKey> m_active_file_keys;
+  std::set<uint32_t> m_decrypted_lbas;
 
   uint32_t m_decrypted_count;
 };

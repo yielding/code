@@ -202,7 +202,8 @@ auto BTree<HFSTree>::read_empty_space() -> ByteBuffer
     if (!node_in_use(i))
     {
       free_nodes++;
-      res.append(read_node(i));
+      auto x =read_node(i);
+      res.append( x );
     }
   }
   
