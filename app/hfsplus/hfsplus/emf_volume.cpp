@@ -176,20 +176,18 @@ void EMFVolume::undelete(string const& undeletePath)
   auto b = m_catalog_tree->read_empty_space();
   auto node_count = b.size() / node_size;
   
-  for (uint32_t i=0; i<node_count; i++)
-  {
-    std::vector<CatalogRecord> f1, f2, f3;
-    b.offset(i*node_size);
-    auto f0 = carve_tree_node<CatalogRecord, vector<CatalogRecord>>(b, node_size);
-    if (f0.size() > 0)
-    {
-      sort(f0.begin(), f0.end());
-      remove_copy_if(f0.begin(), f0.end(), back_inserter(f1), not_a_catalog_record());
-    }
-  }
+//  for (uint32_t i=0; i<node_count; i++)
+//  {
+//    std::vector<CatalogRecord> f1, f2, f3;
+//    b.offset(i*node_size);
+//    auto f0 = carve_tree_node<CatalogRecord, vector<CatalogRecord>>(b, node_size);
+//    if (f0.size() > 0)
+//    {
+//      sort(f0.begin(), f0.end());
+//      remove_copy_if(f0.begin(), f0.end(), back_inserter(f1), not_a_catalog_record());
+//    }
+//  }
   
-
-  /*
   auto jnl = read_journal();
   auto res = carve_journal(jnl);
   auto files = res.first;
@@ -229,7 +227,6 @@ void EMFVolume::undelete(string const& undeletePath)
       }
     }
   }
-  */
 }
 
 void EMFVolume::decrypt_all_files()
