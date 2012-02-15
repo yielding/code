@@ -10,6 +10,7 @@
 		DF1117F114DB726700363D88 /* attribute_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF1117EF14DB726700363D88 /* attribute_btree.cpp */; };
 		DF12D82D14D8D15200D9B578 /* unicode_compare.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82C14D8D15200D9B578 /* unicode_compare.cpp */; };
 		DF12D83114D9026600D9B578 /* extents_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82F14D9026600D9B578 /* extents_btree.cpp */; };
+		DF8F7D4614EBAD240055A3E9 /* signature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8F7D4414EBAD240055A3E9 /* signature.cpp */; };
 		DF97ADDF14C01ED700739F5A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADDE14C01ED700739F5A /* main.cpp */; };
 		DF97ADE114C01ED700739F5A /* hfsplus.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DF97ADE014C01ED700739F5A /* hfsplus.1 */; };
 		DF97ADF114C01F2F00739F5A /* catalog_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADE714C01F2F00739F5A /* catalog_btree.cpp */; };
@@ -49,6 +50,8 @@
 		DF12D82F14D9026600D9B578 /* extents_btree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = extents_btree.cpp; sourceTree = "<group>"; };
 		DF12D83014D9026600D9B578 /* extents_btree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extents_btree.h; sourceTree = "<group>"; };
 		DF13C20314D766AF0027BB8A /* hfs_volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hfs_volume.h; sourceTree = "<group>"; };
+		DF8F7D4414EBAD240055A3E9 /* signature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = signature.cpp; sourceTree = "<group>"; };
+		DF8F7D4514EBAD240055A3E9 /* signature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = signature.h; sourceTree = "<group>"; };
 		DF97ADDA14C01ED700739F5A /* hfsplus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hfsplus; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF97ADDE14C01ED700739F5A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DF97ADE014C01ED700739F5A /* hfsplus.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = hfsplus.1; sourceTree = "<group>"; };
@@ -114,6 +117,8 @@
 		DF97ADDD14C01ED700739F5A /* hfsplus */ = {
 			isa = PBXGroup;
 			children = (
+				DF8F7D4414EBAD240055A3E9 /* signature.cpp */,
+				DF8F7D4514EBAD240055A3E9 /* signature.h */,
 				DFA0510514C02269000B475C /* develop */,
 				DFEF0E3614E0ACC300D64E14 /* emf_file.h */,
 				DFEF0E3714E0ACC300D64E14 /* emf.h */,
@@ -218,6 +223,7 @@
 				DF1117F114DB726700363D88 /* attribute_btree.cpp in Sources */,
 				DFE2117814DF9A2E004B7B52 /* PTreeParser.cpp in Sources */,
 				DFE2117C14DFA14D004B7B52 /* HexUtil.cpp in Sources */,
+				DF8F7D4614EBAD240055A3E9 /* signature.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

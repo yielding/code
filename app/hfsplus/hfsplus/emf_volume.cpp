@@ -4,8 +4,8 @@
 #include "emf_file.h"
 #include "PtreeParser.h"
 #include "HexUtil.h"
+#include "signature.h"
 
-#include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
@@ -27,8 +27,7 @@ namespace {
   struct not_a_catalog_record
   {
     template <typename Record>
-    bool operator()(Record const& r)
-    {
+    bool operator()(Record const& r) {
       return r.data.recordType != 2;
     }
   };
@@ -37,58 +36,17 @@ namespace {
   {
     int idx = 0;
     string new_name;
+
     do 
     {
-      string filename = (idx > 0)
-      ? str(format("%s (%d)") % name % idx)
-      : name;
+      auto filename = (idx > 0)
+        ? str(format("%s (%d)") % name % idx)
+        : name;
       new_name = str(format("%s/%s") % folder % filename);
       idx++;
     } while (fs::exists(new_name));
     
     return new_name;
-  }
-  
-
-  bool decrypted_correctly(ByteBuffer& b)
-  {
-    char const* magics[] = { 
-      "SQLite", "bplist", "<?xml", "\xFF\xD8\xFF", "\xCE\xFA\xED\xFE",
-      "GIF87a", "GIF89a", "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A"
-    };
-    
-    if (b.size() < 3)
-      return false;
-    
-    int size = sizeof(magics)/sizeof(magics[0]);
-    for (int i=0; i<size; i++)
-    {
-      string m(magics[i]);
-      size_t size = size_t(b.size() < 10 ? b.size() : 10);
-      string ss((char const*)b, size);
-      
-      if (starts_with(ss, m))
-        return true;
-    }
-    
-    // mpeg4 test
-    if (b.size() < 8)
-      return false;
-    
-    uint8_t mpeg4[] = { 0x66, 0x74, 0x79, 0x70 };
-    auto size2 = sizeof(mpeg4) / sizeof(mpeg4[0]);
-    auto buffer = ((uint8_t*)b) + 4;
-    bool found  = false;
-    for (int i=0; i<(int)size2; i++)
-    {
-      if (buffer[i] != mpeg4[i])
-      {
-        found = true;
-        break;
-      }
-    }
-    
-    return !found;
   }
 }
 
@@ -98,13 +56,11 @@ namespace {
 //
 ////////////////////////////////////////////////////////////////////////////////
 EMFVolume::EMFVolume()
-  : HFSVolume(0)
-  , m_protect_version(0)
+  : m_protect_version(0)
   , m_lba_offset(0)
   , m_class_keys_bitset(0)
   , m_class_keys(MAX_CLASS_KEYS)
-{
-}
+{}
 
 EMFVolume::~EMFVolume()
 {
@@ -116,7 +72,8 @@ auto EMFVolume::open(std::string const& filename) -> bool
     return false;
 
   m_metadata_dir = m_catalog_tree->metadata_dir_id();
-  auto buffer = m_attribute_tree->get_attribute(kHFSRootParentID, "com.apple.system.cprotect");
+  auto buffer = m_attribute_tree->get_attribute(kHFSRootParentID, 
+      "com.apple.system.cprotect");
   if (buffer.size() <=0)
     return false;
   
@@ -170,32 +127,11 @@ auto EMFVolume::open(std::string const& filename) -> bool
   return true;
 }
 
-void EMFVolume::undelete(string const& undeletePath)
+void EMFVolume::undelete_based_on_journal(ByteBuffer& jnl
+    , vector<CatalogRecord>& files
+    , map<uint32_t, HFSKeys>& key_map
+    , string const& path)
 {
-  auto node_size = m_catalog_tree->node_size();
-  auto b = m_catalog_tree->read_empty_space();
-  auto node_count = b.size() / node_size;
-  
-//  for (uint32_t i=0; i<node_count; i++)
-//  {
-//    std::vector<CatalogRecord> f1, f2, f3;
-//    b.offset(i*node_size);
-//    auto f0 = carve_tree_node<CatalogRecord, vector<CatalogRecord>>(b, node_size);
-//    if (f0.size() > 0)
-//    {
-//      sort(f0.begin(), f0.end());
-//      remove_copy_if(f0.begin(), f0.end(), back_inserter(f1), not_a_catalog_record());
-//    }
-//  }
-  
-  auto jnl = read_journal();
-  auto res = carve_journal(jnl);
-  auto files = res.first;
-  auto key_map = res.second;
-
-  // use this cache to prevent double decryption of same allocation block
-  m_decrypted_lbas.clear();
-  
   for (auto it=files.begin(); it!=files.end(); ++it)
   {
     auto key  = it->key;
@@ -206,13 +142,13 @@ void EMFVolume::undelete(string const& undeletePath)
       continue;
 
     auto name = key.nodeName.to_s();
-    auto to_save = get_new_filepath(name.c_str(), undeletePath.c_str());
+    auto to_save = get_new_filepath(name.c_str(), path.c_str());
     // cout << to_save << endl;
     for (auto jt=keys.begin(); jt!=keys.end();)
     {
       EMFFile ef(this, data.file.dataFork, data.file.fileID, *jt);
       auto buffer = ef.read_all_to_buffer();
-      if (decrypted_correctly(buffer))
+      if (ef.decrypted_correctly(buffer))
       {
         ofstream ofs;
         ofs.open(to_save.c_str(), ios_base::binary);
@@ -227,6 +163,51 @@ void EMFVolume::undelete(string const& undeletePath)
       }
     }
   }
+}
+
+void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys
+    , string const& save_path)
+{
+  auto start = (m_journal_offset + m_journal_size) / m_block_size;
+  for (int64_t lba=start; lba<m_header.totalBlocks; ++lba)
+  {
+    if (block_in_use(uint32_t(lba)))
+      break;
+
+    auto bf = read(lba * m_block_size, 16);
+    auto kb = keys.begin();
+    auto ke = keys.end();
+
+    for (; kb != ke; ++kb)
+    {
+      EMFFile ef(this, *kb, m_protect_version);
+      // TODO
+      // ef.decrypt_partial();
+    }
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void EMFVolume::undelete(string const& save_path)
+{
+  // use this cache to prevent double decryption of same allocation block
+  m_decrypted_lbas.clear();
+
+  auto jnl     = read_journal();
+  auto carved  = carve_journal(jnl);
+  auto files   = carved.first;
+  auto key_map = carved.second;
+  
+  undelete_based_on_journal(jnl, files, key_map, save_path);
+
+  HFSKeys keys;
+  for (auto it=key_map.begin(); it!=key_map.end(); ++it)
+  {
+    auto& key_set = it->second;
+    for (auto jt=key_set.begin(); jt!=key_set.end(); ++jt) keys.insert(*jt);
+  }
+
+  undelete_based_on_unused_area(keys, save_path);
 }
 
 void EMFVolume::decrypt_all_files()
@@ -386,53 +367,6 @@ auto EMFVolume::carve_journal(ByteBuffer& journal)
   }
         
   return make_pair(f3, fks);
-}
-
-template <typename RecordT, typename NodeT>
-auto EMFVolume::carve_tree_node(ByteBuffer& buffer, uint32_t sz)
-  -> NodeT
-{
-  NodeT result;
-
-  auto beg = buffer.offset();
-  auto end_ = beg + sz;
-  try
-  {
-    BTNodeDescriptor btnode(buffer);
-
-    if (btnode.kind != kBTLeafNode || btnode.height != 1)
-      return result;
-
-    auto offset_pos = end_ - 2*btnode.numRecords;
-    buffer.offset(offset_pos);
-    vector<uint16_t> offsets;
-    for (auto i=0; i<btnode.numRecords; i++) offsets.push_back(buffer.get_uint2_be());
-
-    for (auto i=0; i<btnode.numRecords; i++)
-    {
-      auto pos = beg + offsets[btnode.numRecords - i - 1];
-      buffer.offset(uint32_t(pos));
-
-      try
-      {
-        RecordT rec(kBTLeafNode);
-        rec.key.read_from(buffer);
-        if (!rec.key.ok())
-          continue;
-
-        rec.data.read_from(buffer);
-        result.push_back(rec);
-      }
-      catch(...)
-      {
-      }
-    }
-  }
-  catch(...)
-  {
-  }
-
-  return result;
 }
 
 //

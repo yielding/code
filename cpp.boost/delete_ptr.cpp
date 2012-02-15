@@ -37,16 +37,17 @@ private:
 
 int main(int argc, char const* argv[])
 {
-  printer *p1 = new printer(10);
-  printer *p2 = new printer(20);
+  auto *p1 = new printer(10);
+  auto *p2 = new printer(20);
 
   list<printer*> ps;
-  typedef list <printer*>::iterator It;
 
   ps.push_back(p1);
   ps.push_back(p2);
 
-  It it = find_if(ps.begin(), ps.end(), bind(&printer::has_id, _1, 10));
+  // bind가 기존의 member function을 쓸 수 있다는 점에서
+  // c++11의 lambda 보다 더 좋다.
+  auto it = find_if(ps.begin(), ps.end(), bind(&printer::has_id, _1, 10));
   if (it != ps.end())
   {
     ps.erase(it);

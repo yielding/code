@@ -94,9 +94,16 @@ public:
     -> int16_t  { return m_protect_version; }
   
   auto emfkey() 
-    -> HFSKey& { return m_emfkey; }
+    -> HFSKey&  { return m_emfkey; }
   
 private:
+  void undelete_based_on_journal(ByteBuffer& jnl
+      , std::vector<CatalogRecord>& files
+      , std::map<uint32_t, HFSKeys>&
+      , std::string const&);
+
+  void undelete_based_on_unused_area(HFSKeys const& keys, std::string const&);
+
   auto carve_journal(utility::hex::ByteBuffer& journal)
     -> std::pair<std::vector<CatalogRecord>, std::map<uint32_t, HFSKeys>>;
 
@@ -104,15 +111,11 @@ private:
   auto carve_emf_journal(ByteBuffer& journal, uint32_t node_size)
     -> NodeT;
 
-  template <typename RecordT, typename NodeT>
-  auto carve_tree_node(ByteBuffer& node, uint32_t sz)
-    -> NodeT;
-
 private:
   uint16_t m_protect_version;
   uint64_t m_lba_offset;
-  uint32_t m_class_keys_bitset;
   HFSKey   m_emfkey;
+  uint32_t m_class_keys_bitset;
   std::vector<HFSKey> m_class_keys;
   HFSCatalogNodeID m_metadata_dir;
 

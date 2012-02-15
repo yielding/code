@@ -14,8 +14,8 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-HFSVolume::HFSVolume(int64_t offset)
-  : m_offset(offset), m_opened(false)
+HFSVolume::HFSVolume()
+  : m_opened(false)
 {
 }
 
@@ -75,6 +75,18 @@ auto HFSVolume::id() -> int64_t
 {
   ByteBuffer b((uint8_t*)&m_header.finderInfo[6], 8);
   return b.get_int8_be();
+}
+
+auto HFSVolume::block_in_use(uint32_t block_no) -> bool
+{
+  auto& buffer = m_allocatioin_bitmap.get_buffer();
+  auto index = block_no / 8;
+  if (index >= buffer.size())
+    return false;
+
+  uint8_t this_byte = buffer[index];
+
+  return (this_byte & (1 << (7 - (block_no % 8)))) != 0;
 }
 
 auto HFSVolume::get_extents_overflow_for_file(HFSPlusExtentKey const& key)
@@ -153,6 +165,7 @@ auto HFSVolume::read_journal() -> ByteBuffer
   auto b0 = read(beg, m_block_size);
   JournalInfoBlock jib(b0);
   m_journal_offset = jib.offset;
+  m_journal_size   = jib.size;
   
   auto journal = read(jib.offset, size_t(jib.size));
   journal_header jh(journal); 

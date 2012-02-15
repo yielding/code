@@ -3,8 +3,9 @@
 #include <openssl/aes.h>
 #include <openssl/sha.h>
 
-#include <boost/format.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/format.hpp>
 #include <string>
 
 using namespace std;
@@ -25,52 +26,39 @@ EMFFile::EMFFile(HFSVolume* volume, HFSPlusForkData const& fork
   m_decrypt_offset = 0;
   m_file_key = filekey;
 
-  // REMARK fk of filekey is updated..
-  auto fk = m_file_key.as_buffer();
+  init_ivkey();
+}
+
+EMFFile::EMFFile(HFSVolume* volume
+  , HFSKey const& filekey
+  , uint16_t protection_version)
+  : HFSFile(volume)
+{
+  m_protection_version = protection_version;
+  m_decrypt_offset = 0;
+  m_file_key = filekey;
   
+  init_ivkey();
+}
+
+void EMFFile::init_ivkey()
+{
   if (m_protection_version == 4)
   {
+    // REMARK fk of filekey is updated..
+    auto fk = m_file_key.as_buffer();
+    
     SHA_CTX ctx;
     SHA1_Init(&ctx);
     SHA1_Update(&ctx, fk, 32);
     SHA1_Final(fk, &ctx);
-
+    
     m_ivkey.set_encrypt(fk, 16);
   }
 }
 
 EMFFile::~EMFFile()
 {
-}
-
-bool EMFFile::decrypt_file_to(string const& path, bool tr)
-{
-  ofstream ofs;
-  ofs.open(path.c_str(), ios_base::binary);
-  if (!ofs.is_open())
-    return false;
-
-  m_decrypt_offset = 0;
-  auto bs = m_block_size;
-  for (auto it=m_extents.begin(); it!=m_extents.end(); ++it)
-  {
-    for (uint32_t i=0; i<it->blockCount; ++i)
-    {
-      auto  lba = int64_t(it->startBlock) + i;
-      auto from = lba * bs;
-      ByteBuffer buffer = m_volume->read(from, bs);
-      if (buffer.size() == bs)
-      {
-        process_block(lba, buffer, bs);
-        ofs.write(buffer, buffer.size());
-      }
-    }
-  }
-  
-  if (fs::file_size(path) > 0 && tr)
-    fs::resize_file(path, m_logical_size);
-
-  return true;
 }
 
 void EMFFile::decrypt_file()
@@ -146,6 +134,47 @@ auto EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
   }
   
   return buffer;
+}
+
+bool EMFFile::decrypted_correctly(ByteBuffer& b)
+{
+  char const* magics[] = { 
+    "SQLite", "bplist", "<?xml", "\xFF\xD8\xFF", "\xCE\xFA\xED\xFE",
+    "GIF87a", "GIF89a", "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A"
+  };
+
+  if (b.size() < 3)
+    return false;
+
+  int size = sizeof(magics)/sizeof(magics[0]);
+  for (int i=0; i<size; i++)
+  {
+    string m(magics[i]);
+    size_t size = size_t(b.size() < 10 ? b.size() : 10);
+    string ss((char const*)b, size);
+
+    if (boost::starts_with(ss, m))
+      return true;
+  }
+
+  // mpeg4 test
+  if (b.size() < 8)
+    return false;
+
+  uint8_t mpeg4[] = { 0x66, 0x74, 0x79, 0x70 };
+  auto size2 = sizeof(mpeg4) / sizeof(mpeg4[0]);
+  auto buffer = ((uint8_t*)b) + 4;
+  bool found  = false;
+  for (int i=0; i<(int)size2; i++)
+  {
+    if (buffer[i] != mpeg4[i])
+    {
+      found = true;
+      break;
+    }
+  }
+
+  return !found;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

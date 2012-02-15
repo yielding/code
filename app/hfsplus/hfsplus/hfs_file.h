@@ -14,6 +14,8 @@ class HFSFile
 {
 public:
   HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bool deleted=false);
+  HFSFile(HFSVolume* v);
+  
   virtual ~HFSFile();
 
   virtual auto read_block(uint32_t no) -> ByteBuffer;
@@ -34,6 +36,9 @@ protected:
   bool             m_deleted;
   HFSPlusExtentDescriptors 
                    m_extents;
+
+protected:
+  bool             m_partial;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

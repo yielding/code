@@ -30,7 +30,7 @@ typedef BTreeRecord<HFSPlusExtentKey, HFSPlusExtentData> ExtentsRecord;
 class HFSVolume
 {
 public:
-  HFSVolume(int64_t offset=0);
+  HFSVolume();
   virtual ~HFSVolume();
 
 public:
@@ -50,6 +50,8 @@ public:
   auto read_journal() -> ByteBuffer;
   
   auto id() -> int64_t;
+
+  auto block_in_use(uint32_t no) -> bool;
 
   virtual auto protection_version() -> int16_t
   {
@@ -72,10 +74,10 @@ protected:
   
 protected:
   uint64_t m_journal_offset;
+  uint64_t m_journal_size;
   uint32_t m_sector_size;
 
-private:
-  int64_t  m_offset;
+protected:
   HFSPlusVolumeHeader m_header;
 
 private:

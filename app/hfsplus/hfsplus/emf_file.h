@@ -16,18 +16,26 @@ public:
     , HFSKey const& filekey
     , bool deleted=false);
 
+  EMFFile(HFSVolume* volume
+    , HFSKey const& filekey
+    , uint16_t protection_version);
+
   virtual ~EMFFile();
 
 public:
   void decrypt_file();
   bool decrypt_partial();
-  bool decrypt_file_to(std::string const& path, bool tr=true);
-  
+
+  static bool decrypted_correctly(ByteBuffer& buffer);
+
 public:
   uint32_t start_lba();
   
 private:
-  virtual auto process_block(int64_t lba, utility::hex::ByteBuffer& buffer, uint32_t bs=0)
+  void init_ivkey();
+
+private:
+  virtual auto process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs=0)
     -> ByteBuffer&;
 
 private:

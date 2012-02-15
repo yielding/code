@@ -25,7 +25,9 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "42"
-         endingLineNumber = "42">
+         endingLineNumber = "42"
+         landmarkName = "class EMFFile"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -63,7 +65,9 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "153"
-         endingLineNumber = "153">
+         endingLineNumber = "153"
+         landmarkName = "EMFFile::decrypted_correctly(ByteBuffer&amp; b)"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
@@ -76,21 +80,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "175"
          endingLineNumber = "175"
-         landmarkName = "EMFVolume::undelete(string const&amp; undeletePath)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "hfsplus/emf_volume.cpp"
-         timestampString = "350897438.891223"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "186"
-         endingLineNumber = "186"
-         landmarkName = "EMFVolume::undelete(string const&amp; undeletePath)"
+         landmarkName = "EMFVolume::undelete_based_on_unused_area(HFSKeys const&amp; keys , string const&amp; save_path)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -104,7 +94,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "233"
          endingLineNumber = "233"
-         landmarkName = "EMFVolume::decrypt_all_files()"
+         landmarkName = "EMFVolume::decrypt_file(CatalogRecord const&amp; rec)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint

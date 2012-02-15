@@ -23,6 +23,7 @@ HFSFile::HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bo
   m_total_blocks = fork.totalBlocks;
   m_logical_size = fork.logicalSize;
   m_deleted      = deleted;
+  m_partial      = false;
 
   m_extents.clear();
   uint32_t bc = 0;
@@ -55,6 +56,11 @@ HFSFile::HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bo
       bc += extent.blockCount;
     }
   }
+}
+
+HFSFile::HFSFile(HFSVolume* v)
+{
+  m_partial = true;
 }
 
 HFSFile::~HFSFile()

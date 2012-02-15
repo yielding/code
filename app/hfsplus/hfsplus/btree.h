@@ -404,7 +404,6 @@ auto BTree<HFSTree>::traverse_leaf_nodes(Callback2 call) -> uint32_t
       continue;
 
     count += node.recs.size();
-        
     for (auto it=node.recs.begin(); it != node.recs.end(); ++it)
       call(*it);
       
