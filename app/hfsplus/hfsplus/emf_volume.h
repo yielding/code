@@ -63,11 +63,30 @@ private:
 
 typedef std::set<HFSKey> HFSKeys;
 
+struct CarvePoint
+{
+  CarvePoint()
+    :lba(0), key(nullptr), id(0)  
+  {}
+
+  CarvePoint(uint32_t lba_, HFSKey const* key_, int id_)
+    :lba(lba_), key(key_), id(id_)  
+  {}
+
+  uint32_t lba;
+  HFSKey const* key;
+  int id;
+};
+
+typedef std::vector<CarvePoint> CarvePoints;
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+class Signature;
+
 class EMFVolume: public HFSVolume
 {
 public:
@@ -108,8 +127,11 @@ private:
     -> std::pair<std::vector<CatalogRecord>, std::map<uint32_t, HFSKeys>>;
 
   template <typename RecordT, typename NodeT>
-  auto carve_emf_journal(ByteBuffer& journal, uint32_t node_size)
+  auto carve_tree_node(ByteBuffer& journal, uint32_t node_size)
     -> NodeT;
+
+  auto carve_unused_area(uint32_t slba, uint32_t elba, HFSKey const& key, Signature* sig)
+    -> ByteBuffer;
 
 private:
   uint16_t m_protect_version;

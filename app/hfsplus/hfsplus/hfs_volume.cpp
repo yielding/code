@@ -55,16 +55,14 @@ bool HFSVolume::open(string const& filename)
 
   m_block_size = m_header.blockSize;
 
-  m_allocation_file = new HFSFile(this, m_header.allocationFile, kHFSAllocationFileID);
+  m_allocation_file    = new HFSFile(this, m_header.allocationFile, kHFSAllocationFileID);
   m_allocatioin_bitmap = m_allocation_file->read_all_to_buffer();
-  m_extents_file = new HFSFile(this, m_header.extentsFile, kHFSExtentsFileID);
-  m_extents_tree = new ExtentsTree(m_extents_file);
-  m_catalog_file = new HFSFile(this, m_header.catalogFile, kHFSCatalogFileID);
-  m_catalog_tree = new CatalogTree(m_catalog_file);
-  m_attribute_file = new HFSFile(this, m_header.attributesFile, kHFSAttributesFileID);
-  m_attribute_tree = new AttributeTree(m_attribute_file);
-
-  // TODO journal
+  m_extents_file       = new HFSFile(this, m_header.extentsFile, kHFSExtentsFileID);
+  m_extents_tree       = new ExtentsTree(m_extents_file);
+  m_catalog_file       = new HFSFile(this, m_header.catalogFile, kHFSCatalogFileID);
+  m_catalog_tree       = new CatalogTree(m_catalog_file);
+  m_attribute_file     = new HFSFile(this, m_header.attributesFile, kHFSAttributesFileID);
+  m_attribute_tree     = new AttributeTree(m_attribute_file);
 
   m_opened = true;
 

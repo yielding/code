@@ -6,10 +6,11 @@
 #include "HexUtil.h"
 #include "signature.h"
 
+#include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/format.hpp>
 #include <boost/bind.hpp>
+#include <boost/format.hpp>
 
 #include <openssl/sha.h>
 #include <cassert>
@@ -18,6 +19,7 @@ using namespace std;
 using namespace boost;
 using namespace utility::parser;
       namespace fs = boost::filesystem;
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -165,11 +167,28 @@ void EMFVolume::undelete_based_on_journal(ByteBuffer& jnl
   }
 }
 
+struct context
+{
+  uint32_t lba;
+  HFSKey key;
+
+};
+
 void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys
     , string const& save_path)
 {
-  auto start = (m_journal_offset + m_journal_size) / m_block_size;
-  for (int64_t lba=start; lba<m_header.totalBlocks; ++lba)
+  typedef boost::shared_ptr<Signature> signature_ptr;
+  vector<signature_ptr> sv;
+  
+  sv.push_back(signature_ptr(new JPEGSignature()));
+  sv.push_back(signature_ptr(new SQLiteSignature()));
+  sv.push_back(signature_ptr(new BPlistSignature()));
+  
+  CarvePoints pts;
+
+  // 1. signature position/key/type 획득
+  auto start = uint32_t((m_journal_offset + m_journal_size) / m_block_size);
+  for (uint32_t lba=start; lba<m_header.totalBlocks; ++lba)
   {
     if (block_in_use(uint32_t(lba)))
       break;
@@ -177,14 +196,61 @@ void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys
     auto bf = read(lba * m_block_size, 16);
     auto kb = keys.begin();
     auto ke = keys.end();
-
     for (; kb != ke; ++kb)
     {
       EMFFile ef(this, *kb, m_protect_version);
-      // TODO
-      // ef.decrypt_partial();
+      ef.decrypt_partial(lba, bf);
+
+      auto it = find_if(sv.begin(), sv.end(), bind(&Signature::match_head, _1, bf));
+      if (it == sv.end())
+        continue;
+      
+      pts.push_back(CarvePoint(lba, &*kb, (*it)->id()));
     }
   }
+  
+  // 2. signature carving
+  for (uint32_t i=0; i<pts.size()-1; i++)
+  {
+    auto slba = pts[i].lba, elba = pts[i+1].lba;
+    auto   id = pts[i].id;
+    auto  key = pts[i].key;
+    auto  res = carve_unused_area(slba, elba, *key, sv[id].get());
+    if (!res.empty())
+    {
+      // res.second is buffer
+      // 1. write buffer to disk files
+      // 2. update image from clba
+    }
+  }
+}
+
+auto EMFVolume::carve_unused_area(uint32_t slba, uint32_t elba, HFSKey const& key, Signature* sig)
+  -> ByteBuffer
+{
+  ByteBuffer carved;
+  
+  auto buffer = read(slba*m_block_size, m_block_size);
+
+  EMFFile ef(this, key, m_protect_version);
+  ef.decrypt_partial(slba, buffer);
+  carved.append(buffer);
+  
+  auto count = sig->head_count(buffer);
+  if (sig->match_tail(buffer))
+    count--;
+
+  while (count > 0 && ++slba < elba)
+  {
+    auto b0 = read(slba*m_block_size, m_block_size);
+    EMFFile ef0(this, key, m_protect_version);
+    ef0.decrypt_partial(slba, buffer);
+    carved.append(b0);
+    if (sig->match_tail(b0))
+      count--;
+  }
+
+  return carved;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -206,6 +272,10 @@ void EMFVolume::undelete(string const& save_path)
     auto& key_set = it->second;
     for (auto jt=key_set.begin(); jt!=key_set.end(); ++jt) keys.insert(*jt);
   }
+
+  // TODO
+  // carve more keys from other positions
+  // 
 
   undelete_based_on_unused_area(keys, save_path);
 }
@@ -330,7 +400,7 @@ auto EMFVolume::carve_journal(ByteBuffer& journal)
 
   std::vector<CatalogRecord> f1, f2, f3;
   {
-    auto f0 = carve_emf_journal<CatalogRecord, vector<CatalogRecord>>(journal, node_size);
+    auto f0 = carve_tree_node<CatalogRecord, vector<CatalogRecord>>(journal, node_size);
     sort(f0.begin(), f0.end());
     remove_copy_if(f0.begin(), f0.end(), back_inserter(f1), not_a_catalog_record());
   }
@@ -340,7 +410,7 @@ auto EMFVolume::carve_journal(ByteBuffer& journal)
       m_active_files.begin(), m_active_files.end(), 
       back_inserter(f3));
 
-  auto a0 = carve_emf_journal<AttrRecord, vector<AttrRecord>>(journal, node_size);
+  auto a0 = carve_tree_node<AttrRecord, vector<AttrRecord>>(journal, node_size);
 
   map<uint32_t, HFSKeys> fks;
   for (auto it=a0.begin(); it!=a0.end(); ++it)
@@ -373,7 +443,7 @@ auto EMFVolume::carve_journal(ByteBuffer& journal)
 // TODO start, end의 데이타 타입이 uint32_t가 맞는지 확인
 //
 template <typename RecordT, typename NodeT>
-auto EMFVolume::carve_emf_journal(ByteBuffer& journal, uint32_t node_size)
+auto EMFVolume::carve_tree_node(ByteBuffer& journal, uint32_t node_size)
   -> NodeT
 {
   NodeT result;

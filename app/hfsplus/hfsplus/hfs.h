@@ -63,7 +63,9 @@ struct HFSUniStr255
     for (auto i=0; i<length; i++) unicode[i] = b.get_uint2_be();
   }
   
-  // TODO
+  // 
+  // TODO : more nice unicode
+  //
   std::string to_s() const
   {
     std::string result;

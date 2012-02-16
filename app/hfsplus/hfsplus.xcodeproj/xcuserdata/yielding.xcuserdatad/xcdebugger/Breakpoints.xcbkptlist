@@ -79,9 +79,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "175"
-         endingLineNumber = "175"
-         landmarkName = "EMFVolume::undelete_based_on_unused_area(HFSKeys const&amp; keys , string const&amp; save_path)"
-         landmarkType = "5">
+         endingLineNumber = "175">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
@@ -93,9 +91,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "233"
-         endingLineNumber = "233"
-         landmarkName = "EMFVolume::decrypt_file(CatalogRecord const&amp; rec)"
-         landmarkType = "5">
+         endingLineNumber = "233">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"

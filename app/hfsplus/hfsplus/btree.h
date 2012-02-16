@@ -188,8 +188,7 @@ auto BTree<HFSTree>::node_in_use(uint32_t no) -> bool
 }
 
 //
-// TODO: very important!!!!!
-// not tested
+// all empty space is clear with zero
 //
 template <typename HFSTree>
 auto BTree<HFSTree>::read_empty_space() -> ByteBuffer 
