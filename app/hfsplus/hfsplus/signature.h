@@ -1,44 +1,92 @@
 #ifndef SIGNATURE_H_K3LX5Q19
 #define SIGNATURE_H_K3LX5Q19
 
-#include <stdint.h>
-#include <vector>
+#include "ByteBuffer.h"
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class EMFVolume;
+using utility::hex::ByteBuffer;
 
-enum { kJPEG = 1, kSQLITE, kPLIST, kBPLIST, kXML };
+enum { 
+  kJPEG   = 0, 
+  kSQLITE = 1, 
+  kBPLIST = 2,
+  kPLIST  = 3, 
+  kXML    = 4
+};
 
 class Signature
 {
 public:
+  Signature() {}
 
-public:
-  Signature(EMFVolume* vol): m_volume(vol)
-  {}
-
-  virtual ~Signature()
-  {}
+  virtual ~Signature() {}
 
   virtual int id() { return -1; }
 
-  virtual void match(uint32_t lba);
+  int head_count(ByteBuffer& b)
+  {
+    if (b.size() < m_head.size())
+      return 0;
 
-  virtual bool carve_within(uint32_t start, uint32_t end) = 0;
+    int count = 0;
+    uint32_t end = b.size() - m_head.size();
+    uint8_t* block = b;
+    for (uint32_t i=0; i<end; i++)
+      if (memcmp(&m_head[0], (uint8_t*)&block[i], m_head.size()) == 0)
+        count++;
+
+    return count;
+  }
+
+  bool match_head(uint8_t* block, uint32_t bs)
+  {
+    if (bs >= m_head.size())
+    {
+      auto end = bs - m_head.size();
+      for (auto i=0; i<end; i++)
+        if (memcmp(&m_head[0], block+i, m_head.size()) == 0)
+          return true;
+    }
+
+    return false;
+  }
+
+  int match_head(ByteBuffer& b)
+  {
+    uint8_t* buffer = b;
+    return match_head(buffer, b.size());
+  }
+
+  bool match_tail(ByteBuffer& b)
+  {
+    if (b.size() >= m_tail.size())
+    {
+      uint8_t* buffer = b;
+      auto end = b.size() - m_tail.size();
+      for (auto i=0; i<end; i++)
+        if (memcmp(&m_tail[0], buffer + i, m_tail.size()) == 0)
+          return true;
+    }
+
+    return false;
+  }
+
+  uint32_t head_size() 
+  {
+    return m_head.size();
+  }
 
 protected:
-  EMFVolume* m_volume;
   std::vector<uint8_t> m_head, m_tail;
 };
 
 class JPEGSignature: public Signature
 {
 public:
-  JPEGSignature(EMFVolume* vol)
-    : Signature(vol)
+  JPEGSignature()
   {
     uint8_t h[3] = { 0xFF, 0xD8, 0xFF };
     uint8_t t[2] = { 0xFF, 0xD9 };
@@ -48,45 +96,30 @@ public:
   }
 
   virtual int id() { return kJPEG; }
-
-  virtual bool carve_within(uint32_t start, uint32_t end)
-  {
-    return false;
-  }
 };
 
 class BPlistSignature: public Signature 
 {
 public:
-  BPlistSignature(EMFVolume* vol): Signature(vol)
+  BPlistSignature()
   {
     char const* h = "bplist";
     m_head.assign(h, h+6);
   }
 
   virtual int id() { return kBPLIST; }
-
-  virtual bool carve_within(uint32_t start, uint32_t end)
-  {
-    return false;
-  }
 };
 
 class SQLiteSignature: public Signature 
 {
 public:
-  SQLiteSignature(EMFVolume* vol): Signature(vol)
+  SQLiteSignature()
   {
     char const* h = "SQLite";
     m_head.assign(h, h+6);
   }
 
   virtual int  id() { return kSQLITE; }
-
-  virtual bool carve_within(uint32_t start, uint32_t end)
-  {
-    return false;
-  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
