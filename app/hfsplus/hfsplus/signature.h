@@ -32,7 +32,7 @@ public:
       return 0;
 
     int count = 0;
-    uint32_t end = b.size() - m_head.size();
+    uint32_t end =  b.size() - m_head.size();
     uint8_t* block = b;
     for (uint32_t i=0; i<end; i++)
       if (memcmp(&m_head[0], (uint8_t*)&block[i], m_head.size()) == 0)
@@ -45,10 +45,8 @@ public:
   {
     if (bs >= m_head.size())
     {
-      auto end = bs - m_head.size();
-      for (auto i=0; i<end; i++)
-        if (memcmp(&m_head[0], block+i, m_head.size()) == 0)
-          return true;
+      if (memcmp(&m_head[0], &block[0], m_head.size()) == 0)
+        return true;
     }
 
     return false;

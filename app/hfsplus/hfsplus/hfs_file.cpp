@@ -60,7 +60,10 @@ HFSFile::HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bo
 
 HFSFile::HFSFile(HFSVolume* v)
 {
-  m_partial = true;
+  m_volume     = v;
+  m_block_size = m_volume->block_size();
+  m_deleted    = true;
+  m_partial    = true;
 }
 
 HFSFile::~HFSFile()
