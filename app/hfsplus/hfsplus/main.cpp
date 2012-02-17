@@ -11,7 +11,7 @@ int main(int argc, char const* argv[])
   if (!v.open("/Users/yielding/Desktop/20120117__IPHONE4_Physical_.nsi00"))
     return 1;
   
-  // v.decrypt_all_files();
+  v.decrypt_all_files();
   v.undelete("/Users/yielding/Desktop/deleted");
   
   /**/

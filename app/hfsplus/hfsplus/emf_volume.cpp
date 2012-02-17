@@ -167,41 +167,40 @@ void EMFVolume::undelete_based_on_journal(ByteBuffer& jnl
   }
 }
 
-struct context
-{
-  uint32_t lba;
-  HFSKey key;
-
-};
-
-void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys
+void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys_
     , string const& save_path)
 {
   typedef boost::shared_ptr<Signature> signature_ptr;
   vector<signature_ptr> sv;
   
   sv.push_back(signature_ptr(new JPEGSignature()));
-  sv.push_back(signature_ptr(new SQLiteSignature()));
-  sv.push_back(signature_ptr(new BPlistSignature()));
+//  sv.push_back(signature_ptr(new SQLiteSignature()));
+//  sv.push_back(signature_ptr(new BPlistSignature()));
   
   CarvePoints pts;
 
+  vector<HFSKey> keys;
+  for (auto it=keys_.begin(); it!=keys_.end(); ++it)
+    keys.push_back(*it);
+  
   // 1. signature position/key/type 획득
   auto start = uint32_t((m_journal_offset + m_journal_size) / m_block_size);
   for (uint32_t lba=start; lba<m_header.totalBlocks; ++lba)
+  //for (uint32_t lba=314115; lba<314117+10000; ++lba)
   {
     if (block_in_use(uint32_t(lba)))
-      break;
+      continue;
 
     auto bf = read(lba * m_block_size, 16);
     auto kb = keys.begin();
     auto ke = keys.end();
     for (; kb != ke; ++kb)
     {
+      auto b = bf;
       EMFFile ef(this, *kb, m_protect_version);
-      ef.decrypt_partial(lba, bf);
+      ef.decrypt_partial(lba, b);
 
-      auto it = find_if(sv.begin(), sv.end(), bind(&Signature::match_head, _1, bf));
+      auto it = find_if(sv.begin(), sv.end(), bind(&Signature::match_head, _1, b));
       if (it == sv.end())
         continue;
       
@@ -218,6 +217,10 @@ void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys
     auto  res = carve_unused_area(slba, elba, *key, sv[id].get());
     if (!res.empty())
     {
+      string to_save = str(format("/Users/yielding/Desktop/deleted/%d") % slba);
+      ofstream ofs;
+      ofs.open(to_save.c_str(), ios_base::binary);
+      ofs.write(res, res.size());
       // res.second is buffer
       // 1. write buffer to disk files
       // 2. update image from clba
@@ -237,6 +240,9 @@ auto EMFVolume::carve_unused_area(uint32_t slba, uint32_t elba, HFSKey const& ke
   carved.append(buffer);
   
   auto count = sig->head_count(buffer);
+  if (count < 1)
+    return ByteBuffer();
+    
   if (sig->match_tail(buffer))
     count--;
 

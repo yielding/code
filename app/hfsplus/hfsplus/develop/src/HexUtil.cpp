@@ -459,8 +459,8 @@ std::wstring Hex::to_utf16(uint8_t const * buf, int& size, bool flip, int tag)
             break;
 
         uint8_t temp_wchar[2] = {
-            (buf[(uint8_t)i + (uint8_t)lhd] & (uint8_t)tag), 
-            (buf[(uint8_t)i + (uint8_t)rhd] & (uint8_t)tag)
+            static_cast<uint8_t>((buf[(uint8_t)i + (uint8_t)lhd] & (uint8_t)tag)), 
+            static_cast<uint8_t>((buf[(uint8_t)i + (uint8_t)rhd] & (uint8_t)tag))
         };
 
         temp.assign((wchar_t*)temp_wchar, 1);
