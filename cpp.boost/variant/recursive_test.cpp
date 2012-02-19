@@ -38,7 +38,7 @@ int main(int , char* [])
   typedef boost::make_recursive_variant<
     int, 
     std::vector<boost::recursive_variant_>
-    >::type var_t;
+  >::type var_t;
 
   std::vector<var_t> vec;
   vec.push_back(3);
