@@ -220,13 +220,14 @@ void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys_
     auto  res = carve_unused_area(slba, elba, *key, sv[id].get());
     if (!res.empty())
     {
+      // 1. indivisual file
       string to_save = str(format("/Users/yielding/Desktop/deleted/%d.bin") % slba);
       ofstream ofs;
       ofs.open(to_save.c_str(), ios_base::binary);
       ofs.write(res, res.size());
-      // res.second is buffer
-      // 1. write buffer to disk files
-      // 2. update image from clba
+
+      // 2. update image
+      // m_volume->write(slba*m_block_size, res);
     }
   }
 }
