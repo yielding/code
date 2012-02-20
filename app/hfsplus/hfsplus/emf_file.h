@@ -25,7 +25,7 @@ public:
 public:
   void decrypt_file();
   
-  auto decrypt_partial(uint32_t lba, ByteBuffer& buffer)
+  auto decrypt_buffer(uint32_t lba, ByteBuffer& buffer)
     -> ByteBuffer&;
 
   static bool decrypted_correctly(ByteBuffer& buffer);

@@ -12,7 +12,10 @@ int main(int argc, char const* argv[])
     return 1;
   
   v.decrypt_all_files();
-  v.undelete("/Users/yielding/Desktop/deleted");
+  v.carve_data_to("/Users/yielding/Desktop/deleted");
+  v.carve_unused_area_by_filename("sms.db");
+
+  // v.undelete();
   
   /**/
   

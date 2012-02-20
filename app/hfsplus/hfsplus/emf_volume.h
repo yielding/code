@@ -99,7 +99,7 @@ public:
   void decrypt_all_files();
   bool decrypt_file(CatalogRecord const& r);
 
-  void undelete(std::string const&);
+  void undelete();
   
   auto iv_for_lba(uint32_t lba, uint32_t* iv, bool add=true) -> void;
 
@@ -108,6 +108,10 @@ public:
   
   auto unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key)
     -> std::pair<bool, HFSKey>;
+
+  void carve_data_to(std::string const& s);
+
+  void carve_unused_area_by_filename(std::string const& s);
 
   virtual auto protection_version() 
     -> int16_t  { return m_protect_version; }
@@ -142,9 +146,10 @@ private:
   HFSCatalogNodeID m_metadata_dir;
 
 private:
+  std::string m_carve_dir;
   std::vector<std::string> m_not_encrypted;
   std::set<CatalogRecord> m_active_files;
-  std::set<HFSKey> m_active_file_keys;
+  std::map<std::string, HFSKey> m_active_file_keys;
   std::set<uint32_t> m_decrypted_lbas;
 
   uint32_t m_decrypted_count;

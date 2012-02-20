@@ -2,10 +2,14 @@
 #include <vector>
 #include <algorithm>
 #include <boost/shared_ptr.hpp>
+
+#include <boost/phoenix/core.hpp>
+#include <boost/phoenix/object/new.hpp>
+#include <boost/phoenix/object/delete.hpp>
+#include <boost/phoenix/object/construct.hpp>
+#include <boost/phoenix/operator.hpp>
+
 #include <boost/detail/lightweight_test.hpp>
-#include <boost/spirit/include/phoenix_core.hpp>
-#include <boost/spirit/include/phoenix_object.hpp>
-#include <boost/spirit/include/phoenix_operator.hpp>
 
 using namespace boost::phoenix;
 using namespace boost::phoenix::arg_names;
@@ -31,7 +35,6 @@ int main()
   for_each(v.begin(), v.end(), arg1 = new_<X>(1, 2, 3));
   for_each(v.begin(), v.end(), delete_(arg1));
 
-  //using boost::shared_ptr;
   typedef boost::shared_ptr<X> Xsp;
 
   vector<Xsp> v1(10);
