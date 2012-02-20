@@ -18,11 +18,12 @@ TODO
 DOING
 =====
  1. verification
+    * brute_force 검증
 
  2. refactoring
 
  3. implemantation
-    brute_force 방법을 기존대로 구현하기.
+    * jpeg이외의 다른 signature carving.
 
 DONE
 ====
@@ -40,6 +41,7 @@ DONE
     * read_leaf_record
 
  3. implemantation
+    * brute_force 방법을 기존대로 구현하기.
     * read_empty_space는 btree의 사용하지 않는 노드를 carving하는 함수
       현재 테스트 이미지에는 데이타가 없음
       데이타가 하나도 없음 

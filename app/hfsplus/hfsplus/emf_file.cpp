@@ -86,7 +86,7 @@ uint32_t EMFFile::start_lba()
   return m_extents[0].startBlock;
 }
 
-auto EMFFile::decrypt_partial(uint32_t lba, ByteBuffer& buffer)
+auto EMFFile::decrypt_buffer(uint32_t lba, ByteBuffer& buffer)
   -> ByteBuffer&
 {
   return process_block(lba, buffer, buffer.size());

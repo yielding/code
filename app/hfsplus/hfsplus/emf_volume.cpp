@@ -198,8 +198,10 @@ void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys_
     {
       auto b = bf;
       EMFFile ef(this, *kb, m_protect_version);
-      ef.decrypt_partial(lba, b);
+      ef.decrypt_buffer(lba, b);
 
+      // TODO replace vector<signature> with map<signature>
+      // and use phoenix with at_c expression
       auto it = find_if(sv.begin(), sv.end(), bind(&Signature::match_head, _1, b));
       if (it == sv.end())
         continue;
@@ -209,15 +211,16 @@ void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys_
   }
   
   // 2. signature carving
-  for (uint32_t i=0; i<pts.size()-1; i++)
+  for (uint32_t i=0; i<pts.size(); i++)
   {
-    auto slba = pts[i].lba, elba = pts[i+1].lba;
+    auto slba = pts[i].lba;
+    auto elba = (pts.size() == 1) ? slba + 100 : pts[i+1].lba;
     auto   id = pts[i].id;
     auto  key = pts[i].key;
     auto  res = carve_unused_area(slba, elba, *key, sv[id].get());
     if (!res.empty())
     {
-      string to_save = str(format("/Users/yielding/Desktop/deleted/%d") % slba);
+      string to_save = str(format("/Users/yielding/Desktop/deleted/%d.bin") % slba);
       ofstream ofs;
       ofs.open(to_save.c_str(), ios_base::binary);
       ofs.write(res, res.size());
@@ -236,7 +239,7 @@ auto EMFVolume::carve_unused_area(uint32_t slba, uint32_t elba, HFSKey const& ke
   auto buffer = read(slba*m_block_size, m_block_size);
 
   EMFFile ef(this, key, m_protect_version);
-  ef.decrypt_partial(slba, buffer);
+  ef.decrypt_buffer(slba, buffer);
   carved.append(buffer);
   
   auto count = sig->head_count(buffer);
@@ -250,7 +253,7 @@ auto EMFVolume::carve_unused_area(uint32_t slba, uint32_t elba, HFSKey const& ke
   {
     auto b0 = read(slba*m_block_size, m_block_size);
     EMFFile ef0(this, key, m_protect_version);
-    ef0.decrypt_partial(slba, buffer);
+    ef0.decrypt_buffer(slba, buffer);
     carved.append(b0);
     if (sig->match_tail(b0))
       count--;
