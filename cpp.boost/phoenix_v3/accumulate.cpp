@@ -13,7 +13,7 @@ int main(int argc, char const* argv[])
   vector<int> v = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
   int init = 0;
-  cout << accumulate(v.begin(), v.end(), init, arg1 + arg2);
+  cout << accumulate(v.begin(), v.end(), init, _1 + _2);
   
   return 0;
 }
