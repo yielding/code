@@ -89,7 +89,7 @@ uint32_t EMFFile::start_lba()
 auto EMFFile::decrypt_buffer(uint32_t lba, ByteBuffer& buffer)
   -> ByteBuffer&
 {
-  process_block(lba, buffer, buffer.size());
+  return process_block(lba, buffer, buffer.size());
 }
 
 auto EMFFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)

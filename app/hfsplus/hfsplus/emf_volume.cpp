@@ -50,6 +50,13 @@ namespace {
     
     return new_name;
   }
+
+  void write_file(string const& path, ByteBuffer& buffer)
+  {
+    ofstream ofs;
+    ofs.open(path.c_str(), ios_base::binary);
+    ofs.write(buffer, buffer.size());
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +69,7 @@ EMFVolume::EMFVolume()
   , m_lba_offset(0)
   , m_class_keys_bitset(0)
   , m_class_keys(MAX_CLASS_KEYS)
+  , m_carve_dir("")
 {}
 
 EMFVolume::~EMFVolume()
@@ -152,9 +160,7 @@ void EMFVolume::undelete_based_on_journal(ByteBuffer& jnl
       auto buffer = ef.read_all_to_buffer();
       if (ef.decrypted_correctly(buffer))
       {
-        ofstream ofs;
-        ofs.open(to_save.c_str(), ios_base::binary);
-        ofs.write(buffer, buffer.size());
+        write_file(to_save, buffer);
         m_decrypted_lbas.insert(ef.start_lba());
         
         keys.erase(jt++);
@@ -191,6 +197,12 @@ void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys_
     if (block_in_use(uint32_t(lba)))
       continue;
 
+    if (m_decrypted_lbas.find(lba) != m_decrypted_lbas.end())
+    {
+      m_decrypted_lbas.insert(lba);
+      continue;
+    }
+
     auto bf = read(lba * m_block_size, 16);
     auto kb = keys.begin();
     auto ke = keys.end();
@@ -221,10 +233,8 @@ void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys_
     if (!res.empty())
     {
       // 1. indivisual file
-      string to_save = str(format("/Users/yielding/Desktop/deleted/%d.bin") % slba);
-      ofstream ofs;
-      ofs.open(to_save.c_str(), ios_base::binary);
-      ofs.write(res, res.size());
+      auto to_save = str(format("%s/%d.bin") % m_carve_dir % slba);
+      write_file(to_save, res);
 
       // 2. update image
       // m_volume->write(slba*m_block_size, res);
@@ -264,7 +274,7 @@ auto EMFVolume::carve_unused_area(uint32_t slba, uint32_t elba, HFSKey const& ke
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void EMFVolume::undelete(string const& save_path)
+void EMFVolume::undelete()
 {
   // use this cache to prevent double decryption of same allocation block
   m_decrypted_lbas.clear();
@@ -274,7 +284,7 @@ void EMFVolume::undelete(string const& save_path)
   auto files   = carved.first;
   auto key_map = carved.second;
   
-  undelete_based_on_journal(jnl, files, key_map, save_path);
+  undelete_based_on_journal(jnl, files, key_map, m_carve_dir);
 
   HFSKeys keys;
   for (auto it=key_map.begin(); it!=key_map.end(); ++it)
@@ -286,8 +296,7 @@ void EMFVolume::undelete(string const& save_path)
   // TODO
   // carve more keys from other positions
   // 
-
-  undelete_based_on_unused_area(keys, save_path);
+  undelete_based_on_unused_area(keys, m_carve_dir);
 }
 
 void EMFVolume::decrypt_all_files()
@@ -306,7 +315,7 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
     return false;
 
   auto name = rec.key.nodeName.to_s();
-  // TODO: Debug
+  // REMARK: for Debug
   // cout << name << endl;
   
   auto cprotect = m_attribute_tree->get_attribute(rec.data.file.fileID, 
@@ -328,7 +337,7 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
 //  ef.decrypt_file();
 
   m_active_files.insert(rec);
-  m_active_file_keys.insert(fk);
+  m_active_file_keys[name] = fk;
   m_decrypted_count++;
   
   return true;
@@ -505,6 +514,47 @@ auto EMFVolume::carve_tree_node(ByteBuffer& journal, uint32_t node_size)
   }
 
   return result;
+}
+
+void EMFVolume::carve_data_to(std::string const& s)
+{
+  if (!fs::exists(s))
+    throw runtime_error(str(format("directory [%s] not exists") %s));
+
+  m_carve_dir = s;
+}
+
+void EMFVolume::carve_unused_area_by_filename(std::string const& name)
+{
+  if (m_active_file_keys.find(name) == m_active_file_keys.end())
+    return;
+
+  auto const& key = m_active_file_keys[name];
+
+  auto start = uint32_t((m_journal_offset + m_journal_size) / m_block_size);
+  for (uint32_t lba=start; lba<m_header.totalBlocks; ++lba)
+  {
+    if (block_in_use(uint32_t(lba)))
+      continue;
+
+    if (m_decrypted_lbas.find(lba) != m_decrypted_lbas.end())
+    {
+      m_decrypted_lbas.insert(lba);
+      continue;
+    }
+
+    auto bf = read(lba * m_block_size, 16);
+    auto b = bf;
+    EMFFile ef(this, key, m_protect_version);
+    ef.decrypt_buffer(lba, b);
+
+    auto it = find_if(sv.begin(), sv.end(), bind(&Signature::match_head, _1, b));
+    if (it == sv.end())
+      continue;
+
+    auto path = str(format("%s/%s_%d.bin") % m_carve_dir % name % lba);
+    write_file(path, res);
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
