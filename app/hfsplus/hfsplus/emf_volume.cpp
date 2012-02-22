@@ -548,12 +548,12 @@ void EMFVolume::carve_unused_area_by_filename(std::string const& name)
     EMFFile ef(this, key, m_protect_version);
     ef.decrypt_buffer(lba, b);
 
-    auto it = find_if(sv.begin(), sv.end(), bind(&Signature::match_head, _1, b));
-    if (it == sv.end())
-      continue;
+//    auto it = find_if(sv.begin(), sv.end(), bind(&Signature::match_head, _1, b));
+//    if (it == sv.end())
+//      continue;
 
     auto path = str(format("%s/%s_%d.bin") % m_carve_dir % name % lba);
-    write_file(path, res);
+    write_file(path, b);
   }
 }
 
