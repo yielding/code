@@ -36,7 +36,7 @@ namespace {
 
   std::string get_new_filepath(string const&name, string const& folder)
   {
-    int idx = 0;
+    int idx = 0;  
     string new_name;
 
     do 
@@ -55,6 +55,13 @@ namespace {
   {
     ofstream ofs;
     ofs.open(path.c_str(), ios_base::binary);
+    ofs.write(buffer, buffer.size());
+  }
+  
+  void write_file2(string const& path, ByteBuffer& buffer)
+  {
+    ofstream ofs;
+    ofs.open(path.c_str(), ios_base::binary | ios_base::app | ios_base::ate);
     ofs.write(buffer, buffer.size());
   }
 }
@@ -556,9 +563,14 @@ void EMFVolume::carve_unused_area_by_filename(std::string const& name)
     write_file(path, b);
   }
 }
-    
+
 void EMFVolume::carve_node_slacks_to(std::string const& s)
 {
+  auto path = "/Users/yielding/Desktop/a.bin";
+  
+  m_catalog_tree->traverse_leaf_slacks(
+      bind(&write_file2, path, _1));
+
 //  m_catalog_tree->traverse_leaf_slacks(
 //      bind(&EMFVolume::carve_node_free_area, this, _1));
 

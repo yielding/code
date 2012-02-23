@@ -74,7 +74,7 @@ public:
   typedef typename BTreeTraits<HFSTree>::Record Record;
   typedef typename BTreeTraits<HFSTree>::SearchKey SearchKey;
 
-  typedef boost::function<bool(ByteBuffer&)> Callback1;
+  typedef boost::function<void(ByteBuffer&)> Callback1;
 
   typedef boost::function<bool(Record)> Callback2;
   
@@ -267,11 +267,11 @@ auto BTree<HFSTree>::read_btree_unused_rec(uint32_t node_no)
   -> ByteBuffer
 {
   auto node_buffer = read_node(node_no);
-  BTNodeDescriptor btnode(node_buffer);
+  BTNodeDescriptor btnode(node_buffer); m_last_btnode = btnode;
 
   auto offsets = read_offsets(btnode, node_buffer);
 
-  auto from = offsets[btnode.numRecords-1];
+  auto from = offsets[0];
   auto to   = node_buffer.size() - offsets.size() * 2;
   return node_buffer.slice(from, to);
 }
@@ -417,6 +417,7 @@ auto BTree<HFSTree>::traverse_leaf_slacks(Callback1 call) -> void
   while (node_no != 0)
   {
     auto buffer = read_btree_unused_rec(node_no);
+    // cout << node_no << endl;
     call(buffer);
     node_no = m_last_btnode.fLink;
   }
