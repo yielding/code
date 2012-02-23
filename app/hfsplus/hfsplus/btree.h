@@ -74,6 +74,8 @@ public:
   typedef typename BTreeTraits<HFSTree>::Record Record;
   typedef typename BTreeTraits<HFSTree>::SearchKey SearchKey;
 
+  typedef boost::function<bool(ByteBuffer&)> Callback1;
+
   typedef boost::function<bool(Record)> Callback2;
   
 public:
@@ -95,12 +97,15 @@ public:
     -> uint32_t;
   
   auto traverse_leaf_nodes(Callback2 call) -> uint32_t;
-  
+
   auto node_size() -> uint16_t { return m_header_record.nodeSize; }
+
+  auto traverse_leaf_slacks(Callback1 call) -> void;
 
 protected:
   auto read_node(uint32_t node_no) -> ByteBuffer;
   auto read_btree_node(uint32_t node_no) -> Node;
+  auto read_btree_unused_rec(uint32_t node_no) -> ByteBuffer;
   auto read_offsets(BTNodeDescriptor const& btnode, ByteBuffer& buffer)
     -> vector<uint16_t>;
 
@@ -257,6 +262,20 @@ auto BTree<HFSTree>::read_btree_node(uint32_t node_no)
   return node;
 }
 
+template <typename HFSTree>
+auto BTree<HFSTree>::read_btree_unused_rec(uint32_t node_no) 
+  -> ByteBuffer
+{
+  auto node_buffer = read_node(node_no);
+  BTNodeDescriptor btnode(node_buffer);
+
+  auto offsets = read_offsets(btnode, node_buffer);
+
+  auto from = offsets[btnode.numRecords-1];
+  auto to   = node_buffer.size() - offsets.size() * 2;
+  return node_buffer.slice(from, to);
+}
+
 template <typename HFSTree> template <typename RecordT>
 auto BTree<HFSTree>::read_index_record(ByteBuffer& buffer, uint32_t offset) const 
   -> RecordT 
@@ -386,6 +405,21 @@ auto BTree<HFSTree>::traverse(uint32_t node_no_, Callback& call, uint32_t count)
   }
   
   return count;
+}
+
+template <typename HFSTree>
+auto BTree<HFSTree>::traverse_leaf_slacks(Callback1 call) -> void
+{
+  if (call.empty())
+    return;
+  
+  auto node_no = m_header_record.firstLeafNode;
+  while (node_no != 0)
+  {
+    auto buffer = read_btree_unused_rec(node_no);
+    call(buffer);
+    node_no = m_last_btnode.fLink;
+  }
 }
 
 template <typename HFSTree>

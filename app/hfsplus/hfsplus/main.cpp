@@ -14,7 +14,7 @@ int main(int argc, char const* argv[])
   v.decrypt_all_files();
   v.carve_data_to("/Users/yielding/Desktop/deleted");
   v.carve_unused_area_by_filename("sms.db");
-
+  v.carve_node_slacks_to("/Users/yielding/Desktop/deleted");
   // v.undelete();
   
   /**/

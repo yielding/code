@@ -113,6 +113,8 @@ public:
 
   void carve_unused_area_by_filename(std::string const& s);
 
+  void carve_node_slacks_to(std::string const& s);
+
   virtual auto protection_version() 
     -> int16_t  { return m_protect_version; }
   
