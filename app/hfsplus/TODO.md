@@ -25,6 +25,7 @@ DOING
  3. implemantation
     * jpeg이외의 다른 signature carving.
     * 문자메시지 파일의 key carving
+    * curve25519 구현 
 
 DONE
 ====

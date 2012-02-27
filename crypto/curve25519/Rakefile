@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+SRCS      = %w{ ./curve25519-donna.cpp 
+                ./ByteBuffer.cpp
+                ./main.cpp }
+TEST_SRCS = %w{ ./test_curve25519-donna.cpp }
+APP       = "curve25519"
+CXX       = "c++11"
+CXXFLAGS  = ":d"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
