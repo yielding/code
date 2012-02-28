@@ -21,9 +21,10 @@ int main()
   base_iterator numbers(numbers_);
 
   // Example using make_filter_iterator()
-  copy(make_filter_iterator<is_positive_number>(numbers, numbers+N),
-       make_filter_iterator<is_positive_number>(numbers+N, numbers+N),
-      ostream_iterator<int>(cout, " "));
+  auto beg = make_filter_iterator<is_positive_number>(numbers, numbers+N);
+  auto end = make_filter_iterator<is_positive_number>(numbers+N, numbers+N);
+  
+  copy(beg, end, ostream_iterator<int>(cout, " "));
   cout << endl;
 
   // Example using filter_iterator

@@ -7,6 +7,7 @@ TEST_SRCS = %w{ ./test_curve25519-donna.cpp }
 APP       = "curve25519"
 CXX       = "c++11"
 CXXFLAGS  = ":d"
+LIBS      = "ssl crypto"
 
 DIR = File.dirname __FILE__
 

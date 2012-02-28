@@ -566,11 +566,16 @@ void EMFVolume::carve_unused_area_by_filename(std::string const& name)
 
 void EMFVolume::carve_node_slacks_to(std::string const& s)
 {
-  auto path = "/Users/yielding/Desktop/a.bin";
+  auto path1 = "/Users/yielding/Desktop/work/a.bin";
+  auto path2 = "/Users/yielding/Desktop/work/b.bin";
   
   m_catalog_tree->traverse_leaf_slacks(
-      bind(&write_file2, path, _1));
+      bind(&write_file2, path1, _1));
 
+  m_attribute_tree->traverse_leaf_slacks(
+      bind(&write_file2, path2, _1));
+
+  
 //  m_catalog_tree->traverse_leaf_slacks(
 //      bind(&EMFVolume::carve_node_free_area, this, _1));
 

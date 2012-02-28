@@ -8,13 +8,13 @@ int main(int argc, char const* argv[])
 {
   /**/
   EMFVolume v;
-  if (!v.open("/Users/yielding/Desktop/20120117__IPHONE4_Physical_.nsi00"))
+  if (!v.open("/Users/yielding/Desktop/work/2nd_deleted_IPHONE4_Physical_20120227.mdf00"))
     return 1;
   
   // v.decrypt_all_files();
   // v.carve_data_to("/Users/yielding/Desktop/deleted");
   // v.carve_unused_area_by_filename("sms.db");
-  v.carve_node_slacks_to("/Users/yielding/Desktop/deleted");
+  v.carve_node_slacks_to("/Users/yielding/Desktop/work/deleted");
   // v.undelete();
   
   /**/

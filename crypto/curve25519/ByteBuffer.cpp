@@ -141,38 +141,43 @@ auto ByteBuffer::reserve(size_t sz) -> size_t
 
 auto ByteBuffer::from_hexcode(string const& str, bool is_be) -> ByteBuffer
 {
-  using namespace boost;
-  ByteBuffer result;
+    using namespace boost;
+    ByteBuffer result;
 
-  if (str.length() % 2 == 0 && all(str, is_xdigit()))
-  {
-    int size = int(str.length() / 2);
-    for (int i=0; i<size; ++i)
+    if (str.length() % 2 == 0 && all(str, is_xdigit()))
     {
-      std::string in = is_be 
-        ? str.substr((size - (i + 1)) * 2, 2)
-        : str.substr(i * 2, 2);
+        int size = int(str.length() / 2);
+        for (int i=0; i<size; ++i)
+        {
+            std::string in = is_be 
+                ? str.substr((size - (i + 1)) * 2, 2)
+                : str.substr(i * 2, 2);
 
-      std::istringstream strm(in);
-      uint32_t tmp; strm >> std::hex >> tmp;
-      result.append((uint8_t)tmp);
+            std::istringstream strm(in);
+            uint32_t tmp; strm >> std::hex >> tmp;
+            result.append((uint8_t)tmp);
+        }
     }
-  }
 
-  return result;
+    return result;
 }
 
 auto ByteBuffer::to_hexcode(vector<uint8_t> const& code, bool is_be) -> string
 {
-  buffer_t b;
-  is_be ? reverse_copy(code.begin(), code.end(), back_inserter(b))
-        :         copy(code.begin(), code.end(), back_inserter(b));
+    buffer_t b;
+    is_be ? reverse_copy(code.begin(), code.end(), back_inserter(b))
+          :         copy(code.begin(), code.end(), back_inserter(b));
 
-  ostringstream ss;
-  ss << setw(2) << setfill('0') << std::hex;
-  copy(b.begin(), b.end(), ostream_iterator<unsigned int>(ss, ""));
+    ostringstream ss;
+    for (int i=0; i<b.size(); i++)
+      ss << setw(2) << setfill('0') << std::hex << (unsigned)b[i];
 
-  return ss.str();
+//    ss.setf(ios_base::hex);
+//    ss.width(2);
+//    ss.fill('0');
+//    copy(b.begin(), b.end(), ostream_iterator<unsigned int>(ss, ""));
+
+    return ss.str();
 }
 
 auto ByteBuffer::append(ByteBuffer& buffer) -> ByteBuffer&

@@ -18,8 +18,10 @@ struct node_base
   }
 
   virtual void print(std::ostream& s) const = 0;
+
   virtual void double_me() = 0;
 
+  // smart code;
   void append(node_base* p)
   {
     if (m_next)

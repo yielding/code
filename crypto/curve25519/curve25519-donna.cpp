@@ -18,9 +18,8 @@ static void fsum(felem *output, const felem *in)
 static void fdifference(felem *output, const felem *in)
 {
   unsigned i;
-  for (i = 0; i < 10; ++i) {
+  for (i = 0; i < 10; ++i)
     output[i] = (in[i] - output[i]);
-  }
 }
 
 /* Multiply a number my a scalar: output = in * scalar */
@@ -188,15 +187,15 @@ fmul(felem *output, const felem *in, const felem *in2) {
 }
 
 static void fsquare_inner(felem *output, const felem *in) {
-  output[0] =      in[0] * in[0];
-  output[1] =  2 * in[0] * in[1];
+  output[0] =       in[0] * in[0];
+  output[1] =  2 *  in[0] * in[1];
   output[2] =  2 * (in[1] * in[1] +
                     in[0] * in[2]);
   output[3] =  2 * (in[1] * in[2] +
                     in[0] * in[3]);
-  output[4] =      in[2] * in[2] +
-               4 * in[1] * in[3] +
-               2 * in[0] * in[4];
+  output[4] =       in[2] * in[2] +
+               4 *  in[1] * in[3] +
+               2 *  in[0] * in[4];
   output[5] =  2 * (in[2] * in[3] +
                     in[1] * in[4] +
                     in[0] * in[5]);
@@ -208,41 +207,41 @@ static void fsquare_inner(felem *output, const felem *in) {
                     in[2] * in[5] +
                     in[1] * in[6] +
                     in[0] * in[7]);
-  output[8] =      in[4] * in[4] +
+  output[8] =       in[4] * in[4] +
                2 * (in[2] * in[6] +
                     in[0] * in[8] +
-                2 * (in[1] * in[7] +
-                     in[3] * in[5]));
+               2 * (in[1] * in[7] +
+                    in[3] * in[5]));
   output[9] =  2 * (in[4] * in[5] +
                     in[3] * in[6] +
                     in[2] * in[7] +
                     in[1] * in[8] +
                     in[0] * in[9]);
   output[10] = 2 * (in[5] * in[5] +
-                   in[4] * in[6] +
-                   in[2] * in[8] +
-                2 * (in[3] * in[7] +
-                     in[1] * in[9]));
+                    in[4] * in[6] +
+                    in[2] * in[8] +
+               2 * (in[3] * in[7] +
+                    in[1] * in[9]));
   output[11] = 2 * (in[5] * in[6] +
                     in[4] * in[7] +
                     in[3] * in[8] +
                     in[2] * in[9]);
-  output[12] =     in[6] * in[6] +
+  output[12] =      in[6] * in[6] +
                2 * (in[4] * in[8] +
-                2 * (in[5] * in[7] +
-                     in[3] * in[9]));
+               2 * (in[5] * in[7] +
+                    in[3] * in[9]));
   output[13] = 2 * (in[6] * in[7] +
                     in[5] * in[8] +
                     in[4] * in[9]);
   output[14] = 2 * (in[7] * in[7] +
                     in[6] * in[8] +
-                2 * in[5] * in[9]);
+               2 *  in[5] * in[9]);
   output[15] = 2 * (in[7] * in[8] +
                     in[6] * in[9]);
-  output[16] =     in[8] * in[8] +
-               4 * in[7] * in[9];
-  output[17] = 2 * in[8] * in[9];
-  output[18] = 2 * in[9] * in[9];
+  output[16] =      in[8] * in[8] +
+               4 *  in[7] * in[9];
+  output[17] = 2 *  in[8] * in[9];
+  output[18] = 2 *  in[9] * in[9];
 }
 
 static void
