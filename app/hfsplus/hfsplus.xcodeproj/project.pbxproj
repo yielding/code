@@ -10,6 +10,8 @@
 		DF1117F114DB726700363D88 /* attribute_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF1117EF14DB726700363D88 /* attribute_btree.cpp */; };
 		DF12D82D14D8D15200D9B578 /* unicode_compare.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82C14D8D15200D9B578 /* unicode_compare.cpp */; };
 		DF12D83114D9026600D9B578 /* extents_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82F14D9026600D9B578 /* extents_btree.cpp */; };
+		DF7AF47814FDC69C00A7A01C /* key_bag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF7AF47614FDC69C00A7A01C /* key_bag.cpp */; };
+		DF7AF47C14FDC86400A7A01C /* hfs_key.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF7AF47A14FDC86400A7A01C /* hfs_key.cpp */; };
 		DF8F7D4614EBAD240055A3E9 /* signature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8F7D4414EBAD240055A3E9 /* signature.cpp */; };
 		DF97ADDF14C01ED700739F5A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF97ADDE14C01ED700739F5A /* main.cpp */; };
 		DF97ADE114C01ED700739F5A /* hfsplus.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DF97ADE014C01ED700739F5A /* hfsplus.1 */; };
@@ -50,6 +52,10 @@
 		DF12D82F14D9026600D9B578 /* extents_btree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = extents_btree.cpp; sourceTree = "<group>"; };
 		DF12D83014D9026600D9B578 /* extents_btree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extents_btree.h; sourceTree = "<group>"; };
 		DF13C20314D766AF0027BB8A /* hfs_volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hfs_volume.h; sourceTree = "<group>"; };
+		DF7AF47614FDC69C00A7A01C /* key_bag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = key_bag.cpp; sourceTree = "<group>"; };
+		DF7AF47714FDC69C00A7A01C /* key_bag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = key_bag.h; sourceTree = "<group>"; };
+		DF7AF47A14FDC86400A7A01C /* hfs_key.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hfs_key.cpp; sourceTree = "<group>"; };
+		DF7AF47B14FDC86400A7A01C /* hfs_key.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hfs_key.h; sourceTree = "<group>"; };
 		DF8F7D4414EBAD240055A3E9 /* signature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = signature.cpp; sourceTree = "<group>"; };
 		DF8F7D4514EBAD240055A3E9 /* signature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = signature.h; sourceTree = "<group>"; };
 		DF97ADDA14C01ED700739F5A /* hfsplus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hfsplus; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +123,10 @@
 		DF97ADDD14C01ED700739F5A /* hfsplus */ = {
 			isa = PBXGroup;
 			children = (
+				DF7AF47A14FDC86400A7A01C /* hfs_key.cpp */,
+				DF7AF47B14FDC86400A7A01C /* hfs_key.h */,
+				DF7AF47614FDC69C00A7A01C /* key_bag.cpp */,
+				DF7AF47714FDC69C00A7A01C /* key_bag.h */,
 				DF8F7D4414EBAD240055A3E9 /* signature.cpp */,
 				DF8F7D4514EBAD240055A3E9 /* signature.h */,
 				DFA0510514C02269000B475C /* develop */,
@@ -224,6 +234,8 @@
 				DFE2117814DF9A2E004B7B52 /* PTreeParser.cpp in Sources */,
 				DFE2117C14DFA14D004B7B52 /* HexUtil.cpp in Sources */,
 				DF8F7D4614EBAD240055A3E9 /* signature.cpp in Sources */,
+				DF7AF47814FDC69C00A7A01C /* key_bag.cpp in Sources */,
+				DF7AF47C14FDC86400A7A01C /* hfs_key.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -340,8 +340,8 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
   if (!res)
     return false;
   
-//  EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk);
-//  ef.decrypt_file();
+  EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk);
+  ef.decrypt_file();
 
   m_active_files.insert(rec);
   m_active_file_keys[name] = fk;

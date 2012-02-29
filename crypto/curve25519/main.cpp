@@ -10,6 +10,10 @@
 using namespace std;
 using namespace utility::hex;
 
+void curve25519()
+{
+}
+
 int main(int argc, char const* argv[])
 {
   auto z           = ByteBuffer::from_hexcode("04000000080000000200000048000000000000000000000000000000000000000000000002917dc2542198edeb1078c4d1ebab74d9ca87890657ba02b9825dadf20a002f44360c6f87743fac0236df1f9eedbea801e31677aef3a09adfb4e10a37ae27facf419ab3ea3f39f4");
@@ -55,4 +59,3 @@ int main(int argc, char const* argv[])
 
   return 0;
 }
-

@@ -3,10 +3,9 @@
 
 #include "hfs_volume.h"
 #include "emf.h"
+#include "hfs_key.h"
 
-#include <openssl/aes.h>
 #include <map>
-#include <set>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -14,54 +13,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 typedef BTreeRecord<HFSPlusCatalogKey, HFSPlusCatalogData> CatalogRecord;
 typedef BTreeNode<CatalogRecord> CatalogNode;
-
-struct HFSKey
-{
-  HFSKey(uint32_t sz=32): m_size(sz)
-  {
-    memset(m_fk, 0x00, sz);
-  }
-
-  HFSKey(HFSKey const& rhs)
-  {
-    if (this != &rhs)
-    {
-      m_size   = rhs.m_size;
-      m_aeskey = rhs.m_aeskey;
-      memcpy(m_fk, rhs.m_fk, m_size);
-    }
-  }
-
-  bool operator<(HFSKey const& rhs) const
-  {
-    return memcmp(m_fk, rhs.m_fk, 32) < 0;
-  }
-
-  void set_decrypt(uint8_t* fk_, uint32_t sz=32)
-  { 
-    m_size = sz;
-    memcpy(m_fk, fk_, m_size); 
-    AES_set_decrypt_key(m_fk, m_size*8, &m_aeskey);
-  }
-
-  void set_encrypt(uint8_t* fk_, uint32_t sz=32)
-  { 
-    m_size = sz;
-    memcpy(m_fk, fk_, m_size); 
-    AES_set_encrypt_key(m_fk, m_size*8, &m_aeskey);
-  }
-
-  auto size()      -> size_t   { return m_size;   }
-  auto as_aeskey() -> AES_KEY& { return m_aeskey; }
-  auto as_buffer() -> uint8_t* { return m_fk;     }
-
-private:
-  AES_KEY  m_aeskey;
-  uint32_t m_size;
-  uint8_t  m_fk[32];
-};
-
-typedef std::set<HFSKey> HFSKeys;
 
 struct CarvePoint
 {
@@ -79,7 +30,6 @@ struct CarvePoint
 };
 
 typedef std::vector<CarvePoint> CarvePoints;
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 //

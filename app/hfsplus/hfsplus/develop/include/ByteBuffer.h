@@ -40,6 +40,9 @@ public:  // operators
     operator char const*()     { return (char const*)m_buffer.data(); }
     operator void const*()     { return (void const*)m_buffer.data(); }
 
+public:
+  std::string to_str()         { return std::string((char const*)m_buffer.data(), m_buffer.size()); }
+  
 public:  // query
     bool    has_remaining();
     int64_t remaining();

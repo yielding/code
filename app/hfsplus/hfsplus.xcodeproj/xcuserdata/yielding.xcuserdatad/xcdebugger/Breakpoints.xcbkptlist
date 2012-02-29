@@ -54,5 +54,18 @@
          landmarkName = "EMFVolume::undelete_based_on_unused_area(HFSKeys const&amp; keys_ , string const&amp; save_path)"
          landmarkType = "5">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "hfsplus/emf_volume.cpp"
+         timestampString = "352169996.028482"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "338"
+         endingLineNumber = "338"
+         landmarkName = "EMFVolume::decrypt_file(CatalogRecord const&amp; rec)"
+         landmarkType = "5">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>
