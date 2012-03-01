@@ -73,4 +73,3 @@ def sim_pearson(prefs, p1, p2)
 end
 
 puts sim_pearson(critics, 'Lisa Rose', 'Gene Seymour')
-
