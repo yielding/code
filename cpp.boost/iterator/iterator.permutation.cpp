@@ -22,13 +22,15 @@ int main()
   static const int index_size = 4;
 
   element_range_type elements(element_range_size);
-  element_range_type::iterator el_it=elements.begin();
-  for (; el_it != elements.end(); ++el_it)
+  auto  el_it = elements.begin();
+  auto el_end = elements.end();
+  for (; el_it != el_end; ++el_it)
     *el_it = distance(elements.begin(), el_it);
 
   index_type indices(index_size);
-  index_type::iterator i_it = indices.begin();
-  for (; i_it != indices.end(); ++i_it) 
+  auto  i_it = indices.begin();
+  auto i_end = indices.end();
+  for (; i_it != i_end; ++i_it) 
     *i_it = element_range_size - index_size + distance(indices.begin(), i_it);
 
   reverse(indices.begin(), indices.end());

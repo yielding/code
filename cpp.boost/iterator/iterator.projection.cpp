@@ -3,7 +3,7 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/config.hpp>
+// #include <boost/config.hpp>
 #include <list>
 #include <iostream>
 #include <iterator>
@@ -16,7 +16,7 @@ using namespace boost;
 
 struct personnel_record
 {
-  personnel_record(string n, int id) : m_name(n), m_ID(id) { }
+  personnel_record(string n, int id) : m_name(n), m_ID(id) {}
   string m_name;
   int m_ID;
 };
@@ -25,11 +25,13 @@ struct select_name
 {
   typedef personnel_record argument_type;
   typedef string const& result_type;
-  const string& operator()(const personnel_record& r) const {
+  const string& operator()(const personnel_record& r) const 
+  {
     return r.m_name;
   }
 
-  string& operator()(personnel_record& r) const {
+  string& operator()(personnel_record& r) const 
+  {
     return r.m_name;
   }
 };
@@ -38,11 +40,13 @@ struct select_ID
 {
   typedef personnel_record argument_type;
   typedef int& result_type;
-  const int& operator()(const personnel_record& r) const {
+  const int& operator()(const personnel_record& r) const
+  {
     return r.m_ID;
   }
 
-  int& operator()(personnel_record& r) const {
+  int& operator()(personnel_record& r) const 
+  {
     return r.m_ID;
   }
 };
@@ -90,13 +94,13 @@ int main(int, char*[])
   cout << endl;
   cout << endl;
 
-#ifndef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+//#ifndef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
   // Example of using make_transform_iterator()
   // to print out the names in the personnel list again.
   copy(make_transform_iterator<select_name>(personnel_list.begin()) , 
        make_transform_iterator<select_name>(personnel_list.end()) , 
        sout);
-#endif
+//#endif
 
   return 0;
 }
