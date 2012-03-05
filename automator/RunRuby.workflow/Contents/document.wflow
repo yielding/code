@@ -5,7 +5,7 @@
 	<key>AMApplicationBuild</key>
 	<string>330</string>
 	<key>AMApplicationVersion</key>
-	<string>2.2.1</string>
+	<string>2.2.2</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -174,12 +174,10 @@ end</string>
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>373.000000:808.000000</string>
+				<string>309.500000:554.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/ko.lproj/main.nib</string>
 			</dict>
