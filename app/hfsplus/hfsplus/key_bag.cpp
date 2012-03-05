@@ -87,7 +87,7 @@ void KeyBag::init_member()
 }
 
 void KeyBag::parse_binary_blob(ByteBuffer& data)
-{
+{         
   
 }
 
@@ -133,5 +133,5 @@ auto KeyBag::unwrap_filekye_for_class(uint32_t pclass, uint8_t* wrapped_key)
 auto KeyBag::unwrap_curve25519(uint32_t pclass, uint8_t* wrapped_key)
   -> pair<bool, HFSKey>
 {
+  return make_pair(false, HFSKey());
 }
-

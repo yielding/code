@@ -5,6 +5,10 @@ TODO
  2. refactoring
 
  3. implemantation
+    * sms sqlite page carving in the unused area  
+      - regex로 전화번호 pattern 찾기
+      - sms.db key 저장하기
+
     * union 없애기
       BPlistRepr참고해서 variant로 구현한다.
 
@@ -23,6 +27,8 @@ DOING
  2. refactoring
 
  3. implemantation
+    * sms sqlite page carving in the unused area  
+      - 
     * jpeg이외의 다른 signature carving.
     * 문자메시지 파일의 key carving
     * curve25519 구현 

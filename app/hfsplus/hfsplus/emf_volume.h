@@ -5,6 +5,9 @@
 #include "emf.h"
 #include "hfs_key.h"
 
+#include <boost/function.hpp>
+#include <boost/regex.hpp>
+
 #include <map>
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -37,6 +40,8 @@ typedef std::vector<CarvePoint> CarvePoints;
 ////////////////////////////////////////////////////////////////////////////////
 class Signature;
 
+typedef boost::function<bool(uint32_t)> UnusedAreaVisitor;
+
 class EMFVolume: public HFSVolume
 {
 public:
@@ -61,9 +66,7 @@ public:
 
   void carve_data_to(std::string const& s);
 
-  void carve_unused_area_by_filename(std::string const& s);
-
-  void carve_node_slacks_to(std::string const& s);
+  // void carve_node_slacks_to(std::string const& s);
 
   virtual auto protection_version() 
     -> int16_t  { return m_protect_version; }
@@ -71,21 +74,29 @@ public:
   auto emfkey() 
     -> HFSKey&  { return m_emfkey; }
   
+  auto traverse_unused_area(UnusedAreaVisitor) -> bool;
+
 private:
   void undelete_based_on_journal(ByteBuffer& jnl
       , std::vector<CatalogRecord>& files
       , std::map<uint32_t, HFSKeys>&
       , std::string const&);
 
-  void undelete_based_on_unused_area(HFSKeys const& keys, std::string const&);
+  void undelete_unused_area_using(HFSKeys const& keys, std::string const&);
 
+  auto undelete_unused_area_using(std::string const& pattern, std::string const&)
+    -> void;
+  
   auto carve_journal(utility::hex::ByteBuffer& journal)
     -> std::pair<std::vector<CatalogRecord>, std::map<uint32_t, HFSKeys>>;
 
+  
   template <typename RecordT, typename NodeT>
   auto carve_tree_node(ByteBuffer& journal, uint32_t node_size)
     -> NodeT;
 
+  auto carve_lba(uint32_t lba, HFSKey const& key, boost::regex const&) -> bool;
+  
   auto carve_unused_area(uint32_t slba, uint32_t elba, HFSKey const& key, Signature* sig)
     -> ByteBuffer;
 

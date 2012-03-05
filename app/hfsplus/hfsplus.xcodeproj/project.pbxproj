@@ -10,6 +10,7 @@
 		DF1117F114DB726700363D88 /* attribute_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF1117EF14DB726700363D88 /* attribute_btree.cpp */; };
 		DF12D82D14D8D15200D9B578 /* unicode_compare.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82C14D8D15200D9B578 /* unicode_compare.cpp */; };
 		DF12D83114D9026600D9B578 /* extents_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82F14D9026600D9B578 /* extents_btree.cpp */; };
+		DF68DA0C150459A700B863FC /* libboost_regex-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DF68DA0B150459A700B863FC /* libboost_regex-mt.dylib */; };
 		DF7AF47814FDC69C00A7A01C /* key_bag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF7AF47614FDC69C00A7A01C /* key_bag.cpp */; };
 		DF7AF47C14FDC86400A7A01C /* hfs_key.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF7AF47A14FDC86400A7A01C /* hfs_key.cpp */; };
 		DF8F7D4614EBAD240055A3E9 /* signature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8F7D4414EBAD240055A3E9 /* signature.cpp */; };
@@ -52,6 +53,7 @@
 		DF12D82F14D9026600D9B578 /* extents_btree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = extents_btree.cpp; sourceTree = "<group>"; };
 		DF12D83014D9026600D9B578 /* extents_btree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extents_btree.h; sourceTree = "<group>"; };
 		DF13C20314D766AF0027BB8A /* hfs_volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hfs_volume.h; sourceTree = "<group>"; };
+		DF68DA0B150459A700B863FC /* libboost_regex-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_regex-mt.dylib"; path = "../../../../../opt/local/lib/libboost_regex-mt.dylib"; sourceTree = "<group>"; };
 		DF7AF47614FDC69C00A7A01C /* key_bag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = key_bag.cpp; sourceTree = "<group>"; };
 		DF7AF47714FDC69C00A7A01C /* key_bag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = key_bag.h; sourceTree = "<group>"; };
 		DF7AF47A14FDC86400A7A01C /* hfs_key.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hfs_key.cpp; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				DF97AE0014C0202900739F5A /* libboost_system-mt.a in Frameworks */,
 				DFE2117E14DFA332004B7B52 /* libssl.a in Frameworks */,
 				DFE2118014DFA458004B7B52 /* libcrypto.a in Frameworks */,
+				DF68DA0C150459A700B863FC /* libboost_regex-mt.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +106,7 @@
 		DF97ADCF14C01ED700739F5A = {
 			isa = PBXGroup;
 			children = (
+				DF68DA0B150459A700B863FC /* libboost_regex-mt.dylib */,
 				DF97ADFD14C0202000739F5A /* libboost_filesystem-mt.a */,
 				DFE2117D14DFA332004B7B52 /* libssl.a */,
 				DFE2117F14DFA458004B7B52 /* libcrypto.a */,
@@ -247,7 +251,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -274,7 +278,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;

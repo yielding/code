@@ -6,6 +6,7 @@
 #include "HexUtil.h"
 #include "signature.h"
 
+#include <boost/algorithm/string.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
@@ -51,19 +52,13 @@ namespace {
     return new_name;
   }
 
-  void write_file(string const& path, ByteBuffer& buffer)
+  void write_file(string const& path, ByteBuffer& buffer, ios_base::openmode mode=ios_base::binary)
   {
     ofstream ofs;
-    ofs.open(path.c_str(), ios_base::binary);
+    ofs.open(path.c_str(), mode);
     ofs.write(buffer, buffer.size());
   }
   
-  void write_file2(string const& path, ByteBuffer& buffer)
-  {
-    ofstream ofs;
-    ofs.open(path.c_str(), ios_base::binary | ios_base::app | ios_base::ate);
-    ofs.write(buffer, buffer.size());
-  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -180,7 +175,7 @@ void EMFVolume::undelete_based_on_journal(ByteBuffer& jnl
   }
 }
 
-void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys_
+void EMFVolume::undelete_unused_area_using(HFSKeys const& keys_
     , string const& save_path)
 {
   typedef boost::shared_ptr<Signature> signature_ptr;
@@ -199,7 +194,6 @@ void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys_
   // 1. signature position/key/type 획득
   auto start = uint32_t((m_journal_offset + m_journal_size) / m_block_size);
   for (uint32_t lba=start; lba<m_header.totalBlocks; ++lba)
-  //for (uint32_t lba=314115; lba<314117+10000; ++lba)
   {
     if (block_in_use(uint32_t(lba)))
       continue;
@@ -249,7 +243,51 @@ void EMFVolume::undelete_based_on_unused_area(HFSKeys const& keys_
   }
 }
 
-auto EMFVolume::carve_unused_area(uint32_t slba, uint32_t elba, HFSKey const& key, Signature* sig)
+void EMFVolume::undelete_unused_area_using(string const& pattern, string const& fn)
+{
+  regex expr(pattern);
+  if (m_active_file_keys.find(fn) == m_active_file_keys.end())
+    return;
+
+  HFSKey const& key = m_active_file_keys[fn];
+  
+  bool interrupted = traverse_unused_area(bind(&EMFVolume::carve_lba, 
+                                               this, _1, key, expr));
+  if (interrupted)
+  {
+  }
+}
+
+auto EMFVolume::carve_lba(uint32_t lba, HFSKey const& key, regex const& expr)
+  -> bool
+{
+  try
+  {
+    auto buffer = read(lba * m_block_size, m_block_size);
+    EMFFile ef(this, key, m_protect_version);
+    ef.decrypt_buffer(lba, buffer);
+
+    auto page = (uint8_t*)buffer;
+    if (page[0] == 0x0d)
+    {
+      cmatch what;
+      if (regex_match((const char*)page, what, expr))
+      {
+        auto to_save = str(format("%s/%d_pattern.bin") % m_carve_dir % lba);
+        write_file(to_save, buffer); 
+      }
+    }
+  }
+  catch(...)
+  {
+    return false;
+  }
+
+  return true;
+}
+
+auto EMFVolume::carve_unused_area(uint32_t slba, uint32_t elba, 
+                                  HFSKey const& key, Signature* sig)
   -> ByteBuffer
 {
   ByteBuffer carved;
@@ -280,7 +318,6 @@ auto EMFVolume::carve_unused_area(uint32_t slba, uint32_t elba, HFSKey const& ke
   return carved;
 }
 
-////////////////////////////////////////////////////////////////////////////////
 void EMFVolume::undelete()
 {
   // use this cache to prevent double decryption of same allocation block
@@ -300,10 +337,18 @@ void EMFVolume::undelete()
     for (auto jt=key_set.begin(); jt!=key_set.end(); ++jt) keys.insert(*jt);
   }
 
-  // TODO
-  // carve more keys from other positions
+  //
+  // REMARK
+  // We should carve more keys from other positions if possible
+  // but it has turned out that there are no keys available in catalog and attribute tree
   // 
-  undelete_based_on_unused_area(keys, m_carve_dir);
+  // undelete_unused_area_using(keys, m_carve_dir);
+
+  // 
+  // regular expression based data carving
+  // 1. SMS
+  auto const& pattern = "(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}";
+  undelete_unused_area_using(pattern, "iNode248");
 }
 
 void EMFVolume::decrypt_all_files()
@@ -324,7 +369,13 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
   auto name = rec.key.nodeName.to_s();
   // REMARK: for Debug
   // cout << name << endl;
-  
+
+//  if (name == "iNode248")
+//  {
+//    HFSPlusCatalogFile f = rec.data.file;
+//    cout << rec.data.file.fileID << endl;
+//  }
+    
   auto cprotect = m_attribute_tree->get_attribute(rec.data.file.fileID, 
                                                  "com.apple.system.cprotect");
   if (cprotect.empty())
@@ -333,15 +384,14 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
     return false;
   }
 
-  HFSKey fk;
-  bool res;
+  HFSKey fk; bool res;
   tie(res, fk) = get_file_keys_for_cprotect(cprotect);
   
   if (!res)
     return false;
   
-  EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk);
-  ef.decrypt_file();
+//  EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk);
+//  ef.decrypt_file();
 
   m_active_files.insert(rec);
   m_active_file_keys[name] = fk;
@@ -465,9 +515,6 @@ auto EMFVolume::carve_journal(ByteBuffer& journal)
   return make_pair(f3, fks);
 }
 
-//
-// TODO start, end의 데이타 타입이 uint32_t가 맞는지 확인
-//
 template <typename RecordT, typename NodeT>
 auto EMFVolume::carve_tree_node(ByteBuffer& journal, uint32_t node_size)
   -> NodeT
@@ -531,6 +578,7 @@ void EMFVolume::carve_data_to(std::string const& s)
   m_carve_dir = s;
 }
 
+/*
 void EMFVolume::carve_unused_area_by_filename(std::string const& name)
 {
   if (m_active_file_keys.find(name) == m_active_file_keys.end())
@@ -574,15 +622,26 @@ void EMFVolume::carve_node_slacks_to(std::string const& s)
 
   m_attribute_tree->traverse_leaf_slacks(
       bind(&write_file2, path2, _1));
-
-  
-//  m_catalog_tree->traverse_leaf_slacks(
-//      bind(&EMFVolume::carve_node_free_area, this, _1));
-
-//  m_attribute_tree->traverse_leaf_slacks(
-//      bind(&EMFVolume::carve_node_free_area, this, _1));
 }
+*/
     
+auto EMFVolume::traverse_unused_area(UnusedAreaVisitor visitor) -> bool
+{
+  auto start = uint32_t((m_journal_offset + m_journal_size) / m_block_size);
+
+  for (uint32_t lba=start; lba<m_header.totalBlocks; ++lba)
+  {
+    if (block_in_use(uint32_t(lba)))
+      continue;
+
+    bool ok = visitor(lba);
+    if (!ok)
+      return false;
+  }
+
+  return true;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //

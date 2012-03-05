@@ -100,7 +100,7 @@ public:
 
   auto node_size() -> uint16_t { return m_header_record.nodeSize; }
 
-  auto traverse_leaf_slacks(Callback1 call) -> void;
+  // auto traverse_leaf_slacks(Callback1 call) -> void;
 
 protected:
   auto read_node(uint32_t node_no) -> ByteBuffer;
@@ -407,6 +407,7 @@ auto BTree<HFSTree>::traverse(uint32_t node_no_, Callback& call, uint32_t count)
   return count;
 }
 
+/*
 template <typename HFSTree>
 auto BTree<HFSTree>::traverse_leaf_slacks(Callback1 call) -> void
 {
@@ -422,6 +423,7 @@ auto BTree<HFSTree>::traverse_leaf_slacks(Callback1 call) -> void
     node_no = m_last_btnode.fLink;
   }
 }
+*/
 
 template <typename HFSTree>
 auto BTree<HFSTree>::traverse_leaf_nodes(Callback2 call) -> uint32_t

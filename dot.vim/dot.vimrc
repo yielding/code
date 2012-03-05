@@ -119,10 +119,12 @@ Bundle 'gmarik/vundle'
 " My Bundles here:
 "
 Bundle 'Conque-Shell'
+Bundle 'comments.vim'
 Bundle 'EnhCommentify.vim'
 Bundle 'FuzzyFinder'
 Bundle 'L9'
 Bundle 'Lokaltog/vim-easymotion'
+Bundle 'AutoComplPop'
 Bundle 'ScrollColors'
 Bundle 'ShowMarks7'
 Bundle 'SuperTab-continued.'
@@ -146,7 +148,7 @@ Bundle 'coffee.vim'
 Bundle 'vim-coffee-script'
 
 " non github repos
-Bundle 'git://git.wincent.com/command-t.git'
+"Bundle 'git://git.wincent.com/command-t.git'
 " ...
 
 filetype plugin indent on     " required! 
@@ -235,7 +237,7 @@ set dictionary=
 set tags=~/.vim/tags/boost,~/.vim/tags/stl
 set tags+=tags;$HOME
 
-set path=.,/usr/include/c++/4.2.1,/opt/local/include
+set path=.,/usr/include/c++/4.2.1,/opt/local/include,/usr/include
 set path+=~/develop/include
 
 set popt=syntax:y,number:y
@@ -321,6 +323,8 @@ map <F4>    :set makeprg=xcodebuild\ -sdk\ iphonesimulator4.3<CR>
 map <F6>    :make<CR>
 map <F7>    :!./%< <CR>
 map <F9>    :TagbarToggle<CR>
+map <F10>   :FufFile<CR>
+map <F11>   :FufBuffer<CR>
 
 " Switch on syntax highlighting if it wasn't on yet.
 if !exists("syntax_on")
@@ -333,7 +337,8 @@ endif
 "
 "-----------------------------------------------------------------------------
 nmap ,gc :vimgrep <cword> *.c* *.h *.m *.mm<CR> :copen <CR>
-nmap ,gj :vimgrep <cword> *.java<CR> :copen <CR>
+nmap ,gy :vimgrep <cword> *.py <CR> :copen <CR>
+nmap ,gr :vimgrep <cword> *.py <CR> :copen <CR>
 
 set grepformat=%f:%l:%m "%f: filename %l: line %m: messgae
 
@@ -565,7 +570,10 @@ command! -nargs=0 OUTLINE call <SID>OutlineToggle()
 "color ekvoli
 "color kellys
 "color jellybeans
+"color dusk
+"color DevC++
 if (has('gui_running')) 
+  "color vanzan_color
   color clarity
 else
   color jellybeans
@@ -580,8 +588,8 @@ let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1 
 let g:miniBufExplMapCTabSwitchBufs = 1 
 let g:miniBufExplModSelTarget = 1 
-let g:bufExplorerDefaultHelp=0
-let g:bufExplorerShowRelativePath=1
+let g:bufExplorerDefaultHelp = 0
+let g:bufExplorerShowRelativePath = 1
 
 let g:bufExplorerSortBy = "name"
 
@@ -614,8 +622,8 @@ let g:SuperTabDefaultCompletionType = "context"
 let g:clang_auto_select = 1
 let g:clang_complete_auto = 0
 let g:clang_complete_copen = 1
-let g:clang_user_options ='-fblocks -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk -D__IPHONE_OS_VERSION_MIN_REQUIRED=40300'
-let g:clang_user_options ='-fblocks -isysroot /Developer/SDKs/MacOSX10.7.sdk'
+let g:clang_user_options ='-fblocks -std=c++0x -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk -D__IPHONE_OS_VERSION_MIN_REQUIRED=40300'
+let g:clang_user_options ='-fblocks -std=c++0x -isysroot /Developer/SDKs/MacOSX10.7.sdk'
 "-----------------------------------------------------------------------------
 "
 " Xcode
@@ -633,9 +641,9 @@ endfunction
 "-----------------------------------------------------------------------------
 let loaded_matchparen = 0
 
-if (has('gui_running')) 
-  set transparency=10
-endif
+"if (has('gui_running')) 
+"  set transparency=10
+"endif
 
 "-----------------------------------------------------------------------------
 "
@@ -655,3 +663,5 @@ au BufNewFile,BufReadPost *.hx         set ft=haxe
 au BufNewFile,BufReadPost *.m          set ft=objc 
 au BufNewFile,BufReadPost *.as         set ft=actionscript 
 au BufNewFile,BufReadPost *.scala      set ft=scala 
+au BufNewFile,BufReadPost *.cpp        set ft=cpp
+au BufNewFile,BufReadPost *.md         set ft=md
