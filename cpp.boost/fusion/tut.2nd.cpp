@@ -22,19 +22,19 @@ using namespace std;
 struct A
 {
   A() {}
-  string to_str() { return "I'm A\n"; }
+  string to_str() const { return "I'm A\n"; }
 };
 
 struct B
 {
   B() {}
-  string to_str() { return "I'm B\n"; }
+  string to_str() const { return "I'm B\n"; }
 };
 
 struct C
 {
   C() {}
-  string to_str() { return "I'm C\n"; }
+  string to_str() const { return "I'm C\n"; }
 };
 
 struct print_xml
@@ -43,8 +43,7 @@ struct print_xml
   void operator() (T& x) const
   {
     cout << '<' << typeid(x).name() << '>'
-         //<< x.to_str()
-         << x->to_str()
+         << x.to_str()
          << "</" << typeid(x).name() << '>' ;
   }
 };
@@ -53,15 +52,10 @@ int main(int argc, char const* argv[])
 {
   A a;
   B b;
-  C* c = new C;
-  fusion::vector<A, B, C*> const stuff(a, b, c);
+  C c;
+  fusion::vector<A, B, C> const stuff(a, b, c);
 
-  // 1. usage 
-  // fusion::vector<int, int> const vec(1, 2);
-
-  // usage 2
-  fusion::for_each(
-    fusion::filter_if<boost::is_pointer<mpl::_> >(stuff), print_xml());
+  fusion::for_each(stuff , print_xml());
 
   return 0;
 }
