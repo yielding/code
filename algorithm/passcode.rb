@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby -wKU
+#
 require "digest/sha1"
 
 class Object
