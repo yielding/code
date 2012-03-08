@@ -3,10 +3,13 @@
 #include <iostream>
 
 using namespace std;
-
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char const* argv[])
 {
-  /**/
   auto path = "/Users/yielding/Desktop/work/data_20120307-1818.dmg";
 
   EMFVolume v;
@@ -17,19 +20,11 @@ int main(int argc, char const* argv[])
   v.carve_data_to("/Users/yielding/Desktop/work/deleted");
   v.undelete();
   
-  /**/
-  
-  /** /
-  HFSVolume v;
-
-  if (!v.open("/Users/yielding/code/app/hfsplus/hfsplus/data/HFSPlus.dmg"))
-    return false;
-
-  v.list_folder_contents("/");
-  
-  if (v.read_file("/README.md", "/Users/yielding/tmp"))
-    cout << "ok\n";
-  / **/
-  
   return 0;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
