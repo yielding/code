@@ -54,7 +54,6 @@ KeyBag KeyBag::create_with_data_sign_blob(ByteBuffer& blob, string const& device
   KeyBag kb(klv["DATA"]);
   kb.device_key(device_key);
   
-  // TODO
   
   return kb;
 }
@@ -88,7 +87,12 @@ void KeyBag::init_member()
 
 void KeyBag::parse_binary_blob(ByteBuffer& data)
 {         
-  
+  auto tlvs = tlv_to_map(data);
+  for (auto it = tlvs.begin(); it != tlvs.end(); ++it)
+  {
+    auto  tag = it->first;
+    auto data = it->second;
+  }
 }
 
 KeyBag::~KeyBag()

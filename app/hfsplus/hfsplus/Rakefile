@@ -2,27 +2,31 @@
 
 APP       = "hfsplus"
 APP_TEST  = "test_#{APP}"
-SRCS      = %w{ ./main.cpp 
-                ./hfs_file.cpp
-                ./hfs_volume.cpp
-                ./emf_file.cpp
-                ./emf_volume.cpp
-                ./catalog_btree.cpp
-                ./extents_btree.cpp
+SRCS      = %w{ 
                 ./attribute_btree.cpp
-                ./unicode_compare.cpp
-                ./hfs_header.cpp
+                ./catalog_btree.cpp
                 ./develop/src/ByteBuffer.cpp
                 ./develop/src/HexUtil.cpp
                 ./develop/src/PTreeParser.cpp
+                ./emf_file.cpp
+                ./emf_volume.cpp
+                ./extents_btree.cpp
+                ./hfs_file.cpp
+                ./hfs_header.cpp
+                ./hfs_key.cpp
+                ./hfs_volume.cpp
+                ./journal.cpp
+                ./key_bag.cpp
+                ./main.cpp 
+                ./signature.cpp
+                ./unicode_compare.cpp
               }
 
-TEST_SRCS = %w{ ./hfs_header.cpp ./test_hfs_header.cpp
-                ./hfs_volume.cpp ./test_hfs_volume.cpp
-                ./hfs_file.cpp   ./test_hfs_file.cpp
-                                 ./test_btree.cpp
-
-                ./develop/src/ByteBuffer.cpp ./test_byte_buffer.cpp 
+TEST_SRCS = %w{ 
+                ./hfs_key.cpp
+                ./develop/src/ByteBuffer.cpp
+                ./develop/src/PTreeParser.cpp
+                ./key_bag.cpp ./test_key_bag.cpp
               }
 INCS      = "./develop/include"
 CXX       = "c++11"          # c++0x, clang++, blank
@@ -31,4 +35,4 @@ LIBS      = ":r :t :s :f ssl crypto"
 
 load "~/code/build/app2.rake"
 
-#task :default => [:test]
+# task :default => [:test]

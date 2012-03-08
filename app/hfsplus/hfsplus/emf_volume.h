@@ -90,6 +90,7 @@ private:
   auto carve_journal(utility::hex::ByteBuffer& journal)
     -> std::pair<std::vector<CatalogRecord>, std::map<uint32_t, HFSKeys>>;
 
+  
   template <typename RecordT, typename NodeT>
   auto carve_tree_node(ByteBuffer& journal, uint32_t node_size)
     -> NodeT;
