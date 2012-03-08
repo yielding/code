@@ -198,7 +198,7 @@
 		DF97ADD114C01ED700739F5A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = heaven;
 			};
 			buildConfigurationList = DF97ADD414C01ED700739F5A /* Build configuration list for PBXProject "hfsplus" */;
@@ -270,6 +270,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx10.7;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -290,6 +291,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx10.7;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};

@@ -26,16 +26,18 @@ using namespace utility::parser;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace {
+namespace 
+{
   struct not_a_catalog_record
   {
     template <typename Record>
-    bool operator()(Record const& r) {
+    bool operator()(Record const& r)
+    {
       return r.data.recordType != 2;
     }
   };
 
-  std::string get_new_filepath(string const&name, string const& folder)
+  string get_new_filepath(string const&name, string const& folder)
   {
     int idx = 0;  
     string new_name;
@@ -52,13 +54,13 @@ namespace {
     return new_name;
   }
 
-  void write_file(string const& path, ByteBuffer& buffer, ios_base::openmode mode=ios_base::binary)
+  void write_file(string const& path, ByteBuffer& buffer, 
+                  ios_base::openmode mode=ios_base::binary)
   {
     ofstream ofs;
     ofs.open(path.c_str(), mode);
     ofs.write(buffer, buffer.size());
   }
-  
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -199,10 +201,7 @@ void EMFVolume::undelete_unused_area_using(HFSKeys const& keys_
       continue;
 
     if (m_decrypted_lbas.find(lba) != m_decrypted_lbas.end())
-    {
-      m_decrypted_lbas.insert(lba);
       continue;
-    }
 
     auto bf = read(lba * m_block_size, 16);
     auto kb = keys.begin();
@@ -236,25 +235,27 @@ void EMFVolume::undelete_unused_area_using(HFSKeys const& keys_
       // 1. indivisual file
       auto to_save = str(format("%s/%d.bin") % m_carve_dir % slba);
       write_file(to_save, res);
-
       // 2. update image
       // m_volume->write(slba*m_block_size, res);
+
+      // 3. update cache
+      m_decrypted_lbas.insert(slba);
     }
   }
 }
 
 void EMFVolume::undelete_unused_area_using(string const& pattern, string const& fn)
 {
-  regex expr(pattern);
   if (m_active_file_keys.find(fn) == m_active_file_keys.end())
     return;
 
   HFSKey const& key = m_active_file_keys[fn];
-  
+  regex expr(pattern);
   bool interrupted = traverse_unused_area(bind(&EMFVolume::carve_lba, 
                                                this, _1, key, expr));
   if (interrupted)
   {
+    // diagnosis
   }
 }
 
@@ -342,20 +343,20 @@ void EMFVolume::undelete()
   // We should carve more keys from other positions if possible
   // but it has turned out that there are no keys available in catalog and attribute tree
   // 
-  // undelete_unused_area_using(keys, m_carve_dir);
+  undelete_unused_area_using(keys, m_carve_dir);
 
   // 
   // regular expression based data carving
-  // 1. SMS
-  auto const& pattern = "(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}";
-  undelete_unused_area_using(pattern, "iNode248");
+  // 1. SMS (sms.db, sms.db-wal, iNode248, iNode3233)
+  // auto const& pattern = "(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}";
+  // undelete_unused_area_using(pattern, "sms.db");  // sms.db
 }
 
 void EMFVolume::decrypt_all_files()
 {
-  m_not_encrypted.clear();
   m_decrypted_count = 0;
-  m_active_files.clear();
+  m_not_encrypted.clear();
+  m_active_files .clear();
   m_active_file_keys.clear();
 
   m_catalog_tree->traverse_leaf_nodes(bind(&EMFVolume::decrypt_file, this, _1));
@@ -369,11 +370,10 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
   auto name = rec.key.nodeName.to_s();
   // REMARK: for Debug
   // cout << name << endl;
-
-//  if (name == "iNode248")
+  
+//  if (starts_with(name, "sms"))
 //  {
 //    HFSPlusCatalogFile f = rec.data.file;
-//    cout << rec.data.file.fileID << endl;
 //  }
     
   auto cprotect = m_attribute_tree->get_attribute(rec.data.file.fileID, 
@@ -390,8 +390,8 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
   if (!res)
     return false;
   
-//  EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk);
-//  ef.decrypt_file();
+  EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk);
+  ef.decrypt_file();
 
   m_active_files.insert(rec);
   m_active_file_keys[name] = fk;
@@ -573,16 +573,41 @@ auto EMFVolume::carve_tree_node(ByteBuffer& journal, uint32_t node_size)
 void EMFVolume::carve_data_to(std::string const& s)
 {
   if (!fs::exists(s))
-    throw runtime_error(str(format("directory [%s] not exists") %s));
+    throw runtime_error(str(format("directory [%s] does not exist") %s));
 
   m_carve_dir = s;
 }
 
+auto EMFVolume::traverse_unused_area(UnusedAreaVisitor visitor) -> bool
+{
+  auto start = uint32_t((m_journal_offset + m_journal_size) / m_block_size);
+
+  for (uint32_t lba=start; lba<m_header.totalBlocks; ++lba)
+  {
+    if (block_in_use(uint32_t(lba)))
+      continue;
+
+    if (m_decrypted_lbas.find(lba) != m_decrypted_lbas.end())
+      continue;
+
+    bool ok = visitor(lba);
+    if (!ok)
+      return false;
+  }
+
+  return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 /*
 void EMFVolume::carve_unused_area_by_filename(std::string const& name)
 {
   if (m_active_file_keys.find(name) == m_active_file_keys.end())
-    return;
+  return;
 
   auto const& key = m_active_file_keys[name];
 
@@ -603,44 +628,27 @@ void EMFVolume::carve_unused_area_by_filename(std::string const& name)
     EMFFile ef(this, key, m_protect_version);
     ef.decrypt_buffer(lba, b);
 
-//    auto it = find_if(sv.begi∫n(), sv.end(), bind(&Signature::match_head, _1, b));
-//    if (it == sv.end())
-//      continue;
+    //    auto it = find_if(sv.begin(), sv.end(), bind(&Signature::match_head, _1, b));
+    //    if (it == sv.end())
+    //      continue;
 
     auto path = str(format("%s/%s_%d.bin") % m_carve_dir % name % lba);
     write_file(path, b);
   }
 }
-
+     
 void EMFVolume::carve_node_slacks_to(std::string const& s)
 {
   auto path1 = "/Users/yielding/Desktop/work/a.bin";
   auto path2 = "/Users/yielding/Desktop/work/b.bin";
   
   m_catalog_tree->traverse_leaf_slacks(
-      bind(&write_file2, path1, _1));
-
+    bind(&write_file2, path1, _1));
+  
   m_attribute_tree->traverse_leaf_slacks(
-      bind(&write_file2, path2, _1));
+    bind(&write_file2, path2, _1));
 }
 */
-    
-auto EMFVolume::traverse_unused_area(UnusedAreaVisitor visitor) -> bool
-{
-  auto start = uint32_t((m_journal_offset + m_journal_size) / m_block_size);
-
-  for (uint32_t lba=start; lba<m_header.totalBlocks; ++lba)
-  {
-    if (block_in_use(uint32_t(lba)))
-      continue;
-
-    bool ok = visitor(lba);
-    if (!ok)
-      return false;
-  }
-
-  return true;
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
