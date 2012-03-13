@@ -16,15 +16,9 @@ using ::utility::hex::ByteBuffer;
 
 struct ClassKey
 {
-  ClassKey()
-  {
-    clear();
-  }
+  ClassKey()      { clear(); }
   
-  bool read_all()
-  {
-    return clas >= 0 and not wpky.empty();
-  }
+  bool read_all() { return clas >= 0 and not wpky.empty(); }
   
   void clear()
   {
@@ -46,61 +40,62 @@ struct ClassKey
 class KeyBag
 {
 public:
-  enum { kSystemKeyBag = 0,
-         kBackupKeyBag = 1,
-         kEscrowKeyBag = 2 };
+    enum { kSystemKeyBag = 0,
+           kBackupKeyBag = 1,
+           kEscrowKeyBag = 2 };
 
 public: // factory functions
-  static KeyBag create_with_plist(std::string const&);
+    static KeyBag create_with_plist(std::string const&);
 
 public:
-  KeyBag();
-  KeyBag(std::string const&, std::string const&);
-  ~KeyBag();
+    KeyBag();
+    KeyBag(std::string const&, std::string const&);
+   ~KeyBag();
 
 public:
-  bool init_ok() { return m_init_ok; }
+    bool init_ok() { return m_init_ok; }
 
 public:
-  void device_key(std::string const& dk) { m_device_key = dk; }
-  
-  auto unwrap_filekye_for_class(uint32_t pclass, uint8_t* wrapped_key)
-    -> std::pair<bool, HFSKey>;
+    void device_key(std::string const& dk) { m_device_key = dk; }
 
-  bool unlock_with_passcode_key(std::string const&);
+    auto unwrap_filekye_for_class(uint32_t pclass, uint8_t* wrapped_key)
+        -> std::pair<bool, HFSKey>;
 
+    bool unlock_with_passcode_key(std::string const&);
 
-private:
-  void init_member();
-  void set_dkey(std::string const&);
-  
-private:
-  auto unwrap_curve25519(uint32_t pclass, uint8_t* wrapped_key)
-    -> std::pair<bool, HFSKey>;
-
-  bool parse_binary_blob(ByteBuffer& data);
+    void print_to(std::ostream& os);
 
 private:
-  bool m_init_ok;
+    void init_member();
 
 private:
-  std::map<uint32_t, ClassKey> m_class_keys;
+    auto unwrap_curve25519(uint32_t pclass, uint8_t* wrapped_key)
+        -> std::pair<bool, HFSKey>;
 
-  // TODO remove
-  uint32_t m_class_keys_bitset;
-  
-  std::string m_device_key;
+    bool parse_binary_blob(ByteBuffer& data);
 
-  uint32_t    m_vers;
-  uint32_t    m_type;
-  std::string m_uuid;
-  std::string m_hmck;
-  uint32_t    m_wrap;
-  std::string m_salt;
-  uint32_t    m_iter;
-  std::string m_pbky;
+private:
+    bool m_init_ok;
 
-  bool m_unlocked;
+private:
+    std::map<uint32_t, ClassKey> m_class_keys;
+
+    // TODO remove
+    uint32_t m_class_keys_bitset;
+
+    std::string m_device_key;   // key 835
+    std::string m_emf;          // emf key
+
+    uint32_t    m_vers;
+    uint32_t    m_type;
+    std::string m_uuid;
+    std::string m_hmck;
+    uint32_t    m_wrap;
+    std::string m_salt;
+    uint32_t    m_iter;
+    std::string m_pbky;
+
+    // bool m_unlocked;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
