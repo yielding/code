@@ -46,19 +46,13 @@ struct composed_fn<Fn *> : composed_fn<Fn> {};
 struct inc_t
 {   
   template <typename T> 
-  T operator()(T x) const 
-  { 
-    return x + 1; 
-  }
+  T operator()(T x) const { return x + 1; }
 };
 
 struct square_t
 {
   template <typename T> 
-  auto operator()(T x) const -> decltype(x*x)
-  { 
-    return x * x; 
-  }
+  auto operator()(T x) const -> decltype(x*x) { return x * x; }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
