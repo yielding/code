@@ -63,10 +63,18 @@ public:
 
     bool unlock_with_passcode_key(std::string const&);
 
+    bool unlock_backup_keybag_with_passcode(std::string const& passcode);
+    
+    auto get_passcode_key_from_passcode(std::string passcode) 
+      -> std::vector<uint8_t>;
+
     void print_to(std::ostream& os);
 
 private:
     void init_member();
+    void set_dkey(std::string const& d);
+
+    void set_emfkey(std::string const& e) { m_emf_key = e; }
 
 private:
     auto unwrap_curve25519(uint32_t pclass, uint8_t* wrapped_key)
@@ -84,7 +92,7 @@ private:
     uint32_t m_class_keys_bitset;
 
     std::string m_device_key;   // key 835
-    std::string m_emf;          // emf key
+    std::string m_emf_key;
 
     uint32_t    m_vers;
     uint32_t    m_type;

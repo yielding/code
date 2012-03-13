@@ -11,6 +11,8 @@
 #include <boost/phoenix/core.hpp>
 #include <boost/phoenix/operator.hpp>
 
+#include <openssl/evp.h>
+
 using namespace std;
 using namespace boost;
 using phoenix::arg_names::arg1;
@@ -60,8 +62,8 @@ KeyBag KeyBag::create_with_plist(string const& path)
         throw std::runtime_error("key file read error");
 
     ptree.in("plist.dict");
-    m_emf = ptree.get_string("EMF");
-    if (m_emf.empty())
+    auto emf_key = ptree.get_string("EMF");
+    if (emf_key.empty())
         throw std::runtime_error("emf key does not exist in the key file");
 
     // k835 is device key 
@@ -82,18 +84,10 @@ KeyBag KeyBag::create_with_plist(string const& path)
     if (dkey.empty())
         throw std::runtime_error("Dkey key does not exist in the key file");
 
-    m_class_keys[4].key = HFSKey(dkey);
-
+    kb.set_dkey(dkey);
+    kb.set_emfkey(emf_key);
+    
     return kb;
-}
-
-void KeyBag::print_to(ostream& os)
-{
-    for (auto it = m_class_keys.begin(); it != m_class_keys.end(); ++it)
-    {
-        os << it->first << " : " << it->second.key.to_str() << "\n" << flush;
-        os.flush();
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,6 +129,20 @@ void KeyBag::init_member()
     m_iter = 0;
     m_device_key = "";
     m_class_keys.clear();
+}
+
+void KeyBag::print_to(ostream& os)
+{
+    for (auto it = m_class_keys.begin(); it != m_class_keys.end(); ++it)
+    {
+        os << it->first << " : " << it->second.key.to_str() << "\n" << flush;
+        os.flush();
+    }
+}
+
+void KeyBag::set_dkey(string const& dkey)
+{
+    m_class_keys[4].key = HFSKey(dkey);
 }
 
 bool KeyBag::parse_binary_blob(ByteBuffer& blob)
@@ -232,6 +240,34 @@ auto KeyBag::unwrap_filekye_for_class(uint32_t pclass, uint8_t* wrapped_key)
   */
 
     return make_pair(true, filekey);
+}
+
+auto KeyBag::get_passcode_key_from_passcode(string passcode) -> vector<uint8_t>
+{
+    vector<uint8_t> out(32, 0);
+    
+    int iter = (m_type == kBackupKeyBag) ? m_iter : 1;
+    
+    auto res = 
+    PKCS5_PBKDF2_HMAC_SHA1(passcode.c_str(), 4, 
+                           (uint8_t const *)m_salt.c_str(), m_salt.length(), iter,
+                           32, &*out.begin());
+    
+    if (res < 0)
+        throw std::runtime_error("get passcode_key error");
+    
+    return out;
+}
+
+bool KeyBag::unlock_backup_keybag_with_passcode(string const& passcode)
+{
+    if (m_type != kBackupKeyBag)
+        return false;
+    
+    auto pk = get_passcode_key_from_passcode(passcode);
+    string pk_str((char const*)&*pk.begin(), pk.size());
+    
+    return unlock_with_passcode_key(pk_str);
 }
 
 bool KeyBag::unlock_with_passcode_key(string const& passcode_key)

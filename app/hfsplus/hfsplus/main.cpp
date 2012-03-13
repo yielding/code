@@ -20,6 +20,7 @@ int main(int argc, char const* argv[])
   if (!v.open(path))
     return 1;
   
+   
   v.decrypt_all_files();
   v.carve_data_to("/Users/yielding/Desktop/work/deleted");
   v.undelete();
