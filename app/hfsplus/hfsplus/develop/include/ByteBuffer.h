@@ -27,6 +27,9 @@ public:
     // This constructor is for hex conversion
     ByteBuffer(uint8_t* buffer, size_t s);
 
+    // This constructor is for hex conversion
+    ByteBuffer(std::string const&);
+
     ByteBuffer(ByteBuffer const& rhs);
     ByteBuffer(ByteBuffer&& rhs);
     ~ByteBuffer() {}
@@ -50,6 +53,10 @@ public:  // query
     int64_t size()             { return int64_t(m_buffer.size());     }
     int64_t capacity()         { return int64_t(m_buffer.capacity()); }
     size_t  reserve(size_t);
+
+public:
+    static ByteBuffer  from_hexcode(std::string const&, bool=false);
+    static std::string to_hexcode(std::vector<uint8_t> const&, bool=false);
 
 public:
     int64_t     offset();
@@ -129,5 +136,5 @@ protected:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-}
-}
+} // namespace hex
+} // namespace utility

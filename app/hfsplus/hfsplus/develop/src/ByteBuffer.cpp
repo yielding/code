@@ -2,14 +2,21 @@
 
 #include "ByteBuffer.h"
 #include "EndianSwap.h"
+#include <boost/algorithm/string.hpp>
 
 #include <cstdlib>
 #include <cstring>
-#include <iterator>
+#include <string>
+#include <sstream>
+#include <iomanip>
+// #include <iterator>
 
 #if defined(WIN32) && defined(_DEBUG)
 #define new DEBUG_NEW
 #endif
+
+using namespace std;
+using namespace boost;
 
 namespace utility { namespace hex {    
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +38,15 @@ ByteBuffer::ByteBuffer(uint8_t* buffer, size_t sz)
     m_offset = 0;
     m_buffer.reserve(sz);
     m_buffer.assign(buffer, buffer + sz);
+}
+
+ByteBuffer::ByteBuffer(std::string const& s)
+{
+    auto buffer = (uint8_t*)s.c_str();
+
+    m_offset = 0;
+    m_buffer.reserve(s.length());
+    m_buffer.assign(buffer, buffer + s.length());
 }
 
 ByteBuffer::ByteBuffer(ByteBuffer const& rhs)
@@ -130,6 +146,42 @@ auto ByteBuffer::reserve(size_t sz) -> size_t
     m_buffer.reserve(sz);
 
     return m_buffer.capacity();
+}
+
+auto ByteBuffer::from_hexcode(string const& str, bool is_be) -> ByteBuffer
+{
+    using namespace boost;
+    ByteBuffer result;
+
+    if (str.length() % 2 == 0 && all(str, is_xdigit()))
+    {
+        int size = int(str.length() / 2);
+        for (int i=0; i<size; ++i)
+        {
+            std::string in = is_be 
+                ? str.substr((size - (i + 1)) * 2, 2)
+                : str.substr(i * 2, 2);
+
+            std::istringstream strm(in);
+            uint32_t tmp; strm >> std::hex >> tmp;
+            result.append((uint8_t)tmp);
+        }
+    }
+
+    return result;
+}
+
+auto ByteBuffer::to_hexcode(vector<uint8_t> const& code, bool is_be) -> string
+{
+    buffer_t b;
+    is_be ? reverse_copy(code.begin(), code.end(), back_inserter(b))
+          :         copy(code.begin(), code.end(), back_inserter(b));
+
+    ostringstream ss;
+    for (int i=0; i<b.size(); i++)
+      ss << setw(2) << setfill('0') << std::hex << (unsigned)b[i];
+
+    return ss.str();
 }
 
 auto ByteBuffer::append(ByteBuffer& buffer) -> ByteBuffer&

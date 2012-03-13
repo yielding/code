@@ -26,6 +26,7 @@ TEST_SRCS = %w{
                 ./hfs_key.cpp
                 ./develop/src/ByteBuffer.cpp
                 ./develop/src/PTreeParser.cpp
+                ./develop/src/Base64.cpp
                 ./key_bag.cpp ./test_key_bag.cpp
               }
 INCS      = "./develop/include"

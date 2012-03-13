@@ -78,8 +78,8 @@ int main()
         , 6
         > binary_text;
 
-    string binary(binary_text(encoded.begin()),
-                  binary_text(encoded.end()));
+    string binary(binary_text(encoded.c_str()),
+                  binary_text(encoded.c_str() + encoded.size()));
 
     cout << binary;
 }

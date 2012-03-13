@@ -170,7 +170,7 @@ auto ByteBuffer::to_hexcode(vector<uint8_t> const& code, bool is_be) -> string
 
     ostringstream ss;
     for (int i=0; i<b.size(); i++)
-      ss << setw(2) << setfill('0') << std::hex << (unsigned)b[i];
+        ss << setw(2) << setfill('0') << std::hex << (unsigned)b[i];
 
 //    ss.setf(ios_base::hex);
 //    ss.width(2);
