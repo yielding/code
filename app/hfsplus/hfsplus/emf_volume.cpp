@@ -82,63 +82,63 @@ EMFVolume::~EMFVolume()
 
 auto EMFVolume::open(std::string const& filename) -> bool
 {
-  if (!HFSVolume::open(filename))
-    return false;
+    if (!HFSVolume::open(filename))
+        return false;
 
-  m_metadata_dir = m_catalog_tree->metadata_dir_id();
-  auto buffer = m_attribute_tree->get_attribute(kHFSRootParentID, 
-      "com.apple.system.cprotect");
-  if (buffer.size() <=0)
-    return false;
-  
-  cp_root_xattr xattr(buffer);
-  m_protect_version = xattr.major_version;
-  
-  // Key file initialize
-  fs::path p(filename); p.remove_leaf() /= str(format("%x.plist") % id());
-  auto path = p.string();
-  if (!fs::exists(path))
-      throw std::runtime_error("key file does not exist");
-  
-  PTreeParser ptree;
-  if (!ptree.init_with_path(path))
-    throw std::runtime_error("key file read error");
-  
-  ptree.in("plist.dict");
-  string emf = ptree.get_string("EMF");
-  if (emf.empty())
-    throw std::runtime_error("emf key does not exist in the key file");
+    m_metadata_dir = m_catalog_tree->metadata_dir_id();
+    auto buffer = m_attribute_tree->get_attribute(kHFSRootParentID, 
+            "com.apple.system.cprotect");
+    if (buffer.size() <=0)
+        return false;
 
-  auto emf_bytes = utility::Hex::bytes_from_hexcode(emf);
-  m_emfkey.set_encrypt(&emf_bytes[0]);
+    cp_root_xattr xattr(buffer);
+    m_protect_version = xattr.major_version;
 
-  string dkey = ptree.get_string("DKey");
-  if (dkey.empty())
-    throw std::runtime_error("dkey key does not exist in the key file");
+    // Key file initialize
+    fs::path p(filename); p.remove_leaf() /= str(format("%x.plist") % id());
+    auto path = p.string();
+    if (!fs::exists(path))
+        throw std::runtime_error("key file does not exist");
 
-  auto dkey_bytes = utility::Hex::bytes_from_hexcode(dkey); 
-  m_class_keys[CLASS_DKEY-1].set_decrypt(&dkey_bytes[0]);
-  m_class_keys_bitset |= 1 <<CLASS_DKEY;
-  
-  auto class_keys = ptree.get_dict("classKeys");
-  for (size_t i=0; i<class_keys.size(); ++i)
-  {
-    auto klass = lexical_cast<int>(class_keys[i].first);
-    auto value = class_keys[i].second;
-    if (klass > 0 && klass <= MAX_CLASS_KEYS && value.length() == 64)
-    {
-      auto class_key_bytes = utility::Hex::bytes_from_hexcode(value);
-      assert(class_key_bytes.size() == 32);
-      m_class_keys[klass-1].set_decrypt(&class_key_bytes[0]);
-      m_class_keys_bitset |= 1 << klass;
-    }
-  }
-  
-  m_lba_offset = ptree.get_int("dataVolumeOffset");
-  if (m_lba_offset == -1)
-    throw std::runtime_error("lbaoffset key does not exist in the key file");
+    PTreeParser ptree;
+    if (!ptree.init_with_path(path))
+        throw std::runtime_error("key file read error");
 
-  return true;
+    ptree.in("plist.dict");
+    string emf = ptree.get_string("EMF");
+    if (emf.empty())
+        throw std::runtime_error("emf key does not exist in the key file");
+
+    auto emf_bytes = utility::Hex::bytes_from_hexcode(emf);
+    m_emfkey.set_encrypt(&emf_bytes[0]);
+
+    m_lba_offset = ptree.get_int("dataVolumeOffset");
+    if (m_lba_offset == -1)
+        throw std::runtime_error("lbaoffset key does not exist in the key file");
+
+    //  string dkey = ptree.get_string("DKey");
+    //  if (dkey.empty())
+    //    throw std::runtime_error("dkey key does not exist in the key file");
+
+    //  auto dkey_bytes = utility::Hex::bytes_from_hexcode(dkey); 
+    //  m_class_keys[CLASS_DKEY-1].set_decrypt(&dkey_bytes[0]);
+    //  m_class_keys_bitset |= 1 <<CLASS_DKEY;
+    //  
+    //  auto class_keys = ptree.get_dict("classKeys");
+    //  for (size_t i=0; i<class_keys.size(); ++i)
+    //  {
+    //    auto klass = lexical_cast<int>(class_keys[i].first);
+    //    auto value = class_keys[i].second;
+    //    if (klass > 0 && klass <= MAX_CLASS_KEYS && value.length() == 64)
+    //    {
+    //      auto class_key_bytes = utility::Hex::bytes_from_hexcode(value);
+    //      assert(class_key_bytes.size() == 32);
+    //      m_class_keys[klass-1].set_decrypt(&class_key_bytes[0]);
+    //      m_class_keys_bitset |= 1 << klass;
+    //    }
+    //  }
+
+    return true;
 }
 
 void EMFVolume::undelete_based_on_journal(ByteBuffer& jnl
