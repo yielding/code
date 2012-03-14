@@ -58,7 +58,7 @@ public:
 public:
     void device_key(std::string const& dk) { m_device_key = dk; }
 
-    auto unwrap_filekye_for_class(uint32_t pclass, uint8_t* wrapped_key)
+    auto unwrap_filekey_for_class(uint32_t pclass, uint8_t* wrapped_key)
         -> std::pair<bool, HFSKey>;
 
     bool unlock_with_passcode_key(std::string const&);
@@ -101,7 +101,7 @@ private:
     uint32_t    m_wrap;
     std::string m_salt;
     uint32_t    m_iter;
-    std::string m_pbky;
+    ByteBuffer  m_pbky;
 
     // bool m_unlocked;
 };

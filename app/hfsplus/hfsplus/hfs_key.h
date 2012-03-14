@@ -17,6 +17,7 @@ struct HFSKey
 
     HFSKey(uint32_t sz=32);
     HFSKey(std::string const& s, uint32_t sz=32, int dir=kDecrypt);
+    HFSKey(uint8_t* s, uint32_t sz=32, int dir=kDecrypt);
     HFSKey(HFSKey const& rhs);
 
     bool operator<(HFSKey const& rhs) const;
@@ -24,9 +25,10 @@ struct HFSKey
     void set_decrypt(uint8_t* fk_, uint32_t sz=32);
     void set_encrypt(uint8_t* fk_, uint32_t sz=32);
 
-    auto size()      -> size_t   { return m_size;   }
-    auto as_aeskey() -> AES_KEY& { return m_aeskey; }
-    auto as_buffer() -> uint8_t* { return m_fk;     }
+    auto copy() const -> HFSKey;
+    auto size() const -> size_t   { return m_size;   }
+    auto as_aeskey() -> AES_KEY&  { return m_aeskey; }
+    auto as_buffer() -> uint8_t*  { return m_fk;     }
     auto to_str() const -> std::string;
 
 private:

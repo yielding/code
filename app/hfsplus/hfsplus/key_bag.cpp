@@ -3,6 +3,7 @@
 #include "emf.h"
 #include "PtreeParser.h"
 #include "Base64.h"
+#include "curve25519-donna.h"
 
 #include <iostream>
 #include <map>
@@ -152,6 +153,7 @@ bool KeyBag::parse_binary_blob(ByteBuffer& blob)
         return false;
 
     auto   klv = klvs[0].second;      // [0] : "DATA", [1] : "SIGN"
+                                      // create_with_data_sign_blob
     auto items = tlv_to_pairs(klv);
     if (items.size() < 7)
         return false;
@@ -186,7 +188,7 @@ bool KeyBag::parse_binary_blob(ByteBuffer& blob)
         else if (tag == "WRAP") key.wrap = data.get_uint4_be();
         else if (tag == "KTYP") key.ktyp = data.get_uint4_be();
         else if (tag == "WPKY") key.wpky = data.to_str();
-        else if (tag == "PBKY")   m_pbky = data.to_str();
+        else if (tag == "PBKY")   m_pbky = data;
         else 
             return false;
 
@@ -202,44 +204,6 @@ bool KeyBag::parse_binary_blob(ByteBuffer& blob)
 
 KeyBag::~KeyBag()
 {
-}
-
-auto KeyBag::unwrap_filekye_for_class(uint32_t pclass, uint8_t* wrapped_key)
-  -> pair<bool, HFSKey>
-{
-    HFSKey filekey;
-
-  /*
-  if (pclass < 1 || pclass >= MAX_CLASS_KEYS)
-  {
-    cerr << str(format("wrong protection class %d \n") % pclass);
-    return make_pair(false, filekey);
-  }
-
-  if ((m_class_keys_bitset & (1 << pclass)) == 0)
-  {
-    cerr << str(format("class key %d is not available\n") % pclass);
-    return make_pair(false, filekey);
-  }
-
-  uint8_t fk[32] = { 0 };
-  auto k = m_class_keys[pclass-1].as_aeskey();
-  auto wsize = AES_unwrap_key(&k, NULL, fk, wrapped_key, 40);
-  if (wsize != 32)
-  {
-    auto msg = (pclass == 2 && wsize == 0x48)
-      ? "EMF unwrap curve25519 is not implemented yet"
-      : str(format("EMF unwrap failed for protection class %d") % pclass);
-
-    cerr << msg << "\n";
-
-    return make_pair(false, filekey);
-  }
-
-  filekey.set_decrypt(fk);
-  */
-
-    return make_pair(true, filekey);
 }
 
 auto KeyBag::get_passcode_key_from_passcode(string passcode) -> vector<uint8_t>
@@ -319,9 +283,61 @@ bool KeyBag::unlock_with_passcode_key(string const& passcode_key)
 }
 
 auto KeyBag::unwrap_curve25519(uint32_t pclass, uint8_t* wrapped_key)
-  -> pair<bool, HFSKey>
+    -> pair<bool, HFSKey>
 {
-    return make_pair(false, HFSKey());
+    auto  my_public = m_pbky;
+    auto his_public = wrapped_key;
+    auto  my_secret = m_class_keys[pclass].key.copy().as_buffer();  // copy the key;
+
+    vector<uint8_t> shared(32, 0);
+    my_secret[ 0] &= 248;
+    my_secret[31] &= 127;
+    my_secret[31] |=  64; 
+    curve25519_donna(&shared[0], my_secret, his_public);
+
+    uint8_t arr[] = { 0, 0, 0, 1 };
+    vector<uint8_t> md(32, 0); 
+
+    SHA256_CTX ctx;
+    SHA256_Init(&ctx);
+    SHA256_Update(&ctx, arr, 4); 
+    SHA256_Update(&ctx, &shared[0], 32);
+    SHA256_Update(&ctx, his_public, 32);
+    SHA256_Update(&ctx, my_public,  32);
+    SHA256_Final(&md[0], &ctx);
+
+    HFSKey mdkey(&md[0]);
+    auto aes_key = mdkey.as_aeskey();
+
+    vector<uint8_t> final(32, 0);
+    AES_unwrap_key(&aes_key, NULL, &final[0], wrapped_key, 40);
+
+    HFSKey result(&final[0]);
+
+    return make_pair(true, result);
+}
+
+auto KeyBag::unwrap_filekey_for_class(uint32_t pclass, uint8_t* wrapped_key)
+    -> pair<bool, HFSKey>
+{
+    HFSKey filekey;
+    if (pclass < 1 or pclass >= MAX_CLASS_KEYS)
+    {
+        cerr << str(format("wrong protection class %d \n") % pclass);
+        return make_pair(false, filekey);
+    }
+
+    if (m_vers >= 3 and pclass == 2)
+        return unwrap_curve25519(pclass, wrapped_key);
+
+    uint8_t fk[32] = { 0 };
+    auto   key = m_class_keys[pclass].key.as_aeskey();
+    auto wsize = AES_unwrap_key(&key, NULL, fk, wrapped_key, 40);
+    assert(wsize != 0x48);
+
+    filekey.set_decrypt(fk);
+
+    return make_pair(true, filekey);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -12,6 +12,7 @@
 		DF12D83114D9026600D9B578 /* extents_btree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12D82F14D9026600D9B578 /* extents_btree.cpp */; };
 		DF34E574150DB782002CDB6C /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF34E573150DB782002CDB6C /* Base64.cpp */; };
 		DF68DA0C150459A700B863FC /* libboost_regex-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DF68DA0B150459A700B863FC /* libboost_regex-mt.dylib */; };
+		DF6D751A15106F550019FBD4 /* curve25519-donna.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF6D751915106F550019FBD4 /* curve25519-donna.cpp */; };
 		DF7AF47814FDC69C00A7A01C /* key_bag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF7AF47614FDC69C00A7A01C /* key_bag.cpp */; };
 		DF7AF47C14FDC86400A7A01C /* hfs_key.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF7AF47A14FDC86400A7A01C /* hfs_key.cpp */; };
 		DF8F7D4614EBAD240055A3E9 /* signature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8F7D4414EBAD240055A3E9 /* signature.cpp */; };
@@ -56,6 +57,7 @@
 		DF13C20314D766AF0027BB8A /* hfs_volume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hfs_volume.h; sourceTree = "<group>"; };
 		DF34E573150DB782002CDB6C /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = develop/src/Base64.cpp; sourceTree = "<group>"; };
 		DF68DA0B150459A700B863FC /* libboost_regex-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_regex-mt.dylib"; path = "../../../../../opt/local/lib/libboost_regex-mt.dylib"; sourceTree = "<group>"; };
+		DF6D751915106F550019FBD4 /* curve25519-donna.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "curve25519-donna.cpp"; path = "develop/src/curve25519-donna.cpp"; sourceTree = "<group>"; };
 		DF7AF47614FDC69C00A7A01C /* key_bag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = key_bag.cpp; sourceTree = "<group>"; };
 		DF7AF47714FDC69C00A7A01C /* key_bag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = key_bag.h; sourceTree = "<group>"; };
 		DF7AF47A14FDC86400A7A01C /* hfs_key.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hfs_key.cpp; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 		DFA0510514C02269000B475C /* develop */ = {
 			isa = PBXGroup;
 			children = (
+				DF6D751915106F550019FBD4 /* curve25519-donna.cpp */,
 				DF34E573150DB782002CDB6C /* Base64.cpp */,
 				DFE2117B14DFA14D004B7B52 /* HexUtil.cpp */,
 				DFE2117A14DF9A69004B7B52 /* PTreeParser.h */,
@@ -244,6 +247,7 @@
 				DF7AF47814FDC69C00A7A01C /* key_bag.cpp in Sources */,
 				DF7AF47C14FDC86400A7A01C /* hfs_key.cpp in Sources */,
 				DF34E574150DB782002CDB6C /* Base64.cpp in Sources */,
+				DF6D751A15106F550019FBD4 /* curve25519-donna.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,6 +25,13 @@ HFSKey::HFSKey(string const& s, uint32_t sz, int dir)
         : this->set_encrypt((uint8_t*)bytes, sz);
 }
 
+HFSKey::HFSKey(uint8_t* bytes, uint32_t sz, int dir)
+{
+    dir == kDecrypt 
+        ? this->set_decrypt((uint8_t*)bytes, sz)
+        : this->set_encrypt((uint8_t*)bytes, sz);
+}
+
 HFSKey::HFSKey(HFSKey const& rhs)
 {
     if (this != &rhs)
@@ -33,6 +40,12 @@ HFSKey::HFSKey(HFSKey const& rhs)
         m_aeskey = rhs.m_aeskey;
         memcpy(m_fk, rhs.m_fk, m_size);
     }
+}
+
+auto HFSKey::copy() const -> HFSKey
+{
+    HFSKey cp(*this);
+    return cp;
 }
 
 bool HFSKey::operator<(HFSKey const& rhs) const
