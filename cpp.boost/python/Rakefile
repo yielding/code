@@ -1,0 +1,14 @@
+# -*- ruby -*-
+
+SRCS      = %w{ ./embedding.cpp }
+TEST_SRCS = %w{ ./test_embedding.cpp }
+APP       = "embedding"
+APP_TEST  = "test_embedding"
+CXX       = "c++11"
+INCS      = "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7"
+CXXFLAGS  = ":v :d :w"   # :d , :w=-Wall :O0 :O3
+LDFLAGS   = "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib"
+LIBS      = "python2.7 boost_python"
+
+load '~/code/build/app2.rake'
+# CLOBBER.include("a.out")
