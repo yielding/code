@@ -20,7 +20,6 @@ void fill_map(Fun const& f, Map& m)
     m[proto::value(proto::child_c<1>(f))] = proto::value(proto::child_c<2>(f));
 }
 
-
 int main(int argc, char const* argv[])
 {
     std::map<int, int> m;
