@@ -4,6 +4,7 @@
 #include "hfs_volume.h"
 #include "emf.h"
 #include "hfs_key.h"
+#include "key_bag.h"
 
 #include <boost/function.hpp>
 #include <boost/regex.hpp>
@@ -61,8 +62,8 @@ public:
   auto get_file_keys_for_cprotect(utility::hex::ByteBuffer& cp) 
     -> std::pair<bool, HFSKey>;
   
-  auto unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key)
-    -> std::pair<bool, HFSKey>;
+//  auto unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key)
+//    -> std::pair<bool, HFSKey>;
 
   void carve_data_to(std::string const& s);
 
@@ -107,6 +108,7 @@ private:
   uint32_t m_class_keys_bitset;
   std::vector<HFSKey> m_class_keys;
   HFSCatalogNodeID m_metadata_dir;
+  KeyBag m_keybag;
 
 private:
   std::string m_carve_dir;

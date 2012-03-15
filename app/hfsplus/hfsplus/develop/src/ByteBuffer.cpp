@@ -208,18 +208,18 @@ auto ByteBuffer::append(uint8_t b) -> ByteBuffer&
 
 auto ByteBuffer::slice(uint32_t from, uint32_t to) -> ByteBuffer  
 {
-  if (from > to)
-    throw std::runtime_error("ByteBuffer::slice() : wrong index");
+    if (from > to)
+        throw std::runtime_error("ByteBuffer::slice() : wrong index");
 
-  if (from == 0 && to == m_buffer.size())
-    return *this;
-  
-  ByteBuffer result;
-  auto& buffer = result.get_buffer();
+    if (from == 0 && to == m_buffer.size())
+        return *this;
 
-  buffer.assign(m_buffer.begin() + from, m_buffer.begin() + to);
+    ByteBuffer result;
+    auto& buffer = result.get_buffer();
 
-  return result;
+    buffer.assign(m_buffer.begin() + from, m_buffer.begin() + to);
+
+    return result;
 }
 
 auto ByteBuffer::load(buffer_t& buffer) -> void

@@ -56,17 +56,8 @@ TLVPairs tlv_to_pairs(ByteBuffer& blob)
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-KeyBag KeyBag::create_with_plist(string const& path)
+KeyBag KeyBag::create_with_plist(PTreeParser const& ptree)
 {
-    PTreeParser ptree;
-    if (!ptree.init_with_path(path))
-        throw std::runtime_error("key file read error");
-
-    ptree.in("plist.dict");
-    auto emf_key = ptree.get_string("EMF");
-    if (emf_key.empty())
-        throw std::runtime_error("emf key does not exist in the key file");
-
     // k835 is device key 
     auto k835 = ptree.get_string("key835");
     auto data = ptree.get_string("KeyBagKeys");
@@ -86,7 +77,6 @@ KeyBag KeyBag::create_with_plist(string const& path)
         throw std::runtime_error("Dkey key does not exist in the key file");
 
     kb.set_dkey(dkey);
-    kb.set_emfkey(emf_key);
     
     return kb;
 }
@@ -148,12 +138,12 @@ void KeyBag::set_dkey(string const& dkey)
 
 bool KeyBag::parse_binary_blob(ByteBuffer& blob)
 {         
-    auto  klvs = tlv_to_pairs(blob);
+    auto klvs = tlv_to_pairs(blob);
     if (klvs.size() == 0)
         return false;
 
-    auto   klv = klvs[0].second;      // [0] : "DATA", [1] : "SIGN"
-                                      // create_with_data_sign_blob
+    auto klv = klvs[0].second;      // [0] : "DATA", [1] : "SIGN"
+                                    // create_with_data_sign_blob
     auto items = tlv_to_pairs(klv);
     if (items.size() < 7)
         return false;
@@ -282,11 +272,11 @@ bool KeyBag::unlock_with_passcode_key(string const& passcode_key)
     return true;
 }
 
-auto KeyBag::unwrap_curve25519(uint32_t pclass, uint8_t* wrapped_key)
+auto KeyBag::unwrap_curve25519(uint32_t pclass, ByteBuffer& wrapped_key)
     -> pair<bool, HFSKey>
 {
     auto  my_public = m_pbky;
-    auto his_public = wrapped_key;
+    auto his_public = wrapped_key.slice(0, 32);
     auto  my_secret = m_class_keys[pclass].key.copy().as_buffer();  // copy the key;
 
     vector<uint8_t> shared(32, 0);
@@ -310,24 +300,26 @@ auto KeyBag::unwrap_curve25519(uint32_t pclass, uint8_t* wrapped_key)
     auto aes_key = mdkey.as_aeskey();
 
     vector<uint8_t> final(32, 0);
-    AES_unwrap_key(&aes_key, NULL, &final[0], wrapped_key, 40);
+    
+    auto wrapped_key0 = (uint8_t*)wrapped_key.slice(32, 0x48); // 40개 
+    AES_unwrap_key(&aes_key, NULL, &final[0], wrapped_key0, 40);
 
     HFSKey result(&final[0]);
 
     return make_pair(true, result);
 }
 
-auto KeyBag::unwrap_filekey_for_class(uint32_t pclass, uint8_t* wrapped_key)
+auto KeyBag::unwrap_filekey_for_class(uint32_t pclass, ByteBuffer& wrapped_key)
     -> pair<bool, HFSKey>
 {
     HFSKey filekey;
-    if (pclass < 1 or pclass >= MAX_CLASS_KEYS)
+    if (pclass < 1 || pclass >= MAX_CLASS_KEYS)
     {
         cerr << str(format("wrong protection class %d \n") % pclass);
         return make_pair(false, filekey);
     }
 
-    if (m_vers >= 3 and pclass == 2)
+    if (m_vers >= 3 && pclass == 2)
         return unwrap_curve25519(pclass, wrapped_key);
 
     uint8_t fk[32] = { 0 };

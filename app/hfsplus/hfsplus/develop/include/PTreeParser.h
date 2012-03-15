@@ -19,7 +19,7 @@ class PTreeParser
 {
 public:
     typedef std::vector<std::pair<std::string, std::string>> Leaves; 
-    typedef std::pair<ptree::iterator, ptree::iterator> Range;
+    typedef std::pair<ptree::const_iterator, ptree::const_iterator> Range;
 
 public:
     PTreeParser();
@@ -33,29 +33,29 @@ public:
     PTreeParser& in(char const* w) { m_where = w; return *this; }
 
 public:
-    Leaves get_dict(char const* where, char const* key);
-    Leaves get_dict(char const* key);
+    Leaves get_dict(char const* where, char const* key) const;
+    Leaves get_dict(char const* key) const;
 
-    std::string get_string(char const* where, char const* key);
-    std::string get_string(char const* key);
+    std::string get_string(char const* where, char const* key) const;
+    std::string get_string(char const* key) const;
 
-    int get_int(char const* where, char const* key);
-    int get_int(char const* key);
+    int get_int(char const* where, char const* key) const;
+    int get_int(char const* key) const;
 
 public:
-    Leaves enumerate(std::string const& key, char const* where);
+    Leaves enumerate(std::string const& key, char const* where) const;
 
-    Leaves unfold(Leaves const& r);
+    Leaves unfold(Leaves const& r) const;
 
-    bool   is_bool(std::string const& s);
+    bool   is_bool(std::string const& s) const;
 
 private:
     bool init(std::stringstream& s);
 
 private:
-    std::string find_value(std::string const& key, char const* where_);
+    std::string find_value(std::string const& key, char const* where_) const;
 
-    Range find_range_of_dict(std::string const& key, char const* where);
+    Range find_range_of_dict(std::string const& key, char const* where) const;
 
 private:
     std::string m_ignore;

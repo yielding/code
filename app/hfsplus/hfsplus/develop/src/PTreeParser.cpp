@@ -106,45 +106,45 @@ bool PTreeParser::init(stringstream& ss)
     return false;
 }
 
-string PTreeParser::get_string(char const* key, char const* where)
+string PTreeParser::get_string(char const* key, char const* where) const
 {
     return find_value(key, where);
 }
 
-string PTreeParser::get_string(char const* key)
+string PTreeParser::get_string(char const* key) const
 {
     return m_where.empty() 
         ? "" 
         : get_string(key, m_where.c_str());
 }    
 
-int PTreeParser::get_int(char const* where, char const* key)
+int PTreeParser::get_int(char const* where, char const* key) const
 {
     auto res = get_string(key, where);
 
     return res.empty() ? -1 : boost::lexical_cast<int>(res);
 }
 
-int PTreeParser::get_int(char const* key)
+int PTreeParser::get_int(char const* key) const
 {
     auto res = get_string(key);
 
     return res.empty() ? -1 : boost::lexical_cast<int>(res);
 }
   
-PTreeParser::Leaves PTreeParser::get_dict(char const* where, char const* key)
+PTreeParser::Leaves PTreeParser::get_dict(char const* where, char const* key) const
 {
   return enumerate(key, where);
 }
 
-PTreeParser::Leaves PTreeParser::get_dict(char const* key)
+PTreeParser::Leaves PTreeParser::get_dict(char const* key) const
 {
     return m_where.empty()
         ? Leaves()
         : get_dict(m_where.c_str(), key);    
 }
 
-PTreeParser::Leaves PTreeParser::enumerate(string const& key, char const* where)
+PTreeParser::Leaves PTreeParser::enumerate(string const& key, char const* where) const
 {
     auto rng = find_range_of_dict(key, where);
     auto beg = rng.first;
@@ -166,12 +166,12 @@ PTreeParser::Leaves PTreeParser::enumerate(string const& key, char const* where)
     return unfold(result);
 }
 
-bool PTreeParser::is_bool(string const& s) 
+bool PTreeParser::is_bool(string const& s) const
 { 
     return s == "true" || s == "false"; 
 }
 
-PTreeParser::Leaves PTreeParser::unfold(Leaves const& r)
+PTreeParser::Leaves PTreeParser::unfold(Leaves const& r) const
 {
     Leaves result;
 
@@ -197,7 +197,7 @@ PTreeParser::Leaves PTreeParser::unfold(Leaves const& r)
 // what's the range?
 //
 ////////////////////////////////////////////////////////////////////////////////
-string PTreeParser::find_value(string const& key, char const* where_)
+string PTreeParser::find_value(string const& key, char const* where_) const
 {
     string result;
     string where = (where_ != nullptr) ? where_ : m_where;
@@ -222,7 +222,7 @@ string PTreeParser::find_value(string const& key, char const* where_)
     return result;
 }
 
-PTreeParser::Range PTreeParser::find_range_of_dict(std::string const& value, char const* where_)
+PTreeParser::Range PTreeParser::find_range_of_dict(std::string const& value, char const* where_) const
 {
     Range r(m_pt.end(), m_pt.end());
     string where = (where_ != nullptr) ? where_ : m_where;

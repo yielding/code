@@ -5,33 +5,24 @@ TODO
  2. refactoring
 
  3. implemantation
-    * sms sqlite page carving in the unused area  
-      - regex로 전화번호 pattern 찾기
-      - sms.db key 저장하기
+    + union 없애기
+      - BPlistRepr참고해서 variant로 구현한다. (variant는 utree 참고)
 
-    * union 없애기
-      BPlistRepr참고해서 variant로 구현한다.
-
-    * attribute->get_all_attributes
-    * ExtentsTree::search_extents 구현
-    * console에서 HFSPlusStr255 정상 출력하기
-    * KeyStore객체를 만든다.
+    + attribute -> get_all_attributes
+    + ExtentsTree::search_extents 구현
+    + console에서 HFSPlusStr255 정상 출력하기
+    + KeyStore객체를 만든다.
       이때동안 고려하지 않았던 unwrapCurve25519를 unwrapKeyForClass 안에 구현한다.
       -> emlpart 파일 decrypt
 
 DOING
 =====
  1. verification
-    * brute_force 검증
+    + brute_force 검증
 
  2. refactoring
 
  3. implemantation
-    * sms sqlite page carving in the unused area  
-      - 
-    * jpeg이외의 다른 signature carving.
-    * 문자메시지 파일의 key carving
-    * curve25519 구현 
 
 DONE
 ====
@@ -41,19 +32,34 @@ DONE
       중요한 파일에 대해서는 같게 나옴
 
  2. refactoring
-    * read_leaf_record를 잘 정리해서 carv_tree_node 구현하기
+    + read_leaf_record를 잘 정리해서 carv_tree_node 구현하기
      -> 내부의 try { } catch () {} 는 refactoring 가능
-        -> exception처리까지 해서 가능하면 재활용할 수 있게 하는게 좋을 듯. 생각을 잘 하자....
-    * BTree의 record type과 node type을 template으로 refactor하다. 
-    * read_index_record
-    * read_leaf_record
+     -> exception처리까지 해서 가능하면 재활용할 수 있게 하는게 좋을 듯. 생각을 잘 하자....
+
+    + BTree의 record type과 node type을 template으로 refactor하다. 
+    + read_index_record
+    + read_leaf_record
 
  3. implemantation
-    * brute_force 방법을 기존대로 구현하기.
-    * read_empty_space는 btree의 사용하지 않는 노드를 carving하는 함수
+    + 문자메시지 파일의 key carving
+      - hardlink가 나오는 경우가 있었다. (sms.db -> iNodeXXXX) 이 경우 sms.db의 필드 내부의 hardlink 값을 읽어서
+        이름을 완성한다.
+
+    + jpeg이외의 다른 signature carving.
+      - sqlite, plist : 끝을 알 수 없는 문제가 있다.
+
+    + sms sqlite page carving in the unused area  
+      - regex로 전화번호 pattern 찾기
+
+    + curve25519 구현 
+      - 추가 검증. 이런 검증이 어렵네
+
+
+    + brute_force 방법을 기존대로 구현하기.
+    + read_empty_space는 btree의 사용하지 않는 노드를 carving하는 함수
       현재 테스트 이미지에는 데이타가 없음
       데이타가 하나도 없음 
 
-    * journal read
-    * attribute->get_attribute 
-    * EMFVolume->open
+    + journal read
+    + attribute : get_attribute 
+    + EMFVolume : open
