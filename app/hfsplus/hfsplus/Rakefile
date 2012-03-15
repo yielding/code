@@ -3,11 +3,13 @@
 APP       = "hfsplus"
 APP_TEST  = "test_#{APP}"
 SRCS      = %w{ 
-                ./attribute_btree.cpp
-                ./catalog_btree.cpp
                 ./develop/src/ByteBuffer.cpp
+                ./develop/src/Base64.cpp
                 ./develop/src/HexUtil.cpp
                 ./develop/src/PTreeParser.cpp
+                ./develop/src/curve25519-donna.cpp
+                ./attribute_btree.cpp
+                ./catalog_btree.cpp
                 ./emf_file.cpp
                 ./emf_volume.cpp
                 ./extents_btree.cpp

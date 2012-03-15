@@ -19,24 +19,24 @@ class AttributeTree;
 template <> 
 struct BTreeTraits<AttributeTree>
 {
-  typedef AttrNode Node;
-  typedef AttrRecord Record;
-  typedef HFSPlusAttrKey SearchKey;
+    typedef AttrNode Node;
+    typedef AttrRecord Record;
+    typedef HFSPlusAttrKey SearchKey;
 };
 
 class AttributeTree: public BTree<AttributeTree>
 {
 public:
-  AttributeTree(HFSFile* file);
-  ~AttributeTree();
-  
-public:
-  int compare_keys(HFSPlusAttrKey const& key1, HFSPlusAttrKey const& key2) const;
+    AttributeTree(HFSFile* file);
+    ~AttributeTree();
 
 public:
-  auto get_all_attributes(HFSCatalogNodeID folderID) -> AttrNode;
+    int compare_keys(HFSPlusAttrKey const& key1, HFSPlusAttrKey const& key2) const;
 
-  auto get_attribute(HFSCatalogNodeID cnid, std::string const& key) -> ByteBuffer;
+public:
+    auto get_all_attributes(HFSCatalogNodeID folderID) -> AttrNode;
+
+    auto get_attribute(HFSCatalogNodeID cnid, std::string const& key) -> ByteBuffer;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

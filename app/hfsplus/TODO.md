@@ -11,9 +11,8 @@ TODO
     + attribute -> get_all_attributes
     + ExtentsTree::search_extents 구현
     + console에서 HFSPlusStr255 정상 출력하기
-    + KeyStore객체를 만든다.
-      이때동안 고려하지 않았던 unwrapCurve25519를 unwrapKeyForClass 안에 구현한다.
-      -> emlpart 파일 decrypt
+    + compressed된 HFS 구현하기
+    + HFSX 구현하기. (for OSX forensics)
 
 DOING
 =====
@@ -23,6 +22,7 @@ DOING
  2. refactoring
 
  3. implemantation
+    + 자소 분리된 한글 처리 (keyboard 캐쉬)
 
 DONE
 ====
@@ -41,6 +41,10 @@ DONE
     + read_leaf_record
 
  3. implemantation
+    + KeyStore객체를 만든다.
+      - 이때동안 고려하지 않았던 unwrapCurve25519를 unwrapKeyForClass 안에 구현한다.
+        -> emlpart 파일 decrypt
+
     + 문자메시지 파일의 key carving
       - hardlink가 나오는 경우가 있었다. (sms.db -> iNodeXXXX) 이 경우 sms.db의 필드 내부의 hardlink 값을 읽어서
         이름을 완성한다.
@@ -53,7 +57,6 @@ DONE
 
     + curve25519 구현 
       - 추가 검증. 이런 검증이 어렵네
-
 
     + brute_force 방법을 기존대로 구현하기.
     + read_empty_space는 btree의 사용하지 않는 노드를 carving하는 함수

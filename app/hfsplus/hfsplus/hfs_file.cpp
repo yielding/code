@@ -17,53 +17,53 @@ using namespace boost;
 ////////////////////////////////////////////////////////////////////////////////
 HFSFile::HFSFile(HFSVolume* v, HFSPlusForkData fork, HFSCatalogNodeID fileID, bool deleted)
 {
-  m_volume       = v;
-  m_block_size   = m_volume->block_size();
-  m_fileID       = fileID;
-  m_total_blocks = fork.totalBlocks;
-  m_logical_size = fork.logicalSize;
-  m_deleted      = deleted;
-  m_partial      = false;
+    m_volume       = v;
+    m_block_size   = m_volume->block_size();
+    m_fileID       = fileID;
+    m_total_blocks = fork.totalBlocks;
+    m_logical_size = fork.logicalSize;
+    m_deleted      = deleted;
+    m_partial      = false;
 
-  m_extents.clear();
-  uint32_t bc = 0;
+    m_extents.clear();
+    uint32_t bc = 0;
 
-  for (auto i=0; i<8; i++)
-  {
-    auto& extent = fork.extents[i];
-    m_extents.push_back(extent);
-    bc += extent.blockCount;
-  }
-
-  // 
-  // TODO be verified
-  //
-  while (bc != fork.totalBlocks)
-  {
-    // 0 == kForkTypeData, 1 == kForkTypeResource
-    HFSPlusExtentKey key(0, m_fileID, bc);
-    auto overflow = m_volume->get_extents_overflow_for_file(key);
-    if (overflow.empty())
+    for (auto i=0; i<8; i++)
     {
-      cout << "extents overflow missing, startblock=" << bc << endl;
-      break;
+        auto& extent = fork.extents[i];
+        m_extents.push_back(extent);
+        bc += extent.blockCount;
     }
-    
-    for (int i=0; i<8; i++)
+
+    // 
+    // TODO be verified
+    //
+    while (bc != fork.totalBlocks)
     {
-      auto& extent = overflow.data.extents[i];
-      m_extents.push_back(extent);
-      bc += extent.blockCount;
+        // 0 == kForkTypeData, 1 == kForkTypeResource
+        HFSPlusExtentKey key(0, m_fileID, bc);
+        auto overflow = m_volume->get_extents_overflow_for_file(key);
+        if (overflow.empty())
+        {
+            cout << "extents overflow missing, startblock=" << bc << endl;
+            break;
+        }
+
+        for (int i=0; i<8; i++)
+        {
+            auto& extent = overflow.data.extents[i];
+            m_extents.push_back(extent);
+            bc += extent.blockCount;
+        }
     }
-  }
 }
 
 HFSFile::HFSFile(HFSVolume* v)
 {
-  m_volume     = v;
-  m_block_size = m_volume->block_size();
-  m_deleted    = true;
-  m_partial    = true;
+    m_volume     = v;
+    m_block_size = m_volume->block_size();
+    m_deleted    = true;
+    m_partial    = true;
 }
 
 HFSFile::~HFSFile()
@@ -72,66 +72,66 @@ HFSFile::~HFSFile()
 
 auto HFSFile::read_block(uint32_t nth) -> ByteBuffer
 {
-  if (m_logical_size > 0)
-  {
-    auto bs = m_volume->block_size();
-    if (int64_t(nth) * bs > m_logical_size)
-      throw std::runtime_error("block out of bounds");
-
-    auto bc = 0;
-    for (auto it = m_extents.begin(); it != m_extents.end(); ++it)
+    if (m_logical_size > 0)
     {
-      bc += it->blockCount;
-      if (nth < bc)
-      {
-        int64_t lba = it->startBlock + (nth - (bc - it->blockCount));
-        auto buffer = m_volume->read(lba * bs, bs);
-        return process_block(lba, buffer, bs);
-      }
-    }
-  }
+        auto bs = m_volume->block_size();
+        if (int64_t(nth) * bs > m_logical_size)
+            throw std::runtime_error("block out of bounds");
 
-  return ByteBuffer();
+        auto bc = 0;
+        for (auto it = m_extents.begin(); it != m_extents.end(); ++it)
+        {
+            bc += it->blockCount;
+            if (nth < bc)
+            {
+                int64_t lba = it->startBlock + (nth - (bc - it->blockCount));
+                auto buffer = m_volume->read(lba * bs, bs);
+                return process_block(lba, buffer, bs);
+            }
+        }
+    }
+
+    return ByteBuffer();
 }
 
 auto HFSFile::process_block(int64_t lba, ByteBuffer& buffer, uint32_t bs)
--> ByteBuffer&
+    -> ByteBuffer&
 {
-  return buffer;
+    return buffer;
 }
 
 auto HFSFile::read_all_to_buffer(bool trunc) -> ByteBuffer
 {
-  ByteBuffer result;
-  for (uint32_t i=0; i<m_total_blocks; i++)
-  {
-    auto b = read_block(i);
-    result.append(b);
-  }
-  
-  return trunc 
-    ? result.slice(0, uint32_t(m_logical_size))
-    : result;
+    ByteBuffer result;
+    for (uint32_t i=0; i<m_total_blocks; i++)
+    {
+        auto b = read_block(i);
+        result.append(b);
+    }
+
+    return trunc 
+        ? result.slice(0, uint32_t(m_logical_size))
+        : result;
 }
 
 void HFSFile::read_all_to_file(string const& filename, string const& point, bool trunc)
 {
-  string path = ends_with(point, "/")
-    ? point + filename
-    : point + "/" + filename;
+    string path = ends_with(point, "/")
+        ? point + filename
+        : point + "/" + filename;
 
-  ofstream ofs;
-  ofs.open(path.c_str(), ios_base::binary);
+    ofstream ofs;
+    ofs.open(path.c_str(), ios_base::binary);
 
-  for (uint32_t i=0; i<m_total_blocks; i++)
-  {
-    auto b = read_block(i);
-    ofs.write((char const*)b, m_block_size);
-  }
+    for (uint32_t i=0; i<m_total_blocks; i++)
+    {
+        auto b = read_block(i);
+        ofs.write((char const*)b, m_block_size);
+    }
 
-  ofs.close();
+    ofs.close();
 
-  fs::resize_file(path, m_logical_size);
+    fs::resize_file(path, m_logical_size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

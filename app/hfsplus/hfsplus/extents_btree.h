@@ -19,9 +19,9 @@ class ExtentsTree;
 template <> 
 struct BTreeTraits<ExtentsTree>
 {
-  typedef ExtentsNode Node;
-  typedef ExtentsRecord Record;
-  typedef HFSPlusExtentKey SearchKey;
+    typedef ExtentsNode Node;
+    typedef ExtentsRecord Record;
+    typedef HFSPlusExtentKey SearchKey;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,13 +32,13 @@ struct BTreeTraits<ExtentsTree>
 class ExtentsTree: public BTree<ExtentsTree>
 {
 public:
-  ExtentsTree(HFSFile* file);
-  ~ExtentsTree();
-  
-public:
-  int compare_keys(HFSPlusExtentKey const& key1, HFSPlusExtentKey const& key2) const;
+    ExtentsTree(HFSFile* file);
+    ~ExtentsTree();
 
-  auto search_extents(HFSPlusExtentKey const& key) -> ExtentsRecord;
+public:
+    int compare_keys(HFSPlusExtentKey const& key1, HFSPlusExtentKey const& key2) const;
+
+    auto search_extents(HFSPlusExtentKey const& key) -> ExtentsRecord;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

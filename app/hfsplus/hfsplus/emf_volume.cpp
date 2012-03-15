@@ -126,7 +126,7 @@ void EMFVolume::undelete_based_on_journal(ByteBuffer& jnl
     , map<uint32_t, HFSKeys>& key_map
     , string const& path)
 {
-    for (auto it=files.begin(); it!=files.end(); ++it)
+    for (auto it = files.begin(); it != files.end(); ++it)
     {
         auto key  = it->key;
         auto data = it->data;
@@ -170,7 +170,7 @@ void EMFVolume::undelete_unused_area_using(HFSKeys const& keys_
     CarvePoints pts;
 
     vector<HFSKey> keys;
-    for (auto it=keys_.begin(); it!=keys_.end(); ++it)
+    for (auto it = keys_.begin(); it != keys_.end(); ++it)
         keys.push_back(*it);
 
     // 1. signature position/key/type 획득
@@ -312,7 +312,7 @@ void EMFVolume::undelete()
     undelete_based_on_journal(jnl, files, key_map, m_carve_dir);
 
     HFSKeys keys;
-    for (auto it=key_map.begin(); it!=key_map.end(); ++it)
+    for (auto it = key_map.begin(); it != key_map.end(); ++it)
     {
         auto& key_set = it->second;
         for (auto jt=key_set.begin(); jt!=key_set.end(); ++jt) keys.insert(*jt);
@@ -406,47 +406,6 @@ auto EMFVolume::get_file_keys_for_cprotect(ByteBuffer& cp)
 
     return m_keybag.unwrap_filekey_for_class(pclass, pwrapped_key);
 }
-
-/*
-//
-// 1. unwrap file key
-// 2. get iv key if protection_class == 4
-//
-auto EMFVolume::unwrap_filekeys_for_class(uint32_t pclass, uint8_t* wrapped_key)
-  -> pair<bool, HFSKey>
-{
-  HFSKey filekey;
-
-  if (pclass < 1 || pclass >= MAX_CLASS_KEYS)
-  {
-    cerr << str(format("wrong protection class %d \n") % pclass);
-    return make_pair(false, filekey);
-  }
-  
-  if ((m_class_keys_bitset & (1 << pclass)) == 0)
-  {
-    cerr << str(format("class key %d is not available\n") % pclass);
-    return make_pair(false, filekey);
-  }
-  
-  uint8_t fk[32] = { 0 };
-  auto k = m_class_keys[pclass-1].as_aeskey();
-  auto wsize = AES_unwrap_key(&k, NULL, fk, wrapped_key, 40);
-  if (wsize != 32)
-  {
-    auto msg = (pclass == 2 && wsize == 0x48)
-      ? "EMF unwrap curve25519 is not implemented yet"
-      : str(format("EMF unwrap failed for protection class %d") % pclass);
-    
-    cerr << msg << "\n";
-    
-    return make_pair(false, filekey);
-  }
-  
-  filekey.set_decrypt(fk);
-  return make_pair(true, filekey);
-}
-*/
 
 auto EMFVolume::carve_journal(ByteBuffer& journal)
   -> pair<vector<CatalogRecord>, map<uint32_t, HFSKeys>>
