@@ -89,10 +89,19 @@ auto EMFVolume::open(std::string const& filename) -> bool
     auto buffer = m_attribute_tree->get_attribute(kHFSRootParentID, 
             "com.apple.system.cprotect");
     if (buffer.size() <=0)
-        return false;
-
-    cp_root_xattr xattr(buffer);
-    m_protect_version = xattr.major_version;
+    {
+        cout << "not an EMF image, no root com.apple.system.cprotect xattr";
+    }
+    else
+    {
+        cp_root_xattr xattr(buffer);
+        m_protect_version = xattr.major_version;
+        if (m_protect_version != 2 && m_protect_version != 4)
+        {
+            cout << "not support protect version";
+            return false;
+        }
+    }
 
     // Key file initialize
     fs::path p(filename); p.remove_leaf() /= str(format("%x.plist") % id());
@@ -121,10 +130,8 @@ auto EMFVolume::open(std::string const& filename) -> bool
     return m_keybag.init_ok();
 }
 
-void EMFVolume::undelete_based_on_journal(ByteBuffer& jnl
-    , vector<CatalogRecord>& files
-    , map<uint32_t, HFSKeys>& key_map
-    , string const& path)
+void EMFVolume::undelete_based_on_journal(ByteBuffer& jnl , vector<CatalogRecord>& files
+    , map<uint32_t, HFSKeys>& key_map , string const& path)
 {
     for (auto it = files.begin(); it != files.end(); ++it)
     {
@@ -137,6 +144,7 @@ void EMFVolume::undelete_based_on_journal(ByteBuffer& jnl
 
         auto name = key.nodeName.to_s();
         auto to_save = get_new_filepath(name.c_str(), path.c_str());
+        // REMARK: debug point
         // cout << to_save << endl;
         for (auto jt=keys.begin(); jt!=keys.end();)
         {
@@ -301,6 +309,9 @@ auto EMFVolume::carve_unused_area(uint32_t slba, uint32_t elba,
 
 void EMFVolume::undelete()
 {
+    if (m_protect_version == 0)
+        return;
+    
     // use this cache to prevent double decryption of same allocation block
     m_decrypted_lbas.clear();
 
@@ -339,6 +350,9 @@ void EMFVolume::decrypt_all_files()
     m_active_files .clear();
     m_active_file_keys.clear();
 
+    if (m_protect_version == 0)
+        return;
+    
     m_catalog_tree->traverse_leaf_nodes(bind(&EMFVolume::decrypt_file, this, _1));
 }
 
@@ -350,32 +364,37 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
     auto name = rec.key.nodeName.to_s();
     // REMARK: debug point
     cout << name << flush << endl;
-    if (ends_with(name, "emlxpart"))
-    {
-        HFSPlusCatalogFile f = rec.data.file;
-    }
+    // if (ends_with(name, "emlxpart"))
+    //    HFSPlusCatalogFile f = rec.data.file;
 
-    auto cprotect = m_attribute_tree->get_attribute(rec.data.file.fileID, 
-                                                    "com.apple.system.cprotect");
-    if (cprotect.empty())
+    try
     {
-        m_not_encrypted.push_back(name);
+        auto cprotect = m_attribute_tree->get_attribute(rec.data.file.fileID, 
+                                                        "com.apple.system.cprotect");
+        if (cprotect.empty())
+        {
+            m_not_encrypted.push_back(name);
+            return false;
+        }
+        
+        HFSKey fk; bool res;
+        tie(res, fk) = get_file_keys_for_cprotect(cprotect);
+        
+        if (!res)
+            return false;
+        
+        EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk);
+        ef.decrypt_file();
+        
+        m_active_files.insert(rec);
+        m_active_file_keys[name] = fk;
+        m_decrypted_count++;
+    }
+    catch(...)
+    {
         return false;
     }
-
-    HFSKey fk; bool res;
-    tie(res, fk) = get_file_keys_for_cprotect(cprotect);
-
-    if (!res)
-        return false;
-
-    EMFFile ef(this, rec.data.file.dataFork, rec.data.file.fileID, fk);
-    ef.decrypt_file();
-
-    m_active_files.insert(rec);
-    m_active_file_keys[name] = fk;
-    m_decrypted_count++;
-
+    
     return true;
 }
 
@@ -478,7 +497,8 @@ auto EMFVolume::carve_tree_node(ByteBuffer& journal, uint32_t node_size)
             auto offset_pos = end - 2*btnode.numRecords;
             journal.offset(offset_pos);
             vector<uint16_t> offsets;
-            for (auto i=0; i<btnode.numRecords; i++) offsets.push_back(journal.get_uint2_be());
+            for (auto i=0; i<btnode.numRecords; i++) 
+                offsets.push_back(journal.get_uint2_be());
 
             for (auto i=0; i<btnode.numRecords; i++)
             {

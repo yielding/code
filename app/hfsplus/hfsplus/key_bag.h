@@ -94,9 +94,6 @@ private:
 private:
     std::map<uint32_t, ClassKey> m_class_keys;
 
-    // TODO remove
-    uint32_t m_class_keys_bitset;
-
     std::string m_device_key;   // key 835
 
     uint32_t    m_vers;

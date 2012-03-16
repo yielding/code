@@ -14,16 +14,16 @@ using namespace utility::hex;
 class HFSBTreeTest: public testing::Test
 {
 protected:
-  virtual void SetUp()
-  {
-    HFSVolume v;
-    auto res = v.open("data/HFSPlus.dmg");
-    EXPECT_EQ(res, true);
-  }
+    virtual void SetUp()
+    {
+        HFSVolume v;
+        auto res = v.open("data/HFSPlus.dmg");
+        EXPECT_EQ(res, true);
+    }
 
-  virtual void TearDown()
-  {
-  }
+    virtual void TearDown()
+    {
+    }
 };
 
 TEST_F(HFSBTreeTest, ReadHeader)
