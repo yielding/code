@@ -12,13 +12,10 @@ class EMFFile: public HFSFile
 {
 public:
     EMFFile(HFSVolume* volume, HFSPlusForkData const& fork_data
-        , HFSCatalogNodeID fileID 
-        , HFSKey const& filekey
+        , HFSCatalogNodeID fileID , HFSKey const& filekey
         , bool deleted=false);
 
-    EMFFile(HFSVolume* volume
-        , HFSKey const& filekey
-        , uint16_t protection_version);
+    EMFFile(HFSVolume* volume , HFSKey const& filekey , uint16_t protection_version);
 
     virtual ~EMFFile();
 

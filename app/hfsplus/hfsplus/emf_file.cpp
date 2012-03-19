@@ -71,8 +71,8 @@ void EMFFile::decrypt_file()
             if (buffer.size() == bs)
             {
                 auto b = process_block(lba, buffer, bs);
-                // TODO
-                m_volume->write(from, b);
+                // TODO: debug point
+                // m_volume->write(from, b);
             }
         }
     }

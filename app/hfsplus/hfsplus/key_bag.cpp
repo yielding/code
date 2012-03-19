@@ -323,7 +323,10 @@ auto KeyBag::unwrap_filekey_for_class(uint32_t pclass, ByteBuffer& wrapped_key)
         return unwrap_curve25519(pclass, wrapped_key);
 
     uint8_t fk[32] = { 0 };
-    auto   key = m_class_keys[pclass].key.as_aeskey();
+    auto key = m_class_keys[pclass].key.as_aeskey();
+    if (wrapped_key.size() != 40)
+        return make_pair(false, filekey);
+        
     auto wsize = AES_unwrap_key(&key, NULL, fk, wrapped_key, 40);
     assert(wsize != 0x48);
 

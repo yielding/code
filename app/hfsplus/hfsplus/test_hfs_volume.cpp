@@ -13,30 +13,30 @@ using namespace utility::hex;
 class HFSVolumeTest: public testing::Test
 {
 protected:
-  virtual void SetUp()
-  {
-  }
+    virtual void SetUp()
+    {
+    }
 
-  virtual void TearDown()
-  {
-  }
+    virtual void TearDown()
+    {
+    }
 };
 
 TEST_F(HFSVolumeTest, True)
 {
-  EXPECT_EQ(1, 1);
+    EXPECT_EQ(1, 1);
 }
 
 TEST_F(HFSVolumeTest, ReadVolumeHeader)
 {
-  // header.read_from(b);
+    // header.read_from(b);
 
-  EXPECT_EQ(1, 1);
+    EXPECT_EQ(1, 1);
 }
 
 TEST_F(HFSVolumeTest, VolumeRead)
 {
-  EXPECT_EQ(1, 1);
+    EXPECT_EQ(1, 1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
