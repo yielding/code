@@ -8,7 +8,7 @@ int main(int argc, char const* argv[])
 {
   vector<double> v = { 1.0, 2.0, 3.0, 4.0, 5.0 };
 
-  auto x = [](double so_far, double x) { 
+  auto x = [=](double so_far, double x) { 
     return so_far + x * x; 
   };
 

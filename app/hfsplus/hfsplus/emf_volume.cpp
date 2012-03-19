@@ -224,7 +224,7 @@ void EMFVolume::undelete_unused_area_using(HFSKeys const& keys_
             auto to_save = str(format("%s/%d.bin") % m_carve_dir % slba);
             write_file(to_save, res);
             // 2. update image
-            // m_volume->write(slba*m_block_size, res);
+            write(slba*m_block_size, res);
 
             // 3. update cache
             m_decrypted_lbas.insert(slba);
@@ -334,13 +334,13 @@ void EMFVolume::undelete()
     // We should carve more keys from other positions if possible
     // but it has turned out that there are no keys available in catalog and attribute tree
     // 
-    undelete_unused_area_using(keys, m_carve_dir);
+    // undelete_unused_area_using(keys, m_carve_dir);
 
     // 
     // regular expression based data carving
     // 1. SMS (sms.db, sms.db-wal, iNode248, iNode3233)
-    // auto const& pattern = "(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}";
-    // undelete_unused_area_using(pattern, "sms.db");  // sms.db
+    auto const& pattern = "(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}";
+    undelete_unused_area_using(pattern, "call_history.db");  // sms.db
 }
 
 void EMFVolume::decrypt_all_files()
@@ -364,8 +364,11 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
     auto name = rec.key.nodeName.to_s();
     // REMARK: debug point
     cout << name << flush << endl;
-    // if (ends_with(name, "emlxpart"))
-    //    HFSPlusCatalogFile f = rec.data.file;
+    
+    if (starts_with(name, "call_history"))
+    {
+        HFSPlusCatalogFile f = rec.data.file;
+    }
 
     try
     {

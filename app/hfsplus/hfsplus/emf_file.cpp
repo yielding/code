@@ -72,7 +72,7 @@ void EMFFile::decrypt_file()
             {
                 auto b = process_block(lba, buffer, bs);
                 // TODO: debug point
-                // m_volume->write(from, b);
+                m_volume->write(from, b);
             }
         }
     }

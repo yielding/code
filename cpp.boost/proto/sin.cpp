@@ -3,10 +3,9 @@
 #include <boost/proto/proto.hpp>
 
 using namespace std;
-namespace proto = boost::proto;
+      namespace proto = boost::proto;
 
-template<int I> 
-struct placeholder {};
+template<int I> struct placeholder {};
 
 proto::terminal<placeholder<0>>::type _1;
 // make sin function lazy 
