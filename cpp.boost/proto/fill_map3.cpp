@@ -18,23 +18,23 @@ struct map_insert: callable
 struct map_list_of_ {};
 
 struct MapListOf
-    : or_ <
-        when<terminal<map_list_of_>, _void>, 
-        when<
-            function<MapListOf, terminal<_>, terminal<_>>, 
-            and_ <
-                MapListOf(_child0), 
-                map_insert(_state, _value(_child1), _value(_child2))
-            >
-        >
+  : or_ <
+    when <terminal<map_list_of_>, _void>, 
+    when <
+      function<MapListOf, terminal<_>, terminal<_>>, 
+      and_ <
+        MapListOf(_child0), 
+        map_insert(_state, _value(_child1), _value(_child2))
       >
+    >
+  >
 {};
 
 template <typename Expr> 
 struct map_list_of_expr;
 
 struct map_list_of_domain
-    : domain<pod_generator<map_list_of_expr>, MapListOf>
+  : domain<pod_generator<map_list_of_expr>, MapListOf>
 {};
 
 template <typename Expr> 
@@ -42,6 +42,7 @@ struct map_list_of_expr
 {
     BOOST_PROTO_EXTENDS(Expr, map_list_of_expr<Expr>, 
         map_list_of_domain)
+
     template <typename K, class V, class C, class A> 
     operator std::map<K, V, C, A>() const
     {
