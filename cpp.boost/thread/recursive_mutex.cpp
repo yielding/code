@@ -6,17 +6,20 @@ class counter
 {
 public:
     counter() : count(0) { }
- 
-    int add(int val) {
+
+    int add(int val)
+    {
         boost::recursive_mutex::scoped_lock scoped_lock(mutex);
         count += val;
         return count;
     }
-    int increment() {
+
+    int increment()
+    {
         boost::recursive_mutex::scoped_lock scoped_lock(mutex);
         return add(1);
     }
- 
+
 private:
     boost::recursive_mutex mutex;
     int count;
