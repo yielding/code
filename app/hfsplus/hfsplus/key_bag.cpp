@@ -61,7 +61,7 @@ KeyBag KeyBag::create_with_plist(PTreeParser const& ptree)
     // k835 is device key 
     auto k835 = ptree.get_string("key835");
     auto data = ptree.get_string("KeyBagKeys");
-    if (k835.empty() or data.empty())
+    if (k835.empty() || data.empty())
         throw std::runtime_error("Main Key does now exist");
 
     KeyBag kb(data, k835);

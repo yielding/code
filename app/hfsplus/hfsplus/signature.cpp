@@ -44,7 +44,7 @@ bool Signature::match_tail(ByteBuffer& b)
     {
         uint8_t* buffer = b;
         auto end = b.size() - m_tail.size();
-        for (auto i=0; i<end; i++)
+        for (size_t i=0; i<end; i++)
             if (memcmp(&m_tail[0], buffer + i, m_tail.size()) == 0)
                 return true;
     }

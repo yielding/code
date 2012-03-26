@@ -30,8 +30,10 @@ enum {
 
 struct HFSUniStr255
 {
+    /*
     HFSUniStr255(): length(0)
     {}
+    */
 
     size_t size() const { return 2 + length*2; }
 
@@ -77,7 +79,7 @@ struct HFSUniStr255
 
     void from_ascii(std::string const& s)
     {
-        for (int i=0; i<s.size(); i++) unicode[i] = s[i];
+        for (size_t i=0; i<s.size(); i++) unicode[i] = s[i];
         length = s.size();
     }
 

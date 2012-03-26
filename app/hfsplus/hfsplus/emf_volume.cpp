@@ -10,7 +10,8 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/format.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/bind.hpp>
+#include <boost/phoenix/core.hpp>
+#include <boost/phoenix/bind.hpp>
 #include <boost/algorithm/string.hpp>
 
 #include <openssl/sha.h>
@@ -20,7 +21,9 @@ using namespace std;
 using namespace boost;
 using namespace utility::parser;
       namespace fs = boost::filesystem;
+      namespace phx = boost::phoenix;
 
+using namespace boost::phoenix::arg_names;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -104,7 +107,7 @@ auto EMFVolume::open(std::string const& filename) -> bool
     }
 
     // Key file initialize
-    fs::path p(filename); p.remove_leaf() /= str(format("%x.plist") % id());
+    fs::path p(filename); p.remove_leaf() /= str(format("%016x.plist") % id());
     auto path = p.string();
     if (!fs::exists(path))
         throw std::runtime_error("key file does not exist");
@@ -202,7 +205,7 @@ void EMFVolume::undelete_unused_area_using(HFSKeys const& keys_
 
             // TODO replace vector<signature> with map<signature>
             // and use phoenix with at_c expression
-            auto it = find_if(sv.begin(), sv.end(), bind(&Signature::match_head, _1, b));
+            auto it = find_if(sv.begin(), sv.end(), phx::bind(&Signature::match_head, arg1, b));
             if (it == sv.end())
                 continue;
 
@@ -239,8 +242,8 @@ void EMFVolume::undelete_unused_area_using(string const& pattern, string const& 
 
     HFSKey const& key = m_active_file_keys[fn];
     regex expr(pattern);
-    bool interrupted = traverse_unused_area(bind(&EMFVolume::carve_lba, 
-                                        this, _1, key, expr));
+    bool interrupted = traverse_unused_area(phx::bind(&EMFVolume::carve_lba, 
+                                        this, arg1, key, expr));
     if (interrupted)
     {
         // diagnosis
@@ -353,7 +356,7 @@ void EMFVolume::decrypt_all_files()
     if (m_protect_version == 0)
         return;
     
-    m_catalog_tree->traverse_leaf_nodes(bind(&EMFVolume::decrypt_file, this, _1));
+    m_catalog_tree->traverse_leaf_nodes(phx::bind(&EMFVolume::decrypt_file, this, arg1));
 }
 
 bool EMFVolume::decrypt_file(CatalogRecord const& rec)
@@ -362,6 +365,7 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
         return false;
 
     auto name = rec.key.nodeName.to_s();
+    /*
     // REMARK: debug point
     cout << name << flush << endl;
     
@@ -369,6 +373,7 @@ bool EMFVolume::decrypt_file(CatalogRecord const& rec)
     {
         HFSPlusCatalogFile f = rec.data.file;
     }
+    */
 
     try
     {

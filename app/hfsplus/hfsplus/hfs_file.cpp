@@ -75,10 +75,10 @@ auto HFSFile::read_block(uint32_t nth) -> ByteBuffer
     if (m_logical_size > 0)
     {
         auto bs = m_volume->block_size();
-        if (int64_t(nth) * bs > m_logical_size)
+        if (uint64_t(nth) * bs > m_logical_size)
             throw std::runtime_error("block out of bounds");
 
-        auto bc = 0;
+        uint32_t bc = 0;
         for (auto it = m_extents.begin(); it != m_extents.end(); ++it)
         {
             bc += it->blockCount;

@@ -15,10 +15,10 @@ class ExtentsTree;
 class AttributeTree;
 
 template <typename KeyT, typename ValueT>
-class BTreeRecord;
+struct BTreeRecord;
 
 template <typename HFSRecord>
-class BTreeNode;
+struct BTreeNode;
 
 typedef BTreeRecord<HFSPlusExtentKey, HFSPlusExtentData> ExtentsRecord;
 
