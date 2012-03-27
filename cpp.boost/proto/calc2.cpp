@@ -19,7 +19,7 @@ struct calculator_expression;
 
 // Tell proto how to generate expressions in the calculator_domain
 struct calculator_domain
-  : proto::domain<proto::generator<calculator_expression> >
+  : proto::domain<proto::generator<calculator_expression>>
 {};
 
 // Will be used to define the placeholders _1 and _2
@@ -28,7 +28,7 @@ template<int I> struct placeholder {};
 // Define a calculator context, for evaluating arithmetic expressions
 // (This is as before, in calc1.cpp)
 struct calculator_context
-  : proto::callable_context< calculator_context const >
+  : proto::callable_context<calculator_context const>
 {
     // The values bound to the placeholders
     double d[2];
@@ -51,7 +51,7 @@ struct calculator_context
 };
 
 // Wrap all calculator expressions in this type, which defines
-// operator () to evaluate the expression.
+// operator() to evaluate the expression.
 template<typename Expr>
 struct calculator_expression
   : proto::extends<Expr, calculator_expression<Expr>, calculator_domain>
@@ -63,19 +63,19 @@ struct calculator_expression
     BOOST_PROTO_EXTENDS_USING_ASSIGN(calculator_expression<Expr>)
 
     // Override operator () to evaluate the expression
-    double operator ()() const
+    double operator()() const
     {
         calculator_context const ctx;
         return proto::eval(*this, ctx);
     }
 
-    double operator ()(double d1) const
+    double operator()(double d1) const
     {
         calculator_context const ctx(d1);
         return proto::eval(*this, ctx);
     }
 
-    double operator ()(double d1, double d2) const
+    double operator()(double d1, double d2) const
     {
         calculator_context const ctx(d1, d2);
         return proto::eval(*this, ctx);
@@ -83,8 +83,8 @@ struct calculator_expression
 };
 
 // Define some placeholders (notice they're wrapped in calculator_expression<>)
-calculator_expression<proto::terminal< placeholder< 1 > >::type> const _1;
-calculator_expression<proto::terminal< placeholder< 2 > >::type> const _2;
+calculator_expression<proto::terminal<placeholder<1>>::type> const _1;
+calculator_expression<proto::terminal<placeholder<2>>::type> const _2;
 
 // Now, our arithmetic expressions are immediately executable function objects:
 int main()

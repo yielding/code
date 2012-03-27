@@ -38,12 +38,12 @@ struct calculator_context
     template<int I>
     double operator ()(proto::tag::terminal, placeholder<I>) const
     {
-        return d[ I - 1 ];
+        return d[I-1];
     }
 };
 
 template<typename Expr>
-double evaluate( Expr const &expr, double d1 = 0., double d2 = 0. )
+double evaluate(Expr const &expr, double d1 = 0., double d2 = 0.)
 {
     // Create a calculator context with d1 and d2 substituted for _1 and _2
     calculator_context const ctx(d1, d2);
@@ -55,13 +55,13 @@ double evaluate( Expr const &expr, double d1 = 0., double d2 = 0. )
 int main()
 {
     // Displays "5"
-    std::cout << evaluate( _1 + 2.0, 3.0 ) << std::endl;
+    std::cout << evaluate(_1 + 2.0, 3.0) << std::endl;
 
     // Displays "6"
-    std::cout << evaluate( _1 * _2, 3.0, 2.0 ) << std::endl;
+    std::cout << evaluate(_1 * _2, 3.0, 2.0) << std::endl;
 
     // Displays "0.5"
-    std::cout << evaluate( (_1 - _2) / _2, 3.0, 2.0 ) << std::endl;
+    std::cout << evaluate((_1 - _2) / _2, 3.0, 2.0) << std::endl;
 
     return 0;
 }

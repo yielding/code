@@ -32,18 +32,18 @@ template<typename I> struct placeholder : I {};
 struct CalculatorGrammar
   : proto::or_<
 
-        // placeholders have a non-zero arity ...
-        proto::when< proto::terminal< placeholder<_> >, proto::_value >
+     // placeholders have a non-zero arity ...
+     proto::when< proto::terminal< placeholder<_> >, proto::_value >
 
-        // Any other terminals have arity 0 ...
-      , proto::when< proto::terminal<_>, mpl::int_<0>() >
+     // Any other terminals have arity 0 ...
+   , proto::when< proto::terminal<_>, mpl::int_<0>() >
 
-        // For any non-terminals, find the arity of the children and
-        // take the maximum. This is recursive.
-      , proto::when< proto::nary_expr<_, proto::vararg<_> >
-             , proto::fold<_, mpl::int_<0>(), mpl::max<CalculatorGrammar, proto::_state>() > >
+     // For any non-terminals, find the arity of the children and
+     // take the maximum. This is recursive.
+   , proto::when< proto::nary_expr<_, proto::vararg<_> >
+       , proto::fold<_, mpl::int_<0>(), mpl::max<CalculatorGrammar, proto::_state>() > >
 
-    >
+ >
 {};
 
 // Simple wrapper for calculating a calculator expression's arity.
