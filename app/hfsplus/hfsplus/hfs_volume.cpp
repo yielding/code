@@ -7,6 +7,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <iomanip>
+#include <iostream>
 
 using namespace std;
 ////////////////////////////////////////////////////////////////////////////////

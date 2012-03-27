@@ -26,6 +26,8 @@ void fill_map(boost::proto::terminal<map_>::type const &, string_map &)
 {}
 
 // The old format API that accepts a map of string substitutions
+// REMARK: using another DSEL to define a DSEL.
+// This is one of the eminent features of proto.
 std::string format(std::string fmt, string_map & subs)
 {
     namespace xp = boost::xpressive;

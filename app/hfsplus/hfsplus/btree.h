@@ -3,9 +3,7 @@
 
 #include "hfs_file.h"
 
-#include <boost/function.hpp>
 #include <cassert>
-#include <iostream>
 
 using namespace utility::hex;
 using namespace std;
@@ -15,8 +13,6 @@ using namespace std;
 //
 ////////////////////////////////////////////////////////////////////////////////
 class HFSFile;
-
-typedef boost::function<bool(HFSCatalogNodeID)> Callback;
 
 template <typename HFSTree> 
 struct BTreeTraits;
@@ -74,10 +70,6 @@ public:
     typedef typename BTreeTraits<HFSTree>::Record Record;
     typedef typename BTreeTraits<HFSTree>::SearchKey SearchKey;
 
-    typedef boost::function<void(ByteBuffer&)> Callback1;
-
-    typedef boost::function<bool(Record)> Callback2;
-
 public:
     BTree(HFSFile* file);
 
@@ -93,13 +85,13 @@ public:
     template <typename F>
     auto search_multiple(SearchKey const& key, F call)
       -> Node;
-//    auto search_multiple(SearchKey const& key, Callback const& call) 
-//        -> Node;
 
-    auto traverse(uint32_t node_no, Callback& call, uint32_t count=0) 
+    template <typename F>
+    auto traverse(uint32_t node_no, F const& call, uint32_t count=0) 
         -> uint32_t;
 
-    auto traverse_leaf_nodes(Callback2 call) -> uint32_t;
+    template <typename F> 
+    auto traverse_leaf_nodes(F const& call) -> uint32_t;
 
     auto node_size() -> uint16_t { return m_header_record.nodeSize; }
 
@@ -350,9 +342,6 @@ auto BTree<HFSTree>::search(SearchKey const& search_key, uint32_t node_no_)
 template <typename HFSTree> template<typename F>
 auto BTree<HFSTree>::search_multiple(SearchKey const& key, F call)
 -> Node
-//template <typename HFSTree>
-//auto BTree<HFSTree>::search_multiple(SearchKey const& key, Callback const& call) 
-//  -> Node
 {
     // 아래의 search에 의해 leaf에 대한 위치가 caching 될 것이라 사료됨.
     search(key);
@@ -385,12 +374,10 @@ auto BTree<HFSTree>::search_multiple(SearchKey const& key, F call)
 }
 
 template <typename HFSTree>
-auto BTree<HFSTree>::traverse(uint32_t node_no_, Callback& call, uint32_t count) 
+template <typename F> 
+auto BTree<HFSTree>::traverse(uint32_t node_no_, F const& call, uint32_t count) 
   -> uint32_t
 {
-    if (call.empty())
-        return 0;
-
     auto node_no = (node_no_ == 0xFFFFFFFF)
         ? m_header_record.rootNode
         : node_no_;
@@ -431,12 +418,9 @@ auto BTree<HFSTree>::traverse_leaf_slacks(Callback1 call) -> void
 }
 */
 
-template <typename HFSTree>
-auto BTree<HFSTree>::traverse_leaf_nodes(Callback2 call) -> uint32_t
+template <typename HFSTree> template <typename F> 
+auto BTree<HFSTree>::traverse_leaf_nodes(F const& call) -> uint32_t
 {
-    if (call.empty())
-        return 0;
-
     uint32_t count = 0;
     auto node_no = m_header_record.firstLeafNode;
     while (node_no != 0)
