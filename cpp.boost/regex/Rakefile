@@ -1,7 +1,7 @@
 # -*- ruby -*-
 # SAMPLE Rakefile
 
-SRCS     = %w{regex.hex.cpp}
+SRCS     = %w{ ./regex.hex.cpp }
 APP      = "regex.hex"
 APP_TEST = "test_regex.hex"
 CXX      = "c++0x"    # c++0x, clang++, blank
