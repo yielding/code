@@ -53,7 +53,8 @@ struct map_list_of_expr
     }
 };
 
-map_list_of_expr<terminal<map_list_of_>::type> const map_list_of = {{}};
+map_list_of_expr<terminal<map_list_of_>::type> 
+    const map_list_of = {{}};
 
 int main(int argc, char const* argv[])
 {
