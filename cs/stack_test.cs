@@ -11,7 +11,9 @@ class Test
     s.Push(1);
     s.Push(10);
     s.Push(100);
+    s.Push("leech");
 
+    Console.WriteLine(s.Pop());
     Console.WriteLine(s.Pop());
     Console.WriteLine(s.Pop());
     Console.WriteLine(s.Pop());
