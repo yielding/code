@@ -31,7 +31,6 @@ template<typename I> struct placeholder : I {};
 // expression arity for each of the three cases.
 struct CalculatorGrammar
   : proto::or_<
-
      // placeholders have a non-zero arity ...
      proto::when< proto::terminal< placeholder<_> >, proto::_value >
 
@@ -42,7 +41,6 @@ struct CalculatorGrammar
      // take the maximum. This is recursive.
    , proto::when< proto::nary_expr<_, proto::vararg<_> >
        , proto::fold<_, mpl::int_<0>(), mpl::max<CalculatorGrammar, proto::_state>() > >
-
  >
 {};
 

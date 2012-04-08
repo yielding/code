@@ -2,7 +2,7 @@
 #include <boost/proto/core.hpp>
 #include <boost/proto/context.hpp>
 
-#include <boost/typeof/std/ostream.hpp>
+// #include <boost/typeof/std/ostream.hpp>
 
 namespace proto = boost::proto;
 

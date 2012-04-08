@@ -15,8 +15,8 @@ using proto::_;
 template<int I> struct placeholder {};
 
 // Define some placeholders
-proto::terminal< placeholder< 1 > >::type const _1 = {{}};
-proto::terminal< placeholder< 2 > >::type const _2 = {{}};
+proto::terminal<placeholder<1>>::type const _1 = {{}};
+proto::terminal<placeholder<2>>::type const _2 = {{}};
 
 // Define a calculator context, for evaluating arithmetic expressions
 struct calculator_context
