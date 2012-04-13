@@ -29,7 +29,7 @@ int main(int argc, char const* argv[])
   m["xyzzy"]  = 12;
   m["thud"]   = 13;
 
-  int const n = 6;
+  int n = 6;
   auto it = find_if(m.cbegin(), m.cend(), phoenix::at_c<1>(arg1) > n);
   if (it != m.cend())
     cout << it->first << endl;

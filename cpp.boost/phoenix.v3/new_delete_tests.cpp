@@ -3,11 +3,12 @@
 #include <algorithm>
 #include <boost/shared_ptr.hpp>
 
-#include <boost/phoenix/core.hpp>
-#include <boost/phoenix/object/new.hpp>
-#include <boost/phoenix/object/delete.hpp>
-#include <boost/phoenix/object/construct.hpp>
-#include <boost/phoenix/operator.hpp>
+#include <boost/phoenix.hpp>
+//#include <boost/phoenix/core.hpp>
+//#include <boost/phoenix/object/new.hpp>
+//#include <boost/phoenix/object/delete.hpp>
+//#include <boost/phoenix/object/construct.hpp>
+//#include <boost/phoenix/operator.hpp>
 
 #include <boost/detail/lightweight_test.hpp>
 
