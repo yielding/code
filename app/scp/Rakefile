@@ -1,0 +1,21 @@
+# -*- ruby -*-
+
+APP       = "scp"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{ 
+                ./develop/src/SSHSession.cpp
+                ./main.cpp 
+              }
+
+TEST_SRCS = %w{ 
+                ./develop/src/SSHSession.cpp
+                ./test_main.cpp
+              }
+INCS      = "./develop/include"
+CXX       = "c++11"          # c++0x, clang++, blank
+CXXFLAGS  = ":v :d"          # :d, :O0 :O3 :w = -Wall
+LIBS      = "ssh gmock"
+
+load "~/code/build/app2.rake"
+
+# task :default => [:test]
