@@ -2,28 +2,40 @@
 #include <fstream>
 #include <iostream>
 #include <boost/regex.hpp>
+
 #include "active_regex.h"
 
 using namespace std;
 
 int main(int argc, char const* argv[])
 {
-  // 1. file prepare
-  std::fstream in;
-  in.open("test_1g.bin", ios_base::binary | ios_base::in);
+  string image_file = (argc < 2) 
+    ? "/Users/yielding/Desktop/EV-F200_JTAG3_20120410.mdf"
+    : argv[1]; 
 
-  boost::regex e("\xff\xff");
+  cout << image_file << endl;
+
+
+  ifstream ifs;
+  ifs.open(image_file.c_str(), ios_base::binary);
+  if (!ifs.is_open())
+    return EXIT_FAILURE;
+
+  auto const& pattern = "(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}";
+  boost::regex e(pattern);
 
   ActiveRegex regex;
 
   regex.buffer_size(1024*4);
 
-  if (regex.search(e, in, false))
+  if (regex.search(e, ifs, false))
   {
     matches const& r = regex.result();
 
-    cout <<  r[1].offset;
+    for (auto it=r.begin(); it != r.end(); ++it)
+      cout << it->offset << endl;
+
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

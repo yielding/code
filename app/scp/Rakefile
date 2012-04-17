@@ -14,7 +14,7 @@ TEST_SRCS = %w{
 INCS      = "./develop/include"
 CXX       = "c++11"          # c++0x, clang++, blank
 CXXFLAGS  = ":v :d"          # :d, :O0 :O3 :w = -Wall
-LIBS      = "ssh gmock"
+LIBS      = "ssh"
 
 load "~/code/build/app2.rake"
 
