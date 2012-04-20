@@ -1,0 +1,236 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DF897420153E39850067BE5D /* SSHSession.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF89741F153E39850067BE5D /* SSHSession.cpp */; };
+		DF897422153E39970067BE5D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF897421153E39970067BE5D /* main.cpp */; };
+		DF897424153E40F30067BE5D /* libssh.4.2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DF897423153E40F30067BE5D /* libssh.4.2.2.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DFAE4078153D6ABA00D43554 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		DF44C5BE153F99FA00B5F71F /* SSHSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSHSession.h; path = develop/include/SSHSession.h; sourceTree = "<group>"; };
+		DF89741F153E39850067BE5D /* SSHSession.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SSHSession.cpp; path = develop/src/SSHSession.cpp; sourceTree = "<group>"; };
+		DF897421153E39970067BE5D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		DF897423153E40F30067BE5D /* libssh.4.2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssh.4.2.2.dylib; path = ../../../../../opt/local/lib/libssh.4.2.2.dylib; sourceTree = "<group>"; };
+		DFAE407A153D6ABA00D43554 /* scp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = scp; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DFAE4077153D6ABA00D43554 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF897424153E40F30067BE5D /* libssh.4.2.2.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DFAE406F153D6ABA00D43554 = {
+			isa = PBXGroup;
+			children = (
+				DF897423153E40F30067BE5D /* libssh.4.2.2.dylib */,
+				DFAE407D153D6ABA00D43554 /* scp */,
+				DFAE407B153D6ABA00D43554 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DFAE407B153D6ABA00D43554 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DFAE407A153D6ABA00D43554 /* scp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DFAE407D153D6ABA00D43554 /* scp */ = {
+			isa = PBXGroup;
+			children = (
+				DF44C5BE153F99FA00B5F71F /* SSHSession.h */,
+				DF897421153E39970067BE5D /* main.cpp */,
+				DF89741F153E39850067BE5D /* SSHSession.cpp */,
+			);
+			path = scp;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DFAE4079153D6ABA00D43554 /* scp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DFAE4084153D6ABA00D43554 /* Build configuration list for PBXNativeTarget "scp" */;
+			buildPhases = (
+				DFAE4076153D6ABA00D43554 /* Sources */,
+				DFAE4077153D6ABA00D43554 /* Frameworks */,
+				DFAE4078153D6ABA00D43554 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = scp;
+			productName = scp;
+			productReference = DFAE407A153D6ABA00D43554 /* scp */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DFAE4071153D6ABA00D43554 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "yielding@gmail.com";
+			};
+			buildConfigurationList = DFAE4074153D6ABA00D43554 /* Build configuration list for PBXProject "scp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DFAE406F153D6ABA00D43554;
+			productRefGroup = DFAE407B153D6ABA00D43554 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DFAE4079153D6ABA00D43554 /* scp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DFAE4076153D6ABA00D43554 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF897420153E39850067BE5D /* SSHSession.cpp in Sources */,
+				DF897422153E39970067BE5D /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		DFAE4082153D6ABA00D43554 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					./scp/develop/include,
+					/opt/local/include,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "./develop/include /opt/local/include";
+			};
+			name = Debug;
+		};
+		DFAE4083153D6ABA00D43554 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					./scp/develop/include,
+					/opt/local/include,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "./develop/include /opt/local/include";
+			};
+			name = Release;
+		};
+		DFAE4085153D6ABA00D43554 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DFAE4086153D6ABA00D43554 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DFAE4074153D6ABA00D43554 /* Build configuration list for PBXProject "scp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DFAE4082153D6ABA00D43554 /* Debug */,
+				DFAE4083153D6ABA00D43554 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DFAE4084153D6ABA00D43554 /* Build configuration list for PBXNativeTarget "scp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DFAE4085153D6ABA00D43554 /* Debug */,
+				DFAE4086153D6ABA00D43554 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DFAE4071153D6ABA00D43554 /* Project object */;
+}
