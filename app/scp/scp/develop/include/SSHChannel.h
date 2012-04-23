@@ -4,7 +4,6 @@
 #include <libssh/libssh.h>
 #include <stdint.h>
 
-#include <boost/format.hpp>
 #include <boost/function.hpp>
 
 namespace utility { namespace comm { namespace ssh {
@@ -13,6 +12,8 @@ namespace utility { namespace comm { namespace ssh {
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+class SSHSession;
+
 class SSHChannel
 {
 public:
@@ -20,40 +21,13 @@ public:
     typedef boost::function<bool (void)> StopF;
 
 public:
-    SSHChannel(ssh_session session)
-        : _is_open(false)
-    {
-        _channel = ssh_channel_new(session);
-        if (_channel == NULL)
-            throw std::runtime_error("SSH channel creation error");
-    }
+    SSHChannel(SSHSession* session);
+    ~SSHChannel();
 
-    ~SSHChannel()
-    {
-        close();
-        ::ssh_channel_free(_channel);
-    }
-
-    bool open()
-    {
-        _is_open = (::ssh_channel_open_session(_channel) == SSH_OK);
-        return _is_open;
-    }
-
-    void close()
-    {
-        if (_is_open)
-        {
-            _is_open = false;
-            ::ssh_channel_close(_channel);
-        }
-    }
-
-    void register_callback(ProgressF callback, StopF shouldstop)
-    {
-        _progress    = callback;
-        _should_stop = shouldstop;
-    }
+public:
+    bool open();
+    void close();
+    void register_callback(ProgressF callback, StopF shouldstop);
 
     template <typename F>
     int64_t remote_exec(char const* cmd, F write_to)
@@ -107,6 +81,8 @@ private:
 
 private:
     ssh_channel _channel;
+    SSHSession* _ssh;
+
     bool _is_open;
 };
 

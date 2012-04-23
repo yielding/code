@@ -24,13 +24,14 @@ public:
     auto disconnect() -> void;
     auto connect(std::string const& id="root", std::string const& passwd="alpine") -> bool;
     
+    auto session() -> ssh_session&  { return _session;    }
+
 public:
     auto create_ssh_channel() -> boost::shared_ptr<SSHChannel>;
     auto create_scp_channel() -> boost::shared_ptr<SCPChannel>;
 
+public:
     auto error_msg() -> std::string { return _error_msg; }
-
-protected:
     auto error(std::string const&) -> void;
     auto has_error() -> bool        { return _has_error; }
 

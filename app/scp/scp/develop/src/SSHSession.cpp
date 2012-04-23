@@ -151,8 +151,7 @@ void SSHSession::error(string const& msg)
 
 auto SSHSession::create_ssh_channel() -> boost::shared_ptr<SSHChannel>
 {
-    boost::shared_ptr<SSHChannel> channel(new SSHChannel(_session));
-
+    boost::shared_ptr<SSHChannel> channel(new SSHChannel(this));
     if (!channel->open())
         throw std::runtime_error("SSH channel creation error");
 
@@ -161,9 +160,7 @@ auto SSHSession::create_ssh_channel() -> boost::shared_ptr<SSHChannel>
 
 auto SSHSession::create_scp_channel() -> boost::shared_ptr<SCPChannel>
 {
-    boost::shared_ptr<SCPChannel> channel(new SCPChannel(_session));
-    if (!channel->open())
-        throw std::runtime_error("SCP channel creation error");
+    boost::shared_ptr<SCPChannel> channel(new SCPChannel(this));
 
     return channel;
 }
