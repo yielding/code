@@ -28,7 +28,7 @@ int main(int argc, char** argv)
     auto to   = "/Users/yielding/down";
     
     utility::comm::ssh::SSHSession ssh(host);
-    if (!ssh.connect("yielding", "alsrudk!"))
+    if (!ssh.connect("yielding", ""))
     {
         cout << str(format("ssh.connect error: %s\n") % ssh.error_msg());
         return EXIT_FAILURE;
