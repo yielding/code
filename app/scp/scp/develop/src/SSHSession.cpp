@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "SSHSession.h"
 
 #include "SSHChannel.h"

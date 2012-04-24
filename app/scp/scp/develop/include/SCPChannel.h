@@ -17,7 +17,7 @@ class SCPChannel
 {
 public:
     SCPChannel(SSHSession* session);
-    ~SCPChannel() {}
+    ~SCPChannel();
 
     bool download(std::string const& from, std::string const& to);
 

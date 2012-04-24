@@ -8,18 +8,18 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "scp/main.cpp"
-         timestampString = "356863065.013328"
+         timestampString = "356935898.520214"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "55"
-         endingLineNumber = "55">
+         startingLineNumber = "79"
+         endingLineNumber = "79">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "scp/main.cpp"
-         timestampString = "356863065.013328"
+         timestampString = "356932048.730369"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "26"
@@ -32,11 +32,50 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "scp/develop/src/SCPChannel.cpp"
-         timestampString = "356864974.678343"
+         timestampString = "356936323.42218"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "94"
-         endingLineNumber = "94"
+         startingLineNumber = "105"
+         endingLineNumber = "105"
+         landmarkName = "SCPChannel::download(string const&amp; from, string const&amp; to)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "scp/develop/src/SSHSession.cpp"
+         timestampString = "356935879.228395"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "49"
+         endingLineNumber = "49"
+         landmarkName = "SSHSession::~SSHSession()"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "scp/develop/src/SCPChannel.cpp"
+         timestampString = "356937936.045285"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "135"
+         endingLineNumber = "135"
+         landmarkName = "SCPChannel::download(string const&amp; from, string const&amp; to)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "scp/develop/src/SCPChannel.cpp"
+         timestampString = "356937936.045285"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "141"
+         endingLineNumber = "141"
          landmarkName = "SCPChannel::download(string const&amp; from, string const&amp; to)"
          landmarkType = "5">
       </FileBreakpoint>

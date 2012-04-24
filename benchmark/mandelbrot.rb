@@ -4,7 +4,6 @@ BAILOUT = 16
 MAX_ITERATIONS = 1000
 
 class Iterator
-	
 	def initialize
 		puts "Rendering"
 		for y in -39..39 do

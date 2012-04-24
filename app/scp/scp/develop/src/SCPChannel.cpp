@@ -1,9 +1,7 @@
-#ifndef SCPCHANNEL_H_FSVO3QO8
-#define SCPCHANNEL_H_FSVO3QO8
-
+#include "stdafx.h"
 #include "SCPChannel.h"
 #include "SSHSession.h"
-#include "scope_guard.h"
+#include "ScopeGuard.h"
 
 #include <string>
 #include <fstream>
@@ -34,6 +32,10 @@ namespace {
              : dest;
         
         for_each(dirs.begin(), dirs.end(), phx::ref(path) += ("/" + arg1));
+
+#ifdef WIN32
+        replace_all(path, "/", "\\");
+#endif
         if (!fs::exists(path))
             fs::create_directory(path);
         
@@ -49,6 +51,10 @@ namespace utility { namespace comm { namespace ssh {
 ////////////////////////////////////////////////////////////////////////////////
 SCPChannel::SCPChannel(SSHSession* session)
     : _ssh(session)
+{
+}
+
+SCPChannel::~SCPChannel()
 {
 }
 
@@ -74,12 +80,13 @@ bool SCPChannel::download(string const& from, string const& to)
         if (rc == SSH_ERROR)
         {
             ::ssh_scp_close(_scp);
-            return false;
+            return dir_components.empty();
         }
 
         if (rc == SSH_SCP_REQUEST_NEWFILE)
         {
             auto size = ::ssh_scp_request_get_size(_scp);
+            auto mode = ::ssh_scp_request_get_permissions(_scp);
             auto path = create_path(to, dir_components);
                  path = str(format("%s/%s") 
                             % path 
@@ -87,30 +94,39 @@ bool SCPChannel::download(string const& from, string const& to)
             
             ofstream ofs; ofs.open(path.c_str(), ios_base::binary);
             if (!ofs.is_open())
-                throw runtime_error("destion dir is not available");
-
-            ::ssh_scp_accept_request(_scp);
+                throw runtime_error("destination dir is not available");
             
+            // now prepared to get the input data
+            ::ssh_scp_accept_request(_scp);
+
             int total_read = 0;
-            while (total_read < size)
+            do 
             {
                 char buffer[16384] = { 0 };
-                rc = ::ssh_scp_read(_scp, buffer, sizeof(buffer));
+                rc = ::ssh_scp_read(_scp, (void*)buffer, sizeof(buffer));
                 if (rc == SSH_ERROR)
                 {
                     _ssh->error("error.reading_scp:");
+
+                    cout << _ssh->error_msg();
                     ::ssh_scp_close(_scp);
                     return false; 
                 }
-                
-                ofs.write(buffer, rc);
-                total_read += rc;
-            }
+
+                if (rc > 0)
+                {
+                    ofs.write(buffer, rc);
+                    total_read += rc;
+                }
+            } while (total_read < size);
         }
         else if (rc == SSH_SCP_REQUEST_NEWDIR)
         { 
             auto name = string(::ssh_scp_request_get_filename(_scp));
+            auto mode = ::ssh_scp_request_get_permissions(_scp);
             dir_components.push_back(name);
+            // create_path(to, dir_components);
+
             ::ssh_scp_accept_request(_scp);
         }
         else if (rc == SSH_SCP_REQUEST_ENDDIR)
@@ -123,6 +139,7 @@ bool SCPChannel::download(string const& from, string const& to)
         }
         else if (rc == SSH_SCP_REQUEST_EOF)
         {
+            cout << "end of file\n";
             break;
         }
     }
@@ -139,5 +156,3 @@ bool SCPChannel::download(string const& from, string const& to)
 } // namespace ssh
 } // namespace comm
 } // namespace utility
-
-#endif

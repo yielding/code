@@ -4,17 +4,21 @@ APP       = "scp"
 APP_TEST  = "test_#{APP}"
 SRCS      = %w{ 
                 ./develop/src/SSHSession.cpp
+                ./develop/src/SSHChannel.cpp
+                ./develop/src/SCPChannel.cpp
                 ./main.cpp 
               }
 
 TEST_SRCS = %w{ 
                 ./develop/src/SSHSession.cpp
+                ./develop/src/SSHChannel.cpp
+                ./develop/src/SCPChannel.cpp
                 ./test_main.cpp
               }
 INCS      = "./develop/include"
 CXX       = "c++11"          # c++0x, clang++, blank
 CXXFLAGS  = ":v :d"          # :d, :O0 :O3 :w = -Wall
-LIBS      = "ssh"
+LIBS      = ":f :s ssh"
 
 load "~/code/build/app2.rake"
 
