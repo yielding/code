@@ -1,3 +1,5 @@
+#!/usr/local/bin/macruby
+
 framework 'Foundation'
 
 class Player

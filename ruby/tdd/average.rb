@@ -11,7 +11,6 @@ class Array
     return 0 if a.length == 0
     return sum(*a) / a.length
   end
-  
 end
 
 class TestAccumulator < Test::Unit::TestCase
@@ -33,5 +32,4 @@ class TestAccumulator < Test::Unit::TestCase
     assert_equal(3,  @acc.average(3, 3, 3))
     assert_equal(10, @acc.average(9, 10, 11))
   end
-  
 end
