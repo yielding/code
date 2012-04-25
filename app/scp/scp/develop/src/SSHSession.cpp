@@ -114,6 +114,9 @@ bool SSHSession::connect(string const& id, string const& passwd)
 
                 err = ::ssh_userauth_kbdint(_session, NULL, NULL);
             }
+            
+            if (err == SSH_AUTH_DENIED)
+                return false;
 
             break;
         }

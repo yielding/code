@@ -86,7 +86,6 @@ bool SCPChannel::download(string const& from, string const& to)
         if (rc == SSH_SCP_REQUEST_NEWFILE)
         {
             auto size = ::ssh_scp_request_get_size(_scp);
-            auto mode = ::ssh_scp_request_get_permissions(_scp);
             auto path = create_path(to, dir_components);
                  path = str(format("%s/%s") 
                             % path 
@@ -123,9 +122,8 @@ bool SCPChannel::download(string const& from, string const& to)
         else if (rc == SSH_SCP_REQUEST_NEWDIR)
         { 
             auto name = string(::ssh_scp_request_get_filename(_scp));
-            auto mode = ::ssh_scp_request_get_permissions(_scp);
             dir_components.push_back(name);
-            // create_path(to, dir_components);
+            create_path(to, dir_components);
 
             ::ssh_scp_accept_request(_scp);
         }
