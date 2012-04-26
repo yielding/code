@@ -22,7 +22,7 @@ class TestFourBox < Test::Unit::TestCase
      0 0 200 200
      0 0 200 200
      0 0 200 200")
-    assert_equal(fb.count, 10000)
+    assert_equal(fb.count, 40000)
   end
 
   def test_2

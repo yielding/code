@@ -5,6 +5,9 @@ queue.sync do
   sleep 1.0
   puts 'Done!'
 end
+
+puts "Synchronously dispatching evaluated"
+
 # Asynchronously dispatch some work to it.
 queue.async do
   puts 'Starting work!'
@@ -12,3 +15,4 @@ queue.async do
   puts 'Done!'
 end
 
+puts "Asynchronously dispatching evaluated"
