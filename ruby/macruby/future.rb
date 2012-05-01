@@ -1,7 +1,5 @@
 #!/usr/local/bin/macruby
 
-framework "Foundation"
-
 class Future
   def initialize(&block)
     Thread.current[:futures] ||= Dispatch::Queue.new("org.macruby.futures-#{Thread.current.object_id}")
