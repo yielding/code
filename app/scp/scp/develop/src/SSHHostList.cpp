@@ -20,7 +20,8 @@ using namespace boost;
 namespace impl {
     struct HostInfo 
     { 
-        string host, id, pw; 
+        string host, id, pw, from;
+        int port;
     };
 }
 
@@ -29,7 +30,11 @@ namespace impl {
 //
 BOOST_FUSION_ADAPT_STRUCT(
     impl::HostInfo,
-    (string, host) (string, id) (string, pw)
+    (string, host)
+    (int,    port)
+    (string, id) 
+    (string, pw)
+    (string, from)
 )
 
 namespace impl { 
@@ -43,8 +48,14 @@ struct HostInfoParser : qi::grammar<Iterator, HostInfo(), ascii::space_type>
     HostInfoParser() : HostInfoParser::base_type(start)
     {
         using namespace qi;
-        qs    %= lexeme['"' >> +(char_ - '"') >> '"'];
-        start %= lit("host") >> '{' >> qs >> ',' >> qs >> ',' >> qs >> '}';
+        qs    %= lexeme['"' >> *(char_ - '"') >> '"'];
+        start %= 
+            lit("host") >> '{' >> 
+            qs   >> ',' >> 
+            int_ >> ',' >> 
+            qs   >> ',' >> 
+            qs   >> ',' >> 
+            qs   >> '}';
     }
 
     qi::rule<Iterator, string(), ascii::space_type> qs;
@@ -103,13 +114,13 @@ public:
         return m_hosts.size();
     }
 
-    auto nth(int index) -> boost::tuple<string, string, string>
+    auto nth(int index) -> boost::tuple<string, int, string, string, string>
     {
         if (index >= m_hosts.size() || index < 0)
             throw std::runtime_error("wrong index reference");
 
         auto& h = m_hosts[index];
-        return boost::make_tuple(h.host, h.id, h.pw);
+        return boost::make_tuple(h.host, h.port, h.id, h.pw, h.from);
     }
 
 private:
@@ -162,7 +173,7 @@ uint32_t SSHHostList::count() const
     return _pimpl->count();
 }
 
-boost::tuple<string, string, string>
+boost::tuple<string, int, string, string, string>
 SSHHostList::nth(int index)
 {
     return _pimpl->nth(index);

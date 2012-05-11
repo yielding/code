@@ -44,23 +44,23 @@ def run_test_file(cmd)
 end
 
 watch ('develop/src/*\.cpp') { |m| 
-  run_test_file('./test_hfsplus') 
+  run_test_file('./test_scp') 
 }
 
 watch ('develop/include/*\.h') { |m| 
-  run_test_file('./test_hfsplus') 
+  run_test_file('./test_scp') 
 }
 
 watch('./*\.h') { |m| 
-  run_test_file('./test_hfsplus')
+  run_test_file('./test_scp')
 }
 
 watch('./*\.cpp') { |m| 
-  run_test_file('./test_hfsplus')
+  run_test_file('./test_scp')
 }
 
 watch('./Rakefile') { |m| 
-  run_test_file('./test_hfsplus')
+  run_test_file('./test_scp')
 }
 
 # Ctrl-\

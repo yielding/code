@@ -1,5 +1,4 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" "
 " Last modified : 2011년 11월  3일 목요일 09시 15분 06초 KST by yielding
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -22,8 +21,7 @@ set nu
 set nocp
 
 set laststatus=2
-set statusline=%<%F%h%m%r%h%w%y\ %=\ ascii:%b\ col:%c%V\ line:%l\,%L\ %P
-
+set statusline=%<%F%h%m%r%h%w%y\ %=\ ascii:%b,0x%-8B\ col:%c%V\ line:%l\,%L\ %P\ %{VisualSelectionSize()}
 set shortmess=a     " avoid to hit continue
 
 set report=0
@@ -34,13 +32,7 @@ set incsearch
 
 set nowrap
 
-set exrc
-
-set mousemodel=popup
-
 set commentstring=//%s
-
-set clipboard=unnamed
 
 "-----------------------------------------------------------------------------
 "
@@ -85,7 +77,7 @@ try
   if MySys() == "Windows_NT"
     set undodir="c:\Windows\Temp"
   else
-    set undodir=~/.vim/undodir
+    set undodir=~/vim_undo
   endif
 
   set undofile
@@ -118,6 +110,7 @@ Bundle 'gmarik/vundle'
 
 " My Bundles here:
 "
+Bundle 'JuliaLang/julia-vim'
 Bundle 'Conque-Shell'
 Bundle 'comments.vim'
 Bundle 'EnhCommentify.vim'
@@ -141,6 +134,11 @@ Bundle 'minibufexpl.vim'
 Bundle 'rails.vim'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'snipMate'
+"Bundle "MarcWeber/vim-addon-mw-utils"
+"Bundle "tomtom/tlib_vim"
+"Bundle "snipmate-snippets"
+"Bundle "garbas/vim-snipmate"
+
 Bundle 'tpope/vim-fugitive'
 Bundle 'wordlist.vim'
 "Bundle 'clang-complete'   " install using github directly
@@ -166,6 +164,7 @@ let showmarks_ignore_type = "hqm"
 " Hilight lower & upper marks
 "let showmarks_hlline_lower = 1
 "let showmarks_hlline_upper = 1 
+
 "-----------------------------------------------------------------------------
 "
 " Encoding, file saving
@@ -243,7 +242,7 @@ set path+=~/develop/include
 set popt=syntax:y,number:y
 
 if MySys() == "mac"
-  set guifont=Menlo\ Regular:h12
+  set guifont=Menlo\ Regular:h17
   set shell=/opt/local/bin/bash
 elseif MySys() == "Windows_NT"
   set guifont=Fixedsys:h12
@@ -316,12 +315,14 @@ map   -       "yyy:@y<cr>
 "nmap  ;       :%s/\<<c-r>=expand("<cword>")<cr>\>
 map   ;s   :up \| saveas! %:p:r-<C-R>=strftime("%y%m%d")<CR>-bak.txt \| 3sleep \| e #<CR> 
 
-"map <F2>    :set makeprg=g++-mp-4.6\ -std=gnu++0x\ %\ -o\ %<<CR>
-map <F2>    :set makeprg=clang++\ -std=gnu++0x\ %\ -o\ %<<CR>
+map <F2>    :set makeprg=g++-mp-4.7\ -std=c++11\ %\ -o\ %<<CR>
+"map <F2>    :set makeprg=clang++-mp-3.1\ -std=c++11\ %\ -o\ %<<CR>
+"map <F2>    :set makeprg=clang++\ -std=gnu++0x\ %\ -o\ %<<CR>
 map <F3>    :set makeprg=rake<CR>
 map <F4>    :set makeprg=xcodebuild\ -sdk\ iphonesimulator4.3<CR>
 map <F6>    :make<CR>
 map <F7>    :!./%< <CR>
+map <F8>    :!mono ./%<.exe <CR>
 map <F9>    :TagbarToggle<CR>
 map <F10>   :FufFile<CR>
 map <F11>   :FufBuffer<CR>
@@ -574,10 +575,18 @@ command! -nargs=0 OUTLINE call <SID>OutlineToggle()
 "color DevC++
 if (has('gui_running')) 
   "color vanzan_color
-  color clarity
+  color molokai
 else
   color jellybeans
 endif
+
+"-----------------------------------------------------------------------------
+"
+" snipMate and complte
+"
+"-----------------------------------------------------------------------------
+let g:SuperTabDefaultCompletionType = "context"
+set rtp+=~/.vim/snippets
 
 "-----------------------------------------------------------------------------
 "
@@ -600,7 +609,7 @@ autocmd BufRead,BufNew :call UMiniBufExplorer
 " ruby
 "
 "-----------------------------------------------------------------------------
-let g:ruby_path = "/Users/yielding/.rvm/rubies/default/bin"
+let g:ruby_path = "/opt/local/bin"
 au FileType ruby filetype plugin indent on
 au FileType ruby set omnifunc=rubycomplete#Complete
 au FileType ruby let g:rubycomplete_buffer_loading = 1
@@ -622,7 +631,7 @@ let g:SuperTabDefaultCompletionType = "context"
 let g:clang_auto_select = 1
 let g:clang_complete_auto = 0
 let g:clang_complete_copen = 1
-let g:clang_user_options ='-fblocks -std=c++0x -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk -D__IPHONE_OS_VERSION_MIN_REQUIRED=40300'
+"let g:clang_user_options ='-fblocks -std=c++0x -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk -D__IPHONE_OS_VERSION_MIN_REQUIRED=40300'
 let g:clang_user_options ='-fblocks -std=c++0x -isysroot /Developer/SDKs/MacOSX10.7.sdk'
 "-----------------------------------------------------------------------------
 "
@@ -654,10 +663,12 @@ au BufReadCmd file:///* exe "bd!|edit ".substitute(expand("<afile>"),"file:/*","
 
 au BufEnter * :syntax sync fromstart
 au BufNewFile,BufReadPost *.py         compiler pyunit
+au BufNewFile,BufReadPost *.cs         compiler gmcs
 au BufNewFile,BufReadPost *.pas        set ft=delphi
 au BufNewFile,BufReadPost *.java       compiler javac 
 au BufNewFile,BufReadPost *.rb         set ts=2 sw=2
 au BufNewFile,BufReadPost *.erb        set ft=eruby 
+au BufNewFile,BufReadPost *.md         set ft=markdown 
 au BufNewFile,BufReadPost *.io         set ft=io 
 au BufNewFile,BufReadPost *.hx         set ft=haxe 
 au BufNewFile,BufReadPost *.m          set ft=objc 

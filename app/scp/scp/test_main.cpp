@@ -21,6 +21,16 @@ protected:
     }
 };
 
+TEST_F(SCPTest, XXXXYYY)
+{
+    EXPECT_EQ(1, 2);
+}
+
+TEST_F(SCPTest, XXXX)
+{
+    EXPECT_EQ(1, 1);
+}
+
 TEST_F(SCPTest, TurtleWithMock)
 {
 //    int n = 100;

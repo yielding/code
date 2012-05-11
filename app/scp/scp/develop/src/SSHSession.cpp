@@ -29,17 +29,18 @@ namespace utility { namespace comm { namespace ssh {
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-SSHSession::SSHSession(string const& host, int port)
+SSHSession::SSHSession(string const& host, string const& username, int port)
     : _connected(false)
 {
-    int verbosity = SSH_LOG_PROTOCOL;
+//    int verbosity = SSH_LOG_PROTOCOL;
     _session = ::ssh_new();
     if (_session == NULL)
         throw std::runtime_error("SSH session creation error");
 
     ::ssh_options_set(_session, SSH_OPTIONS_HOST, host.c_str());
+    ::ssh_options_set(_session, SSH_OPTIONS_USER, username.c_str());
     ::ssh_options_set(_session, SSH_OPTIONS_PORT, &port);
-    ::ssh_options_set(_session, SSH_OPTIONS_LOG_VERBOSITY, &verbosity);
+//    ::ssh_options_set(_session, SSH_OPTIONS_LOG_VERBOSITY, &verbosity);
 
     _has_error = false;
 }
@@ -61,7 +62,7 @@ void SSHSession::disconnect()
     ::ssh_disconnect(_session);
 }
     
-bool SSHSession::connect(string const& id, string const& passwd)
+bool SSHSession::connect(string const& passwd)
 {
     int rc = ::ssh_connect(_session);
     if (rc != SSH_OK)
@@ -123,8 +124,8 @@ bool SSHSession::connect(string const& id, string const& passwd)
 
         if (method & SSH_AUTH_METHOD_PASSWORD)
         {
-            if (ssh_userauth_password(_session, NULL, passwd.c_str()) == 
-                SSH_AUTH_SUCCESS)
+            if (::ssh_userauth_password(_session, NULL, passwd.c_str()) 
+                == SSH_AUTH_SUCCESS)
                 break;
 
             SSH_ERROR_RET("Error authenticating with password:");
@@ -144,7 +145,8 @@ bool SSHSession::verify_known_host()
     // SSH_SERVER_KNOWN_CHANGED, SSH_SERVER_FOUND_OTHER
     // SSH_SERVER_FILE_NOT_FOUND SSH_SERVER_NOT_KNOWN SSH_SERVER_ERROR
     //
-    return ::ssh_is_server_known(_session) == SSH_SERVER_KNOWN_OK;
+    auto res = ::ssh_is_server_known(_session);
+    return  res == SSH_SERVER_KNOWN_OK;
 }
 
 void SSHSession::error(string const& msg)

@@ -1,5 +1,6 @@
 #include "SSHSession.h"
 #include "SCPChannel.h"
+#include "SSHHostList.h"
 
 #include <iostream>
 #include <fstream>
@@ -14,47 +15,21 @@ using namespace boost;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace 
-{
-    string get_passwd_from(string&& path)
-    {
-        string passwd;
-        
-        ifstream ifs; ifs.open(path.c_str());
-        if (ifs.is_open())
-        {
-            string account; 
-            getline(ifs, account);
-            if (!account.empty())
-                passwd = account.substr(account.find_first_of(":")+1);
-        }
-        
-        return passwd;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
-    vector<pair<string, string>> hosts;
-    hosts.push_back(make_pair("127.0.0.1",      "/Users/yielding/download_test"));
-    hosts.push_back(make_pair("219.241.220.98", "/home/yielding/test"));
-       
-    int index = 0;
-    if (argc > 1) 
-        index = atoi(argv[1]);
+    SSHHostList hosts;
     
-    auto host = hosts[index].first;
-    auto from = hosts[index].second;
-    auto to   = "/Users/yielding/down";
-    auto pw   = get_passwd_from("/Users/yielding/.passwd");
+    if (!hosts.init_with_file("/Users/yielding/.passwd"))
+        return EXIT_FAILURE;
     
-    utility::comm::ssh::SSHSession ssh(host);
-    if (!ssh.connect("yielding", "alsrudk!"))
+    string host, user, pw, from, xx;
+    int port;
+    tie(host, port, user, pw, from) = hosts.nth(1);
+    
+    string to = "/Users/yielding/down";
+    
+    utility::comm::ssh::SSHSession ssh(host, user, port);
+    if (!ssh.connect(pw))
     {
         cout << str(format("ssh.connect error: %s\n") % ssh.error_msg());
         return EXIT_FAILURE;

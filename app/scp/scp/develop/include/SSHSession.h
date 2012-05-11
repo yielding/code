@@ -18,11 +18,11 @@ class SCPChannel;
 class SSHSession
 {
 public:
-    SSHSession(std::string const& host="127.0.0.1", int port=22);
+    SSHSession(std::string const& host, std::string const& user, int port=22);
     ~SSHSession();
 
     auto disconnect() -> void;
-    auto connect(std::string const& id="root", std::string const& passwd="alpine") -> bool;
+    auto connect(std::string const& passwd) -> bool;
     
     auto session() -> ssh_session&  { return _session;    }
 

@@ -1,84 +1,62 @@
 # Read File Into Vector
 snippet readfile
 	std::vector<char> v;
-	if (FILE *${2:fp} = fopen(${1:"filename"}, "r")) 
-	{
+	if (FILE *${2:fp} = fopen(${1:"filename"}, "r")) {
 		char buf[1024];
 		while (size_t len = fread(buf, 1, sizeof(buf), $2))
 			v.insert(v.end(), buf, buf + len);
 		fclose($2);
 	}${3}
+
 # std::map
 snippet map
-	std::map<${1:key}, ${2:value}> map${3};
+	std::map<${1:key}, ${2:value}> ${3};
+
 # std::vector
 snippet vector
-	std::vector<${1:char}> v${2};
-snippet tp
-	template <typename ${1}> ${2}
+	std::vector<${1:char}> ${2};
+
 # Namespace
 snippet ns
-	namespace ${1}
-#snippet ns
-#	namespace ${1:`Filename('', 'my')`} {
-#		${2}
-#	} /* $1 */
-snippet nsstd
-	using namespace std;
-snippet nsboost
-	using namespace boost;
-snippet nsld
-	using namespace boost::lambda;
+	namespace ${1:`Filename('', 'my')`} {
+		${2}
+	} /* namespace $1 */
+
 # Class
-snippet cl
-	class ${1:`Filename('$1_t', 'name')`}
+snippet class
+	class ${1:`Filename('$1', 'name')`} 
 	{
 	public:
-		$1(${2:arguments});
-		virtual ~$1();
+		$1(${2});
+		~$1();
 
 	private:
 		${3:/* data */}
 	};
 
-snippet tcl
-	#include <gtest/gtest.h>
-	#include <iostream>
-
-	using namespace std;
-
-	class ${1:}Test: public testing::Test
+snippet fori
+	for (int ${2:i} = 0; $2 < ${1:count}; $2${3:++})
 	{
-	protected:
-		virtual void SetUp()
-		{
-			m_start_time = time(NULL);
-		}
-
-		virtual void TearDown()
-		{
-			time_t const end_time = time(NULL);
-			EXPECT_TRUE(end_time - m_start_time <= 5) << "The Test took too long.";
-		}
-
-		time_t m_start_time;
-	};
-
-snippet tfun
-	TEST_F(${1}, ${2})
-	{
-		${3}
+		${4:/* code */}
 	}
 
-snippet eq
-	ASSERT_EQ(${1}, ${2});
+# auto iterator
+snippet itera
+	for (auto ${1:i} = $1.begin(); $1 != $1.end(); ++$1)
+	{
+		${2:std::cout << *$1 << std::endl;}
+	}
 
-snippet ne
-	ASSERT_NE(${1}, ${2});
+# iterator
+snippet iter
+	for (${1:std::vector}<${2:type}>::${3:const_iterator} ${4:i} = ${5:container}.begin(); $4 != $5.end(); ++$4)
+	{
+		${6}
+	}
 
-snippet ee
-	EXPECT_EQ(${1}, ${2});
-
-snippet et
-	EXPECT_TRUE(${1});
-
+# member function implementations
+snippet mfun
+	${4:void} ${1:`Filename('$1', 'ClassName')`}::${2:memberFunction}(${3})
+	{
+		${5:return};
+	}

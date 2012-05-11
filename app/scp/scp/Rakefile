@@ -6,6 +6,7 @@ SRCS      = %w{
                 ./develop/src/SSHSession.cpp
                 ./develop/src/SSHChannel.cpp
                 ./develop/src/SCPChannel.cpp
+                ./develop/src/SSHHostList.cpp
                 ./main.cpp 
               }
 
@@ -13,12 +14,13 @@ TEST_SRCS = %w{
                 ./develop/src/SSHSession.cpp
                 ./develop/src/SSHChannel.cpp
                 ./develop/src/SCPChannel.cpp
+                ./develop/src/SSHHostList.cpp
                 ./test_main.cpp
               }
 INCS      = "./develop/include"
 CXX       = "c++11"          # c++0x, clang++, blank
 CXXFLAGS  = ":v :d"          # :d, :O0 :O3 :w = -Wall
-LIBS      = ":f :s ssh"
+LIBS      = ":f :s ssh gmock"
 
 load "~/code/build/app2.rake"
 

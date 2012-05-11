@@ -91,6 +91,12 @@ bool SCPChannel::download(string const& from, string const& to)
                             % path 
                             % string(::ssh_scp_request_get_filename(_scp)));
             
+            if (ends_with(path, "Talk.sqlite"))
+            {
+                int a = 10;
+                a ++;
+            }
+            
             ofstream ofs; ofs.open(path.c_str(), ios_base::binary);
             if (!ofs.is_open())
                 throw runtime_error("destination dir is not available");
@@ -101,7 +107,7 @@ bool SCPChannel::download(string const& from, string const& to)
             int total_read = 0;
             do 
             {
-                char buffer[16384] = { 0 };
+                char buffer[64*1024] = { 0 };
                 rc = ::ssh_scp_read(_scp, (void*)buffer, sizeof(buffer));
                 if (rc == SSH_ERROR)
                 {
@@ -111,7 +117,11 @@ bool SCPChannel::download(string const& from, string const& to)
                     ::ssh_scp_close(_scp);
                     return false; 
                 }
-
+                
+                if (rc == 0)
+                {
+                    break;
+                }
                 if (rc > 0)
                 {
                     ofs.write(buffer, rc);
@@ -133,7 +143,8 @@ bool SCPChannel::download(string const& from, string const& to)
         }
         else if (rc == SSH_SCP_REQUEST_WARNING)
         {
-            cout << ::ssh_scp_request_get_warning(_scp);
+            cout << str(format("SSH_SCP_REQUEST_WARNING: %s\n") 
+                    % ::ssh_scp_request_get_warning(_scp));
         }
         else if (rc == SSH_SCP_REQUEST_EOF)
         {
