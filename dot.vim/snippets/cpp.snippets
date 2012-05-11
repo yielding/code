@@ -1,7 +1,8 @@
 # Read File Into Vector
 snippet readfile
 	std::vector<char> v;
-	if (FILE *${2:fp} = fopen(${1:"filename"}, "r")) {
+	if (FILE *${2:fp} = fopen(${1:"filename"}, "r"))
+	{
 		char buf[1024];
 		while (size_t len = fread(buf, 1, sizeof(buf), $2))
 			v.insert(v.end(), buf, buf + len);
@@ -20,7 +21,7 @@ snippet vector
 snippet ns
 	namespace ${1:`Filename('', 'my')`} {
 		${2}
-	} /* namespace $1 */
+	} /* end of $1 */
 
 # Class
 snippet class
@@ -41,18 +42,15 @@ snippet fori
 	}
 
 # auto iterator
-snippet itera
-	for (auto ${1:i} = $1.begin(); $1 != $1.end(); ++$1)
+snippet fora
+	for (auto ${1:it} = ${2:container}.begin(); $1 != $2.end(); ++$1)
 	{
-		${2:std::cout << *$1 << std::endl;}
+		${3:/* code */}
 	}
 
-# iterator
-snippet iter
-	for (${1:std::vector}<${2:type}>::${3:const_iterator} ${4:i} = ${5:container}.begin(); $4 != $5.end(); ++$4)
-	{
-		${6}
-	}
+snippet fore
+	for_each(${1:container}.begin(), $1.end(), ${2:lambda});
+
 
 # member function implementations
 snippet mfun
