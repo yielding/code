@@ -110,6 +110,7 @@ Bundle 'gmarik/vundle'
 
 " My Bundles here:
 "
+Bundle 'Syntastic'
 Bundle 'JuliaLang/julia-vim'
 Bundle 'Conque-Shell'
 Bundle 'comments.vim'
