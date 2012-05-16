@@ -1,0 +1,5 @@
+group :test do
+  gem 'guard-minitest'
+  gem 'ruby_gntp'
+  gem 'bindata'
+end
