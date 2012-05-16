@@ -1,8 +1,5 @@
-#!/usr/bin/env ruby
 # encoding: utf-8
-
-require "test/unit"
-require_relative "../lib/phone_numbers"
+require File.dirname(__FILE__) + '/test_helper.rb'
 
 class TestPhoneNumber < Test::Unit::TestCase
   def setup

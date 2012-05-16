@@ -1,9 +1,6 @@
-#!/usr/bin/env ruby
 # encoding: utf-8
-
-require "test/unit"
-require_relative "../lib/book.rb"
-
+require File.dirname(__FILE__) + '/test_helper.rb'
+#
 class TestBook < Test::Unit::TestCase
   def setup
     @fname = "resources/book.pbk"
