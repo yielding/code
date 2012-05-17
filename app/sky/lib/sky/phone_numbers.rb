@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # encoding: utf-8
 
 require "bindata"
@@ -7,18 +6,22 @@ module Sky
   class PhoneNumber < BinData::Record
     endian :little
     uint16 :signature
-    string :magic, :read_length => 6
-    string :skip,  :read_length => 8
-    array  :records, :read_until => :eof do
-      uint16 :rid
-      uint16 :next_rid
-      string :skip0,    :read_length => 7
-      uint8  :type
-      string :phone_no, :read_length => 34
+    string :magic,   :read_length => 6
+    string :skip,    :read_length => 8
+    array  :records, :read_until  => :eof do
+      uint16  :rid
+      uint16  :next_rid
+      uint16  :skip0
+      uint16  :book_rid
+      string  :skip1,   :read_length => 3
+      uint8   :type
+      stringz :phone_no
+      string  :skip2,   
+              :read_length => -> { 0x2e - 12 - (phone_no.length + 1) }
     end
 
     def numbers
-      actual_recs.map { |r| r.phone_no.strip }
+      actual_recs.map { |r| r.phone_no }
     end
 
     def rids
@@ -33,9 +36,8 @@ module Sky
       records.size
     end
 
-    private
     def actual_recs
-      records.select { |r| r.rid > 0 } 
+      @acture_res ||= records.select { |r| r.rid > 0 } 
     end
   end
 end
