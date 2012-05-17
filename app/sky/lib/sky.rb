@@ -25,9 +25,9 @@ module Sky
 
     def synthesize
       @phno.actual_recs.each do |rec| 
-        # in case we analyze unused area
-        # there is no ordering in the records
-        # so, search every record instead of direct access
+        # In case we analyze unused area, there is no ordering 
+        # in the records. So, search every record instead of direct access
+        #
         r = @book.record_by_rid(rec.book_rid)[0]
         unless r.nil?
           name = r.name.encode("utf-8", "euc-kr")

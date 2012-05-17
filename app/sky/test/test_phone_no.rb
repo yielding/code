@@ -12,16 +12,16 @@ class TestPhoneNumber < Test::Unit::TestCase
     assert_equal(@phone.skip, "\x00"*8)
   end
 
- def test_total_record_count
-   div, mod = (File.size?(@fname) - 16).divmod(0x2E)
-   assert_equal(mod, 0)
-   assert_equal(div, @phone.record_count)
-   rs = @phone.rids.size
-   ns = @phone.numbers.size
+  def test_total_record_count
+    div, mod = (File.size?(@fname) - 16).divmod(0x2E)
+    assert_equal(mod, 0)
+    assert_equal(div, @phone.record_count)
+    rs = @phone.rids.size
+    ns = @phone.numbers.size
 
-   assert_equal(rs, @phone.count)
-   assert_equal(ns, @phone.count)
- end
+    assert_equal(rs, @phone.count)
+    assert_equal(ns, @phone.count)
+  end
 
   def test_record_0
     rec = @phone.records[0]
@@ -30,9 +30,9 @@ class TestPhoneNumber < Test::Unit::TestCase
     assert_equal(rec.phone_no, "0519970423")
   end
 
- def test_record_1
-   rec = @phone.records[1]
-   assert_equal(rec.phone_no, "01035950423")
- end
+  def test_record_1
+    rec = @phone.records[1]
+    assert_equal(rec.phone_no, "01035950423")
+  end
 
 end
