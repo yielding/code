@@ -4,8 +4,8 @@
 guard 'minitest' do
   # with Minitest::Unit
   watch(%r|^test/(.*)\/?test_(.*)\.rb|)
-  watch(%r|^lib/(.*)([^/]+)\.rb|) { |m| 
-    "test/#{m[1]}test_#{m[2]}.rb" 
+  watch(%r|^lib/sky/([^/]+)\.rb|) { |m| 
+    "test/test_#{m[1]}.rb" 
   }
 
   # with Minitest::Spec

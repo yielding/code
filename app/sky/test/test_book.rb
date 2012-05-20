@@ -1,6 +1,6 @@
 # encoding: utf-8
 require File.dirname(__FILE__) + '/test_helper.rb'
-#
+
 class TestBook < Test::Unit::TestCase
   def setup
     @fname = "resources/book.pbk"
