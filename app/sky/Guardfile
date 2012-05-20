@@ -4,9 +4,14 @@
 guard 'minitest' do
   # with Minitest::Unit
   watch(%r|^test/(.*)\/?test_(.*)\.rb|)
+<<<<<<< HEAD
   watch(%r|^lib/sky/([^/]+)\.rb|) { |m| 
     "test/test_#{m[1]}.rb" 
   }
+=======
+  watch(%r|^lib/sky/([^/]+)\.rb|)  { |m| "test/test_#{m[1]}.rb" }
+  watch(%r|^test/test_helper\.rb|) { "test" }
+>>>>>>> 092caf08212a13c489212a045bd989a2f2007701
 
   # with Minitest::Spec
   # watch(%r|^spec/(.*)_spec\.rb|)
