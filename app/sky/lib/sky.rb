@@ -19,7 +19,7 @@ module Sky
     def print
       @contacts.each do |key, value|
         no = value.join(", ")
-        printf "%-10s: %s\n", key, no
+        printf "%s\n  %s\n", key.strip, no
       end
     end
 
@@ -27,7 +27,6 @@ module Sky
       @phno.actual_recs.each do |rec| 
         # In case we analyze unused area, there is no ordering 
         # in the records. So, search every record instead of direct access
-        #
         r = @book.record_by_rid(rec.book_rid)[0]
         unless r.nil?
           name = r.name.encode("utf-8", "euc-kr")

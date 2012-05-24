@@ -11,10 +11,13 @@ guard 'minitest' do
 =======
   watch(%r|^lib/sky/([^/]+)\.rb|)  { |m| "test/test_#{m[1]}.rb" }
   watch(%r|^test/test_helper\.rb|) { "test" }
+<<<<<<< HEAD
 >>>>>>> 092caf08212a13c489212a045bd989a2f2007701
 
   # with Minitest::Spec
   # watch(%r|^spec/(.*)_spec\.rb|)
   # watch(%r|^lib/(.*)([^/]+)\.rb|)     { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
   # watch(%r|^spec/spec_helper\.rb|)    { "spec" }
+=======
+>>>>>>> a9cbff8a1fd80eb7fe8338e97cb61423c6ae7cb2
 end
