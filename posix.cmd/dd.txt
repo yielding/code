@@ -1,2 +1,0 @@
-1) dd if=./data_20111107-1422.dmg of=test.bin bs=1024 count=1 skip=1
-   * 주어진 파일에서 1k를 건너뛴 후 1k를 읽고 test.bin에 저장

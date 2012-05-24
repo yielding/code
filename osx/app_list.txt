@@ -1,5 +1,0 @@
-growl           1.2.2
-flash player    11.1.102.62
-mac FUSE        2.1.7
-startup sound   1.1b3
-Flip4Mac WMV 
