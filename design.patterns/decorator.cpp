@@ -103,7 +103,6 @@ private:
   string m_ingredient;
 };
 
-
 int main(int argc, char const* argv[])
 {
   ICoffee* coffee = new Sprinlkes(new Milk(new SimpleCoffee()));
