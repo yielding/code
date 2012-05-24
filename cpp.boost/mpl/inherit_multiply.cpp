@@ -9,14 +9,14 @@ namespace mpl = boost::mpl;
 using namespace mpl::placeholders;
 using namespace std;
 
-template< typename T >
+template<typename T>
 struct tuple_field
 {
   typedef tuple_field type; // note the typedef
   T field_;
 };
 
-template< typename T >
+template<typename T>
 T& 
 field(tuple_field<T>& t)
 {
@@ -25,8 +25,7 @@ field(tuple_field<T>& t)
 
 struct record
 {
-  record()
-  {}
+  record() {}
 
   record(int n, string na): no(n), name(na) {}
 
@@ -34,7 +33,7 @@ struct record
   string name;
 };
 
-typedef mpl::inherit_linearly <
+typedef mpl::inherit_linearly<
     mpl::list<int, char const*, bool, record>
   , mpl::inherit< _1, tuple_field<_2> >
 >::type my_tuple;

@@ -33,7 +33,6 @@ template <class T0, class T1, class T2>
 struct tiny_size
   : mpl::int_<3> {};
 
-
 template <class T0, class T1>
 struct tiny_size<T0,T1,none>
   : mpl::int_<2> {};
