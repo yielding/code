@@ -1,8 +1,8 @@
 # -*- ruby -*-
 
-SRCS      = %w{fs.basic.cpp}
+SRCS      = %w{fs.parent_path.cpp}
 TEST_SRCS = %w{test_fs.basic.cpp}
-APP       = "fs.basic"
+APP       = "fs.parent_path"
 APP_TEST  = "test_fs.basic"
 CXX       = "c++0x"
 CXXFLAGS  = ":v :d :w"   # :d , :w=-Wall :O0 :O3
