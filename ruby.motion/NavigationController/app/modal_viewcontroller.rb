@@ -8,7 +8,7 @@ class ModalDialog < UIViewController
     self.view.addSubview(label)
 
     btn = UIButton.buttonWithType(UIButtonTypeRoundedRect)
-    btn.setTitle("Good-bye" forState:UIControlStateNormal)
+    btn.setTitle("Good-bye", forState:UIControlStateNormal)
     btn.sizeToFit
     new_point = self.view.center
   end
