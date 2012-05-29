@@ -5,7 +5,8 @@ class TopMenuController < UITableViewController
       @items = ["ViewController1", 
                 "ViewController2", 
                 "ModalDialogViewController", 
-                "FullScreenWithTransparent"
+                "FullScreenWithTransparent",
+                "TabBar"
                ]
     end
     self
