@@ -11,7 +11,6 @@ class ModalDialog < UIViewController
     btn.setTitle("Good-bye" forState:UIControlStateNormal)
     btn.sizeToFit
     new_point = self.view.center
-
   end
 
   def goodbyeDidPush

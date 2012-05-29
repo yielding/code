@@ -15,7 +15,7 @@ int main(int argc, char const* argv[])
 
   io.write((char*)buffer, 5);
   io.seekp(0, ios_base::beg);
-  char* d = "k";
+  char const* d = "k";
   io.write(d, 1);
 
   char data[10] = { 0 };
