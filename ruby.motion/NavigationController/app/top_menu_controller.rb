@@ -4,7 +4,7 @@ class TopMenuController < UITableViewController
       self.title = "최상위 메뉴"
       @items = ["ViewController1", 
                 "ViewController2", 
-                "ModalViewController", 
+                "ModalDialogViewController", 
                 "FullScreenWithTransparent"
                ]
     end
