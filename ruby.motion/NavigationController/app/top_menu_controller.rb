@@ -1,6 +1,6 @@
 class TopMenuController < UITableViewController
   def init
-    if super.initWithStyle(UITableViewStylePlain)  # =====> initWithStyle()
+    if super.initWithStyle(UITableViewStylePlain)
       self.title = "최상위 메뉴"
       @items = ["ViewController1", 
                 "ViewController2", 
