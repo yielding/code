@@ -1,4 +1,5 @@
 #include <string>
+#include <fstream>
 #include <iostream>
 
 #include <mruby.h>
@@ -13,37 +14,45 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-static mrb_sym id_push;
+namespace {
+  
+  static mrb_sym id_push;
 
-mrb_value t_init(mrb_state* mrb, mrb_value self)
-{
-  auto arr = mrb_ary_new(mrb);
-  mrb_iv_set(mrb, self, mrb_intern(mrb, "@arr"), arr);
-  return self;
-}
+  mrb_value t_init(mrb_state* mrb, mrb_value self)
+  {
+    auto arr = mrb_ary_new(mrb);
+    mrb_iv_set(mrb, self, mrb_intern(mrb, "@arr"), arr);
+    return self;
+  }
 
-mrb_value t_add(mrb_state* mrb, mrb_value self)
-{
-  auto arr = mrb_iv_get(mrb, self, mrb_intern(mrb, "@arr"));
-  mrb_funcall(mrb, arr, "push", 1);
-  return arr;
-}
+  mrb_value t_add(mrb_state* mrb, mrb_value self)
+  {
+    auto arr = mrb_iv_get(mrb, self, mrb_intern(mrb, "@arr"));
+    mrb_funcall(mrb, arr, "push", 1);
+    return arr;
+  }
 
-static struct RClass* cTest;
-void init_by_test(mrb_state* mrb)
-{
-  cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
+  static struct RClass* cTest;
+  void init_by_test(mrb_state* mrb)
+  {
+    cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
 
-  mrb_define_method(mrb, cTest, "initialize", t_init, ARGS_NONE());
-  mrb_define_method(mrb, cTest, "add", t_add, ARGS_REQ(1));
-  id_push = mrb_intern(mrb, "push");
-}
+    mrb_define_method(mrb, cTest, "initialize", t_init, ARGS_NONE());
+    mrb_define_method(mrb, cTest, "add", t_add, ARGS_REQ(1));
+    id_push = mrb_intern(mrb, "push");
+  }
+} 
 
 int main()
 {
-  string code("t = MyTest.new; t.add(1); p t.methods");
-
   cout << "Executing Ruby code from C++!\n";
+
+  ifstream ifs("mytest.rb");
+  string line, code;
+  while (getline(ifs, line)) 
+    code += line + "\n";
+
+  cout << code;
 
   auto mrb = mrb_open();
 
