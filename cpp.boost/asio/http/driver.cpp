@@ -280,31 +280,6 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char const* argv[])
 {
-<<<<<<< HEAD
-  Motoroi m("192.168.1.7");
-
-  auto pictures = m.prepare_pictures();
-  cout << "final count: " << pictures.size() << endl;
-  for (auto i=0; i<pictures.size(); ++i)
-  {
-    pictures[i]->save_to(".");
-  }
-
-//  auto sms = m.prepare_sms();
-//  cout << "final count: " << sms.size() << endl;
-//  for (auto i=0; i<sms.size(); ++i)
-//    cout << sms[i]->to_s() << endl;
-
-//  auto calllog = m.prepare_calllog();
-//  cout << "final count: " << calllog.size() << endl;
-//  for (auto i=0; i<calllog.size(); ++i)
-//    cout << calllog[i]->to_s() << endl;
-
-//  auto inbox = m.prepare_mobile_inbox();
-//  cout << "final count: " << inbox.size() << endl;
-//  for (auto i=0; i<inbox.size(); ++i)
-//    cout << inbox[i]->to_s() << endl;
-=======
   Motoroi m("192.168.1.7", "8080", 10);
 
   try
@@ -329,7 +304,6 @@ int main(int argc, char const* argv[])
   {
     cout << "got an exception: " << e.what() << endl;
   }
->>>>>>> 69c8cf112b566ba48ec8acb9c1acf9ebbaeab18c
 
   return 0;
 }
