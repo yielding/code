@@ -136,9 +136,6 @@ Bundle 'rails.vim'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'snipMate'
 "Bundle "MarcWeber/vim-addon-mw-utils"
-"Bundle "tomtom/tlib_vim"
-"Bundle "snipmate-snippets"
-"Bundle "garbas/vim-snipmate"
 
 Bundle 'tpope/vim-fugitive'
 Bundle 'wordlist.vim'
@@ -238,7 +235,7 @@ set tags=~/.vim/tags/boost,~/.vim/tags/stl
 set tags+=tags;$HOME
 
 set path=.,/usr/include/c++/4.2.1,/opt/local/include,/usr/include
-set path+=~/develop/include
+set path+=~/develop/include,~/opensource/mruby/include
 
 set popt=syntax:y,number:y
 
@@ -576,6 +573,7 @@ command! -nargs=0 OUTLINE call <SID>OutlineToggle()
 "color DevC++
 if (has('gui_running')) 
   "color vanzan_color
+  "color peaksea
   color molokai
 else
   color jellybeans
@@ -594,12 +592,12 @@ set rtp+=~/.vim/snippets
 " buffer explorer
 "
 "-----------------------------------------------------------------------------
-let g:miniBufExplMapWindowNavVim = 1 
+let g:miniBufExplMapWindowNavVim    = 1 
 let g:miniBufExplMapWindowNavArrows = 1 
-let g:miniBufExplMapCTabSwitchBufs = 1 
-let g:miniBufExplModSelTarget = 1 
-let g:bufExplorerDefaultHelp = 0
-let g:bufExplorerShowRelativePath = 1
+let g:miniBufExplMapCTabSwitchBufs  = 1 
+let g:miniBufExplModSelTarget       = 1 
+let g:bufExplorerDefaultHelp        = 0
+let g:bufExplorerShowRelativePath   = 1
 
 let g:bufExplorerSortBy = "name"
 
@@ -655,6 +653,14 @@ let loaded_matchparen = 0
 "  set transparency=10
 "endif
 
+"-----------------------------------------------------------------------------
+"
+" syntax match
+"
+"-----------------------------------------------------------------------------
+let g:syntastic_mode_map = { 'mode': 'active',
+                           \ 'active_filetypes': ['c++', 'c'],
+                           \ 'passive_filetypes': ['ruby'] }
 "-----------------------------------------------------------------------------
 "
 " 자주 쓰는 autocmd 

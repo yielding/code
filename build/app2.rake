@@ -40,6 +40,14 @@ if defined? CXXFLAGS
   end
 end
 
+# YRV : YARV 
+YVM     = "/opt/local"
+YVM_INC = "#{YVM}/include/ruby-1.9.1"
+
+# YRV : YARV 
+MVM     = "/Users/yielding/opensource/mruby"
+MVM_INC = "#{MVM}/include"
+
 RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.3-p0"
 RVM_INC = "#{RVM}/include/ruby-1.9.1"
 RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems"
@@ -50,6 +58,8 @@ if defined? INCS
   INCS.split.each do |i|
      flag = case i
             when /:rice/ ; " -I#{RVM_INC}/x86_64-darwin11.2.0 -I#{RVM_INC} -I#{RICE}/include"
+            when /:yvm/  ; " -I#{YVM_INC}/x86_64-darwin11     -I#{YVM_INC}"
+            when /:mvm/  ; " -I#{MVM_INC}"
             else
              " -I#{i}"
             end
@@ -63,7 +73,9 @@ if defined? LDFLAGS
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
            when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
-           when /:rice/; " -L#{RVM}/lib -L#{RICE}/lib" 
+           when /:rice/ ; " -L#{RVM}/lib -L#{RICE}/lib -ldl -lruby.1.9.1 -lrice"
+           when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
+           when /:mvm/  ; " -L#{MVM}/lib -lmruby -lmruby_core"
            else
              " -L#{e}"
            end
@@ -83,7 +95,9 @@ $LIBS = ""
 if defined? LIBS
   LIBS.split.each do |e|  
     $LIBS += case e
-             when /:rice/; " -ldl -lruby.1.9.1 -lrice"
+             # when /:rice/; " -ldl -lruby.1.9.1 -lrice"
+             # when /:yvm/ ; " -ldl -lruby.1.9.1"
+             # when /:mvm/ ; " -lmruby -lmruby_core"
              when /:t/; BOOST[:t]
              when /:s/; BOOST[:s]
              when /:f/; BOOST[:f]
