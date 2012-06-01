@@ -1,13 +1,10 @@
 # -*- ruby -*-
 
-APP       = "mruby"
+APP       = "jukebox"
 APP_TEST  = "test_#{APP}"
-SRCS      = %w{ 
-               ./mruby_embed.cpp
-              }
+SRCS      = %w{ ./jukebox.cpp }
 
-TEST_SRCS = %w{ 
-              }
+TEST_SRCS = %w{ } 
 
 INCS      = ":mvm"
 CXX       = "c++11"          # c++0x, clang++, blank

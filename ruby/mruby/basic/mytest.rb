@@ -1,5 +1,5 @@
 t = MyTest.new
 
-t.add(10)
+1.upto(10) { |e| t.add(e) }
+
 p t
-1.upto(10) { |e| p e }
