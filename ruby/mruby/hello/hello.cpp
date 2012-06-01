@@ -30,8 +30,7 @@ mrb_value test_init(mrb_state* mrb, mrb_value exec)
 
 mrb_value test_run(mrb_state* mrb, mrb_value exec)
 {
-  int i;
-  for (i=0; i<10; i++)
+  for (int i=0; i<10; i++)
     printf("Test is running: %d\n", i);
 
   int* value = (int*)malloc(sizeof(int));

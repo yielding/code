@@ -8,43 +8,49 @@
 #include <mruby/proc.h>
 #include <mruby/compile.h>
 
-using namespace std;
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
 namespace {
-  
-  static mrb_sym id_push;
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+mrb_value t_init(mrb_state* mrb, mrb_value self)
+{
+  auto arr = mrb_ary_new(mrb);
+  mrb_iv_set(mrb, self, mrb_intern(mrb, "@arr"), arr);
+  return self;
+}
 
-  mrb_value t_init(mrb_state* mrb, mrb_value self)
-  {
-    auto arr = mrb_ary_new(mrb);
-    mrb_iv_set(mrb, self, mrb_intern(mrb, "@arr"), arr);
-    return self;
-  }
+mrb_value t_add(mrb_state* mrb, mrb_value self)
+{
+  auto arr = mrb_iv_get(mrb, self, mrb_intern(mrb, "@arr"));
+  mrb_value obj;
+  mrb_get_args(mrb, "o", &obj);
+  mrb_funcall(mrb, arr, "push", 1, obj);
 
-  mrb_value t_add(mrb_state* mrb, mrb_value self)
-  {
-    auto arr = mrb_iv_get(mrb, self, mrb_intern(mrb, "@arr"));
-    mrb_funcall(mrb, arr, "push", 1);
-    return arr;
-  }
+  return arr;
+}
 
-  static struct RClass* cTest;
-  void init_by_test(mrb_state* mrb)
-  {
-    cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
+static struct RClass* cTest;
+void init_by_test(mrb_state* mrb)
+{
+  cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
 
-    mrb_define_method(mrb, cTest, "initialize", t_init, ARGS_NONE());
-    mrb_define_method(mrb, cTest, "add", t_add, ARGS_REQ(1));
-    id_push = mrb_intern(mrb, "push");
-  }
+  mrb_define_method(mrb, cTest, "initialize", t_init, ARGS_NONE());
+  mrb_define_method(mrb, cTest, "add", t_add, ARGS_REQ(1));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 } 
 
 int main()
 {
+  using namespace std;
+
   cout << "Executing Ruby code from C++!\n";
 
   ifstream ifs("mytest.rb");
