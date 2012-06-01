@@ -1,0 +1,19 @@
+# -*- ruby -*-
+
+APP       = "mruby"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{ 
+               ./mruby_embed.cpp
+              }
+
+TEST_SRCS = %w{ 
+              }
+
+INCS      = ":mvm"
+CXX       = "c++11"          # c++0x, clang++, blank
+CXXFLAGS  = ":v"          # :d, :O0 :O3 :w = -Wall
+LDFLAGS   = ":mvm"
+
+load "~/code/build/app2.rake"
+
+# task :default => [:test]
