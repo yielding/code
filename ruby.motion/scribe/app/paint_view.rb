@@ -58,6 +58,9 @@ class PaintView < UIView
   end
 
   def draw_to_cache(touch)
+    @hue += 0.005
+    @hue = 0 if @hue > 1.0
+
     color = UIColor.colorWithHue(@hue, 
                                  saturation:0.7, 
                                  brightness:1.0, 
@@ -72,7 +75,9 @@ class PaintView < UIView
     CGContextMoveToPoint(@cached_context, lp.x, lp.y)
     CGContextAddLineToPoint(@cached_context, np.x, np.y)
     CGContextStrokePath(@cached_context)
-    self.setNeedsDisplay()
+    dp1 = CGRectMake(lp.x - 10, lp.y - 10, 20, 20)
+    dp2 = CGRectMake(np.x - 10, np.y - 10, 20, 20)
+    self.setNeedsDisplayInRect(dp1, dp2)
   end
 
   def drawRect(rect)
