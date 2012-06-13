@@ -41,6 +41,8 @@ void CDJukebox::assign(int unit_id)
   m_unit_id = unit_id;
 }
 
+// 이 함수는 순수 native에서 ruby함수를 호출하므로 
+// 좀 문제가 있어보인다.
 void CDJukebox::progress(int percent)
 {
   if (rb_block_given_p())

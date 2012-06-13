@@ -23,27 +23,41 @@ struct CDJukebox
   CDJukebox(int id) 
   { 
     unit_id = id;
-    cout << "CDJukebox constructed with id: " << id << "\n"; 
+    cout << "c: CDJukebox constructed with id: " << id << "\n"; 
   }
 
   ~CDJukebox() 
   { 
-    cout << "CDJukebox destructed\n";  
+    cout << "c: CDJukebox destructed\n";  
     cout.flush();
   }
 
   void seek(int disk, int track)
   {
-    cout << "disk: " << disk << ", track: " << track << endl;
+    cout << "c: disk: " << disk << ", track: " << track << endl;
   }
 
   double avg_seek_time()
   {
+    return 1.23;
   }
 
-  void uint_id(int id) { unit_id = id;   }
+  /* 
+  // TODO
+  void progress(int percent)
+  {
+    if (mrb_block_given_p())
+    {
+      if (percent > 100) percent = 100;
+      if (percent <   0) percent = 0;
+      mrb_yield(mrb_fixnum_value(percent));
+    }
+  }
+  */
 
-  int unit()           { return unit_id; }
+  void uint(int id) { unit_id = id;   }
+
+  int unit()        { return unit_id; }
 
   int   status;
   int   request;
@@ -52,15 +66,19 @@ struct CDJukebox
   int   unit_id;
   void* stats;
 };
- 
-static struct RClass* CDJukeboxClass;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Wrapping cpp class to Ruby
+//
+////////////////////////////////////////////////////////////////////////////////
 
 void jukebox_deleter(mrb_state* mrb, void* p)
 {
+  cout << "c: jukebox_deleter is called\n";
+
   auto jukebox = (CDJukebox*)p;
   delete jukebox;
-
-  cout << "jukebox_deleter is called\n";
 }
 
 struct mrb_data_type jukebox_type = {
@@ -70,9 +88,9 @@ struct mrb_data_type jukebox_type = {
 ////////////////////////////////////////////////////////////////////////////////
 //
 // ruby wrapper for CDJukebox
-// TODO: time.c 참고
+// REMARK: time.c, array.c 및 기타 mruby/src source 참고
 //
-// 원 예제의 cd_alloc과 cd_initialize를 합치다.
+// MRI ruby 예제의 cd_alloc과 cd_initialize를 합치다.
 //
 ////////////////////////////////////////////////////////////////////////////////
 mrb_value cd_initialize(mrb_state* mrb, mrb_value self)
@@ -81,6 +99,7 @@ mrb_value cd_initialize(mrb_state* mrb, mrb_value self)
   if (jb)
     jukebox_deleter(mrb, jb);
 
+  // TODO
   if (mrb->ci->argc == 0)
   {
   }
@@ -116,7 +135,7 @@ mrb_value cd_unit(mrb_state* mrb, mrb_value self)
 {
   auto jb = (CDJukebox*)mrb_get_datatype(mrb, self, &jukebox_type);
   if (jb == nullptr)
-    cout << "jb is null\n";
+    cout << "c: jb is null\n";
 
   int  id = jb->unit();
 
@@ -127,16 +146,15 @@ mrb_value cd_unit(mrb_state* mrb, mrb_value self)
 
 void init_jukebox(mrb_state* mrb)
 {
-  CDJukeboxClass = mrb_define_class(mrb, "CDJukebox", mrb->object_class);
+  RClass* jb = mrb_define_class(mrb, "CDJukebox", mrb->object_class);
   // 
-  // REMARK: array.c, time.c 참고 데이타 타입을 줘야한다. 아니면 cd_unit등을 호출할때 
-  // exception
+  // REMARK: array.c, 참고 데이타 
   //
-  MRB_SET_INSTANCE_TT(CDJukeboxClass, MRB_TT_DATA);
+  MRB_SET_INSTANCE_TT(jb, MRB_TT_DATA);
 
-  mrb_define_method(mrb, CDJukeboxClass, "initialize", cd_initialize, ARGS_REQ(1));
-  mrb_define_method(mrb, CDJukeboxClass, "seek", cd_seek, ARGS_REQ(1));
-  mrb_define_method(mrb, CDJukeboxClass, "unit", cd_unit, ARGS_NONE());
+  mrb_define_method(mrb, jb, "initialize", cd_initialize, ARGS_REQ(1));
+  mrb_define_method(mrb, jb, "seek", cd_seek, ARGS_REQ(1));
+  mrb_define_method(mrb, jb, "unit", cd_unit, ARGS_NONE());
 }
 
 }
@@ -148,8 +166,8 @@ void init_jukebox(mrb_state* mrb)
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, const char *argv[])
 {
-  auto load_script = [](string script) {
-    ifstream ifs(script.c_str());
+  auto load_script = [](char const* script) {
+    ifstream ifs(script);
     string line, code;
     while (getline(ifs, line)) 
       code += line + "\n";

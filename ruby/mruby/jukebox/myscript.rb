@@ -1,4 +1,3 @@
-$jb = CDJukebox.new(10); 
+$jb = CDJukebox.new(1); 
 
-p $jb.seek(3, 4).seek(3, 4).unit
-
+$jb.seek(3, 4).seek(3, 4).unit
