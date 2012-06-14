@@ -43,7 +43,9 @@ struct CDJukebox
   }
 
   /* 
-  // TODO
+  // TODO: 실제로는 이렇게 코딩하지 않는다. c코드에 c에 없는 개념을
+  // 넣는 것은 디자인 분리의 측면에서 바람직 하지 않는 것
+  //
   void progress(int percent)
   {
     if (mrb_block_given_p())
@@ -55,7 +57,7 @@ struct CDJukebox
   }
   */
 
-  void uint(int id) { unit_id = id;   }
+  void unit(int id) { unit_id = id;   }
 
   int unit()        { return unit_id; }
 
@@ -125,36 +127,48 @@ mrb_value cd_seek(mrb_state* mrb, mrb_value self)
   auto jb = (CDJukebox*)mrb_get_datatype(mrb, self, &jukebox_type);
 
   mrb_int disk, track;
-  mrb_get_args(mrb, "ii", &disk, &track);
+  mrb_value blk;
+
+  mrb_get_args(mrb, "ii&", &disk, &track, &blk);
   jb->seek(disk, track);
+  for (int p=0; p<100; p+=10)
+    mrb_yield(mrb, blk, mrb_fixnum_value(p));
 
   return self;
 }
 
-mrb_value cd_unit(mrb_state* mrb, mrb_value self)
+mrb_value cd_get_unit(mrb_state* mrb, mrb_value self)
 {
   auto jb = (CDJukebox*)mrb_get_datatype(mrb, self, &jukebox_type);
   if (jb == nullptr)
+  {
     cout << "c: jb is null\n";
+    return mrb_nil_value();
+  }
 
-  int  id = jb->unit();
+  return mrb_fixnum_value(jb->unit());
+}
 
-  cout << "id: " << id << endl;
+mrb_value cd_set_unit(mrb_state* mrb, mrb_value self)
+{
+  mrb_int id;
+  mrb_get_args(mrb, "i", &id);
+  auto jb = (CDJukebox*)mrb_get_datatype(mrb, self, &jukebox_type);
+  jb->unit(int(id));
 
-  return mrb_fixnum_value(id);
+  return self;
 }
 
 void init_jukebox(mrb_state* mrb)
 {
   RClass* jb = mrb_define_class(mrb, "CDJukebox", mrb->object_class);
-  // 
-  // REMARK: array.c, 참고 데이타 
-  //
-  MRB_SET_INSTANCE_TT(jb, MRB_TT_DATA);
+
+  MRB_SET_INSTANCE_TT(jb, MRB_TT_DATA); // REMARK: confer array.c
 
   mrb_define_method(mrb, jb, "initialize", cd_initialize, ARGS_REQ(1));
   mrb_define_method(mrb, jb, "seek", cd_seek, ARGS_REQ(1));
-  mrb_define_method(mrb, jb, "unit", cd_unit, ARGS_NONE());
+  mrb_define_method(mrb, jb, "unit", cd_get_unit, ARGS_NONE());
+  mrb_define_method(mrb, jb, "unit=", cd_set_unit, ARGS_REQ(1));
 }
 
 }

@@ -7,6 +7,8 @@ class TopMenuController < UITableViewController
                 "ModalDialogViewController", 
                 "FullScreenWithTransparent",
                 "TabBar",
+                "Rotate",
+                "RotateAndFullScreen",
                 "TitleViewController"
                ]
     end
