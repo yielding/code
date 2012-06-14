@@ -61,7 +61,7 @@ void CDJukebox::seek(int disc, int track)
   cout << str(format("unit: %d (%d, %d)\n") % m_unit_id % disc % track);
 
   for (int p=0; p<100; p+=10)
-    progress(p);
+    //progress(p);
 
   cout << "end of seek\n";
 }

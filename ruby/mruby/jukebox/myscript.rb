@@ -1,4 +1,10 @@
-puts "block test with extended object"
+puts "Block test with extended object !"
+
+class CDJukebox
+  def count
+   10 
+  end
+end
 
 $jb = CDJukebox.new(1); 
 puts "unit id = #{$jb.unit}"
@@ -6,5 +12,8 @@ puts "unit id = #{$jb.unit}"
 $jb.unit = 2
 puts "unit id = #{$jb.unit}"
 
-$jb.seek(3, 4) { |percent| p percent }
+arr = []
+$jb.seek(3, 4) { |percent| arr << percent }
 
+p arr.to_s
+p "count is #{$jb.count}"

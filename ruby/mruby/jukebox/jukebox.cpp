@@ -161,7 +161,9 @@ mrb_value cd_set_unit(mrb_state* mrb, mrb_value self)
 
 void init_jukebox(mrb_state* mrb)
 {
-  RClass* jb = mrb_define_class(mrb, "CDJukebox", mrb->object_class);
+  // We don't have to pull this jb out
+  // RClass* jb
+  auto jb = mrb_define_class(mrb, "CDJukebox", mrb->object_class);
 
   MRB_SET_INSTANCE_TT(jb, MRB_TT_DATA); // REMARK: confer array.c
 
