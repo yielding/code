@@ -44,8 +44,7 @@ struct CDJukebox
 
   /* 
   // TODO: 실제로는 이렇게 코딩하지 않는다. c코드에 c에 없는 개념을
-  // 넣는 것은 디자인 분리의 측면에서 바람직 하지 않는 것
-  //
+  // 넣는 것은 model code에 UI code를 섞는 것처럼 바람직 하지 않다.
   void progress(int percent)
   {
     if (mrb_block_given_p())
@@ -71,53 +70,45 @@ struct CDJukebox
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Wrapping cpp class to Ruby
-//
-////////////////////////////////////////////////////////////////////////////////
-
-void jukebox_deleter(mrb_state* mrb, void* p)
-{
-  cout << "c: jukebox_deleter is called\n";
-
-  auto jukebox = (CDJukebox*)p;
-  delete jukebox;
-}
-
-struct mrb_data_type jukebox_type = {
-  "CDJukebox", jukebox_deleter
-};
-
-////////////////////////////////////////////////////////////////////////////////
-//
 // ruby wrapper for CDJukebox
 // REMARK: time.c, array.c 및 기타 mruby/src source 참고
 //
 // MRI ruby 예제의 jb_alloc과 jb_initialize를 합치다.
 //
 ////////////////////////////////////////////////////////////////////////////////
+void jb_free(mrb_state* mrb, void* p)
+{
+  cout << "c: jb_free is called\n";
+
+  auto jukebox = (CDJukebox*)p;
+  delete jukebox;
+}
+
+struct mrb_data_type jukebox_type = {
+  "CDJukebox", jb_free
+};
+
 mrb_value jb_initialize(mrb_state* mrb, mrb_value self)
 {
   auto jb = (CDJukebox*)mrb_get_datatype(mrb, self, &jukebox_type);
-  if (jb)
-    jukebox_deleter(mrb, jb);
+  if (jb != nullptr)
+    jb_free(mrb, jb);
 
-  // TODO
+  // REMARK ci : call info
   if (mrb->ci->argc == 0)
   {
+    // error, ci->argc should be "1" in this class
   }
   else
   {
-    // mrb_get_args(mrb, "oo....", );
-    // jb
+    mrb_int unit;
+    mrb_get_args(mrb, "i", &unit);
+
+    jb = new CDJukebox(unit);
+
+    DATA_PTR(self)  = (void*)jb;
+    DATA_TYPE(self) = &jukebox_type;
   }
-
-  mrb_int unit;
-  mrb_get_args(mrb, "i", &unit);
-
-  jb = new CDJukebox(unit);
-
-  DATA_PTR(self)  = (void*)jb;
-  DATA_TYPE(self) = &jukebox_type;
 
   return self;
 }
