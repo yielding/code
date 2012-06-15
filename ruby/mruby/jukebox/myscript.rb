@@ -17,3 +17,4 @@ $jb.seek(3, 4) { |percent| arr << percent }
 
 p arr.to_s
 p "count is #{$jb.count}"
+p "average seek time #{$jb.avg_seek_time}"

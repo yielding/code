@@ -190,7 +190,7 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = "./scp ./scp/develop/include";
 			};
 			name = Debug;
@@ -212,7 +212,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = "./scp ./scp/develop/include";
 			};
 			name = Release;

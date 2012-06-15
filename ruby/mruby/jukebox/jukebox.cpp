@@ -92,10 +92,10 @@ struct mrb_data_type jukebox_type = {
 // ruby wrapper for CDJukebox
 // REMARK: time.c, array.c 및 기타 mruby/src source 참고
 //
-// MRI ruby 예제의 cd_alloc과 cd_initialize를 합치다.
+// MRI ruby 예제의 jb_alloc과 jb_initialize를 합치다.
 //
 ////////////////////////////////////////////////////////////////////////////////
-mrb_value cd_initialize(mrb_state* mrb, mrb_value self)
+mrb_value jb_initialize(mrb_state* mrb, mrb_value self)
 {
   auto jb = (CDJukebox*)mrb_get_datatype(mrb, self, &jukebox_type);
   if (jb)
@@ -122,7 +122,7 @@ mrb_value cd_initialize(mrb_state* mrb, mrb_value self)
   return self;
 }
 
-mrb_value cd_seek(mrb_state* mrb, mrb_value self)
+mrb_value jb_seek(mrb_state* mrb, mrb_value self)
 {
   auto jb = (CDJukebox*)mrb_get_datatype(mrb, self, &jukebox_type);
 
@@ -137,7 +137,7 @@ mrb_value cd_seek(mrb_state* mrb, mrb_value self)
   return self;
 }
 
-mrb_value cd_get_unit(mrb_state* mrb, mrb_value self)
+mrb_value jb_get_unit(mrb_state* mrb, mrb_value self)
 {
   auto jb = (CDJukebox*)mrb_get_datatype(mrb, self, &jukebox_type);
   if (jb == nullptr)
@@ -149,7 +149,7 @@ mrb_value cd_get_unit(mrb_state* mrb, mrb_value self)
   return mrb_fixnum_value(jb->unit());
 }
 
-mrb_value cd_set_unit(mrb_state* mrb, mrb_value self)
+mrb_value jb_set_unit(mrb_state* mrb, mrb_value self)
 {
   mrb_int id;
   mrb_get_args(mrb, "i", &id);
@@ -157,6 +157,12 @@ mrb_value cd_set_unit(mrb_state* mrb, mrb_value self)
   jb->unit(int(id));
 
   return self;
+}
+
+mrb_value jb_avg_seek_time(mrb_state* mrb, mrb_value self)
+{
+  auto jb = (CDJukebox*)mrb_get_datatype(mrb, self, &jukebox_type);
+  return mrb_float_value(jb->avg_seek_time());
 }
 
 void init_jukebox(mrb_state* mrb)
@@ -167,10 +173,11 @@ void init_jukebox(mrb_state* mrb)
 
   MRB_SET_INSTANCE_TT(jb, MRB_TT_DATA); // REMARK: confer array.c
 
-  mrb_define_method(mrb, jb, "initialize", cd_initialize, ARGS_REQ(1));
-  mrb_define_method(mrb, jb, "seek", cd_seek, ARGS_REQ(1));
-  mrb_define_method(mrb, jb, "unit", cd_get_unit, ARGS_NONE());
-  mrb_define_method(mrb, jb, "unit=", cd_set_unit, ARGS_REQ(1));
+  mrb_define_method(mrb, jb, "initialize", jb_initialize, ARGS_REQ(1));
+  mrb_define_method(mrb, jb, "seek", jb_seek, ARGS_REQ(1));
+  mrb_define_method(mrb, jb, "avg_seek_time", jb_avg_seek_time, ARGS_NONE());
+  mrb_define_method(mrb, jb, "unit",  jb_get_unit, ARGS_NONE());
+  mrb_define_method(mrb, jb, "unit=", jb_set_unit, ARGS_REQ(1));
 }
 
 }

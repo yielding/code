@@ -39,6 +39,11 @@ function ql()
    kill ${qlmanage_pid}) > /dev/null 2>&1
 }
 
+function tags
+{
+  ctags -R --c++-kinds=+p --fields=+iaS --extra=+q . 
+}
+
 pman()
 {
   man -t "${1}" | open -f -a /Applications/Preview.app
