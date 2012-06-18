@@ -18,8 +18,8 @@ void ds_free(mrb_state* mrb, void* p)
 {
   cout << "ds_free is called\n";
 
-  auto ds = (DataStore*)p;
-  delete ds;
+  //auto ds = (DataStore*)p;
+  //delete ds;
 }
 
 struct mrb_data_type ds_type = {
@@ -27,9 +27,11 @@ struct mrb_data_type ds_type = {
 };
 
 mrb_value 
-ds_instance(mrb_state* mrb, mrb_value self)
+ds_open(mrb_state* mrb, mrb_value self)
 {
-  DataStore& ds = get_data_store();
+  auto instance = &DataStore::instance();
+  DATA_PTR(self) = (void*)instance;
+  DATA_TYPE(self) = &ds_type;
 
   return self;
 }
@@ -37,7 +39,18 @@ ds_instance(mrb_state* mrb, mrb_value self)
 mrb_value 
 ds_get_file_systems(mrb_state* mrb, mrb_value self)
 {
+  //auto instance = &DataStore::instance();
+  auto ds = (DataStore*)mrb_get_datatype(mrb, self, &ds_type);
+  if (ds == nullptr)
+  {
+    cout << "error in getting DataStore pointer";
+    ds = &DataStore::instance();
+  }
+
+  // ds->get_file_systems();
+
   cout << "get_file_systems is called";
+
   return mrb_nil_value();
 }
 
@@ -47,8 +60,9 @@ void init_data_store(mrb_state* mrb)
 
   MRB_SET_INSTANCE_TT(ds, MRB_TT_DATA);
 
-  mrb_define_class_method(mrb, ds, "instance", ds_instance, ARGS_NONE());
-  mrb_define_class_method(mrb, ds, "file_systems", ds_get_file_systems, ARGS_NONE());
+  //mrb_undef_method(mrb, ds, "new");  // new를 호출할 수 없게 만든다.
+  mrb_define_class_method(mrb, ds, "initialize", ds_open, ARGS_NONE());
+  mrb_define_method(mrb, ds, "file_systems", ds_get_file_systems, ARGS_NONE());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

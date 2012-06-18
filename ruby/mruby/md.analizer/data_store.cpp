@@ -10,13 +10,8 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 DataStore::DataStore()
 {
-  cout << "Data Store instance is created\n";
-}
-
-DataStore& get_data_store()
-{
-  static DataStore self;
-  return self;
+  cout << "Data Store instance is created"
+       << endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

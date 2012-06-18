@@ -1,2 +1,2 @@
 ds = DataStore.new
-ds.file_systems
+puts ds.file_systems
