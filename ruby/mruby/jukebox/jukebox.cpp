@@ -25,9 +25,7 @@ namespace {
 ////////////////////////////////////////////////////////////////////////////////
 struct DVD
 {
-  DVD(string n="") : name(n)
-  {}
-
+  DVD(string n="") : name(n) {}
   string name;
 };
 
@@ -55,16 +53,11 @@ struct CDJukeBox
     cout << "c: disk: " << disk << ", track: " << track << endl;
   }
 
-  double avg_seek_time()
-  {
-    return 1.23;
-  }
+  double avg_seek_time() { return 1.23;    }
+  void unit(int id)      { unit_id = id;   }
+  int unit()             { return unit_id; }
 
-  void unit(int id) { unit_id = id;   }
-
-  int unit()        { return unit_id; }
-
-  auto get_dvd_list() -> vector<DVD>
+  auto get_dvd_list() -> vector<DVD>&
   {
     if (dvd_list.empty()) for (int i=0; i<10; i++)
     {
@@ -108,19 +101,11 @@ mrb_value dvd_initialize(mrb_state* mrb, mrb_value self)
   if (dvd != nullptr)
     dvd_free(mrb, dvd);
 
-  // REMARK ci : call info
-  // ci->argc should be "1" in this class
   if (mrb->ci->argc == 0)
-  {
     return mrb_nil_value();
-  }
 
-  mrb_value name;
-  mrb_get_args(mrb, "S", &name);
-
-  dvd = new DVD(RSTRING_PTR(name));
-
-  DATA_PTR(self)  = (void*)dvd;
+  mrb_value name; mrb_get_args(mrb, "S", &name);
+  DATA_PTR(self)  = new DVD(RSTRING_PTR(name));
   DATA_TYPE(self) = &dvd_type;
 
   return self;
@@ -128,7 +113,7 @@ mrb_value dvd_initialize(mrb_state* mrb, mrb_value self)
 
 mrb_value dvd_set_name(mrb_state* mrb, mrb_value self)
 {
-  auto dvd = (DVD*)mrb_get_datatype(mrb, self, &dvd_type);
+  auto dvd = (DVD*)mrb_check_datatype(mrb, self, &dvd_type);
   if (dvd == nullptr)
   {
     cout << "c: dvd set.name is null\n";
@@ -137,24 +122,22 @@ mrb_value dvd_set_name(mrb_state* mrb, mrb_value self)
 
   mrb_value name;
   mrb_get_args(mrb, "S", &name);
-  dvd->name = string(RSTRING_PTR(name), RSTRING_LEN(name));
+  dvd->name = string(RSTRING_PTR(name));
 
   return self;
 }
 
 mrb_value dvd_get_name(mrb_state* mrb, mrb_value self)
 {
-  mrb_p(mrb, self);
-
-  auto dvd = (DVD*)mrb_get_datatype(mrb, self, &dvd_type);
+  auto dvd = (DVD *)mrb_check_datatype(mrb, self, &dvd_type);
 
   if (dvd == nullptr)
   {
-    cout << "c: dvd get.name is null\n";
+    cout << "c: dvd get.name is nullptr\n";
     return mrb_nil_value();
   }
 
-  return mrb_str_new_cstr(mrb, dvd->name.c_str());
+  return mrb_str_new2(mrb, dvd->name.c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -183,33 +166,23 @@ mrb_value jb_initialize(mrb_state* mrb, mrb_value self)
   if (jb != nullptr)
     jb_free(mrb, jb);
 
-  // REMARK ci : call info
-  if (mrb->ci->argc == 0)
+  if (mrb->ci->argc == 0) // REMARK ci : call info
   {
     // error, ci->argc should be "1" in this class
     return mrb_nil_value();
   }
 
-  mrb_int unit;
-  mrb_get_args(mrb, "i", &unit);
-
-  jb = new CDJukeBox(unit);
-
-  DATA_PTR(self)  = (void*)jb;
+  mrb_int unit;   mrb_get_args(mrb, "i", &unit);
+  DATA_PTR(self)  = new CDJukeBox(unit);
   DATA_TYPE(self) = &jukebox_type;
 
   return self;
-
-  /** /
-  return mrb_obj_value(Data_Wrap_Struct(mrb, 
-        mrb_class_ptr(self),
-        &jukebox_type, (void*)jb));
-  / **/
 }
 
 mrb_value jb_seek(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_get_datatype(mrb, self, &jukebox_type);
+  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  assert(jb);
 
   mrb_int disk, track;
   mrb_value blk;
@@ -223,21 +196,18 @@ mrb_value jb_seek(mrb_state* mrb, mrb_value self)
 
 mrb_value jb_get_unit(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_get_datatype(mrb, self, &jukebox_type);
-  if (jb == nullptr)
-  {
-    cout << "c: jb is null\n";
-    return mrb_nil_value();
-  }
+  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  assert(jb);
 
   return mrb_fixnum_value(jb->unit());
 }
 
 mrb_value jb_set_unit(mrb_state* mrb, mrb_value self)
 {
-  mrb_int id;
-  mrb_get_args(mrb, "i", &id);
-  auto jb = (CDJukeBox*)mrb_get_datatype(mrb, self, &jukebox_type);
+  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  assert(jb);
+
+  mrb_int id; mrb_get_args(mrb, "i", &id);
   jb->unit(int(id));
 
   return self;
@@ -245,26 +215,28 @@ mrb_value jb_set_unit(mrb_state* mrb, mrb_value self)
 
 mrb_value jb_avg_seek_time(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_get_datatype(mrb, self, &jukebox_type);
+  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  assert(jb);
+
   return mrb_float_value(jb->avg_seek_time());
 }
 
 mrb_value jb_get_dvd_list(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_get_datatype(mrb, self, &jukebox_type);
-  auto dl = jb->get_dvd_list();
-  auto ar = mrb_ary_new_capa(mrb, dl.size());
+  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  assert(jb);
+
+  // REMARK: getting with reference is very important
+  auto& dl = jb->get_dvd_list();
+  auto  ar = mrb_ary_new_capa(mrb, dl.size());
+  auto cls = mrb_class_obj_get(mrb, "DVD");
 
   for (auto it=dl.begin(); it!=dl.end(); ++it)
   {
-    mrb_value argv[1];
-    argv[0] = mrb_str_new_cstr(mrb, it->name.c_str()); 
-    mrb_p(mrb, argv[0]);
+    auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) &*it));
+    // mrb_p(mrb, mrb_funcall(mrb, dvd, "name", 0);
 
-    auto rr = mrb_class_new_instance(mrb, 1, argv, mrb_class_obj_get(mrb, "DVD"));
-    mrb_p(mrb, rr);
-    
-    mrb_ary_push(mrb, ar, rr);
+    mrb_ary_push(mrb, ar, dvd);
   }
 
   return ar;
@@ -275,7 +247,6 @@ mrb_value jb_get_dvd_list(mrb_state* mrb, mrb_value self)
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-
 void init_dvd(mrb_state* mrb)
 {
   auto dvd = mrb_define_class(mrb, "DVD", mrb->object_class);
