@@ -84,7 +84,7 @@ void jb_free(mrb_state* mrb, void* p)
   delete jukebox;
 }
 
-struct mrb_data_type jukebox_type = {
+static struct mrb_data_type jukebox_type = {
   "CDJukebox", jb_free
 };
 
@@ -98,19 +98,24 @@ mrb_value jb_initialize(mrb_state* mrb, mrb_value self)
   if (mrb->ci->argc == 0)
   {
     // error, ci->argc should be "1" in this class
+    return mrb_nil_value();
   }
-  else
-  {
-    mrb_int unit;
-    mrb_get_args(mrb, "i", &unit);
 
-    jb = new CDJukebox(unit);
+  mrb_int unit;
+  mrb_get_args(mrb, "i", &unit);
 
-    DATA_PTR(self)  = (void*)jb;
-    DATA_TYPE(self) = &jukebox_type;
-  }
+  jb = new CDJukebox(unit);
+
+  DATA_PTR(self)  = (void*)jb;
+  DATA_TYPE(self) = &jukebox_type;
 
   return self;
+
+  /** /
+  return mrb_obj_value(Data_Wrap_Struct(mrb, 
+        mrb_class_ptr(self),
+        &jukebox_type, (void*)jb));
+  / **/
 }
 
 mrb_value jb_seek(mrb_state* mrb, mrb_value self)
@@ -119,7 +124,6 @@ mrb_value jb_seek(mrb_state* mrb, mrb_value self)
 
   mrb_int disk, track;
   mrb_value blk;
-
   mrb_get_args(mrb, "ii&", &disk, &track, &blk);
   jb->seek(disk, track);
   for (int p=0; p<100; p+=10)

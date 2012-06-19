@@ -19,9 +19,9 @@ greet(VALUE self, VALUE names)
   my_name = rb_funcall(greeter->name, rb_intern("to_s"), 0);
   names_array = RARRAY(names);
 
-  for (i=0; i<names_array->len; i++)
+  for (i=0; i<RARRAY_LEN(names_array); i++)
   {
-    VALUE current = names_array->ptr[i];
+    VALUE current = RARRAY_PTR(names_array)[i];
     if (rb_respond_to(current, rb_intern("to_s")))
     {
       VALUE name = rb_funcall(current, rb_intern("to_s"), 0);
