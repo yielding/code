@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <map>
 #include <iostream>
 #include <fstream>
 
@@ -7,6 +8,7 @@
 
 #include <mruby.h>
 #include <mruby/array.h>
+#include <mruby/hash.h>
 #include <mruby/string.h>
 #include <mruby/variable.h>
 #include <mruby/data.h>
@@ -68,7 +70,16 @@ struct CDJukeBox
     return dvd_list;
   }
 
+  auto get_user_list() -> map<string, string>&
+  {
+    user_list["leech"] = "군포시 광정동 세종아파트";
+    user_list["leeks"] = "안산시 somewhere";
+
+    return user_list;
+  }
+
   vector<DVD> dvd_list;
+  map<string, string> user_list;
 
   int   status;
   int   request;
@@ -76,6 +87,20 @@ struct CDJukeBox
   char  pending;
   int   unit_id;
   void* stats;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+struct MusicStore
+{
+  auto make_jukebox(int id) -> CDJukeBox*
+  {
+    auto jb = new CDJukeBox(id);
+    return jb;
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +116,8 @@ void dvd_free(mrb_state* mrb, void* p)
   delete dvd;
 }
 
-static struct mrb_data_type dvd_type = {
+static struct mrb_data_type dvd_type = 
+{
   "DVD", dvd_free
 };
 
@@ -150,13 +176,13 @@ mrb_value dvd_get_name(mrb_state* mrb, mrb_value self)
 ////////////////////////////////////////////////////////////////////////////////
 void jb_free(mrb_state* mrb, void* p)
 {
-  cout << "c: jb_free is called\n";
-
   auto jukebox = (CDJukeBox*)p;
-  delete jukebox;
+  if (jukebox != nullptr)
+    delete jukebox;
 }
 
-static struct mrb_data_type jukebox_type = {
+static struct mrb_data_type jukebox_type = 
+{
   "CDJukeBox", jb_free
 };
 
@@ -242,6 +268,56 @@ mrb_value jb_get_dvd_list(mrb_state* mrb, mrb_value self)
   return ar;
 }
 
+// 한글 처리 문제
+mrb_value jb_get_user_list(mrb_state* mrb, mrb_value self)
+{
+  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  assert(jb);
+
+  auto& ul = jb->get_user_list();
+  auto  hs = mrb_hash_new_capa(mrb, ul.size());
+
+  auto cls = mrb_class_obj_get(mrb, "DVD");
+  for (auto it=ul.begin(); it!=ul.end(); ++it)
+  {
+    auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) &*it));
+    auto key = mrb_str_new2(mrb, it->first.c_str());
+    auto val = mrb_str_new2(mrb, it->second.c_str());
+
+    mrb_hash_set(mrb, hs, key, val);
+  }
+
+  return hs;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+void ms_free(mrb_state* mrb, void* p)
+{
+  auto store = (MusicStore*)p;
+  if (store != nullptr)
+    delete store;
+}
+
+static struct mrb_data_type mstore_type = 
+{
+  "MusicStore", ms_free
+};
+
+mrb_value ms_get_jukebox(mrb_state* mrb, mrb_value val)
+{
+  auto ms = (MusicStore*)mrb_check_datatype(mrb, val, &mstore_type);
+  assert(ms);
+
+  mrb_int id; mrb_get_args(mrb, "i", &id);
+  auto cls = mrb_class_obj_get(mrb, "CDJukeBox");
+  auto jb  = ms->make_jukebox(id);
+  return mrb_obj_value(Data_Wrap_Struct(mrb, cls, &jukebox_type, (void*) jb));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -259,10 +335,9 @@ void init_dvd(mrb_state* mrb)
 
 void init_jukebox(mrb_state* mrb)
 {
-  // We don't have to pull this jb out of this scope, i.e. global variable
   auto jb = mrb_define_class(mrb, "CDJukeBox", mrb->object_class);
 
-  MRB_SET_INSTANCE_TT(jb, MRB_TT_DATA); // REMARK: confer array.c
+  MRB_SET_INSTANCE_TT(jb, MRB_TT_DATA);
 
   mrb_define_method(mrb, jb, "initialize", jb_initialize, ARGS_REQ(1));
   mrb_define_method(mrb, jb, "seek", jb_seek, ARGS_REQ(1));
@@ -271,6 +346,23 @@ void init_jukebox(mrb_state* mrb)
   mrb_define_method(mrb, jb, "unit=", jb_set_unit, ARGS_REQ(1));
 
   mrb_define_method(mrb, jb, "dvd_list", jb_get_dvd_list, ARGS_NONE());
+  mrb_define_method(mrb, jb, "user_list", jb_get_user_list, ARGS_NONE());
+}
+
+MusicStore* g_ms = nullptr;
+
+void init_music_store(mrb_state* mrb)
+{
+  auto ms = mrb_define_class(mrb, "MusicStore", mrb->object_class);
+
+  MRB_SET_INSTANCE_TT(ms, MRB_TT_DATA);
+  mrb_define_method(mrb, ms, "create_jukebox", ms_get_jukebox, ARGS_REQ(1));
+
+  g_ms = new MusicStore;
+
+  auto store = mrb_obj_value(
+      Data_Wrap_Struct(mrb, ms, &mstore_type, (void*)g_ms));
+  mrb_gv_set(mrb, mrb_intern(mrb, "$mstore"), store);
 }
 
 }
@@ -294,6 +386,7 @@ int main(int argc, const char *argv[])
   auto mrb = mrb_open();
   init_dvd(mrb);
   init_jukebox(mrb);
+  init_music_store(mrb);
 
   auto code = load_script("myscript.rb");
   auto p = mrb_parse_string(mrb, code.c_str());

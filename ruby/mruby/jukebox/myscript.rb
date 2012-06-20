@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class CDJukeBox
   def count
    10 
@@ -17,7 +19,11 @@ p arr.to_s
 p "count is #{$jb.count}"
 p "average seek time #{$jb.avg_seek_time}"
 
-$jb.dvd_list.each { |dvd| p dvd.name }
+$jb.dvd_list.each  { |dvd| p dvd.name }
+$jb.user_list.each { |k, v| p "name: #{k}, value: #{v}" }
 
 $d = DVD.new("leech"); puts $d.name
 $d.name = "kamin";     puts $d.name
+
+box = $mstore.create_jukebox(10)
+puts box.unit
