@@ -1,4 +1,5 @@
 #include "data_store.h"
+#include "file_system.h"
 
 #include <iostream>
 
@@ -10,8 +11,17 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 DataStore::DataStore()
 {
+  char const* names[] = { "hfs+", "NTFS", "FAT", "ExFAT", nullptr };
+  for (int i=0; names[i]; ++i)
+    _filesystems.push_back(new FileSystem(names[i]));
+
   cout << "Data Store instance is created"
        << endl;
+}
+
+auto DataStore::get_file_systems() -> std::vector<FileSystem*>&
+{
+  return _filesystems;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

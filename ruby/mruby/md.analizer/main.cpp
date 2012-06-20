@@ -1,16 +1,10 @@
+#include "mruby_basis.h"
+#include "data_store_ext.h"
+#include "file_system_ext.h"
+
 #include <string>
 #include <iostream>
 #include <fstream>
-
-#include <mruby.h>
-//#include <mruby/array.h>
-//#include <mruby/variable.h>
-//#include <mruby/data.h>
-//#include <mruby/class.h>
-#include <mruby/proc.h>
-#include <mruby/compile.h>
-
-#include "data_store_ext.h"
 
 using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +25,7 @@ int main(int argc, const char *argv[])
 
   auto mrb = mrb_open();
   init_data_store(mrb);
+  init_file_system(mrb);
 
   auto code = load_script("myscript.rb");
   auto p = mrb_parse_string(mrb, code.c_str());

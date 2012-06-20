@@ -26,4 +26,4 @@ $d = DVD.new("leech"); puts $d.name
 $d.name = "kamin";     puts $d.name
 
 box = $mstore.create_jukebox(10)
-puts box.unit
+box.seek(10, 11) { |p| p p }

@@ -1,12 +1,10 @@
-#include "data_store_ext.h"
 #include "data_store.h"
+#include "file_system.h"
+#include "file_system_ext.h"
 
-#include <mruby.h>
-#include <mruby/data.h>
-#include <mruby/class.h>
-#include <mruby/variable.h>
+#include "mruby_basis.h"
 
-#include <iostream>
+#include <cassert>
 
 using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
@@ -16,42 +14,32 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 void ds_free(mrb_state* mrb, void* p)
 {
-  cout << "ds_free is called\n";
-
-  //auto ds = (DataStore*)p;
-  //delete ds;
+  auto ds = (DataStore*)p;
+  if (ds != nullptr)
+    delete ds;
 }
 
-struct mrb_data_type ds_type = {
+struct mrb_data_type ds_type = 
+{
   "DataStore", ds_free
 };
 
 mrb_value 
-ds_open(mrb_state* mrb, mrb_value self)
-{
-  auto instance = &DataStore::instance();
-  DATA_PTR(self) = (void*)instance;
-  DATA_TYPE(self) = &ds_type;
-
-  return self;
-}
-
-mrb_value 
 ds_get_file_systems(mrb_state* mrb, mrb_value self)
 {
-  //auto instance = &DataStore::instance();
-  auto ds = (DataStore*)mrb_get_datatype(mrb, self, &ds_type);
-  if (ds == nullptr)
+  auto ds = (DataStore*)mrb_check_datatype(mrb, self, &ds_type);
+  assert(ds);
+
+  auto fss = ds->get_file_systems();
+  auto arr = mrb_ary_new_capa(mrb, fss.size());
+  for (auto it = fss.begin(); it != fss.end(); ++it)
   {
-    cout << "error in getting DataStore pointer";
-    ds = &DataStore::instance();
+    auto fs_p = *it;
+    auto fs_r = fs_wrap(mrb, fs_p);
+    mrb_ary_push(mrb, arr, fs_r);
   }
 
-  // ds->get_file_systems();
-
-  cout << "get_file_systems is called";
-
-  return mrb_nil_value();
+  return arr;
 }
 
 void init_data_store(mrb_state* mrb)
@@ -60,8 +48,9 @@ void init_data_store(mrb_state* mrb)
 
   MRB_SET_INSTANCE_TT(ds, MRB_TT_DATA);
 
-  //mrb_undef_method(mrb, ds, "new");  // new를 호출할 수 없게 만든다.
-  mrb_define_class_method(mrb, ds, "initialize", ds_open, ARGS_NONE());
+  auto ds_p = &DataStore::instance();
+  auto ds_r = mrb_obj_value(Data_Wrap_Struct(mrb, ds, &ds_type, (void*)ds_p));
+  mrb_gv_set(mrb, mrb_intern(mrb, "$ds"), ds_r);
   mrb_define_method(mrb, ds, "file_systems", ds_get_file_systems, ARGS_NONE());
 }
 

@@ -4,6 +4,8 @@ APP       = "md_analyzer"
 APP_TEST  = "test_#{APP}"
 SRCS      = %w{ ./data_store.cpp 
                 ./data_store_ext.cpp 
+                ./file_system.cpp 
+                ./file_system_ext.cpp 
                 ./main.cpp
               }
 

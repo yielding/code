@@ -1,2 +1,3 @@
-ds = DataStore.new
-puts ds.file_systems
+fss = $ds.file_systems
+puts fss
+fss.each { |fs| puts fs.name }

@@ -1,12 +1,15 @@
 #ifndef DATA_STORE_H
 #define DATA_STORE_H
 
+#include <vector>
 #include <boost/utility.hpp>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+class FileSystem;
+
 class DataStore: private boost::noncopyable
 {
 public:
@@ -16,10 +19,14 @@ public:
     return singleton;
   }
 
+public:
+  auto get_file_systems() -> std::vector<FileSystem*>&;
+
 private:
   DataStore();
 
 private:
+  std::vector<FileSystem*> _filesystems;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
