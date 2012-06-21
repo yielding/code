@@ -6,6 +6,8 @@ SRCS      = %w{ ./data_store.cpp
                 ./data_store_ext.cpp 
                 ./file_system.cpp 
                 ./file_system_ext.cpp 
+                ./file.cpp
+                ./file_ext.cpp
                 ./main.cpp
               }
 
@@ -16,6 +18,7 @@ INCS      = ":mvm"
 CXX       = "c++11"            # c++0x, clang++, blank
 CXXFLAGS  = ":v"               # :d, :O0 :O3 :w = -Wall
 LDFLAGS   = ":mvm"
+LIBS      = ":f :s"
 
 load "~/code/build/app2.rake"
 

@@ -11,17 +11,20 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 DataStore::DataStore()
 {
-  char const* names[] = { "hfs+", "NTFS", "FAT", "ExFAT", nullptr };
+  char const* names[] = { "hfs", "hfs+", "hfsx", nullptr };
+
   for (int i=0; names[i]; ++i)
     _filesystems.push_back(new FileSystem(names[i]));
-
-  cout << "Data Store instance is created"
-       << endl;
 }
 
 auto DataStore::get_file_systems() -> std::vector<FileSystem*>&
 {
   return _filesystems;
+}
+
+auto DataStore::device_name() -> string
+{
+  return "iPhone 4S";
 }
 
 ////////////////////////////////////////////////////////////////////////////////

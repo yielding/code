@@ -1,8 +1,9 @@
 #ifndef DATA_STORE_H
 #define DATA_STORE_H
 
-#include <vector>
 #include <boost/utility.hpp>
+#include <vector>
+#include <string>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -21,6 +22,7 @@ public:
 
 public:
   auto get_file_systems() -> std::vector<FileSystem*>&;
+  auto device_name()      -> std::string;
 
 private:
   DataStore();

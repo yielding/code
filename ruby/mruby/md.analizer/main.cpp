@@ -1,6 +1,7 @@
 #include "mruby_basis.h"
 #include "data_store_ext.h"
 #include "file_system_ext.h"
+#include "file_ext.h"
 
 #include <string>
 #include <iostream>
@@ -26,6 +27,7 @@ int main(int argc, const char *argv[])
   auto mrb = mrb_open();
   init_data_store(mrb);
   init_file_system(mrb);
+  init_file(mrb);
 
   auto code = load_script("myscript.rb");
   auto p = mrb_parse_string(mrb, code.c_str());
