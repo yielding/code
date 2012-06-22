@@ -2,7 +2,6 @@
   + mruby embedding
 
   + filesystem toy
-    - file
 
   + refactoring
 

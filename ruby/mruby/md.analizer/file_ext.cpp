@@ -91,7 +91,7 @@ void init_file(mrb_state* mrb)
   mrb_define_method(mrb, fi, "path",       fi_get_path,   ARGS_NONE());
   mrb_define_method(mrb, fi, "parent",     fi_get_parent, ARGS_NONE());
   mrb_define_method(mrb, fi, "size",       fi_get_size,   ARGS_NONE());
-  mrb_define_method(mrb, fi, "deleted",    fi_deleted,    ARGS_NONE());
+  mrb_define_method(mrb, fi, "deleted?",   fi_deleted,    ARGS_NONE());
   mrb_define_method(mrb, fi, "save_to",    fi_save_to,    ARGS_REQ(1));
 }
 
