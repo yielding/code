@@ -25,6 +25,7 @@ int main(int argc, const char *argv[])
   };
 
   auto mrb = mrb_open();
+
   init_data_store(mrb);
   init_file_system(mrb);
   init_file(mrb);

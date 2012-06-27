@@ -28,20 +28,20 @@
 
     - File Systems
       파일 시스템에 삭제 파일 까지 다 보여준다.
-      > KFAT0
-      > SamsungMCU
+        > KFAT0
+        > SamsungMCU
 
     - Analyzed data
-      > Call Log (3)
-      > Contacts (1255)
-      > SMS Messages (192)
+        > Call Log (3)
+        > Contacts (1255)
+        > SMS Messages (192)
 
     - Data files
       파일 시스템 보기와 다른 점은 그루핑 방식이 다르다는 것, 아래처럼
-      > Images
-      > Videos
-      > Audio
-      > Text
+        > Images
+        > Videos
+        > Audio
+        > Text
 
     - Tags
       특별히 관심있는 데이타 타입에 대해 다시 그룹으로 묶은 node
