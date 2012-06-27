@@ -2,7 +2,7 @@ class RootViewController < UITableViewController
   def viewDidLoad
     super
     self.title = "Menu"
-    @items ||= ["SampleForLabel"]
+    @items = ["SampleForLabel"]
   end
 
   def viewWillAppear(animated)
@@ -13,7 +13,7 @@ class RootViewController < UITableViewController
     self.navigationController.toolbar.barStyle = UIBarStyleDefault
     self.navigationController.toolbar.translucent = false
 
-    UIView.setAnimationEnabled(true)
+    UIView.setAnimationsEnabled(true)
   end
 
   def tableView(tv, numberOfRowsInSection:section)
@@ -23,7 +23,7 @@ class RootViewController < UITableViewController
   CELLID = "Cell"
   def tableView(tv, cellForRowAtIndexPath:ip)
     cell = tv.dequeueReusableCellWithIdentifier(CELLID) || begin
-      cell = UITableViewCell.alloc.initWithStype(UITableViewCellStyleDefault, reuseIdentifier:CELLID)
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELLID)
       cell
     end
     cell.textLabel.text = @items[ip.row]
@@ -32,7 +32,6 @@ class RootViewController < UITableViewController
 
   def tableView(tv, didSelectRowAtIndexPath:ip)
     vc = Object.const_get(@items[ip.row]).alloc.init 
-    # TODO here
-    
+    self.navigationController.pushViewController(vc, animated:true) unless vc.nil?
   end
 end
