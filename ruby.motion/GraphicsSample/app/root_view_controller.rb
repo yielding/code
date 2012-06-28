@@ -2,7 +2,10 @@ class RootViewController < UITableViewController
   def viewDidLoad
     super
     self.title = "Menu"
-    @items = ["SampleForLabel"]
+    @items = [
+      "SampleForLabel",
+      "SampleForDrawStrings"
+    ]
   end
 
   def viewWillAppear(animated)
