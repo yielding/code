@@ -130,7 +130,7 @@
 		DFAE4071153D6ABA00D43554 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "yielding@gmail.com";
 			};
 			buildConfigurationList = DFAE4074153D6ABA00D43554 /* Build configuration list for PBXProject "scp" */;
@@ -191,7 +191,7 @@
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "./scp ./scp/develop/include";
 				VALID_ARCHS = x86_64;
 			};
@@ -215,7 +215,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "./scp ./scp/develop/include";
 				VALID_ARCHS = x86_64;
 			};

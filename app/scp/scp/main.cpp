@@ -18,7 +18,7 @@ using namespace boost;
 int main(int argc, char** argv)
 {
     SSHHostList hosts;
-    
+
     if (!hosts.init_with_file("/Users/yielding/.passwd"))
         return EXIT_FAILURE;
     
