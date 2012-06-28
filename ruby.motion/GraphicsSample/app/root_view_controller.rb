@@ -4,7 +4,8 @@ class RootViewController < UITableViewController
     self.title = "Menu"
     @items = [
       "SampleForLabel",
-      "SampleForDrawStrings"
+      "SampleForDrawStrings",
+      "SampleForBaselineAdjustment"
     ]
   end
 
