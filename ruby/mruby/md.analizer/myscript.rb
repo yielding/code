@@ -1,7 +1,9 @@
 puts "#{$ds.desc}\n"
 
 puts "file system list"
-$ds.file_systems.each { |name, _| puts " #{name}" }
+$ds.file_systems.each { |name, fs| 
+  puts " #{name}" 
+}
 
 fs = $ds.file_systems["hfs"]
 p fs.name
