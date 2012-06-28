@@ -5,7 +5,8 @@ class RootViewController < UITableViewController
     @items = [
       "SampleForLabel",
       "SampleForDrawStrings",
-      "SampleForBaselineAdjustment"
+      "SampleForBaselineAdjustment",
+      "SampleForMinFontSize"
     ]
   end
 
