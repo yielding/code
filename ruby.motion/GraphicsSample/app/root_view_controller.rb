@@ -6,7 +6,9 @@ class RootViewController < UITableViewController
       "SampleForLabel",
       "SampleForDrawStrings",
       "SampleForBaselineAdjustment",
-      "SampleForMinFontSize"
+      "SampleForMinFontSize",
+      "SampleForSizeWithFont",
+      "SampleForFontWithName"
     ]
   end
 
