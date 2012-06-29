@@ -33,7 +33,7 @@ class RootViewController < UITableViewController
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELLID)
       cell
     end
-    cell.textLabel.text = @items[ip.row]
+    cell.textLabel.text = @items[ip.row].gsub(/SampleFor/, '')
     cell
   end
 
