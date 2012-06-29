@@ -1,5 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" "
-" Last modified : 2011년 11월  3일 목요일 09시 15분 06초 KST by yielding
+" Last modified : 2012년 6월 27일 수요일 15시 44분 37초 KST by yielding
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -240,7 +240,8 @@ set path+=~/develop/include,~/opensource/mruby/include
 set popt=syntax:y,number:y
 
 if MySys() == "mac"
-  set guifont=Menlo\ Regular:h17
+  "set guifont=Menlo\ Regular:h12
+  set guifont=Andale\ Mono:h13
   set shell=/opt/local/bin/bash
 elseif MySys() == "Windows_NT"
   set guifont=Fixedsys:h12
@@ -252,7 +253,6 @@ function! EnhanceCppSyntax()
 endfunction 
 
 autocmd Syntax cpp call EnhanceCppSyntax() 
-
 
 "-----------------------------------------------------------------------------
 "
@@ -572,8 +572,8 @@ command! -nargs=0 OUTLINE call <SID>OutlineToggle()
 "color dusk
 "color DevC++
 if (has('gui_running')) 
-  "color vanzan_color
-  "color peaksea
+  " color vanzan_color
+  " color peaksea
   color molokai
 else
   color jellybeans
@@ -628,10 +628,10 @@ set pumheight=15
 let g:SuperTabDefaultCompletionType = "context"
 
 let g:clang_auto_select = 1
-let g:clang_complete_auto = 0
+let g:clang_complete_auto = 1
 let g:clang_complete_copen = 1
 "let g:clang_user_options ='-fblocks -std=c++0x -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk -D__IPHONE_OS_VERSION_MIN_REQUIRED=40300'
-let g:clang_user_options ='-fblocks -std=c++0x -isysroot /Developer/SDKs/MacOSX10.7.sdk'
+let g:clang_user_options ='-fblocks -std=c++11 -isysroot /Developer/SDKs/MacOSX10.7.sdk'
 "-----------------------------------------------------------------------------
 "
 " Xcode
@@ -658,9 +658,8 @@ let loaded_matchparen = 0
 " syntax match
 "
 "-----------------------------------------------------------------------------
-let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'active_filetypes': ['c++', 'c'],
-                           \ 'passive_filetypes': ['ruby'] }
+let NERDTreeIgnore=['\.vim$', '\~$', '.*\.o$']
+
 "-----------------------------------------------------------------------------
 "
 " 자주 쓰는 autocmd 
@@ -682,4 +681,4 @@ au BufNewFile,BufReadPost *.m          set ft=objc
 au BufNewFile,BufReadPost *.as         set ft=actionscript 
 au BufNewFile,BufReadPost *.scala      set ft=scala 
 au BufNewFile,BufReadPost *.cpp        set ft=cpp
-au BufNewFile,BufReadPost *.md         set ft=md
+au BufNewFile,BufReadPost *.md         set ft=markdown
