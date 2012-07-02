@@ -4,24 +4,26 @@ require "pp"
 class SpiralArray
   WALL  = -2
   SPACE = -1
-  DIR = { :e => [ 1,  0, :s], :s => [ 0,  1, :w], 
-          :w => [-1,  0, :n], :n => [ 0, -1, :e] }
+  DIR   = { :e => { dx:  1, dy: 0, d: :s }, :s => { dx: 0, dy:  1, d: :w}, 
+            :w => { dx: -1, dy: 0, d: :n }, :n => { dx: 0, dy: -1, d: :e} }
   
   def initialize w, h
-    @w, @h = w, h
-    @x, @y, @value = 1, 1, 1
+    @w, @h, @x, @y, @value = w, h, 1, 1, 1
     @dir = :e
-    @board = []
-    init_board
+    @dx, @dy = DIR[@dir][:dx], DIR[@dir][:dy]
   end
   
-  def init_board
-    0.upto(@h+1) { |i| @board.push([WALL] * (@w + 2)) }
-    1.upto(@h+0) { |y| 1.upto(@w) { |x| @board[y][x] = SPACE } }
+  def board
+    @board ||= begin
+      board = []
+      0.upto(@h+1) { |i| board.push([WALL] * (@w + 2)) }
+      1.upto(@h)   { |y| 1.upto(@w) { |x| board[y][x] = SPACE } }
+      board
+    end
   end
   
   def row_at index
-    @board[index].join(", ")
+    board[index].join(", ")
   end
   
   def completed?
@@ -29,18 +31,19 @@ class SpiralArray
   end
   
   def blocked?
-    # puts "#{@y}, #{@x}, #{@value}, #{@dir}"
-    n = @board[@y+DIR[@dir][1]][@x+DIR[@dir][0]]
-    return n == WALL || n != SPACE
+    board[@y+@dy][@x+@dx] != SPACE
   end
   
   def go
-    while not completed?
-      @board[@y][@x] = @value
+    until completed?
+      board[@y][@x] = @value
+      if blocked?
+        @dir     = DIR[@dir][:d]
+        @dx, @dy = DIR[@dir][:dx], DIR[@dir][:dy]
+      end
+      @x += @dx
+      @y += @dy
       @value += 1
-      @dir = DIR[@dir][2] if blocked?
-      @x  += DIR[@dir][0]
-      @y  += DIR[@dir][1]
     end
   end
   
