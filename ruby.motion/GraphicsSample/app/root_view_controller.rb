@@ -8,7 +8,8 @@ class RootViewController < UITableViewController
       "SampleForBaselineAdjustment",
       "SampleForMinFontSize",
       "SampleForSizeWithFont",
-      "SampleForFontWithName"
+      "SampleForFontWithName",
+      "SampleForUIImage"
     ]
   end
 
