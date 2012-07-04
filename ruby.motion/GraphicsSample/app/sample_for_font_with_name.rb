@@ -34,7 +34,7 @@ class SampleForFontWithName < UITableViewController
      @fonts ||= begin
         UIFont.familyNames.sort.map do |family|
           fonts = UIFont.fontNamesForFamilyName(family).sort 
-          {:family => family, :fonts => fonts}
+          { :family => family, :fonts => fonts }
         end
      end
   end
