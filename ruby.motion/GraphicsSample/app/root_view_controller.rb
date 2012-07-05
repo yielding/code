@@ -3,13 +3,16 @@ class RootViewController < UITableViewController
     super
     self.title = "Menu"
     @items = [
+      "SampleForTextAlignment",
       "SampleForLabel",
       "SampleForDrawStrings",
+      "SampleForDrawStringsInRect",
       "SampleForBaselineAdjustment",
       "SampleForMinFontSize",
       "SampleForSizeWithFont",
       "SampleForFontWithName",
-      "SampleForUIImage"
+      "SampleForUIImage",
+      "SampleForUIImageView"
     ]
   end
 
