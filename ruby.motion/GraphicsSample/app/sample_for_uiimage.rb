@@ -15,9 +15,8 @@ class SampleForUIImage < UIViewController
     image = UIImage.imageNamed("dog.jpg")
     test = DrawImageTest.alloc.initWithImage(image)
     test.frame = view.bounds
-    test.autoresizingMask =
-      UIViewAutoresizingFlexibleWidth or 
-      UIViewAutoresizingFlexibleHeight
+    test.autoresizingMask = UIViewAutoresizingFlexibleWidth or 
+                            UIViewAutoresizingFlexibleHeight
     self.view.addSubview(test)
   end
 end

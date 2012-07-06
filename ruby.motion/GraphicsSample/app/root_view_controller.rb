@@ -3,6 +3,7 @@ class RootViewController < UITableViewController
     super
     self.title = "Menu"
     @items = [
+      "SampleForUIImageViewAnimation", 
       "SampleForTextAlignment",
       "SampleForLabel",
       "SampleForDrawStrings",
@@ -28,7 +29,7 @@ class RootViewController < UITableViewController
   end
 
   def tableView(tv, numberOfRowsInSection:section)
-   @items.size 
+    @items.size 
   end
 
   CELLID = "Cell"
