@@ -15,6 +15,7 @@
 #include <mruby/class.h>
 #include <mruby/proc.h>
 #include <mruby/compile.h>
+#include <mruby/dump.h>
 
 using namespace std;
 using namespace boost;
@@ -388,8 +389,11 @@ int main(int argc, const char *argv[])
   init_jukebox(mrb);
   init_music_store(mrb);
 
+  //mrb_parser_state* p;
   auto code = load_script("myscript.rb");
-  auto p = mrb_parse_string(mrb, code.c_str());
+  //mrbc_context* c = mrbc_context_new(mrb);
+  auto c = mrbc_context_new(mrb);
+  auto p = mrb_parse_string(mrb, code.c_str(), c);
   auto n = mrb_generate_code(mrb, p->tree);
   mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_top_self(mrb));
   if (mrb->exc)
