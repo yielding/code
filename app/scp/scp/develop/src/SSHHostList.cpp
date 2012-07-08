@@ -111,7 +111,7 @@ public:
 
     auto count() const -> uint32_t
     {
-        return m_hosts.size();
+        return (uint32_t)m_hosts.size();
     }
 
     auto nth(int index) -> boost::tuple<string, int, string, string, string>

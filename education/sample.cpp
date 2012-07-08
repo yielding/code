@@ -2,19 +2,16 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <cassert>
 #include <map>
 
 using namespace std;
 
 int main(int argc, const char *argv[])
 {
-  if (argc != 2)
-  {
-    cout << "line.exe ./src.cpp\n";
-    return EXIT_FAILURE;
-  }
-
+  assert(argc == 2);
   ifstream ifs(argv[1]);
+
   map<char, unsigned> sample;
   auto sampler = [&sample](char ch) { sample[tolower(ch)]++; };
 
