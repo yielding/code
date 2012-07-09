@@ -3,6 +3,7 @@ class RootViewController < UITableViewController
     super
     self.title = "Menu"
     @items = [
+      "SampleForOpaque",
       "SampleForTransition",
       "SampleForAnimationCurve",
       "SampleForUIImageViewAnimation", 
