@@ -47,5 +47,5 @@ def main():
         print "*" * 40
 
 if __name__ == "__main__":
-  #pdb.runcall(main)
-  main()
+  pdb.runcall(main)
+  #main()
