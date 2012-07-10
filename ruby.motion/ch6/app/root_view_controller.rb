@@ -1,8 +1,9 @@
 class RootViewController < UITableViewController
   def viewDidLoad
     super
-    self.title = "Menu~"
+    self.title = "Menu"
     @items = [
+      "SampleForSlider",
       "SampleForButton"
     ]
   end
