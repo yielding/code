@@ -574,7 +574,8 @@ command! -nargs=0 OUTLINE call <SID>OutlineToggle()
 if (has('gui_running')) 
   " color vanzan_color
   " color peaksea
-  color molokai
+  " color molokai
+  color jellybeans
 else
   color jellybeans
 endif
