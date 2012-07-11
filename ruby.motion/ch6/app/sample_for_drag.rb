@@ -1,17 +1,16 @@
 class SampleForDrag < UIViewController
-  KMaximumSteps = 8
+  KMaximumSteps = 16
 
   def viewDidLoad
     super
+
     @should_walk = false
 
     self.view.backgroundColor = UIColor.whiteColor
-
-    img1 = UIImage.imageNamed("chara1.png")
-    img2 = UIImage.imageNamed("chara2.png")
-
+    img1  = UIImage.imageNamed("chara1.png")
+    img2  = UIImage.imageNamed("chara2.png")
     @char = UIImageView.alloc.initWithImage(img1)
-    @char.animationImages = [img1, img2]
+    @char.animationImages   = [img1, img2]
     @char.animationDuration = 0.3
     view.addSubview(@char)
   end
@@ -45,28 +44,28 @@ class SampleForDrag < UIViewController
   def the_character_will_walk
     return unless @should_walk
 
-    new_point = @char.center
-    if KMaximumSteps < (@target_point.x - new_point.x).abs
-      if @target_point.x > new_point.x
-        new_point.x += KMaximumSteps
+    np = @char.center
+    if KMaximumSteps < (@target_point.x - np.x).abs
+      if @target_point.x > np.x
+        np.x += KMaximumSteps
       else
-        new_point.x -= KMaximumSteps
+        np.x -= KMaximumSteps
       end
     else
-      new_point.x = @target_point.x
+      np.x = @target_point.x
     end
 
-    if KMaximumSteps < (@target_point.y - new_point.y).abs
-      if @target_point.y > new_point.y
-        new_point.y += KMaximumSteps
+    if KMaximumSteps < (@target_point.y - np.y).abs
+      if @target_point.y > np.y
+        np.y += KMaximumSteps
       else
-        new_point.y -= KMaximumSteps
+        np.y -= KMaximumSteps
       end
     else
-      new_point.y = @target_point.y
+      np.y = @target_point.y
     end
 
-    @char.center = new_point
+    @char.center = np
     self.performSelector("the_character_will_walk",
                          withObject:nil, 
                          afterDelay:0.3)
