@@ -3,6 +3,7 @@ class RootViewController < UITableViewController
     super
     self.title = "Menu"
     @items = [
+      "SampleForDoubleTap",
       "SampleForDrag",
       "SampleForResponderChain",
       "SampleForTouchesLabel",
