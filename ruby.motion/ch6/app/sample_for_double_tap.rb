@@ -1,10 +1,11 @@
 class SampleForDoubleTap < UIViewController
   def viewDidLoad
     super
-    view.backgroundColor = UIColor.whiteColor
+    self.view.backgroundColor = UIColor.whiteColor
   end
 
   def touchesBegan(touches, withEvent:event)
+    puts "touchesBegan"
     @single_tap_ready = false
   end
 
@@ -13,24 +14,26 @@ class SampleForDoubleTap < UIViewController
     tap_count = touches.anyObject.tapCount
     if tap_count < 2
       @single_tap_ready = true
-      self.performSelector("singleTab", withObject:nil, afterDealy:0.3)
+      self.performSelector("singleTap", withObject:nil, afterDealy:0.3)
     else
-      self.performSelector("doubleTag")
+      self.performSelector("doubleTap")
     end
   end
 
-  def singleTab
-    return unless @single_tap_ready
-    alert = UIAlertView.alloc.initWithTitle(nil, 
-              message:"Single Tap",
-              delegate:nil,
-              cancelButtonTitle:nil, 
-              otherButtonTitles:"OK", nil)
-
-    alert.show
+  def singleTap
+    puts "single tap"
+    if @single_tap_ready
+      alert = UIAlertView.alloc.initWithTitle(nil, 
+                message:"Single Tap",
+                delegate:nil,
+                cancelButtonTitle:nil, 
+                otherButtonTitles:"OK", nil)
+      alert.show
+    end
   end
 
-  def doubleTag
+  def doubleTap
+    puts "double tap"
     alert = UIAlertView.alloc.initWithTitle(nil, 
               message:"Double Tap",
               delegate:nil,
