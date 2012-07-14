@@ -20,7 +20,7 @@ void append(ofstream& ofs)
   char buffer[] = { 4, 5, 6 };
   ofs.open(file.c_str(), ios::out|ios::binary|ios::app);
 
-  ofs.write(buffer, sizeof buffer / sizeof buffer[0]);
+  ofs.write(buffer, sizeof(buffer) / sizeof(buffer[0]));
   ofs.close();
 }
 

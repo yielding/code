@@ -1,8 +1,8 @@
 class TouchableLabelForResponder < UILabel 
   def init
     if super
-      userInteractionEnabled = true
-      autoresizingMask = 
+      self.userInteractionEnabled = true
+      self.autoresizingMask = 
         UIViewAutoresizingFlexibleWidth      or UIViewAutoresizingFlexibleHeight or 
         UIViewAutoresizingFlexibleLeftMargin or UIViewAutoresizingFlexibleRightMargin or 
         UIViewAutoresizingFlexibleTopMargin  or UIViewAutoresizingFlexibleBottomMargin

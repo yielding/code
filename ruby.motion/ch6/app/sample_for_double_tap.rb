@@ -6,6 +6,7 @@ class SampleForDoubleTap < UIViewController
   end
 
   def touchesBegan(touches, withEvent:event)
+    puts "touchesBegan"
     @single_tap_ready = false
   end
 
@@ -23,17 +24,19 @@ class SampleForDoubleTap < UIViewController
   end
 
   def singleTap
-    return unless @single_tap_ready
-    alert = UIAlertView.alloc.initWithTitle(nil, 
-              message:"Single Tap",
-              delegate:nil,
-              cancelButtonTitle:nil, 
-              otherButtonTitles:"OK", nil)
-
-    alert.show
+    puts "single tap"
+    if @single_tap_ready
+      alert = UIAlertView.alloc.initWithTitle(nil, 
+                message:"Single Tap",
+                delegate:nil,
+                cancelButtonTitle:nil, 
+                otherButtonTitles:"OK", nil)
+      alert.show
+    end
   end
 
   def doubleTap
+    puts "double tap"
     alert = UIAlertView.alloc.initWithTitle(nil, 
               message:"Double Tap",
               delegate:nil,
