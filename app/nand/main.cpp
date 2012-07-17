@@ -176,7 +176,8 @@ int main(int argc, const char *argv[])
     cout << "EMF        : " << dinfo.emf()  << endl;
     cout << "KeyBagKeys : " << dinfo.keybag_keys()  << endl;
     cout << "btMac      : " << dinfo.btMac() << endl;
-    //cout << "classKeys  : " << dinfo.class_keys() << endl;
+    // TODO
+    // cout << "classKeys  : " << dinfo.class_keys() << endl;
     cout << "dataVolumeOffset : " << dinfo.data_volume_offset() << endl;
     cout << "dataVolumeUUID   : " << dinfo.data_volume_uuid() << endl;
     cout << "hwModel          : " << dinfo.hw_model() << endl;

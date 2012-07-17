@@ -33,13 +33,13 @@ public:
     PTreeParser& in(char const* w) { m_where = w; return *this; }
 
 public:
-    Leaves get_dict(char const* where, char const* key) const;
+    Leaves get_dict(char const* key, char const* where) const;
     Leaves get_dict(char const* key) const;
 
-    std::string get_string(char const* where, char const* key) const;
+    std::string get_string(char const* key, char const* where) const;
     std::string get_string(char const* key) const;
 
-    int get_int(char const* where, char const* key) const;
+    int get_int(char const* key, char const* where) const;
     int get_int(char const* key) const;
 
 public:

@@ -121,7 +121,7 @@ string PTreeParser::get_string(char const* key) const
         : get_string(key, m_where.c_str());
 }    
 
-int PTreeParser::get_int(char const* where, char const* key) const
+int PTreeParser::get_int(char const* key, char const* where) const
 {
     auto res = get_string(key, where);
 
@@ -135,7 +135,7 @@ int PTreeParser::get_int(char const* key) const
     return res.empty() ? -1 : boost::lexical_cast<int>(res);
 }
   
-PTreeParser::Leaves PTreeParser::get_dict(char const* where, char const* key) const
+PTreeParser::Leaves PTreeParser::get_dict(char const* key, char const* where) const
 {
   return enumerate(key, where);
 }
