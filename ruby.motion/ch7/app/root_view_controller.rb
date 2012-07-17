@@ -3,18 +3,8 @@ class RootViewController < UITableViewController
     super
     self.title = "Menu"
     @items = [
-      "SampleForAccelerometer", 
-      "SampleForPinch",
-      "SampleForMotion",
-      "SampleForSlide",
-      "SampleForTripleTap",
-      "SampleForDoubleTap",
-      "SampleForDrag",
-      "SampleForResponderChain",
-      "SampleForTouchesLabel",
-      "SampleForTouchesBegin",
-      "SampleForSlider",
-      "SampleForButton"
+      "SampleForAlert",
+      "SampleForAlertDismiss"
     ]
   end
 
