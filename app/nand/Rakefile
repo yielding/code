@@ -1,0 +1,20 @@
+# -*- ruby -*-
+
+APP       = "ios_examiner"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{ 
+                ./main.cpp 
+              }
+
+TEST_SRCS = %w{ 
+                ./test_image.cpp
+              }
+
+INCS      = "./develop/include"
+CXX       = "c++11"          # c++0x, clang++, blank
+CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
+LIBS      = ":f :s"
+
+load "~/code/build/app2.rake"
+
+# task :default => [:test]
