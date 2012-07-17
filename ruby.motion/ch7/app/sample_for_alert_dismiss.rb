@@ -1,4 +1,4 @@
-class SampleForAlertDismiss < UIViewController
+class AlertDismiss < UIViewController
   def viewDidAppear(animated)
     super(animated)
     alert = UIAlertView.alloc.init 
