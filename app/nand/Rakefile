@@ -8,7 +8,6 @@ SRCS      = %w{
               }
 
 TEST_SRCS = %w{ 
-                ./develop/src/ByteBuffer.cpp
                 ./develop/src/PTreeParser.cpp
                 ./test_image.cpp
               }

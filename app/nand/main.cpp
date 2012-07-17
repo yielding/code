@@ -4,7 +4,7 @@
 #include <string>
 #include <cstdlib>
 #include <map>
-
+#include <boost/algorithm/string.hpp>
 #include "PTreeParser.h"
 
 using namespace std;
@@ -17,21 +17,23 @@ struct device_info
     auto ecid() -> string;
     auto emf()  -> string;
     auto keybag_keys() -> string;
-    auto btMac()       -> string;
+    auto bt_mac()      -> string;
     auto class_keys(string key) -> string;
     auto data_volume_offset()   -> uint32_t;
     auto data_volume_uuid()     -> string;
-    auto hw_model() -> string;
-    auto imei()     -> string;
+    auto hw_model()         -> string;
+    auto imei()             -> string;
     auto kernel_boot_args() -> string;
-    auto key835()        -> string;
-    auto key899()        -> string;
-    auto key89A()        -> string;
-    auto lockers()       -> string;
-    auto nand()          -> map<string, string>;
-    auto passcode()      -> string;
-    auto passcode_key()  -> string;
-    auto ramdisk()       -> map<string, string>;
+    auto key835()           -> string;
+    auto key899()           -> string;
+    auto key89A()           -> string;
+    auto key89B()           -> string;
+    auto lockers()          -> string;
+    auto nand()             -> void;
+    // auto nand()             -> map<string, string>;
+    auto passcode()         -> string;
+    auto passcode_key()     -> string;
+    auto ramdisk()          -> map<string, string>;
 
     // compile time, revision
     auto serial_number() -> string;
@@ -70,7 +72,7 @@ auto device_info::keybag_keys() -> string
     return m_pt.get_string("KeyBagKeys", "plist.dict");
 }
 
-auto device_info::btMac() -> string 
+auto device_info::bt_mac() -> string 
 {
     return m_pt.get_string("btMac", "plist.dict");
 }
@@ -107,39 +109,48 @@ auto device_info::kernel_boot_args() -> string
 
 auto device_info::key835() -> string 
 {
-    return "";
+    return m_pt.get_string("key835", "plist.dict");
 }
 
 auto device_info::key899() -> string 
 {
-    return "";
+    return m_pt.get_string("key899", "plist.dict");
 }
 
 auto device_info::key89A() -> string 
 {
-    return "";
+    return m_pt.get_string("key89A", "plist.dict");
+}
+
+auto device_info::key89B() -> string 
+{
+    return m_pt.get_string("key89B", "plist.dict");
 }
 
 auto device_info::lockers() -> string 
 {
-    return "";
+    return m_pt.get_string("lockers", "plist.dict");
 }
 
-auto device_info::nand() -> map<string, string> 
+// TODO
+void device_info::nand()
 {
-    return map<string, string>();
+    auto leaves = m_pt.get_dict("nand", "plist.dict");
+    for (auto it = leaves.begin(); it != leaves.end(); ++it)
+        cout << it->first << " : [" << boost::trim_copy(it->second) << "]\n";
 }
 
 auto device_info::passcode() -> string 
 {
-    return "";
+    return m_pt.get_string("passcode", "plist.dict");
 }
 
 auto device_info::passcode_key() -> string 
 {
-    return "";
+    return m_pt.get_string("passcodeKey", "plist.dict");
 }
 
+// TODO
 auto device_info::ramdisk() -> map<string, string> 
 {
     return map<string, string>();
@@ -147,17 +158,17 @@ auto device_info::ramdisk() -> map<string, string>
 
 auto device_info::serial_number() -> string 
 {
-    return "";
+    return m_pt.get_string("serialNumber", "plist.dict");
 }
 
 auto device_info::udid() -> string 
 {
-    return "";
+    return m_pt.get_string("udid", "plist.dict");
 }
 
 auto device_info::wifi_mac() -> string 
 {
-    return "";
+    return m_pt.get_string("wifiMac", "plist.dict");
 }
 
 int main(int argc, const char *argv[])
@@ -175,7 +186,7 @@ int main(int argc, const char *argv[])
     cout << "ECID       : " << dinfo.ecid() << endl;
     cout << "EMF        : " << dinfo.emf()  << endl;
     cout << "KeyBagKeys : " << dinfo.keybag_keys()  << endl;
-    cout << "btMac      : " << dinfo.btMac() << endl;
+    cout << "btMac      : " << dinfo.bt_mac() << endl;
     // TODO
     // cout << "classKeys  : " << dinfo.class_keys() << endl;
     cout << "dataVolumeOffset : " << dinfo.data_volume_offset() << endl;
@@ -183,6 +194,19 @@ int main(int argc, const char *argv[])
     cout << "hwModel          : " << dinfo.hw_model() << endl;
     cout << "IMEI             : " << dinfo.imei() << endl;
     cout << "kern.boot.args   : " << dinfo.kernel_boot_args() << endl;
+    cout << "key835           : " << dinfo.key835()   << endl;
+    cout << "key899           : " << dinfo.key899()   << endl;
+    cout << "key89A           : " << dinfo.key89A()   << endl;
+    cout << "key89B           : " << dinfo.key89B()   << endl;
+    cout << "lockers          : " << dinfo.lockers()  << endl;
+    cout << "passcode         : " << dinfo.passcode() << endl;
+    cout << "passcodeKey      : " << dinfo.passcode_key()  << endl;
+    cout << "serialNumber     : " << dinfo.serial_number() << endl;
+    cout << "wifiMac          : " << dinfo.wifi_mac()       << endl;
+
+    dinfo.nand();
+    //for (auto it=nand.begin(); it!=nand.end(); ++it)
+        //cout << it->first << " : " >> it->second << " ";
 
     cout << "ok\n";
 
