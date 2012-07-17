@@ -1,4 +1,3 @@
-// Substition Failure Is Not An Error
 #include <iostream>
 
 using namespace std;
