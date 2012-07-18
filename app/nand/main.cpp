@@ -140,6 +140,13 @@ void device_info::nand()
         cout << it->first << " : [" << boost::trim_copy(it->second) << "]\n";
 }
 
+/*
+auto device_info::nand() -> map<string, string>
+{
+
+}
+*/
+
 auto device_info::passcode() -> string 
 {
     return m_pt.get_string("passcode", "plist.dict");
@@ -173,7 +180,7 @@ auto device_info::wifi_mac() -> string
 
 int main(int argc, const char *argv[])
 {
-    string path = "/Volumes/Data.Disk/iphone.nand/4.nand/d0686b9ba2.plist";
+    string path = "./resource/d0686b9ba2.plist";
 
     device_info dinfo;
     if (!dinfo.load(path))
@@ -182,6 +189,7 @@ int main(int argc, const char *argv[])
         exit(EXIT_FAILURE);
     }
 
+    /*
     cout << "DKey       : " << dinfo.dkey() << endl;
     cout << "ECID       : " << dinfo.ecid() << endl;
     cout << "EMF        : " << dinfo.emf()  << endl;
@@ -203,10 +211,9 @@ int main(int argc, const char *argv[])
     cout << "passcodeKey      : " << dinfo.passcode_key()  << endl;
     cout << "serialNumber     : " << dinfo.serial_number() << endl;
     cout << "wifiMac          : " << dinfo.wifi_mac()       << endl;
+    */
 
     dinfo.nand();
-    //for (auto it=nand.begin(); it!=nand.end(); ++it)
-        //cout << it->first << " : " >> it->second << " ";
 
     cout << "ok\n";
 

@@ -1,4 +1,4 @@
-class AlertDismiss < UIViewController
+class SampleForAlertDismiss < UIViewController
   def viewDidAppear(animated)
     super(animated)
     alert = UIAlertView.alloc.init 
@@ -7,9 +7,7 @@ class AlertDismiss < UIViewController
     alert.cancelButtonIndex = 0
     alert.show
 
-    self.performSelector(:"dismissAlert:", 
-                         withObject: alert, 
-                         afterDealy: 3.0)
+    self.performSelector(:"dismissAlert:", withObject: alert, afterDealy: 3.0)
   end
 
   def dismissAlert alert 

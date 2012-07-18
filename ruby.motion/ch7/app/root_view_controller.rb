@@ -3,6 +3,10 @@ class RootViewController < UITableViewController
     super
     self.title = "Menu"
     @items = [
+      "SampleForAlertWithMultiButtons",
+      "SampleForAlertObserving",
+      "SampleForActionSheetStyle",
+      "SampleForAlertWithLongMessage",
       "SampleForAlert",
       "SampleForAlertDismiss"
     ]
