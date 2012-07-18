@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		DFCED53215B6760700D8CDAF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFCED53115B6760700D8CDAF /* main.cpp */; };
 		DFCED53415B6760700D8CDAF /* nand.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFCED53315B6760700D8CDAF /* nand.1 */; };
+		DFCED54015B677D900D8CDAF /* PTreeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFCED53F15B677D900D8CDAF /* PTreeParser.cpp */; };
+		DFCED54315B6787B00D8CDAF /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCED54115B6787B00D8CDAF /* libboost_filesystem.a */; };
+		DFCED54415B6787B00D8CDAF /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCED54215B6787B00D8CDAF /* libboost_system.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +31,9 @@
 		DFCED52D15B6760700D8CDAF /* nand */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = nand; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFCED53115B6760700D8CDAF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DFCED53315B6760700D8CDAF /* nand.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = nand.1; sourceTree = "<group>"; };
+		DFCED53F15B677D900D8CDAF /* PTreeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PTreeParser.cpp; path = develop/src/PTreeParser.cpp; sourceTree = "<group>"; };
+		DFCED54115B6787B00D8CDAF /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = ../../../../../opt/local/lib/libboost_filesystem.a; sourceTree = "<group>"; };
+		DFCED54215B6787B00D8CDAF /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = ../../../../../opt/local/lib/libboost_system.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFCED54315B6787B00D8CDAF /* libboost_filesystem.a in Frameworks */,
+				DFCED54415B6787B00D8CDAF /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +52,8 @@
 		DFCED52215B6760700D8CDAF = {
 			isa = PBXGroup;
 			children = (
+				DFCED54115B6787B00D8CDAF /* libboost_filesystem.a */,
+				DFCED54215B6787B00D8CDAF /* libboost_system.a */,
 				DFCED53015B6760700D8CDAF /* nand */,
 				DFCED52E15B6760700D8CDAF /* Products */,
 			);
@@ -60,6 +70,7 @@
 		DFCED53015B6760700D8CDAF /* nand */ = {
 			isa = PBXGroup;
 			children = (
+				DFCED53F15B677D900D8CDAF /* PTreeParser.cpp */,
 				DFCED53115B6760700D8CDAF /* main.cpp */,
 				DFCED53315B6760700D8CDAF /* nand.1 */,
 			);
@@ -118,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFCED53215B6760700D8CDAF /* main.cpp in Sources */,
+				DFCED54015B677D900D8CDAF /* PTreeParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,7 +142,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -146,9 +158,17 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					./nand/develop/include,
+					./nand,
+				);
+				LD_RUNPATH_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -158,7 +178,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -168,14 +188,28 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					./nand/develop/include,
+					./nand,
+				);
+				LD_RUNPATH_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
 		DFCED53815B6760700D8CDAF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					./nand/develop/include,
+					./nand,
+				);
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -183,6 +217,12 @@
 		DFCED53915B6760700D8CDAF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					./nand/develop/include,
+					./nand,
+				);
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -206,6 +246,7 @@
 				DFCED53915B6760700D8CDAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

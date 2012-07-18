@@ -3,6 +3,8 @@ class RootViewController < UITableViewController
     super
     self.title = "Menu"
     @items = [
+      "SampleForNetworkActivityIndicator", 
+      "SampleForStatusbarStyle",
       "SampleForActionSheetWithDestructiveButton",
       "SampleForActionSheetObserving", 
       "SampleForAlertWithMultiButtons",
@@ -14,8 +16,9 @@ class RootViewController < UITableViewController
     ]
   end
 
-  def viewWillAppear(animated)
-    super(animated)
+  def viewWillAppear animated 
+    super animated 
+
     navigationController.setNavigationBarHidden(false, animated:false)
     navigationController.setToolbarHidden(false, animated:false)
 

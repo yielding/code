@@ -13,6 +13,9 @@ struct device_info
 {
     auto load(string const& path) -> bool;
 
+    // TODO
+    void test();
+
     auto dkey() -> string;
     auto ecid() -> string;
     auto emf()  -> string;
@@ -138,6 +141,13 @@ void device_info::nand()
     auto leaves = m_pt.get_dict("nand", "plist.dict");
     for (auto it = leaves.begin(); it != leaves.end(); ++it)
         cout << it->first << " : [" << boost::trim_copy(it->second) << "]\n";
+    
+    auto fs = m_pt.get_dict("partitions", "dict");
+    if (fs.empty())
+        cout << "fs is empty";
+    
+    for (auto it=fs.begin(); it!=fs.end(); ++it)
+        cout << it->first;
 }
 
 /*
@@ -178,9 +188,17 @@ auto device_info::wifi_mac() -> string
     return m_pt.get_string("wifiMac", "plist.dict");
 }
 
+void device_info::test()
+{
+  auto ptree = m_pt.m_pt;
+  cout << ptree.front().first;
+  cout << ptree.back().first;
+  cout << ptree.begin()->first;
+}
+
 int main(int argc, const char *argv[])
 {
-    string path = "./resource/d0686b9ba2.plist";
+    string path = "/Users/yielding/code/app/nand/nand/resource/d0686b9ba2.plist";
 
     device_info dinfo;
     if (!dinfo.load(path))
@@ -211,11 +229,11 @@ int main(int argc, const char *argv[])
     cout << "passcodeKey      : " << dinfo.passcode_key()  << endl;
     cout << "serialNumber     : " << dinfo.serial_number() << endl;
     cout << "wifiMac          : " << dinfo.wifi_mac()       << endl;
+
+    // dinfo.nand();
     */
 
-    dinfo.nand();
-
-    cout << "ok\n";
-
+    dinfo.test();
+    
     return 0;
 }

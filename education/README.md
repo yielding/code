@@ -1,8 +1,13 @@
 ## TODO
- * 칭찬
+ * class design
+   > constructor, destructor
+   > private, protected, public
+   > assignment operator
+   > public inheritance 
+   > template 
 
  * REGEX
-   >
+   > back reference
 
  * threading
    > VS thread with stack
@@ -12,23 +17,37 @@
      : event
      : semaphore
 
- * STL (accelerated c++)
-   > vector, list, set, map
-   > algorithm
-     : sort
-     : search
-     : copy 
-     : find
+ * STL container
+   > vector
+     : 
+   > list 
+   > set
+     : union, intersection, difference
+   > map
+     : declaration (o)
+     : []
+     :
+   > string
+     : constructor (o)
+     : find 
+     : C string 
 
-   > iterator
+ * STL container
+   > sort
+   > search
+   > copy
+   > remove
+
+ * STL iterator
 
  * Boost
    > split
    > filesystem
 
  * file I/O
-   > fstream
+   > line-based fstream (o)
+   > stream-based fstream (o)
    > Win32 API
 
  * ruby, python
-   > 
+   > just reading 
