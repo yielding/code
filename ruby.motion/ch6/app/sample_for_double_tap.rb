@@ -17,7 +17,7 @@ class SampleForDoubleTap < UIViewController
 
     if 2 > tap_count
       @single_tap_ready = true
-      self.performSelector(:"singleTap", withObject:nil, afterDealy:1.0)
+      self.performSelector(:"singleTap", withObject:nil, afterDelay:1.0)
     else
       self.performSelector(:"doubleTap")
     end

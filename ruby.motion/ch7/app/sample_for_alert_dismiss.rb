@@ -7,7 +7,7 @@ class SampleForAlertDismiss < UIViewController
     alert.cancelButtonIndex = 0
     alert.show
 
-    self.performSelector(:"dismissAlert:", withObject: alert, afterDealy: 3.0)
+    self.performSelector(:"dismissAlert:", withObject: alert, afterDelay: 3.0)
   end
 
   def dismissAlert alert 
