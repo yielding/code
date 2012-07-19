@@ -8,7 +8,7 @@ SRCS      = %w{
               }
 
 TEST_SRCS = %w{ 
-                ./develop/src/PTreeParser.cpp
+                ./test_ptree.cpp
                 ./test_image.cpp
               }
 
