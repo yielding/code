@@ -13,9 +13,6 @@ struct device_info
 {
     auto load(string const& path) -> bool;
 
-    // TODO
-    void test();
-
     auto dkey() -> string;
     auto ecid() -> string;
     auto emf()  -> string;
@@ -32,8 +29,8 @@ struct device_info
     auto key89A()           -> string;
     auto key89B()           -> string;
     auto lockers()          -> string;
-    auto nand()             -> void;
-    // auto nand()             -> map<string, string>;
+    auto nand()             -> map<string, string>;
+    auto nand_partitions()  -> map<string, string>;
     auto passcode()         -> string;
     auto passcode_key()     -> string;
     auto ramdisk()          -> map<string, string>;
@@ -42,8 +39,9 @@ struct device_info
     auto serial_number() -> string;
     auto udid()          -> string;
     auto wifi_mac()      -> string;
-
+    
 private:
+    map<string, string> m_class_keys; 
     utility::parser::PTreeParser m_pt;
 };
 
@@ -80,10 +78,15 @@ auto device_info::bt_mac() -> string
     return m_pt.get_string("btMac", "plist.dict");
 }
 
+/*
 auto device_info::class_keys(string key) -> string
 {
-  return m_pt.get_string("classKeys", "plist.dict");
+  if (m_class_keys.empty())
+    m_class_keys = m_pt.get_dict("classKeys", "plist.dict");
+
+  return m_class_keys;
 }
+*/
 
 auto device_info::data_volume_offset() -> uint32_t 
 {
@@ -135,27 +138,18 @@ auto device_info::lockers() -> string
     return m_pt.get_string("lockers", "plist.dict");
 }
 
-// TODO
-void device_info::nand()
-{
-    auto leaves = m_pt.get_dict("nand", "plist.dict");
-    for (auto it = leaves.begin(); it != leaves.end(); ++it)
-        cout << it->first << " : [" << boost::trim_copy(it->second) << "]\n";
-    
-    auto fs = m_pt.get_dict("partitions", "dict");
-    if (fs.empty())
-        cout << "fs is empty";
-    
-    for (auto it=fs.begin(); it!=fs.end(); ++it)
-        cout << it->first;
-}
-
-/*
 auto device_info::nand() -> map<string, string>
 {
+    auto leaves = m_pt.get_dict("nand", "plist.dict");
+    leaves.erase("partitions");
 
+    return leaves;
 }
-*/
+
+auto device_info::nand_partitions() -> map<string, string>
+{
+    return map<string, string>();
+}
 
 auto device_info::passcode() -> string 
 {
@@ -183,17 +177,9 @@ auto device_info::udid() -> string
     return m_pt.get_string("udid", "plist.dict");
 }
 
-auto device_info::wifi_mac() -> string 
+auto device_info::wifi_mac() -> string
 {
     return m_pt.get_string("wifiMac", "plist.dict");
-}
-
-void device_info::test()
-{
-  auto ptree = m_pt.m_pt;
-  cout << ptree.front().first;
-  cout << ptree.back().first;
-  cout << ptree.begin()->first;
 }
 
 int main(int argc, const char *argv[])
@@ -213,8 +199,6 @@ int main(int argc, const char *argv[])
     cout << "EMF        : " << dinfo.emf()  << endl;
     cout << "KeyBagKeys : " << dinfo.keybag_keys()  << endl;
     cout << "btMac      : " << dinfo.bt_mac() << endl;
-    // TODO
-    // cout << "classKeys  : " << dinfo.class_keys() << endl;
     cout << "dataVolumeOffset : " << dinfo.data_volume_offset() << endl;
     cout << "dataVolumeUUID   : " << dinfo.data_volume_uuid() << endl;
     cout << "hwModel          : " << dinfo.hw_model() << endl;
@@ -229,11 +213,12 @@ int main(int argc, const char *argv[])
     cout << "passcodeKey      : " << dinfo.passcode_key()  << endl;
     cout << "serialNumber     : " << dinfo.serial_number() << endl;
     cout << "wifiMac          : " << dinfo.wifi_mac()       << endl;
-
-    // dinfo.nand();
     */
 
-    dinfo.test();
+    // TODO
+    // cout << "classKeys  : " << dinfo.class_keys() << endl;
+    dinfo.nand();
     
+
     return 0;
 }
