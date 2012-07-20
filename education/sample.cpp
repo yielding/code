@@ -23,8 +23,8 @@ int main(int argc, const char *argv[])
   {
     auto ch = it->first;
     auto count = it->second;
-    if ('a' <= ch && ch <='z')
-      cout << ch<< " : " << count << endl;
+    if (isalpha(ch))
+      cout << ch << " : " << count << endl;
   }
   
   return 0;
