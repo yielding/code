@@ -1,3 +1,7 @@
+class UITextView 
+  attr_accessor :enablesReturnKeyAutomatically
+end
+
 class SampleForKeyBoard < UIViewController 
   KEYBOARD_HEIGHT = 216.0
 
@@ -145,21 +149,17 @@ class SampleForKeyBoard < UIViewController
 
   def enablesReturnTypeDidPush
     @tv.editable = false;
-    #if @tv.enablesReturnKeyAutomatically 
-      #@tv.enablesReturnKeyAutomatically = false
-    #else
-      #@tv.enablesReturnKeyAutomatically = true 
-    #end
+    @tv.enablesReturnKeyAutomatically = !@tv.enablesReturnKeyAutomatically
 
     # TODO
     # I think below below message has some problem!!!!!
-    puts @tv.enablesReturnKeyAutomatically
+    puts "automatic? #{@tv.enablesReturnKeyAutomatically}"
 
-    #@tv.text = if @tv.enablesReturnKeyAutomatically
-                  #"enablesReturnKeyAutomatically = true"
-               #else
-                  #"enablesReturnKeyAutomatically = false"
-               #end
+    @tv.text = if @tv.enablesReturnKeyAutomatically
+                  "enablesReturnKeyAutomatically = true"
+               else
+                  "enablesReturnKeyAutomatically = false"
+               end
 
     @tv.editable = true
   end

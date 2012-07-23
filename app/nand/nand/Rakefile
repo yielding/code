@@ -4,13 +4,19 @@ APP       = "ios_examiner"
 APP_TEST  = "test_#{APP}"
 SRCS      = %w{ 
                 ./DeviceInfo.cpp
+                ./develop/src/ByteBuffer.cpp
                 ./develop/src/PListParser.cpp
+                ./develop/src/NandImageRemote.cpp
+                ./develop/src/NandImageFlat.cpp
                 ./main.cpp 
               }
 
 TEST_SRCS = %w{ 
                 ./DeviceInfo.cpp
+                ./develop/src/ByteBuffer.cpp
                 ./develop/src/PListParser.cpp
+                ./develop/src/NandImageRemote.cpp
+                ./develop/src/NandImageFlat.cpp
                 ./test_ptree.cpp
                 ./test_device_info.cpp
                 ./test_image.cpp

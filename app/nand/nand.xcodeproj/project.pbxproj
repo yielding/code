@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		DF431A0915BCD5C800226580 /* PListParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF431A0815BCD5C800226580 /* PListParser.cpp */; };
 		DF8E086115BCE08900C7C163 /* DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E085F15BCE08900C7C163 /* DeviceInfo.cpp */; };
+		DF8E086A15BD3CE000C7C163 /* NANDImageRemote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086715BD3CE000C7C163 /* NANDImageRemote.cpp */; };
+		DF8E086B15BD3CE000C7C163 /* NANDImageFlat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */; };
+		DF8E086C15BD3CE000C7C163 /* ByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */; };
 		DFCED53215B6760700D8CDAF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFCED53115B6760700D8CDAF /* main.cpp */; };
 		DFCED53415B6760700D8CDAF /* nand.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFCED53315B6760700D8CDAF /* nand.1 */; };
 		DFCED54315B6787B00D8CDAF /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCED54115B6787B00D8CDAF /* libboost_filesystem.a */; };
@@ -33,6 +36,9 @@
 		DF431A0A15BCD5E400226580 /* PListParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PListParser.h; path = develop/include/PListParser.h; sourceTree = "<group>"; };
 		DF8E085F15BCE08900C7C163 /* DeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceInfo.cpp; sourceTree = "<group>"; };
 		DF8E086015BCE08900C7C163 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
+		DF8E086715BD3CE000C7C163 /* NANDImageRemote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDImageRemote.cpp; path = develop/src/NANDImageRemote.cpp; sourceTree = "<group>"; };
+		DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDImageFlat.cpp; path = develop/src/NANDImageFlat.cpp; sourceTree = "<group>"; };
+		DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ByteBuffer.cpp; path = develop/src/ByteBuffer.cpp; sourceTree = "<group>"; };
 		DFCED52D15B6760700D8CDAF /* nand */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = nand; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFCED53115B6760700D8CDAF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DFCED53315B6760700D8CDAF /* nand.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = nand.1; sourceTree = "<group>"; };
@@ -74,6 +80,9 @@
 		DFCED53015B6760700D8CDAF /* nand */ = {
 			isa = PBXGroup;
 			children = (
+				DF8E086715BD3CE000C7C163 /* NANDImageRemote.cpp */,
+				DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */,
+				DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */,
 				DF8E085F15BCE08900C7C163 /* DeviceInfo.cpp */,
 				DF8E086015BCE08900C7C163 /* DeviceInfo.h */,
 				DF431A0A15BCD5E400226580 /* PListParser.h */,
@@ -138,6 +147,9 @@
 				DFCED53215B6760700D8CDAF /* main.cpp in Sources */,
 				DF431A0915BCD5C800226580 /* PListParser.cpp in Sources */,
 				DF8E086115BCE08900C7C163 /* DeviceInfo.cpp in Sources */,
+				DF8E086A15BD3CE000C7C163 /* NANDImageRemote.cpp in Sources */,
+				DF8E086B15BD3CE000C7C163 /* NANDImageFlat.cpp in Sources */,
+				DF8E086C15BD3CE000C7C163 /* ByteBuffer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

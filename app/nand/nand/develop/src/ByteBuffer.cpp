@@ -229,7 +229,7 @@ ByteBuffer ByteBuffer::slice(uint32_t from, uint32_t to)
     auto& buffer = result.get_buffer();
 
     if (to > m_buffer.size())
-        to = m_buffer.size();
+        to = (uint32_t)m_buffer.size();
 
     buffer.assign(m_buffer.begin() + from, m_buffer.begin() + to);
 
@@ -245,7 +245,7 @@ uint8_t ByteBuffer::peek1_at(uint32_t offset, int start)
 {
     int64_t index = m_buffer.size() + 1;
 
-    if (start == cur) index = m_offset + offset;
+    if (start == cur) index = m_offset + offset;  
     if (start == beg) index = offset;
     if (start == end) index = m_offset - offset;
 
@@ -408,8 +408,7 @@ string ByteBuffer::get_hex_string(uint32_t size)
 string ByteBuffer::get_string()
 {
     int64_t offset = m_offset;
-    auto    limit  = m_buffer.size();
-    for (; (offset < m_buffer.size()) && (m_buffer[size_type(offset)] != 0); 
+    for (; (offset < m_buffer.size()) && (m_buffer[size_type(offset)] != 0);
         ++offset);
     int64_t size = offset - m_offset; 
 
