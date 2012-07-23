@@ -1,197 +1,25 @@
 #include "stdafx.h"
 
 #include <iostream>
-#include <string>
 #include <cstdlib>
-#include <map>
 #include <boost/algorithm/string.hpp>
-#include "PTreeParser.h"
+#include "DeviceInfo.h"
 
 using namespace std;
-
-struct device_info 
-{
-    auto load(string const& path) -> bool;
-
-    auto dkey() -> string;
-    auto ecid() -> string;
-    auto emf()  -> string;
-    auto keybag_keys() -> string;
-    auto bt_mac()      -> string;
-    auto class_keys(string key) -> string;
-    auto data_volume_offset()   -> uint32_t;
-    auto data_volume_uuid()     -> string;
-    auto hw_model()         -> string;
-    auto imei()             -> string;
-    auto kernel_boot_args() -> string;
-    auto key835()           -> string;
-    auto key899()           -> string;
-    auto key89A()           -> string;
-    auto key89B()           -> string;
-    auto lockers()          -> string;
-    auto nand()             -> map<string, string>;
-    auto nand_partitions()  -> map<string, string>;
-    auto passcode()         -> string;
-    auto passcode_key()     -> string;
-    auto ramdisk()          -> map<string, string>;
-
-    // compile time, revision
-    auto serial_number() -> string;
-    auto udid()          -> string;
-    auto wifi_mac()      -> string;
-    
-private:
-    map<string, string> m_class_keys; 
-    utility::parser::PTreeParser m_pt;
-};
-
-bool device_info::load(string const& path)
-{
-    if (!m_pt.init_with_path(path))
-        return false;
-
-    return true;
-}
-
-auto device_info::dkey() -> string 
-{ 
-    return m_pt.get_string("DKey", "plist.dict");
-}
-
-auto device_info::ecid() -> string 
-{ 
-    return m_pt.get_string("ECID", "plist.dict");
-}
-
-auto device_info::emf()  -> string 
-{ 
-    return m_pt.get_string("EMF",  "plist.dict");
-}
-
-auto device_info::keybag_keys() -> string 
-{
-    return m_pt.get_string("KeyBagKeys", "plist.dict");
-}
-
-auto device_info::bt_mac() -> string 
-{
-    return m_pt.get_string("btMac", "plist.dict");
-}
-
-/*
-auto device_info::class_keys(string key) -> string
-{
-  if (m_class_keys.empty())
-    m_class_keys = m_pt.get_dict("classKeys", "plist.dict");
-
-  return m_class_keys;
-}
-*/
-
-auto device_info::data_volume_offset() -> uint32_t 
-{
-    return m_pt.get_int("dataVolumeOffset", "plist.dict");
-}
-
-auto device_info::data_volume_uuid() -> string 
-{
-    return m_pt.get_string("dataVolumeUUID", "plist.dict");
-}
-
-auto device_info::hw_model() -> string 
-{
-    return m_pt.get_string("hwModel", "plist.dict");
-}
-
-auto device_info::imei() -> string 
-{
-    return m_pt.get_string("imei", "plist.dict");
-}
-
-auto device_info::kernel_boot_args() -> string 
-{
-    return m_pt.get_string("kern.bootargs", "plist.dict");
-}
-
-auto device_info::key835() -> string 
-{
-    return m_pt.get_string("key835", "plist.dict");
-}
-
-auto device_info::key899() -> string 
-{
-    return m_pt.get_string("key899", "plist.dict");
-}
-
-auto device_info::key89A() -> string 
-{
-    return m_pt.get_string("key89A", "plist.dict");
-}
-
-auto device_info::key89B() -> string 
-{
-    return m_pt.get_string("key89B", "plist.dict");
-}
-
-auto device_info::lockers() -> string 
-{
-    return m_pt.get_string("lockers", "plist.dict");
-}
-
-auto device_info::nand() -> map<string, string>
-{
-    auto leaves = m_pt.get_dict("nand", "plist.dict");
-    leaves.erase("partitions");
-
-    return leaves;
-}
-
-auto device_info::nand_partitions() -> map<string, string>
-{
-    return map<string, string>();
-}
-
-auto device_info::passcode() -> string 
-{
-    return m_pt.get_string("passcode", "plist.dict");
-}
-
-auto device_info::passcode_key() -> string 
-{
-    return m_pt.get_string("passcodeKey", "plist.dict");
-}
-
-// TODO
-auto device_info::ramdisk() -> map<string, string> 
-{
-    return map<string, string>();
-}
-
-auto device_info::serial_number() -> string 
-{
-    return m_pt.get_string("serialNumber", "plist.dict");
-}
-
-auto device_info::udid() -> string 
-{
-    return m_pt.get_string("udid", "plist.dict");
-}
-
-auto device_info::wifi_mac() -> string
-{
-    return m_pt.get_string("wifiMac", "plist.dict");
-}
+using namespace boost;
 
 int main(int argc, const char *argv[])
 {
     string path = "/Users/yielding/code/app/nand/nand/resource/d0686b9ba2.plist";
 
-    device_info dinfo;
+    DeviceInfo dinfo;
     if (!dinfo.load(path))
     {
         cout << "load file error\n";
         exit(EXIT_FAILURE);
     }
+    
+    auto keys = dinfo.keybag_keys();
 
     /*
     cout << "DKey       : " << dinfo.dkey() << endl;
@@ -217,8 +45,10 @@ int main(int argc, const char *argv[])
 
     // TODO
     // cout << "classKeys  : " << dinfo.class_keys() << endl;
-    dinfo.nand();
+    auto n = dinfo.nand();
     
-
+    for (auto it=n.begin(); it!=n.end(); ++it)
+        cout << it->first << " : " << trim_copy(it->second) << endl;
+    
     return 0;
 }

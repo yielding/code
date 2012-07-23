@@ -31,25 +31,6 @@ protected:
     ptree m_ptree;
 };
 
-TEST_F(PTreeTest, NodeInTheDeep)
-{
-  /*
-  auto c1 = m_ptree.get_child("plist.dict.dict");
-  cout << "sss: " << c1.front().first << endl;
-  cout << "sss: " << c1.front().second.data() << endl;
-  cout << c1.size();
-  */
-  cout << "[" ;
-  auto bounds = m_ptree.equal_range("plist.dict");
-  for (auto it=bounds.first; it!=bounds.second; ++it)
-  {
-    cout << it->first << endl;
-    cout << it->second.data() << endl;
-  }
-
-  cout << "]\n" ;
-}
-
 TEST_F(PTreeTest, RootNode)
 {
     auto v1 = m_ptree.front().first;

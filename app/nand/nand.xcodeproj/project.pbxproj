@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF431A0915BCD5C800226580 /* PListParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF431A0815BCD5C800226580 /* PListParser.cpp */; };
+		DF8E086115BCE08900C7C163 /* DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E085F15BCE08900C7C163 /* DeviceInfo.cpp */; };
 		DFCED53215B6760700D8CDAF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFCED53115B6760700D8CDAF /* main.cpp */; };
 		DFCED53415B6760700D8CDAF /* nand.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFCED53315B6760700D8CDAF /* nand.1 */; };
-		DFCED54015B677D900D8CDAF /* PTreeParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFCED53F15B677D900D8CDAF /* PTreeParser.cpp */; };
 		DFCED54315B6787B00D8CDAF /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCED54115B6787B00D8CDAF /* libboost_filesystem.a */; };
 		DFCED54415B6787B00D8CDAF /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCED54215B6787B00D8CDAF /* libboost_system.a */; };
 /* End PBXBuildFile section */
@@ -28,11 +29,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DF8C2FE815B9083D005D36E9 /* PTreeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PTreeParser.h; path = develop/include/PTreeParser.h; sourceTree = "<group>"; };
+		DF431A0815BCD5C800226580 /* PListParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PListParser.cpp; path = develop/src/PListParser.cpp; sourceTree = "<group>"; };
+		DF431A0A15BCD5E400226580 /* PListParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PListParser.h; path = develop/include/PListParser.h; sourceTree = "<group>"; };
+		DF8E085F15BCE08900C7C163 /* DeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceInfo.cpp; sourceTree = "<group>"; };
+		DF8E086015BCE08900C7C163 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
 		DFCED52D15B6760700D8CDAF /* nand */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = nand; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFCED53115B6760700D8CDAF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DFCED53315B6760700D8CDAF /* nand.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = nand.1; sourceTree = "<group>"; };
-		DFCED53F15B677D900D8CDAF /* PTreeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PTreeParser.cpp; path = develop/src/PTreeParser.cpp; sourceTree = "<group>"; };
 		DFCED54115B6787B00D8CDAF /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = ../../../../../opt/local/lib/libboost_filesystem.a; sourceTree = "<group>"; };
 		DFCED54215B6787B00D8CDAF /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = ../../../../../opt/local/lib/libboost_system.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,8 +74,10 @@
 		DFCED53015B6760700D8CDAF /* nand */ = {
 			isa = PBXGroup;
 			children = (
-				DF8C2FE815B9083D005D36E9 /* PTreeParser.h */,
-				DFCED53F15B677D900D8CDAF /* PTreeParser.cpp */,
+				DF8E085F15BCE08900C7C163 /* DeviceInfo.cpp */,
+				DF8E086015BCE08900C7C163 /* DeviceInfo.h */,
+				DF431A0A15BCD5E400226580 /* PListParser.h */,
+				DF431A0815BCD5C800226580 /* PListParser.cpp */,
 				DFCED53115B6760700D8CDAF /* main.cpp */,
 				DFCED53315B6760700D8CDAF /* nand.1 */,
 			);
@@ -131,7 +136,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFCED53215B6760700D8CDAF /* main.cpp in Sources */,
-				DFCED54015B677D900D8CDAF /* PTreeParser.cpp in Sources */,
+				DF431A0915BCD5C800226580 /* PListParser.cpp in Sources */,
+				DF8E086115BCE08900C7C163 /* DeviceInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

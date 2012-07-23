@@ -3,12 +3,16 @@
 APP       = "ios_examiner"
 APP_TEST  = "test_#{APP}"
 SRCS      = %w{ 
-                ./develop/src/PTreeParser.cpp
+                ./DeviceInfo.cpp
+                ./develop/src/PListParser.cpp
                 ./main.cpp 
               }
 
 TEST_SRCS = %w{ 
+                ./DeviceInfo.cpp
+                ./develop/src/PListParser.cpp
                 ./test_ptree.cpp
+                ./test_device_info.cpp
                 ./test_image.cpp
               }
 

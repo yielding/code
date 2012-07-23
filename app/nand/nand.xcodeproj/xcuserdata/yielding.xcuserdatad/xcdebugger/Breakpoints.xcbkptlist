@@ -8,22 +8,35 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/main.cpp"
-         timestampString = "364460814.620634"
+         timestampString = "364701926.971759"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "228"
-         endingLineNumber = "228">
+         startingLineNumber = "237"
+         endingLineNumber = "237">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/main.cpp"
-         timestampString = "364460843.444799"
+         timestampString = "364701926.971759"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "181"
-         endingLineNumber = "181">
+         startingLineNumber = "190"
+         endingLineNumber = "190">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "nand/main.cpp"
+         timestampString = "364701923.600171"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "22"
+         endingLineNumber = "22"
+         landmarkName = "main(int argc, const char *argv[])"
+         landmarkType = "7">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>
