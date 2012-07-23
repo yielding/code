@@ -52,7 +52,10 @@ class SampleForEditableTextView < UIViewController
   end
 
   def textViewDidEndEditing tv
-    navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemEdit, target:self, action:"edit_did_push")
+    navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(
+        UIBarButtonSystemItemEdit, 
+        target:self, 
+        action:"edit_did_push")
 
     UIView.beginAnimations(nil, context: nil)
     UIView.setAnimationDuration 0.3
