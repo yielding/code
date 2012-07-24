@@ -2,6 +2,7 @@
 #define NANDIMAGEFLAT_H
 
 #include "NANDImage.h"
+#include <ifstream>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -10,11 +11,15 @@
 class NANDImageFlat: public NANDImage
 {
 public:
-    NANDImageFlat();
+    NANDImageFlat(char const* filename, Geometry& geomatry);
+
     virtual ~NANDImageFlat();
 
 public:
     auto read_page() -> utility::hex::ByteBuffer;
+    
+private:
+    std::ifstream _ifs;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

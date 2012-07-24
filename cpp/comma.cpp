@@ -4,12 +4,13 @@
 
 using namespace std;
 
-string insert_separator(string& s, char separator = ',', int width = 3) 
+string insert_separator(string s, char separator = ',', int width=3) 
 { 
-  string res = s;
-  string::iterator i = res.end() - width; 
+  string res(s);
+  auto i = res.end() - width; 
 
-  for (; i>res.begin(); i -= width) i = res.insert(i, separator); 
+  for (; i>res.begin(); i -= width) 
+      i = res.insert(i, separator); 
 
   return res;
 } 

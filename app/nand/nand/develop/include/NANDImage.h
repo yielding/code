@@ -1,6 +1,8 @@
 #ifndef NANDIMAGE_H
 #define NANDIMAGE_H
 
+#include <string>
+#include <map>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -10,6 +12,8 @@ namespace utility { namespace hex {
     class ByteBuffer;        
 }
 }
+
+typedef std::map<std::string, std::string> Geometry;
 
 class NANDImage
 {

@@ -24,11 +24,13 @@ public:
     // This constructor is for network I/O
     ByteBuffer(size_t size=0);
 
-    // This constructor is for hex conversion
+    // for hex conversion
     ByteBuffer(uint8_t* buffer, size_t s);
 
-    // This constructor is for hex conversion
+    // for hex conversion
     ByteBuffer(std::string const&);
+
+    ByteBuffer(size_t size, uint8_t data);
 
     ByteBuffer(ByteBuffer const& rhs);
     ByteBuffer(ByteBuffer&& rhs);

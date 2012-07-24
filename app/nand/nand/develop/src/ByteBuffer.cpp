@@ -27,7 +27,7 @@ namespace utility { namespace hex {
 ByteBuffer::ByteBuffer(size_t size)
     : m_offset(0)
 {
-    if (size > 0)
+    if (size > 0)                // size_t is always greater than 0
         m_buffer.resize(size);
 }
 
@@ -46,6 +46,11 @@ ByteBuffer::ByteBuffer(std::string const& s)
     m_offset = 0;
     m_buffer.reserve(s.length());
     m_buffer.assign(buffer, buffer + s.length());
+}
+
+ByteBuffer::ByteBuffer(size_t size, uint8_t data)
+{
+    m_buffer.resize(size, data);
 }
 
 ByteBuffer::ByteBuffer(ByteBuffer const& rhs)
