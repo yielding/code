@@ -24,4 +24,8 @@ grid = %w(08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 iter = grid.to_enum
 grid = 20.times.map { 20.times.map { iter.next.to_i } }
 
-p grid
+g1 = grid.map { |row| row.each_cons(4).map { |a| a.reduce(:*) }.max }.max
+grid = grid.transpose
+g2 = grid.map { |row| row.each_cons(4).map { |a| a.reduce(:*) }.max }.max
+
+p [g1, g2].max
