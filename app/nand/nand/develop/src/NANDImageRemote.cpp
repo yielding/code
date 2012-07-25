@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "NANDImageRemote.h"
-#include "ByteBuffer.h"
 
 using namespace utility::hex;
 ////////////////////////////////////////////////////////////////////////////////
@@ -16,11 +15,9 @@ NANDImageRemote::~NANDImageRemote()
 {
 }
 
-auto NANDImageRemote::read_page() -> ByteBuffer
+auto NANDImageRemote::read_page() -> NANDPage
 {
-    ByteBuffer buffer;
-
-    return buffer;
+    return NANDPage();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

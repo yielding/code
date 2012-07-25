@@ -21,13 +21,10 @@ public:
     enum { beg = 0, cur = 1, end = 2 };
 
 public:
-    // This constructor is for network I/O
+    // for network I/O
     ByteBuffer(size_t size=0);
 
-    // for hex conversion
     ByteBuffer(uint8_t* buffer, size_t s);
-
-    // for hex conversion
     ByteBuffer(std::string const&);
 
     ByteBuffer(size_t size, uint8_t data);
@@ -42,6 +39,7 @@ public:
 
 public:  // operators
     operator uint8_t*()        { return m_buffer.data(); }
+    operator char*()           { return (char*)m_buffer.data(); }
     operator char const*()     { return (char const*)m_buffer.data(); }
     operator void const*()     { return (void const*)m_buffer.data(); }
 
@@ -56,6 +54,8 @@ public:  // query
     size_t  capacity()         { return m_buffer.capacity();          }
     size_t  reserve(size_t);
 
+    bool    all_values_are(uint8_t value);
+
 public:
     static ByteBuffer  from_hexcode(std::string const&, bool=false);
     static std::string to_hexcode(std::vector<uint8_t> const&, bool=false);
@@ -64,10 +64,10 @@ public:
     uint8_t operator[](uint32_t index);
 
 public:
-
     auto offset() -> int64_t;
     auto offset(int64_t o) -> ByteBuffer&;
     auto reset() -> ByteBuffer&;
+    auto reset(uint32_t size, uint8_t value) -> ByteBuffer&;
     auto flip() -> ByteBuffer&;
 
     auto get_buffer() -> buffer_t&;

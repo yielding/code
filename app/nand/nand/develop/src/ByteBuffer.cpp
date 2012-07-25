@@ -139,6 +139,15 @@ ByteBuffer& ByteBuffer::reset()
     return *this;
 }
 
+ByteBuffer& ByteBuffer::reset(uint32_t size, uint8_t value)
+{
+    m_offset = 0;
+    m_buffer.clear();
+    m_buffer.resize(size, value);
+
+    return *this;
+}
+
 ByteBuffer& ByteBuffer::skip(uint32_t offset)
 {
     m_offset += offset;
@@ -158,6 +167,18 @@ size_t ByteBuffer::reserve(size_t sz)
     m_buffer.reserve(sz);
 
     return m_buffer.capacity();
+}
+
+bool ByteBuffer::all_values_are(uint8_t value)
+{
+    if (m_buffer.empty())
+        return false;
+
+    for (auto it=m_buffer.begin(); it!=m_buffer.end(); ++it)
+        if (*it != value)
+          return false;
+
+    return true;
 }
 
 ByteBuffer ByteBuffer::from_hexcode(string const& str, bool is_be)

@@ -8,35 +8,61 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/main.cpp"
-         timestampString = "364714413.576939"
+         timestampString = "364874682.892864"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "217"
-         endingLineNumber = "217">
+         startingLineNumber = "214"
+         endingLineNumber = "214">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/main.cpp"
-         timestampString = "364714413.576939"
+         timestampString = "364874682.892864"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "170"
-         endingLineNumber = "170">
+         startingLineNumber = "167"
+         endingLineNumber = "167">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/main.cpp"
-         timestampString = "364714413.576939"
+         timestampString = "364874679.166264"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "24"
-         endingLineNumber = "24"
+         startingLineNumber = "27"
+         endingLineNumber = "27"
          landmarkName = "main(int argc, const char *argv[])"
          landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "nand/main.cpp"
+         timestampString = "364886694.749672"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "26"
+         endingLineNumber = "26"
+         landmarkName = "main(int argc, const char *argv[])"
+         landmarkType = "7">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "nand/develop/src/NANDImageFlat.cpp"
+         timestampString = "364887002.001223"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "38"
+         endingLineNumber = "38"
+         landmarkName = "NANDImageFlat::NANDImageFlat(char const* filename, Geometry&amp; geometry)"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

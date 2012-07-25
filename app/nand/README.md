@@ -11,10 +11,16 @@
 
 ## DOING
   * NAND class 구현
-    - NANDImageFlat
-      > CRTP?, polymorphic? => polymorphic
+    - NANDImageSplitCEs
 
 ## DONE
+  * NAND class 구현
+    - NANDImageFlat
+      > read_page
+
+      > CRTP?, polymorphic? => polymorphic!
+        boost::fusion은 heterogeneous type을 위한 compile/runtime container, algoritm
+
   * PTreeParser 버그수정
     - 동일 레벨에 대한 find의 경우 항상 첫번 째 level만 획득할 수 있는 버그 수정
   

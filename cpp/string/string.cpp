@@ -11,6 +11,7 @@ T from_string(string const& s)
 {
   istringstream is(s);
   T t; is >> t;
+
   return t;
 }
 
@@ -51,3 +52,12 @@ int main(int argc, char const* argv[])
 
   return 0;
 }
+
+/* test.txt
+Jan 03 35.01 40.50 Jan 03 95.00 0.30 
+Jan 03 40.02 25.30 Jan 03 100.00 0.20 
+Jan 03 45.03 29.50 Jan 03 105.00 0.05 
+Jan 03 50.04 16.80 Jan 03 110.00 0.10 
+Jan 03 55.05 12.60 Jan 03 115.00 0.15 
+Jan 03 60.00 9.30 Jan 03 120.00 0.15 
+*/

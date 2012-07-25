@@ -1,13 +1,16 @@
 class SampleForWebViewSimple < UIViewController
   def viewDidLoad
     super 
-    title = "통신 중 상태를 표시한다"
+    self.title = "통신 중 상태를 표시한다"
+
     @webview = UIWebView.alloc.init 
     @webview.delegate = self
     @webview.frame    = self.view.bounds
     @webview.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
+    @webview.scalesPageToFit = true
     self.view.addSubview(@webview)
-    @activity = UIActivityIndicatorView.new 
+
+    @activity = UIActivityIndicatorView.alloc.init 
     @activity.frame = [[0, 0], [20, 20]]
     indicator  = UIBarButtonItem.alloc.initWithCustomView(@activity)
     adjustment = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace,
@@ -15,7 +18,6 @@ class SampleForWebViewSimple < UIViewController
                     action:nil)
     buttons = [adjustment, indicator, adjustment]
     self.setToolbarItems(buttons, animated:true)
-
   end
 
   def viewDidAppear animated

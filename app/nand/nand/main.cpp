@@ -4,31 +4,28 @@
 #include <cstdlib>
 #include <boost/algorithm/string.hpp>
 #include "DeviceInfo.h"
+#include "NANDImageFlat.h"
 
 using namespace std;
 using namespace boost;
 
 int main(int argc, const char *argv[])
 {
-    string path = "/Users/yielding/code/app/nand/nand/resource/d0686b9ba2.plist";
+    // string path = "/Users/yielding/code/app/nand/nand/resource/d0686b9ba2.plist";
 
+    string path  = "/Volumes/Data.Disk/iphone.nand/4.nand/iphone4_d0686b9ba2.bin";
+    string plist = "/Volumes/Data.Disk/iphone.nand/4.nand/d0686b9ba2.plist";
     DeviceInfo dinfo;
-    if (!dinfo.load(path))
+    if (!dinfo.load(plist))
     {
         cout << "load file error\n";
         exit(EXIT_FAILURE);
     }
     
-    // TODO
-    // cout << "classKeys  : " << dinfo.class_keys() << endl;
-    auto n = dinfo.nand_partitions();
-
-    for (auto it=n.begin(); it !=n.end(); ++it)
-    {
-        cout << it->first << ": \n";
-        for (auto jt=it->second.begin(); jt!=it->second.end(); ++jt)
-            cout << "\t" << jt->first << " : " << jt->second << endl;
-    }
+    auto geometry = dinfo.nand();
+    NANDImageFlat image(path.c_str(), geometry);
+    auto page = image.read_page(0, 0);
+    
     
     return 0;
 }

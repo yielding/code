@@ -14,7 +14,7 @@ public:
     virtual ~NANDImageRemote();
 
 public:
-    auto read_page() -> utility::hex::ByteBuffer;
+    auto read_page() -> NANDPage;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
