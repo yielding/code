@@ -12,7 +12,7 @@
 class NANDImageFlat: public NANDImage
 {
 public:
-    NANDImageFlat(char const* filename, Geometry& geomatry);
+    NANDImageFlat(char const* filename, Geometry& geometry);
 
     virtual ~NANDImageFlat();
 
