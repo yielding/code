@@ -11,10 +11,11 @@
 
 ## DOING
   * NAND class 구현
-    - NANDImageSplitCEs
 
 ## DONE
   * NAND class 구현
+    - NANDImageSplitCEs
+
     - NANDImageFlat
       > read_page
 

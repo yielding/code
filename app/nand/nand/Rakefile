@@ -8,6 +8,7 @@ SRCS      = %w{
                 ./develop/src/PListParser.cpp
                 ./develop/src/NandImageRemote.cpp
                 ./develop/src/NandImageFlat.cpp
+                ./develop/src/NandImageSplitCEs.cpp
                 ./develop/src/NAND.cpp
                 ./main.cpp 
               }
@@ -18,6 +19,7 @@ TEST_SRCS = %w{
                 ./develop/src/PListParser.cpp
                 ./develop/src/NandImageRemote.cpp
                 ./develop/src/NandImageFlat.cpp
+                ./develop/src/NandImageSplitCEs.cpp
                 ./develop/src/NAND.cpp
                 ./test_ptree.cpp
                 ./test_device_info.cpp

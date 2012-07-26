@@ -26,7 +26,6 @@ public:
 
     ByteBuffer(uint8_t* buffer, size_t s);
     ByteBuffer(std::string const&);
-
     ByteBuffer(size_t size, uint8_t data);
 
     ByteBuffer(ByteBuffer const& rhs);
