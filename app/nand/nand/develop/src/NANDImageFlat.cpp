@@ -14,21 +14,21 @@ using namespace utility::hex;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-NANDImageFlat::NANDImageFlat(char const* filename, Geometry& geometry)
+NANDImageFlat::NANDImageFlat(char const* filename, nand_info& geometry)
 {
     _ifs.open(filename, ios_base::binary);
     if (!_ifs.is_open())
         throw runtime_error("error: can't open the image file");
     
-    _nCEs      = lexical_cast<int>(geometry["#ce"]);
-    _page_size = lexical_cast<int>(geometry["#page-bytes"]);
-    _meta_size = lexical_cast<int>(geometry["meta-per-logical-page"]);
-    auto value = geometry["#meta-per-logical-page"];
-    _dumped_page_size = value.empty() ? _page_size + _meta_size + 8
-                                      : lexical_cast<int>(value);
+                 
+    _nCEs      = geometry.ce_count;
+    _page_size = geometry.bytes_per_page;
+    _meta_size = geometry.meta_per_logical_page;
+    _dumped_page_size = geometry.dumped_page_size;
     _has_iokit_status = true;
-    auto spare_bytes  = lexical_cast<int>(geometry["#spare-bytes"]);
-    if (_dumped_page_size == _page_size + spare_bytes ||
+
+    auto sb = geometry.spare_byte_count;
+    if (_dumped_page_size == _page_size + sb ||
         _dumped_page_size == _page_size + _meta_size)
     {
         _blank_page.reset(_page_size, 0xff);
@@ -36,8 +36,8 @@ NANDImageFlat::NANDImageFlat(char const* filename, Geometry& geometry)
     }
 
     _image_size = fs::file_size(filename);
-    uint32_t blocks_per_ce   = lexical_cast<int>(geometry["#ce-blocks"]);
-    uint32_t pages_per_block = lexical_cast<int>(geometry["#block-pages"]);
+    uint32_t blocks_per_ce   = geometry.blocks_per_ce;
+    uint32_t pages_per_block = geometry.pages_per_block;
     uint64_t expected_size   = _nCEs * blocks_per_ce * pages_per_block * _dumped_page_size;
     if (_image_size < expected_size)
       throw std::runtime_error("error: image appears to be truncated");
@@ -54,7 +54,7 @@ auto NANDImageFlat::_read_page(uint32_t ce, uint32_t page) -> ByteBuffer
     auto index  = page * _nCEs + ce;
     auto offset = int64_t(index) * _dumped_page_size;
 
-    buffer.reset(_dumped_page_size, 0);
+    buffer.reset(uint32_t(_dumped_page_size), 0);
     _ifs.seekg(offset);
     _ifs.read((char*)buffer, _dumped_page_size);
 

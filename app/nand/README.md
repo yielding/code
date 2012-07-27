@@ -1,5 +1,11 @@
 ## TODO
+  * source file 구조 개선
+    - 현재 develop 및에 모여진 코드가 일부는 common으로 일부는 nand 및으로 이동해야 한다.
+
   * NAND class 구현
+    - refactoring
+      > header 및 객체의 위치를 정확하게 조정한다.
+
     - NANDRemote
       : readPage
 
@@ -11,9 +17,13 @@
 
 ## DOING
   * NAND class 구현
+    - refactoring
+      > DeviceInfo 클래스내에서 해석 및 타입 변환을 완료한다.
 
 ## DONE
   * NAND class 구현
+    - refactoring
+
     - NANDImageSplitCEs
 
     - NANDImageFlat

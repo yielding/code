@@ -61,7 +61,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "38"
          endingLineNumber = "38"
-         landmarkName = "NANDImageFlat::NANDImageFlat(char const* filename, Geometry&amp; geometry)"
+         landmarkName = "NANDImageFlat::NANDImageFlat(char const* filename, nand_info&amp; geometry)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

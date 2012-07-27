@@ -1,19 +1,18 @@
 #ifndef NANDIMAGE_H
 #define NANDIMAGE_H
 
+#include "ByteBuffer.h"
+#include "DeviceInfo.h"
+
 #include <string>
 #include <map>
 
-#include "ByteBuffer.h"
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-typedef std::map<std::string, std::string> Geometry;
-
 using namespace utility::hex;
-
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 struct NANDPage
 {
     ByteBuffer spare;
@@ -25,7 +24,7 @@ struct NANDPage
         if (empty()) 
             return false;
 
-        return data .all_values_are(0xff) &&
+        return data.all_values_are(0xff) &&
                spare.all_values_are(0xff);
     }
 };

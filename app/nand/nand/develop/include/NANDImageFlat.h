@@ -3,6 +3,8 @@
 
 #include "NANDImage.h"
 
+#include <map>
+#include <string>
 #include <fstream>
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -12,7 +14,7 @@
 class NANDImageFlat: public NANDImage
 {
 public:
-    NANDImageFlat(char const* filename, Geometry& geometry);
+    NANDImageFlat(char const* filename, nand_info& g);
 
     virtual ~NANDImageFlat();
 
@@ -27,7 +29,7 @@ private:
     uint32_t      _nCEs;
     uint32_t      _page_size;
     uint32_t      _meta_size;
-    uint32_t      _dumped_page_size;
+    int64_t       _dumped_page_size;
     int64_t       _image_size;
     bool          _has_iokit_status;
     ByteBuffer    _blank_page;
