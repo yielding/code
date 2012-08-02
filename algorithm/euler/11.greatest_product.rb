@@ -1,5 +1,13 @@
 #!/usr/bin/env ruby
 
+def pr(grid)
+  grid.each { |r| 
+    r.each { |c| printf("%2d ", c) }
+    puts ""
+  }
+  puts ""
+end
+    
 grid = %w(08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
           49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
           81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
@@ -21,11 +29,32 @@ grid = %w(08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
           20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
           01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48)
 
-iter = grid.to_enum
-grid = 20.times.map { 20.times.map { iter.next.to_i } }
+it = grid.to_enum
+grid0 = 20.times.map { 20.times.map { it.next.to_i } }
 
-g1 = grid.map { |row| row.each_cons(4).map { |a| a.reduce(:*) }.max }.max
-grid = grid.transpose
-g2 = grid.map { |row| row.each_cons(4).map { |a| a.reduce(:*) }.max }.max
+g1 = grid0.map { |row| row.each_cons(4).map { |a| a.reduce(:*) }.max }.max
+grid1 = grid0.transpose
 
-p [g1, g2].max
+g2 = grid1.map { |row| row.each_cons(4).map { |a| a.reduce(:*) }.max }.max
+
+g3 = 0
+0.upto(15) {|x|
+  0.upto(15) {|y|
+    v = grid0[x][y]*grid0[x+1][y+1]*grid0[x+2][y+2]*grid0[x+3][y+3]
+    g3 = v if v > g3
+  }
+}
+
+grid2 = grid0.map { |row| row.reverse }
+
+g4 = 0
+0.upto(15) {|x|
+  0.upto(15) {|y|
+    v = grid2[x][y]*grid2[x+1][y+1]*grid2[x+2][y+2]*grid2[x+3][y+3]
+    g4 = v if v > g4
+  }
+}
+
+p [g1, g2, g3, g4].max
+
+#grid2 = grid0.map.with_index { |row, i| row.rotate(i) }
