@@ -3,6 +3,9 @@ class RootViewController < UITableViewController
     super
     self.title = "메뉴"
     @items = [
+      "SampleForDataDetectorTypes",
+      "SampleForSecureTextEntry",
+      "SampleForWebViewLoadData",
       "SampleForWebView",
       "SampleForLoadHTMLString",
       "SampleForWebViewSimple",
