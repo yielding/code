@@ -3,6 +3,9 @@ class RootViewController < UITableViewController
     super
     self.title = "메뉴"
     @items = [
+      "SampleForDeletableRow",
+      "SampleForGroupTable",
+      "SampleForSectionTable",
       "SampleForSimpleTable"
     ]
   end

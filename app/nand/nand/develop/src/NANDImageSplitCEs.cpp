@@ -12,10 +12,10 @@ using namespace boost;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-NANDImageSplitCEs::NANDImageSplitCEs(char const* folder, Geometry& geometry)
+NANDImageSplitCEs::NANDImageSplitCEs(char const* folder, nand_info const& geo)
 {
-    _nCEs      = lexical_cast<int>(geometry["#ce"]);
-    _page_size = lexical_cast<int>(geometry["#page-bytes"]);
+    _nCEs      = geo.ce_count;
+    _page_size = geo.bytes_per_page;
     _meta_size = 12;
     _npages    = 0;
     _dumped_page_size = 1 + _page_size + _meta_size;
@@ -38,7 +38,6 @@ auto NANDImageSplitCEs::_read_page(uint32_t ce_no, uint32_t page_no)
     -> ByteBuffer
 {
     ByteBuffer buffer;
-
     if (ce_no >= _paths.size())
         return buffer;
 

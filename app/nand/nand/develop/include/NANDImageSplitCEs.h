@@ -12,10 +12,12 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+struct nand_info;
+
 class NANDImageSplitCEs: public NANDImage
 {
 public:
-    NANDImageSplitCEs(char const* folder, Geometry& geometry);
+    NANDImageSplitCEs(char const* folder, nand_info const&);
 
     virtual ~NANDImageSplitCEs();
 

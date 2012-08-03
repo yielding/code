@@ -14,13 +14,16 @@
 class NANDImage;
 class DeviceInfo;
 
+struct nand_info;
+
 class NAND 
 {
 public:
     NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn=0);
+    ~NAND();
 
 private:
-    void init_geometry(std::map<std::string, std::string>& g);
+    void init_geometry(nand_info const& n);
 
 private:
     NANDImage* _image;
@@ -32,6 +35,9 @@ private:
     bool _has_mbr;
     bool _metadata_whitening;
     bool _encrypted;
+
+    int64_t _dump_size;
+    uint32_t _total_pages;
 
     std::string _filename;
 

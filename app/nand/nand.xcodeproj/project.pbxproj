@@ -10,11 +10,11 @@
 		DF2BA37815C288430075F300 /* libboost_filesystem-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2BA37615C288430075F300 /* libboost_filesystem-mt.a */; };
 		DF2BA37915C288430075F300 /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2BA37715C288430075F300 /* libboost_system-mt.a */; };
 		DF431A0915BCD5C800226580 /* PListParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF431A0815BCD5C800226580 /* PListParser.cpp */; };
-		DF8E086115BCE08900C7C163 /* DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E085F15BCE08900C7C163 /* DeviceInfo.cpp */; };
 		DF8E086A15BD3CE000C7C163 /* NANDImageRemote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086715BD3CE000C7C163 /* NANDImageRemote.cpp */; };
 		DF8E086B15BD3CE000C7C163 /* NANDImageFlat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */; };
 		DF8E086C15BD3CE000C7C163 /* ByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */; };
 		DFA2F6AC15CB663C0019C60F /* NAND.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFA2F6AB15CB663C0019C60F /* NAND.cpp */; };
+		DFA2F6AF15CB69600019C60F /* DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFA2F6AE15CB69600019C60F /* DeviceInfo.cpp */; };
 		DFCED53215B6760700D8CDAF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFCED53115B6760700D8CDAF /* main.cpp */; };
 		DFCED53415B6760700D8CDAF /* nand.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFCED53315B6760700D8CDAF /* nand.1 */; };
 /* End PBXBuildFile section */
@@ -37,12 +37,13 @@
 		DF2BA37715C288430075F300 /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "../../../../../opt/local/lib/libboost_system-mt.a"; sourceTree = "<group>"; };
 		DF431A0815BCD5C800226580 /* PListParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PListParser.cpp; path = develop/src/PListParser.cpp; sourceTree = "<group>"; };
 		DF431A0A15BCD5E400226580 /* PListParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PListParser.h; path = develop/include/PListParser.h; sourceTree = "<group>"; };
-		DF8E085F15BCE08900C7C163 /* DeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceInfo.cpp; sourceTree = "<group>"; };
-		DF8E086015BCE08900C7C163 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
 		DF8E086715BD3CE000C7C163 /* NANDImageRemote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDImageRemote.cpp; path = develop/src/NANDImageRemote.cpp; sourceTree = "<group>"; };
 		DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDImageFlat.cpp; path = develop/src/NANDImageFlat.cpp; sourceTree = "<group>"; };
 		DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ByteBuffer.cpp; path = develop/src/ByteBuffer.cpp; sourceTree = "<group>"; };
 		DFA2F6AB15CB663C0019C60F /* NAND.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NAND.cpp; path = develop/src/NAND.cpp; sourceTree = "<group>"; };
+		DFA2F6AE15CB69600019C60F /* DeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceInfo.cpp; path = develop/src/DeviceInfo.cpp; sourceTree = "<group>"; };
+		DFA2F6B015CB69750019C60F /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceInfo.h; path = develop/include/DeviceInfo.h; sourceTree = "<group>"; };
+		DFA2F6B115CB6A070019C60F /* NAND.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NAND.h; path = develop/include/NAND.h; sourceTree = "<group>"; };
 		DFBEE6E615BFB16B00CB85BB /* NANDImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NANDImage.h; path = develop/include/NANDImage.h; sourceTree = "<group>"; };
 		DFBEE6E715BFB16B00CB85BB /* NANDImageFlat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NANDImageFlat.h; path = develop/include/NANDImageFlat.h; sourceTree = "<group>"; };
 		DFCED52D15B6760700D8CDAF /* nand */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = nand; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,14 +85,15 @@
 		DFCED53015B6760700D8CDAF /* nand */ = {
 			isa = PBXGroup;
 			children = (
+				DFA2F6B115CB6A070019C60F /* NAND.h */,
+				DFA2F6B015CB69750019C60F /* DeviceInfo.h */,
+				DFA2F6AE15CB69600019C60F /* DeviceInfo.cpp */,
 				DFA2F6AB15CB663C0019C60F /* NAND.cpp */,
 				DFBEE6E615BFB16B00CB85BB /* NANDImage.h */,
 				DFBEE6E715BFB16B00CB85BB /* NANDImageFlat.h */,
 				DF8E086715BD3CE000C7C163 /* NANDImageRemote.cpp */,
 				DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */,
 				DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */,
-				DF8E085F15BCE08900C7C163 /* DeviceInfo.cpp */,
-				DF8E086015BCE08900C7C163 /* DeviceInfo.h */,
 				DF431A0A15BCD5E400226580 /* PListParser.h */,
 				DF431A0815BCD5C800226580 /* PListParser.cpp */,
 				DFCED53115B6760700D8CDAF /* main.cpp */,
@@ -153,11 +155,11 @@
 			files = (
 				DFCED53215B6760700D8CDAF /* main.cpp in Sources */,
 				DF431A0915BCD5C800226580 /* PListParser.cpp in Sources */,
-				DF8E086115BCE08900C7C163 /* DeviceInfo.cpp in Sources */,
 				DF8E086A15BD3CE000C7C163 /* NANDImageRemote.cpp in Sources */,
 				DF8E086B15BD3CE000C7C163 /* NANDImageFlat.cpp in Sources */,
 				DF8E086C15BD3CE000C7C163 /* ByteBuffer.cpp in Sources */,
 				DFA2F6AC15CB663C0019C60F /* NAND.cpp in Sources */,
+				DFA2F6AF15CB69600019C60F /* DeviceInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

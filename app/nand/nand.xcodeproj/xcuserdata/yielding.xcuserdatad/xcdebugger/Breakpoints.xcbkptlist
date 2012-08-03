@@ -51,18 +51,5 @@
          landmarkName = "main(int argc, const char *argv[])"
          landmarkType = "7">
       </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "nand/develop/src/NANDImageFlat.cpp"
-         timestampString = "364887002.001223"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "38"
-         endingLineNumber = "38"
-         landmarkName = "NANDImageFlat::NANDImageFlat(char const* filename, nand_info&amp; geometry)"
-         landmarkType = "5">
-      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

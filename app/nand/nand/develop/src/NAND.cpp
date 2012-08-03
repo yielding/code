@@ -79,13 +79,23 @@ NAND::~NAND()
         delete _image;
 }
 
-void NAND::init_geometry(map<string, string> const& d)
+void NAND::init_geometry(nand_info const& nand)
 {
-    _meta_size = atoi(d["meta-per-logical-page"].c_str());
+    _meta_size = nand.meta_per_logical_page;
     if (_meta_size == 0)
         _meta_size = 12;
 
-    _dumped_page_size = atol(d["dumpedPageSize"].c_str());
+    auto dumped_page_size = nand.dumped_page_size;
+    if (dumped_page_size == 0)
+        dumped_page_size = nand.bytes_per_page + _meta_size + 8;
+
+    _dump_size = nand.ce_count * nand.blocks_per_ce * 
+                 nand.pages_per_block * dumped_page_size;
+    _total_pages   = nand.ce_count * nand.blocks_per_ce * nand.pages_per_block;
+    auto nand_size = _total_pages * nand.bytes_per_page * nand.bytes_per_page;
+
+    auto hsize =
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
