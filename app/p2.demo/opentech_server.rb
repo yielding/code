@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'socket'
-require 'byte_buffer'
+require_relative 'byte_buffer'
 
 puts "server start...\n"
 

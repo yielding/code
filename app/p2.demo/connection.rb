@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'datastructure'
+require_relative 'datastructure'
 require 'socket'
 require 'pp'
 

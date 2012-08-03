@@ -1,4 +1,4 @@
-require 'byte_buffer'
+require_relative 'byte_buffer'
 
 class Array
   def load_to(buffer)

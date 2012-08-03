@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "connection"
+require_relative "connection"
 require "pp"
 
 conn = RFIDKTReaderConnection.new(1, "rfid")

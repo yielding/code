@@ -26,6 +26,5 @@ int main(int argc, const char *argv[])
     NANDImageFlat image(path.c_str(), geometry);
     auto page = image.read_page(0, 0);
     
-    
     return 0;
 }
