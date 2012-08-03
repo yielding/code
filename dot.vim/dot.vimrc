@@ -59,8 +59,8 @@ set ve=block        " virtual edit
 
 set et              " expand tab
 
-set ts=4 sts=4 sw=4 tw=0
 set ts=2 sts=2 sw=2 tw=0
+set ts=4 sts=4 sw=4 tw=0
 
 set smarttab
 
@@ -86,13 +86,13 @@ try
 catch
 endtry
 
-"-----------------------------------------------------------------------------
+""-----------------------------------------------------------------------------
+""
+"" RUMTIME manipulation
+""
+""-----------------------------------------------------------------------------
+"call pathogen#infect()
 "
-" RUMTIME manipulation
-"
-"-----------------------------------------------------------------------------
-call pathogen#infect()
-
 "-----------------------------------------------------------------------------
 "
 " Bundle management
@@ -111,14 +111,13 @@ Bundle 'gmarik/vundle'
 " My Bundles here:
 "
 Bundle 'Syntastic'
-Bundle 'JuliaLang/julia-vim'
 Bundle 'Conque-Shell'
 Bundle 'comments.vim'
 Bundle 'EnhCommentify.vim'
 Bundle 'FuzzyFinder'
 Bundle 'L9'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'AutoComplPop'
+"Bundle 'AutoComplPop'
 Bundle 'ScrollColors'
 Bundle 'ShowMarks7'
 Bundle 'SuperTab-continued.'
@@ -142,11 +141,7 @@ Bundle 'wordlist.vim'
 "Bundle 'clang-complete'   " install using github directly
 Bundle 'coffee.vim'
 Bundle 'vim-coffee-script'
-
-" non github repos
-"Bundle 'git://git.wincent.com/command-t.git'
-" ...
-
+"
 filetype plugin indent on     " required! 
 "-----------------------------------------------------------------------------
 "
@@ -254,39 +249,6 @@ endfunction
 
 autocmd Syntax cpp call EnhanceCppSyntax() 
 
-"-----------------------------------------------------------------------------
-"
-" Using short cuts like <F6> etc is better options to me
-"
-"-----------------------------------------------------------------------------
-"function! QuickFixAndFindTab(command)
-"  let curn = bufnr("%")
-"  cexpr system(a:command)
-"  let newn = bufnr("%")
-"  exe "b " . curn
-"  let tabnr = 0
-"  if newn != curn
-"    for i in range(tabpagenr('$'))
-"      for bufn in tabpagebuflist(i + 1)
-"        if bufn == newn
-"          let tabnr = i + 1
-"          break
-"        endif
-"      endfor
-"    endfor
-"    if tabnr == 0
-"      tabe
-"      exe "b " . newn
-"    else
-"      exe "tabn " . tabnr
-"    endif
-"  endif
-"  cw
-"endfunction
-"
-"noremap ,r :call  QuickFixAndFindTab("rake")<CR>
-"noremap ,m :call  QuickFixAndFindTab("make")<CR>
-
 "------------------- misc
 let _project  ='~/develop/app/panther2/p2.project'
 let _wordlist ='~/.vim/vimfiles/plugin/wordlist.vim'
@@ -314,12 +276,10 @@ map   -       "yyy:@y<cr>
 map   ;s   :up \| saveas! %:p:r-<C-R>=strftime("%y%m%d")<CR>-bak.txt \| 3sleep \| e #<CR> 
 
 map <F2>    :set makeprg=g++-mp-4.7\ -std=c++11\ %\ -o\ %<<CR>
-"map <F2>    :set makeprg=clang++-mp-3.1\ -std=c++11\ %\ -o\ %<<CR>
-"map <F2>    :set makeprg=clang++\ -std=gnu++0x\ %\ -o\ %<<CR>
 map <F3>    :set makeprg=rake<CR>
 map <F4>    :set makeprg=xcodebuild\ -sdk\ iphonesimulator4.3<CR>
 map <F6>    :make<CR>
-map <F7>    :!./%< <CR>
+map <F7>    :!%<<CR>
 map <F8>    :!mono ./%<.exe <CR>
 map <F9>    :TagbarToggle<CR>
 map <F10>   :FufFile<CR>
@@ -503,13 +463,16 @@ map ,cc : call CharCount() <cr>
 " always current directory
 "
 "-----------------------------------------------------------------------------
-function! AlwaysCD()
-  if bufname("") !~ "^ftp://"
-    lcd %:p:h:gs/ /\\ /
-  endif
-endfunction
-
 map ,h :cd %:p:h:gs/ /\\ /<CR>
+
+"-----------------------------------------------------------------------------
+"
+" Syntastic
+"
+"-----------------------------------------------------------------------------
+let b:syntastic_cpp_cflags = ' -I/opt/local/include -I/Users/yielding/code/app/nand/nand'
+let g:syntastic_cpp_compiler_options = ' -std=c++11'
+"let g:syntastic_cpp_auto_refresh_includes = 1
 
 "-----------------------------------------------------------------------------
 "
@@ -632,7 +595,7 @@ let g:clang_auto_select = 1
 let g:clang_complete_auto = 1
 let g:clang_complete_copen = 1
 "let g:clang_user_options ='-fblocks -std=c++0x -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk -D__IPHONE_OS_VERSION_MIN_REQUIRED=40300'
-let g:clang_user_options ='-fblocks -std=c++11 -isysroot /Developer/SDKs/MacOSX10.7.sdk'
+let g:clang_user_options ='-fblocks -std=c++11 -isysroot /Applications/Xcode45-DP3.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk'
 "-----------------------------------------------------------------------------
 "
 " Xcode
@@ -659,7 +622,7 @@ let loaded_matchparen = 0
 " syntax match
 "
 "-----------------------------------------------------------------------------
-let NERDTreeIgnore=['\.vim$', '\~$', '.*\.o$']
+let NERDTreeIgnore=['\.vim$', '\~$', '.*\.o$', '.*\.pyc$']
 
 "-----------------------------------------------------------------------------
 "
