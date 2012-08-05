@@ -3,6 +3,9 @@ class RootViewController < UITableViewController
     super
     self.title = "메뉴"
     @items = [
+      "SampleForEditingButton",
+      "SampleForMovableRow",
+      "SampleForInsertableRow",
       "SampleForDeletableRow",
       "SampleForGroupTable",
       "SampleForSectionTable",
@@ -10,17 +13,17 @@ class RootViewController < UITableViewController
     ]
   end
 
-  def viewWillAppear animated
-    super animated
+  def viewWillAppear(animated)
+    super(animated)
     navigationController.setNavigationBarHidden(false, animated:false)
     navigationController.setToolbarHidden(false, animated:false)
 
-    UIApplication.sharedApplication.statusBarStyle =  UIStatusBarStyleDefault
+    UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleDefault
     navigationController.navigationBar.barStyle    = UIBarStyleDefault
     navigationController.navigationBar.translucent = false
     navigationController.toolbar.barStyle          = UIBarStyleDefault
     navigationController.toolbar.translucent       = false
-    UIView.setAnimationsEnabled true
+    UIView.setAnimationsEnabled(true)
   end
 
   def tableView(tv, numberOfRowsInSection:sec)

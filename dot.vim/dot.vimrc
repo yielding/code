@@ -138,7 +138,6 @@ Bundle 'snipMate'
 
 Bundle 'tpope/vim-fugitive'
 Bundle 'wordlist.vim'
-"Bundle 'clang-complete'   " install using github directly
 Bundle 'coffee.vim'
 Bundle 'vim-coffee-script'
 "
@@ -405,11 +404,11 @@ function! InsertTabWrapper()
   endif
 endfunction
 
-"inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
-hi Pmenu     ctermbg=blue
-hi PmenuSel  ctermbg=yellow ctermfg=black
-hi PmenuSbar ctermbg=blue
+"hi Pmenu     ctermbg=blue
+"hi PmenuSel  ctermbg=yellow ctermfg=black
+"hi PmenuSbar ctermbg=blue
 
 "-----------------------------------------------------------------------------
 "
