@@ -40,6 +40,8 @@ private:
     uint32_t _total_pages;
 
     std::string _filename;
+    std::string _boot_from_nand;
+    uint32_t    _page_size;
 
     std::vector<uint32_t> _h2fmi_ht;
 };

@@ -5,6 +5,8 @@
 #include "DeviceInfo.h"
 
 #include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
+#include <sstream>
 
 using namespace std;
 using namespace boost;
@@ -32,6 +34,29 @@ namespace
 
         return res;
     }
+}
+
+namespace util
+{
+    string sizeof_fmt(int64_t size)
+    {
+        char const* fmts[] = { "bytes", "KB", "MB", "GB", "TB" };
+        int const ARR_SIZE = sizeof(fmts) / sizeof(fmts[0]);
+        string res;
+
+        for (int i=0; i<ARR_SIZE; i++)
+        {   
+            if (size < 1024.0)
+            {
+                res = str(format("%3.1f %s") % double(size) % fmts[i]);
+                break;
+            }
+
+            size /= 1024.0;
+        }   
+
+        return res;
+    }    
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,8 +119,14 @@ void NAND::init_geometry(nand_info const& nand)
     _total_pages   = nand.ce_count * nand.blocks_per_ce * nand.pages_per_block;
     auto nand_size = _total_pages * nand.bytes_per_page * nand.bytes_per_page;
 
-    auto hsize =
+    auto hsize = util::sizeof_fmt(nand_size);
+    //
+    
+    _boot_from_nand   = nand.boot_from_nand;
+    _dumped_page_size = dumped_page_size;
 
+    // TODO here
+    // _page_size = nand
 }
 
 ////////////////////////////////////////////////////////////////////////////////
