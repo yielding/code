@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby -wKU
 
-## no. 2
+# no. 2
 # def fib_upto(n)
 #   i0, i1 = 1, 1
 #   while i0 <= n
