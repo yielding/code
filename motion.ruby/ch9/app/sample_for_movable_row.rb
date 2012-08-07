@@ -8,7 +8,7 @@ class SampleForMovableRow < SampleForInsertableRow
     t = to.row
 
     while f < t
-      @data_source.exchangeObjectAtIndex(f, withObjectAtIndex:f+1)
+      @data_source.insert(f, @data_source.delete_at(f+1))
       f += 1
     end
 
