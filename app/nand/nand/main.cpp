@@ -5,14 +5,13 @@
 #include <boost/algorithm/string.hpp>
 #include "DeviceInfo.h"
 #include "NANDImageFlat.h"
+#include "NAND.h"
 
 using namespace std;
 using namespace boost;
 
 int main(int argc, const char *argv[])
 {
-    // string path = "/Users/yielding/code/app/nand/nand/resource/d0686b9ba2.plist";
-
     string path  = "/Volumes/Data.Disk/iphone.nand/4.nand/iphone4_d0686b9ba2.bin";
     string plist = "/Volumes/Data.Disk/iphone.nand/4.nand/d0686b9ba2.plist";
     DeviceInfo dinfo;
@@ -23,8 +22,9 @@ int main(int argc, const char *argv[])
     }
     
     auto geometry = dinfo.nand();
-    NANDImageFlat image(path.c_str(), geometry);
-    auto page = image.read_page(0, 0);
+    
+    char const* path_ = "/";
+    NAND n(path_, dinfo);
     
     return 0;
 }

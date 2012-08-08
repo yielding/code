@@ -7,6 +7,8 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include <sstream>
+#include <cmath>
+#include <map>
 
 using namespace std;
 using namespace boost;
@@ -17,6 +19,36 @@ using namespace boost;
 ////////////////////////////////////////////////////////////////////////////////
 namespace 
 {
+    // 
+    // TODO REFACTOR => move code position to another place
+    // map<uint32_t, nand_info> nand_chip_info = {
+    //
+    nand_chip_info nc_infos[] = {
+        // chipid
+        { 0x7294D7EC,  0x1038,  0x80, 0x2000, 0x1B4,  0xC, 0, 8, 1, 0 },
+        { 0x72D5DEEC,  0x2070,  0x80, 0x2000, 0x1B4,  0xC, 0, 8, 2, 0 },
+        { 0x29D5D7EC,  0x2000,  0x80, 0x1000,  0xDA,    8, 0, 2, 2, 0 },
+        { 0x2994D5EC,  0x1000,  0x80, 0x1000,  0xDA,    8, 0, 2, 1, 0 },
+        { 0xB614D5EC,  0x1000,  0x80, 0x1000,  0x80,    4, 0, 2, 1, 0 },
+        { 0xB655D7EC,  0x2000,  0x80, 0x1000,  0x80,    4, 0, 2, 2, 0 },
+        { 0xB614D5AD,  0x1000,  0x80, 0x1000,  0x80,    4, 0, 3, 1, 0 },
+        { 0x3294E798,  0x1004,  0x80, 0x2000, 0x1C0, 0x10, 0, 1, 1, 0 },
+        { 0xBA94D598,  0x1000,  0x80, 0x1000,  0xDA,    8, 0, 1, 1, 0 },
+        { 0xBA95D798,  0x2000,  0x80, 0x1000,  0xDA,    8, 0, 1, 2, 0 },
+        { 0x3294D798,  0x1034,  0x80, 0x2000, 0x178,    8, 0, 1, 1, 0 },
+        { 0x3295DE98,  0x2068,  0x80, 0x2000, 0x178,    8, 0, 1, 2, 0 },
+        { 0x3295EE98,  0x2008,  0x80, 0x2000, 0x1C0, 0x18, 0, 1, 2, 0 },
+        { 0x3E94D789,  0x2000,  0x80, 0x1000,  0xDA, 0x10, 0, 5, 1, 0 },
+        { 0x3ED5D789,  0x2000,  0x80, 0x1000,  0xDA,    8, 0, 6, 2, 0 },
+        { 0x3ED5D72C,  0x2000,  0x80, 0x1000,  0xDA,    8, 0, 5, 2, 0 },
+        { 0x3E94D72C,  0x2000,  0x80, 0x1000,  0xDA,  0xC, 0, 7, 1, 0 },
+        { 0x4604682C,  0x1000, 0x100, 0x1000,  0xE0,  0xC, 0, 7, 1, 0 },
+        { 0x3294D745,  0x1000,  0x80, 0x2000, 0x178,    8, 0, 9, 1, 0 },
+        { 0x3295DE45,  0x2000,  0x80, 0x2000, 0x178,    8, 0, 9, 2, 0 },
+        { 0x32944845,  0x1000,  0x80, 0x2000, 0x1C0,    8, 0, 9, 1, 0 },
+        { 0x32956845,  0x2000,  0x80, 0x2000, 0x1C0,    8, 0, 9, 2, 0 }
+    };
+
     vector<uint32_t> gen_h2fmi_hash_table()
     {
         vector<uint32_t> res(256, 0);
@@ -56,7 +88,21 @@ namespace util
         }   
 
         return res;
-    }    
+    }
+    
+    uint32_t next_power_of_two(uint32_t value)
+    {
+        uint32_t res = 1;
+        
+        while (res < value) res <<= 1;
+        
+        return res;
+    }
+    
+    double log2(double arg)
+    {
+        return log(arg) / log(2);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +116,15 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
 {
     _h2fmi_ht = gen_h2fmi_hash_table();
 
+    // TODO REFACTOR
+    auto nc_size = sizeof(nc_infos) / sizeof(nc_infos[0]);
+    for (int i=0; i<nc_size; i++)
+    {
+        auto key = nc_infos[i].chip_id;
+        _nand_chip_info[key] = nc_infos[i];
+    }
+
+    // TODO Check
     // _partition_table = nullptr;
     // _locker = nullptr;
 
@@ -96,6 +151,9 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
     {
         _image = new NANDImageFlat(_filename.c_str(), nand);
     }
+    
+    auto page = _image->read_page(0, 0);
+
 }
 
 NAND::~NAND()
@@ -120,13 +178,47 @@ void NAND::init_geometry(nand_info const& nand)
     auto nand_size = _total_pages * nand.bytes_per_page * nand.bytes_per_page;
 
     auto hsize = util::sizeof_fmt(nand_size);
-    //
     
-    _boot_from_nand   = nand.boot_from_nand;
+    _bfn = nand.boot_from_nand;
     _dumped_page_size = dumped_page_size;
 
-    // TODO here
-    // _page_size = nand
+    _page_size = nand.bytes_per_page;
+    _bootloader_bytes = nand.bootloader_bytes;
+    if (_bootloader_bytes == 0)
+        _bootloader_bytes = 1536;
+
+    _empty_bootloader_page.resize(_bootloader_bytes, 0xff);
+    _blank_page.resize(_page_size, 0xff);
+    
+    _ce_count           = nand.ce_count;
+    _blocks_per_ce      = nand.blocks_per_ce;
+    _pages_per_block    = nand.pages_per_block;
+    _pages_per_ce       = _pages_per_block * _blocks_per_ce;
+    _vendor_type        = nand.vendor_type;
+    _device_readid      = nand.device_readid;
+    _banks_per_ce_vfl   = nand.banks_per_ce;
+    _metadata_whitening = nand.metadata_whitening;
+
+    if (_nand_chip_info.find(_device_readid) != _nand_chip_info.end())
+        _banks_per_ce_physical = _nand_chip_info[_device_readid].banks_per_ce;
+    else
+        _banks_per_ce_physical = 1;
+
+    _blocks_per_bank = _blocks_per_ce / _banks_per_ce_physical;
+    
+    if ((_blocks_per_ce & _blocks_per_ce - 1) == 0)
+    {
+        _bank_address_space = _blocks_per_bank;
+        _total_block_space  = _blocks_per_ce;
+    }
+    else
+    {
+        _bank_address_space = util::next_power_of_two(_blocks_per_bank);
+        _total_block_space  = (_banks_per_ce_physical - 1) * _bank_address_space
+                              + _blocks_per_bank;
+    }
+    
+    _bank_mask = (int) util::log2(_bank_address_space * _pages_per_block);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
