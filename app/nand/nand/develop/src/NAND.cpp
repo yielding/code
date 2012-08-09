@@ -260,7 +260,7 @@ auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
     for_each(magics.begin(), magics.end(), conv);
 
     auto lowest_block = _blocks_per_ce - (_blocks_per_ce / 100);
-    for (int block = _blocks_per_ce - 1; block > lowest_block; --block)
+    for (int block = _blocks_per_ce-1; block > lowest_block; --block)
     {
         if (magics.size() == 0)
             break;
@@ -268,7 +268,7 @@ auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
         auto bank_offset = _bank_address_space * (block / _blocks_per_bank);
         for (int page = _pages_per_block; page >= 0; --page)
         {
-            auto page_no  = (bank_offset + block % _blocks_per_bank) * _pages_per_block + page;
+            auto  page_no = (bank_offset + block % _blocks_per_bank) * _pages_per_block + page;
             auto one_page = read_page(ce_no, page_no);
             if (one_page.data.empty())
                 continue;
@@ -279,7 +279,7 @@ auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
             {
                 _encrypted = false;
                 // TODO TEST
-                auto  comp = [=](string& s) { return s == magic; };
+                auto  comp = [&magic](string& s) { return s == magic; };
                 magics.erase(remove_if(magics.begin(), magics.end(), comp), magics.end());
             }
         }

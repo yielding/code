@@ -120,7 +120,7 @@ Bundle 'Lokaltog/vim-easymotion'
 "Bundle 'AutoComplPop'
 Bundle 'ScrollColors'
 Bundle 'ShowMarks7'
-Bundle 'SuperTab-continued.'
+"Bundle 'SuperTab-continued.'
 Bundle 'Tagbar'
 Bundle 'The-NERD-tree'
 Bundle 'a.vim'
@@ -278,7 +278,7 @@ map <F2>    :set makeprg=g++-mp-4.7\ -std=c++11\ %\ -o\ %<<CR>
 map <F3>    :set makeprg=rake<CR>
 map <F4>    :set makeprg=xcodebuild\ -sdk\ iphonesimulator4.3<CR>
 map <F6>    :make<CR>
-map <F7>    :!%<<CR>
+map <F7>    :!./%<<CR>
 map <F8>    :!mono ./%<.exe <CR>
 map <F9>    :TagbarToggle<CR>
 map <F10>   :FufFile<CR>
@@ -404,7 +404,7 @@ function! InsertTabWrapper()
   endif
 endfunction
 
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+"inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
 "hi Pmenu     ctermbg=blue
 "hi PmenuSel  ctermbg=yellow ctermfg=black
@@ -547,7 +547,6 @@ endif
 " snipMate and complte
 "
 "-----------------------------------------------------------------------------
-let g:SuperTabDefaultCompletionType = "context"
 set rtp+=~/.vim/snippets
 
 "-----------------------------------------------------------------------------
@@ -578,6 +577,8 @@ au FileType ruby let g:rubycomplete_buffer_loading = 1
 au FileType ruby let g:rubycomplete_rails = 1
 au FileType ruby let g:rubycomplete_classes_in_global = 1
 au FileType ruby noremap ,r :!ruby %<CR>
+
+au FileType python noremap ,r :!python %<CR>
 
 "-----------------------------------------------------------------------------
 "
