@@ -2,6 +2,7 @@
 #define NANDIMAGEFLAT_H
 
 #include "NANDImage.h"
+#include "ByteBuffer.h"
 
 #include <map>
 #include <string>
@@ -11,6 +12,10 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+using utility::hex::ByteBuffer;
+
+struct nand_info;
+
 class NANDImageFlat: public NANDImage
 {
 public:

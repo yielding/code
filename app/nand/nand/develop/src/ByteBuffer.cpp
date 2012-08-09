@@ -181,6 +181,14 @@ bool ByteBuffer::all_values_are(uint8_t value)
     return true;
 }
 
+bool ByteBuffer::starts_with(string const& str)
+{
+    auto len = str.length();
+    string s((char*)&m_buffer[0], len);
+
+    return str == s;
+}
+
 ByteBuffer ByteBuffer::from_hexcode(string const& str, bool is_be)
 {
     using namespace boost;
@@ -512,6 +520,30 @@ ByteBuffer& ByteBuffer::set_binary(uint8_t* src, uint32_t len)
 {
     for (size_t i=0; i<len; i++) m_buffer.push_back(src[i]);
     m_offset += len;
+
+    return *this;
+}
+
+ByteBuffer& ByteBuffer::set_uint2_le(uint16_t src)
+{
+    src = endian_swap_bytes<HOST_ENDIAN_ORDER, LITTLE_ENDIAN_ORDER>(src);
+    uint8_t no[2] = { 0 };
+    memcpy((void*)no, (void*)&src, 2);
+
+    for (size_t i=0; i<2; i++) m_buffer.push_back(no[i]);
+    m_offset += 2;
+
+    return *this;
+}
+
+ByteBuffer& ByteBuffer::set_uint4_le(uint32_t src)
+{
+    src = endian_swap_bytes<HOST_ENDIAN_ORDER, LITTLE_ENDIAN_ORDER>(src);
+    uint8_t no[4] = { 0 };
+    memcpy((void*)no, (void*)&src, 4);
+
+    for (size_t i=0; i<4; i++) m_buffer.push_back(no[i]);
+    m_offset += 4;
 
     return *this;
 }

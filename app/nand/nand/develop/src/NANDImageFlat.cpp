@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "NANDImageFlat.h"
+#include "DeviceInfo.h"
 
 #include <utility>
 #include <boost/lexical_cast.hpp>

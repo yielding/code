@@ -1,34 +1,13 @@
 #ifndef NANDIMAGE_H
 #define NANDIMAGE_H
 
-#include "ByteBuffer.h"
-#include "DeviceInfo.h"
+#include "NANDPage.h"
 
-#include <string>
-#include <map>
-
-using namespace utility::hex;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-struct NANDPage
-{
-    ByteBuffer spare;
-    ByteBuffer data;
-    bool empty()     { return spare.size() + data.size() == 0; }
-
-    bool blank() 
-    {
-        if (empty()) 
-            return false;
-
-        return data.all_values_are(0xff) &&
-               spare.all_values_are(0xff);
-    }
-};
-
 class NANDImage
 {
 public:

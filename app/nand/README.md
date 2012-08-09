@@ -6,6 +6,9 @@
     - refactoring
       > header 및 객체의 위치를 정확하게 조정한다.
 
+    - read_page
+      > SpareData 위치 잡기 정확하게 refactoring
+
     - NANDRemote
       : readPage
 
@@ -17,12 +20,20 @@
 
 ## DOING
   * NAND class 구현
-    - refactoring
-      > DeviceInfo 클래스내에서 해석 및 타입 변환을 완료한다.
+
+    - ByteBuffer 확장
+      > set_uint4_le()
 
 ## DONE
   * NAND class 구현
+    - read_page
+      > SpareData 구조체 해석
+
     - refactoring
+      > DeviceInfo 클래스내에서 해석 및 타입 변환을 완료한다.
+
+    - ByteBuffer 확장
+      > starts_with 추가
 
     - NANDImageSplitCEs
 

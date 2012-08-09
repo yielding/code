@@ -23,8 +23,7 @@ int main(int argc, const char *argv[])
     
     auto geometry = dinfo.nand();
     
-    char const* path_ = "/";
-    NAND n(path_, dinfo);
+    NAND n(path.c_str(), dinfo);
     
     return 0;
 }

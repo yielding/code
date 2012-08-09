@@ -54,6 +54,7 @@ public:  // query
     size_t  reserve(size_t);
 
     bool    all_values_are(uint8_t value);
+    bool    starts_with(std::string const& str);
 
 public:
     static ByteBuffer  from_hexcode(std::string const&, bool=false);
@@ -94,6 +95,9 @@ public:
     auto set_uint1(uint8_t) -> ByteBuffer&;
     auto set_string(char const* src) -> ByteBuffer&;
     auto set_binary(uint8_t* src, uint32_t size) -> ByteBuffer&;
+
+    auto set_uint4_le(uint32_t) -> ByteBuffer&;
+    auto set_uint2_le(uint16_t) -> ByteBuffer&;
 
     auto get_int1()     -> int8_t;
     auto get_uint1()    -> uint8_t;

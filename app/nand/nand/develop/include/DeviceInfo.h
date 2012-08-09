@@ -24,16 +24,16 @@ struct nand_info
 
     bool empty() const { return m_empty; }
 
-    uint16_t pages_per_block;  // 128
-    uint32_t bootloader_bytes; // 1536
-    uint16_t ce_count;         // 4
-    uint32_t blocks_per_ce;    // 4100 
-    uint32_t bytes_per_page;   // 8192
-    uint16_t spare_byte_count; // 448
-    uint16_t banks_per_ce;     // 1
-    uint16_t bbt_format;       // 1
-    string   boot_from_nand;   // AQAAA==
-    uint64_t device_readid;    // 848619416
+    uint16_t pages_per_block;       // 128
+    uint32_t bootloader_bytes;      // 1536
+    uint16_t ce_count;              // 4
+    uint32_t blocks_per_ce;         // 4100 
+    uint32_t bytes_per_page;        // 8192
+    uint16_t spare_byte_count;      // 448
+    uint16_t banks_per_ce;          // 1
+    uint16_t bbt_format;            // 1
+    string   boot_from_nand;        // AQAAA==
+    uint64_t device_readid;         // 848619416
     int64_t  dumped_page_size; 
     uint16_t meta_per_logical_page; // 12
     bool     metadata_whitening;    // "AQAAA==" => "01000000" => true
@@ -58,8 +58,8 @@ struct DeviceInfo
     auto dkey() const -> string;
     auto ecid() const -> string;
     auto emf()  const -> string;
-    auto keybag_keys() const -> string;
-    auto bt_mac()      const -> string;
+    auto keybag_keys()        const -> string;
+    auto bt_mac()             const -> string;
     auto data_volume_offset() const -> uint32_t;
     auto data_volume_uuid()   const -> string;
     auto hw_model()           const -> string;

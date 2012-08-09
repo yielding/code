@@ -1,4 +1,5 @@
 #include "NANDImageSplitCEs.h"
+#include "DeviceInfo.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
@@ -6,6 +7,7 @@
 
 using namespace std;
 using namespace boost;
+using namespace utility::hex;
       namespace fs = boost::filesystem;
 ////////////////////////////////////////////////////////////////////////////////
 //

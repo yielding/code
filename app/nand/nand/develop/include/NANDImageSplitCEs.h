@@ -2,6 +2,7 @@
 #define NANDIMAGESPLITCES_H
 
 #include "NANDImage.h"
+#include "ByteBuffer.h"
 
 #include <fstream>
 #include <vector>
@@ -25,7 +26,7 @@ public:
     auto read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage;
     
 private:
-    auto _read_page(uint32_t ce_no, uint32_t page_no) -> ByteBuffer;
+    auto _read_page(uint32_t ce_no, uint32_t page_no) -> utility::hex::ByteBuffer;
     
 private:
     std::vector<std::string> _paths;

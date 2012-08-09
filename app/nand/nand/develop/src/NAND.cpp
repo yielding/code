@@ -7,24 +7,48 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include <sstream>
+#include <algorithm>
 #include <cmath>
 #include <map>
 
 using namespace std;
 using namespace boost;
+using namespace utility::hex;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace 
+struct spare_data
+{
+    spare_data(ByteBuffer& b) 
+    {
+        read_from(b);
+    }
+
+    void read_from(ByteBuffer& b)
+    {
+        lpn     = b.get_uint4_le();
+        usn     = b.get_uint4_le();
+        field_8 = b.get_uint1();
+        type    = b.get_uint1();
+        field_a = b.get_uint2_le();
+    }
+
+    uint32_t lpn;
+    uint32_t usn;
+    uint8_t  field_8;
+    uint8_t  type;
+    uint16_t field_a;
+};
+
+namespace
 {
     // 
     // TODO REFACTOR => move code position to another place
-    // map<uint32_t, nand_info> nand_chip_info = {
     //
     nand_chip_info nc_infos[] = {
-        // chipid
+        // chip_id
         { 0x7294D7EC,  0x1038,  0x80, 0x2000, 0x1B4,  0xC, 0, 8, 1, 0 },
         { 0x72D5DEEC,  0x2070,  0x80, 0x2000, 0x1B4,  0xC, 0, 8, 2, 0 },
         { 0x29D5D7EC,  0x2000,  0x80, 0x1000,  0xDA,    8, 0, 2, 2, 0 },
@@ -152,14 +176,142 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         _image = new NANDImageFlat(_filename.c_str(), nand);
     }
     
-    auto page = _image->read_page(0, 0);
-
+    auto   page = read_page(0, 0);
+    auto& page0 = page.data;
+    
+    _nand_only = !page.data.empty() && page0.starts_with("ndrG");
+    if (_nand_only)
+        _encrypted = true;
+    
+    vector<string> magics;
+    magics.push_back("DEVICEINFOBBT");
+    ByteBuffer nandsig;
+    
+    if (!page0.empty() && page0.slice(8, 14).starts_with("Darwin"))
+        nandsig = page0;
+    else
+        magics.push_back("NANDDRIVERSIGN");
+    
 }
 
 NAND::~NAND()
 {
     if (_image)
         delete _image;
+}
+
+auto NAND::read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage
+{
+    NANDPage page;
+
+    if (ce_no > _ce_count || page_no > _pages_per_ce)
+    {
+        // Exception!!!!
+        return page;
+    }
+
+    if (this->_filename == "remote")
+    {
+        auto bank = (page_no & ~((1 << _bank_mask) - 1)) >> _bank_mask;
+        auto new_page_no = (page_no &  ((1 << _bank_mask) - 1));
+        new_page_no = bank * _blocks_per_bank * _pages_per_block + new_page_no;
+        page = _image->read_page(ce_no, new_page_no); 
+    }
+    else
+    {
+        page = _image->read_page(ce_no, page_no);
+    }
+
+    if (page.data.empty())
+        return page;           // page should be empty();
+    
+    if (_metadata_whitening && !page.spare.all_values_are(0x00) && page.spare.size() == 12)
+        page.spare = this->unwhiten_metadata(page.spare, page_no);
+
+    return page;
+}
+
+auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer& key, uint32_t lpn)
+    -> NANDPage
+{
+    auto page = read_page(ce_no, page_no);
+
+    spare_data sp(page.spare);
+    if (!key.empty() && _encrypted)
+    {
+        auto new_page_no = (lpn != 0xffffffff) 
+            ? sp.lpn
+            : page_no;
+
+        page.data = this->decrypt_page(page.data, key, new_page_no);
+    }
+
+    return page;
+}
+
+auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics) 
+    -> map<string, ByteBuffer>
+{
+    map<string, ByteBuffer> specials;
+    if (_nand_only)
+        magics.push_back("DEVICEUNIQUEINFO");
+
+    auto conv = [](string& s) { s.append(16 - s.length(), 0); };
+    for_each(magics.begin(), magics.end(), conv);
+
+    auto lowest_block = _blocks_per_ce - (_blocks_per_ce / 100);
+    for (int block = _blocks_per_ce - 1; block > lowest_block; --block)
+    {
+        if (magics.size() == 0)
+            break;
+
+        auto bank_offset = _bank_address_space * (block / _blocks_per_bank);
+        for (int page = _pages_per_block; page >= 0; --page)
+        {
+            auto page_no  = (bank_offset + block % _blocks_per_bank) * _pages_per_block + page;
+            auto one_page = read_page(ce_no, page_no);
+            if (one_page.data.empty())
+                continue;
+
+            auto magic = one_page.data.slice(0, 16).get_string(16);
+            auto   pos = find(magics.begin(), magics.end(), magic);
+            if (pos != magics.end())
+            {
+                _encrypted = false;
+                // TODO TEST
+                auto  comp = [=](string& s) { return s == magic; };
+                magics.erase(remove_if(magics.begin(), magics.end(), comp), magics.end());
+            }
+        }
+    }
+
+    return specials;
+}
+
+ByteBuffer NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no)
+{
+    ByteBuffer spare;
+
+    if (spare_.size() == 12)
+    {
+        for (int i=0; i<3; i++)
+        {
+            auto v = spare_.get_uint4_le();
+            v ^= _h2fmi_ht[(i + page_no) % _h2fmi_ht.size()];
+            spare.set_uint4_le(v);
+        }
+    }
+
+    return spare;
+}
+
+ByteBuffer NAND::decrypt_page(ByteBuffer& data_, ByteBuffer& key, uint32_t page_no)
+{
+    ByteBuffer data;
+    
+    throw std::runtime_error("not implemented");
+    
+    return data;
 }
 
 void NAND::init_geometry(nand_info const& nand)
@@ -175,7 +327,7 @@ void NAND::init_geometry(nand_info const& nand)
     _dump_size = nand.ce_count * nand.blocks_per_ce * 
                  nand.pages_per_block * dumped_page_size;
     _total_pages   = nand.ce_count * nand.blocks_per_ce * nand.pages_per_block;
-    auto nand_size = _total_pages * nand.bytes_per_page * nand.bytes_per_page;
+    auto nand_size = int64_t(_total_pages) * nand.bytes_per_page;
 
     auto hsize = util::sizeof_fmt(nand_size);
     
@@ -183,10 +335,7 @@ void NAND::init_geometry(nand_info const& nand)
     _dumped_page_size = dumped_page_size;
 
     _page_size = nand.bytes_per_page;
-    _bootloader_bytes = nand.bootloader_bytes;
-    if (_bootloader_bytes == 0)
-        _bootloader_bytes = 1536;
-
+    _bootloader_bytes = std::max<int>(1536, nand.bootloader_bytes);
     _empty_bootloader_page.resize(_bootloader_bytes, 0xff);
     _blank_page.resize(_page_size, 0xff);
     

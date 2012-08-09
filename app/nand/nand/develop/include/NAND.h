@@ -1,6 +1,8 @@
 #ifndef NAND_H
 #define NAND_H
 
+#include "NANDPage.h"
+
 #include <stdint.h>
 #include <string>
 #include <vector>
@@ -14,11 +16,13 @@
 class NANDImage;
 class DeviceInfo;
 
+// TODO REFACTOR
 struct nand_info;
 
 using std::string;
 using std::vector;
 using std::map;
+using utility::hex::ByteBuffer;
 
 //
 // 1. dinfo, nand가 중복
@@ -46,8 +50,16 @@ public:
     NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn=0);
     ~NAND();
 
+public:
+    auto read_page(uint32_t ce, uint32_t page, ByteBuffer& key, uint32_t lpn=0xffffffff) -> NANDPage;
+    auto read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage;
+    auto read_special_pages(uint32_t ce_no, vector<string>& magics) -> map<string, ByteBuffer>;
+
 private:
     void init_geometry(nand_info const& n);
+
+    auto unwhiten_metadata(ByteBuffer& , uint32_t page_no)        -> ByteBuffer;
+    auto decrypt_page(ByteBuffer&, ByteBuffer&, uint32_t page_no) -> ByteBuffer;
 
 private:
     NANDImage*  _image;
@@ -59,9 +71,10 @@ private:
     bool        _has_mbr;
     bool        _metadata_whitening;
     bool        _encrypted;
+    bool        _nand_only;
 
     int64_t     _dump_size;
-    uint32_t    _total_pages;
+    int32_t    _total_pages;
 
     string      _filename;
     string      _bfn;

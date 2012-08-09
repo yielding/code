@@ -22,14 +22,14 @@ TEST_SRCS = %w{
                 ./develop/src/NandImageSplitCEs.cpp
                 ./develop/src/NAND.cpp
                 ./test_ptree.cpp
-                ./test_device_info.cpp
                 ./test_image.cpp
+                ./test_byte_buffer.cpp
               }
 
 INCS      = "./develop/include"
 CXX       = "c++11"          # c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
-LIBS      = ":f :s"
+LIBS      = ":f :s b64"
 
 load "~/code/build/app2.rake"
 

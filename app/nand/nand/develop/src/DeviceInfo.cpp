@@ -246,7 +246,6 @@ int main(int argc, const char *argv[])
         for (auto jt=it->second.begin(); jt!=it->second.end(); ++jt)
             cout << "\t" << jt->first << " : " << jt->second << endl;
     }
-    
 
     return 0;
 }
