@@ -8,8 +8,8 @@ class SampleForDeletableRow < UITableViewController
       "item 9", "item 10", "item 11", "item 12"]
   end
 
-  def viewDidAppear animated
-    super animated
+  def viewDidAppear(animated)
+    super(animated)
 
     self.tableView.setEditing(true, animated:true)
   end

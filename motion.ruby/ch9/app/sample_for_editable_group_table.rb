@@ -44,10 +44,7 @@ class SampleForEditableGroupTable < UITableViewController
   def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:ip)
     if UITableViewCellEditingStyleDelete == editingStyle
       data = @data_source.to_a[ip.section]
-      data.delete_at(ip.row)
-      # TODO
-      # [dataSource_ replaceObjectAtIndex:indexPath.section withObject:datas];
-      # @data_source = ......;
+      data[1].delete_at(ip.row)
       tv.deleteRowsAtIndexPaths([ip], withRowAnimation:UITableViewRowAnimationLeft)
     end
   end
@@ -67,7 +64,7 @@ class SampleForEditableGroupTable < UITableViewController
     end
 
     while f > t
-      @data_source.exchangeObjectAtIndex(f, withObjectAtIndex:f-1)
+      @data_source.insert(f, @data_source.delete_at(f-1))
       f -= 1
     end
   end

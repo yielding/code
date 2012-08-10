@@ -28,10 +28,10 @@ int main(int argc, char const* argv[])
   m["xyzzy"]  = 12;
   m["thud"]   = 13;
 
-  int n = 6;
-  auto it = find_if(m.cbegin(), m.cend(), phoenix::at_c<1>(arg1) > n);
+  int n = 4;
+  auto it = find_if(m.cbegin(), m.cend(), phoenix::at_c<0>(arg1).length() > n);
   if (it != m.cend())
-    std::cout << it->first << endl;
+    std::cout << it->first << std::endl;
 
   return 0;
 }

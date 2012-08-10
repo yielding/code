@@ -4,46 +4,52 @@
 #include "NANDImageFlat.h"
 #include "DeviceInfo.h"
 
+#include <openssl/aes.h>
+
 #include <boost/algorithm/string.hpp>
+#include <boost/phoenix/core.hpp>
+#include <boost/phoenix/operator.hpp>
 #include <boost/format.hpp>
 #include <sstream>
 #include <algorithm>
 #include <cmath>
 #include <map>
 
-using namespace std;
-using namespace boost;
 using namespace utility::hex;
+using namespace boost::phoenix::arg_names;
+using namespace boost;
+using namespace std;
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-struct spare_data
-{
-    spare_data(ByteBuffer& b) 
-    {
-        read_from(b);
-    }
-
-    void read_from(ByteBuffer& b)
-    {
-        lpn     = b.get_uint4_le();
-        usn     = b.get_uint4_le();
-        field_8 = b.get_uint1();
-        type    = b.get_uint1();
-        field_a = b.get_uint2_le();
-    }
-
-    uint32_t lpn;
-    uint32_t usn;
-    uint8_t  field_8;
-    uint8_t  type;
-    uint16_t field_a;
-};
-
 namespace
 {
+    struct spare_data
+    {
+        spare_data(ByteBuffer& b) 
+        {
+            read_from(b);
+        }
+
+        void read_from(ByteBuffer& b)
+        {
+            lpn     = b.get_uint4_le();
+            usn     = b.get_uint4_le();
+            field_8 = b.get_uint1();
+            type    = b.get_uint1();
+            field_a = b.get_uint2_le();
+        }
+
+        uint32_t lpn;
+        uint32_t usn;
+        uint8_t  field_8;
+        uint8_t  type;
+        uint16_t field_a;
+    };
+
     // 
     // TODO REFACTOR => move code position to another place
     //
@@ -72,6 +78,8 @@ namespace
         { 0x32944845,  0x1000,  0x80, 0x2000, 0x1C0,    8, 0, 9, 1, 0 },
         { 0x32956845,  0x2000,  0x80, 0x2000, 0x1C0,    8, 0, 9, 2, 0 }
     };
+
+    ByteBuffer META_KEY("92a742ab08c969bf006c9412d3cc79a5");
 
     vector<uint32_t> gen_h2fmi_hash_table()
     {
@@ -123,6 +131,7 @@ namespace util
         return res;
     }
     
+    // 아무리 단순해도 분리 include 하는 넘이 있으므로 
     double log2(double arg)
     {
         return log(arg) / log(2);
@@ -249,15 +258,16 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer& key, uint32_t
     return page;
 }
 
-auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics) 
+auto NAND::read_special_pages(uint32_t ce_no, list<string>& magics) 
     -> map<string, ByteBuffer>
 {
     map<string, ByteBuffer> specials;
+
     if (_nand_only)
         magics.push_back("DEVICEUNIQUEINFO");
 
-    auto conv = [](string& s) { s.append(16 - s.length(), 0); };
-    for_each(magics.begin(), magics.end(), conv);
+    for_each(magics.begin(), magics.end(), 
+        [](string& s) { s.append(16 - s.length(), 0); });
 
     auto lowest_block = _blocks_per_ce - (_blocks_per_ce / 100);
     for (int block = _blocks_per_ce-1; block > lowest_block; --block)
@@ -273,19 +283,40 @@ auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
             if (one_page.data.empty())
                 continue;
 
-            auto magic = one_page.data.slice(0, 16).get_string(16);
-            auto   pos = find(magics.begin(), magics.end(), magic);
-            if (pos != magics.end())
+            auto magic = one_page.data.slice(0, 16).to_s();
+            auto p0 = find(magics.begin(), magics.end(), magic);
+            if (p0 != magics.end())
             {
                 _encrypted = false;
-                // TODO TEST
-                auto  comp = [&magic](string& s) { return s == magic; };
-                magics.erase(remove_if(magics.begin(), magics.end(), comp), magics.end());
+                magics.erase(p0);
+                auto key = trim_right_copy_if(magic.substr(0, 16), arg1 == 0);
+                specials[key] = unpack_spacial_page(one_page.data);
+                break;
+            }
+
+            one_page.data = decrypt_page(one_page.data, META_KEY, page);
+
+            magic = one_page.data.slice(0, 16).to_s();
+            auto p1 = find(magics.begin(), magics.end(), magic);
+            if (p1 != magics.end())
+            {
+                _encrypted = true;
+                magics.erase(p1);
+                auto key = trim_right_copy_if(magic.substr(0, 16), arg1 == 0);
+                specials[key] = unpack_spacial_page(one_page.data);
+                break;
             }
         }
     }
 
     return specials;
+}
+
+ByteBuffer NAND::unpack_spacial_page(ByteBuffer& data)
+{
+    auto loc = data.offset(0x34).get_uint4_le();
+
+    return data.slice(0x38, 0x38 + loc);
 }
 
 ByteBuffer NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no)
@@ -308,8 +339,7 @@ ByteBuffer NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no)
 ByteBuffer NAND::decrypt_page(ByteBuffer& data_, ByteBuffer& key, uint32_t page_no)
 {
     ByteBuffer data;
-    
-    throw std::runtime_error("not implemented");
+    // HFSKey
     
     return data;
 }

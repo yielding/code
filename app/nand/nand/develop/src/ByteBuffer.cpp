@@ -460,6 +460,13 @@ string ByteBuffer::get_string(size_t size)
     return result;
 }
 
+string ByteBuffer::to_s()
+{
+    std::string result((char*)&m_buffer[0], m_buffer.size());
+
+    return result;
+}
+
 char const* ByteBuffer::c_str()
 {
     char const* res = (char const*)&m_buffer[size_type(m_offset)];

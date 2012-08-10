@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include <list>
 #include <map>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -22,6 +23,7 @@ struct nand_info;
 using std::string;
 using std::vector;
 using std::map;
+using std::list;
 using utility::hex::ByteBuffer;
 
 //
@@ -53,13 +55,14 @@ public:
 public:
     auto read_page(uint32_t ce, uint32_t page, ByteBuffer& key, uint32_t lpn=0xffffffff) -> NANDPage;
     auto read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage;
-    auto read_special_pages(uint32_t ce_no, vector<string>& magics) -> map<string, ByteBuffer>;
+    auto read_special_pages(uint32_t ce_no, list<string>& magics) -> map<string, ByteBuffer>;
 
 private:
     void init_geometry(nand_info const& n);
 
     auto unwhiten_metadata(ByteBuffer& , uint32_t page_no)        -> ByteBuffer;
-    auto decrypt_page(ByteBuffer&, ByteBuffer&, uint32_t page_no) -> ByteBuffer;
+    auto decrypt_page(ByteBuffer& data, ByteBuffer& key, uint32_t page_no) ->ByteBuffer;
+    auto unpack_spacial_page(ByteBuffer& data) -> ByteBuffer;
 
 private:
     NANDImage*  _image;

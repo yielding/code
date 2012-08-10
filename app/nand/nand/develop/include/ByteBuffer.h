@@ -119,6 +119,7 @@ public:
     auto get_hex_string(uint32_t size) -> std::string;
     auto get_string() -> std::string;
     auto get_string(size_t size) -> std::string;
+    auto to_s()  -> std::string;
     auto c_str() -> char const* ;
 
 public:
@@ -137,7 +138,7 @@ public:
 
 protected:
     buffer_t m_buffer;
-    int64_t m_offset;
+    int64_t  m_offset;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
