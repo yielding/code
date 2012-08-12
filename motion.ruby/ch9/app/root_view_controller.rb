@@ -3,6 +3,12 @@ class RootViewController < UITableViewController
     super
     self.title = "메뉴"
     @items = [
+      "SampleForCellWithDetail",
+      #"SampleForEditingAccessoryType",
+      "SampleForCellWithImage",
+      "SampleForSelectionStyle",
+      "SampleForBeginUpdates",
+      "SampleForScroll",
       "SampleForEditableGroupTable",
       "SampleForEditingButton",
       "SampleForMovableRow",
