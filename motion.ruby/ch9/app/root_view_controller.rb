@@ -3,8 +3,8 @@ class RootViewController < UITableViewController
     super
     self.title = "메뉴"
     @items = [
+      "SampleForCellWithAccessory",
       "SampleForCellWithDetail",
-      #"SampleForEditingAccessoryType",
       "SampleForCellWithImage",
       "SampleForSelectionStyle",
       "SampleForBeginUpdates",
