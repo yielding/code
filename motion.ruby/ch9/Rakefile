@@ -10,5 +10,7 @@ Motion::Project::App.setup do |app|
     'app/sample_for_movable_row.rb' => 'app/sample_for_insertable_row.rb',
     'app/sample_for_editing_btn.rb' => 'app/sample_for_movable_row.rb',
     'app/sample_for_scroll.rb'      => 'app/sample_for_simple_table.rb',
-    'app/sample_for_cell_with_accessory.rb' => 'app/sample_for_cell_with_detail.rb'
+    'app/sample_for_cell_with_accessory.rb'    => 'app/sample_for_cell_with_detail.rb',
+    'app/sample_for_editing_accessory_type.rb' => 'app/sample_for_cell_with_detail.rb',
+    'app/sample_for_black_cell_table.rb'       => 'app/sample_for_simple_table.rb'
 end
