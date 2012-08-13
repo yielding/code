@@ -97,17 +97,17 @@ bool ByteBuffer::operator==(ByteBuffer const& rhs) const
     return m_buffer == rhs.m_buffer;
 }
 
-bool ByteBuffer::has_remaining()
+bool ByteBuffer::has_remaining() const
 {
     return m_offset < (int64_t)m_buffer.size();
 }
 
-int64_t ByteBuffer::remaining()
+int64_t ByteBuffer::remaining() const
 {
     return m_buffer.size() - m_offset;
 }
 
-bool ByteBuffer::empty()
+bool ByteBuffer::empty() const
 {
     return m_buffer.empty();
 }
@@ -169,7 +169,7 @@ size_t ByteBuffer::reserve(size_t sz)
     return m_buffer.capacity();
 }
 
-bool ByteBuffer::all_values_are(uint8_t value)
+bool ByteBuffer::all_values_are(uint8_t value) const
 {
     if (m_buffer.empty())
         return false;
@@ -181,7 +181,7 @@ bool ByteBuffer::all_values_are(uint8_t value)
     return true;
 }
 
-bool ByteBuffer::starts_with(string const& str)
+bool ByteBuffer::starts_with(string const& str) const
 {
     auto len = str.length();
     string s((char*)&m_buffer[0], len);

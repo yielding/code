@@ -25,6 +25,9 @@ public:
     ByteBuffer(size_t size=0);
 
     ByteBuffer(uint8_t* buffer, size_t s);
+    // TODO
+    // ByteBuffer(uint8_t* beg, uint8_t* end);
+    
     ByteBuffer(std::string const&);
     ByteBuffer(size_t size, uint8_t data);
 
@@ -43,18 +46,18 @@ public:  // operators
     operator void const*()     { return (void const*)m_buffer.data(); }
 
 public:
-    std::string to_str()       { return std::string((char const*)m_buffer.data(), m_buffer.size()); }
+    std::string to_str() const { return std::string((char const*)m_buffer.data(), m_buffer.size()); }
   
 public:  // query
-    bool    has_remaining();
-    int64_t remaining();
-    bool    empty();
-    size_t  size()             { return m_buffer.size();              }
-    size_t  capacity()         { return m_buffer.capacity();          }
+    bool    has_remaining() const;
+    int64_t remaining()     const;
+    bool    empty()         const;
+    size_t  size()          const { return m_buffer.size();              }
+    size_t  capacity()      const { return m_buffer.capacity();          }
     size_t  reserve(size_t);
 
-    bool    all_values_are(uint8_t value);
-    bool    starts_with(std::string const& str);
+    bool    all_values_are(uint8_t value) const;
+    bool    starts_with(std::string const& str) const;
 
 public:
     static ByteBuffer  from_hexcode(std::string const&, bool=false);

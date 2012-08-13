@@ -2,8 +2,7 @@
 
 APP       = "ios_examiner"
 APP_TEST  = "test_#{APP}"
-SRCS      = %w{ 
-                ./develop/src/DeviceInfo.cpp
+SRCS      = %w{ ./develop/src/DeviceInfo.cpp
                 ./develop/src/ByteBuffer.cpp
                 ./develop/src/PListParser.cpp
                 ./develop/src/NandImageRemote.cpp
@@ -13,23 +12,24 @@ SRCS      = %w{
                 ./main.cpp 
               }
 
-TEST_SRCS = %w{ 
-                ./develop/src/DeviceInfo.cpp
+TEST_SRCS = %w{ ./develop/src/DeviceInfo.cpp
                 ./develop/src/ByteBuffer.cpp
                 ./develop/src/PListParser.cpp
                 ./develop/src/NandImageRemote.cpp
                 ./develop/src/NandImageFlat.cpp
                 ./develop/src/NandImageSplitCEs.cpp
                 ./develop/src/NAND.cpp
+                ./develop/src/AES.cpp
                 ./test_ptree.cpp
                 ./test_image.cpp
                 ./test_byte_buffer.cpp
+                ./test_aes.cpp
               }
 
 INCS      = "./develop/include"
-CXX       = "c++11"          # c++0x, clang++, blank
-CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
-LIBS      = ":f :s b64"
+CXX       = "c++11"            # c++0x, clang++, blank
+CXXFLAGS  = ":v :O3"           # :d, :O0 :O3 :w = -Wall
+LIBS      = ":f :s b64 ssl crypto"
 
 load "~/code/build/app2.rake"
 

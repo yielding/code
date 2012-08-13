@@ -21,8 +21,9 @@
 ## DOING
   * NAND class 구현
 
-    - ByteBuffer 확장
-      > set_uint4_le()
+    - AES wrapper class (same interface as python) 구현
+      > python과 동일한 사용법을 가진 클래스
+      > AESdecryptCBC, AESencryptCBC function을 cover하도록 한다
 
 ## DONE
   * NAND class 구현
@@ -34,6 +35,7 @@
 
     - ByteBuffer 확장
       > starts_with 추가
+      > set_uint4_le()
 
     - NANDImageSplitCEs
 
