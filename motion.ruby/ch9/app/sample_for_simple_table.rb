@@ -25,9 +25,8 @@ class SampleForSimpleTable < UITableViewController
   end
 
   def tableView(tv, didSelectRowAtIndexPath:ip)
-    message = @data_source[ip.row]
-    alert   = UIAlertView.alloc.init 
-    alert.message = message
+    alert = UIAlertView.alloc.init 
+    alert.message = @data_source[ip.row]
     alert.addButtonWithTitle "OK"
     alert.show
   end
