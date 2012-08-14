@@ -12,7 +12,6 @@ protected:
     }
 };
 
-
 TEST_F(NANDImageFlatTest, True)
 {
     EXPECT_EQ(1, 1);

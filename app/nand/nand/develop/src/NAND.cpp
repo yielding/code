@@ -200,7 +200,8 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         nandsig = page0;
     else
         magics.push_back("NANDDRIVERSIGN");
-    
+
+    // TODO
 }
 
 NAND::~NAND()

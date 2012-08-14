@@ -23,10 +23,15 @@
 
     - AES wrapper class (same interface as python) 구현
       > python과 동일한 사용법을 가진 클래스
-      > AESdecryptCBC, AESencryptCBC function을 cover하도록 한다
+        : default 구현
+        : AESdecryptCBC, AESencryptCBC function을 cover하도록 한다
 
 ## DONE
   * NAND class 구현
+    - AES wrapper class (same interface as python) 구현
+      > python과 동일한 사용법을 가진 클래스
+        : CBC 구현
+
     - read_page
       > SpareData 구조체 해석
 
@@ -51,4 +56,3 @@
   * DeviceInfo 클래스 구현
     - plist의 특징상 일반 xml처럼 해석할 수 없기 때문에 항상 이런 wrapper 클래스를 만들어
       application 마다 다르게 처리한다.
-
