@@ -24,7 +24,7 @@ class SampleForSectionTable < UITableViewController
       UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELLID)
     end
 
-    key = @data_source.to_a[ip.section][0]
+    key  = @data_source.to_a[ip.section][0]
     text = @data_source[key][ip.row]
     cell.textLabel.text = text
     cell
