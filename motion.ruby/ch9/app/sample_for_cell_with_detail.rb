@@ -1,6 +1,6 @@
 class SampleForCellWithDetail < UITableViewController
 
-  CELL_ID = { UITableViewCellStyleValue1   => "style-value1" ,
+  CELL_ID = { UITableViewCellStyleValue1   => "style-value1",
               UITableViewCellStyleValue2   => "style-value2", 
               UITableViewCellStyleSubtitle => "style-subtitle" }
   CELL_ID.default = "style-default"
