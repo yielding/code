@@ -41,7 +41,7 @@ public:
 
 public:  // operators
     operator uint8_t*()        { return m_buffer.data(); }
-    operator char*()           { return (char*)m_buffer.data(); }
+    operator char*()           { return (char*)&m_buffer[0]; }
     operator char const*()     { return (char const*)m_buffer.data(); }
     operator void const*()     { return (void const*)m_buffer.data(); }
 
@@ -52,12 +52,13 @@ public:  // query
     bool    has_remaining() const;
     int64_t remaining()     const;
     bool    empty()         const;
-    size_t  size()          const { return m_buffer.size();              }
-    size_t  capacity()      const { return m_buffer.capacity();          }
+    size_t  size()          const { return m_buffer.size();               }
+    size_t  capacity()      const { return m_buffer.capacity();           }
     size_t  reserve(size_t);
 
     bool    all_values_are(uint8_t value) const;
     bool    starts_with(std::string const& str) const;
+    uint8_t last() const;
 
 public:
     static ByteBuffer  from_hexcode(std::string const&, bool=false);
@@ -81,7 +82,7 @@ public:
     auto append(ByteBuffer& b) -> ByteBuffer&;
     auto append(uint8_t* b, size_t sz) -> ByteBuffer&;
     auto append(uint8_t b) -> ByteBuffer&;
-    auto slice(uint32_t from, uint32_t to) -> ByteBuffer;
+    auto slice(uint32_t from, uint32_t to) const -> ByteBuffer;
 
     auto load(buffer_t& buffer) -> void;
     auto peek1_at(uint32_t offset, int start=cur) -> uint8_t;

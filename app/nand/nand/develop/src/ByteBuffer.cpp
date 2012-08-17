@@ -189,6 +189,14 @@ bool ByteBuffer::starts_with(string const& str) const
     return str == s;
 }
 
+uint8_t ByteBuffer::last() const
+{
+    if (m_buffer.size() < 1)
+        throw runtime_error("Buffer is empty()");
+
+    return m_buffer[m_buffer.size() - 1];
+}
+
 ByteBuffer ByteBuffer::from_hexcode(string const& str, bool is_be)
 {
     using namespace boost;
@@ -251,7 +259,7 @@ ByteBuffer& ByteBuffer::append(uint8_t b)
     return *this;
 }
 
-ByteBuffer ByteBuffer::slice(uint32_t from, uint32_t to)
+ByteBuffer ByteBuffer::slice(uint32_t from, uint32_t to) const
 {
     if (from > to)
         throw std::runtime_error("ByteBuffer::slice() : wrong index");

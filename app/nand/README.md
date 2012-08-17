@@ -12,6 +12,9 @@
     - NANDRemote
       : readPage
 
+    - AES wrapper class (same interface as python) 구현
+      > AESdecryptCBC, AESencryptCBC Test
+
     - VFL
     
     - VSVFL
@@ -21,16 +24,15 @@
 ## DOING
   * NAND class 구현
 
-    - AES wrapper class (same interface as python) 구현
-      > python과 동일한 사용법을 가진 클래스
-        : default 구현
-        : AESdecryptCBC, AESencryptCBC function을 cover하도록 한다
+  * Save python byte array to disk
 
 ## DONE
   * NAND class 구현
     - AES wrapper class (same interface as python) 구현
       > python과 동일한 사용법을 가진 클래스
         : CBC 구현
+        : default 구현
+        : AESdecryptCBC, AESencryptCBC cover하도록 한다
 
     - read_page
       > SpareData 구조체 해석

@@ -17,11 +17,7 @@ using namespace utility::hex;
 ////////////////////////////////////////////////////////////////////////////////
 NANDImageFlat::NANDImageFlat(char const* filename, nand_info& geometry)
 {
-    _ifs.open(filename, ios_base::binary);
-    if (!_ifs.is_open())
-        throw runtime_error("error: can't open the image file");
-    
-                 
+    _filename  = filename;
     _nCEs      = geometry.ce_count;
     _page_size = geometry.bytes_per_page;
     _meta_size = geometry.meta_per_logical_page;
@@ -42,6 +38,12 @@ NANDImageFlat::NANDImageFlat(char const* filename, nand_info& geometry)
     uint64_t expected_size   = _nCEs * blocks_per_ce * pages_per_block * _dumped_page_size;
     if (_image_size < expected_size)
       throw std::runtime_error("error: image appears to be truncated");
+
+    /**/
+    _ifs.open(filename, ios_base::binary);
+    if (!_ifs.is_open())
+        throw runtime_error("error: can't open the image file");
+    /**/
 }
 
 NANDImageFlat::~NANDImageFlat()
@@ -50,15 +52,21 @@ NANDImageFlat::~NANDImageFlat()
 
 auto NANDImageFlat::_read_page(uint32_t ce, uint32_t page) -> ByteBuffer
 {
-    ByteBuffer buffer;
-
     auto index  = page * _nCEs + ce;
     auto offset = int64_t(index) * _dumped_page_size;
+    if (offset + _dumped_page_size > _image_size)
+        return ByteBuffer();
 
-    buffer.reset(uint32_t(_dumped_page_size), 0);
-    _ifs.seekg(offset);
+    ByteBuffer buffer(_dumped_page_size, 0);
+    _ifs.seekg(offset, ios_base::beg);
     _ifs.read((char*)buffer, _dumped_page_size);
-
+    
+    if (_ifs.gcount() != _dumped_page_size)
+    {
+        _ifs.clear();
+        return ByteBuffer();
+    }
+    
     return buffer;
 }
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "NAND.h"
+#include "AES.h"
 #include "NANDImageFlat.h"
 #include "DeviceInfo.h"
 
@@ -11,6 +12,7 @@
 #include <boost/phoenix/operator.hpp>
 #include <boost/format.hpp>
 #include <sstream>
+#include <list>
 #include <algorithm>
 #include <cmath>
 #include <map>
@@ -79,7 +81,7 @@ namespace
         { 0x32956845,  0x2000,  0x80, 0x2000, 0x1C0,    8, 0, 9, 2, 0 }
     };
 
-    ByteBuffer META_KEY("92a742ab08c969bf006c9412d3cc79a5");
+    ByteBuffer META_KEY = ByteBuffer::from_hexcode("92a742ab08c969bf006c9412d3cc79a5");
 
     vector<uint32_t> gen_h2fmi_hash_table()
     {
@@ -105,10 +107,10 @@ namespace util
     string sizeof_fmt(int64_t size)
     {
         char const* fmts[] = { "bytes", "KB", "MB", "GB", "TB" };
-        int const ARR_SIZE = sizeof(fmts) / sizeof(fmts[0]);
+        size_t const ARR_SIZE = sizeof(fmts) / sizeof(fmts[0]);
         string res;
 
-        for (int i=0; i<ARR_SIZE; i++)
+        for (size_t i=0; i<ARR_SIZE; i++)
         {   
             if (size < 1024.0)
             {
@@ -201,7 +203,7 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
     else
         magics.push_back("NANDDRIVERSIGN");
 
-    // TODO
+    auto sp0 = read_special_pages(0, magics);
 }
 
 NAND::~NAND()
@@ -220,7 +222,7 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage
         return page;
     }
 
-    if (this->_filename == "remote")
+    if (this->_filename != "remote")
     {
         auto bank = (page_no & ~((1 << _bank_mask) - 1)) >> _bank_mask;
         auto new_page_no = (page_no &  ((1 << _bank_mask) - 1));
@@ -259,16 +261,16 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer& key, uint32_t
     return page;
 }
 
-auto NAND::read_special_pages(uint32_t ce_no, list<string>& magics) 
+auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
     -> map<string, ByteBuffer>
 {
     map<string, ByteBuffer> specials;
 
     if (_nand_only)
-        magics.push_back("DEVICEUNIQUEINFO");
+        magics.push_back(string("DEVICEUNIQUEINFO"));
 
     for_each(magics.begin(), magics.end(), 
-        [](string& s) { s.append(16 - s.length(), 0); });
+        [] (string& s) { s.append(16 - s.length(), 0); });
 
     auto lowest_block = _blocks_per_ce - (_blocks_per_ce / 100);
     for (int block = _blocks_per_ce-1; block > lowest_block; --block)
@@ -277,7 +279,7 @@ auto NAND::read_special_pages(uint32_t ce_no, list<string>& magics)
             break;
 
         auto bank_offset = _bank_address_space * (block / _blocks_per_bank);
-        for (int page = _pages_per_block; page >= 0; --page)
+        for (int page = _pages_per_block; page > -1; --page)
         {
             auto  page_no = (bank_offset + block % _blocks_per_bank) * _pages_per_block + page;
             auto one_page = read_page(ce_no, page_no);
@@ -337,12 +339,10 @@ ByteBuffer NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no)
     return spare;
 }
 
-ByteBuffer NAND::decrypt_page(ByteBuffer& data_, ByteBuffer& key, uint32_t page_no)
+auto NAND::decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no) -> ByteBuffer 
 {
-    ByteBuffer data;
-    // HFSKey
-    
-    return data;
+    auto iv = iv_for_page(page_no);
+    return aes_decrypt_cbc(data, key, iv);
 }
 
 void NAND::init_geometry(nand_info const& nand)
@@ -399,6 +399,22 @@ void NAND::init_geometry(nand_info const& nand)
     }
     
     _bank_mask = (int) util::log2(_bank_address_space * _pages_per_block);
+}
+
+auto NAND::iv_for_page(uint32_t page_no) -> ByteBuffer
+{
+    ByteBuffer iv;
+    for (auto i=0; i<4; i++)
+    {
+        if (page_no & 1)
+            page_no = 0x80000061 ^ (page_no >> 1);
+        else
+            page_no = page_no >> 1;
+        
+        iv.set_uint4_le(page_no);
+    }
+
+    return iv;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
