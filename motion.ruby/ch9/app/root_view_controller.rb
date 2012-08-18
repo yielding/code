@@ -3,6 +3,7 @@ class RootViewController < UITableViewController
     super
     self.title = "메뉴"
     @items = [
+      "SampleForLocalizedIndexedCollation",
       "SampleForCustomizedCell",       "SampleForBlackCellTable",
       "SampleForEditingAccessoryType", "SampleForCellWithAccessory",
       "SampleForCellWithDetail",       "SampleForCellWithImage",
