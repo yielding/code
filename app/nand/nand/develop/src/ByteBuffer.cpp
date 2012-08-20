@@ -27,15 +27,13 @@ namespace utility { namespace hex {
 ByteBuffer::ByteBuffer(size_t size)
     : m_offset(0)
 {
-    if (size > 0)                // size_t is always greater than 0
-        m_buffer.resize(size);
+    m_buffer.resize(size);
 }
 
 // this constructor is for hex conversion
 ByteBuffer::ByteBuffer(uint8_t* buffer, size_t sz)
 {
     m_offset = 0;
-    m_buffer.reserve(sz);
     m_buffer.assign(buffer, buffer + sz);
 }
 
@@ -44,12 +42,12 @@ ByteBuffer::ByteBuffer(std::string const& s)
     auto buffer = (uint8_t*)s.c_str();
 
     m_offset = 0;
-    m_buffer.reserve(s.length());
     m_buffer.assign(buffer, buffer + s.length());
 }
 
 ByteBuffer::ByteBuffer(size_t size, uint8_t data)
 {
+    m_offset = 0;
     m_buffer.resize(size, data);
 }
 
@@ -68,7 +66,15 @@ ByteBuffer::ByteBuffer(ByteBuffer&& rhs)
     m_offset = rhs.m_offset;
 }
 
-uint8_t ByteBuffer::operator[](uint32_t index)
+uint8_t& ByteBuffer::operator[](uint32_t index)
+{
+    if (index >= m_buffer.size())
+        throw std::runtime_error("bad ByteBuffer index");
+
+    return m_buffer[index];
+}
+
+uint8_t const& ByteBuffer::operator[](uint32_t index) const
 {
     if (index >= m_buffer.size())
         throw std::runtime_error("bad ByteBuffer index");
@@ -195,6 +201,26 @@ uint8_t ByteBuffer::last() const
         throw runtime_error("Buffer is empty()");
 
     return m_buffer[m_buffer.size() - 1];
+}
+
+auto ByteBuffer::first() const -> uint8_t
+{
+    if (m_buffer.size() < 1)
+        throw runtime_error("Buffer is empty()");
+
+    return m_buffer[0];
+}
+
+auto ByteBuffer::last(uint32_t count) const -> ByteBuffer
+{
+    auto from = m_buffer.size() - count;
+
+    return slice(from, from+count);
+}
+
+auto ByteBuffer::first(uint32_t count) const -> ByteBuffer
+{
+    return slice(0, count);
 }
 
 ByteBuffer ByteBuffer::from_hexcode(string const& str, bool is_be)

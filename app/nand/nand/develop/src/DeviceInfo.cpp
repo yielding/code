@@ -7,7 +7,6 @@
 
 using namespace boost;
 using namespace utility::parser;
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -28,7 +27,7 @@ namespace {
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-bool nand_info::load(PListParser& d)
+bool NandInfo::load(PListParser& d)
 {
     auto nand = d.get_dict("nand", "plist.dict");
 
@@ -169,7 +168,7 @@ auto DeviceInfo::lockers() const -> string
     return m_pt.get_string("lockers", "plist.dict");
 }
 
-auto DeviceInfo::nand() -> nand_info
+auto DeviceInfo::nand() -> NandInfo
 {
     if (m_nand.empty())
         m_nand.load(m_pt);

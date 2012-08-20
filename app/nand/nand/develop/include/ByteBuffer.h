@@ -56,16 +56,20 @@ public:  // query
     size_t  capacity()      const { return m_buffer.capacity();           }
     size_t  reserve(size_t);
 
-    bool    all_values_are(uint8_t value) const;
-    bool    starts_with(std::string const& str) const;
-    uint8_t last() const;
+    bool all_values_are(uint8_t value) const;
+    bool starts_with(std::string const& str) const;
+    auto last() const -> uint8_t;
+    auto last(uint32_t count) const -> ByteBuffer;
+    auto first() const -> uint8_t;
+    auto first(uint32_t count) const -> ByteBuffer;
 
 public:
     static ByteBuffer  from_hexcode(std::string const&, bool=false);
     static std::string to_hexcode(std::vector<uint8_t> const&, bool=false);
 
 public:
-    uint8_t operator[](uint32_t index);
+    uint8_t& operator[](uint32_t index);
+    uint8_t const& operator[](uint32_t index) const;
 
 public:
     auto offset() -> int64_t;

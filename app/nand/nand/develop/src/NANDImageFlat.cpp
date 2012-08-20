@@ -15,7 +15,7 @@ using namespace utility::hex;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-NANDImageFlat::NANDImageFlat(char const* filename, nand_info& geometry)
+NANDImageFlat::NANDImageFlat(char const* filename, NandInfo& geometry)
 {
     _filename  = filename;
     _nCEs      = geometry.ce_count;

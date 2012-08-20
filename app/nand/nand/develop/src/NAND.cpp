@@ -5,19 +5,12 @@
 #include "NANDImageFlat.h"
 #include "DeviceInfo.h"
 
-#include <openssl/aes.h>
-
 #include <boost/algorithm/string.hpp>
 #include <boost/phoenix/core.hpp>
 #include <boost/phoenix/operator.hpp>
 #include <boost/format.hpp>
-#include <sstream>
-#include <list>
-#include <algorithm>
 #include <cmath>
-#include <map>
 
-using namespace utility::hex;
 using namespace boost::phoenix::arg_names;
 using namespace boost;
 using namespace std;
@@ -29,29 +22,6 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 namespace
 {
-    struct spare_data
-    {
-        spare_data(ByteBuffer& b) 
-        {
-            read_from(b);
-        }
-
-        void read_from(ByteBuffer& b)
-        {
-            lpn     = b.get_uint4_le();
-            usn     = b.get_uint4_le();
-            field_8 = b.get_uint1();
-            type    = b.get_uint1();
-            field_a = b.get_uint2_le();
-        }
-
-        uint32_t lpn;
-        uint32_t usn;
-        uint8_t  field_8;
-        uint8_t  type;
-        uint16_t field_a;
-    };
-
     // 
     // TODO REFACTOR => move code position to another place
     //
@@ -221,8 +191,41 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
     {
         auto nsig  = nandsig.get_uint4_le();
         auto flags = nandsig.get_uint4_le();
+        auto epoch = nandsig[0];
         vfl_type   = nandsig[1];
+        _metadata_whitening = flags & 0x10000;
+        cout << str(format("NAND signature 0x%x flags 0x%x withening=%d, epoch=%s\n")
+                    % nsig % flags % _metadata_whitening % epoch);
+    }
+    
+    if (!_nand_only)
+    {
+        ByteBuffer data;
+        // _lockers = new EffaceableLocker(data);
+    }
+    else
+    {
+        /*
+        auto unit = find_lockers_unit();
+        if (!unit.empty())
+        {
+        }
         
+        auto device_unique_info = sp0["DEVICEUNIQUEINFO"];
+        if (device_unique_info.empty())
+        {
+        }
+        else
+        {
+        }
+        */
+    }
+    
+    if (vfl_type == '0')
+    {
+    }
+    else if (ppn == -1)
+    {
     }
         
 }
@@ -232,6 +235,13 @@ NAND::~NAND()
     if (_image)
         delete _image;
 }
+
+/*
+auto NAND::find_lockers_unit() -> ByteBuffer
+{
+    
+}
+*/
 
 auto NAND::read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage
 {
@@ -269,7 +279,7 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer& key, uint32_t
 {
     auto page = read_page(ce_no, page_no);
 
-    spare_data sp(page.spare);
+    SpareData sp(page.spare);
     if (!key.empty() && _encrypted)
     {
         auto new_page_no = (lpn != 0xffffffff) 
@@ -361,13 +371,13 @@ ByteBuffer NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no)
     return spare;
 }
 
-auto NAND::decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no) -> ByteBuffer 
+auto NAND::decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no) 
+    -> ByteBuffer 
 {
-    auto iv = iv_for_page(page_no);
-    return aes_decrypt_cbc(data, key, iv);
+    return aes_decrypt_cbc(data, key, iv_for_page(page_no));
 }
 
-void NAND::init_geometry(nand_info const& nand)
+void NAND::init_geometry(NandInfo const& nand)
 {
     _meta_size = nand.meta_per_logical_page;
     if (_meta_size == 0)

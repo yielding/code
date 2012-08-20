@@ -23,13 +23,13 @@ protected:
 
 TEST_F(ByteBufferTest, FromHexCode)
 {
-    uint16_t arr[] = { 
+    uint8_t arr[] = { 
         0x92, 0xa7, 0x42, 0xab, 0x08, 0xc9, 0x69, 0xbf, 
         0x00, 0x6c, 0x94, 0x12, 0xd3, 0xcc, 0x79, 0xa5 };
 
     auto b = ByteBuffer::from_hexcode("92a742ab08c969bf006c9412d3cc79a5");
     for (int i=0; i<b.size(); i++)
-        EXPECT_EQ(int(b[i]), arr[i]);
+        EXPECT_EQ(uint8_t(b[i]), arr[i]);
 }
 
 TEST_F(ByteBufferTest, StartsWith)
@@ -64,4 +64,26 @@ TEST_F(ByteBufferTest, SetUint4LE)
 
     for (int i=0; i<4; i++)
         EXPECT_EQ(int(b[i]), 4 - i);
+}
+
+TEST_F(ByteBufferTest, LastN)
+{
+    ByteBuffer b("leech");
+    auto res0 = b.last();
+    auto res1 = b.last(3);
+    auto res2 = b.last(5);
+
+    EXPECT_EQ(res0, uint8_t('h'));
+    EXPECT_EQ(res1.to_s(), string("ech"));
+    EXPECT_EQ(res2.to_s(), string("leech"));
+}
+
+TEST_F(ByteBufferTest, FirstN)
+{
+    ByteBuffer b("leech");
+
+    auto res1 = b.first(3);
+    auto res2 = b.first(5);
+    EXPECT_EQ(res1.to_s(), string("lee"));
+    EXPECT_EQ(res2.to_s(), string("leech"));
 }

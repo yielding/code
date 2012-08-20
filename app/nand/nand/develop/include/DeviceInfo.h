@@ -17,9 +17,9 @@ struct partition_
     int64_t  block_offset;
 };
 
-struct nand_info
+struct NandInfo
 {
-    nand_info() { m_empty = true; }
+    NandInfo() { m_empty = true; }
     bool load(utility::parser::PListParser& d);
 
     bool empty() const { return m_empty; }
@@ -53,7 +53,7 @@ struct DeviceInfo
     auto load(string const& path) -> bool;
 
     auto class_keys()  -> map<string, string>;
-    auto nand()        -> nand_info;
+    auto nand()        -> NandInfo;
 
     auto dkey() const -> string;
     auto ecid() const -> string;
@@ -80,7 +80,7 @@ struct DeviceInfo
     auto wifi_mac()      const -> string;
     
 private:
-    nand_info m_nand;
+    NandInfo m_nand;
     map<string, string> m_class_keys; 
     utility::parser::PListParser m_pt;
 };

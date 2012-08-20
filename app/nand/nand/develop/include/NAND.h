@@ -1,14 +1,7 @@
 #ifndef NAND_H
 #define NAND_H
 
-#include "NANDPage.h"
-
-#include <stdint.h>
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
-
+#include "NANDCore.h"
 ////////////////////////////////////////////////////////////////////////////////
 //
 // a Fasade interface 
@@ -18,13 +11,12 @@ class NANDImage;
 class DeviceInfo;
 
 // TODO REFACTOR
-struct nand_info;
+struct NandInfo;
 
 using std::string;
 using std::vector;
 using std::map;
 using std::list;
-using utility::hex::ByteBuffer;
 
 //
 // 1. dinfo, nand가 중복
@@ -49,19 +41,24 @@ struct nand_chip_info
 class NAND 
 {
 public:
-    NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn=0);
-    ~NAND();
+    NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn=-1);
+   ~NAND();
 
 public:
-    auto read_page(uint32_t ce, uint32_t page, ByteBuffer& key, uint32_t lpn=0xffffffff) -> NANDPage;
+    auto read_page(uint32_t ce, uint32_t page, ByteBuffer& key, uint32_t lpn=0xffffffff)
+      -> NANDPage;
+    
     auto read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage;
-    auto read_special_pages(uint32_t ce_no, vector<string>& magics) -> map<string, ByteBuffer>;
+    auto read_special_pages(uint32_t ce_no, vector<string>& magics)
+      -> map<string, ByteBuffer>;
 
 private:
-    void init_geometry(nand_info const& n);
+    void init_geometry(NandInfo const& n);
 
     auto unwhiten_metadata(ByteBuffer& , uint32_t page_no) -> ByteBuffer;
-    auto decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no) ->ByteBuffer;
+    auto decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no)
+      -> ByteBuffer;
+    
     auto unpack_spacial_page(ByteBuffer& data) -> ByteBuffer;
     auto iv_for_page(uint32_t page_no) -> ByteBuffer;
 
@@ -97,6 +94,8 @@ private:
     uint32_t    _total_block_space;
     int32_t     _bank_mask;
 
+    ByteBuffer  _lockers;
+    
     vector<uint8_t>  _empty_bootloader_page;
     vector<uint8_t>  _blank_page;
     vector<uint32_t> _h2fmi_ht;

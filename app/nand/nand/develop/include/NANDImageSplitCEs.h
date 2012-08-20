@@ -2,23 +2,17 @@
 #define NANDIMAGESPLITCES_H
 
 #include "NANDImage.h"
-#include "ByteBuffer.h"
-
-#include <fstream>
-#include <vector>
-#include <string>
-#include <map>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-struct nand_info;
+struct NandInfo;
 
 class NANDImageSplitCEs: public NANDImage
 {
 public:
-    NANDImageSplitCEs(char const* folder, nand_info const&);
+    NANDImageSplitCEs(char const* folder, NandInfo const&);
 
     virtual ~NANDImageSplitCEs();
 

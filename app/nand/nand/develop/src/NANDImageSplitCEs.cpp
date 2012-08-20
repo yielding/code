@@ -14,7 +14,7 @@ using namespace utility::hex;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-NANDImageSplitCEs::NANDImageSplitCEs(char const* folder, nand_info const& geo)
+NANDImageSplitCEs::NANDImageSplitCEs(char const* folder, NandInfo const& geo)
 {
     _nCEs      = geo.ce_count;
     _page_size = geo.bytes_per_page;
