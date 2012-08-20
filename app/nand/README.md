@@ -14,6 +14,7 @@
 
     - AES wrapper class (same interface as python) 구현
       > AESdecryptCBC, AESencryptCBC Test
+      > ByteBuffer 이외의 다른 타입에 대한 인터페이스 만들기
 
     - VFL
     

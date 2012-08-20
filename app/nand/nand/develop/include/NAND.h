@@ -78,7 +78,7 @@ private:
     bool        _nand_only;
 
     int64_t     _dump_size;
-    int32_t    _total_pages;
+    int32_t     _total_pages;
 
     string      _filename;
     string      _bfn;

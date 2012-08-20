@@ -204,6 +204,27 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         magics.push_back("NANDDRIVERSIGN");
 
     auto sp0 = read_special_pages(0, magics);
+    if (!_nand_only)
+        cout << "Device does not boto from NAND. (has a NOR)";
+    
+    char vfl_type = '1';
+    
+    if (nandsig.empty())
+        nandsig = sp0["NANDDRIVERSIGN"];
+    
+    if (nandsig.empty())
+    {
+        cout << "NANDDRIVERSIGN not found. assuming metadata whitening :" << _metadata_whitening
+             << endl;
+    }
+    else
+    {
+        auto nsig  = nandsig.get_uint4_le();
+        auto flags = nandsig.get_uint4_le();
+        vfl_type   = nandsig[1];
+        
+    }
+        
 }
 
 NAND::~NAND()
@@ -267,7 +288,7 @@ auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
     map<string, ByteBuffer> specials;
 
     if (_nand_only)
-        magics.push_back(string("DEVICEUNIQUEINFO"));
+        magics.push_back("DEVICEUNIQUEINFO");
 
     for_each(magics.begin(), magics.end(), 
         [] (string& s) { s.append(16 - s.length(), 0); });
@@ -297,7 +318,7 @@ auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
                 break;
             }
 
-            one_page.data = decrypt_page(one_page.data, META_KEY, page);
+            one_page.data = decrypt_page(one_page.data, META_KEY, page_no);
 
             magic = one_page.data.slice(0, 16).to_s();
             auto p1 = find(magics.begin(), magics.end(), magic);
@@ -307,6 +328,7 @@ auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
                 magics.erase(p1);
                 auto key = trim_right_copy_if(magic.substr(0, 16), arg1 == 0);
                 specials[key] = unpack_spacial_page(one_page.data);
+                
                 break;
             }
         }
@@ -404,6 +426,7 @@ void NAND::init_geometry(nand_info const& nand)
 auto NAND::iv_for_page(uint32_t page_no) -> ByteBuffer
 {
     ByteBuffer iv;
+    
     for (auto i=0; i<4; i++)
     {
         if (page_no & 1)
