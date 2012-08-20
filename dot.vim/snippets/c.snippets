@@ -1,21 +1,8 @@
-# main()
-snippet main
-	int main(int argc, const char *argv[])
-	{
-		${1}
-		return 0;
-	}
-snippet mainn
-	int main(void)
-	{
-		${1}
-		return 0;
-	}
 # #include <...>
-snippet inc
-	#include <${1:stdio}.h>${2}
-# #include "..."
 snippet Inc
+	#include <${1:iostream}>${2}
+# #include "..."
+snippet inc
 	#include "${1:`Filename("$1.h")`}"${2}
 # #ifndef ... #define ... #endif
 snippet Def
@@ -35,12 +22,11 @@ snippet #if
 # Header Include-Guard
 snippet once
 	#ifndef ${1:`toupper(Filename('$1_H', 'UNTITLED_H'))`}
-
 	#define $1
 
 	${2}
 
-	#endif /* end of include guard: $1 */
+	#endif /* end of $1 */
 # ints
 snippet i8
 	int8_t${1}
