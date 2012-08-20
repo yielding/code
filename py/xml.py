@@ -57,7 +57,7 @@ SpacePat    = '[ \t\r\n]+'  #@@ unicode space?
 
 class Client:
     def __init__(self):
-    pass
+      pass
 
     ###########
     # Methods to override to handle parsed data
@@ -67,40 +67,40 @@ class Client:
     #
 
     def text(self, str):
-    pass
+      pass
 
     def openStart(self, name):
-    pass
+      pass
 
     def attribute(self, name, type, value):
-    pass
+      pass
 
     def closeStart(self):
-    pass
+      pass
 
     def closeEmpty(self):
-    pass
+      pass
 
     def endTag(self, name=None):
-    pass
+      pass
 
     def comment(self, stuff):
-    pass
+      pass
 
     def pi(self, stuff):
-    pass
+      pass
 
     def decl(self, name, parts):
-    pass
+      pass
 
     def cref(self, numeral):
-    pass
+      pass
 
     def eref(self, name):
-    pass
+      pass
 
     def eof(self):
-    pass
+      pass
 
 
 def fixcase(str):
@@ -123,7 +123,7 @@ LitDelimChars = (('"', '&quot;'), ("'", '&apos;'), ('&', '&amp;'))
 def escape(str, replacements = MarkupDelimChars):
     """remember to put & last!"""
     for pat, repl in replacements:
-    str = regsub.gsub(pat, repl, str)
+      str = regsub.gsub(pat, repl, str)
     return str
 
 def unescape(str, replacements = Entities):
