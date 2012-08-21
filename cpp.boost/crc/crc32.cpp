@@ -1,8 +1,16 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <boost/crc.hpp>
 
 using namespace std;
+
+int get_crc32(string const& s)
+{
+  boost::crc_32_type result;
+  result.process_bytes(s.data(), s.length());
+  return result.checksum();
+}
 
 int main(int argc, const char *argv[])
 {
