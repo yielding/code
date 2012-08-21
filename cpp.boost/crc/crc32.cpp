@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
 #include <boost/crc.hpp>
 
 using namespace std;
@@ -25,7 +26,7 @@ int main(int argc, const char *argv[])
     ifs.read(buffer, BUF_SIZE);
     result.process_bytes(buffer, ifs.gcount());
   }
-  while(ifs);
+  while (ifs);
 
   cout << "res: " << hex << result.checksum();
 

@@ -13,6 +13,7 @@
 		DF8E086A15BD3CE000C7C163 /* NANDImageRemote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086715BD3CE000C7C163 /* NANDImageRemote.cpp */; };
 		DF8E086B15BD3CE000C7C163 /* NANDImageFlat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */; };
 		DF8E086C15BD3CE000C7C163 /* ByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */; };
+		DF95133115E3185500AE90E2 /* EffaceableLocker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF95133015E3185500AE90E2 /* EffaceableLocker.cpp */; };
 		DFA2F6AC15CB663C0019C60F /* NAND.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFA2F6AB15CB663C0019C60F /* NAND.cpp */; };
 		DFA2F6AF15CB69600019C60F /* DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFA2F6AE15CB69600019C60F /* DeviceInfo.cpp */; };
 		DFC0F4CD15CFA6D600F12B19 /* libb64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC0F4CC15CFA6D600F12B19 /* libb64.a */; };
@@ -43,6 +44,7 @@
 		DF8E086715BD3CE000C7C163 /* NANDImageRemote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDImageRemote.cpp; path = develop/src/NANDImageRemote.cpp; sourceTree = "<group>"; };
 		DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDImageFlat.cpp; path = develop/src/NANDImageFlat.cpp; sourceTree = "<group>"; };
 		DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ByteBuffer.cpp; path = develop/src/ByteBuffer.cpp; sourceTree = "<group>"; };
+		DF95133015E3185500AE90E2 /* EffaceableLocker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffaceableLocker.cpp; path = develop/src/EffaceableLocker.cpp; sourceTree = "<group>"; };
 		DFA2F6AB15CB663C0019C60F /* NAND.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NAND.cpp; path = develop/src/NAND.cpp; sourceTree = "<group>"; };
 		DFA2F6AE15CB69600019C60F /* DeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceInfo.cpp; path = develop/src/DeviceInfo.cpp; sourceTree = "<group>"; };
 		DFA2F6B015CB69750019C60F /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceInfo.h; path = develop/include/DeviceInfo.h; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 		DFCED53015B6760700D8CDAF /* nand */ = {
 			isa = PBXGroup;
 			children = (
+				DF95133015E3185500AE90E2 /* EffaceableLocker.cpp */,
 				DFCBEAAE15DDCE460088C5C0 /* AES.h */,
 				DFCBEAAB15DDCE310088C5C0 /* AES.cpp */,
 				DFA2F6B115CB6A070019C60F /* NAND.h */,
@@ -174,6 +177,7 @@
 				DFA2F6AC15CB663C0019C60F /* NAND.cpp in Sources */,
 				DFA2F6AF15CB69600019C60F /* DeviceInfo.cpp in Sources */,
 				DFCBEAAC15DDCE310088C5C0 /* AES.cpp in Sources */,
+				DF95133115E3185500AE90E2 /* EffaceableLocker.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

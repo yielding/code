@@ -18,7 +18,7 @@ public:
     auto to_s() -> string;
 };
 
-bool check_effaceable_header(ByteBuffer const& plog);
+bool check_effaceable_header(ByteBuffer plog);
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
