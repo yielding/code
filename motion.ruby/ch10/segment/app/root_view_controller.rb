@@ -3,6 +3,7 @@ class RootViewController < UITableViewController
     super
     title  = "MENU"
     @items = [
+      "SampleForMomentary", 
       "SampleForSegmentedControl"
     ]
 
