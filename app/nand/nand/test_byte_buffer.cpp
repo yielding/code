@@ -87,3 +87,15 @@ TEST_F(ByteBufferTest, FirstN)
     EXPECT_EQ(res1.to_s(), string("lee"));
     EXPECT_EQ(res2.to_s(), string("leech"));
 }
+
+TEST_F(ByteBufferTest, Reverse)
+{
+    ByteBuffer b("leech");
+    ByteBuffer c("leech ");
+
+    b.reverse();
+    auto res = b.to_s();
+    EXPECT_EQ(b.to_s(), res);
+    EXPECT_FALSE(c.to_s() == res);
+
+}

@@ -14,6 +14,7 @@
 		DF8E086B15BD3CE000C7C163 /* NANDImageFlat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */; };
 		DF8E086C15BD3CE000C7C163 /* ByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */; };
 		DF95133115E3185500AE90E2 /* EffaceableLocker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF95133015E3185500AE90E2 /* EffaceableLocker.cpp */; };
+		DF9F235A15E4A68900CC0A5C /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF9F235915E4A68900CC0A5C /* libz.a */; };
 		DFA2F6AC15CB663C0019C60F /* NAND.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFA2F6AB15CB663C0019C60F /* NAND.cpp */; };
 		DFA2F6AF15CB69600019C60F /* DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFA2F6AE15CB69600019C60F /* DeviceInfo.cpp */; };
 		DFC0F4CD15CFA6D600F12B19 /* libb64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC0F4CC15CFA6D600F12B19 /* libb64.a */; };
@@ -45,6 +46,8 @@
 		DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDImageFlat.cpp; path = develop/src/NANDImageFlat.cpp; sourceTree = "<group>"; };
 		DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ByteBuffer.cpp; path = develop/src/ByteBuffer.cpp; sourceTree = "<group>"; };
 		DF95133015E3185500AE90E2 /* EffaceableLocker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffaceableLocker.cpp; path = develop/src/EffaceableLocker.cpp; sourceTree = "<group>"; };
+		DF9F235915E4A68900CC0A5C /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = ../../../../../opt/local/lib/libz.a; sourceTree = "<group>"; };
+		DF9F235C15E4B06E00CC0A5C /* EffaceableLocker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffaceableLocker.h; path = develop/include/EffaceableLocker.h; sourceTree = "<group>"; };
 		DFA2F6AB15CB663C0019C60F /* NAND.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NAND.cpp; path = develop/src/NAND.cpp; sourceTree = "<group>"; };
 		DFA2F6AE15CB69600019C60F /* DeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceInfo.cpp; path = develop/src/DeviceInfo.cpp; sourceTree = "<group>"; };
 		DFA2F6B015CB69750019C60F /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceInfo.h; path = develop/include/DeviceInfo.h; sourceTree = "<group>"; };
@@ -65,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF9F235A15E4A68900CC0A5C /* libz.a in Frameworks */,
 				DFCBEAB015DDCEA20088C5C0 /* libcrypto.a in Frameworks */,
 				DF2BA37815C288430075F300 /* libboost_filesystem-mt.a in Frameworks */,
 				DF2BA37915C288430075F300 /* libboost_system-mt.a in Frameworks */,
@@ -78,6 +82,7 @@
 		DFCED52215B6760700D8CDAF = {
 			isa = PBXGroup;
 			children = (
+				DF9F235915E4A68900CC0A5C /* libz.a */,
 				DFCBEAAF15DDCEA20088C5C0 /* libcrypto.a */,
 				DFC0F4CC15CFA6D600F12B19 /* libb64.a */,
 				DF2BA37615C288430075F300 /* libboost_filesystem-mt.a */,
@@ -98,6 +103,7 @@
 		DFCED53015B6760700D8CDAF /* nand */ = {
 			isa = PBXGroup;
 			children = (
+				DF9F235C15E4B06E00CC0A5C /* EffaceableLocker.h */,
 				DF95133015E3185500AE90E2 /* EffaceableLocker.cpp */,
 				DFCBEAAE15DDCE460088C5C0 /* AES.h */,
 				DFCBEAAB15DDCE310088C5C0 /* AES.cpp */,

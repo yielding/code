@@ -23,6 +23,9 @@ public:
     auto encrypt(ByteBuffer b) -> ByteBuffer;
     auto decrypt(ByteBuffer b) -> ByteBuffer;
 
+    auto wrap(ByteBuffer const&key, ByteBuffer const& data) -> ByteBuffer;
+    auto unwrap(ByteBuffer const&key, ByteBuffer const& data) -> ByteBuffer;
+
 private:
     AESImpl* pimpl;
 };

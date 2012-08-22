@@ -10,12 +10,15 @@
 class EffaceableLockers
 {
 public:
-    EffaceableLockers(ByteBuffer data);
+    EffaceableLockers(ByteBuffer const& data);
 
-    auto get_emf(string k89b) -> ByteBuffer;
-    auto get_dkey(string k835) -> ByteBuffer;
-    auto get_locker(string tag) -> ByteBuffer;
+    auto get_emf(ByteBuffer const& k89b) -> ByteBuffer;
+    auto get_dkey(ByteBuffer const& k835) -> ByteBuffer;
+    auto get_locker(ByteBuffer const& tag) -> ByteBuffer;
     auto to_s() -> string;
+    
+private:
+    map<string, ByteBuffer> _lockers;
 };
 
 bool check_effaceable_header(ByteBuffer plog);

@@ -125,12 +125,12 @@ ByteBuffer& ByteBuffer::flip()
     return *this;
 }
 
-int64_t ByteBuffer::offset()
+int64_t ByteBuffer::offset() const
 {
     return m_offset;
 }
 
-ByteBuffer& ByteBuffer::offset(int64_t o)
+auto ByteBuffer::offset(int64_t o) const -> ByteBuffer const&
 {
     m_offset = o;
 
@@ -154,7 +154,7 @@ ByteBuffer& ByteBuffer::reset(uint32_t size, uint8_t value)
     return *this;
 }
 
-ByteBuffer& ByteBuffer::skip(uint32_t offset)
+auto ByteBuffer::skip(uint32_t offset) const -> ByteBuffer const& 
 {
     m_offset += offset;
 
@@ -195,6 +195,11 @@ bool ByteBuffer::starts_with(string const& str) const
     return str == s;
 }
 
+bool ByteBuffer::read_all() const
+{
+    return m_offset == m_buffer.size();
+}
+
 uint8_t ByteBuffer::last() const
 {
     if (m_buffer.size() < 1)
@@ -209,6 +214,19 @@ auto ByteBuffer::first() const -> uint8_t
         throw runtime_error("Buffer is empty()");
 
     return m_buffer[0];
+}
+
+void ByteBuffer::reverse()
+{
+    std::reverse(m_buffer.begin(), m_buffer.end());
+}
+
+auto ByteBuffer::reverse_copy() const -> ByteBuffer
+{
+    ByteBuffer b(*this);
+    b.reverse();
+
+    return b;
 }
 
 auto ByteBuffer::last(uint32_t count) const -> ByteBuffer
@@ -309,7 +327,7 @@ void ByteBuffer::load(buffer_t& buffer)
     m_buffer.swap(buffer);
 }
 
-uint8_t ByteBuffer::peek1_at(uint32_t offset, int start)
+uint8_t ByteBuffer::peek1_at(uint32_t offset, int start) const
 {
     int64_t index = m_buffer.size() + 1;
 
@@ -323,7 +341,7 @@ uint8_t ByteBuffer::peek1_at(uint32_t offset, int start)
     return m_buffer[size_type(index)];
 }
 
-int8_t ByteBuffer::get_int1()
+int8_t ByteBuffer::get_int1() const
 { 
     int8_t res = (int8_t)m_buffer[size_type(m_offset)];
     m_offset++;
@@ -331,7 +349,7 @@ int8_t ByteBuffer::get_int1()
     return res;
 }
 
-uint8_t ByteBuffer::get_uint1()
+uint8_t ByteBuffer::get_uint1() const
 {
     uint8_t res = m_buffer[size_type(m_offset)];
     m_offset++;
@@ -339,7 +357,7 @@ uint8_t ByteBuffer::get_uint1()
     return res;
 }
 
-uint16_t ByteBuffer::get_uint2_net()
+uint16_t ByteBuffer::get_uint2_net() const
 {
     uint16_t res = *(uint16_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 2;
@@ -347,7 +365,7 @@ uint16_t ByteBuffer::get_uint2_net()
     return endian_swap_bytes<BIG_ENDIAN_ORDER, HOST_ENDIAN_ORDER>(res);
 }
 
-int16_t ByteBuffer::get_int2_net()
+int16_t ByteBuffer::get_int2_net() const
 {
     int16_t res = *(int16_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 2;
@@ -355,7 +373,7 @@ int16_t ByteBuffer::get_int2_net()
     return endian_swap_bytes<BIG_ENDIAN_ORDER, HOST_ENDIAN_ORDER>(res);
 }
 
-int32_t ByteBuffer::get_int4_net()
+int32_t ByteBuffer::get_int4_net() const
 {
     int32_t res = *(int32_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 4;
@@ -363,7 +381,7 @@ int32_t ByteBuffer::get_int4_net()
     return endian_swap_bytes<BIG_ENDIAN_ORDER, HOST_ENDIAN_ORDER>(res);
 }
 
-uint32_t ByteBuffer::get_uint4_net()
+uint32_t ByteBuffer::get_uint4_net() const
 {
     uint32_t res = *(uint32_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 4;
@@ -371,7 +389,7 @@ uint32_t ByteBuffer::get_uint4_net()
     return endian_swap_bytes<BIG_ENDIAN_ORDER, HOST_ENDIAN_ORDER>(res);
 }
 
-int16_t ByteBuffer::get_int2_le()
+int16_t ByteBuffer::get_int2_le() const
 {
     int16_t res = *(int16_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 2;
@@ -379,7 +397,7 @@ int16_t ByteBuffer::get_int2_le()
     return res;
 }
 
-uint16_t ByteBuffer::get_uint2_le()
+uint16_t ByteBuffer::get_uint2_le() const
 {
     uint16_t res = *(uint16_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 2;
@@ -387,27 +405,27 @@ uint16_t ByteBuffer::get_uint2_le()
     return res;
 }
 
-uint16_t ByteBuffer::get_uint2_be()
+uint16_t ByteBuffer::get_uint2_be() const
 {
     return get_int<uint16_t>(2);
 }
 
-int16_t ByteBuffer::get_int2_be()
+int16_t ByteBuffer::get_int2_be() const
 {
     return get_int<int16_t>(2);
 }
 
-uint32_t ByteBuffer::get_uint3_be()
+uint32_t ByteBuffer::get_uint3_be() const
 {
     return get_int<uint32_t>(3);
 }
 
-int32_t ByteBuffer::get_int4_be()
+int32_t ByteBuffer::get_int4_be() const
 {
     return int32_t(get_int<uint32_t>(4));
 }
 
-int32_t ByteBuffer::get_int4_le()
+int32_t ByteBuffer::get_int4_le() const
 {
     int32_t res = *(int32_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 4;
@@ -415,12 +433,12 @@ int32_t ByteBuffer::get_int4_le()
     return res;
 }
 
-uint32_t ByteBuffer::get_uint4_be()
+uint32_t ByteBuffer::get_uint4_be() const
 {
     return get_int<uint32_t>(4);
 }
 
-uint32_t ByteBuffer::get_uint4_le()
+uint32_t ByteBuffer::get_uint4_le() const
 {
     uint32_t res = *(uint32_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 4;
@@ -428,17 +446,17 @@ uint32_t ByteBuffer::get_uint4_le()
     return res;
 }
 
-uint64_t ByteBuffer::get_uint8_be()
+uint64_t ByteBuffer::get_uint8_be() const
 {
     return get_int<uint64_t>(8);    
 }
 
-int64_t ByteBuffer::get_int8_be()
+int64_t ByteBuffer::get_int8_be() const
 {
     return get_int<int64_t>(8);
 }
 
-uint64_t ByteBuffer::get_uint8_le()
+uint64_t ByteBuffer::get_uint8_le() const
 {
     uint64_t res = *(uint64_t*)(uint8_t*)&m_buffer[size_t(m_offset)];
     m_offset += 8;
@@ -446,7 +464,7 @@ uint64_t ByteBuffer::get_uint8_le()
     return res;
 }
 
-uint8_t* ByteBuffer::get_binary(uint32_t size)
+uint8_t* ByteBuffer::get_binary(uint32_t size) const
 {
     if (m_offset + size > int64_t(m_buffer.size()))
         throw std::runtime_error("ByteBuffer::get_binary(size)");
@@ -457,7 +475,7 @@ uint8_t* ByteBuffer::get_binary(uint32_t size)
     return res;
 }
 
-string ByteBuffer::get_hex_string(uint32_t size)
+string ByteBuffer::get_hex_string(uint32_t size) const
 {
     std::string result;
 
@@ -473,7 +491,7 @@ string ByteBuffer::get_hex_string(uint32_t size)
     return result;
 }
 
-string ByteBuffer::get_string()
+string ByteBuffer::get_string() const
 {
     int64_t offset = m_offset;
     for (; (offset < m_buffer.size()) && (m_buffer[size_type(offset)] != 0);
@@ -486,7 +504,7 @@ string ByteBuffer::get_string()
     return result;
 }
 
-string ByteBuffer::get_string(size_t size)
+string ByteBuffer::get_string(size_t size) const
 {
     std::string result((char*)&m_buffer[size_type(m_offset)], size);
     m_offset += size;  
@@ -494,14 +512,14 @@ string ByteBuffer::get_string(size_t size)
     return result;
 }
 
-string ByteBuffer::to_s()
+string ByteBuffer::to_s() const
 {
     std::string result((char*)&m_buffer[0], m_buffer.size());
 
     return result;
 }
 
-char const* ByteBuffer::c_str()
+char const* ByteBuffer::c_str() const
 {
     char const* res = (char const*)&m_buffer[size_type(m_offset)];
     for (; m_buffer[size_type(m_offset)] != 0; ++m_offset);

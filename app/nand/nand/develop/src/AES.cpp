@@ -11,10 +11,13 @@ using namespace std;
 class AESImpl
 {
 public:
+    AESImpl(ByteBuffer const& key);
     AESImpl(ByteBuffer const& key, int mode, ByteBuffer const& iv);
 
     auto encrypt(ByteBuffer b) -> ByteBuffer;
     auto decrypt(ByteBuffer b) -> ByteBuffer;
+
+    auto unwrap(ByteBuffer const&key, ByteBuffer const& data) -> ByteBuffer;
 
 private:
     int m_mode;
@@ -27,6 +30,11 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+AESImpl::AESImpl(ByteBuffer const& key)
+{
+    m_key = key;
+}
+
 AESImpl::AESImpl(ByteBuffer const& key, int mode, ByteBuffer const& iv)
 {
     m_mode = mode;
@@ -84,6 +92,13 @@ auto AESImpl::decrypt(ByteBuffer b) -> ByteBuffer
     return res;
 }
 
+auto AESImpl::unwrap(ByteBuffer const& key, ByteBuffer const& data) -> ByteBuffer
+{
+    // TODO
+    uint8_t fk[32] = { 0 };
+    ::AES_set_decrypt_key(fk, int(m_key.size()) * 8, &key);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -107,6 +122,16 @@ auto AES::encrypt(ByteBuffer b) -> ByteBuffer
 auto AES::decrypt(ByteBuffer b) -> ByteBuffer
 {
     return pimpl->decrypt(b);
+}
+
+auto AES::wrap(ByteBuffer const&key, ByteBuffer const& data) -> ByteBuffer
+{
+    throw runtime_error("not implemented");
+}
+
+auto AES::unwrap(ByteBuffer const&key, ByteBuffer const& data) -> ByteBuffer
+{
+    return pimpl->unwrap(key, data);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
