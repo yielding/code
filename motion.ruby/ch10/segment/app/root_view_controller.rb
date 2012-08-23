@@ -4,6 +4,7 @@ class RootViewController < UITableViewController
 
     self.title = "메뉴"
     @items = [
+      "SampleForInsertAndRemove",
       "SampleForEnabled", 
       "SampleForContentOffset",
       "SampleForTitleAndImage",
