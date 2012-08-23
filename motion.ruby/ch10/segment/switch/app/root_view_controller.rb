@@ -3,7 +3,12 @@ class RootViewController < UITableViewController
     super
 
     self.title = "메뉴"
-    @items = ["SampleForSwitch"]
+    @items = [
+      "SampleForTintColor",
+      "SampleForSegmentedControlStyle",
+      "SampleForMomentary",
+      "SampleForSwitch"
+    ]
   end
 
   def viewWillAppear(animated)
