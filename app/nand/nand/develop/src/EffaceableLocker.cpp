@@ -1,4 +1,5 @@
 #include "EffaceableLocker.h"
+#include "aes.h"
 
 #include <zlib.h>
 #include <iostream>
@@ -84,25 +85,51 @@ EffaceableLockers::EffaceableLockers(ByteBuffer const& data)
 
 auto EffaceableLockers::get_emf(ByteBuffer const&  k89b) -> ByteBuffer
 {
-    ByteBuffer res;
+    ByteBuffer zero_iv(16, 0);
+
     auto pos = _lockers.find("LwVM");
     if (pos != _lockers.end())
-        return utility::hex::ByteBuffer();
+    {
+        auto res = aes_decrypt_cbc(_lockers["LwVM"], k89b, zero_iv);
+        return res.last(32);
+    }
+
+    pos = _lockers.find("EMF!");
+    if (pos != _lockers.end())
+    {
+        auto emf = _lockers["EMF!"];
+        return aes_decrypt_cbc(emf.slice(4, emf.size()), k89b, zero_iv);
+    }
+
+    return ByteBuffer();
 }
 
 auto EffaceableLockers::get_dkey(ByteBuffer const&  k835) -> ByteBuffer
 {
-    return utility::hex::ByteBuffer();
+    ByteBuffer dkey;
+
+    auto pos = _lockers.find("Dkey");
+    if (pos != _lockers.end())
+    {
+        AES aes(k835);
+        dkey = aes.unwrap(_lockers["Dkey"]);
+    }
+
+    return dkey;
 }
 
-auto EffaceableLockers::get_locker(ByteBuffer const& tag) -> ByteBuffer
+auto EffaceableLockers::get_locker(string const& tag) -> ByteBuffer
 {
-    return utility::hex::ByteBuffer();
+    return _lockers[tag];
 }
 
 auto EffaceableLockers::to_s() -> string
 {
-    return "";
+    string lockers;
+    for (auto it=_lockers.begin(); it != _lockers.end(); ++it)
+        lockers += it->first + ", ";
+
+    return string("Lockers: ") + lockers;
 }
 
 bool check_effaceable_header(ByteBuffer const& plog)
@@ -113,8 +140,10 @@ bool check_effaceable_header(ByteBuffer const& plog)
     if (z != "ecaF")
         return false;
 
+#if defined(DEVELOP)
     auto plog_generation = plog.offset(0x38).get_uint4_le();
     cout << "Effaceable generation: " << plog_generation << endl;
+#endif
     
     auto tmpb = plog.slice(0x20, 0x3c);
     auto pbuf = plog.slice(0x40, 0x40 + 960);

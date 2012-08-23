@@ -29,8 +29,8 @@ TEST_SRCS = %w{
               }
 
 INCS      = "./develop/include"
-CXX       = "c++11"            # c++0x, clang++, blank
-CXXFLAGS  = ":v :O3"           # :d, :O0 :O3 :w = -Wall
+CXX       = "c++11"               # c++0x, clang++, blank
+CXXFLAGS  = ":v :O3 DEVELOP"      # :d, :O0 :O3 :w = -Wall
 LIBS      = ":f :s b64 crypto"
 
 load "~/code/build/app2.rake"

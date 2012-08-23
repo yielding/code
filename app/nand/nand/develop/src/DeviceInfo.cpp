@@ -186,7 +186,6 @@ auto DeviceInfo::passcode_key() const -> string
     return m_pt.get_string("passcodeKey", "plist.dict");
 }
 
-// TODO
 auto DeviceInfo::ramdisk() const -> map<string, string> 
 {
     return map<string, string>();

@@ -200,8 +200,10 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
     
     if (!_nand_only)
     {
-        ByteBuffer data;
-        // _lockers = new EffaceableLocker(data);
+        // TODO
+        // lockers값을 base64 decode 한 후에 EffaceableLocker의 입력으로 사용해야 한다.
+        // _dinfo.lockers();
+        // _lockers = new EffaceableLocker();
     }
     else
     {

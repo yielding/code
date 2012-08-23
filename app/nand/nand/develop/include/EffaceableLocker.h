@@ -12,9 +12,9 @@ class EffaceableLockers
 public:
     EffaceableLockers(ByteBuffer const& data);
 
-    auto get_emf(ByteBuffer const& k89b) -> ByteBuffer;
+    auto get_emf(ByteBuffer const& k89b)  -> ByteBuffer;
     auto get_dkey(ByteBuffer const& k835) -> ByteBuffer;
-    auto get_locker(ByteBuffer const& tag) -> ByteBuffer;
+    auto get_locker(string const& tag)    -> ByteBuffer;
     auto to_s() -> string;
     
 private:

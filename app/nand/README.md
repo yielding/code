@@ -24,9 +24,6 @@
 
 ## DOING
   * NAND class 구현
-    - AES wrapper class (same interface as python) 구현
-      > python과 동일한 사용법을 가진 클래스
-        : test wrap, unwrap
 
   * AES class ByteBuffer const correctness check
 
@@ -37,6 +34,7 @@
         : CBC 구현
         : default 구현
         : AESdecryptCBC, AESencryptCBC cover하도록 한다
+        : test wrap, unwrap
 
     - read_page
       > SpareData 구조체 해석

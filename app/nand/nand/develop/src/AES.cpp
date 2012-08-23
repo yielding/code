@@ -95,9 +95,6 @@ auto AESImpl::decrypt(ByteBuffer b) -> ByteBuffer
 
 auto AESImpl::unwrap(ByteBuffer& wrapped) -> ByteBuffer
 {
-    // 
-    // REMARK AES_Unwrap의 key는 decrypt mode
-    //
     AES_KEY aes_key;
     ::AES_set_decrypt_key((uint8_t*)m_key, int(m_key.size()*8), &aes_key);
 
