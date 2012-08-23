@@ -4,6 +4,10 @@ class RootViewController < UITableViewController
 
     self.title = "메뉴"
     @items = [
+      "SampleForEnabled", 
+      "SampleForContentOffset",
+      "SampleForTitleAndImage",
+      "SampleForSegmentedControlWithImage",
       "SampleForTintColor",
       "SampleForSegmentedControlStyle",
       "SampleForMomentary",
