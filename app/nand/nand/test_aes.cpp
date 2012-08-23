@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+
+#include <boost/tuple/tuple.hpp>
 #include <iostream>
 
 #include "AES.h"
@@ -201,6 +203,72 @@ TEST_F(AESTest, AES256DecryptTestAll)
         AES aes(key, AES::CBC, iv);
         auto res = aes.encrypt(plain);
         ASSERT_TRUE(ciphered == res);
+    }
+}
+
+struct AESWrapTest
+{
+    string kek;
+    string data;
+    string expected_ciphertext;
+};
+
+TEST_F(AESTest, AESWrapUnWrap)
+{
+    string keks[] = {
+        "000102030405060708090A0B0C0D0E0F", 
+        "000102030405060708090A0B0C0D0E0F1011121314151617",
+        "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F",
+        "000102030405060708090A0B0C0D0E0F1011121314151617",
+        "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F",
+        "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F"
+    };
+
+    string data[] = {
+        "00112233445566778899AABBCCDDEEFF", 
+        "00112233445566778899AABBCCDDEEFF",
+        "00112233445566778899AABBCCDDEEFF", 
+        "00112233445566778899AABBCCDDEEFF0001020304050607",
+        "00112233445566778899AABBCCDDEEFF0001020304050607",
+        "00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F"
+    };
+
+    string ciphered_texts[] = {
+        "1FA68B0A8112B447AEF34BD8FB5A7B829D3E862371D2CFE5",
+        "96778B25AE6CA435F92B5B97C050AED2468AB8A17AD84E5D",
+        "64E8C3F9CE0F5BA263E9777905818A2A93C8191E7D6E8AE7",
+        "031D33264E15D33268F24EC260743EDCE1C6C7DDEE725A936BA814915C6762D2",
+        "A8F9BC1612C68B3FF6E6F4FBE30E71E4769C8B80A32CB8958CD5D17D6B254DA1",
+        "28C9F404C4B810F4CBCCB35CFB87F8263F5786E2D80ED326CBC7F0E71A99F43BFB988B9B7A02DD21"
+    };
+
+    /*
+    for kek, data, expected in test_vectors:
+        ciphertext = AESwrap(kek.decode("hex"), data.decode("hex"))
+        assert ciphertext == expected.decode("hex")
+        assert AESUnwrap(kek.decode("hex"), ciphertext) == data.decode("hex")
+    print "All tests OK !"
+    */
+
+    auto const size = sizeof(keks) / sizeof(keks[0]);
+    for (int i=0; i<size; i++)
+    {
+        auto kek      = ByteBuffer::from_hexcode(keks[i]);
+        auto datum    = ByteBuffer::from_hexcode(data[i]);
+        auto ciphered = ByteBuffer::from_hexcode(ciphered_texts[i]);
+        AES aes(kek);
+        auto res = aes.unwrap(ciphered);
+        EXPECT_EQ(ByteBuffer::to_hexcode(datum), ByteBuffer::to_hexcode(res));
+    }
+
+    for (int i=0; i<size; i++)
+    {
+        auto kek      = ByteBuffer::from_hexcode(keks[i]);
+        auto datum    = ByteBuffer::from_hexcode(data[i]);
+        auto ciphered = ByteBuffer::from_hexcode(ciphered_texts[i]);
+        AES aes(kek);
+        auto res = aes.wrap(datum);
+        EXPECT_EQ(ByteBuffer::to_hexcode(ciphered), ByteBuffer::to_hexcode(res));
     }
 }
 

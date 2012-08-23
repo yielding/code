@@ -25,8 +25,7 @@ public:
     ByteBuffer(size_t size=0);
 
     ByteBuffer(uint8_t* buffer, size_t s);
-    // TODO
-    // ByteBuffer(uint8_t* beg, uint8_t* end);
+    ByteBuffer(uint8_t const* beg, uint8_t const* end);
     
     ByteBuffer(std::string const&);
     ByteBuffer(size_t size, uint8_t data);
@@ -56,12 +55,12 @@ public:  // query
     size_t  capacity()      const { return m_buffer.capacity();       }
     size_t  reserve(size_t);
 
-    bool all_values_are(uint8_t value) const;
+    bool all_values_are(uint8_t value)       const;
     bool starts_with(std::string const& str) const;
-    bool read_all() const;
-    auto last() const -> uint8_t;
-    auto last(uint32_t count) const -> ByteBuffer;
-    auto first() const -> uint8_t;
+    bool read_all()            const;
+    auto last()                const -> uint8_t;
+    auto last(uint32_t count)  const -> ByteBuffer;
+    auto first()               const -> uint8_t;
     auto first(uint32_t count) const -> ByteBuffer;
 
     void reverse();
@@ -70,9 +69,10 @@ public:  // query
 public:
     static ByteBuffer  from_hexcode(std::string const&, bool=false);
     static std::string to_hexcode(std::vector<uint8_t> const&, bool=false);
+    static std::string to_hexcode(ByteBuffer const&, bool=false);
 
 public:
-    uint8_t& operator[](uint32_t index);
+    uint8_t&       operator[](uint32_t index);
     uint8_t const& operator[](uint32_t index) const;
 
 public: // network I/O interface

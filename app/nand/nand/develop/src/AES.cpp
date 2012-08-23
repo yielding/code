@@ -17,7 +17,8 @@ public:
     auto encrypt(ByteBuffer b) -> ByteBuffer;
     auto decrypt(ByteBuffer b) -> ByteBuffer;
 
-    auto unwrap(ByteBuffer const&key, ByteBuffer const& data) -> ByteBuffer;
+    auto unwrap(ByteBuffer& wrapped) -> ByteBuffer;
+    auto   wrap(ByteBuffer& wrapped) -> ByteBuffer;
 
 private:
     int m_mode;
@@ -27,12 +28,12 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-//
+// This constructor is for AES unrawp. KeK stands for Key Encryption Key
 //
 ////////////////////////////////////////////////////////////////////////////////
-AESImpl::AESImpl(ByteBuffer const& key)
+AESImpl::AESImpl(ByteBuffer const& kek)
 {
-    m_key = key;
+    m_key = kek;
 }
 
 AESImpl::AESImpl(ByteBuffer const& key, int mode, ByteBuffer const& iv)
@@ -92,11 +93,31 @@ auto AESImpl::decrypt(ByteBuffer b) -> ByteBuffer
     return res;
 }
 
-auto AESImpl::unwrap(ByteBuffer const& key, ByteBuffer const& data) -> ByteBuffer
+auto AESImpl::unwrap(ByteBuffer& wrapped) -> ByteBuffer
 {
-    // TODO
-    uint8_t fk[32] = { 0 };
-    ::AES_set_decrypt_key(fk, int(m_key.size()) * 8, &key);
+    // 
+    // REMARK AES_Unwrap의 key는 decrypt mode
+    //
+    AES_KEY aes_key;
+    ::AES_set_decrypt_key((uint8_t*)m_key, int(m_key.size()*8), &aes_key);
+
+    uint8_t unwrapped[256] = { 0 };
+    auto in_leng = ::AES_unwrap_key(&aes_key, NULL, unwrapped, 
+                               (uint8_t*)wrapped, unsigned(wrapped.size()));
+
+    return ByteBuffer(unwrapped, unwrapped+in_leng);
+}
+
+auto AESImpl::wrap(ByteBuffer& data) -> ByteBuffer
+{
+    AES_KEY aes_key;
+    ::AES_set_encrypt_key((uint8_t*)m_key, int(m_key.size()*8), &aes_key);
+
+    uint8_t wrapped[256] = { 0 };
+    auto in_leng = ::AES_wrap_key(&aes_key, NULL, wrapped, 
+                               (uint8_t*)data, unsigned(data.size()));
+
+    return ByteBuffer(wrapped, wrapped + in_leng);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +125,11 @@ auto AESImpl::unwrap(ByteBuffer const& key, ByteBuffer const& data) -> ByteBuffe
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+AES::AES(ByteBuffer const& kek)
+{
+    pimpl = new AESImpl(kek);
+}
+
 AES::AES(ByteBuffer const& key, int mode, ByteBuffer const& iv)
 {
     pimpl = new AESImpl(key, mode, iv);
@@ -124,14 +150,14 @@ auto AES::decrypt(ByteBuffer b) -> ByteBuffer
     return pimpl->decrypt(b);
 }
 
-auto AES::wrap(ByteBuffer const&key, ByteBuffer const& data) -> ByteBuffer
+auto AES::wrap(ByteBuffer& data) -> ByteBuffer
 {
-    throw runtime_error("not implemented");
+    return pimpl->wrap(data);
 }
 
-auto AES::unwrap(ByteBuffer const&key, ByteBuffer const& data) -> ByteBuffer
+auto AES::unwrap(ByteBuffer& wrapped) -> ByteBuffer
 {
-    return pimpl->unwrap(key, data);
+    return pimpl->unwrap(wrapped);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -146,7 +172,7 @@ namespace {
         if (pad_count > block_size || pad_count > s.size())
             throw std::runtime_error("invalid padding");
 
-        return s.slice(0, s.size() - pad_count);
+        return s.slice(0, uint32_t(s.size() - pad_count));
     }
 }
 

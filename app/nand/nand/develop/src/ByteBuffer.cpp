@@ -37,6 +37,12 @@ ByteBuffer::ByteBuffer(uint8_t* buffer, size_t sz)
     m_buffer.assign(buffer, buffer + sz);
 }
 
+ByteBuffer::ByteBuffer(uint8_t const* beg, uint8_t const* end)
+{
+    m_offset = 0;
+    m_buffer.assign(beg, end);
+}
+
 ByteBuffer::ByteBuffer(std::string const& s)
 {
     auto buffer = (uint8_t*)s.c_str();
@@ -231,7 +237,7 @@ auto ByteBuffer::reverse_copy() const -> ByteBuffer
 
 auto ByteBuffer::last(uint32_t count) const -> ByteBuffer
 {
-    auto from = m_buffer.size() - count;
+    auto from = uint32_t(m_buffer.size()) - count;
 
     return slice(from, from+count);
 }
@@ -271,14 +277,20 @@ ByteBuffer ByteBuffer::from_hexcode(string const& str, bool is_be)
 string ByteBuffer::to_hexcode(vector<uint8_t> const& code, bool is_be)
 {
     buffer_t b;
-    is_be ? reverse_copy(code.begin(), code.end(), back_inserter(b))
-          :         copy(code.begin(), code.end(), back_inserter(b));
+    is_be ? std::reverse_copy(code.begin(), code.end(), back_inserter(b))
+          :         std::copy(code.begin(), code.end(), back_inserter(b));
 
     ostringstream ss;
     for (size_t i=0; i<b.size(); i++)
       ss << setw(2) << setfill('0') << std::hex << (unsigned)b[i];
 
     return ss.str();
+}
+
+string ByteBuffer::to_hexcode(ByteBuffer const& code, bool is_be)
+{
+    auto c = const_cast<ByteBuffer&>(code);
+    return ByteBuffer::to_hexcode(c.get_buffer(), is_be);
 }
 
 ByteBuffer& ByteBuffer::append(ByteBuffer& buffer)

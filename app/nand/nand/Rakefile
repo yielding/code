@@ -13,17 +13,18 @@ SRCS      = %w{ ./develop/src/DeviceInfo.cpp
                 ./main.cpp 
               }
 
-TEST_SRCS = %w{ ./develop/src/DeviceInfo.cpp
+TEST_SRCS = %w{ 
                 ./develop/src/ByteBuffer.cpp
+                ./develop/src/DeviceInfo.cpp
                 ./develop/src/PListParser.cpp
                 ./develop/src/NandImageRemote.cpp
                 ./develop/src/NandImageFlat.cpp
                 ./develop/src/NandImageSplitCEs.cpp
                 ./develop/src/NAND.cpp
                 ./develop/src/AES.cpp
+                ./test_byte_buffer.cpp
                 ./test_ptree.cpp
                 ./test_image.cpp
-                ./test_byte_buffer.cpp
                 ./test_aes.cpp
               }
 

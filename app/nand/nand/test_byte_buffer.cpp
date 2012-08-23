@@ -21,6 +21,13 @@ protected:
     {}
 };
 
+TEST_F(ByteBufferTest, ConstructBeginEnd)
+{
+    uint8_t arr[] = { 'l', 'e', 'e', 'c', 'h' };
+    ByteBuffer b(arr, arr + 5);
+    EXPECT_EQ(b.to_s(), "leech");
+}
+
 TEST_F(ByteBufferTest, FromHexCode)
 {
     uint8_t arr[] = { 

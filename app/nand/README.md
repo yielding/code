@@ -24,8 +24,11 @@
 
 ## DOING
   * NAND class 구현
+    - AES wrapper class (same interface as python) 구현
+      > python과 동일한 사용법을 가진 클래스
+        : test wrap, unwrap
 
-  * Save python byte array to disk
+  * AES class ByteBuffer const correctness check
 
 ## DONE
   * NAND class 구현

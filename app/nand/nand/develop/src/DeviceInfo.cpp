@@ -46,7 +46,7 @@ bool NandInfo::load(PListParser& d)
     
     auto ds = nand["dumpedPageSize"];
     dumped_page_size = ds.empty() ? bytes_per_page + meta_per_logical_page + 8
-                                  : lexical_cast<uint64_t>(ds);
+                                  : lexical_cast<uint32_t>(ds);
     
     auto a = b64_decode(nand["metadata-whitening"]);
     auto b = string(4, 0); b[0] = 1;
