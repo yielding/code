@@ -1,15 +1,22 @@
 class RootViewController < UITableViewController
   def viewDidLoad
     super
-    title  = "MENU"
-    @items = [
-      "SampleForMomentary", 
-      "SampleForSegmentedControl"
-    ]
 
+    self.title = "메뉴"
+    @items = [
+      "SampleForInsertAndRemove",
+      "SampleForEnabled", 
+      "SampleForContentOffset",
+      "SampleForTitleAndImage",
+      "SampleForSegmentedControlWithImage",
+      "SampleForTintColor",
+      "SampleForSegmentedControlStyle",
+      "SampleForMomentary",
+      "SampleForSwitch"
+    ]
   end
 
-  def viewWillAppear animated
+  def viewWillAppear(animated)
     super
 
     navigationController.setNavigationBarHidden(false, animated:false)
@@ -19,21 +26,20 @@ class RootViewController < UITableViewController
     navigationController.navigationBar.barStyle    = UIBarStyleDefault
     navigationController.navigationBar.translucent = false
     navigationController.navigationBar.tintColor   = nil
-    navigationController.toolbar.barStyle    = UIBarStyleDefault
-    navigationController.toolbar.translucent = false
-    navigationController.toolbar.tintColor   = nil
+    navigationController.toolbar.barStyle  = UIBarStyleDefault
+    navigationController.toolbar.tintColor = nil
   end
 
   def tableView(tv, numberOfRowsInSection:sec)
     @items.size
   end
 
-  CELLID = "Cell"
+  CELLID="Cell"
   def tableView(tv, cellForRowAtIndexPath:ip)
-    cell = tv.dequeueReusableCellWithIdentifier(CELLID) || begin 
+    cell = tv.dequeueReusableCellWithIdentifier(CELLID) || begin
       UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELLID)
     end
-
+    
     cell.textLabel.text = @items[ip.row].gsub(/SampleFor/, '')
     cell
   end

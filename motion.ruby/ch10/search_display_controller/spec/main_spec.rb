@@ -1,4 +1,4 @@
-describe "Application 'switch'" do
+describe "Application 'search_display_controller'" do
   before do
     @app = UIApplication.sharedApplication
   end

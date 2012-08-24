@@ -3,7 +3,7 @@ class RootViewController < UITableViewController
     super
 
     self.title = "메뉴"
-    @items = ["SampleForSwitch"]
+    @items = ["SampleForSlider"]
   end
 
   def viewWillAppear(animated)
@@ -39,3 +39,4 @@ class RootViewController < UITableViewController
     navigationController.pushViewController(vc, animated:true) unless vc.nil?
   end
 end
+

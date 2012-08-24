@@ -1,4 +1,4 @@
-describe "Application 'segment'" do
+describe "Application 'switch'" do
   before do
     @app = UIApplication.sharedApplication
   end
