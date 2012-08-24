@@ -22,6 +22,7 @@ TEST_SRCS = %w{
                 ./develop/src/NandImageSplitCEs.cpp
                 ./develop/src/NAND.cpp
                 ./develop/src/AES.cpp
+                ./develop/src/EffaceableLocker.cpp
                 ./test_byte_buffer.cpp
                 ./test_ptree.cpp
                 ./test_image.cpp
@@ -31,7 +32,7 @@ TEST_SRCS = %w{
 INCS      = "./develop/include"
 CXX       = "c++11"               # c++0x, clang++, blank
 CXXFLAGS  = ":v :O3 DEVELOP"      # :d, :O0 :O3 :w = -Wall
-LIBS      = ":f :s b64 crypto"
+LIBS      = ":f :s b64 crypto z"
 
 load "~/code/build/app2.rake"
 

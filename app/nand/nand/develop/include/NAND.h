@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 class NANDImage;
 class DeviceInfo;
+class EffaceableLockers;
 
 // TODO REFACTOR
 struct NandInfo;
@@ -45,12 +46,16 @@ public:
    ~NAND();
 
 public:
-    auto read_page(uint32_t ce, uint32_t page, ByteBuffer& key, uint32_t lpn=0xffffffff)
+    auto read_page(uint32_t ce, uint32_t page, ByteBuffer& key, uint32_t lpn=0xffffffff) 
       -> NANDPage;
     
     auto read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage;
     auto read_special_pages(uint32_t ce_no, vector<string>& magics)
       -> map<string, ByteBuffer>;
+    
+    auto read_block_page(uint32_t ce, uint32_t block, uint32_t page,
+                         ByteBuffer&, uint32_t) 
+      -> NANDPage;
 
 private:
     void init_geometry(NandInfo const& n);
@@ -61,6 +66,8 @@ private:
     
     auto unpack_spacial_page(ByteBuffer& data) -> ByteBuffer;
     auto iv_for_page(uint32_t page_no) -> ByteBuffer;
+
+    auto find_lockers_unit() -> ByteBuffer;
 
 private:
     NANDImage*  _image;
@@ -94,7 +101,7 @@ private:
     uint32_t    _total_block_space;
     int32_t     _bank_mask;
 
-    ByteBuffer  _lockers;
+    EffaceableLockers* _lockers;
     
     vector<uint8_t>  _empty_bootloader_page;
     vector<uint8_t>  _blank_page;

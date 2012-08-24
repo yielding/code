@@ -13,7 +13,6 @@ public:
   auto lines_upto(int row)    -> string;
 };
 
-
 auto Pascal::value_of(int x, int y) -> int
 {
   if (x < 1 || y < 1 || y > x)

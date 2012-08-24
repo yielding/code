@@ -14,11 +14,11 @@ public:
     AESImpl(ByteBuffer const& key);
     AESImpl(ByteBuffer const& key, int mode, ByteBuffer const& iv);
 
-    auto encrypt(ByteBuffer b) -> ByteBuffer;
-    auto decrypt(ByteBuffer b) -> ByteBuffer;
+    auto encrypt(ByteBuffer const& b) -> ByteBuffer;
+    auto decrypt(ByteBuffer const& b) -> ByteBuffer;
 
-    auto unwrap(ByteBuffer& wrapped) -> ByteBuffer;
-    auto   wrap(ByteBuffer& wrapped) -> ByteBuffer;
+    auto unwrap(ByteBuffer const& wrapped) -> ByteBuffer;
+    auto   wrap(ByteBuffer const& wrapped) -> ByteBuffer;
 
 private:
     int m_mode;
@@ -43,7 +43,7 @@ AESImpl::AESImpl(ByteBuffer const& key, int mode, ByteBuffer const& iv)
     m_iv   = iv;
 }
 
-auto AESImpl::encrypt(ByteBuffer b) -> ByteBuffer
+auto AESImpl::encrypt(ByteBuffer const& b) -> ByteBuffer
 {
     ByteBuffer res(b.size());
     AES_KEY key;
@@ -51,14 +51,18 @@ auto AESImpl::encrypt(ByteBuffer b) -> ByteBuffer
 
     if (m_mode == AES::CBC)
     {
-        ::AES_cbc_encrypt(b, res, b.size(), &key, m_iv, AES_ENCRYPT);
+        ::AES_cbc_encrypt((uint8_t*)&b[0], res, b.size(), &key, m_iv, AES_ENCRYPT);
+    }
+    else if (m_mode == AES::ECB)
+    {
+        throw std::runtime_error("not emplemented");
     }
     else if (m_mode == AES::DEFAULT)
     {
         if (b.size() != 16)
             throw std::runtime_error("block size should be 16");
 
-        ::AES_encrypt(b, res, &key);
+        ::AES_encrypt((uint8_t*)&b[0], res, &key);
     }
     else
     {
@@ -68,7 +72,7 @@ auto AESImpl::encrypt(ByteBuffer b) -> ByteBuffer
     return res;
 }
 
-auto AESImpl::decrypt(ByteBuffer b) -> ByteBuffer
+auto AESImpl::decrypt(ByteBuffer const& b) -> ByteBuffer
 {
     ByteBuffer res(b.size());
     AES_KEY key;
@@ -76,14 +80,18 @@ auto AESImpl::decrypt(ByteBuffer b) -> ByteBuffer
 
     if (m_mode == AES::CBC)
     {
-        ::AES_cbc_encrypt(b, res, b.size(), &key, m_iv, AES_DECRYPT);
+        ::AES_cbc_encrypt((uint8_t*)&b[0], res, b.size(), &key, m_iv, AES_DECRYPT);
+    }
+    else if (m_mode == AES::ECB)
+    {
+        throw std::runtime_error("not emplemented");
     }
     else if (m_mode == AES::DEFAULT)
     {
         if (b.size() != 16)
             throw std::runtime_error("block size should be 16");
 
-        ::AES_decrypt(b, res, &key);
+        ::AES_decrypt((uint8_t*)&b[0], res, &key);
     }
     else
     {
@@ -93,26 +101,26 @@ auto AESImpl::decrypt(ByteBuffer b) -> ByteBuffer
     return res;
 }
 
-auto AESImpl::unwrap(ByteBuffer& wrapped) -> ByteBuffer
+auto AESImpl::unwrap(ByteBuffer const& wrapped) -> ByteBuffer
 {
     AES_KEY aes_key;
     ::AES_set_decrypt_key((uint8_t*)m_key, int(m_key.size()*8), &aes_key);
 
     uint8_t unwrapped[256] = { 0 };
     auto in_leng = ::AES_unwrap_key(&aes_key, NULL, unwrapped, 
-                               (uint8_t*)wrapped, unsigned(wrapped.size()));
+                        (uint8_t*)&wrapped[0], unsigned(wrapped.size()));
 
     return ByteBuffer(unwrapped, unwrapped+in_leng);
 }
 
-auto AESImpl::wrap(ByteBuffer& data) -> ByteBuffer
+auto AESImpl::wrap(ByteBuffer const& data) -> ByteBuffer
 {
     AES_KEY aes_key;
     ::AES_set_encrypt_key((uint8_t*)m_key, int(m_key.size()*8), &aes_key);
 
     uint8_t wrapped[256] = { 0 };
     auto in_leng = ::AES_wrap_key(&aes_key, NULL, wrapped, 
-                               (uint8_t*)data, unsigned(data.size()));
+                        (uint8_t*)&data[0], unsigned(data.size()));
 
     return ByteBuffer(wrapped, wrapped + in_leng);
 }
@@ -137,22 +145,22 @@ AES::~AES()
     delete pimpl;
 }
 
-auto AES::encrypt(ByteBuffer b) -> ByteBuffer
+auto AES::encrypt(ByteBuffer const& b) -> ByteBuffer
 {
     return pimpl->encrypt(b);
 }
 
-auto AES::decrypt(ByteBuffer b) -> ByteBuffer
+auto AES::decrypt(ByteBuffer const& b) -> ByteBuffer
 {
     return pimpl->decrypt(b);
 }
 
-auto AES::wrap(ByteBuffer& data) -> ByteBuffer
+auto AES::wrap(ByteBuffer const& data) -> ByteBuffer
 {
     return pimpl->wrap(data);
 }
 
-auto AES::unwrap(ByteBuffer& wrapped) -> ByteBuffer
+auto AES::unwrap(ByteBuffer const& wrapped) -> ByteBuffer
 {
     return pimpl->unwrap(wrapped);
 }

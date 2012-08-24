@@ -17,15 +17,15 @@ public:
     enum { DEFAULT = -1, CBC, ECB };
 
 public:
-    AES(ByteBuffer const& kek);
+    AES(ByteBuffer const& key);
     AES(ByteBuffer const& key, int mode, ByteBuffer const& iv);
    ~AES();
 
-    auto encrypt(ByteBuffer b) -> ByteBuffer;
-    auto decrypt(ByteBuffer b) -> ByteBuffer;
+    auto encrypt(ByteBuffer const& b) -> ByteBuffer;
+    auto decrypt(ByteBuffer const& b) -> ByteBuffer;
 
-    auto unwrap(ByteBuffer& wrapped) -> ByteBuffer;
-    auto   wrap(ByteBuffer& data)    -> ByteBuffer;
+    auto unwrap(ByteBuffer const& wrapped) -> ByteBuffer;
+    auto   wrap(ByteBuffer const& data)    -> ByteBuffer;
 
 private:
     AESImpl* pimpl;

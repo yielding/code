@@ -2,6 +2,7 @@
 #define DEVICEINFO_H
 
 #include <stdint.h>
+#include "ByteBuffer.h"
 #include "PListParser.h"
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -9,6 +10,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 using namespace std;
+using utility::hex::ByteBuffer;
 
 struct partition_
 {
@@ -69,7 +71,7 @@ struct DeviceInfo
     auto key899()             const -> string;
     auto key89A()             const -> string;
     auto key89B()             const -> string;
-    auto lockers()            const -> string;
+    auto lockers()            const -> ByteBuffer;
     auto passcode()           const -> string;
     auto passcode_key()       const -> string;
     auto ramdisk()            const -> map<string, string>;

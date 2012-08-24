@@ -29,34 +29,12 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "nand/develop/src/NAND.cpp"
-         timestampString = "366882227.850293"
+         filePath = "nand/develop/src/DeviceInfo.cpp"
+         timestampString = "367484190.918967"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "306"
-         endingLineNumber = "306">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "nand/develop/src/NAND.cpp"
-         timestampString = "367122213.497533"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "316"
-         endingLineNumber = "316">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "nand/develop/src/NAND.cpp"
-         timestampString = "367122209.896288"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "270"
-         endingLineNumber = "270">
+         startingLineNumber = "168"
+         endingLineNumber = "168">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

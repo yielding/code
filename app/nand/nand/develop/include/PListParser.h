@@ -57,7 +57,6 @@ public:
 private:
     bool init(stringstream& s);
 
-
 private:
     auto find_value(string const& key, char const* where_) const -> string;
 

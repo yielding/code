@@ -13,7 +13,7 @@ using namespace utility::parser;
 //
 ////////////////////////////////////////////////////////////////////////////////
 namespace {
-    string b64_decode(string in)
+    string b64_decode(string const& in)
     {
         stringstream is(in), os;
         base64::decoder decoder;
@@ -163,9 +163,10 @@ auto DeviceInfo::key89B() const -> string
     return m_pt.get_string("key89B", "plist.dict");
 }
 
-auto DeviceInfo::lockers() const -> string 
+auto DeviceInfo::lockers() const -> ByteBuffer 
 {
-    return m_pt.get_string("lockers", "plist.dict");
+    auto decoded = b64_decode(m_pt.get_string("lockers", "plist.dict"));
+    return ByteBuffer(decoded); 
 }
 
 auto DeviceInfo::nand() -> NandInfo

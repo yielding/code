@@ -4,6 +4,7 @@
 #include "AES.h"
 #include "NANDImageFlat.h"
 #include "DeviceInfo.h"
+#include "EffaceableLocker.h"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/phoenix/core.hpp>
@@ -194,16 +195,15 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         auto epoch = nandsig[0];
         vfl_type   = nandsig[1];
         _metadata_whitening = flags & 0x10000;
+#if defined(DEVELOP)
         cout << str(format("NAND signature 0x%x flags 0x%x withening=%d, epoch=%s\n")
                     % nsig % flags % _metadata_whitening % epoch);
+#endif
     }
     
     if (!_nand_only)
     {
-        // TODO
-        // lockers값을 base64 decode 한 후에 EffaceableLocker의 입력으로 사용해야 한다.
-        // _dinfo.lockers();
-        // _lockers = new EffaceableLocker();
+        _lockers = new EffaceableLockers(_dinfo.lockers());
     }
     else
     {
@@ -238,12 +238,22 @@ NAND::~NAND()
         delete _image;
 }
 
-/*
+
 auto NAND::find_lockers_unit() -> ByteBuffer
 {
+    // if (!_nand_only)
     
+    for (int i=96; i<128; i++)
+    {
+        for (auto ce =0 ; ce<_ce_count; ++ce)
+        {
+            // read_block_page(ce, 1, i);
+        }
+    }
+        
+    
+    return ByteBuffer();
 }
-*/
 
 auto NAND::read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage
 {
@@ -276,7 +286,7 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage
     return page;
 }
 
-auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer& key, uint32_t lpn)
+auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer& key, uint32_t lpn) 
     -> NANDPage
 {
     auto page = read_page(ce_no, page_no);
@@ -292,6 +302,18 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer& key, uint32_t
     }
 
     return page;
+}
+
+// TODO here
+auto NAND::read_block_page(uint32_t ce_no, uint32_t block, uint32_t page,
+                           ByteBuffer& key, uint32_t lpn) 
+    -> NANDPage
+{
+    assert(page < _pages_per_block);
+    
+    uint32_t page_no = block * _pages_per_block + page;
+    
+    return read_page(ce_no, page_no, key, lpn);
 }
 
 auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
