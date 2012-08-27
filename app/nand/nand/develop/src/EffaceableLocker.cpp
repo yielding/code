@@ -152,6 +152,7 @@ bool check_effaceable_header(ByteBuffer const& plog)
     int64_t crcz     = crc32(0L,   (uint8_t*)z.c_str(), (unsigned)z.length());
     int64_t tmpv     = crc32(crcz, (uint8_t*)tmpb,      (unsigned)tmpb.size());
     int64_t plog_crc = crc32(tmpv, (uint8_t*)pbuf,      (unsigned)pbuf.size());
+
     return crc_to_varify == plog_crc;
 }
 

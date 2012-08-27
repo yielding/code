@@ -207,10 +207,12 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
     }
     else
     {
-        /*
         auto unit = find_lockers_unit();
         if (!unit.empty())
         {
+            _lockers = new EffaceableLockers(unit(0x40, unit.size()));
+                throw runtime_error("not implemented yet!!");
+            }
         }
         
         auto device_unique_info = sp0["DEVICEUNIQUEINFO"];
@@ -220,7 +222,6 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         else
         {
         }
-        */
     }
     
     if (vfl_type == '0')
@@ -241,18 +242,27 @@ NAND::~NAND()
 
 auto NAND::find_lockers_unit() -> ByteBuffer
 {
-    // if (!_nand_only)
-    
+    ByteBuffer empty;
+
+    if (!_nand_only)
+        return empty;
+
     for (int i=96; i<128; i++)
     {
-        for (auto ce =0 ; ce<_ce_count; ++ce)
+        for (auto ce=0; ce<_ce_count; ++ce)
         {
-            // read_block_page(ce, 1, i);
+            auto page = read_block_page(ce, 1, i);
+            if (!page.data.empty() && check_effaceable_header(page.data())) {
+#if defined(DEVELOP)
+                cout << str(format(
+                     "Found effaceable lockers in ce %d block 1page %d\n") % ce % i);
+#endif
+                return page.data;
+            }
         }
     }
-        
     
-    return ByteBuffer();
+    return empty;
 }
 
 auto NAND::read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage
