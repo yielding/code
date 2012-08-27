@@ -5,6 +5,7 @@
 #include "NANDImageFlat.h"
 #include "DeviceInfo.h"
 #include "EffaceableLocker.h"
+#include "SCFG.h"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/phoenix/core.hpp>
@@ -210,27 +211,31 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         auto unit = find_lockers_unit();
         if (!unit.empty())
         {
-            _lockers = new EffaceableLockers(unit(0x40, unit.size()));
-                throw runtime_error("not implemented yet!!");
-            }
+            _lockers = new EffaceableLockers(unit.slice(0x40, uint32_t(unit.size())));
+            // TODO
+            throw runtime_error("not implemented yet!!");
         }
-        
+
         auto device_unique_info = sp0["DEVICEUNIQUEINFO"];
         if (device_unique_info.empty())
         {
+            cout << "DEVICEUNIQUEINFO not found\n";
         }
         else
         {
+            // TODO verify the result
+            auto scfg = parse_scfg(device_unique_info);
+            auto srnm = scfg["SrNm"];
+            cout << str(format("Found DEVICEUNIQUEINFO, serial number=%s") % srnm);
         }
     }
-    
+        
     if (vfl_type == '0')
     {
     }
     else if (ppn == -1)
     {
     }
-        
 }
 
 NAND::~NAND()
@@ -251,8 +256,8 @@ auto NAND::find_lockers_unit() -> ByteBuffer
     {
         for (auto ce=0; ce<_ce_count; ++ce)
         {
-            auto page = read_block_page(ce, 1, i);
-            if (!page.data.empty() && check_effaceable_header(page.data())) {
+            auto page = read_block_page(ce, 1, i, META_KEY);
+            if (!page.data.empty() && check_effaceable_header(page.data)) {
 #if defined(DEVELOP)
                 cout << str(format(
                      "Found effaceable lockers in ce %d block 1page %d\n") % ce % i);

@@ -70,7 +70,7 @@ namespace {
 ////////////////////////////////////////////////////////////////////////////////
 EffaceableLockers::EffaceableLockers(ByteBuffer const& data)
 {
-    while (!data.read_all())
+    while (data.has_remaining())
     {
         Locker l(data);
         auto tag = l.tag.get_uint4_le() & ~0x80000000;
@@ -132,6 +132,11 @@ auto EffaceableLockers::to_s() -> string
     return string("Lockers: ") + lockers;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 bool check_effaceable_header(ByteBuffer const& plog)
 {
     auto a = plog.slice( 0, 16);

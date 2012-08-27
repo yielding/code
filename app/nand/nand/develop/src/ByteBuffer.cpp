@@ -201,11 +201,6 @@ bool ByteBuffer::starts_with(string const& str) const
     return str == s;
 }
 
-bool ByteBuffer::read_all() const
-{
-    return m_offset == m_buffer.size();
-}
-
 uint8_t ByteBuffer::last() const
 {
     if (m_buffer.size() < 1)

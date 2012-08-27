@@ -54,7 +54,7 @@ public:
       -> map<string, ByteBuffer>;
     
     auto read_block_page(uint32_t ce, uint32_t block, uint32_t page,
-                         ByteBuffer&, uint32_t) 
+                         ByteBuffer&, uint32_t=0xffffffff)
       -> NANDPage;
 
 private:

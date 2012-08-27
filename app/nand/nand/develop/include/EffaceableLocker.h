@@ -21,7 +21,7 @@ private:
     map<string, ByteBuffer> _lockers;
 };
 
-bool check_effaceable_header(ByteBuffer plog);
+bool check_effaceable_header(ByteBuffer const& plog);
 ////////////////////////////////////////////////////////////////////////////////
 //
 //

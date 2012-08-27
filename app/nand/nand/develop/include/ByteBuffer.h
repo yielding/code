@@ -57,7 +57,6 @@ public:  // query
 
     bool all_values_are(uint8_t value)       const;
     bool starts_with(std::string const& str) const;
-    bool read_all()            const;
     auto last()                const -> uint8_t;
     auto last(uint32_t count)  const -> ByteBuffer;
     auto first()               const -> uint8_t;
