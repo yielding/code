@@ -10,6 +10,8 @@
 		DF14A28D15EB6928008DB3A4 /* SCFG.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF14A28C15EB6928008DB3A4 /* SCFG.cpp */; };
 		DF2BA37815C288430075F300 /* libboost_filesystem-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2BA37615C288430075F300 /* libboost_filesystem-mt.a */; };
 		DF2BA37915C288430075F300 /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2BA37715C288430075F300 /* libboost_system-mt.a */; };
+		DF3FC02C15ECB0B400E4328D /* VFL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF3FC02B15ECB0B400E4328D /* VFL.cpp */; };
+		DF3FC02F15ECC16100E4328D /* NANDUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF3FC02E15ECC16100E4328D /* NANDUtil.cpp */; };
 		DF431A0915BCD5C800226580 /* PListParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF431A0815BCD5C800226580 /* PListParser.cpp */; };
 		DF8E086A15BD3CE000C7C163 /* NANDImageRemote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086715BD3CE000C7C163 /* NANDImageRemote.cpp */; };
 		DF8E086B15BD3CE000C7C163 /* NANDImageFlat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */; };
@@ -42,6 +44,8 @@
 		DF14A28C15EB6928008DB3A4 /* SCFG.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SCFG.cpp; path = develop/src/SCFG.cpp; sourceTree = "<group>"; };
 		DF2BA37615C288430075F300 /* libboost_filesystem-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-mt.a"; path = "../../../../../opt/local/lib/libboost_filesystem-mt.a"; sourceTree = "<group>"; };
 		DF2BA37715C288430075F300 /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "../../../../../opt/local/lib/libboost_system-mt.a"; sourceTree = "<group>"; };
+		DF3FC02B15ECB0B400E4328D /* VFL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VFL.cpp; path = develop/src/VFL.cpp; sourceTree = "<group>"; };
+		DF3FC02E15ECC16100E4328D /* NANDUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDUtil.cpp; path = develop/src/NANDUtil.cpp; sourceTree = "<group>"; };
 		DF431A0815BCD5C800226580 /* PListParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PListParser.cpp; path = develop/src/PListParser.cpp; sourceTree = "<group>"; };
 		DF431A0A15BCD5E400226580 /* PListParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PListParser.h; path = develop/include/PListParser.h; sourceTree = "<group>"; };
 		DF8E086715BD3CE000C7C163 /* NANDImageRemote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDImageRemote.cpp; path = develop/src/NANDImageRemote.cpp; sourceTree = "<group>"; };
@@ -105,6 +109,8 @@
 		DFCED53015B6760700D8CDAF /* nand */ = {
 			isa = PBXGroup;
 			children = (
+				DF3FC02E15ECC16100E4328D /* NANDUtil.cpp */,
+				DF3FC02B15ECB0B400E4328D /* VFL.cpp */,
 				DF14A28C15EB6928008DB3A4 /* SCFG.cpp */,
 				DF9F235C15E4B06E00CC0A5C /* EffaceableLocker.h */,
 				DF95133015E3185500AE90E2 /* EffaceableLocker.cpp */,
@@ -188,6 +194,8 @@
 				DFCBEAAC15DDCE310088C5C0 /* AES.cpp in Sources */,
 				DF95133115E3185500AE90E2 /* EffaceableLocker.cpp in Sources */,
 				DF14A28D15EB6928008DB3A4 /* SCFG.cpp in Sources */,
+				DF3FC02C15ECB0B400E4328D /* VFL.cpp in Sources */,
+				DF3FC02F15ECC16100E4328D /* NANDUtil.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

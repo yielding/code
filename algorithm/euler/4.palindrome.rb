@@ -25,6 +25,6 @@ a = [*100..999]
 #}
 #p max_palindrome
 
-p a.product(a).map { |e| e.reduce(:*) } \
+p a.product(a).map    { |e| e.reduce(:*) } \
               .select { |e| e.is_palindrome } \
               .max

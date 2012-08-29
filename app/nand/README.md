@@ -1,37 +1,37 @@
 ## TODO
   * source file 구조 개선
-    - 현재 develop 및에 모여진 코드가 일부는 common으로 일부는 nand 및으로 이동해야 한다.
+    - 현재 develop 및에 모여진 코드가 일부는 common으로 일부는 
+      nand 및으로 이동해야 한다.
 
   * NAND class 구현
     - refactoring
       > header 및 객체의 위치를 정확하게 조정한다.
 
     - read_page
-      > SpareData 위치 잡기 정확하게 refactoring
+      > 여러가지 SpareData 에 대한 정확한 해석 및
+        코드 위치 잡기 정확하게 refactoring
 
     - NANDRemote
       : readPage
 
-    - AES wrapper class (same interface as python) 구현
-      > AESdecryptCBC, AESencryptCBC Test
-      > ByteBuffer 이외의 다른 타입에 대한 인터페이스 만들기
+  * VSVFL
 
-    - VFL
-    
-    - VSVFL
-
-    - YAFTL
+  * YAFTL
 
 ## DOING
   * NAND class 구현
-    - find_lockers_unit
 
+  * VFL
 
 ## DONE
   * AES class ByteBuffer const correctness check
 
   * NAND class 구현
+    - find_lockers_unit
+
     - AES wrapper class (same interface as python) 구현
+      > AESdecryptCBC, AESencryptCBC Test
+
       > python과 동일한 사용법을 가진 클래스
         : CBC 구현
         : default 구현

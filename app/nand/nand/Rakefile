@@ -9,7 +9,10 @@ SRCS      = %w{ ./develop/src/DeviceInfo.cpp
                 ./develop/src/NandImageFlat.cpp
                 ./develop/src/NandImageSplitCEs.cpp
                 ./develop/src/NAND.cpp
+                ./develop/src/NANDUtil.cpp
                 ./develop/src/AES.cpp
+                ./develop/src/EffaceableLocker.cpp
+                ./develop/src/SCFG.cpp
                 ./main.cpp 
               }
 
@@ -21,8 +24,10 @@ TEST_SRCS = %w{
                 ./develop/src/NandImageFlat.cpp
                 ./develop/src/NandImageSplitCEs.cpp
                 ./develop/src/NAND.cpp
+                ./develop/src/NANDUtil.cpp
                 ./develop/src/AES.cpp
                 ./develop/src/EffaceableLocker.cpp
+                ./develop/src/SCFG.cpp
                 ./test_byte_buffer.cpp
                 ./test_ptree.cpp
                 ./test_image.cpp

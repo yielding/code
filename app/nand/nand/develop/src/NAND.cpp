@@ -1,27 +1,28 @@
 #include "stdafx.h"
 
 #include "NAND.h"
-#include "AES.h"
+#include "NANDUtil.h"
 #include "NANDImageFlat.h"
 #include "DeviceInfo.h"
 #include "EffaceableLocker.h"
+
+#include "AES.h"
 #include "SCFG.h"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/phoenix/core.hpp>
 #include <boost/phoenix/operator.hpp>
 #include <boost/format.hpp>
-#include <cmath>
 
 using namespace boost::phoenix::arg_names;
 using namespace boost;
 using namespace std;
 
-////////////////////////////////////////////////////////////////////////////////
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
+// REMARK: find appropriate postions for the below anonymous namespace codes
 //
-//
-////////////////////////////////////////////////////////////////////////////////
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 namespace
 {
     // 
@@ -71,44 +72,6 @@ namespace
         }
 
         return res;
-    }
-}
-
-namespace util
-{
-    string sizeof_fmt(int64_t size)
-    {
-        char const* fmts[] = { "bytes", "KB", "MB", "GB", "TB" };
-        size_t const ARR_SIZE = sizeof(fmts) / sizeof(fmts[0]);
-        string res;
-
-        for (size_t i=0; i<ARR_SIZE; i++)
-        {   
-            if (size < 1024.0)
-            {
-                res = str(format("%3.1f %s") % double(size) % fmts[i]);
-                break;
-            }
-
-            size /= 1024.0;
-        }   
-
-        return res;
-    }
-    
-    uint32_t next_power_of_two(uint32_t value)
-    {
-        uint32_t res = 1;
-        
-        while (res < value) res <<= 1;
-        
-        return res;
-    }
-    
-    // 아무리 단순해도 분리 include 하는 넘이 있으므로 
-    double log2(double arg)
-    {
-        return log(arg) / log(2);
     }
 }
 
@@ -306,6 +269,8 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer& key, uint32_t
 {
     auto page = read_page(ce_no, page_no);
 
+    // TODO SpareData가 여러 가지가 있다.
+    // 반드시 수정한다.
     SpareData sp(page.spare);
     if (!key.empty() && _encrypted)
     {
@@ -489,8 +454,8 @@ auto NAND::iv_for_page(uint32_t page_no) -> ByteBuffer
     return iv;
 }
 
-////////////////////////////////////////////////////////////////////////////////
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
 //
 //
-////////////////////////////////////////////////////////////////////////////////
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
