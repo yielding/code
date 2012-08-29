@@ -31,6 +31,14 @@ FileSystem::~FileSystem()
 {
 }
 
+FileSystem::FileSystem(FileSystem const& rhs)
+{
+  if (this != &rhs)
+  {
+    _name = rhs._name;
+  }
+}
+
 string FileSystem::name()
 {
   return _name;

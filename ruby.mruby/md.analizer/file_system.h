@@ -30,6 +30,7 @@ class FileSystem
 {
 public:
   FileSystem(char const* name="");
+  FileSystem(FileSystem const& rhs);
   ~FileSystem();
 
 public:

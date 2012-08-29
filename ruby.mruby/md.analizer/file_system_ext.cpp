@@ -6,7 +6,10 @@
 #include <iostream>
 #include <cassert>
 
+#include <boost/format.hpp>
+
 using namespace std;
+using namespace boost;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -15,8 +18,9 @@ using namespace std;
 void fs_free(mrb_state* mrb, void* p)
 {
   auto fs = (FileSystem*)p;
-  if (fs != nullptr)
-    delete fs;
+  cout << str(format("c: fs_free at %x, name: %s\n") % p % fs->name());
+  // if (fs != nullptr)
+  //   delete fs;
 }
 
 static struct mrb_data_type fs_type = 

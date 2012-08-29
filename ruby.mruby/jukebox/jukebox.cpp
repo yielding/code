@@ -29,6 +29,14 @@ namespace {
 struct DVD
 {
   DVD(string n="") : name(n) {}
+  DVD(DVD const& rhs) 
+  {
+    if (this != &rhs)
+    {
+        name = rhs.name;
+    }
+  }
+
   string name;
 };
 
@@ -111,10 +119,10 @@ struct MusicStore
 ////////////////////////////////////////////////////////////////////////////////
 void dvd_free(mrb_state* mrb, void* p)
 {
-  cout << "c: dvd_free is called\n";
-
   auto dvd = (DVD*)p;
-  delete dvd;
+  cout << str(format("c:dvd_free at %x, name %s\n") % p % dvd->name);
+  if (dvd != nullptr)
+    delete dvd;
 }
 
 static struct mrb_data_type dvd_type = 
@@ -124,18 +132,22 @@ static struct mrb_data_type dvd_type =
 
 mrb_value dvd_initialize(mrb_state* mrb, mrb_value self)
 {
-  auto dvd = (DVD*)mrb_get_datatype(mrb, self, &dvd_type);
-  if (dvd != nullptr)
-    dvd_free(mrb, dvd);
+    auto dvd = (DVD*)mrb_get_datatype(mrb, self, &dvd_type);
+    if (dvd != nullptr)
+    {
+        cout << "dvd instance is not nil\n";
+        dvd_free(mrb, dvd);
+    }
 
-  if (mrb->ci->argc == 0)
-    return mrb_nil_value();
+    if (mrb->ci->argc == 0)
+        return mrb_nil_value();
 
-  mrb_value name; mrb_get_args(mrb, "S", &name);
-  DATA_PTR(self)  = new DVD(RSTRING_PTR(name));
-  DATA_TYPE(self) = &dvd_type;
+    mrb_value name; 
+    mrb_get_args(mrb, "S", &name);
+    DATA_PTR(self)  = new DVD(RSTRING_PTR(name));
+    DATA_TYPE(self) = &dvd_type;
 
-  return self;
+    return self;
 }
 
 mrb_value dvd_set_name(mrb_state* mrb, mrb_value self)
@@ -177,6 +189,7 @@ mrb_value dvd_get_name(mrb_state* mrb, mrb_value self)
 ////////////////////////////////////////////////////////////////////////////////
 void jb_free(mrb_state* mrb, void* p)
 {
+  cout << "c: jb_free is called\n";
   auto jukebox = (CDJukeBox*)p;
   if (jukebox != nullptr)
     delete jukebox;
@@ -260,8 +273,9 @@ mrb_value jb_get_dvd_list(mrb_state* mrb, mrb_value self)
 
   for (auto it=dl.begin(); it!=dl.end(); ++it)
   {
-    auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) &*it));
-    // mrb_p(mrb, mrb_funcall(mrb, dvd, "name", 0);
+    DVD* pdvd = new DVD(*it);
+    auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) pdvd));
+    // auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) &*it));
 
     mrb_ary_push(mrb, ar, dvd);
   }
@@ -298,6 +312,8 @@ mrb_value jb_get_user_list(mrb_state* mrb, mrb_value self)
 ////////////////////////////////////////////////////////////////////////////////
 void ms_free(mrb_state* mrb, void* p)
 {
+  cout << "ms_free is called\n";
+
   auto store = (MusicStore*)p;
   if (store != nullptr)
     delete store;
@@ -378,9 +394,7 @@ int main(int argc, const char *argv[])
   auto load_script = [](char const* script) {
     ifstream ifs(script);
     string line, code;
-    while (getline(ifs, line)) 
-      code += line + "\n";
-
+    while (getline(ifs, line)) code += line + "\n";
     return code;
   };
 
@@ -389,16 +403,27 @@ int main(int argc, const char *argv[])
   init_jukebox(mrb);
   init_music_store(mrb);
 
-  //mrb_parser_state* p;
   auto code = load_script("myscript.rb");
-  //mrbc_context* c = mrbc_context_new(mrb);
+
   auto c = mrbc_context_new(mrb);
+
   auto p = mrb_parse_string(mrb, code.c_str(), c);
+  // auto p = mrb_parser_new(mrb);
+  // p->s    = code.c_str();
+  // p->send = code.c_str() + code.length();
+  // p->lineno = 1;
+  // mrb_parser_parse(p, c);
+
   auto n = mrb_generate_code(mrb, p);
   mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_top_self(mrb));
   if (mrb->exc)
+  {
     mrb_p(mrb, mrb_obj_value(mrb->exc));
+    mrb->exc = 0;
+  }
 
+  mrb_parser_free(p);
+  mrbc_context_free(mrb, c);
   mrb_close(mrb);
 
   return 0;

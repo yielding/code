@@ -20,6 +20,8 @@ public:
     return singleton;
   }
 
+  ~DataStore();
+
 public:
   auto get_file_systems() -> std::vector<FileSystem*>&;
   auto device_name()      -> std::string;
