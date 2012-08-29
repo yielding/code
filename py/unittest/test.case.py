@@ -1,30 +1,28 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
-import random
 import unittest
-import MyClass
+import random
 
 class TestSequenceFunctions(unittest.TestCase):
   def setUp(self):
     self.seq = range(10)
 
-  def testshuffle(self):
+  def test_shuffle(self):
     random.shuffle(self.seq)
     self.seq.sort()
     self.assertEqual(self.seq, range(10))
-      
-  def testchoice(self):
-    element = random.choice(self.seq)
-    self.assert_(element in self.seq)
 
-  def testsample(self):
+  def test_choice(self):
+    element = random.choice(self.seq)
+    self.assertTrue(element in self.seq)
+
+  def test_sample(self):
     self.assertRaises(ValueError, random.sample, self.seq, 20)
     for element in random.sample(self.seq, 5):
-      self.assert_(element in self.seq)
-  
-  def testMyClass(self):
-    cls = MyClass.MyClass("leech")
-    self.assert_(cls.pr2() == "leech")
+        self.assertTrue(element in self.seq)
 
 if __name__ == '__main__':
-    unittest.main()
+  unittest.main()
+
+  #suite = unittest.TestLoader().loadTestsFromTestCase(TestSequenceFunctions)
+  #unittest.TextTestRunner(verbosity=2).run(suite)
