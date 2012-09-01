@@ -5,7 +5,6 @@ import re;
   patterm.sub(replace, source);
 
   즉 source string 에서 pattern을 매칭하는  expression을 replace로 바꾸어라
-
 """
 
 p = re.compile( '(blue|white|red)');

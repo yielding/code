@@ -53,9 +53,9 @@ int main()
   char code[] = "$t = Test.new; res = $t.run; p res";
   printf("Executing Ruby code from C!\n");
 
-  mrb_parser_state *p 
-    = mrb_parse_string(mrb, code);
-  auto n = mrb_generate_code(mrb, p->tree);
+  auto c = mrbc_context_new(mrb);
+  auto p = mrb_parse_string(mrb, code, c);
+  auto n = mrb_generate_code(mrb, p);
   mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_top_self(mrb));
   if (mrb->exc)
     mrb_p(mrb, mrb_obj_value(mrb->exc));
