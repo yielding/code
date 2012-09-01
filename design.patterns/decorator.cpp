@@ -85,10 +85,10 @@ private:
   string m_ingredient;
 };
 
-class Sprinlkes: public CoffeeDecorator
+class Sprinkles: public CoffeeDecorator
 {
 public:
-  Sprinlkes(ICoffee* coffee)
+  Sprinkles(ICoffee* coffee)
     : CoffeeDecorator(coffee)
   {
     m_cost = 0.2;
@@ -105,7 +105,7 @@ private:
 
 int main(int argc, char const* argv[])
 {
-  ICoffee* coffee = new Sprinlkes(new Milk(new SimpleCoffee()));
+  ICoffee* coffee = new Sprinkles(new Milk(new SimpleCoffee()));
   cout << coffee->cost() << endl;
   cout << coffee->ingredient() << endl;
 
