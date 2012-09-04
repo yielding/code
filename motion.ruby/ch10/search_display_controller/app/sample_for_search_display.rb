@@ -8,13 +8,13 @@ class Item
   end
 
   def self.weapon_with_name name
-    item = Item.new(name)
+    item = Item.new name 
     item.weapon = true
     item
   end
 
   def self.armor_with_name name
-    item = Item.new(name)
+    item = Item.new name 
     item.armor = true
     item
   end
@@ -25,7 +25,7 @@ class SampleForSearchDisplay < UITableViewController
     super
     self.title = "장비검색"
 
-    @sb = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, self.tableView.bounds.size.width, 0))
+    @sb = UISearchBar.alloc.initWithFrame([[0, 0], [self.tableView.bounds.size.width, 0]])
     @sb.sizeToFit
     @sb.scopeButtonTitles = ["모두", "무기", "방어구"]
     @sb.showsScopeBar     = true
@@ -75,13 +75,8 @@ class SampleForSearchDisplay < UITableViewController
   end
 
   def tableView(tv, numberOfRowsInSection:sec)
-    unless self.searchDisplayController.nil?
-      if tv == self.searchDisplayController.searchResultsTableView
-        return @search_result.size
-      else
-        return @data_source.size
-      end
-    end
+    okay = (tv == self.searchDisplayController.searchResultsTableView)
+    return okay ? @search_result.size : @data_source.size
   end
 
   CELL_ID = "id"
@@ -91,12 +86,10 @@ class SampleForSearchDisplay < UITableViewController
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELL_ID)
     end
 
-    unless self.searchDisplayController.nil?
-      if tv == self.searchDisplayController.searchResultsTableView
-        cell.textLabel.text = @search_result[ip.row].name
-      else
-        cell.textLabel.text = @data_source[ip.row].name
-      end
+    if tv == self.searchDisplayController.searchResultsTableView
+      cell.textLabel.text = @search_result[ip.row].name
+    else
+      cell.textLabel.text = @data_source[ip.row].name
     end
 
     cell

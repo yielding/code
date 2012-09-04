@@ -2,10 +2,7 @@ class RootViewController < UITableViewController
   def viewDidLoad
     super
     self.title = "메뉴"
-    @items = [
-      "SampleForSearchDisplay",
-      "SampleForSlider"
-    ]
+    @items = [ "SampleForSearchDisplay" ]
   end
 
   def viewWillAppear(animated)

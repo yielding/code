@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -KU
+#!/usr/bin/env ruby19
 #encoding: utf-8
 
 require "test/unit"
