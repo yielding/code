@@ -52,10 +52,11 @@ struct NANDPage
 // Spare Types
 //
 ////////////////////////////////////////////////////////////////////////////////
-enum { 
+enum SpareType {
     kSpareData = 1,
-    kVFLSpareData = 2,
-}
+    kVFLUserSpareData,
+    kVFLMetaSpareData
+};
 
 struct SpareData
 {
@@ -96,21 +97,62 @@ struct VSVFLSpareData {
 };
 */
 
-struct VSVFLSpareData
+struct VFLUserSpareData
 {
-    VSVFLSpareData(ByteBuffer const& b)
+    VFLUserSpareData(ByteBuffer const& b)
     {
+        read_from(b);
     }
-
+    
     void read_from(ByteBuffer const& b)
     {
+        lpn = b.get_uint4_le();
+        usn = b.get_uint4_le();
+
+        type2   = b.get_uint1();
+        type1   = b.get_uint1();
+        eccMark = b.get_uint1();
+        field_b = b.get_uint1();
     }
 
-    ByteBuffer user_or_meta;
-    uint8_t type2;
-    uint8_t type1;
-    uint8_t eccMark;
-    uint8_t field_b;
+    uint32_t lpn;
+    uint32_t usn;
+
+    uint8_t  type2;
+    uint8_t  type1;
+    uint8_t  eccMark;
+    uint8_t  field_b;
+};
+
+struct VFLMetaSpareData
+{
+    VFLMetaSpareData(ByteBuffer const& b)
+    {
+        read_from(b);
+    }
+    
+    void read_from(ByteBuffer const& b)
+    {
+        usnDec  = b.get_uint4_le();
+        idx     = b.get_uint2_le();
+        field_6 = b.get_uint1();;
+        field_7 = b.get_uint1();;
+
+        type2   = b.get_uint1();
+        type1   = b.get_uint1();
+        eccMark = b.get_uint1();
+        field_b = b.get_uint1();
+    }
+
+    uint32_t usnDec;
+    uint16_t idx;
+    uint8_t  field_6;
+    uint8_t  field_7;
+
+    uint8_t  type2;
+    uint8_t  type1;
+    uint8_t  eccMark;
+    uint8_t  field_b;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

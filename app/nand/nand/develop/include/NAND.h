@@ -41,18 +41,18 @@ public:
    ~NAND();
 
 public:
-    auto read_page(uint32_t ce, uint32_t page, ByteBuffer& key, uint32_t lpn=0xffffffff) 
+    auto read_page(uint32_t ce, uint32_t page, 
+                   ByteBuffer const& key=ByteBuffer(), uint32_t lpn=0xffffffff, SpareType = kSpareData)
       -> NANDPage;
     
-    auto read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage;
     auto read_special_pages(uint32_t ce_no, vector<string>& magics)
       -> map<string, ByteBuffer>;
     
     auto read_block_page(uint32_t ce, uint32_t block, uint32_t page,
-                         ByteBuffer&, uint32_t=0xffffffff)
+                         ByteBuffer const&, uint32_t=0xffffffff, SpareType = kSpareData)
       -> NANDPage;
 
-    auto read_meta_page(uint32_t ce, uint32_t block, uint32_t page)
+    auto read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st)
       -> NANDPage;
 
 private:

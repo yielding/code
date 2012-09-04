@@ -40,32 +40,6 @@ struct VFLContext
     uint32_t checksum2;
 };
 
-/*
-union {
-    struct {
-        uint32_t logicalPageNumber;
-        uint32_t usn;
-    } user;
-
-    struct {
-        uint32_t usnDec;
-        uint16_t idx;
-        uint8_t field_6;
-        uint8_t field_7;
-    } meta;
-};
-*/
-
-// TODO
-struct VSVFLSpareData
-{
-    ByteBuffer user_or_meta;
-    uint8_t type2;
-    uint8_t type1;
-    uint8_t eccMark;
-    uint8_t field_b;
-};
-
 class VFL
 {
 public:

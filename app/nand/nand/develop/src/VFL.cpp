@@ -100,6 +100,7 @@ VFL::VFL(NandInfo& n)
     uint32_t reserved_blocks = 0;
     uint32_t fs_start_block  = reserved_blocks + 10;
 
+    // TODO here
     for (uint32_t ce=0; ce<_ce_count; ++ce)
     {
         for (uint32_t b=reserved_blocks; b<fs_start_block; b++)
