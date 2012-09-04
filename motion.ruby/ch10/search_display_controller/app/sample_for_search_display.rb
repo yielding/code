@@ -23,26 +23,33 @@ end
 class SampleForSearchDisplay < UITableViewController
   def viewDidLoad
     super
+
     self.title = "장비검색"
-    sb = UISearchBar.new
-    sb.frame = [[0, 0], [self.tableView.bounds.size.width, 0]]
+    p "11111"
+    sb = UISearchBar.alloc.initWithFrame(
+            CGRectMake(0, 0, self.tableView.bounds.size.width, 0))
+    sb.delegate = self
+    sb.showsCancelButton = true
     sb.sizeToFit
     sb.scopeButtonTitles = ["모두", "무기", "방어구"]
     sb.showsScopeBar     = true
-    self.tableView.tableHeaderView = sb
+    #self.tableView.tableHeaderView = sb
 
-    @search_display = UISearchDisplayController.alloc.initWithSearchBar(sb, 
-                      contentsController:self)
-    @search_display.delegate = self
-    @search_display.searchResultsDataSource = self
-    @search_display.searchResultsDelegate   = self
+    p "22222"
+    @sd = UISearchDisplayController.alloc.initWithSearchBar(sb, contentsController:self)
+    @sd.delegate = self
+    @sd.searchResultsDataSource = self
+    @sd.searchResultsDelegate   = self
 
     weapons = ["세라믹 양날검", "세라믹 칼", "성스러운 자"]
     armors  = ["세라믹 갑옷", "사라믹 방패", "세라믹 투구", "마법의 망또", "크르비스 슈트"]
     
+    p "33333"
     @data_source  = weapons.map { |name| Item.weapon_with_name(name) }
     @data_source +=  armors.map { |name| Item.armor_with_name(name)  }
     @data_source.sort_by { |item| item.name }
+
+    p "44444#{@data_source}"
 
     @search_result = []
   end
@@ -56,14 +63,14 @@ class SampleForSearchDisplay < UITableViewController
     true
   end
 
-  def searchDisplayController(ctrl, shouldReloadTableForSearchScope:search_opt)
+  def searchDisplayController(ctrl, shouldReloadTableForSearchScope:so) # search option
     @search_result = []
     ss = ctrl.searchBar.text
     @data_source.each do |item| 
       unless item.name.rangeOfString(ss).location == NSNotFound
-        if search_opt == 0
+        if so == 0
           @search_result << item
-        elsif search_opt == 1
+        elsif so == 1
           @search_result << item if item.weapon
         else
           @search_result << item if item.armor
@@ -85,15 +92,16 @@ class SampleForSearchDisplay < UITableViewController
   def tableView(tv, cellForRowAtIndexPath:ip)
     cell = tv.dequeueReusableCellWithIdentifier(CELL_ID)
     if cell.nil?
-      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELL_ID)
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, 
+                                                 reuseIdentifier:CELL_ID)
     end
 
     if tv == self.searchDisplayController.searchResultsTableView
-      cell.textLabel.text = @search_result[ip.row].name
+       cell.textLabel.text = @search_result[ip.row].name
     else
-      cell.textLabel.text = @data_source[ip.row].name
+       cell.textLabel.text = @data_source[ip.row].name
     end
 
-    cell
+    return cell
   end
 end

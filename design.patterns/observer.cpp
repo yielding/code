@@ -14,16 +14,16 @@ public:
 
 public:
   virtual ~subject() {}
-  
+
   virtual void attach (F o) { m_objs.push_back(o); }
   virtual void detach (F o) { /*m_objs.clear(); */ }
   virtual void notify()  
   {
-	std::list<F>::iterator end = m_objs.end();
-    for (std::list<F>::iterator i=m_objs.begin(); i!=end; ++i)
+    auto end = m_objs.end();
+    for (auto i=m_objs.begin(); i!=end; ++i)
       (*i)(this);
   }   
-  
+
 private:
   std::list<F> m_objs;
 };
@@ -33,7 +33,6 @@ private:
 //
 //
 //////////////////////////////////////////////////////////////////////////////
-
 #if 1
 
 #include <iostream>
@@ -109,4 +108,3 @@ int main()
 }
 
 #endif
-
