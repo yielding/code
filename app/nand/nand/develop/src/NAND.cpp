@@ -207,7 +207,6 @@ NAND::~NAND()
         delete _image;
 }
 
-
 auto NAND::find_lockers_unit() -> ByteBuffer
 {
     ByteBuffer empty;
@@ -233,7 +232,8 @@ auto NAND::find_lockers_unit() -> ByteBuffer
     return empty;
 }
 
-auto NAND::read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage
+auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer const& key,
+                     uint32_t lpn, SpareType st) -> NANDPage
 {
     NANDPage page;
 
@@ -261,39 +261,46 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage
     if (_metadata_whitening && !page.spare.all_values_are(0x00) && page.spare.size() == 12)
         page.spare = this->unwhiten_metadata(page.spare, page_no);
 
-    return page;
-}
+    // TODO REFACTOR
+    uint32_t new_lpn = 0;
+    if (st == kSpareData)
+    {
+        SpareData sp(page.spare);
+        new_lpn = sp.lpn;
+    }
+    else if (st == kVFLUserSpareData)
+    {
+        VFLUserSpareData sp(page.spare);
+        new_lpn = sp.lpn;
+    }
+    else
+    {
+        assert(0);
+    }
 
-auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer& key, uint32_t lpn) 
-    -> NANDPage
-{
-    auto page = read_page(ce_no, page_no);
-
-    // TODO SpareData가 여러 가지가 있다.
-    // 반드시 수정한다.
-    SpareData sp(page.spare);
     if (!key.empty() && _encrypted)
     {
-        auto new_page_no = (lpn != 0xffffffff) 
-            ? sp.lpn
-            : page_no;
-
-        page.data = this->decrypt_page(page.data, key, new_page_no);
+        auto new_pn = (lpn != 0xFFFFFFFF) ? new_lpn : page_no;
+        page.data   = this->decrypt_page(page.data, key, new_pn);
     }
 
     return page;
 }
 
-// TODO here
 auto NAND::read_block_page(uint32_t ce_no, uint32_t block, uint32_t page,
-                           ByteBuffer& key, uint32_t lpn) 
-    -> NANDPage
+     ByteBuffer const& key, uint32_t lpn, SpareType st) -> NANDPage
 {
     assert(page < _pages_per_block);
     
     uint32_t page_no = block * _pages_per_block + page;
     
-    return read_page(ce_no, page_no, key, lpn);
+    return read_page(ce_no, page_no, key, lpn, st);
+}
+
+auto NAND::read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st)
+    -> NANDPage
+{
+    return read_block_page(ce, block, page, META_KEY, st);
 }
 
 auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
@@ -351,14 +358,16 @@ auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
     return specials;
 }
 
-ByteBuffer NAND::unpack_spacial_page(ByteBuffer& data)
+auto NAND::unpack_spacial_page(ByteBuffer& data)
+    -> ByteBuffer 
 {
     auto loc = data.offset(0x34).get_uint4_le();
 
     return data.slice(0x38, 0x38 + loc);
 }
 
-ByteBuffer NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no)
+auto NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no)
+    -> ByteBuffer 
 {
     ByteBuffer spare;
 

@@ -80,18 +80,34 @@ VFL::VFL(NandInfo& n)
     if (!found)
     {
         auto msg = str(format("VFL: unsupported device 0x%x") % n.device_readid);
-        throw std::runtime_error(msg.c_str());
+        assert(0);
+        //throw std::runtime_error(msg.c_str());
     }
 
-    auto su_total = SupportedDevices[n.device_readid].user_su_blocks_total;
-    _user_super_block_total = su_total;
-    auto user_pages_total   = su_total * _pages_per_sublk;
+    auto  user_sublks_total = SupportedDevices[n.device_readid].user_sublks_total;
+    _user_sublks_total      = user_sublks_total;
+    auto user_pages_total   = user_sublks_total * _pages_per_sublk;
     auto sublks_total       = _blocks_per_ce;
     auto ftl_data_field_2   = sublks_total - user_sublks_total - 28;
         _ftl_data_field_4   = ftl_data_field_2 + 5;
 
-    
-    
+    _vfl_contexts.clear();
+
+    // TODO: _bbt type
+    _bbt.clear();
+   
+    _current_version = 0;
+    uint32_t reserved_blocks = 0;
+    uint32_t fs_start_block  = reserved_blocks + 10;
+
+    // TODO here
+    for (uint32_t ce=0; ce<_ce_count; ++ce)
+    {
+        for (uint32_t b=reserved_blocks; b<fs_start_block; b++)
+        {
+//            _nand.
+        }
+    }
 }
 
 // 3 * uint16_t
