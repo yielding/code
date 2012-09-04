@@ -1,7 +1,7 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby19
 # encoding: utf-8
 
-require "fsevent"
+require "fsevents"
 
 class PrintChange < FSEvent
   def on_change(dirs)
