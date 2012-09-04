@@ -1,5 +1,5 @@
 require "test/unit"
-require_relative "../lib/fibo"
+require "lib/fibo"
 
 class TestFibo < Test::Unit::TestCase
   def setup
