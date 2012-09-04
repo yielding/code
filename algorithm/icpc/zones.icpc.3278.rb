@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'test/unit'
 require 'set'
 require 'pp'
@@ -23,7 +25,6 @@ module Algorithm
 
     def gen_candidates a, k, n
       c = []
-      c
     end
 
     def process_solution a, k
@@ -54,9 +55,7 @@ class Combination
     in_permutation = [false] * n
     0.upto(k-1) { |i| in_permutation[a[i]] = true }
     for i in 1..n
-      unless in_permutation[i]
-        c << i
-      end
+        c << i unless in_permutation[i]
     end
     c
   end
@@ -104,9 +103,9 @@ class TestICPC < Test::Unit::TestCase
       end
       max_index = 0
       max_sum   = 0
-      sums.each_index do |i| 
+      sums.each_index { |i| 
         max_sum, max_index = sums[i][1], i if sums[i][1] > max_sum 
-      end
+      }
       pp max_index, max_sum
       break if loop_count == 0
     end
