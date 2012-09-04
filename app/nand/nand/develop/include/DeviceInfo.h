@@ -22,6 +22,7 @@ struct partition_
 struct NandInfo
 {
     NandInfo() { m_empty = true; }
+
     bool load(utility::parser::PListParser& d);
 
     bool empty() const { return m_empty; }

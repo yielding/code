@@ -91,10 +91,12 @@ private:
     uint32_t _pages_per_sublk;            // TODO what's this?
     uint32_t _vendor_type;
     uint32_t _fs_start_block;
-    uint32_t _user_super_block_total;
+    uint32_t _user_sublks_total;
     uint32_t _ftl_data_field_4;
 
     vector<VFLContext> _vfl_contexts;
+    vector<int> _bbt;
+    int _current_version;
 };
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

@@ -12,6 +12,7 @@
 #include <list>
 #include <vector>
 #include <map>
+
 #include <fstream>
 #include <sstream>
 
@@ -19,6 +20,8 @@ using utility::hex::ByteBuffer;
 using std::string;
 using std::ifstream;
 using std::map;
+using std::vector;
+using std::list;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -46,17 +49,22 @@ struct NANDPage
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-//
+// Spare Types
 //
 ////////////////////////////////////////////////////////////////////////////////
+enum { 
+    kSpareData = 1,
+    kVFLSpareData = 2,
+}
+
 struct SpareData
 {
-    SpareData(ByteBuffer& b) 
+    SpareData(ByteBuffer const& b) 
     {
         read_from(b);
     }
 
-    void read_from(ByteBuffer& b)
+    void read_from(ByteBuffer const& b)
     {
         lpn     = b.get_uint4_le();
         usn     = b.get_uint4_le();
@@ -70,6 +78,39 @@ struct SpareData
     uint8_t  field_8;
     uint8_t  type;
     uint16_t field_a;
+};
+
+/*
+struct VSVFLSpareData {
+    struct {
+        uint32_t logicalPageNumber;
+        uint32_t usn;
+    } user;
+
+    struct {
+        uint32_t usnDec;
+        uint16_t idx;
+        uint8_t field_6;
+        uint8_t field_7;
+    } meta;
+};
+*/
+
+struct VSVFLSpareData
+{
+    VSVFLSpareData(ByteBuffer const& b)
+    {
+    }
+
+    void read_from(ByteBuffer const& b)
+    {
+    }
+
+    ByteBuffer user_or_meta;
+    uint8_t type2;
+    uint8_t type1;
+    uint8_t eccMark;
+    uint8_t field_b;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -14,11 +14,6 @@ class EffaceableLockers;
 // TODO REFACTOR
 struct NandInfo;
 
-using std::string;
-using std::vector;
-using std::map;
-using std::list;
-
 //
 // 1. dinfo, nand가 중복
 //
@@ -55,6 +50,9 @@ public:
     
     auto read_block_page(uint32_t ce, uint32_t block, uint32_t page,
                          ByteBuffer&, uint32_t=0xffffffff)
+      -> NANDPage;
+
+    auto read_meta_page(uint32_t ce, uint32_t block, uint32_t page)
       -> NANDPage;
 
 private:

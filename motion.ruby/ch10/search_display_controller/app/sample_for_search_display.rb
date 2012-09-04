@@ -24,15 +24,13 @@ class SampleForSearchDisplay < UITableViewController
   def viewDidLoad
     super
     self.title = "장비검색"
-    sb = UISearchBar.new
-    sb.frame = [[0, 0], [self.tableView.bounds.size.width, 0]]
-    sb.sizeToFit
-    sb.scopeButtonTitles = ["모두", "무기", "방어구"]
-    sb.showsScopeBar     = true
-    self.tableView.tableHeaderView = sb
 
-    @search_display = UISearchDisplayController.alloc.initWithSearchBar(sb, 
-                      contentsController:self)
+    @sb = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, self.tableView.bounds.size.width, 0))
+    @sb.sizeToFit
+    @sb.scopeButtonTitles = ["모두", "무기", "방어구"]
+    @sb.showsScopeBar     = true
+
+    @search_display = UISearchDisplayController.alloc.initWithSearchBar(@sb, contentsController:self)
     @search_display.delegate = self
     @search_display.searchResultsDataSource = self
     @search_display.searchResultsDelegate   = self
@@ -45,6 +43,9 @@ class SampleForSearchDisplay < UITableViewController
     @data_source.sort_by { |item| item.name }
 
     @search_result = []
+
+    ## REMAKR 위치가 매우 중요
+    self.tableView.tableHeaderView = @sb
   end
 
   def searchDisplayController(ctrl, shouldReloadTableForSearchString:ss)
@@ -74,10 +75,12 @@ class SampleForSearchDisplay < UITableViewController
   end
 
   def tableView(tv, numberOfRowsInSection:sec)
-    if tv == self.searchDisplayController.searchResultsTableView
-      return @search_result.size
-    else
-      return @data_source.size
+    unless self.searchDisplayController.nil?
+      if tv == self.searchDisplayController.searchResultsTableView
+        return @search_result.size
+      else
+        return @data_source.size
+      end
     end
   end
 
@@ -88,10 +91,12 @@ class SampleForSearchDisplay < UITableViewController
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELL_ID)
     end
 
-    if tv == self.searchDisplayController.searchResultsTableView
-      cell.textLabel.text = @search_result[ip.row].name
-    else
-      cell.textLabel.text = @data_source[ip.row].name
+    unless self.searchDisplayController.nil?
+      if tv == self.searchDisplayController.searchResultsTableView
+        cell.textLabel.text = @search_result[ip.row].name
+      else
+        cell.textLabel.text = @data_source[ip.row].name
+      end
     end
 
     cell

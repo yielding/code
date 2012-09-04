@@ -296,6 +296,12 @@ auto NAND::read_block_page(uint32_t ce_no, uint32_t block, uint32_t page,
     return read_page(ce_no, page_no, key, lpn);
 }
 
+auto NAND::read_meta_page(uint32_t ce, uint32_t block, uint32_t page)
+   -> NANDPage
+{
+    return read_block_page(ce, block, page, META_KEY);
+}
+
 auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
     -> map<string, ByteBuffer>
 {

@@ -5,21 +5,25 @@ using namespace std;
 
 int main()
 {
-  int a[] = { 1, 2, 3, 4, 5 };
-  vector<int> v(a, a+5);
+    vector<int> v = { 1, 2, 3, 4, 5 };
 
-  v.erase(v.begin()+1);
-  vector<int> v1(v);
+    v.erase(v.begin());
+    vector<int> v1(v);
 
-  cout << v.capacity()  << endl;
-  cout << v1.capacity() << endl;
+    cout << "org. v capacity: " 
+         << v.capacity() << endl;
 
-  vector<int>(v).swap(v); // <<<<<
+    cout << "copy v capacity: " 
+         << v1.capacity() << endl;
 
-  cout << v.capacity()  << endl;
+    vector<int>(v).swap(v);
 
-  for (int i=0; i<v.size(); i++)
-    cout << v[i] << " ";
+    cout << "shirinked v. capacity: " 
+         << v.capacity()  << endl;
 
-  cout << endl;
+    for (auto i: v) cout << i << " ";
+
+    cout << endl;
+
+    return 0;
 }
