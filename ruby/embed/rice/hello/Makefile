@@ -12,14 +12,14 @@ ECHO = $(ECHO1:0=@echo)
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /Users/yielding/.rvm/rubies/ruby-1.9.3-p0/include/ruby-1.9.1
-hdrdir = /Users/yielding/.rvm/rubies/ruby-1.9.3-p0/include/ruby-1.9.1
-arch_hdrdir = /Users/yielding/.rvm/rubies/ruby-1.9.3-p0/include/ruby-1.9.1/$(arch)
+topdir = /opt/local/include/ruby-1.9.1
+hdrdir = /opt/local/include/ruby-1.9.1
+arch_hdrdir = /opt/local/include/ruby-1.9.1/$(arch)
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
 
-prefix = $(DESTDIR)/Users/yielding/.rvm/rubies/ruby-1.9.3-p0
+prefix = $(DESTDIR)/opt/local
 
-rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
+rubylibprefix = $(DESTDIR)/opt/local/lib/ruby1.9
 
 exec_prefix = $(prefix)
 
@@ -35,7 +35,7 @@ sitedir = $(rubylibprefix)/site_ruby
 
 ridir = $(datarootdir)/$(RI_BASE_NAME)
 
-mandir = $(datarootdir)/man
+mandir = $(DESTDIR)/opt/local/share/man
 
 localedir = $(datarootdir)/locale
 
@@ -88,8 +88,8 @@ vendorarchdir = $(vendorlibdir)/$(sitearch)
 
 NULLCMD = :
 
-CC = clang
-CXX = clang++
+CC = /usr/bin/clang
+CXX = /usr/bin/clang++
 LIBRUBY = $(LIBRUBY_SO)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
 LIBRUBYARG_SHARED = -l$(RUBY_SO_NAME)
@@ -102,33 +102,33 @@ cflags   =  $(optflags) $(debugflags) $(warnflags)
 optflags = -O3
 debugflags = -ggdb
 warnflags = -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration
-CFLAGS   = -fno-common $(cflags)  -fno-common -pipe 
+CFLAGS   = -fno-common -pipe -O2  -arch x86_64 -fno-common $(ARCH_FLAG)
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
 DEFS     = 
-CPPFLAGS =  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE $(DEFS) $(cppflags)  -I/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems/rice-1.4.3/ruby/lib/include
+CPPFLAGS =  -I/opt/local/include -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE $(DEFS) $(cppflags)  -I/opt/local/lib/ruby1.9/gems/1.9.1/gems/rice-1.4.3/ruby/lib/include
 CXXFLAGS = $(CFLAGS)  -Wall -g
-ldflags  = -L. -L/usr/local/lib  -L/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems/rice-1.4.3/ruby/lib/lib
+ldflags  = -L. -L/opt/local/lib  -arch x86_64  -L/opt/local/lib/ruby1.9/gems/1.9.1/gems/rice-1.4.3/ruby/lib/lib
 dldflags = -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress -Wl,-flat_namespace
-ARCH_FLAG = 
-DLDFLAGS = $(ldflags) $(dldflags)
+ARCH_FLAG =  -arch x86_64
+DLDFLAGS = $(ldflags) $(dldflags) $(ARCH_FLAG)
 LDSHARED = g++ -dynamic -bundle
 LDSHAREDXX = $(CXX) -dynamic -bundle
 AR = ar
 EXEEXT = 
 
 RUBY_BASE_NAME = ruby
-RUBY_INSTALL_NAME = ruby
+RUBY_INSTALL_NAME = ruby19
 RUBY_SO_NAME = ruby.1.9.1
-arch = x86_64-darwin11.2.0
+arch = x86_64-darwin12
 sitearch = $(arch)
 ruby_version = 1.9.1
-ruby = /Users/yielding/.rvm/rubies/ruby-1.9.3-p0/bin/ruby
+ruby = /opt/local/bin/ruby19
 RUBY = $(ruby)
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
 RMDIRS = rmdir -p
 MAKEDIRS = /opt/local/bin/gmkdir -p
-INSTALL = /opt/local/bin/ginstall -c
+INSTALL = /usr/bin/install -c
 INSTALL_PROG = $(INSTALL) -m 0755
 INSTALL_DATA = $(INSTALL) -m 644
 COPY = cp
@@ -140,8 +140,8 @@ preload =
 
 CXX = g++
 
-libpath = . $(libdir)
-LIBPATH =  -L. -L$(libdir)
+libpath = . $(libdir) /opt/local/lib
+LIBPATH =  -L. -L$(libdir) -L/opt/local/lib
 DEFFILE = 
 
 CLEANFILES = mkmf.log
