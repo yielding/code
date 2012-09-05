@@ -1,6 +1,7 @@
 #include "SSHSession.h"
 #include "SCPChannel.h"
-#include "SSHHostList.h"
+
+// #include "SSHHostList.h"
 
 #include <iostream>
 #include <fstream>
@@ -17,16 +18,22 @@ using namespace boost;
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
+    /*
     SSHHostList hosts;
-
     if (!hosts.init_with_file("/Users/yielding/.passwd"))
         return EXIT_FAILURE;
     
     string host, user, pw, from, xx;
     int port;
     tie(host, port, user, pw, from) = hosts.nth(1);
-    
-    string to = "/Users/yielding/down";
+    */
+
+    string host = "127.0.0.1";
+    int    port = 2222;
+    string user = "root";
+    string pw   = "alpine";
+    string from = "/mnt2/mobile";
+    string to   = "/Users/yielding/down";
     
     utility::comm::ssh::SSHSession ssh(host, user, port);
     if (!ssh.connect(pw))
