@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
-require 'ts'
+
+require_relative 'ts'
 
 describe TennisScorer, "basic scoring" do
   before (:each) do

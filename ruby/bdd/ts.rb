@@ -1,5 +1,5 @@
-#!/usr/bin/env ruby
-#encoding: utf-8
+#!/usr/bin/env ruby19
+# encoding: utf-8
 
 class TennisScorer
   OPPOSITE_SIDE_OF_NET = { 

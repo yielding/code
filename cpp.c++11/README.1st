@@ -1,5 +1,0 @@
-http://gcc.gnu.org/gcc-4.6/cxx0x_status.html
-[sample]
-g++-mp-4.7 -std=c++0x auto.cpp
-
-use lldb to debug (not gdb)
