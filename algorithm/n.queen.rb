@@ -1,10 +1,10 @@
-#!/usr/bin/env ruby -wKU
 require "set"
 
-n = 4
-a = [*0...n]
-a.permutation.each { |l| 
-  s1 = Set.new l.zip(a).map { |e| e.reduce(:+) }
-  s2 = Set.new l.zip(a).map { |e| e.reduce(:-) }
-  p l if s1.size == n and  s2.size == n
+n = 8
+a = [*0...8]
+a.permutation.each { |cd| 
+  s = [ Set.new(cd.zip(a).map { |e| e.reduce(:+) }),
+        Set.new(cd.zip(a).map { |e| e.reduce(:-) }) ]
+
+  p cd if s.all? { |x| x.size == n }
 }

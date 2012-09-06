@@ -7,7 +7,7 @@
     - refactoring
       > header 및 객체의 위치를 정확하게 조정한다.
 
-    - read_page
+    - read\_page
       > 여러가지 SpareData 에 대한 정확한 해석 및
         코드 위치 잡기 정확하게 refactoring
 
@@ -27,7 +27,7 @@
   * AES class ByteBuffer const correctness check
 
   * NAND class 구현
-    - find_lockers_unit
+    - find\_lockers\_unit
 
     - AES wrapper class (same interface as python) 구현
       > AESdecryptCBC, AESencryptCBC Test
@@ -38,7 +38,7 @@
         : AESdecryptCBC, AESencryptCBC cover하도록 한다
         : test wrap, unwrap
 
-    - read_page
+    - read\_page
       > SpareData 구조체 해석
 
     - refactoring
