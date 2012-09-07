@@ -13,18 +13,6 @@ class Numeric
 end
 
 a = [*100..999]
-
-#max_palindrome = 0
-#a.each { |e| 
-  #a.each { |f| 
-    #product = e * f
-    #if product.is_palindrome
-      #max_palindrome = product if product > max_palindrome
-    #end
-  #}
-#}
-#p max_palindrome
-
 p a.product(a).map    { |e| e.reduce(:*) } \
               .select { |e| e.is_palindrome } \
               .max
