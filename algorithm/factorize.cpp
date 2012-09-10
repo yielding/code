@@ -13,15 +13,15 @@ void prime_factor(IntegerType m, OutputIterator result)
     m /= 2;
     *result++ = 2;
   }
-  
+
   if (m > 1) 
   {
     for (IntegerType d = 3; m >= d * d; d += 2)
-    while ((m % d) == 0) 
-    {
-      m /= d;
-      *result++ = d;
-    }
+      while ((m % d) == 0) 
+      {
+        m /= d;
+        *result++ = d;
+      }
 
     if (m > 1) *result++ = m;
   }

@@ -1,8 +1,9 @@
 require "set"
 
-a = [*0...8]
+n = 8
+a = [*0...n]
 a.permutation.each { |c| 
-  s = [ Set.new(c.zip(a).map { |e| e.reduce(:+) }), 
-        Set.new(c.zip(a).map { |e| e.reduce(:-) }) ]
-  p c if s.all? { |x| x.size == 8 }
+  s1 = Set.new(c.zip(a).map { |e| e.reduce(:+) }) 
+  s2 = Set.new(c.zip(a).map { |e| e.reduce(:-) })
+  p c if [s1, s2].all? { |x| x.size == n }
 }
