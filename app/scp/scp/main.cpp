@@ -1,6 +1,7 @@
 #include "SSHSession.h"
-#include "SCPChannel.h"
+#include "SFTPChannel.h"
 
+// #include "SCPChannel.h"
 // #include "SSHHostList.h"
 
 #include <iostream>
@@ -44,14 +45,32 @@ int main(int argc, char** argv)
     
     try 
     {
-        auto scp = ssh.create_scp_channel();
-        auto res = scp->download(from, to);
+        auto sftp = ssh.create_sftp_channel();
+
+        vector<string> files;
+        auto p = [&files](string const& name, uint64_t size, bool is_dir, uint64_t ct, uint32_t mt, uint32_t at) {
+            if (!is_dir)
+                files.push_back(name);
+            
+            cout << str(format("%s : %ld\n") % name % size) << endl;
+        };
+
+        auto mdf_writer = [](char* buffer, int size) {
+            
+        };
+        
+        auto res = sftp->scan_dir(from, p);
         if (!res)
         {
             cout << "ssh.download error\n";
             return EXIT_FAILURE;
         }
-    } 
+        
+        for (auto it = files.begin(); it != files.end(); ++it)
+        {
+            sftp->download_to(*it, mdf_writer);
+        }
+    }
     catch (std::exception& e) 
     {
         cout << str(format("exception occurred: %s\n") % e.what());

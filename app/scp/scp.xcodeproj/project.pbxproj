@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF10FD7E15FDA6ED0037B3D1 /* SFTPChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF10FD7D15FDA6ED0037B3D1 /* SFTPChannel.cpp */; };
 		DF4C0E931540F7E800882746 /* SCPChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF4C0E921540F7E800882746 /* SCPChannel.cpp */; };
 		DF4C0E971540FA0900882746 /* SSHChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF4C0E961540FA0900882746 /* SSHChannel.cpp */; };
 		DF897420153E39850067BE5D /* SSHSession.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF89741F153E39850067BE5D /* SSHSession.cpp */; };
@@ -29,6 +30,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DF10FD7D15FDA6ED0037B3D1 /* SFTPChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFTPChannel.cpp; path = develop/src/SFTPChannel.cpp; sourceTree = "<group>"; };
+		DF10FD8015FDB60A0037B3D1 /* SFTPChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFTPChannel.h; path = develop/include/SFTPChannel.h; sourceTree = "<group>"; };
 		DF44C5BE153F99FA00B5F71F /* SSHSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSHSession.h; path = develop/include/SSHSession.h; sourceTree = "<group>"; };
 		DF4C0E921540F7E800882746 /* SCPChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SCPChannel.cpp; path = develop/src/SCPChannel.cpp; sourceTree = "<group>"; };
 		DF4C0E961540FA0900882746 /* SSHChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SSHChannel.cpp; path = develop/src/SSHChannel.cpp; sourceTree = "<group>"; };
@@ -61,6 +64,8 @@
 		DF4C0E951540F84500882746 /* develop */ = {
 			isa = PBXGroup;
 			children = (
+				DF10FD8015FDB60A0037B3D1 /* SFTPChannel.h */,
+				DF10FD7D15FDA6ED0037B3D1 /* SFTPChannel.cpp */,
 				DF8A48961548E14000A99FD5 /* SSHHostList.h */,
 				DF4C0E981540FB0F00882746 /* SCPChannel.h */,
 				DF4C0E991540FB0F00882746 /* SSHChannel.h */,
@@ -156,6 +161,7 @@
 				DF897422153E39970067BE5D /* main.cpp in Sources */,
 				DF4C0E931540F7E800882746 /* SCPChannel.cpp in Sources */,
 				DF4C0E971540FA0900882746 /* SSHChannel.cpp in Sources */,
+				DF10FD7E15FDA6ED0037B3D1 /* SFTPChannel.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
