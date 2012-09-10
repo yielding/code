@@ -3,6 +3,7 @@
 
 #include "SSHChannel.h"
 #include "SCPChannel.h"
+#include "SFTPChannel.h"
 
 #include <boost/format.hpp>
 #include <boost/shared_ptr.hpp>
@@ -167,6 +168,13 @@ auto SSHSession::create_ssh_channel() -> boost::shared_ptr<SSHChannel>
 auto SSHSession::create_scp_channel() -> boost::shared_ptr<SCPChannel>
 {
     boost::shared_ptr<SCPChannel> channel(new SCPChannel(this));
+
+    return channel;
+}
+
+auto SSHSession::create_sftp_channel() -> boost::shared_ptr<SFTPChannel>
+{
+    boost::shared_ptr<SFTPChannel> channel(new SFTPChannel(this));
 
     return channel;
 }
