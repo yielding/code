@@ -100,8 +100,8 @@
 		DFAE407D153D6ABA00D43554 /* scp */ = {
 			isa = PBXGroup;
 			children = (
-				DF4C0E951540F84500882746 /* develop */,
 				DF897421153E39970067BE5D /* main.cpp */,
+				DF4C0E951540F84500882746 /* develop */,
 			);
 			path = scp;
 			sourceTree = "<group>";
