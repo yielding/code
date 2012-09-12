@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <map>
 
 using namespace std;
 
@@ -11,6 +12,9 @@ public:
   auto values_of(int row)     -> vector<int>;
   auto line_of(int row)       -> string;
   auto lines_upto(int row)    -> string;
+
+private:
+  map<int, int> m_cache;
 };
 
 auto Pascal::value_of(int x, int y) -> int
