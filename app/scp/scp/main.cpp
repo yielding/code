@@ -55,10 +55,6 @@ int main(int argc, char** argv)
             cout << str(format("%s : %ld\n") % name % size) << endl;
         };
 
-        auto mdf_writer = [](char* buffer, int size) {
-            
-        };
-        
         auto res = sftp->scan_dir(from, p);
         if (!res)
         {
@@ -66,8 +62,15 @@ int main(int argc, char** argv)
             return EXIT_FAILURE;
         }
         
+        ofstream ofs("/Users/yielding/Desktop/all.bin");
+        
+        auto mdf_writer = [&ofs](char* buffer, int size) {
+            ofs.write(buffer, size);
+        };
+         
         for (auto it = files.begin(); it != files.end(); ++it)
         {
+            cout << *it << endl;
             sftp->download_to(*it, mdf_writer);
         }
     }

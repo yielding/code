@@ -1,8 +1,9 @@
-#include "stdafx.h"
+ #include "stdafx.h"
 #include "SSHSession.h"
 #include "SFTPChannel.h"
 
 #include <stdexcept>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
@@ -34,7 +35,7 @@ bool SFTPChannel::save_file_to(string const& fullpath)
 bool SFTPChannel::scan_dir(string const& from, Block block)
 {
     auto sftp = ::sftp_new(_ssh->session());
-    if (sftp == NULL)
+    if (sftp == nullptr)
         throw std::runtime_error("SFTP channel creation error");
 
     if (::sftp_init(sftp) != SSH_OK)
@@ -97,33 +98,35 @@ bool SFTPChannel::download_to(string const& from, MDFWriter mdf)
     if (::sftp_init(sftp) != SSH_OK)
     {
         _ssh->error("sftp.init error: ");
+        ::sftp_free(sftp);
+        
         return false;
     }
 
-    // O_RDONLY: 0x0000
-    auto file = ::sftp_open(sftp, from.c_str(), 0x0000, 0);
-    if (!file)
+    bool res = false;
+    auto file = ::sftp_open(sftp, from.c_str(), 0x0000, 0); // 0x0000: O_RDONLY
+    if (file)
+    {
+        int len = 0;
+        int const BUF_SIZE = 16 * 1024;
+        char buffer[BUF_SIZE] = { 0 };
+        while ((len = (int)::sftp_read(file, buffer, BUF_SIZE)) > 0)
+            mdf(buffer, len);
+        
+        if (len < 0)
+            _ssh->error("sftp.read error: ");
+
+        res = true;
+        ::sftp_close(file);
+    }
+    else
     {
         _ssh->error("sftp.open.file error: ");
-        return false;
     }
 
-    int len = 0;
-    int const BUF_SIZE = 16 * 1024; 
-    char buffer[BUF_SIZE] = { 0 };
-    while ((len = (int)::sftp_read(file, buffer, BUF_SIZE)) > 0)
-        mdf(buffer, len);
-
-    if (len < 0)
-    {
-        _ssh->error("sftp.read error: ");
-        return false;
-    }
-
-    ::sftp_close(file);
     ::sftp_free(sftp);
     
-    return true;
+    return res;
 }
     
 ////////////////////////////////////////////////////////////////////////////////

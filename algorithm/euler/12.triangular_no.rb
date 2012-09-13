@@ -8,7 +8,7 @@ class Numeric
     (1..self).select { |n| (self / n) * n == self }
   end
 
-  def divisors
+  def divisors2
     primes, powers = self.prime_division.transpose
     exponents = powers.map { |i| (0..i).to_a }
     result = exponents.shift.product(*exponents).map { |powers|
@@ -19,15 +19,15 @@ class Numeric
   end
 
   def triangular_no
-    return self / 2 * (self + 1) if self % 2 == 0
+    return (self / 2) * (self + 1) if self % 2 == 0
     return self * (self + 1) / 2
   end
 end
 
 i = 2
-while i > 0
+loop do
   v = i.triangular_no
-  count = v.divisor_count
+  count = v.divisors2.flatten.uniq.size
   p "#{v}: #{count}"
   if count >= 500
     p v
