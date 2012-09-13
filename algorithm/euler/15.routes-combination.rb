@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby19
 class Numeric
   def factorial
-     return 1 if self == 0
-     1.upto(self).reduce(:*)
+    self == 0 ? 1 : 1.upto(self).reduce(:*)
   end
 end
 
