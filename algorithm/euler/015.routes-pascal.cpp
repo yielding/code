@@ -14,6 +14,7 @@ public:
   auto values_of(int row)     -> vector<int64_t>;
   auto line_of(int row)       -> string;
   auto lines_upto(int row)    -> string;
+
 };
 
 auto Pascal::value_of(int x, int y) -> int64_t
