@@ -6,32 +6,36 @@ class Multiplier
 {
   double factor;
 
-  public Multiplier(double factor) {
+  public Multiplier(double factor)
+  {
     this.factor = factor;
   }
 
-  public double Multiply(double x) {
+  public double Multiply(double x)
+  {
     return x * factor;
   }
-
 }
 
 class Test
 {
-  static double Square(double x) {
+  static double Square(double x)
+  {
     return x * x;
   }
 
-  static double[] Apply(double[] a, Function f) {
+  static double[] Apply(double[] a, Function f)
+  {
     double[] result = new double[a.Length];
 
-    for (int i = 0; i< a.Length; ++i) 
+    for (int i=0; i<a.Length; ++i) 
       result[i] = f(a[i]);
 
     return result;
   }
 
-  static void Main() {
+  static void Main()
+  {
     double[] a = { 0.0, 0.5, 1.0 };
     double[] squares = Apply(a, Square);
 

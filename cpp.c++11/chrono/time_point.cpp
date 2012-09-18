@@ -1,7 +1,6 @@
 #include <chrono>
-
-#include <iostream>
 #include <ctime>
+#include <iostream>
 
 using namespace std;
 using namespace std::chrono;
