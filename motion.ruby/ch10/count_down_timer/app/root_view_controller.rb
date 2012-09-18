@@ -4,6 +4,9 @@ class RootViewController < UITableViewController
 
     self.title = "메뉴"
     @items = [
+      "SampleForCountDownTimer",
+      "SampleForDatePickerMode",
+      "SampleForMinuteInterval",
       "SampleForSetData",
       "SampleForDatePicker"
     ]
