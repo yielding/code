@@ -7,7 +7,7 @@
 //
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
-struct NandInfo;
+struct NAND;
 
 struct VirtualAddr
 {
@@ -43,7 +43,7 @@ struct VFLContext
 class VFL
 {
 public:
-    VFL(NandInfo& n);
+    VFL(NAND& n);
 
     auto get_ftl_ctrl_block() -> ByteBuffer;  // 3 * uint16_t
 
@@ -54,15 +54,18 @@ public:
             lpn=0xffffffff) -> NANDPage;
 
 private:
-    NandInfo& _nand;
+    NAND& _nand;
 
     uint32_t _banks_total;
     uint32_t _ce_count;
     uint16_t _banks_per_ce;
     uint32_t _blocks_per_ce;
+    uint32_t _blocks_per_bank;
+    uint32_t _blocks_per_bank_vfl;
+
     uint16_t _pages_per_block;
     uint16_t _pages_per_block_2;
-    uint32_t _pages_per_sublk;            // TODO what's this?
+    uint32_t _pages_per_sublk;
     uint32_t _vendor_type;
     uint32_t _fs_start_block;
     uint32_t _user_sublks_total;

@@ -49,7 +49,7 @@ struct NANDPage
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Spare Types
+// Spare Types: TODO Is there any nicer solution than using this tags?
 //
 ////////////////////////////////////////////////////////////////////////////////
 enum SpareType {
@@ -83,12 +83,14 @@ struct SpareData
 
 /*
 struct VSVFLSpareData {
-    struct {
+    struct 
+    {
         uint32_t logicalPageNumber;
         uint32_t usn;
     } user;
 
-    struct {
+    struct 
+    {
         uint32_t usnDec;
         uint16_t idx;
         uint8_t field_6;

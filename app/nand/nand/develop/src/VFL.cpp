@@ -1,6 +1,5 @@
 #include "VFL.h"
-#include "DeviceInfo.h"
-#include "NANDUtil.h"
+#include "NAND.h"
 
 #include <boost/format.hpp>
 
@@ -8,11 +7,15 @@ using namespace boost;
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
-//
+// SupportedDevices
+// https://github.com/iDroid-Project/openiBoot/blob/master/plat-s5l8900/includes/s5l8900/ftl.h
+// https://github.com/iDroid-Project/openiBoot/blob/master/plat-s5l8900/ftl.c
+// https://github.com/iDroid-Project/openiBoot/blob/master/plat-s5l8900/nand.c
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
+
 namespace {
-    // from openiBoot/plat-s518900/includes/s518900/nand.h 
+    // from openiBoot/plat-s518900/includes/s518900/nand.h
     struct NANDDeviceType {
         uint32_t id;
         uint16_t blocks_per_bank;
@@ -51,26 +54,28 @@ namespace {
 //
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
-VFL::VFL(NandInfo& n)
+VFL::VFL(NAND& n)
     : _nand(n)
 {
-    _banks_total       = n.ce_count * n.banks_per_ce;
-    _ce_count          = n.ce_count;
-    _banks_per_ce      = n.banks_per_ce;
-    _blocks_per_ce     = n.blocks_per_ce;
-    _pages_per_block   = n.pages_per_block;
-    _pages_per_block_2 = util::next_power_of_two(n.pages_per_block);
-
-    _pages_per_sublk   = _pages_per_block * _banks_per_ce * _ce_count;
-    _vendor_type       = n.vendor_type;
-    _fs_start_block    = 5;
+    _banks_total       = n.banks_total();
+    _ce_count          = n.ce_count();
+    _banks_per_ce      = n.banks_per_ce();
+    _blocks_per_ce     = n.blocks_per_ce();
+    _pages_per_block   = n.pages_per_block();
+    _pages_per_block_2 = n.pages_per_block2();
+    _pages_per_sublk     = _pages_per_block * _banks_per_ce * _ce_count;
+    _blocks_per_bank     = _blocks_per_ce / _banks_per_ce;
+    _blocks_per_bank_vfl = _blocks_per_ce / _banks_per_ce;
+    _vendor_type         = n.vendor_type();
+    _fs_start_block      = 5;
 
     // TODO REFACTOR: move method
     bool found = false;
-    int const sz = sizeof(SupportedDevices) / sizeof(SupportedDevices[0]);
+    auto device_readid = n.device_readid();
+    auto const      sz = sizeof(SupportedDevices) / sizeof(SupportedDevices[0]);
     for (int i=0; i<sz; i++)
     {
-        if (SupportedDevices[i].id == n.device_readid)
+        if (SupportedDevices[i].id == device_readid)
         {
             found = true;
             break;
@@ -79,12 +84,12 @@ VFL::VFL(NandInfo& n)
 
     if (!found)
     {
-        auto msg = str(format("VFL: unsupported device 0x%x") % n.device_readid);
+        auto msg = str(format("VFL: unsupported device 0x%x") % device_readid);
         assert(0);
         //throw std::runtime_error(msg.c_str());
     }
 
-    auto  user_sublks_total = SupportedDevices[n.device_readid].user_sublks_total;
+    auto  user_sublks_total = SupportedDevices[device_readid].user_sublks_total;
     _user_sublks_total      = user_sublks_total;
     auto user_pages_total   = user_sublks_total * _pages_per_sublk;
     auto sublks_total       = _blocks_per_ce;
@@ -105,7 +110,7 @@ VFL::VFL(NandInfo& n)
     {
         for (uint32_t b=reserved_blocks; b<fs_start_block; b++)
         {
-//            _nand.
+            _nand.read_meta_page(ce, b, 0, kVFLMetaSpareData);
         }
     }
 }
@@ -113,22 +118,27 @@ VFL::VFL(NandInfo& n)
 // 3 * uint16_t
 auto VFL::get_ftl_ctrl_block() -> ByteBuffer
 {
+    return utility::hex::ByteBuffer();
 }
 
 bool VFL::is_good_block()
 {
+    return false;
 }
 
 auto VFL::from_virtual_to_physical_block() -> uint32_t
 {
+    return 0xFFFFFFFF;
 }
 
 auto VFL::from_vpn_to_vaddr() -> VirtualAddr
 {
+    return VirtualAddr();
 }
 
 auto VFL::read_single_page(uint32_t vpn, ByteBuffer const& key, uint32_t lpn) -> NANDPage
 {
+    return NANDPage();
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

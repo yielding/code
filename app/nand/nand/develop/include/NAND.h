@@ -2,6 +2,7 @@
 #define NAND_H
 
 #include "NANDCore.h"
+#include "NANDUtil.h"
 ////////////////////////////////////////////////////////////////////////////////
 //
 // a Fasade interface 
@@ -54,6 +55,16 @@ public:
 
     auto read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st)
       -> NANDPage;
+
+public:
+    auto banks_total()      -> uint32_t { return _ce_count * _banks_per_ce_vfl; }
+    auto ce_count()         -> uint16_t { return _ce_count;                     }
+    auto banks_per_ce()     -> uint32_t { return _banks_per_ce_physical;        }
+    auto blocks_per_ce()    -> uint32_t { return _blocks_per_ce;                }
+    auto pages_per_block()  -> uint32_t { return _pages_per_block;              }
+    auto pages_per_block2() -> uint16_t { return util::next_power_of_two(_pages_per_block); }
+    auto vendor_type()      -> uint32_t { return _vendor_type;                  }
+    auto device_readid()    -> uint64_t { return _device_readid;                }
 
 private:
     void init_geometry(NandInfo const& n);
