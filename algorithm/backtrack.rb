@@ -41,19 +41,16 @@ class Backtrack
   end
 end
 
-#class TestBacktrack < Test::Unit::TestCase
-#  def setup
-#    @bt = Backtrack.new
-#  end
-#
-#  def test_identity
-#    @bt.subset([1])
-#    assert_equal @bt.identity, [1]
-#
-#    @bt.subset([1, 2])
-#    assert_equal @bt.identity, [1, 2]
-#  end
-#end
+class TestBacktrack < Test::Unit::TestCase
+  def setup
+    @bt = Backtrack.new
+  end
 
-if __FILE__ == $PROGRAM_NAME
+  def test_identity
+    @bt.subset([1])
+    assert_equal @bt.identity, [1]
+
+    @bt.subset([1, 2])
+    assert_equal @bt.identity, [1, 2]
+  end
 end
