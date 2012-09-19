@@ -2,6 +2,7 @@
 #define VFL_H
 
 #include "NANDCore.h"
+
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
 //
@@ -53,6 +54,7 @@ class VFL
 {
 public:
     VFL(NAND& n);
+    ~VFL();
 
     auto get_ftl_ctrl_block() -> ByteBuffer;  // 3 * uint16_t
 
@@ -80,7 +82,9 @@ private:
     uint32_t _user_sublks_total;
     uint32_t _ftl_data_field_4;
 
-    vector<VFLContext> _vfl_contexts;
+    vector<VFLContext*> _vfl_contexts;
+    VFLContext* _contexts;
+
     vector<int> _bbt;
     int _current_version;
 };

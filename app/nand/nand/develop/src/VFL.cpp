@@ -2,7 +2,6 @@
 #include "NAND.h"
 
 #include <boost/format.hpp>
-#include <boost/scoped_ptr.hpp>
 
 using namespace boost;
 
@@ -172,7 +171,7 @@ VFL::VFL(NAND& n)
     uint32_t reserved_blocks = 0;
     uint32_t fs_start_block  = reserved_blocks + 10;
 
-    scoped_ptr<VFLContext> vflctx(new VFLContext);
+    VFLContext* vflctx = nullptr;
     // checksum 검사
     for (uint32_t ce=0; ce<_ce_count; ++ce)
     {
@@ -182,11 +181,11 @@ VFL::VFL(NAND& n)
             if (page.data.empty())
                 continue;
 
-            vflctx->read_from(page.data);
-            // if (!vfl_check_checksum(vflctx.get()))
+            vflctx = new VFLContext(page.data);
             if (!vfl_check_checksum(page.data))
             {
-                vflctx.reset();
+                delete vflctx;
+                vflctx = nullptr;
                 continue;
             }
 
@@ -199,6 +198,7 @@ VFL::VFL(NAND& n)
         for (auto i=0; i<4; i++)
         {
             auto b = vflctx->vfl_context_block[i];
+            // REMARK: kVSVFLMetaSpareData
             auto page = _nand.read_meta_page(ce, b, 0, kVSVFLMetaSpareData);
             if (page.data.empty())
                 continue;
@@ -218,12 +218,49 @@ VFL::VFL(NAND& n)
         }
 
         VFLContext* last = nullptr;
-        for (auto page_no = 0; page_no < _pages_per_block; ++page_no)
+        for (auto page_no=0; page_no<_pages_per_block; ++page_no)
         {
-            auto page = _nand.read_meta_page(ce, most_recent_vfl_block, 
-                    page_no, kVSVFLUserSpareData);
+            // REMARK: kVSVFLUserSpareData
+            auto page = _nand.read_meta_page(
+                            ce, 
+                            most_recent_vfl_block, 
+                            page_no, 
+                            kVSVFLUserSpareData);
+            if (page.data.empty())
+                break;
+
+            vflctx = new VFLContext(page.data);
+            if (vfl_check_checksum(page.data))
+                last = vflctx;
+        }
+
+        if (last == nullptr)
+            throw std::runtime_error("VFL open FAIL");
+        
+        _vfl_contexts.push_back(last);
+        if (last->version == 1 && last->usn_inc >= _current_version)
+        {
+            _current_version = last->usn_inc;
+            _context = last;
         }
     }
+
+    if (_context == nullptr)
+        throw std::runtime_error("VFL open FAIL");
+}
+
+VFL::~VFL()
+{
+    auto deleter = [](VFLContext* ctx) 
+    {
+        if (ctx == nullptr)
+            return;
+
+        delete ctx;
+        ctx = nullptr;
+    }
+
+    for_each(_vfl_contexts.begin(), _vfl_contexts.end(), deleter);
 }
 
 // 3 * uint16_t
