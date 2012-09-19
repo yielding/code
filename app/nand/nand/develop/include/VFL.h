@@ -18,6 +18,13 @@ struct VirtualAddr
 
 struct VFLContext
 {
+    VFLContext(ByteBuffer const& b) 
+    {
+        read_from(b);
+    }
+
+    void read_from(ByteBuffer const& b);
+
     uint32_t usn_inc;
     uint16_t control_block[3];
     uint16_t unk1;

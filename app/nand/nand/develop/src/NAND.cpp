@@ -268,10 +268,14 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer const& key,
         SpareData sp(page.spare);
         new_lpn = sp.lpn;
     }
-    else if (st == kVFLUserSpareData)
+    else if (st == kVSVFLUserSpareData)
     {
-        VFLUserSpareData sp(page.spare);
+        VSVFLUserSpareData sp(page.spare);
         new_lpn = sp.lpn;
+    }
+    else if (st == kVSVFLMetaSpareData)
+    {
+
     }
     else
     {

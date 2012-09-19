@@ -54,8 +54,8 @@ struct NANDPage
 ////////////////////////////////////////////////////////////////////////////////
 enum SpareType {
     kSpareData = 1,
-    kVFLUserSpareData,
-    kVFLMetaSpareData
+    kVSVFLUserSpareData,
+    kVSVFLMetaSpareData
 };
 
 struct SpareData
@@ -83,25 +83,32 @@ struct SpareData
 
 /*
 struct VSVFLSpareData {
-    struct 
-    {
-        uint32_t logicalPageNumber;
-        uint32_t usn;
-    } user;
+    union {
+        struct 
+        {
+            uint32_t logicalPageNumber;
+            uint32_t usn;
+        } user;
 
-    struct 
-    {
-        uint32_t usnDec;
-        uint16_t idx;
-        uint8_t field_6;
-        uint8_t field_7;
-    } meta;
+        struct 
+        {
+            uint32_t usnDec;
+            uint16_t idx;
+            uint8_t field_6;
+            uint8_t field_7;
+        } meta;
+    } foo;
+
+    uint8_t type2;
+    uint8_t type1;
+    uint8_t eccMark;
+    uint8_t field_B;
 };
 */
 
-struct VFLUserSpareData
+struct VSVFLUserSpareData
 {
-    VFLUserSpareData(ByteBuffer const& b)
+    VSVFLUserSpareData(ByteBuffer const& b)
     {
         read_from(b);
     }
@@ -126,9 +133,9 @@ struct VFLUserSpareData
     uint8_t  field_b;
 };
 
-struct VFLMetaSpareData
+struct VSVFLMetaSpareData
 {
-    VFLMetaSpareData(ByteBuffer const& b)
+    VSVFLMetaSpareData(ByteBuffer const& b)
     {
         read_from(b);
     }

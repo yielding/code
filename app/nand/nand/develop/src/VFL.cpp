@@ -47,7 +47,65 @@ namespace {
         { 0x3ED5D72C, 8192, 128, 8, 216, 4, 2, 4, 2, 7744, 8, 8},
         { 0x3E94D52C, 4096, 128, 8, 216, 4, 2, 4, 2, 3872, 8, 8}
     };
+
+    void vfl_checksum(void* data, int size, uint32_t* a, uint32_t* b)
+    {
+        uint32_t* buffer = (uint32_t*) data;
+        uint32_t x = 0;
+        uint32_t y = 0;
+        for (int i=0; i<size/4; i++)
+        {
+            x += buffer[i];
+            y ^= buffer[i];
+        }   
+
+        *a = x + 0xAABBCCDD;
+        *b = y ^ 0xAABBCCDD;
+    }
+
+    bool vfl_check_checksum(VFLContext* context)
+    {
+        int sz1 = reinterpret_cast<uint32_t>(&context->checksum1);
+        int sz2 = reinterpret_cast<uint32_t>(context);
+
+        uint32_t cs1, cs2;
+        vfl_checksum(context, sz1 - sz2, &cs1, &cs2);
+
+        return (cs1 == context->checksum1) && 
+               (cs2 == context->checksum2);
+    }
 } 
+
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
+//
+//
+//
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
+void VFLContext::read_from(ByteBuffer const& b)
+{
+    usn_inc = b.get_uint4_le();
+    for (int i=0; i<3; i++) 
+        control_block[i] = b.get_uint2_le();
+    unk1    = b.get_uint2_le();
+    usn_dec = b.get_uint4_le();
+    active_context_block      = b.get_uint2_le();
+    next_context_page         = b.get_uint2_le();
+    unk2                      = b.get_uint2_le();
+    field16                   = b.get_uint2_le();
+    field18                   = b.get_uint2_le();
+    num_reserved_blocks       = b.get_uint2_le();
+    reserved_block_bool_start = b.get_uint2_le();
+    total_reserved_blocks     = b.get_uint2_le();;
+    for (int i=0; i<820; i++) reserved_block_pool_map[i] = b.get_uint2_le();
+    for (int i=0; i<282; i++) bad_block_table[i]         = b.get_uint1();
+    for (int i=0; i<  4; i++) vfl_context_block[i]       = b.get_uint2_le();
+
+    remapping_schedule_start = b.get_uint2_le();
+    for (int i=0; i<0x48; i++) unk3[i] = b.get_uint1();
+    version   = b.get_uint4_le();
+    checksum1 = b.get_uint4_le();
+    checksum2 = b.get_uint4_le();
+}
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
@@ -86,7 +144,6 @@ VFL::VFL(NAND& n)
     {
         auto msg = str(format("VFL: unsupported device 0x%x") % device_readid);
         assert(0);
-        //throw std::runtime_error(msg.c_str());
     }
 
     auto  user_sublks_total = SupportedDevices[device_readid].user_sublks_total;
@@ -98,19 +155,25 @@ VFL::VFL(NAND& n)
 
     _vfl_contexts.clear();
 
-    // TODO: _bbt type
+    // TODO: Determine exact _bbt type
     _bbt.clear();
    
     _current_version = 0;
     uint32_t reserved_blocks = 0;
     uint32_t fs_start_block  = reserved_blocks + 10;
 
-    // TODO here
+    // Checksum 검사
     for (uint32_t ce=0; ce<_ce_count; ++ce)
     {
         for (uint32_t b=reserved_blocks; b<fs_start_block; b++)
         {
-            _nand.read_meta_page(ce, b, 0, kVFLMetaSpareData);
+            auto page = _nand.read_meta_page(ce, b, 0, kVSVFLUserSpareData);
+            if (page.data.empty())
+                continue;
+
+            VFLContext vflctx(page.data);
+
+
         }
     }
 }
