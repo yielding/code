@@ -2,6 +2,7 @@
 #include "NAND.h"
 
 #include <boost/format.hpp>
+#include <boost/scoped_ptr.hpp>
 
 using namespace boost;
 
@@ -16,7 +17,8 @@ using namespace boost;
 
 namespace {
     // from openiBoot/plat-s518900/includes/s518900/nand.h
-    struct NANDDeviceType {
+    struct NANDDeviceType
+    {
         uint32_t id;
         uint16_t blocks_per_bank;
         uint16_t pages_per_block;
@@ -63,16 +65,23 @@ namespace {
         *b = y ^ 0xAABBCCDD;
     }
 
-    bool vfl_check_checksum(VFLContext* context)
+    // bool vfl_check_checksum(VFLContext* context)
+    bool vfl_check_checksum(ByteBuffer& context)
     {
-        int sz1 = reinterpret_cast<uint32_t>(&context->checksum1);
-        int sz2 = reinterpret_cast<uint32_t>(context);
-
         uint32_t cs1, cs2;
-        vfl_checksum(context, sz1 - sz2, &cs1, &cs2);
+        vfl_checksum((uint8_t*)context, int(context.size() - 8), &cs1, &cs2);
 
-        return (cs1 == context->checksum1) && 
-               (cs2 == context->checksum2);
+        // Yes, I know this looks strange!! but apple use this logic
+        context.offset(context.size() - 8);
+        auto checksum1 = context.get_uint4_le();
+        if (cs1 == checksum1)
+            return true;
+
+        auto checksum2 = context.get_uint4_le();
+        if (cs2 != checksum2)
+            return true;
+
+        return false;
     }
 } 
 
@@ -86,6 +95,7 @@ void VFLContext::read_from(ByteBuffer const& b)
     usn_inc = b.get_uint4_le();
     for (int i=0; i<3; i++) 
         control_block[i] = b.get_uint2_le();
+
     unk1    = b.get_uint2_le();
     usn_dec = b.get_uint4_le();
     active_context_block      = b.get_uint2_le();
@@ -162,7 +172,8 @@ VFL::VFL(NAND& n)
     uint32_t reserved_blocks = 0;
     uint32_t fs_start_block  = reserved_blocks + 10;
 
-    // Checksum 검사
+    scoped_ptr<VFLContext> vflctx(new VFLContext);
+    // checksum 검사
     for (uint32_t ce=0; ce<_ce_count; ++ce)
     {
         for (uint32_t b=reserved_blocks; b<fs_start_block; b++)
@@ -171,9 +182,46 @@ VFL::VFL(NAND& n)
             if (page.data.empty())
                 continue;
 
-            VFLContext vflctx(page.data);
+            vflctx->read_from(page.data);
+            // if (!vfl_check_checksum(vflctx.get()))
+            if (!vfl_check_checksum(page.data))
+            {
+                vflctx.reset();
+                continue;
+            }
 
+            break;
+        }
 
+        int32_t  most_recent_vfl_block = -1;
+        uint32_t min_usn = 0xFFFFFFFF;
+
+        for (auto i=0; i<4; i++)
+        {
+            auto b = vflctx->vfl_context_block[i];
+            auto page = _nand.read_meta_page(ce, b, 0, kVSVFLMetaSpareData);
+            if (page.data.empty())
+                continue;
+
+            VSVFLMetaSpareData s(page.spare);
+            if (0 < s.usnDec && s.usnDec <= min_usn)
+            {
+                min_usn = s.usnDec;
+                most_recent_vfl_block = b;
+            }
+        }
+
+        if (most_recent_vfl_block == -1)
+        {
+            // cout << "MostRecentVFLCxtBlock == -1";
+            return;
+        }
+
+        VFLContext* last = nullptr;
+        for (auto page_no = 0; page_no < _pages_per_block; ++page_no)
+        {
+            auto page = _nand.read_meta_page(ce, most_recent_vfl_block, 
+                    page_no, kVSVFLUserSpareData);
         }
     }
 }

@@ -18,6 +18,8 @@ struct VirtualAddr
 
 struct VFLContext
 {
+    VFLContext() {}
+
     VFLContext(ByteBuffer const& b) 
     {
         read_from(b);

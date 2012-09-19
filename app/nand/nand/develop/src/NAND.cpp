@@ -130,7 +130,7 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         _encrypted = true;
     
     vector<string> magics;
-    magics.push_back("DEVICEINFOBBT");
+    magics.push_back("DEVICEINFOBBT"); // BBT ??????
     ByteBuffer nandsig;
     
     if (!page0.empty() && page0.slice(8, 14).starts_with("Darwin"))

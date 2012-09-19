@@ -18,7 +18,7 @@ tri = %w{
 
 size = 15
 iter = tri.to_enum
-grid = 0.upto(size-1).map { |e| 
+grid = 0.upto(size-1).map { |e|
   row = [0] * size
   0.upto(e) { |col| row[col] = iter.next.to_i }
   row
