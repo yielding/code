@@ -248,30 +248,70 @@ VFL::VFL(NAND& n)
         throw std::runtime_error("VFL open FAIL");
 }
 
-// 3 * uint16_t
-auto VFL::get_ftl_ctrl_block() -> ByteBuffer
+auto VFL::get_ftl_ctrl_block() -> vector<uint16_t>
 {
-    return utility::hex::ByteBuffer();
+    vector<uint16_t> res;
+    for (auto it=_vfl_contexts.begin(); it!=_vfl_contexts.end(); ++it)
+    {
+        if (it->usn_inc == _current_version)
+        {
+            res.assign(it->control_block, it->control_block + 3);
+            return res;
+        }
+    }
+        
+    return res;
 }
 
-bool VFL::is_good_block()
+bool VFL::is_good_block(uint8_t* bbt, uint32_t block)
 {
-    return false;
+    if (block > _blocks_per_ce)
+        throw std::runtime_error("vfl is_good_block: block out of bound");
+
+    auto index = block / 8;
+    return ((bbt[index/8] >> (7 - (index % 8))) & 0x1) == 0x1;
 }
 
-auto VFL::from_virtual_to_physical_block() -> uint32_t
+auto VFL::virtual_block_to_physical_block(uint32_t ce, uint32_t physical_block) -> uint32_t
 {
-    return 0xFFFFFFFF;
+    if (is_good_block(_vfl_contexts[ce].bad_block_table, physical_block))
+        return physical_block;
+
+    auto& ctx = _vfl_contexts[ce];
+
+    // REMARK: in org source i is pwDesPbn. What's it mean?
+    for (auto i=0; i<ctx.num_reserved_blocks; i++)
+    {
+        if (ctx.reserved_block_pool_map[i] == physical_block)
+            if (i > _blocks_per_ce)
+            {
+                throw std::runtime_error("Destination physical block for remapping is greater than number of blocks per bank!");
+                return ctx.reserved_block_bool_start + i;
+            }
+    }
+
+    return physical_block;
 }
 
-auto VFL::from_vpn_to_vaddr() -> VirtualAddr
+// TODO check the type of vpn
+auto VFL::from_vpn_to_virtual_address(uint32_t vpn) -> VirtualAddr
 {
-    return VirtualAddr();
+    VirtualAddr va;
+
+    va.bank  = vpn % _ce_count;
+    va.block = vpn / _pages_per_sublk;
+    va.page  = (vpn / _ce_count) % _pages_per_block;
+
+    return va;
 }
 
 auto VFL::read_single_page(uint32_t vpn, ByteBuffer const& key, uint32_t lpn) -> NANDPage
 {
-    return NANDPage();
+    vpn += _pages_per_sublk * _ftl_data_field_4;
+    auto va = from_vpn_to_virtual_address(vpn);
+    auto pblock = virtual_block_to_physical_block(va.bank, va.block);
+
+    return _nand.read_page(va.bank, pblock * _nand.pages_per_block() + va.page, key, lpn);
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
