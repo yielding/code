@@ -184,8 +184,7 @@ VFL::VFL(NAND& n)
             vflctx = new VFLContext(page.data);
             if (!vfl_check_checksum(page.data))
             {
-                delete vflctx;
-                vflctx = nullptr;
+                delete vflctx; vflctx = nullptr;
                 continue;
             }
 
@@ -217,7 +216,7 @@ VFL::VFL(NAND& n)
             return;
         }
 
-        VFLContext* last = nullptr;
+        ByteBuffer last;
         for (auto page_no=0; page_no<_pages_per_block; ++page_no)
         {
             // REMARK: kVSVFLUserSpareData
@@ -229,38 +228,24 @@ VFL::VFL(NAND& n)
             if (page.data.empty())
                 break;
 
-            vflctx = new VFLContext(page.data);
             if (vfl_check_checksum(page.data))
-                last = vflctx;
+                last = page.data;
         }
 
-        if (last == nullptr)
+        if (last.empty())
             throw std::runtime_error("VFL open FAIL");
         
-        _vfl_contexts.push_back(last);
-        if (last->version == 1 && last->usn_inc >= _current_version)
+        VFLContext ctx(last);
+        _vfl_contexts.push_back(ctx);
+        if (ctx.version == 1 && ctx.usn_inc >= _current_version)
         {
-            _current_version = last->usn_inc;
+            _current_version = ctx.usn_inc;
             _context = last;
         }
     }
 
-    if (_context == nullptr)
+    if (_context.empty())
         throw std::runtime_error("VFL open FAIL");
-}
-
-VFL::~VFL()
-{
-    auto deleter = [](VFLContext* ctx) 
-    {
-        if (ctx == nullptr)
-            return;
-
-        delete ctx;
-        ctx = nullptr;
-    }
-
-    for_each(_vfl_contexts.begin(), _vfl_contexts.end(), deleter);
 }
 
 // 3 * uint16_t

@@ -54,7 +54,6 @@ class VFL
 {
 public:
     VFL(NAND& n);
-    ~VFL();
 
     auto get_ftl_ctrl_block() -> ByteBuffer;  // 3 * uint16_t
 
@@ -82,8 +81,8 @@ private:
     uint32_t _user_sublks_total;
     uint32_t _ftl_data_field_4;
 
-    vector<VFLContext*> _vfl_contexts;
-    VFLContext* _contexts;
+    vector<VFLContext> _vfl_contexts;
+    ByteBuffer _context;
 
     vector<int> _bbt;
     int _current_version;

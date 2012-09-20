@@ -1,14 +1,14 @@
 #include <cstdio>
+#include <stdint.h>
 
 int main(int argc, char **argv)
 {
   int longest = 0;
-  int terms = 0;
-  unsigned long j;
+  int terms   = 0;
 
   for (int i=1; i <= 1000000; i++)
   {
-    j = i;
+    uint64_t j = i;
     int this_terms = 1;
 
     while (j != 1)
