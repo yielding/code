@@ -5,8 +5,6 @@
 
 using namespace std;
 
-int64_t cache[1000][1000];
-
 class Pascal
 {
 public:
@@ -15,7 +13,17 @@ public:
   auto line_of(int row)       -> string;
   auto lines_upto(int row)    -> string;
 
+private:
+  auto value_of_(int x, int y) -> int64_t;
+
+private:
+  int64_t cache[1000][1000];
 };
+
+auto Pascal::value_of_(int x, int y) -> int64_t
+{
+  return cache[x][y] ? cache[x][y] : value_of(x, y);
+}
 
 auto Pascal::value_of(int x, int y) -> int64_t
 {
@@ -31,8 +39,8 @@ auto Pascal::value_of(int x, int y) -> int64_t
     return 1;
   }
 
-  auto v1 = cache[x-1][y-1] ? cache[x-1][y-1] : value_of(x-1, y-1);
-  auto v2 = cache[x-1][y  ] ? cache[x-1][y  ] : value_of(x-1, y  );
+  auto v1 = value_of_(x-1, y-1);
+  auto v2 = value_of_(x-1, y);
 
   if (cache[x][y] == 0)
     cache[x][y] = v1 + v2;

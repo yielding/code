@@ -1,23 +1,8 @@
 #!/usr/bin/env ruby19
 
-require "prime"
+require_relative "divisor"
 
 class Numeric
-  def divisors
-    # 1. the below algorithm is too simplistic to apply to a big number
-    (1..self).select { |n| (self / n) * n == self }
-  end
-
-  def divisors2
-    primes, powers = self.prime_division.transpose
-    exponents = powers.map { |i| (0..i).to_a }
-    result = exponents.shift.product(*exponents).map { |powers|
-      primes.zip(powers).map { |prime, power| prime ** power }.reduce(:*)
-    }
-
-    result.sort.map { |div| [div, self / div] }
-  end
-
   def triangular_no
     return (self / 2) * (self + 1) if self % 2 == 0
     return self * (self + 1) / 2
@@ -27,7 +12,7 @@ end
 i = 2
 loop do
   v = i.triangular_no
-  count = v.divisors2.flatten.uniq.size
+  count = v.divisors2.size
   p "#{v}: #{count}"
   if count >= 500
     p v
