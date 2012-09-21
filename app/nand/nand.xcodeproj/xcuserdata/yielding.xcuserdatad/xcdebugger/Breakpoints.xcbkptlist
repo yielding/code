@@ -4,7 +4,7 @@
    version = "1.0">
    <FileBreakpoints>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/main.cpp"
@@ -17,7 +17,7 @@
          landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/main.cpp"
@@ -30,7 +30,7 @@
          landmarkType = "7">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/develop/src/DeviceInfo.cpp"
@@ -41,7 +41,7 @@
          endingLineNumber = "168">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/main.cpp"
@@ -58,23 +58,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/develop/src/NAND.cpp"
-         timestampString = "369894092.588133"
+         timestampString = "369901836.582337"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "415"
-         endingLineNumber = "415">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "nand/develop/src/NANDImageFlat.cpp"
-         timestampString = "369895943.623528"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "20"
-         endingLineNumber = "20"
-         landmarkName = "NANDImageFlat::NANDImageFlat(char const* filename, NandInfo&amp; geometry)"
+         startingLineNumber = "174"
+         endingLineNumber = "174"
+         landmarkName = "NAND::NAND(char const* fname, DeviceInfo&amp; dinfo, int64_t ppn)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

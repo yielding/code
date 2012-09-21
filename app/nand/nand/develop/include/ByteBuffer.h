@@ -61,6 +61,7 @@ public:  // query
     auto last(uint32_t count)  const -> ByteBuffer;
     auto first()               const -> uint8_t;
     auto first(uint32_t count) const -> ByteBuffer;
+    auto take(uint32_t count)  const -> ByteBuffer;
 
     void reverse();
     auto reverse_copy() const -> ByteBuffer;

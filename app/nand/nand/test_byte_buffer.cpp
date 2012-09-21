@@ -104,5 +104,22 @@ TEST_F(ByteBufferTest, Reverse)
     auto res = b.to_s();
     EXPECT_EQ(b.to_s(), res);
     EXPECT_FALSE(c.to_s() == res);
+}
 
+TEST_F(ByteBufferTest, Slice)
+{
+    ByteBuffer a("0123456789");
+
+    auto s = a.slice(4, 8);
+    EXPECT_EQ(s.to_s(), string("4567"));
+    EXPECT_EQ(a.offset(), 0);
+}
+
+TEST_F(ByteBufferTest, Take)
+{
+    ByteBuffer a("0123456789");
+    auto t1 = a.take(2); EXPECT_EQ(t1.to_s(), string("01"));
+    auto t2 = a.take(2); EXPECT_EQ(t2.to_s(), string("23"));
+    auto t3 = a.take(2); EXPECT_EQ(t3.to_s(), string("45"));
+    EXPECT_EQ(a.offset(), 6);
 }

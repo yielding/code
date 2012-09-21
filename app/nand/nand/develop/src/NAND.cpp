@@ -14,6 +14,10 @@
 #include <boost/phoenix/operator.hpp>
 #include <boost/format.hpp>
 
+#if defined(DEVELOP)
+#include <cassert>
+#endif
+
 using namespace boost::phoenix::arg_names;
 using namespace boost;
 using namespace std;
@@ -175,7 +179,9 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         if (!unit.empty())
         {
             _lockers = new EffaceableLockers(unit.slice(0x40, uint32_t(unit.size())));
-            // TODO
+
+            // TODO program here........
+            assert(0);
             throw runtime_error("not implemented yet!!");
         }
 
@@ -218,7 +224,7 @@ auto NAND::find_lockers_unit() -> ByteBuffer
     {
         for (auto ce=0; ce<_ce_count; ++ce)
         {
-            auto page = read_block_page(ce, 1, i, META_KEY);
+            auto page = read_block_page(ce, 1, i, empty);
             if (!page.data.empty() && check_effaceable_header(page.data)) {
 #if defined(DEVELOP)
                 cout << str(format(

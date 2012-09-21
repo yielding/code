@@ -36,7 +36,7 @@ namespace {
         {
             magic  = b.get_string(2);
             length = b.get_uint2_le();
-            tag    = b.slice(4, 8);
+            tag    = b.take(4);
             data   = b.get_string(length);
         }
         
@@ -74,12 +74,12 @@ EffaceableLockers::EffaceableLockers(ByteBuffer const& data)
     {
         Locker l(data);
         auto tag = l.tag.get_uint4_le() & ~0x80000000;
-        // TODO
-        // test_byte_buffer에서 검증
-        ByteBuffer b;
-        b.set_uint4_le(tag);
+        ByteBuffer b; b.set_uint4_le(tag);
         auto key = b.reverse_copy().to_s();
         _lockers[key] = l.data;
+        
+        if (key == "DONE")
+            break;
     }
 }
 
@@ -142,13 +142,13 @@ bool check_effaceable_header(ByteBuffer const& plog)
     auto a = plog.slice( 0, 16);
     auto b = plog.slice(16, 32);
     auto z = xor_strings(a, b);
-    if (z != "ecaF")
+    if (z.substr(0, 4) != "ecaF")
         return false;
 
-#if defined(DEVELOP)
+//#if defined(DEVELOP)
     auto plog_generation = plog.offset(0x38).get_uint4_le();
     cout << "Effaceable generation: " << plog_generation << endl;
-#endif
+//#endif
     
     auto tmpb = plog.slice(0x20, 0x3c);
     auto pbuf = plog.slice(0x40, 0x40 + 960);
