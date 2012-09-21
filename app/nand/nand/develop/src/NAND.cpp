@@ -404,9 +404,10 @@ void NAND::init_geometry(NandInfo const& nand)
     if (dumped_page_size == 0)
         dumped_page_size = nand.bytes_per_page + _meta_size + 8;
 
-    _dump_size = nand.ce_count * nand.blocks_per_ce * 
+    _dump_size   = int64_t(nand.ce_count) * nand.blocks_per_ce *
                  nand.pages_per_block * dumped_page_size;
-    _total_pages   = nand.ce_count * nand.blocks_per_ce * nand.pages_per_block;
+    _total_pages = uint32_t(nand.ce_count) * nand.blocks_per_ce *
+                 nand.pages_per_block;
     auto nand_size = int64_t(_total_pages) * nand.bytes_per_page;
 
     auto hsize = util::sizeof_fmt(nand_size);

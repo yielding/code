@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import pdb
+
 def area(boxes):
     s = set([])
     for x1, y1, x2, y2 in boxes:
