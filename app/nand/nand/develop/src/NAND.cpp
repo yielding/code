@@ -14,6 +14,10 @@
 #include <boost/phoenix/operator.hpp>
 #include <boost/format.hpp>
 
+#if defined(DEVELOP)
+#include <cassert>
+#endif
+
 using namespace boost::phoenix::arg_names;
 using namespace boost;
 using namespace std;
@@ -175,7 +179,9 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         if (!unit.empty())
         {
             _lockers = new EffaceableLockers(unit.slice(0x40, uint32_t(unit.size())));
-            // TODO
+
+            // TODO program here........
+            assert(0);
             throw runtime_error("not implemented yet!!");
         }
 
@@ -218,7 +224,7 @@ auto NAND::find_lockers_unit() -> ByteBuffer
     {
         for (auto ce=0; ce<_ce_count; ++ce)
         {
-            auto page = read_block_page(ce, 1, i, META_KEY);
+            auto page = read_block_page(ce, 1, i, empty);
             if (!page.data.empty() && check_effaceable_header(page.data)) {
 #if defined(DEVELOP)
                 cout << str(format(
@@ -404,9 +410,10 @@ void NAND::init_geometry(NandInfo const& nand)
     if (dumped_page_size == 0)
         dumped_page_size = nand.bytes_per_page + _meta_size + 8;
 
-    _dump_size = nand.ce_count * nand.blocks_per_ce * 
+    _dump_size   = int64_t(nand.ce_count) * nand.blocks_per_ce *
                  nand.pages_per_block * dumped_page_size;
-    _total_pages   = nand.ce_count * nand.blocks_per_ce * nand.pages_per_block;
+    _total_pages = uint32_t(nand.ce_count) * nand.blocks_per_ce *
+                 nand.pages_per_block;
     auto nand_size = int64_t(_total_pages) * nand.bytes_per_page;
 
     auto hsize = util::sizeof_fmt(nand_size);
