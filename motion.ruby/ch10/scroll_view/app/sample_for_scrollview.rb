@@ -21,6 +21,5 @@ class SampleForScrollView < UIViewController
     sv.subviews.each { |subview|
       return subview if subview.class.eql? UIImageView
     }
-    nil
   end
 end
