@@ -5,7 +5,7 @@ using namespace std;
 
 void string_permutation(string head, string tail)
 {
-  if (head.empty())
+  if (head.size() == 0)
     cout << tail << endl;
 
   for (int i=0; i<head.size(); ++i)
@@ -15,7 +15,7 @@ void string_permutation(string head, string tail)
 
 int main(int argc, const char *argv[])
 {
-  string head = "12345";
+  string head = "123";
   string tail = "";
 
   string_permutation(head, tail);
