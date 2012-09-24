@@ -179,10 +179,11 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         if (!unit.empty())
         {
             _lockers = new EffaceableLockers(unit.slice(0x40, uint32_t(unit.size())));
-
-            // TODO program here........
-            assert(0);
-            throw runtime_error("not implemented yet!!");
+            auto lockers = _dinfo.lockers();
+            if (lockers.empty())
+            {
+              // TODO
+            }
         }
 
         auto device_unique_info = sp0["DEVICEUNIQUEINFO"];
