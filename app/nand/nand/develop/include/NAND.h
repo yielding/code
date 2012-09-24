@@ -110,6 +110,11 @@ private:
     uint32_t    _total_block_space;
     int32_t     _bank_mask;
 
+    // REMARK: these values are used when _dinfo does not 
+    // have "lockers" key
+    string      _emf;
+    string      _dkey;
+
     EffaceableLockers* _lockers;
     
     vector<uint8_t>  _empty_bootloader_page;

@@ -179,10 +179,11 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         if (!unit.empty())
         {
             _lockers = new EffaceableLockers(unit.slice(0x40, uint32_t(unit.size())));
-            auto lockers = _dinfo.lockers();
-            if (lockers.empty())
+            if (_dinfo.lockers().empty())
             {
-              // TODO
+                // TODO: verify the result
+                _emf  = _lockers->get_emf(_dinfo.key89B());
+                _dkey = _lockers->get_dkey(_dinfo.key835());
             }
         }
 
@@ -211,7 +212,14 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
 NAND::~NAND()
 {
     if (_image)
-        delete _image;
+    {
+        delete _image; _image = nullptr;
+    }
+
+    if (_lockers)
+    {
+        delete _lockers; _lockers = nullptr;
+    }
 }
 
 auto NAND::find_lockers_unit() -> ByteBuffer

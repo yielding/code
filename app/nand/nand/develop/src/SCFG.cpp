@@ -10,14 +10,15 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 void SCFGItem::read_from(ByteBuffer const& b)
 {
-    tag = b.get_string(4);
-    tag = b.get_string(16);
+    tag  = b.get_string(4);
+    auto sz     = std::min<int>(16, int(b.remaining()));
+    auto buffer = (char*)b.get_binary(sz);
+    data = string(buffer, sz);
 }
-
 
 void SCFG::read_from(ByteBuffer const& b)
 {
-    magic  = b.get_string(4);
+    magic = b.get_string(4);
     if (magic != "gfCS")
         throw std::runtime_error("wrong signature for SCFG structure");
 
@@ -37,7 +38,9 @@ auto parse_scfg(ByteBuffer const& data) -> map<string, string>
     if (scfg.length < 0x18)
         throw std::runtime_error("invalid SCFG length");
 
-    while (data.has_remaining())
+    auto count = (scfg.length - 0x18) / 20;
+    data.offset(0x18);
+    for (int i=0; i<count; i++)
     {
         SCFGItem item(data);
         if (item.tag != "\xFF\xFF\xFF\xFF")

@@ -97,7 +97,7 @@ auto DeviceInfo::ecid() const -> string
 
 auto DeviceInfo::emf() const -> string 
 { 
-    return m_pt.get_string("EMF",  "plist.dict");
+    return m_pt.get_string("EMF", "plist.dict");
 }
 
 auto DeviceInfo::keybag_keys() const -> string 
