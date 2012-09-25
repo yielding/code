@@ -1,4 +1,5 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" 
+"
 " Last modified : 2012년 6월 27일 수요일 15시 44분 37초 KST by yielding
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -59,8 +60,8 @@ set ve=block        " virtual edit
 
 set et              " expand tab
 
-set ts=2 sts=2 sw=2 tw=0
 set ts=4 sts=4 sw=4 tw=0
+set ts=2 sts=2 sw=2 tw=0
 
 set smarttab
 
@@ -86,13 +87,13 @@ try
 catch
 endtry
 
-""-----------------------------------------------------------------------------
-""
-"" RUMTIME manipulation
-""
-""-----------------------------------------------------------------------------
-"call pathogen#infect()
+"-----------------------------------------------------------------------------
 "
+" RUMTIME manipulation
+"
+"-----------------------------------------------------------------------------
+"call pathogen#infect()
+
 "-----------------------------------------------------------------------------
 "
 " Bundle management
@@ -110,37 +111,33 @@ Bundle 'gmarik/vundle'
 
 " My Bundles here:
 "
-Bundle 'Syntastic'
+"Bundle 'Syntastic'
 Bundle 'Conque-Shell'
 Bundle 'comments.vim'
 Bundle 'EnhCommentify.vim'
 Bundle 'FuzzyFinder'
 Bundle 'L9'
 Bundle 'Lokaltog/vim-easymotion'
-"Bundle 'AutoComplPop'
 Bundle 'ScrollColors'
 Bundle 'ShowMarks7'
-"Bundle 'SuperTab-continued.'
 Bundle 'Tagbar'
 Bundle 'The-NERD-tree'
 Bundle 'a.vim'
 Bundle 'calendar.vim'
-Bundle 'clarity.vim'
 Bundle 'closetag.vim'
 Bundle 'increment.vim--Avadhanula'
-Bundle 'jellybeans.vim'
 Bundle 'matchit.zip'
 Bundle 'minibufexpl.vim'
 Bundle 'rails.vim'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'snipMate'
-"Bundle "MarcWeber/vim-addon-mw-utils"
 
-Bundle 'tpope/vim-fugitive'
 Bundle 'wordlist.vim'
 Bundle 'coffee.vim'
 Bundle 'vim-coffee-script'
-"
+Bundle 'fugitive.vim'
+Bundle 'gitv'
+
 filetype plugin indent on     " required! 
 "-----------------------------------------------------------------------------
 "
@@ -148,7 +145,7 @@ filetype plugin indent on     " required!
 "
 "-----------------------------------------------------------------------------
 " Enable ShowMarks
-let showmarks_enable = 0
+let showmarks_enable = 1
 " Show which marks
 let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 " Ignore help, quickfix, non-modifiable buffers
@@ -199,12 +196,12 @@ if MySys() == "Windows_NT"
   let _vimrc  = '$VIM/_vimrc'
   let _gvimrc = '$VIM/_gvimrc'
   let _ctags  = "c:/windows/system32/ctags "
-  map   <C-Z> :!start cmd<CR>
+  map <C-Z> :!start cmd<CR>
 else
   let _vimrc  = '~/.vimrc'
   let _gvimrc = '~/.gvimrc'
   let _ctags  = "ctags "
-  map   <C-Z> :ConqueTermSplit bash<CR>
+  map <C-Z> :ConqueTermSplit bash<CR>
 endif
 
 "-----------------------------------------------------------------------------
@@ -235,7 +232,7 @@ set popt=syntax:y,number:y
 
 if MySys() == "mac"
   "set guifont=Menlo\ Regular:h12
-  set guifont=Andale\ Mono:h13
+  set guifont=Andale\ Mono:h15
   set shell=/opt/local/bin/bash
 elseif MySys() == "Windows_NT"
   set guifont=Fixedsys:h12
@@ -279,7 +276,7 @@ map <F3>    :set makeprg=rake<CR>
 map <F4>    :set makeprg=xcodebuild\ -sdk\ iphonesimulator4.3<CR>
 map <F6>    :make<CR>
 map <F7>    :!./%<<CR>
-map <F8>    :!mono ./%<.exe <CR>
+map <F8>    :!mono ./%.exe <CR>
 map <F9>    :TagbarToggle<CR>
 map <F10>   :FufFile<CR>
 map <F11>   :FufBuffer<CR>
@@ -391,19 +388,19 @@ map ,u :source <C-R>=_vimrc<CR><CR>
 " auto suggest
 "
 "-----------------------------------------------------------------------------
-function! InsertTabWrapper()
-  let col = col('.') - 1
-  if !col || getline('.')[col-1]!~'\k'
-    return "\<tab>"
-  else
-    if pumvisible()
-    return "\<c-n>"
-  else
-    return "\<c-n>\<c-p>"
-  end
-  endif
-endfunction
-
+"function! InsertTabWrapper()
+"  let col = col('.') - 1
+"  if !col || getline('.')[col-1]!~'\k'
+"    return "\<tab>"
+"  else
+"    if pumvisible()
+"    return "\<c-n>"
+"  else
+"    return "\<c-n>\<c-p>"
+"  end
+"  endif
+"endfunction
+"
 "inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
 "hi Pmenu     ctermbg=blue
@@ -415,48 +412,16 @@ endfunction
 " use dictionary
 "
 "-----------------------------------------------------------------------------
-function! Edic_yahoo()
-  let i = expand("<cword>")
-  new
-  exe "%r! ~/.vim/edic.py ".i
-  set nomod wrap
-  noremap <buffer> q :bd<cr>: echo "" <cr>
-endfunction
-
-map ,ed :call Edic_yahoo() <cr>gg
-
-"-----------------------------------------------------------------------------
+"function! Edic_yahoo()
+"  let i = expand("<cword>")
+"  new
+"  exe "%r! ~/.vim/edic.py ".i
+"  set nomod wrap
+"  noremap <buffer> q :bd<cr>: echo "" <cr>
+"endfunction
 "
-" character count under the cursor 
+"map ,ed :call Edic_yahoo() <cr>gg
 "
-"-----------------------------------------------------------------------------
-function! CharCount()
-  let searchChar = getline(".")[col(".")-1]
-  let orgPos = line(".")
-  let totalLine = line("$")
-  let totalChar = 0
-  let i = 0
-  while i <= totalLine
-    let pos = cursor(i, 0)
-    let thisLine = getline(i)
-    let lineLength = col("$")
-    let k = 0
-    while k < lineLength
-      if thisLine[k] == searchChar
-       let totalChar = totalChar + 1
-      endif
-      let k = k + 1
-    endwhile
-
-    let i = i + 1
-  endwhile
-  let pos = cursor(orgPos, 0)
-
-  echo "\"" . searchChar . "\" AC °³¼o: " . totalChar
-endfunction
-
-map ,cc : call CharCount() <cr>
-
 "-----------------------------------------------------------------------------
 "
 " always current directory
@@ -469,7 +434,7 @@ map ,h :cd %:p:h:gs/ /\\ /<CR>
 " Syntastic
 "
 "-----------------------------------------------------------------------------
-let b:syntastic_cpp_cflags = ' -I/opt/local/include -I/Users/yielding/code/app/nand/nand'
+let b:syntastic_cpp_cflags = ' -I/opt/local/include '
 let g:syntastic_cpp_compiler_options = ' -std=c++11'
 "let g:syntastic_cpp_auto_refresh_includes = 1
 
@@ -516,12 +481,6 @@ command! -nargs=0 OUTLINE call <SID>OutlineToggle()
 " colors 
 "
 "-----------------------------------------------------------------------------
-"color rainbow_neon
-"color inkpot
-"color oceandeep
-"color edo_sea
-"color molokai
-"color darkspectrum
 "color BusyBee
 "color carvedwoodcool
 "color oceanblack
@@ -534,10 +493,10 @@ command! -nargs=0 OUTLINE call <SID>OutlineToggle()
 "color dusk
 "color DevC++
 if (has('gui_running')) 
-  " color vanzan_color
-  " color peaksea
-  " color molokai
-  color jellybeans
+  "color peaksea
+  "color molokai
+  "color jellybeans
+  color Twilight2
 else
   color jellybeans
 endif
@@ -563,7 +522,7 @@ let g:bufExplorerShowRelativePath   = 1
 
 let g:bufExplorerSortBy = "name"
 
-autocmd BufRead,BufNew :call UMiniBufExplorer
+autocmd BufRead, BufNew :call UMiniBufExplorer
 
 "-----------------------------------------------------------------------------
 "
@@ -576,9 +535,11 @@ au FileType ruby set omnifunc=rubycomplete#Complete
 au FileType ruby let g:rubycomplete_buffer_loading = 1
 au FileType ruby let g:rubycomplete_rails = 1
 au FileType ruby let g:rubycomplete_classes_in_global = 1
-au FileType ruby noremap ,r :!ruby %<CR>
 
+au FileType ruby noremap ,r :!ruby19 %<CR>
 au FileType python noremap ,r :!python %<CR>
+au FileType cs noremap ,b :!dmcs %<CR>
+au FileType cs noremap ,r :!mono %:r.exe<CR>
 
 "-----------------------------------------------------------------------------
 "
@@ -594,18 +555,7 @@ let g:SuperTabDefaultCompletionType = "context"
 let g:clang_auto_select = 1
 let g:clang_complete_auto = 1
 let g:clang_complete_copen = 1
-"let g:clang_user_options ='-fblocks -std=c++0x -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk -D__IPHONE_OS_VERSION_MIN_REQUIRED=40300'
-let g:clang_user_options ='-fblocks -std=c++11 -isysroot /Applications/Xcode45-DP3.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk'
-"-----------------------------------------------------------------------------
-"
-" Xcode
-"
-"-----------------------------------------------------------------------------
-function! XCodeBuild()
-  let l:command = 'xcodebuild -sdk iphonesimulator4.3'
-  let l:out = system(l:command)
-  cexpr l:out
-endfunction
+let g:clang_user_options ='-fblocks -std=c++11 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk'
 "-----------------------------------------------------------------------------
 "
 " 자동 괄호 매칭 off
@@ -614,7 +564,7 @@ endfunction
 let loaded_matchparen = 0
 
 "if (has('gui_running')) 
-"  set transparency=10
+  "set transparency=9
 "endif
 
 "-----------------------------------------------------------------------------
@@ -633,16 +583,13 @@ au BufReadCmd file:///* exe "bd!|edit ".substitute(expand("<afile>"),"file:/*","
 
 au BufEnter * :syntax sync fromstart
 au BufNewFile,BufReadPost *.py         compiler pyunit
-au BufNewFile,BufReadPost *.cs         compiler gmcs
-au BufNewFile,BufReadPost *.pas        set ft=delphi
 au BufNewFile,BufReadPost *.java       compiler javac 
 au BufNewFile,BufReadPost *.rb         set ts=2 sw=2
 au BufNewFile,BufReadPost *.erb        set ft=eruby 
 au BufNewFile,BufReadPost *.md         set ft=markdown 
+au BufNewFile,BufReadPost *.m          set ft=objc 
 au BufNewFile,BufReadPost *.io         set ft=io 
 au BufNewFile,BufReadPost *.hx         set ft=haxe 
-au BufNewFile,BufReadPost *.m          set ft=objc 
 au BufNewFile,BufReadPost *.as         set ft=actionscript 
 au BufNewFile,BufReadPost *.scala      set ft=scala 
 au BufNewFile,BufReadPost *.cpp        set ft=cpp
-au BufNewFile,BufReadPost *.md         set ft=markdown

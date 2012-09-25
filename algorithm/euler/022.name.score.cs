@@ -159,11 +159,11 @@ namespace euler {
       return s1.Length < s2.Length;
     }
 
-    public class mySorter : IComparer {
+    public class mySorter: IComparer {
       int IComparer.Compare(object x, object y) {
 
-        string str1 = x.ToString();
-        string str2 = y.ToString();
+        var str1 = x.ToString();
+        var str2 = y.ToString();
 
         int i = 0;
         while (i < str1.Length && i < str2.Length) {
@@ -180,7 +180,6 @@ namespace euler {
 
         return str1.Length - str2.Length;     
       }
-
     }
   }
 }
