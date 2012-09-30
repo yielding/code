@@ -45,7 +45,6 @@ public:
   void ReadPackets(PacketStream* stream, size_t packet_no);
 };
 
-
 using ::testing::AtLeast;
 
 TEST(TurtleTest, DrawTurtle)

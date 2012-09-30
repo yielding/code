@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <stdint.h>
 
 using namespace std;
 
@@ -15,10 +16,10 @@ void string_permutation(string head, string tail)
 
 int main(int argc, const char *argv[])
 {
-  string head = "123";
+  string head = "0123456789";
   string tail = "";
 
   string_permutation(head, tail);
-  
+
   return 0;
 }
