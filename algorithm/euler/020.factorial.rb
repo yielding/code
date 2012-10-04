@@ -1,9 +1,5 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby19
 
-def fact(n)
-  1.upto(n).reduce(:*)
-end
+require_relative "numeric_ext"
 
-res = fact(100) 
-p res
-p res.to_s.scan(/\d/).map {|e| e.to_i }.reduce(:+)
+p 100.factorial.to_s.scan(/\d/).map {|e| e.to_i }.reduce(:+)

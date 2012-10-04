@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby19
 
-require_relative "divisor"
+require_relative "numeric_ext"
 
 class Numeric
   def triangular_no
@@ -12,7 +12,7 @@ end
 i = 2
 loop do
   v = i.triangular_no
-  count = v.divisors2.size
+  count = v.divisors.size
   p "#{v}: #{count}"
   if count >= 500
     p v

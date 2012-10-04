@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby19
 
-require_relative "divisor"
+require_relative "numeric_ext"
 
 class Numeric
   def sum_of_proper_divisors
-    divisors2[0..-2].reduce(:+)
+    divisors[0..-2].reduce(:+)
   end
 
   def amicable?

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby19
 
-require_relative "divisor"
+require_relative "numeric_ext"
 
 class Numeric
   def perfect?
