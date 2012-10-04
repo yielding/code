@@ -19,6 +19,7 @@ namespace util
 
     void vfl_checksum(void* data, int size, uint32_t* a, uint32_t* b);
     bool vfl_check_checksum(ByteBuffer& context);
+    int  ceil_divide(int value, int amount);
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

@@ -79,6 +79,11 @@ namespace util
 
         return false;
     }
+
+    int ceil_divide(int value, int amount)
+    {
+        return (value + amount - 1) / amount;
+    }
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

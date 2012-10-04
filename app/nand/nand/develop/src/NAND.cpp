@@ -287,27 +287,13 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer const& key,
     if (_metadata_whitening && !page.spare.all_values_are(0x00) && page.spare.size() == 12)
         page.spare = this->unwhiten_metadata(page.spare, page_no);
 
-    // TODO REFACTOR
+    // REMARK: other structures except kSpareData don't have lpn field
+    // so, ported code should be like this.
     uint32_t new_lpn = 0;
     if (st == kSpareData)
     {
         SpareData sp(page.spare);
         new_lpn = sp.lpn;
-    }
-    else if (st == kVSVFLUserSpareData)
-    {
-        VSVFLUserSpareData sp(page.spare);
-        new_lpn = sp.lpn;
-    }
-    else if (st == kVSVFLMetaSpareData)
-    {
-        // TODO implement
-        VSVFLMetaSpareData sp(page.spare);
-        new_lpn = sp.lpn;
-    }
-    else
-    {
-        assert(0);
     }
 
     if (!key.empty() && _encrypted)
