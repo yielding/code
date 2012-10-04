@@ -39,7 +39,8 @@ bool NandInfo::load(PListParser& d)
     spare_byte_count = lexical_cast<uint16_t>(nand["#spare-bytes"]);
     banks_per_ce     = lexical_cast<uint16_t>(nand["banks-per-ce"]);
     bbt_format       = lexical_cast<uint16_t>(nand["bbt-format"]);
-    boot_from_nand   = b64_decode(nand["boot-from-nand"]);
+    auto value       = b64_decode(nand["boot-from-nand"]);
+    boot_from_nand   = value == "\x01";
     
     device_readid    = lexical_cast<uint64_t>(nand["device-readid"]);
     meta_per_logical_page = lexical_cast<uint16_t>(nand["meta-per-logical-page"]);

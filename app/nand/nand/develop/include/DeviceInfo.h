@@ -35,7 +35,7 @@ struct NandInfo
     uint16_t spare_byte_count;      // 448
     uint16_t banks_per_ce;          // 1
     uint16_t bbt_format;            // 1
-    string   boot_from_nand;        // AQAAA==
+    bool     boot_from_nand;        // AQAAA==
     uint64_t device_readid;         // 848619416
     uint32_t dumped_page_size;
     uint16_t meta_per_logical_page; // 12

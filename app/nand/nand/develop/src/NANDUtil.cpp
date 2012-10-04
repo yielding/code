@@ -46,6 +46,39 @@ namespace util
     {
         return log(arg) / log(2);
     }
+
+    void vfl_checksum(void* data, int size, uint32_t* a, uint32_t* b)
+    {
+        uint32_t* buffer = (uint32_t*) data;
+        uint32_t x = 0;
+        uint32_t y = 0;
+        for (int i=0; i<size/4; i++)
+        {
+            x += buffer[i];
+            y ^= buffer[i];
+        }   
+
+        *a = x + 0xAABBCCDD;
+        *b = y ^ 0xAABBCCDD;
+    }
+
+    bool vfl_check_checksum(ByteBuffer& context)
+    {
+        uint32_t cs1, cs2;
+        vfl_checksum((uint8_t*)context, int(context.size() - 8), &cs1, &cs2);
+
+        // Yes, I know this looks strange!! but apple use this logic
+        context.offset(context.size() - 8);
+        auto checksum1 = context.get_uint4_le();
+        if (cs1 == checksum1)
+            return true;
+
+        auto checksum2 = context.get_uint4_le();
+        if (cs2 != checksum2)
+            return true;
+
+        return false;
+    }
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

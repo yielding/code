@@ -12,6 +12,8 @@
 #include <list>
 #include <vector>
 #include <map>
+#include <string>
+#include <stdint.h>
 
 #include <fstream>
 #include <sstream>
@@ -22,6 +24,12 @@ using std::ifstream;
 using std::map;
 using std::vector;
 using std::list;
+
+uint32_t const PAGETYPE_INDEX     =  0x4; // Index block indicator
+uint32_t const PAGETYPE_LBN       = 0x10; // User data
+uint32_t const PAGETYPE_FTL_CLEAN = 0x20; // FTL context (unmounted, clean)
+uint32_t const PAGETYPE_VFL       = 0x80; // VFL context
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -45,6 +53,24 @@ struct NANDPage
 
     ByteBuffer spare;
     ByteBuffer data;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+struct VirtualAddr
+{
+    uint32_t bank;
+    uint32_t block;
+    uint32_t page;
+};
+
+struct PhysicalAddr
+{
+    uint32_t ce;
+    uint32_t page;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
