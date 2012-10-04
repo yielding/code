@@ -16,7 +16,7 @@ end
 
 def backtracking(arr, depth)
   process(arr) && return if arr.length == depth
-  candidates.each { |c| backtracking(arr.deep_copy.push(c), depth) }
+  candidates.each { |c| backtracking(arr.push(c), depth) }
 end
 
 backtracking [], 4

@@ -5,6 +5,7 @@
 #include "NANDImageFlat.h"
 #include "DeviceInfo.h"
 #include "EffaceableLocker.h"
+#include "VFL.h"
 
 #include "AES.h"
 #include "SCFG.h"
@@ -58,7 +59,7 @@ namespace
         { 0x32956845,  0x2000,  0x80, 0x2000, 0x1C0,    8, 0, 9, 2, 0 }
     };
 
-    ByteBuffer META_KEY = ByteBuffer::from_hexcode("92a742ab08c969bf006c9412d3cc79a5");
+    auto META_KEY = ByteBuffer::from_hexcode("92a742ab08c969bf006c9412d3cc79a5");
 
     vector<uint32_t> gen_h2fmi_hash_table()
     {
@@ -87,6 +88,7 @@ namespace
 NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
     : _filename(fname)
     , _dinfo(dinfo)
+    , _vfl(nullptr)
 {
     _h2fmi_ht = gen_h2fmi_hash_table();
 
@@ -153,7 +155,8 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
     
     if (nandsig.empty())
     {
-        cout << "NANDDRIVERSIGN not found. assuming metadata whitening :" << _metadata_whitening
+        cout << "NANDDRIVERSIGN not found. assuming metadata whitening :" 
+             << _metadata_whitening
              << endl;
     }
     else
@@ -197,12 +200,15 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
             // TODO verify the result
             auto scfg = parse_scfg(device_unique_info);
             auto srnm = scfg["SrNm"];
-            cout << str(format("Found DEVICEUNIQUEINFO, serial number=%s") % srnm);
+            cout << str(format("Found DEVICEUNIQUEINFO, serial number=%s") % srnm.c_str());
+            cout.flush();
         }
     }
         
     if (vfl_type == '0')
     {
+        // TODO implement
+        _vfl = new VFL(*this);
     }
     else if (ppn == -1)
     {
@@ -219,6 +225,11 @@ NAND::~NAND()
     if (_lockers)
     {
         delete _lockers; _lockers = nullptr;
+    }
+
+    if (_vfl)
+    {
+        delete _vfl; _vfl = nullptr;
     }
 }
 
@@ -248,7 +259,7 @@ auto NAND::find_lockers_unit() -> ByteBuffer
 }
 
 auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer const& key,
-                     uint32_t lpn, SpareType st) -> NANDPage
+                     uint32_t lpn, SpareType st) const -> NANDPage
 {
     NANDPage page;
 
@@ -276,25 +287,13 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer const& key,
     if (_metadata_whitening && !page.spare.all_values_are(0x00) && page.spare.size() == 12)
         page.spare = this->unwhiten_metadata(page.spare, page_no);
 
-    // TODO REFACTOR
+    // REMARK: other structures except kSpareData don't have lpn field
+    // so, ported code should be like this.
     uint32_t new_lpn = 0;
     if (st == kSpareData)
     {
         SpareData sp(page.spare);
         new_lpn = sp.lpn;
-    }
-    else if (st == kVSVFLUserSpareData)
-    {
-        VSVFLUserSpareData sp(page.spare);
-        new_lpn = sp.lpn;
-    }
-    else if (st == kVSVFLMetaSpareData)
-    {
-
-    }
-    else
-    {
-        assert(0);
     }
 
     if (!key.empty() && _encrypted)
@@ -307,7 +306,7 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer const& key,
 }
 
 auto NAND::read_block_page(uint32_t ce_no, uint32_t block, uint32_t page,
-     ByteBuffer const& key, uint32_t lpn, SpareType st) -> NANDPage
+     ByteBuffer const& key, uint32_t lpn, SpareType st) const -> NANDPage
 {
     assert(page < _pages_per_block);
     
@@ -316,7 +315,7 @@ auto NAND::read_block_page(uint32_t ce_no, uint32_t block, uint32_t page,
     return read_page(ce_no, page_no, key, lpn, st);
 }
 
-auto NAND::read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st)
+auto NAND::read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st) const
     -> NANDPage
 {
     return read_block_page(ce, block, page, META_KEY, st);
@@ -385,7 +384,7 @@ auto NAND::unpack_spacial_page(ByteBuffer& data)
     return data.slice(0x38, 0x38 + loc);
 }
 
-auto NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no)
+auto NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no) const
     -> ByteBuffer 
 {
     ByteBuffer spare;
@@ -403,7 +402,7 @@ auto NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no)
     return spare;
 }
 
-auto NAND::decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no) 
+auto NAND::decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no) const
     -> ByteBuffer 
 {
     return aes_decrypt_cbc(data, key, iv_for_page(page_no));
@@ -419,10 +418,8 @@ void NAND::init_geometry(NandInfo const& nand)
     if (dumped_page_size == 0)
         dumped_page_size = nand.bytes_per_page + _meta_size + 8;
 
-    _dump_size   = int64_t(nand.ce_count) * nand.blocks_per_ce *
-                 nand.pages_per_block * dumped_page_size;
-    _total_pages = uint32_t(nand.ce_count) * nand.blocks_per_ce *
-                 nand.pages_per_block;
+    _dump_size     = int64_t(nand.ce_count)  * nand.blocks_per_ce * nand.pages_per_block * dumped_page_size;
+    _total_pages   = uint32_t(nand.ce_count) * nand.blocks_per_ce * nand.pages_per_block;
     auto nand_size = int64_t(_total_pages) * nand.bytes_per_page;
 
     auto hsize = util::sizeof_fmt(nand_size);
@@ -459,14 +456,13 @@ void NAND::init_geometry(NandInfo const& nand)
     else
     {
         _bank_address_space = util::next_power_of_two(_blocks_per_bank);
-        _total_block_space  = (_banks_per_ce_physical - 1) * _bank_address_space
-                              + _blocks_per_bank;
+        _total_block_space  = (_banks_per_ce_physical - 1) * _bank_address_space + _blocks_per_bank;
     }
     
     _bank_mask = (int) util::log2(_bank_address_space * _pages_per_block);
 }
 
-auto NAND::iv_for_page(uint32_t page_no) -> ByteBuffer
+auto NAND::iv_for_page(uint32_t page_no) const -> ByteBuffer
 {
     ByteBuffer iv;
     

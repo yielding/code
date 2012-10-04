@@ -11,6 +11,7 @@
 class NANDImage;
 class DeviceInfo;
 class EffaceableLockers;
+class VFL;
 
 // TODO REFACTOR
 struct NandInfo;
@@ -43,44 +44,50 @@ public:
 
 public:
     auto read_page(uint32_t ce, uint32_t page, 
-                   ByteBuffer const& key=ByteBuffer(), uint32_t lpn=0xffffffff, SpareType = kSpareData)
+                   ByteBuffer const& key=ByteBuffer(), 
+                   uint32_t lpn=0xffffffff, SpareType = kSpareData) const
       -> NANDPage;
     
     auto read_special_pages(uint32_t ce_no, vector<string>& magics)
       -> map<string, ByteBuffer>;
     
     auto read_block_page(uint32_t ce, uint32_t block, uint32_t page,
-                         ByteBuffer const&, uint32_t=0xffffffff, SpareType = kSpareData)
+                         ByteBuffer const&, 
+                         uint32_t=0xffffffff, SpareType = kSpareData) const
       -> NANDPage;
 
-    auto read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st)
+    auto read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st) const
       -> NANDPage;
 
 public:
-    auto banks_total()      -> uint32_t { return _ce_count * _banks_per_ce_vfl; }
-    auto ce_count()         -> uint16_t { return _ce_count;                     }
-    auto banks_per_ce()     -> uint32_t { return _banks_per_ce_physical;        }
-    auto blocks_per_ce()    -> uint32_t { return _blocks_per_ce;                }
-    auto pages_per_block()  -> uint32_t { return _pages_per_block;              }
-    auto pages_per_block2() -> uint16_t { return util::next_power_of_two(_pages_per_block); }
-    auto vendor_type()      -> uint32_t { return _vendor_type;                  }
-    auto device_readid()    -> uint64_t { return _device_readid;                }
+    auto banks_total() const      -> uint32_t { return _ce_count * _banks_per_ce_vfl; }
+    auto ce_count() const         -> uint32_t { return _ce_count;                     }
+    auto banks_per_ce() const     -> uint32_t { return _banks_per_ce_physical;        }
+    auto blocks_per_ce() const    -> uint32_t { return _blocks_per_ce;                }
+    auto pages_per_block() const  -> uint32_t { return _pages_per_block;              }
+    auto pages_per_block2() const -> uint32_t { return util::next_power_of_two(_pages_per_block); }
+    auto vendor_type() const      -> uint32_t { return _vendor_type;                  }
+    auto device_readid() const    -> uint64_t { return _device_readid;                }
+    auto banks_per_ce_physical() const -> uint32_t { return _banks_per_ce_physical;   }
+    auto bank_address_space() const -> uint32_t    { return _bank_address_space;      }
+    auto boot_from_nand() const -> bool            { return _bfn;                     }
 
 private:
     void init_geometry(NandInfo const& n);
 
-    auto unwhiten_metadata(ByteBuffer& , uint32_t page_no) -> ByteBuffer;
-    auto decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no)
+    auto unwhiten_metadata(ByteBuffer& , uint32_t page_no) const -> ByteBuffer;
+    auto decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no) const
       -> ByteBuffer;
     
     auto unpack_spacial_page(ByteBuffer& data) -> ByteBuffer;
-    auto iv_for_page(uint32_t page_no) -> ByteBuffer;
+    auto iv_for_page(uint32_t page_no) const -> ByteBuffer;
 
     auto find_lockers_unit() -> ByteBuffer;
 
 private:
-    NANDImage*  _image;
     DeviceInfo& _dinfo;
+    NANDImage*  _image;
+    VFL*        _vfl;
 
     int         _ios_version;
     int         _meta_size;
@@ -94,16 +101,16 @@ private:
     uint32_t    _total_pages;
 
     string      _filename;
-    string      _bfn;
+    bool        _bfn;
     uint32_t    _page_size;
     uint32_t    _bootloader_bytes;
-    uint16_t    _ce_count;
+    uint32_t    _ce_count;
     uint32_t    _blocks_per_ce;
     uint32_t    _pages_per_block;
     uint32_t    _pages_per_ce;
     uint32_t    _vendor_type;
     uint64_t    _device_readid;
-    uint16_t    _banks_per_ce_vfl;
+    uint32_t    _banks_per_ce_vfl;
     uint32_t    _banks_per_ce_physical;
     uint32_t    _blocks_per_bank;
     uint32_t    _bank_address_space;
