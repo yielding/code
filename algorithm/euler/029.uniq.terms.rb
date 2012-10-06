@@ -11,4 +11,4 @@ p res.uniq.size
 =end
 
 a = [*2..100]
-p a.product(a).map {|a, b| a ** b}.uniq.size
+p a.product(a).map { |a, b| a ** b }.uniq.size
