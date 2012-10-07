@@ -3,7 +3,11 @@ class RootViewController < UITableViewController
     super
 
     self.title = "메뉴"
-    @items ||= ["SampleForBadge"]
+    @items = %w{
+      SampleForDeviceInfo
+      SampleForBadge
+    }
+
   end
 
   def viewWillAppear animated

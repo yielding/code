@@ -1,30 +1,28 @@
 class SampleForBadge < UIViewController
   def viewDidLoad
     super
-
-    @label = UILabel.new
+    @label = UILabel.alloc.init
     @label.frame = self.view.bounds
+    @label.frame.origin.x -= 100
     @label.autoresizingMask = UIViewAutoresizingFlexibleWidth or UIViewAutoresizingFlexibleHeight
-    @label.textAlignment = UITextAlignmentCenter
+    @label.textAlignment   = NSTextAlignmentCenter
     @label.backgroundColor = UIColor.blackColor
     @label.textColor = UIColor.whiteColor
     @label.font = UIFont.systemFontOfSize(128)
 
     self.view.addSubview(@label)
+    @app = UIApplication.sharedApplication
   end
 
   def viewWillAppear animated
     super
-    p "appear"
     @badge_no = UIApplication.sharedApplication.applicationIconBadgeNumber
     self.updateLabel(@label, withNumber:@badge_no)
   end
 
   def viewWillDisappear animated
     super
-    p "disappear"
-    p @badge_no
-    UIApplication.sharedApplication.applicationIconBadgeNumber = @badge_no
+    @app.applicationIconBadgeNumber = @badge_no
   end
 
   def touchesEnded(touches, withEvent:event)
@@ -39,5 +37,6 @@ class SampleForBadge < UIViewController
 
   def updateLabel(la, withNumber:no)
     la.text = no.to_s
+    @app.applicationIconBadgeNumber = no
   end
 end

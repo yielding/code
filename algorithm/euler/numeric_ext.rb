@@ -41,7 +41,6 @@ class Numeric
   def factorial
     self == 0 ? 1 : 1.upto(self).reduce(:*)
   end
-
 end
 
 if __FILE__ == $PROGRAM_NAME
