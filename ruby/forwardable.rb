@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby19
+
 require "forwardable"
 
 class Stack 

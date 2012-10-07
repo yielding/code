@@ -1,13 +1,20 @@
 #!/usr/bin/env ruby19
+require "pp"
 
-target    = 200
-coin_size = [1, 2, 5, 10, 20, 50, 100, 200]
+#target    = 200
+#coin_deno = [1, 2, 5, 10, 20, 50, 100, 200] # denomination 
+
+
+target    = 5
+coin_deno = [1, 3] # denomination 
 ways      = [1] + [0] * target
 
-for i in 0...coin_size.size
-  for j in coin_size[i]..target
-     ways[j] += ways[j - coin_size[i]]
-  end
-end
+coin_deno.each { |coin|  
+  (coin..target).each { |i| 
+    ways[i] += ways[i - coin] 
+    pp ways
+  }
+  puts "--------"
+}
 
 p ways[target]

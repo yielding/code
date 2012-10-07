@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 uint64_t C(uint64_t n, uint64_t k)
 {
   if (k == n || k == 0)

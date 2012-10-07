@@ -1,31 +1,28 @@
-#include <map>
-#include <cstdlib>
+#include <vector>
 #include <iostream>
-#include <cassert>
+#include <stdint.h>
 
-typedef std::map<uint64_t, uint64_t> fibo_map;
+using namespace std;
 
-fibo_map fiboes;
-
-uint32_t fibo(uint64_t n)
+uint32_t fibo(uint32_t n)
 {
   if (n == 0 || n == 1)
     return 1;
 
-  auto it = fiboes.find(n);
-  if (it != fiboes.end())
-    return it->second;
+  vector<uint64_t> cache(n+1, 0);
+  cache[0] = 0;
+  cache[1] = 1;
 
-  fiboes[n] = fibo(n-1) + fibo(n-2);
+  for (uint32_t i=2; i<=n; i++)
+    cache[i] = cache[i-1] + cache[i-2];
 
-  return fiboes[n];
+  return cache[n];
 }
 
 int main(int argc, char const *argv[])
 {
-  assert(argc == 2);
-
-  std::cout << fibo(atoi(argv[1]));
+  for (int i=1; i<1000; i++)
+    cout << fibo(i) << endl;
 
   return 0;
 }
