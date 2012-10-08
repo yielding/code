@@ -11,7 +11,6 @@
 class NANDImage;
 class DeviceInfo;
 class EffaceableLockers;
-class VFL;
 
 // TODO REFACTOR
 struct NandInfo;
@@ -87,7 +86,7 @@ private:
 private:
     DeviceInfo& _dinfo;
     NANDImage*  _image;
-    VFL*        _vfl;
+    IVFL*        _vfl;
 
     int         _ios_version;
     int         _meta_size;

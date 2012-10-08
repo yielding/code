@@ -82,7 +82,7 @@ auto NANDImageFlat::read_page(uint32_t ce_no, uint32_t page_no) -> NANDPage
         auto beg = _page_size + _meta_size;
         buffer.offset(beg);
         auto r1 = buffer.get_uint4_le();
-        auto r2 = buffer.get_uint4_le();
+                  buffer.get_uint4_le();
         if (r1 != 0)
             return page;
     }

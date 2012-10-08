@@ -14,16 +14,25 @@
     - NANDRemote
       : readPage
 
-  * VSVFL
+  * VFL
+    - Test
 
   * YAFTL
 
 ## DOING
-  * NAND class 구현
 
-  * VFL
+  * VSVFL
+    - Test
 
 ## DONE
+  * VSVFL
+    - 구현
+
+  * VFL
+    - 구현
+
+  * NAND class 구현
+
   * AES class ByteBuffer const correctness check
 
   * NAND class 구현

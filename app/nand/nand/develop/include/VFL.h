@@ -43,18 +43,25 @@ struct VFLContext
     uint32_t checksum2;
 };
 
-class VFL
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
+//
+//
+//
+/////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
+class VFL : public IVFL
 {
 public:
     VFL(NAND const& n);
+    virtual ~VFL() {}
 
     auto get_ftl_ctrl_block() -> vector<uint16_t>;  // 3 * uint16_t
 
     auto is_good_block(uint8_t* bbt, uint32_t block) -> bool;
     auto virtual_block_to_physical_block(uint32_t, uint32_t) -> uint32_t;
-    auto from_vpn_to_virtual_address(uint32_t) -> VirtualAddr;
     auto read_single_page(uint32_t vpn, ByteBuffer const& key, uint32_t 
             lpn=0xffffffff) -> NANDPage;
+
+    auto from_vpn_to_virtual_address(uint32_t) -> VirtualAddr;
 
 private:
     NAND const& _nand;

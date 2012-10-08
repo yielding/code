@@ -6,6 +6,7 @@
 #include "DeviceInfo.h"
 #include "EffaceableLocker.h"
 #include "VFL.h"
+#include "VSVFL.h"
 
 #include "AES.h"
 #include "SCFG.h"
@@ -205,13 +206,14 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         }
     }
         
+    // TODO verify
     if (vfl_type == '0')
     {
-        // TODO implement
         _vfl = new VFL(*this);
     }
     else if (ppn == -1)
     {
+        _vfl = new VSVFL(*this);
     }
 }
 
@@ -287,8 +289,8 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer const& key,
     if (_metadata_whitening && !page.spare.all_values_are(0x00) && page.spare.size() == 12)
         page.spare = this->unwhiten_metadata(page.spare, page_no);
 
-    // REMARK: other structures except kSpareData don't have lpn field
-    // so, ported code should be like this.
+    // REMARK : other structures except kSpareData don't have lpn field
+    //          so, ported code should be like this.
     uint32_t new_lpn = 0;
     if (st == kSpareData)
     {
@@ -318,7 +320,7 @@ auto NAND::read_block_page(uint32_t ce_no, uint32_t block, uint32_t page,
 auto NAND::read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st) const
     -> NANDPage
 {
-    return read_block_page(ce, block, page, META_KEY, st);
+    return read_block_page(ce, block, page, META_KEY, 0xffffffff, st);
 }
 
 auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
