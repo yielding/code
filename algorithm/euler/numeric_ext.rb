@@ -41,10 +41,30 @@ class Numeric
   def factorial
     self == 0 ? 1 : 1.upto(self).reduce(:*)
   end
+
+  def is_pandigital?
+    pandigital?
+  end
+
+  def pandigital?
+    digits, count = 0, 0
+    val = self
+    while val > 0
+      tmp = digits
+      digits |= 1 << (val % 10 - 1)
+
+      return false if tmp.eql?(digits)
+
+      count += 1
+      val /= 10
+    end
+    digits == (1 << count) - 1
+  end
 end
 
 if __FILE__ == $PROGRAM_NAME
   p 28.divisors
   p 28.proper_divisors
-  p 29.is_prime?
+  p [28, 29].each { |e| p e.is_prime? }
+  p 978654321.is_pandigital?
 end
