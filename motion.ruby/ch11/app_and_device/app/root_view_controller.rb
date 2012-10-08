@@ -4,6 +4,7 @@ class RootViewController < UITableViewController
 
     self.title = "메뉴"
     @items = %w{
+      SampleForLinks
       SampleForBatteryMonitor
       SampleForDeviceInfo
       SampleForBadge

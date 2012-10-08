@@ -400,7 +400,9 @@ auto NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no) const
             spare.set_uint4_le(v);
         }
     }
-
+    
+    spare.offset(0);
+    
     return spare;
 }
 
