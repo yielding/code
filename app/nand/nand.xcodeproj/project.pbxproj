@@ -18,6 +18,7 @@
 		DF8E086B15BD3CE000C7C163 /* NANDImageFlat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */; };
 		DF8E086C15BD3CE000C7C163 /* ByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */; };
 		DF95133115E3185500AE90E2 /* EffaceableLocker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF95133015E3185500AE90E2 /* EffaceableLocker.cpp */; };
+		DF9E026A1622C41F00022874 /* YAFTL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF9E02691622C41F00022874 /* YAFTL.cpp */; };
 		DF9F235A15E4A68900CC0A5C /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF9F235915E4A68900CC0A5C /* libz.a */; };
 		DFA2F6AC15CB663C0019C60F /* NAND.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFA2F6AB15CB663C0019C60F /* NAND.cpp */; };
 		DFA2F6AF15CB69600019C60F /* DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFA2F6AE15CB69600019C60F /* DeviceInfo.cpp */; };
@@ -54,6 +55,9 @@
 		DF8E086815BD3CE000C7C163 /* NANDImageFlat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDImageFlat.cpp; path = develop/src/NANDImageFlat.cpp; sourceTree = "<group>"; };
 		DF8E086915BD3CE000C7C163 /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ByteBuffer.cpp; path = develop/src/ByteBuffer.cpp; sourceTree = "<group>"; };
 		DF95133015E3185500AE90E2 /* EffaceableLocker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffaceableLocker.cpp; path = develop/src/EffaceableLocker.cpp; sourceTree = "<group>"; };
+		DF9E02691622C41F00022874 /* YAFTL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YAFTL.cpp; path = develop/src/YAFTL.cpp; sourceTree = "<group>"; };
+		DF9E026C1622C42D00022874 /* VSVFL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSVFL.h; path = develop/include/VSVFL.h; sourceTree = "<group>"; };
+		DF9E026D1622C42D00022874 /* YAFTL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YAFTL.h; path = develop/include/YAFTL.h; sourceTree = "<group>"; };
 		DF9F235915E4A68900CC0A5C /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = ../../../../../opt/local/lib/libz.a; sourceTree = "<group>"; };
 		DF9F235C15E4B06E00CC0A5C /* EffaceableLocker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffaceableLocker.h; path = develop/include/EffaceableLocker.h; sourceTree = "<group>"; };
 		DFA2F6AB15CB663C0019C60F /* NAND.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NAND.cpp; path = develop/src/NAND.cpp; sourceTree = "<group>"; };
@@ -111,6 +115,9 @@
 		DFCED53015B6760700D8CDAF /* nand */ = {
 			isa = PBXGroup;
 			children = (
+				DF9E026C1622C42D00022874 /* VSVFL.h */,
+				DF9E026D1622C42D00022874 /* YAFTL.h */,
+				DF9E02691622C41F00022874 /* YAFTL.cpp */,
 				DF6DC155161EB0C000513DC7 /* VSVFL.cpp */,
 				DF3FC02E15ECC16100E4328D /* NANDUtil.cpp */,
 				DF3FC02B15ECB0B400E4328D /* VFL.cpp */,
@@ -200,6 +207,7 @@
 				DF3FC02C15ECB0B400E4328D /* VFL.cpp in Sources */,
 				DF3FC02F15ECC16100E4328D /* NANDUtil.cpp in Sources */,
 				DF6DC156161EB0C000513DC7 /* VSVFL.cpp in Sources */,
+				DF9E026A1622C41F00022874 /* YAFTL.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

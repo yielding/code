@@ -7,6 +7,7 @@
 #include "EffaceableLocker.h"
 #include "VFL.h"
 #include "VSVFL.h"
+#include "YAFTL.h"
 
 #include "AES.h"
 #include "SCFG.h"
@@ -214,6 +215,7 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
     else if (ppn == -1)
     {
         _vfl = new VSVFL(*this);
+        _ftl = new YAFTL(_vfl);
     }
 }
 
