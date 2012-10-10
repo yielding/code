@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby19
 
 a = [*10..99]
-p a.product(a) \
-   .select { |a, b| a.quo(b) < 1 } \
-   .select { |a, b| a % 10 == b / 10 } \
-   .select { |a, b| b % 10 != 0 } \
-   .select { |a, b| a.quo(b) == (a/10).quo(b%10) } \
-   .map    { |a, b| a.quo(b) } \
+p a.product(a)
+   .select { |a, b| a.quo(b) < 1 }
+   .select { |a, b| a % 10 == b / 10 }
+   .select { |a, b| b % 10 != 0 }
+   .select { |a, b| a.quo(b) == (a/10).quo(b%10) }
+   .map    { |a, b| a.quo(b) }
    .reduce(:*)
 
 =begin rdoc

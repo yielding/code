@@ -1,13 +1,12 @@
 # -*- ruby -*-
 
-SRCS      = %w{ ./tut4.cpp}
-TEST_SRCS = %w{test_fs.basic.cpp}
-APP       = "tut4"
-APP_TEST  = "test_tut4"
+SRCS      = %w{ ./reverse_string.cpp      }
+TEST_SRCS = %w{ ./test_fs.resurse.dir.cpp  }
+APP       = "reverse_string"
+APP_TEST  = "test_fs.recurse.dir"
 CXX       = "clang++"
 CXXFLAGS  = ":v :d :w"   # :d , :w=-Wall :O0 :O3
 LDFLAGS   = ""
 LIBS      = ":s :f"
 
 load '~/code/build/app2.rake'
-# CLOBBER.include("a.out")

@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 
   std::cout << "\nIn directory: " << full_path.native_directory_string() << "\n\n";
   fs::directory_iterator end_iter;
-  for (fs::directory_iterator dir_itr(full_path); dir_itr != end_iter; ++dir_itr) 
+  for (auto dir_itr(full_path); dir_itr != end_iter; ++dir_itr) 
   {
     try 
     {

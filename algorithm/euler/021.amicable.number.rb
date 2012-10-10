@@ -16,6 +16,6 @@ class Numeric
   end
 end
 
-p 2.upto(10000).select { |n| n.amicable? } \
+p 2.upto(10000).select { |n| n.amicable? }
                .reduce(:+)
 
