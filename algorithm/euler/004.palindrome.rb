@@ -13,6 +13,6 @@ class Numeric
 end
 
 a = [*100..999]
-p a.product(a).map    { |e| e.reduce(:*) } \
-              .select { |e| e.is_palindrome } \
+p a.product(a).map    { |e| e.reduce(:*) }
+              .select { |e| e.is_palindrome }
               .max
