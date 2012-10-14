@@ -1,11 +1,6 @@
 #!/usr/bin/env ruby19
 
 class Numeric
-  def is_palindrome?
-    s = self.to_s
-    s == s.reverse
-  end
-
   def to_bin
     val = self
     res, count = 0, 0

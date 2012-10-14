@@ -42,6 +42,11 @@ class Numeric
     self == 0 ? 1 : 1.upto(self).reduce(:*)
   end
 
+  def is_palindrome?
+    s = self.to_s
+    s == s.reverse
+  end
+
   def is_pandigital?
     pandigital?
   end
@@ -62,9 +67,16 @@ class Numeric
   end
 end
 
+class Array
+  def sum
+    self.reduce(:+)
+  end
+end
+
 if __FILE__ == $PROGRAM_NAME
   p 28.divisors
   p 28.proper_divisors
-  p [28, 29].each { |e| p e.is_prime? }
+  p 131.is_palindrome?
+  p [28, 29].map { |e| p e.is_prime? }
   p 978654321.is_pandigital?
 end
