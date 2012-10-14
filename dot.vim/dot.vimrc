@@ -271,7 +271,7 @@ map   -       "yyy:@y<cr>
 "nmap  ;       :%s/\<<c-r>=expand("<cword>")<cr>\>
 map   ;s   :up \| saveas! %:p:r-<C-R>=strftime("%y%m%d")<CR>-bak.txt \| 3sleep \| e #<CR> 
 
-map <F2>    :set makeprg=g++-mp-4.7\ -std=c++11\ %\ -o\ %<<CR>
+map <F2>    :set makeprg=clang++\ -std=c++11\ %\ -o\ %<<CR>
 map <F3>    :set makeprg=rake<CR>
 map <F4>    :set makeprg=xcodebuild\ -sdk\ iphonesimulator4.3<CR>
 map <F6>    :make<CR>
@@ -497,6 +497,7 @@ if (has('gui_running'))
   "color molokai
   "color jellybeans
   color Twilight2
+  color Tomorrow-Night
 else
   color jellybeans
 endif
