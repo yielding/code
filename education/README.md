@@ -1,4 +1,5 @@
 ## TODO
+
  1. DESGIN
     * class design
       > constructor, destructor
@@ -15,8 +16,11 @@
         : critical section
         : event
         : semaphore
+      > async I/O
 
  3. Language
+    * C++, C#
+
     * ruby, python
       > ruby   : just reading 
       > python : tool for 

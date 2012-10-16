@@ -36,24 +36,26 @@ class SampleForCopyAndPaste < UIViewController
   end
 
   def canPerformAction(action, withSender:sender)
-    if action == :"copy:"
-      return true if self.imageContainsPoint(@touch_point)
-    elsif action == :"cut:"
-      return true if self.imageContainsPoint(@touch_point)
-    elsif action == :"paste:"
-      return true unless UIPasteboard.generalPasteboard.image.nil?
-    end
-
-    false
+    res = case action
+          when :"copy:"
+            puts "copy"
+            true if self.imageContainsPoint(@touch_point)
+          when :"cut:"   
+            puts "cut"
+            true if self.imageContainsPoint(@touch_point)
+          when :"paste:"
+            puts "paste"
+            true unless UIPasteboard.generalPasteboard.image.nil?
+          else
+            false
+          end
+    res
   end
 
   def imageContainsPoint(point)
     view.subviews.each { |view|  
       if CGRectContainsPoint(view.frame, point)
-        if view.class == UIImageView
-          puts "4"
-          return view
-        end
+        return view if view.class == UIImageView
       end
     }
 
@@ -61,34 +63,30 @@ class SampleForCopyAndPaste < UIViewController
   end
 
   def copy(sender)
-    puts "in copy"
     iv = self.imageContainsPoint(@touch_point)
     if iv
-      puts "before copy"
+      puts "copy"
       UIPasteboard.generalPasteboard.image = iv.image 
-      puts "after copy"
     end
   end
 
   def cut(sender)
-    puts "in cut"
     iv = self.imageContainsPoint(@touch_point)
     if iv
+      puts "cut"
       UIPasteboard.generalPasteboard.image = iv.image if iv
       iv.removeFromSuperview
     end
   end
 
   def paste(sender)
-    puts "in paste"
     pb = UIPasteboard.generalPasteboard
     if pb.image
-      puts "has image"
+      puts "paste"
       bug = UIImageView.alloc.initWithImage(pb.image)
       bug.center = @touch_point
       self.view.addSubview(bug)
       pb.image = bug.image
-      puts "bingo"
     end
   end
 
