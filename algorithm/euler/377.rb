@@ -32,17 +32,7 @@ def count_change amount, arr
 end
 
 res = count_change 5, []
-<<<<<<< HEAD
-pp res
-#xxx = res.map { |arr| arr.permutation.map { |per| per }.uniq }
-#arr = xxx.uniq.reduce(:+)
-#p arr
-#p arr.map { |e| e.to_num }.sum
-=======
-p res
-
-# xxx = res.map { |arr| arr.permutation.map { |per| per }.uniq }
-# arr = xxx.uniq.reduce(:+)
-# p arr
-# p arr.map { |e| e.to_num }.sum
->>>>>>> 656166f32f37f0b72a917c78892f31b1ba29fe7e
+xxx = res.map { |arr| arr.permutation.map { |per| per }.uniq }
+arr = xxx.uniq.reduce(:+)
+p arr
+p arr.map { |e| e.to_num }.sum
