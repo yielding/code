@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby19
 
+require "pp"
 require_relative "numeric_ext"
 
 module Enumerable
@@ -9,7 +10,7 @@ module Enumerable
   end
 end
 
-$coins = [*1..9]
+$coins = [*1..5]
 
 def count_change amount, arr
   def cc amount, kinds_of_coin, arr, res
@@ -26,12 +27,13 @@ def count_change amount, arr
   end
 
   res = []
-  cc(amount, 9, arr, res)
+  cc(amount, 5, arr, res)
   res
 end
 
-res = count_change 10, []
-xxx = res.map { |arr| arr.permutation.map { |per| per }.uniq }
-arr = xxx.uniq.reduce(:+)
-p arr
+res = count_change 5, []
+pp res
+#xxx = res.map { |arr| arr.permutation.map { |per| per }.uniq }
+#arr = xxx.uniq.reduce(:+)
+#p arr
 #p arr.map { |e| e.to_num }.sum

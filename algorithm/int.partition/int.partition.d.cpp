@@ -1,12 +1,13 @@
 #include <stdio.h>
+#include <stdint.h>
 
-int table[100][100] = { 0 };
+uint64_t table[1000][1000] = { 0 };
 
 void pp()
 {
   for (int i=0; i<20; i++)
   {
-    for (int j=0; j<20; j++) printf("%2d", table[i][j]);
+    for (int j=0; j<20; j++) printf("%2lld", table[i][j]);
     printf("\n");
   }
   printf("\n");
@@ -23,12 +24,9 @@ int partition(int sum, int largestNumber)
   if (sum < 0)
     return 0;
 
-  printf("%d, %d, %d\n", sum, largestNumber, table[sum][largestNumber]);
 
   if (table[sum][largestNumber] != 0)
   {
-    printf("xx %d, %d\n", sum, largestNumber);
-
     return table[sum][largestNumber];
   }
 
@@ -36,15 +34,15 @@ int partition(int sum, int largestNumber)
     = partition(sum, largestNumber - 1)
     + partition(sum - largestNumber, largestNumber);
 
-  pp();
+  //pp();
 
   return table[sum][largestNumber];
 }
 
 int main()
 {
-  int sum = 5;
-  int largestNumber = 5;
+  int sum = 11;
+  int largestNumber = 9;
 
   printf("%d\n", partition(sum, largestNumber));
 

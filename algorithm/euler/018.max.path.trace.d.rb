@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby19
 
 require "test/unit"
+require "pp"
 
 $tri = %w{     
 75
@@ -20,6 +21,16 @@ $tri = %w{
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23
 }
 
+class Trace
+  attr_accessor :max_seq
+  attr_accessor :trace
+
+  def initialize arr
+    @max_seq = arr.clone
+    @trace   = arr.clone.map { |e| [e] }
+  end
+end
+
 class MaxPath
   attr_reader :max, :grid
 
@@ -30,13 +41,21 @@ class MaxPath
   end
 
   def solve_dynamic
-    max = @grid[@size-1].clone
+    t = Trace.new(@grid[@size-1])
 
     (@size-2).downto(0) { |r|
-      0.upto(r) { |c| max[c] = @grid[r][c] + [max[c], max[c+1]].max }
+      0.upto(r) { |c| 
+        if t.max_seq[c] > t.max_seq[c+1]
+          t.trace[c]   = [@grid[r][c]] + t.trace[c]
+          t.max_seq[c] = @grid[r][c] + t.max_seq[c]
+        else
+          t.trace[c]   = [@grid[r][c]] + t.trace[c+1]
+          t.max_seq[c] = @grid[r][c] + t.max_seq[c+1]
+        end
+      }
     }
 
-    max[0]
+    t
   end
 
 end
@@ -44,21 +63,20 @@ end
 class TestMaxPath < Test::Unit::TestCase
   def setup
     @t = MaxPath.new($tri.to_enum, 15)
+    @s = MaxPath.new($tri.to_enum, 3)
   end
 
-  def test_solve_dynamic_part
-    tt = MaxPath.new($tri.to_enum, 3)
-    seq = [75, 64, 82, 87, 82, 75, 73, 28, 83, 32, 91, 78, 58, 73, 93]
-    val = tt.solve_dynamic
-    p val
-    # assert_equal(seq, @t.seq)
+  def test_solve_sub_dynamic
+    res = @s.solve_dynamic
+    assert_equal(res.max_seq[0], 221)
+    assert_equal(res.trace[0], [75, 64, 82])
   end
 
   def test_solve_dynamic
     seq = [75, 64, 82, 87, 82, 75, 73, 28, 83, 32, 91, 78, 58, 73, 93]
     val = @t.solve_dynamic
-    assert_equal(val, seq.reduce(:+))
-    # assert_equal(seq, @t.seq)
+    assert_equal(val.max_seq[0], seq.reduce(:+))
+    assert_equal(val.trace[0], seq)
   end
 
   def test_grid_at
