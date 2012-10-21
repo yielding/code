@@ -10,6 +10,7 @@ void pp()
     for (int j=0; j<20; j++) printf("%2lld", table[i][j]);
     printf("\n");
   }
+
   printf("\n");
 }
 
