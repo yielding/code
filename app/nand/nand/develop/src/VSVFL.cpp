@@ -74,36 +74,32 @@ void VSVFLContext::read_from(ByteBuffer const& b)
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 VSVFL::VSVFL(NAND const& n)
-    : _nand(n)
+    : VFLBase(n)
 {
     _banks_per_ce_vfl = 1;
-    _vendor_type      = _nand.vendor_type();
     uint32_t vt[] = { 0x100010, 0x100014, 0x120014, 0x150011 };
     if (find_if(vt, vt+4, arg1 == _vendor_type) != vt+4)
         _banks_per_ce_vfl = 2;
     
-    _ce_count = n.ce_count();
-    _banks_total = _ce_count * _banks_per_ce_vfl;
+    // begin override defaults
+    _banks_total  = _ce_count * _banks_per_ce_vfl;
     _banks_per_ce = n.banks_per_ce_physical();
-    _blocks_per_ce = n.blocks_per_ce();
-    _pages_per_block = n.pages_per_block();
-    _pages_per_block_2 = n.pages_per_block2();
-    _pages_per_sublk = _pages_per_block * _banks_per_ce_vfl * _ce_count;
-    _blocks_per_bank = _blocks_per_ce / _banks_per_ce;
-    _blocks_per_bank_vfl = _blocks_per_ce / _banks_per_ce_vfl;
 
-    _bank_address_space = _nand.bank_address_space();
+    _pages_per_sublk     = _pages_per_block * _banks_per_ce_vfl * _ce_count;
+    _blocks_per_bank_vfl = _blocks_per_ce / _banks_per_ce_vfl;
+    // end override defaults
+
+    _bank_address_space  = _nand.bank_address_space();
     
     _vfl_contexts.clear();
     _bbts.clear();
 
-    _current_version    = 0;
     int reserved_blocks = 0;
 
     if (_nand.boot_from_nand())
         reserved_blocks = 16;
 
-    int fs_start_block  = reserved_blocks + 16;
+    int fs_start_block = reserved_blocks + 16;
 
     for (uint32_t ce=0; ce<_ce_count; ++ce)
     {
@@ -187,7 +183,7 @@ VSVFL::VSVFL(NAND const& n)
         {
             _current_version = vflctx.usn_inc;
             _usable_blocks_per_bank = vflctx.usable_blocks_per_bank;
-            //_context = last;
+            // _context = last;
         }
     }
 

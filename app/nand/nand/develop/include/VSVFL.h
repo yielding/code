@@ -1,7 +1,7 @@
 #ifndef VSVFL_H
 #define VSVFL_H
 
-#include "NANDCore.h"
+#include "VFLBase.h"
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
 //
@@ -61,7 +61,7 @@ private:
 //
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
-class VSVFL : public IVFL
+class VSVFL : public VFLBase
 {
 public:
     VSVFL(NAND const& n);
@@ -74,36 +74,23 @@ public:
     auto read_single_page(uint32_t vpn, ByteBuffer const& key, uint32_t 
             lpn=0xffffffff) -> NANDPage;
 
+public:
     auto virtual_page_number_to_physical(uint32_t vpn) -> PhysicalAddr;
     auto remap_block(uint32_t ce, uint32_t block) -> uint32_t;
-
     auto virtual_to_physical(uint32_t, uint32_t) -> PhysicalAddr;
 
 public:
     auto usable_blocks_per_bank() -> uint16_t { return _usable_blocks_per_bank; }
 
 private:
-    NAND const& _nand;
-
-    uint32_t _ce_count;
-    uint32_t _banks_total;
     uint32_t _banks_per_ce_vfl;
-    uint32_t _banks_per_ce;
-    uint32_t _blocks_per_ce;
-    uint32_t _pages_per_block;
-    uint32_t _pages_per_block_2;
-    uint32_t _pages_per_sublk;
-    uint32_t _blocks_per_bank;
-    uint32_t _blocks_per_bank_vfl;
-    uint32_t _vendor_type;
     uint32_t _bank_address_space;
 
     vector<VSVFLContext> _vfl_contexts;
     /*ByteBuffer _context;*/
     uint16_t _usable_blocks_per_bank;
 
-    vector<vector<uint8_t>> _bbts;                // bbt: Bad Block Table
-    int _current_version;
+    vector<vector<uint8_t>> _bbts; // bbt: Bad Block Table
 };
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

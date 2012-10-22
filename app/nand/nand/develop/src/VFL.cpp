@@ -90,19 +90,9 @@ void VFLContext::read_from(ByteBuffer const& b)
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 VFL::VFL(NAND const& n)
-    : _nand(n)
+    : VFLBase(n)
 {
-    _banks_total       = n.banks_total();
-    _ce_count          = n.ce_count();
-    _banks_per_ce      = n.banks_per_ce();
-    _blocks_per_ce     = n.blocks_per_ce();
-    _pages_per_block   = n.pages_per_block();
-    _pages_per_block_2 = n.pages_per_block2();
-    _pages_per_sublk     = _pages_per_block * _banks_per_ce * _ce_count;
-    _blocks_per_bank     = _blocks_per_ce / _banks_per_ce;
-    _blocks_per_bank_vfl = _blocks_per_ce / _banks_per_ce;
-    _vendor_type         = n.vendor_type();
-    _fs_start_block      = 5;
+    _fs_start_block = 5;
 
     // TODO REFACTOR: move method
     bool found = false;
@@ -135,7 +125,6 @@ VFL::VFL(NAND const& n)
     // TODO: Determine exact _bbt type
     _bbt.clear();
    
-    _current_version = 0;
     uint32_t reserved_blocks = 0;
     uint32_t fs_start_block  = reserved_blocks + 10;
 

@@ -1,7 +1,7 @@
 #ifndef VFL_H
 #define VFL_H
 
-#include "NANDCore.h"
+#include "VFLBase.h"
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
@@ -48,12 +48,13 @@ struct VFLContext
 //
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
-class VFL : public IVFL
+class VFL: public VFLBase
 {
 public:
     VFL(NAND const& n);
     virtual ~VFL() {}
 
+public:
     auto get_ftl_ctrl_block() -> vector<uint16_t>;  // 3 * uint16_t
 
     auto is_good_block(uint8_t* bbt, uint32_t block) -> bool;
@@ -61,22 +62,10 @@ public:
     auto read_single_page(uint32_t vpn, ByteBuffer const& key, uint32_t 
             lpn=0xffffffff) -> NANDPage;
 
+public:
     auto from_vpn_to_virtual_address(uint32_t) -> VirtualAddr;
 
 private:
-    NAND const& _nand;
-
-    uint32_t _banks_total;
-    uint32_t _ce_count;
-    uint32_t _banks_per_ce;
-    uint32_t _blocks_per_ce;
-    uint32_t _blocks_per_bank;
-    uint32_t _blocks_per_bank_vfl;
-
-    uint32_t _pages_per_block;
-    uint32_t _pages_per_block_2;
-    uint32_t _pages_per_sublk;
-    uint32_t _vendor_type;
     uint32_t _fs_start_block;
     uint32_t _user_sublks_total;
     uint32_t _ftl_data_field_4;
@@ -85,7 +74,6 @@ private:
     ByteBuffer _context;
 
     vector<uint8_t> _bbt;                // bbt: Bad Block Table
-    int _current_version;
 };
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

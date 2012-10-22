@@ -12,6 +12,7 @@ class NANDImage;
 class DeviceInfo;
 class EffaceableLockers;
 class YAFTL;
+class VFLBase;
 
 // TODO REFACTOR
 struct NandInfo;
@@ -35,6 +36,7 @@ struct nand_chip_info
     uint16_t banks_per_ce;
     uint16_t unk9;
 };
+
 
 class NAND 
 {
@@ -71,6 +73,7 @@ public:
     auto banks_per_ce_physical() const -> uint32_t { return _banks_per_ce_physical;   }
     auto bank_address_space() const -> uint32_t    { return _bank_address_space;      }
     auto boot_from_nand() const -> bool            { return _bfn;                     }
+    auto page_size() const -> uint32_t             { return _page_size;               } 
 
 private:
     void init_geometry(NandInfo const& n);
@@ -87,7 +90,7 @@ private:
 private:
     DeviceInfo& _dinfo;
     NANDImage*  _image;
-    IVFL*       _vfl;
+    VFLBase*    _vfl;
     YAFTL*      _ftl;
 
     int         _ios_version;

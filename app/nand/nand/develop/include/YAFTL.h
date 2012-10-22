@@ -1,8 +1,7 @@
 #ifndef YAFTL_H
 #define YAFTL_H
 
-#include "NANDCore.h"
-#include <string>
+#include "VFLBase.h"
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
@@ -28,6 +27,7 @@ YAFTL_CXT = Struct("YAFTL_CXT",
     ULInt16("tocArrayLength"),
     ULInt16("tocPagesPerBlock"),
     ULInt16("tocEntriesPerPage"),
+ 
     ULInt16("unkn_0x2A"),
     ULInt16("userPagesPerBlock"),
     ULInt16("unk64"),
@@ -36,37 +36,35 @@ YAFTL_CXT = Struct("YAFTL_CXT",
 )
 */
 
-/*
+// 
+// TODO REMARK 
+// Check the difference between python code and original C code
+//
 struct YAFTLContext
 {
-    char[4]  version;                  // o 4
-    uint32_t numIBlocks;               // o
-    uint32_t totalPages;               // o
-    uint32_t latestUserBlock;          // o
-    uint32_t maxIndexUsn;              // o ctx_unkn0_usn
-    uint32_t latestIndexBlk;           // o
-    uint32_t maxIndexUsn2;             // o 18
-    uint32_t numAvailableBlocks;       // 1C
-    uint32_t numIAvailableBlocks;      // 20
-    uint32_t numAllocatedBlocks;       // 24
-    uint32_t numIAllocatedBlocks;      // 28
-    uint32_t numCaches;                // 2C
-    uint32_t field_30;                 // 30
-    uint32_t cxt_unkn1[10];            // placeholder
-    uint16_t tocArrayLength;           // 5C
-    uint16_t tocPagesPerBlock;         // 5E
-    uint16_t tocEntriesPerPage;        // 60
-    uint16_t numFreeCaches;            // 62
-    uint16_t field_64;                 // 64
-    uint16_t pagesUsedInLatestUserBlk; // 66
-    uint16_t pagesUsedInLatestIdxBlk;  // 68
-    uint32_t cxt_unkn2[10];            // placeholder
-    uint16_t field_92;                 // 92
-    uint8_t  unk188_0x63;              // 94
-    uint8_t  totalEraseCount;          // 95
+    char     version[4];
+    uint32_t unknCalculatedValue0;
+    uint32_t totalPages;
+    uint32_t latestUserBlock;
+    uint32_t cxt_unkn0_usn;
+    uint32_t latestIndexBlock;
+    uint32_t maxIndexUsn;
+    uint32_t blockStatsField4;
+    uint32_t blockStatsField10;
+    uint32_t numAllocatedBlocks;
+    uint32_t numIAllocatedBlocks;
+    uint32_t unk184_0xA;
+    uint32_t cxt_unkn1[10];
+    uint32_t field_58;
+    uint16_t tocArrayLength;
+    uint16_t tocPagesPerBlock;
+    uint16_t tocEntriesPerPage;
+    uint16_t unkn_0x2A;
+    uint16_t userPagesPerBlock;
+    uint16_t unk64;
+    uint32_t cxt_unkn2[11];
+    uint8_t  unk188_0x63;
 };
-// 37.2
-*/
 
 struct TOCStruct
 {
@@ -95,10 +93,12 @@ struct BlockStates
 class YAFTL
 {
 public:
-    YAFTL(IVFL* vsvfl);
+    YAFTL(VFLBase* vsvfl);
 
 private:
-    IVFL* _vfl;
+    map<uint32_t, uint32_t> _lpn2vpn;
+
+    VFLBase* _vfl;
 };
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

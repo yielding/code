@@ -1,4 +1,5 @@
 #include "stdafx.h"
+
 #include "YAFTL.h"
 #include "VSVFL.h"
 
@@ -7,9 +8,13 @@
 //
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
-YAFTL::YAFTL(IVFL* vsvfl)
+YAFTL::YAFTL(VFLBase* vsvfl)
+    : _vfl(vsvfl)
 {
-    
+    auto bytes_per_page = _vfl->nand_page_size();
+    // TODO VFL에는 있고 VSVFL는 없는 context
+    // 내가 왜 
+    _vfl->context();
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

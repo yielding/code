@@ -192,17 +192,6 @@ struct VSVFLMetaSpareData
     uint8_t  field_b;
 };
 
-class IVFL
-{
-public:
-    virtual ~IVFL() {}
-    virtual auto get_ftl_ctrl_block()                                -> vector<uint16_t> = 0;
-    virtual auto is_good_block(uint8_t* bbt, uint32_t block)         -> bool             = 0;
-    virtual auto virtual_block_to_physical_block(uint32_t, uint32_t) -> uint32_t         = 0;
-    virtual auto read_single_page(uint32_t vpn, ByteBuffer const& key, uint32_t 
-                                              lpn=0xffffffff)        -> NANDPage         = 0;
-};
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 //

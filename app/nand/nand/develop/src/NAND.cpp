@@ -199,7 +199,6 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         }
         else
         {
-            // TODO verify the result
             auto scfg = parse_scfg(device_unique_info);
             auto srnm = scfg["SrNm"];
             cout << str(format("Found DEVICEUNIQUEINFO, serial number=%s") % srnm.c_str());
@@ -207,9 +206,9 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
         }
     }
         
-    // TODO verify
     if (vfl_type == '0')
     {
+        // TODO verify
         _vfl = new VFL(*this);
     }
     else if (ppn == -1)
