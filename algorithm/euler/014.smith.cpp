@@ -6,7 +6,7 @@ int main(int argc, char **argv)
   int longest = 0;
   int terms   = 0;
 
-  for (int i=1; i <= 1000000; i++)
+  for (int i=1; i<=1000000; i++)
   {
     uint64_t j = i;
     int this_terms = 1;

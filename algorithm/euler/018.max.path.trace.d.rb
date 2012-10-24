@@ -26,38 +26,36 @@ class Trace
   attr_accessor :trace
 
   def initialize arr
-    @max_seq = arr.clone
-    @trace   = arr.clone.map { |e| [e] }
+    @max_seq = arr
+    @trace   = arr.map { |e| [e] }
   end
 end
 
 class MaxPath
-  attr_reader :max, :grid
+  attr_reader :grid
 
   def initialize iter, size
     @size = size
     @grid = 0.upto(size-1).map { |e| (e+1).times.map { iter.next.to_i } }
-    @max  = 0
   end
 
   def solve_dynamic
-    t = Trace.new(@grid[@size-1])
+    @trace = Trace.new(@grid[@size-1])
 
-    (@size-2).downto(0) { |r|
-      0.upto(r) { |c| 
-        if t.max_seq[c] > t.max_seq[c+1]
-          t.trace[c]   = [@grid[r][c]] + t.trace[c]
-          t.max_seq[c] = @grid[r][c] + t.max_seq[c]
+    (@size-2).downto(0) do |r|
+      0.upto(r) do |c| 
+        if @trace.max_seq[c] > @trace.max_seq[c+1]
+          @trace.trace[c]   = [@grid[r][c]] + @trace.trace[c]
+          @trace.max_seq[c] =  @grid[r][c]  + @trace.max_seq[c]
         else
-          t.trace[c]   = [@grid[r][c]] + t.trace[c+1]
-          t.max_seq[c] = @grid[r][c] + t.max_seq[c+1]
+          @trace.trace[c]   = [@grid[r][c]] + @trace.trace[c+1]
+          @trace.max_seq[c] =  @grid[r][c]  + @trace.max_seq[c+1]
         end
-      }
-    }
+      end
+    end
 
-    t
+    @trace
   end
-
 end
 
 class TestMaxPath < Test::Unit::TestCase
