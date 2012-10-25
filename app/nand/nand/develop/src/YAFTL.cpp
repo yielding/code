@@ -13,7 +13,8 @@ YAFTL::YAFTL(VFLBase* vsvfl)
 {
     auto bytes_per_page = _vfl->nand_page_size();
     // TODO VFL에는 있고 VSVFL는 없는 context
-    // 내가 왜 
+    // 내가 왜 사용자지 않는 VFL을 구현했나?
+    
     _vfl->context();
 }
 

@@ -63,7 +63,25 @@ class Numeric
       count += 1
       val /= 10
     end
+
     digits == (1 << count) - 1
+  end
+
+  def concat no
+    tmp, pow = no, 1
+    while tmp > 0
+      pow *= 10
+      tmp /= 10
+    end
+
+    self * pow + no
+  end
+
+  def digit_count
+    return 1 if self == 1
+    res = Math.log10(self).ceil
+    res += 1 if self % 10 == 0
+    res
   end
 end
 
@@ -79,4 +97,5 @@ if __FILE__ == $PROGRAM_NAME
   p 131.is_palindrome?
   p [28, 29].map { |e| p e.is_prime? }
   p 978654321.is_pandigital?
+  p 78654321.is_pandigital?
 end

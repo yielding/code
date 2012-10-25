@@ -87,8 +87,7 @@ private:
     uint32_t _bank_address_space;
 
     vector<VSVFLContext> _vfl_contexts;
-    /*ByteBuffer _context;*/
-    uint16_t _usable_blocks_per_bank;
+    uint16_t             _usable_blocks_per_bank;
 
     vector<vector<uint8_t>> _bbts; // bbt: Bad Block Table
 };
