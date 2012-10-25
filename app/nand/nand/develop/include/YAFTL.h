@@ -1,7 +1,7 @@
 #ifndef YAFTL_H
 #define YAFTL_H
 
-#include "VFLBase.h"
+#include "VSVFL.h"
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
@@ -93,12 +93,15 @@ struct BlockStates
 class YAFTL
 {
 public:
-    YAFTL(VFLBase* vsvfl);
+    YAFTL(VSVFL* vsvfl);
 
 private:
     map<uint32_t, uint32_t> _lpn2vpn;
 
-    VFLBase* _vfl;
+    VSVFL* _vfl;
+    ByteBuffer _blank_page;
+    uint32_t   _num_blocks_per_bank;
+    uint32_t   _toc_pages_per_block;
 };
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

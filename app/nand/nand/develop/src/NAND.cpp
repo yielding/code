@@ -5,7 +5,6 @@
 #include "NANDImageFlat.h"
 #include "DeviceInfo.h"
 #include "EffaceableLocker.h"
-#include "VFL.h"
 #include "VSVFL.h"
 #include "YAFTL.h"
 
@@ -207,10 +206,8 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
     }
         
     if (vfl_type == '0')
-    {
-        // TODO verify
-        _vfl = new VFL(*this);
-    }
+        throw runtime_error("iOS 1.x or 2.x won't be supported!");
+
     else if (ppn == -1)
     {
         _vfl = new VSVFL(*this);

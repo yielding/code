@@ -12,7 +12,7 @@ class NANDImage;
 class DeviceInfo;
 class EffaceableLockers;
 class YAFTL;
-class VFLBase;
+class VSVFL;
 
 // TODO REFACTOR
 struct NandInfo;
@@ -90,7 +90,7 @@ private:
 private:
     DeviceInfo& _dinfo;
     NANDImage*  _image;
-    VFLBase*    _vfl;
+    VSVFL*      _vfl;
     YAFTL*      _ftl;
 
     int         _ios_version;

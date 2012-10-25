@@ -1,21 +1,21 @@
 #include "stdafx.h"
 
 #include "YAFTL.h"
-#include "VSVFL.h"
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
 //
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
-YAFTL::YAFTL(VFLBase* vsvfl)
+YAFTL::YAFTL(VSVFL* vsvfl)
     : _vfl(vsvfl)
 {
-    auto bytes_per_page = _vfl->nand_page_size();
-    // TODO VFL에는 있고 VSVFL는 없는 context
-    // 내가 왜 사용자지 않는 VFL을 구현했나?
+    auto bytes_per_page  = _vfl->nand_page_size();
+    _num_blocks_per_bank = _vfl->usable_blocks_per_bank();
+
+    _blank_page.reset(bytes_per_page, 0x00);
+    _toc_pages_per_block = _vfl->pages_per_sublk();
     
-    _vfl->context();
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
