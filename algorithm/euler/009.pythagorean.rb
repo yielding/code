@@ -32,11 +32,11 @@ def find_triplet sum
       m = m2
     end
 
-    return [2*m*n, m**2 - n**2, m**2 + n**2] unless m == 0
+    return [2*m*n, m*m - n*n, m*m + n*n] unless m.zero?
   }
 end
 
 a, b, c = find_triplet(1000)
 
-p [a, b,c]
-p [a, b,c].reduce(:*)
+p [a, b, c]
+p [a, b, c].reduce(:*)
