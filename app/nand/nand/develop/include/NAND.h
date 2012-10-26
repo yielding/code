@@ -37,7 +37,6 @@ struct nand_chip_info
     uint16_t unk9;
 };
 
-
 class NAND 
 {
 public:

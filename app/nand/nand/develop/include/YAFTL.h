@@ -42,6 +42,17 @@ YAFTL_CXT = Struct("YAFTL_CXT",
 //
 struct YAFTLContext
 {
+    YAFTLContext() { }
+
+    YAFTLContext(ByteBuffer const& b)
+    {
+        read_from(b);
+    }
+
+    void read_from(ByteBuffer const& b);
+
+    uint32_t m_spare_usn;
+
     char     version[4];
     uint32_t unknCalculatedValue0;
     uint32_t totalPages;
@@ -93,15 +104,33 @@ struct BlockStates
 class YAFTL
 {
 public:
-    YAFTL(VSVFL* vsvfl);
+    YAFTL(VSVFL* vsvfl, uint32_t usn=0);
+
+public:
+    bool yaftl_read_ctx_info(uint32_t page_no);
+    void yaftl_restore();
+    auto yaftl_read_page(uint32_t page_no, ByteBuffer const& key, 
+                         uint32_t lpn=0xffffffff) -> NANDPage;
 
 private:
     map<uint32_t, uint32_t> _lpn2vpn;
 
-    VSVFL* _vfl;
+    VSVFL*     _vfl;
     ByteBuffer _blank_page;
+
     uint32_t   _num_blocks_per_bank;
     uint32_t   _toc_pages_per_block;
+    uint32_t   _toc_entries_per_page;
+    uint32_t   _toc_array_length;
+    uint32_t   _num_pages_toc_page_indices;
+    uint32_t   _num_pages_block_statuses;
+    uint32_t   _num_pages_block_read_counts;
+    uint32_t   _num_pages_block_erase_counts;
+    uint32_t   _num_pages_block_valid_pages_d_numbers;
+    uint32_t   _num_pages_block_valid_pages_i_numbers;
+    uint32_t   _ctrl_block_page_offset;
+    uint32_t   _total_pages;
+    uint32_t   _user_pages_per_block;
 };
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

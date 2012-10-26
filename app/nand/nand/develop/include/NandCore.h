@@ -47,8 +47,8 @@ struct NANDPage
         if (empty()) 
             return false;
 
-        return  data.all_values_are(0xff) &&
-               spare.all_values_are(0xff);
+        return data.all_values_are(0xff) &&
+              spare.all_values_are(0xff);
     }
 
     ByteBuffer spare;
