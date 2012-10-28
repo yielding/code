@@ -4,6 +4,7 @@ require_relative "numeric_ext"
 require "pp"
 
 h = Hash.new { |h, k| h[k] = [] }
+pp h
 
 # for a in 1..500
 #   b1, e1 = 1, 1000 - a
@@ -21,9 +22,29 @@ h = Hash.new { |h, k| h[k] = [] }
 # end
 
 =begin rdoc
- a*a + b*b = c*c -- (1)
- a + b + c = p   -- (2)
- b = (p*p - 2ap)/(2p - 2a)
+ a * a + b * b = c * c -- (1)
+ a + b + c = p         -- (2)
+ b = (p * p - 2ap)/(2p - 2a)
 =end
 
-pp h
+tmx, smx = 0, 0
+for s in 1..1000
+  t = 0
+  mlimit = Integer(Math.sqrt(s/2))
+  for m in 2..mlimit
+    if (s / 2) % m == 0
+      k = m.even? ? m + 1 : m + 2
+      while k < 2*m and k <= s / (2*m)
+        t += 1 if s / (2 * m) % k == 0 and k.gcd(m) == 1
+        k += 2
+      end
+    end
+  end
+
+  if t > tmx
+    tmx = t
+    smx = s
+  end
+end
+
+p smx
