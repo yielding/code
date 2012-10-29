@@ -132,8 +132,9 @@ public:
     auto get_hex_string(uint32_t size) const -> std::string;
     auto get_string() const -> std::string;
     auto get_string(size_t size) const -> std::string;
+
     auto to_s()  const -> std::string;
-    auto c_str() const -> char const* ;
+    auto c_str() const -> char const*;
 
 public:
     template<typename IntType>

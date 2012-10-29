@@ -91,127 +91,133 @@ NAND::NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn)
     , _dinfo(dinfo)
     , _vfl(nullptr)
 {
-    _h2fmi_ht = gen_h2fmi_hash_table();
+    try
+    {
+        _h2fmi_ht = gen_h2fmi_hash_table();
 
-    // TODO REFACTOR
-    auto nc_size = sizeof(nc_infos) / sizeof(nc_infos[0]);
-    for (int i=0; i<nc_size; i++)
-    {
-        auto key = nc_infos[i].chip_id;
-        _nand_chip_info[key] = nc_infos[i];
-    }
-
-    // TODO Check
-    // _partition_table = nullptr;
-    // _locker = nullptr;
-
-    _ios_version = 0; 
-    _has_mbr     = false;
-    _metadata_whitening = false;
-
-    char const* models[] = { "M68AP", "N45AP", "N82AP", "N72AP" };
-    _encrypted 
-        = find(models, models+4, _dinfo.hw_model()) == models+4;
-
-    auto nand = dinfo.nand();
-    init_geometry(nand);
-
-    if (starts_with(_filename, "ce"))
-    {
-        // image = new NANDImageSplitCEs();
-    }
-    else if (_filename == "remote")
-    {
-        // image = new NANDImageRemote();
-    }
-    else
-    {
-        _image = new NANDImageFlat(_filename.c_str(), nand);
-    }
-    
-    auto   page = read_page(0, 0);
-    auto& page0 = page.data;
-    
-    _nand_only = !page.data.empty() && page0.starts_with("ndrG");
-    if (_nand_only)
-        _encrypted = true;
-    
-    vector<string> magics;
-    magics.push_back("DEVICEINFOBBT"); // BBT ??????
-    ByteBuffer nandsig;
-    
-    if (!page0.empty() && page0.slice(8, 14).starts_with("Darwin"))
-        nandsig = page0;
-    else
-        magics.push_back("NANDDRIVERSIGN");
-
-    auto sp0 = read_special_pages(0, magics);
-    if (!_nand_only)
-        cout << "Device does not boto from NAND. (has a NOR)";
-    
-    char vfl_type = '1';
-    
-    if (nandsig.empty())
-        nandsig = sp0["NANDDRIVERSIGN"];
-    
-    if (nandsig.empty())
-    {
-        cout << "NANDDRIVERSIGN not found. assuming metadata whitening :" 
-             << _metadata_whitening
-             << endl;
-    }
-    else
-    {
-        auto nsig  = nandsig.get_uint4_le();
-        auto flags = nandsig.get_uint4_le();
-        auto epoch = nandsig[0];
-        vfl_type   = nandsig[1];
-        _metadata_whitening = flags & 0x10000;
-#if defined(DEVELOP)
-        cout << str(format("NAND signature 0x%x flags 0x%x withening=%d, epoch=%s\n")
-                    % nsig % flags % _metadata_whitening % epoch);
-#endif
-    }
-    
-    if (!_nand_only)
-    {
-        _lockers = new EffaceableLockers(_dinfo.lockers());
-    }
-    else
-    {
-        auto unit = find_lockers_unit();
-        if (!unit.empty())
+        // TODO REFACTOR
+        auto nc_size = sizeof(nc_infos) / sizeof(nc_infos[0]);
+        for (int i=0; i<nc_size; i++)
         {
-            _lockers = new EffaceableLockers(unit.slice(0x40, uint32_t(unit.size())));
-            if (_dinfo.lockers().empty())
-            {
-                // TODO: verify the result
-                _emf  = _lockers->get_emf(_dinfo.key89B());
-                _dkey = _lockers->get_dkey(_dinfo.key835());
-            }
+            auto key = nc_infos[i].chip_id;
+            _nand_chip_info[key] = nc_infos[i];
         }
 
-        auto device_unique_info = sp0["DEVICEUNIQUEINFO"];
-        if (device_unique_info.empty())
+        // TODO Check
+        // _partition_table = nullptr;
+        // _locker = nullptr;
+
+        _ios_version = 0; 
+        _has_mbr     = false;
+        _metadata_whitening = false;
+
+        char const* models[] = { "M68AP", "N45AP", "N82AP", "N72AP" };
+        _encrypted 
+            = find(models, models+4, _dinfo.hw_model()) == models+4;
+
+        auto nand = dinfo.nand();
+        init_geometry(nand);
+
+        if (starts_with(_filename, "ce"))
         {
-            cout << "DEVICEUNIQUEINFO not found\n";
+            // image = new NANDImageSplitCEs();
+        }
+        else if (_filename == "remote")
+        {
+            // image = new NANDImageRemote();
         }
         else
         {
-            auto scfg = parse_scfg(device_unique_info);
-            auto srnm = scfg["SrNm"];
-            cout << str(format("Found DEVICEUNIQUEINFO, serial number=%s") % srnm.c_str());
-            cout.flush();
+            _image = new NANDImageFlat(_filename.c_str(), nand);
+        }
+
+        auto   page = read_page(0, 0);
+        auto& page0 = page.data;
+
+        _nand_only = !page.data.empty() && page0.starts_with("ndrG");
+        if (_nand_only)
+            _encrypted = true;
+
+        vector<string> magics;
+        magics.push_back("DEVICEINFOBBT"); // BBT ??????
+        ByteBuffer nandsig;
+
+        if (!page0.empty() && page0.slice(8, 14).starts_with("Darwin"))
+            nandsig = page0;
+        else
+            magics.push_back("NANDDRIVERSIGN");
+
+        auto sp0 = read_special_pages(0, magics);
+        if (!_nand_only)
+            cout << "Device does not boto from NAND. (has a NOR)";
+
+        char vfl_type = '1';
+
+        if (nandsig.empty())
+            nandsig = sp0["NANDDRIVERSIGN"];
+
+        if (nandsig.empty())
+        {
+            cout << "NANDDRIVERSIGN not found. assuming metadata whitening :" 
+                << _metadata_whitening
+                << endl;
+        }
+        else
+        {
+            auto nsig  = nandsig.get_uint4_le();
+            auto flags = nandsig.get_uint4_le();
+            auto epoch = nandsig[0];
+            vfl_type   = nandsig[1];
+            _metadata_whitening = flags & 0x10000;
+#if defined(DEVELOP)
+            cout << str(format("NAND signature 0x%x flags 0x%x withening=%d, epoch=%s\n")
+                    % nsig % flags % _metadata_whitening % epoch);
+#endif
+        }
+
+        if (!_nand_only)
+        {
+            _lockers = new EffaceableLockers(_dinfo.lockers());
+        }
+        else
+        {
+            auto unit = find_lockers_unit();
+            if (!unit.empty())
+            {
+                _lockers = new EffaceableLockers(unit.slice(0x40, uint32_t(unit.size())));
+                if (_dinfo.lockers().empty())
+                {
+                    // TODO: verify the result
+                    _emf  = _lockers->get_emf(_dinfo.key89B());
+                    _dkey = _lockers->get_dkey(_dinfo.key835());
+                }
+            }
+
+            auto device_unique_info = sp0["DEVICEUNIQUEINFO"];
+            if (device_unique_info.empty())
+            {
+                cout << "DEVICEUNIQUEINFO not found\n";
+            }
+            else
+            {
+                auto scfg = parse_scfg(device_unique_info);
+                auto srnm = scfg["SrNm"];
+                cout << str(format("Found DEVICEUNIQUEINFO, serial number=%s") % srnm.c_str());
+                cout.flush();
+            }
+        }
+
+        if (vfl_type == '0')
+            throw runtime_error("iOS 1.x or 2.x won't be supported!");
+
+        else if (ppn == -1)
+        {
+            _vfl = new VSVFL(*this);
+            _ftl = new YAFTL(_vfl);
         }
     }
-        
-    if (vfl_type == '0')
-        throw runtime_error("iOS 1.x or 2.x won't be supported!");
-
-    else if (ppn == -1)
+    catch(std::runtime_error& e)
     {
-        _vfl = new VSVFL(*this);
-        _ftl = new YAFTL(_vfl);
     }
 }
 
