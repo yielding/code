@@ -21,12 +21,6 @@ require "pp"
 #   end
 # end
 
-=begin rdoc
- a * a + b * b = c * c -- (1)
- a + b + c = p         -- (2)
- b = (p * p - 2ap)/(2p - 2a)
-=end
-
 # tmx, smx = 0, 0
 # for s in 1..1000
 #   t = 0
@@ -50,12 +44,18 @@ require "pp"
 # p smx
 #
 
+=begin rdoc
+ a * a + b * b = c * c -- (1)
+ a + b + c = p         -- (2)
+ b = (p * p - 2ap) / (2p - 2a)
+=end
+
 result, result_solutions = 0, 0
 
 2.step(1000, 2) { |p|
   no_solutions = 0
   for a in 2..p/3
-    if (p * (p - 2*a)) % (2*(p - a)) == 0
+    if p * (p - 2*a) % (2*p - 2*a) == 0
       no_solutions += 1 
       # b = (p * (p - 2*a)) / (2*(p - a))
       # c = p - a - b
