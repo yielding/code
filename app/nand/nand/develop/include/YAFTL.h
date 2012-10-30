@@ -112,8 +112,13 @@ public:
     auto yaftl_read_page(uint32_t page_no, ByteBuffer const& key, 
                          uint32_t lpn=0xffffffff) -> NANDPage;
 
+    auto yaftl_read_n_page(uint32_t page_to_read, uint32_t toc_pages_per_block)
+            -> ByteBuffer;
+
 private:
     map<uint32_t, uint32_t> _lpn2vpn;
+    map<uint32_t, ByteBuffer> _index_cache;
+    vector<uint16_t> _toc_array_index_pages;
 
     VSVFL*     _vfl;
     ByteBuffer _blank_page;
@@ -131,6 +136,7 @@ private:
     uint32_t   _ctrl_block_page_offset;
     uint32_t   _total_pages;
     uint32_t   _user_pages_per_block;
+    uint32_t   _usn;
 };
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

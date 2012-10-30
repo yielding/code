@@ -143,10 +143,45 @@ bool YAFTL::yaftl_read_ctx_info(uint32_t page_no)
 
     YAFTLContext ctx(page.data);
     ctx.m_spare_usn = s.usn;      // spare_usn은 YAFTLContext안에 원래 없음..
+    if (string(ctx.version, 4) != "CX01")
+    {
+        auto msg = str(format("Wrong FTL version %s") % ctx.version);
+        cout << msg;
+        return false;
+    }
 
-    // TODO here!!!!!!!!!!!!
+    _usn = s.usn;
+    auto page_to_read = page_no + 1;
+    auto user_toc_buffer = yaftl_read_n_page(page_to_read, _toc_pages_per_block);
+    if (user_toc_buffer.empty())
+        throw runtime_error("userTOCBuffer error");
+
+    page_to_read += _toc_pages_per_block;
+    auto index_toc_buffer = yaftl_read_n_page(page_to_read, _toc_pages_per_block);
+    page_to_read += _toc_pages_per_block + 1;
+    auto toc_array_index_pages = yaftl_read_n_page(page_to_read, _num_pages_toc_page_indices);
+
+    while (toc_array_index_pages.has_remaining())
+    {
+        auto v = toc_array_index_pages.get_uint2_le();
+        _toc_array_index_pages.push_back(v);
+    }
+
+    if (_toc_array_index_pages.size() != 4)
+        throw runtime_error("Bad tocArrayIndexPage.size");
+
+    _index_cache.clear();
+    page_to_read += _num_pages_toc_page_indices;
+
+    if (
+
 
     return false;
+}
+
+ByteBuffer YAFTL::yaftl_read_n_page(uint32_t page_to_read, uint32_t toc_pages_per_block)
+{
+    return ByteBuffer();
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
