@@ -51,7 +51,7 @@ class MaxPath
           @trace.trace[c]   = [@grid[r][c]] + @trace.trace[c+1]
           @trace.max_seq[c] =  @grid[r][c]  + @trace.max_seq[c+1]
         end
-      end
+      }
     end
 
     @trace
