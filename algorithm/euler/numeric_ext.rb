@@ -78,10 +78,14 @@ class Numeric
   end
 
   def digit_count
-    return 1 if self == 1
-    res = Math.log10(self).ceil
-    res += 1 if self % 10 == 0
-    res
+    v, count = self, 0
+
+    while v > 0
+      v /= 10
+      count += 1
+    end
+
+    count
   end
 end
 
@@ -98,4 +102,5 @@ if __FILE__ == $PROGRAM_NAME
   p [28, 29].map { |e| p e.is_prime? }
   p 978654321.is_pandigital?
   p 78654321.is_pandigital?
+  p 99999.digit_count
 end
