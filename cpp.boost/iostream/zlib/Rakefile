@@ -1,6 +1,8 @@
 # -*- ruby -*-
-SRCS     = %w{zlib.cpp test_zlib.cpp}
+SRCS     = %w{ ./zlib.cpp 
+               ./test_zlib.cpp }
 APP      = "zlib_test"
+CXX      = "c++11"
 LIBS     = ":t :s z"
 
 load '~/code/build/app2.rake'

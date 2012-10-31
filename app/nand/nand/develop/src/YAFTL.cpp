@@ -129,6 +129,8 @@ auto YAFTL::yaftl_read_page(uint32_t page_no, ByteBuffer const& key, uint32_t lp
 
 void YAFTL::yaftl_restore()
 {
+    // TODO
+    assert(0);
 }
 
 bool YAFTL::yaftl_read_ctx_info(uint32_t page_no)
@@ -173,15 +175,47 @@ bool YAFTL::yaftl_read_ctx_info(uint32_t page_no)
     _index_cache.clear();
     page_to_read += _num_pages_toc_page_indices;
 
-    if (
+    if (false)
+    {
+        /*
+        blockStatuses = self.YAFTL_read_n_Page(pageToRead, self.nPagesBlockStatuses);
+        pageToRead += self.nPagesBlockStatuses;
+        blockReadCounts = self.YAFTL_read_n_Page(pageToRead, self.nPagesBlockReadCounts);
+        pageToRead += self.nPagesBlockReadCounts;
+        blockEraseCounts = self.YAFTL_read_n_Page(pageToRead, self.nPagesBlockEraseCounts);
+        pageToRead += self.nPagesBlockEraseCounts;
+        validPagesINo = self.YAFTL_read_n_Page(pageToRead, self.nPagesBlockValidPagesINumbers);
+        pageToRead += self.nPagesBlockValidPagesINumbers;
+        validPagesDNo = self.YAFTL_read_n_Page(pageToRead, self.nPagesBlockValidPagesDNumbers);
+        */
+    }
 
+    auto msg = str(format("YaFTL context OK, version=%s, maxIndexUsn=%d") 
+            % ctx.version % ctx.maxIndexUsn);
 
-    return false;
+    cout << msg;
+    return true;
 }
 
-ByteBuffer YAFTL::yaftl_read_n_page(uint32_t page_to_read, uint32_t toc_pages_per_block)
+ByteBuffer YAFTL::yaftl_read_n_page(uint32_t page_to_read, uint32_t n, bool failIfBlank)
 {
-    return ByteBuffer();
+    ByteBuffer result;
+
+    for (auto i=0; i<n; i++)
+    {
+        auto page = yaftl_read_page(page_to_read + i, META_KEY);
+        if (page.data.empty())
+        {
+            if (failIfBlank)
+                return ByteBuffer();
+
+            return result;
+        }
+
+        result.append(page.data);
+    }
+
+    return result;
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

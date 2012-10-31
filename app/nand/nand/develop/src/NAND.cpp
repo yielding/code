@@ -79,6 +79,8 @@ namespace
 
         return res;
     }
+
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -485,6 +487,27 @@ auto NAND::iv_for_page(uint32_t page_no) const -> ByteBuffer
     }
 
     return iv;
+}
+
+auto NAND::load_cached_data(string const& name) -> ByteBuffer
+{
+    ByteBuffer result;
+
+    if (name == "remote")
+        return result;
+
+    auto fname = _filename + "." + name;
+    ifstream in(fname.c_str());
+
+    int const BUF_SIZE = 8*1024;
+    size_t sz = BUF_SIZE;
+    while (sz == BUF_SIZE)
+    {
+        uint8_t buffer[BUF_SIZE];
+        in.read(buffer, BUF_SIZE);
+        sz = in.gcount();
+    }
+
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

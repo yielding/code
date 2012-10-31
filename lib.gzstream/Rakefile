@@ -1,0 +1,12 @@
+# -*- ruby -*-
+
+SRCS      = %w{ ./main.cpp ./gzstream.cpp }
+APP       = "gz_unzip"
+CXX       = "clang++"
+CXXFLAGS  = ":d :Os"
+#LIBS      = "z gzstream"
+LIBS      = "z"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'

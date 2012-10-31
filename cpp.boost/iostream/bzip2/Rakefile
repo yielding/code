@@ -1,5 +1,7 @@
 # -*- ruby -*-
-SRCS     = %w{bzip.decomp.cpp bzip2.cpp}
+SRCS     = %w{ ./bzip.decomp.cpp 
+               ./bzip2.cpp 
+             }
 APP      = "bzip_decomp"
 CXX      = "clang++"
 CXXFLAGS = ":v :O0"

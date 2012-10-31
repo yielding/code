@@ -21,13 +21,12 @@
 
 ## DOING
   * YAFTL
-
-  * VSVFL
-    - Test
+    - gzip test using gzstream
 
 ## DONE
   * VSVFL
     - 구현
+    - Test
 
   * VFL
     - 구현

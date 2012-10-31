@@ -112,7 +112,7 @@ public:
     auto yaftl_read_page(uint32_t page_no, ByteBuffer const& key, 
                          uint32_t lpn=0xffffffff) -> NANDPage;
 
-    auto yaftl_read_n_page(uint32_t page_to_read, uint32_t toc_pages_per_block)
+    auto yaftl_read_n_page(uint32_t page_to_read, uint32_t n, bool=false)
             -> ByteBuffer;
 
 private:

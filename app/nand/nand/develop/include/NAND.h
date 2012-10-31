@@ -60,6 +60,8 @@ public:
     auto read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st) const
       -> NANDPage;
 
+    auto load_cached_data(string const& name) -> ByteBuffer;
+
 public:
     auto banks_total() const      -> uint32_t { return _ce_count * _banks_per_ce_vfl; }
     auto ce_count() const         -> uint32_t { return _ce_count;                     }
@@ -130,6 +132,7 @@ private:
     vector<uint8_t>  _empty_bootloader_page;
     vector<uint8_t>  _blank_page;
     vector<uint32_t> _h2fmi_ht;
+    string           _filename;
     map<uint64_t, nand_chip_info> _nand_chip_info;
 };
 
