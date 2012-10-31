@@ -1,7 +1,5 @@
 #include "NANDUtil.h"
 
-#include "gzstream.h"
-
 #include <cmath>
 #include <boost/format.hpp>
 
@@ -85,14 +83,6 @@ namespace util
     int ceil_divide(int value, int amount)
     {
         return (value + amount - 1) / amount;
-    }
-
-    ByteBuffer load_from_gzip(string const& filename)
-    {
-    }
-
-    void save_to_gzip(string const& filename, ByteBuffer& buffer)
-    {
     }
 }
 

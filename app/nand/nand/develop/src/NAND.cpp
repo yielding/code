@@ -26,7 +26,7 @@ using namespace std;
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
-// REMARK: find appropriate postions for the below anonymous namespace codes
+//// REMARK: find appropriate postions for the below anonymous namespace codes
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 namespace
@@ -489,25 +489,48 @@ auto NAND::iv_for_page(uint32_t page_no) const -> ByteBuffer
     return iv;
 }
 
-auto NAND::load_cached_data(string const& name) -> ByteBuffer
+auto NAND::load_cached_data(char const* name) const -> Cache
 {
-    ByteBuffer result;
+    Cache cache;
+    if (strncmp(name, "remote", 6) == 0)
+        return cache;
 
-    if (name == "remote")
-        return result;
+    auto fname = _filename + "." + string(name);
+    ifstream ifs(fname.c_str());
+    if (!ifs.is_open())
+        return cache;
 
-    auto fname = _filename + "." + name;
-    ifstream in(fname.c_str());
+    uint32_t count = 0;
+    ifs.read((char*)&count, 4);
 
-    int const BUF_SIZE = 8*1024;
-    size_t sz = BUF_SIZE;
-    while (sz == BUF_SIZE)
+    for (auto i=0; i<count; i++)
     {
-        uint8_t buffer[BUF_SIZE];
-        in.read(buffer, BUF_SIZE);
-        sz = in.gcount();
+        uint32_t k; ifs.read((char*)&k, 4);
+        uint32_t v; ifs.read((char*)&v, 4);
+        cache[k] = v;
     }
 
+    return cache;
+}
+
+void NAND::save_cache_data(char const* name, Cache const& cache) const
+{
+    if (_filename == "remote")
+        return;
+
+    auto fname = _filename + "." + string(name);
+    ofstream ofs(fname.c_str());
+    if (!ofs.is_open())
+        return;
+
+    uint32_t count = (uint32_t)cache.size();
+    ofs.write((char*)&count, 4);
+
+    for (auto it=cache.begin(); it != cache.end(); ++it)
+    {
+        auto k = it->first ; ofs.write((char*)&k, 4);
+        auto v = it->second; ofs.write((char*)&v, 4);
+    }
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

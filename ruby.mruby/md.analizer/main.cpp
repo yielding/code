@@ -15,7 +15,7 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, const char *argv[])
 {
-  auto load_script = [](char const* script) {
+  auto load_script = [](char const* script) -> string {
     ifstream ifs(script);
     string line, code;
     while (getline(ifs, line)) 

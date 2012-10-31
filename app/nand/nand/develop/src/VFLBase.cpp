@@ -35,6 +35,11 @@ auto VFLBase::pages_per_sublk() const -> uint32_t
     return _pages_per_sublk;
 }
 
+auto VFLBase::nand() const -> NAND const&
+{
+    return _nand;
+}
+
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
 //

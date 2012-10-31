@@ -6,7 +6,7 @@ SRCS      = %w{ ./hello.cpp }
 TEST_SRCS = %w{ }
 
 INCS      = ":mvm"
-CXX       = "c++11"          # c++0x, clang++, blank
+CXX       = "clang++"     # c++0x, clang++, blank
 CXXFLAGS  = ":v"          # :d, :O0 :O3 :w = -Wall
 LDFLAGS   = ":mvm"
 

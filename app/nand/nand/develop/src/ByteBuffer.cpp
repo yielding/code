@@ -247,7 +247,7 @@ auto ByteBuffer::take(uint32_t count)  const -> ByteBuffer
     if (count > m_buffer.size() - m_offset)
         throw std::runtime_error("ByteBuffer::take() : wrong size");
 
-    auto res = slice(m_offset, m_offset + count);
+    auto res = slice(uint32_t(m_offset), uint32_t(m_offset + count));
     m_offset += count;
 
     return res;

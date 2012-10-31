@@ -46,7 +46,6 @@
 /* Begin PBXFileReference section */
 		DF14A28C15EB6928008DB3A4 /* SCFG.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SCFG.cpp; path = develop/src/SCFG.cpp; sourceTree = "<group>"; };
 		DF292AFC163FC8540016939D /* libgzstream.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgzstream.a; path = nand/develop/vendor/lib/libgzstream.a; sourceTree = "<group>"; };
-		DF292B05163FCE410016939D /* gzstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gzstream.h; path = develop/vendor/include/gzstream.h; sourceTree = "<group>"; };
 		DF2BA37615C288430075F300 /* libboost_filesystem-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-mt.a"; path = "../../../../../opt/local/lib/libboost_filesystem-mt.a"; sourceTree = "<group>"; };
 		DF2BA37715C288430075F300 /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "../../../../../opt/local/lib/libboost_system-mt.a"; sourceTree = "<group>"; };
 		DF3FC02E15ECC16100E4328D /* NANDUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NANDUtil.cpp; path = develop/src/NANDUtil.cpp; sourceTree = "<group>"; };
@@ -121,7 +120,6 @@
 		DFCED53015B6760700D8CDAF /* nand */ = {
 			isa = PBXGroup;
 			children = (
-				DF292B05163FCE410016939D /* gzstream.h */,
 				DF9D58771635609500295AB9 /* VFLBase.cpp */,
 				DF9D58751635608800295AB9 /* VFLBase.h */,
 				DF9E026C1622C42D00022874 /* VSVFL.h */,

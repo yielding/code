@@ -98,7 +98,9 @@ auto EffaceableLockers::get_emf(ByteBuffer const&  k89b) -> ByteBuffer
     if (pos != _lockers.end())
     {
         auto emf = _lockers["EMF!"];
-        return aes_decrypt_cbc(emf.slice(4, emf.size()), k89b, zero_iv);
+        return aes_decrypt_cbc(emf.slice(4, (uint32_t)emf.size()),
+                               k89b,
+                               zero_iv);
     }
 
     return ByteBuffer();

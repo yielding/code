@@ -2,6 +2,7 @@
 
 #include "YAFTL.h"
 #include "NANDUtil.h"
+#include "NAND.h"
 
 #include <boost/format.hpp>
 #include <iostream>
@@ -129,8 +130,47 @@ auto YAFTL::yaftl_read_page(uint32_t page_no, ByteBuffer const& key, uint32_t lp
 
 void YAFTL::yaftl_restore()
 {
-    // TODO
-    assert(0);
+    // REMARK 
+    //   to use load_cached_data member function, we should include
+    //   NAND.h
+    auto const& nd = _vfl->nand();
+    _lpn2vpn = nd.load_cached_data("yaftlrestore");
+    if (!_lpn2vpn.empty())
+    {
+        cout << "Found cached FTL restore information\n";
+        return;
+    }
+
+    NAND::Cache user_blocks, index_blocks;
+    for (auto b=0; b<_num_blocks_per_bank; b++)
+    {
+        auto page = yaftl_read_page(b * _vfl->pages_per_sublk(), META_KEY);
+        if (page.spare.empty())
+            continue;
+
+        SpareData s(page.spare);
+        if (s.type == PAGETYPE_INDEX)
+        {
+            index_blocks[s.usn] = b;
+        }
+        else if (s.type == PAGETYPE_LBN)
+        {
+            auto res = user_blocks.insert(pair<uint32_t, uint32_t>(s.usn, b));
+            if (!res.second)
+                throw runtime_error("Two blocks with same USN, something is weird");
+        }
+        else if (s.type == PAGETYPE_FTL_CLEAN)
+        {
+            // do nothing!
+        }
+        else
+        {
+            throw runtime_error("undefined page type!");
+        }
+    }
+
+    // TODO from here !!!!
+
 }
 
 bool YAFTL::yaftl_read_ctx_info(uint32_t page_no)
@@ -144,7 +184,9 @@ bool YAFTL::yaftl_read_ctx_info(uint32_t page_no)
         return false;
 
     YAFTLContext ctx(page.data);
-    ctx.m_spare_usn = s.usn;      // spare_usn은 YAFTLContext안에 원래 없음..
+    // NOTICE!!
+    //   spare_usn은 YAFTLContext안에 원래 없음..
+    ctx.m_spare_usn = s.usn;      
     if (string(ctx.version, 4) != "CX01")
     {
         auto msg = str(format("Wrong FTL version %s") % ctx.version);

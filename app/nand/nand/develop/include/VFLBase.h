@@ -17,14 +17,19 @@ public:
     virtual ~VFLBase() {}
 
 public: // public interface
+    // TODO DELETE below interfaces
     virtual auto get_ftl_ctrl_block()                                -> vector<uint16_t> = 0;
     virtual auto is_good_block(uint8_t* bbt, uint32_t block)         -> bool             = 0;
     virtual auto virtual_block_to_physical_block(uint32_t, uint32_t) -> uint32_t         = 0;
     virtual auto read_single_page(uint32_t vpn, ByteBuffer const& key, uint32_t 
                                               lpn=0xffffffff)        -> NANDPage         = 0;
 public: // nand interface
+    // TODO DELETE two functions
+    //
     auto nand_page_size()  const -> uint32_t;
     auto pages_per_sublk() const -> uint32_t;
+
+    auto nand()            const -> NAND const&;
 
 protected:
     uint32_t _ce_count;
