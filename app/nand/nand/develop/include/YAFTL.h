@@ -113,7 +113,9 @@ public:
                          uint32_t lpn=0xffffffff) -> NANDPage;
 
     auto yaftl_read_n_page(uint32_t page_to_read, uint32_t n, bool=false)
-            -> ByteBuffer;
+         -> ByteBuffer;
+    auto read_btoc_pages(uint32_t b, uint32_t total_pages) 
+         -> vector<uint32_t>;
 
 private:
     map<uint32_t, uint32_t> _lpn2vpn;

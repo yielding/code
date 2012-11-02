@@ -21,7 +21,28 @@ namespace
 
 void YAFTLContext::read_from(ByteBuffer const& b)
 {
-
+    for (int i=0; i<4; i++) version[i] = b.get_int1();
+    unknCalculatedValue0 = b.get_uint4_le();
+    totalPages           = b.get_uint4_le();
+    latestUserBlock      = b.get_uint4_le();
+    cxt_unkn0_usn        = b.get_uint4_le();
+    latestIndexBlock     = b.get_uint4_le();
+    maxIndexUsn          = b.get_uint4_le();
+    blockStatsField4     = b.get_uint4_le();
+    blockStatsField10    = b.get_uint4_le();
+    numAllocatedBlocks   = b.get_uint4_le();
+    numIAllocatedBlocks  = b.get_uint4_le();
+    unk184_0xA           = b.get_uint4_le();
+    for (int i=0; i<10; i++) cxt_unkn1[i] = b.get_uint4_le();
+    field_58             = b.get_uint4_le();
+    tocArrayLength       = b.get_uint2_le();
+    tocPagesPerBlock     = b.get_uint2_le();
+    tocEntriesPerPage    = b.get_uint2_le();
+    unkn_0x2A            = b.get_uint2_le();
+    userPagesPerBlock    = b.get_uint2_le();
+    unk64                = b.get_uint2_le();
+    for (int i=0; i<11; i++) cxt_unkn2[i] = b.get_uint4_le();;
+    unk188_0x63          = b.get_uint1();
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
@@ -96,15 +117,14 @@ YAFTL::YAFTL(VSVFL* vsvfl, uint32_t usn)
     auto end = _vfl->pages_per_sublk() - _ctrl_block_page_offset;
     for (int i=0; i<end; )
     {
-        auto index = ftl_ctrl_block * _vfl->pages_per_sublk() + i;
+        auto index = ftl_ctrl_block * _vfl->pages_per_sublk() + i + _ctrl_block_page_offset;
         auto page  = yaftl_read_page(index, META_KEY);
         if (page.data.empty())
         {
             if (yaftl_read_ctx_info(index))
                 return;
 
-            auto msg = str(format("YaFTL_readCtxInfo FAIL, restore needed maxusn=%d") % max_usn);
-            cout << msg;
+            cout << str(format("YaFTL_readCtxInfo FAIL, restore needed maxusn=%d") % max_usn);
             yaftl_restore();
             return;
         }
@@ -161,7 +181,7 @@ void YAFTL::yaftl_restore()
         }
         else if (s.type == PAGETYPE_FTL_CLEAN)
         {
-            // do nothing!
+            // Do nothing! in the original code
         }
         else
         {
@@ -169,8 +189,48 @@ void YAFTL::yaftl_restore()
         }
     }
 
-    // TODO from here !!!!
+    NAND::Cache lpn2vpn;
+    for (auto it = user_blocks.rbegin(); it != user_blocks.rend(); ++it)
+    {
+        auto usn = it->first;
+        auto b = user_blocks[usn];
+        auto btoc = read_btoc_pages(b, _total_pages);
+        if (!btoc.empty())
+        {
+            for (int i=btoc.size()-1; i>=0; --i)
+            {
+                auto key = btoc[i];
+                auto val = b * _vfl->pages_per_sublk() + i;
+                // NOTICE: contrary to []= operator, insert only applies where
+                //         there is no same key exists.
+                lpn2vpn.insert(pair<uint32_t, uint32_t>(key, val));
+            }
+        }
+        else
+        {
+            auto msg = str(format("BTOC not found for block %d (usn %d), scanning all pages\n") 
+                           % b % usn);
+            cout << msg;
 
+            uint32_t i = 0;
+            int beg = _vfl->pages_per_sublk() - _toc_pages_per_block - 1;
+            for (int p = beg; p >= 0; --p)
+            {
+                auto page_no = b * _vfl->pages_per_sublk() + p;
+                auto page    = yaftl_read_page(page_no, META_KEY);
+
+                SpareData s(page.spare);
+                if (!page.spare.empty())
+                    i++;
+                lpn2vpn.insert(pair<uint32_t, uint32_t>(s.lpn, page_no));
+            }
+
+            cout << str(format("%d used pages in block") % i);
+        }
+    }
+
+    _vfl->nand().save_cache_data("yaftlrestore", lpn2vpn);
+    _lpn2vpn.swap(lpn2vpn);
 }
 
 bool YAFTL::yaftl_read_ctx_info(uint32_t page_no)
@@ -233,13 +293,14 @@ bool YAFTL::yaftl_read_ctx_info(uint32_t page_no)
     }
 
     auto msg = str(format("YaFTL context OK, version=%s, maxIndexUsn=%d") 
-            % ctx.version % ctx.maxIndexUsn);
+                    % ctx.version % ctx.maxIndexUsn);
 
     cout << msg;
     return true;
 }
 
-ByteBuffer YAFTL::yaftl_read_n_page(uint32_t page_to_read, uint32_t n, bool failIfBlank)
+auto YAFTL::yaftl_read_n_page(uint32_t page_to_read, uint32_t n, bool failIfBlank)
+    -> ByteBuffer 
 {
     ByteBuffer result;
 
@@ -258,6 +319,33 @@ ByteBuffer YAFTL::yaftl_read_n_page(uint32_t page_to_read, uint32_t n, bool fail
     }
 
     return result;
+}
+
+auto YAFTL::read_btoc_pages(uint32_t block, uint32_t max_val) -> vector<uint32_t>
+{
+    vector<uint32_t> btoc;
+
+    ByteBuffer data;
+    for (uint32_t i=0; i<_toc_pages_per_block; i++)
+    {
+        auto index = (block + 1) * _vfl->pages_per_sublk() - _toc_pages_per_block + i;
+        auto page  = yaftl_read_page(index, META_KEY);
+        if (page.spare.empty())
+            return vector<uint32_t>();
+
+        data.append(page.data);
+    }
+
+    data.flip();
+    while (data.has_remaining())
+    {
+        auto val = data.get_uint4_le();
+        if (val > max_val) 
+            val = max_val;
+        btoc.push_back(val);
+    }
+
+    return btoc;
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

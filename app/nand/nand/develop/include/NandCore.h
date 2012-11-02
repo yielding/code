@@ -93,6 +93,7 @@ struct SpareData
 
     void read_from(ByteBuffer const& b)
     {
+        b.offset(0);
         lpn     = b.get_uint4_le();
         usn     = b.get_uint4_le();
         field_8 = b.get_uint1();

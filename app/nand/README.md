@@ -14,16 +14,24 @@
     - NANDRemote
       : readPage
 
-  * VFL
-    - Test
-
   * YAFTL
+    - test
 
 ## DOING
   * YAFTL
-    - gzip test using gzstream
+    - constructor test
+
+  * VSVFL
+    - Test remap_block
 
 ## DONE
+  * YAFTL
+    - yaftl_restore
+    - gzip test using gzstream
+      사용하지 않음. python에서는 pickle을 이용한 serialized object를 gzip으로 묶어서
+      저장 -> serialize한 데이터를 공유할 필요가 없는 이상 같은 포멧을 고집할 이유가
+      없다.
+
   * VSVFL
     - 구현
     - Test

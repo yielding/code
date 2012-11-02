@@ -238,33 +238,11 @@ auto VSVFL::get_ftl_ctrl_block() -> vector<uint16_t>
         if (it->usn_inc == _current_version)
         {
             res.assign(it->control_block, it->control_block + 3);
-            return res;
+            break;
         }
     }
         
     return res;
-}
-
-auto VSVFL::virtual_block_to_physical_block(uint32_t vbank, uint32_t vblock) -> uint32_t
-{
-    auto paddr = virtual_to_physical(vbank, _pages_per_block * vblock);
-    return paddr.page / _pages_per_block;
-}
-
-auto VSVFL::is_good_block(uint8_t* bbt, uint32_t block) -> bool
-{
-    if (block > _blocks_per_ce)
-    {
-        auto msg = str(format("vsvfl_is_good_block block %d out of bounds") % block);
-        throw std::runtime_error(msg.c_str());
-    }
-
-    return (bbt[block/8] & ( 1 << (block & 8))) != 0;
-}
-
-auto VSVFL::remap_block(uint32_t ce, uint32_t block) -> uint32_t
-{
-    return 0;
 }
 
 auto VSVFL::virtual_to_physical(uint32_t vbank, uint32_t vpage) -> PhysicalAddr
@@ -291,7 +269,7 @@ auto VSVFL::virtual_to_physical(uint32_t vbank, uint32_t vpage) -> PhysicalAddr
         addr.ce   = vbank % _ce_count;
         addr.page = ppage;
     }
-    else if (std::find_if(vt, vt+3, arg1 == _vendor_type) != vt+3)
+    else if (find_if(vt, vt+3, arg1 == _vendor_type) != vt+3)
     {
         auto pblock = 2 * (vpage / _pages_per_block);
         if (vbank % (2 * _ce_count) >= _ce_count)
@@ -309,6 +287,47 @@ auto VSVFL::virtual_to_physical(uint32_t vbank, uint32_t vpage) -> PhysicalAddr
     return addr;
 }
 
+auto VSVFL::virtual_block_to_physical_block(uint32_t vbank, uint32_t vblock) -> uint32_t
+{
+    auto paddr = virtual_to_physical(vbank, _pages_per_block * vblock);
+    return paddr.page / _pages_per_block;
+}
+
+auto VSVFL::is_good_block(vector<uint8_t> const& bbt, uint32_t block) -> bool
+{
+    if (block > _blocks_per_ce)
+    {
+        auto msg = str(format("vsvfl_is_good_block block %d out of bounds") % block);
+        throw std::runtime_error(msg.c_str());
+    }
+
+    return (bbt[block/8] & (1 << (block & 8))) != 0;
+}
+
+auto VSVFL::remap_block(uint32_t ce, uint32_t block) -> uint32_t
+{
+    if (is_good_block(_bbts[ce], block))
+        return block;
+
+    auto&  ctx = _vfl_contexts[ce];
+    auto range = _blocks_per_ce - ctx.reserved_block_pool_start * _banks_per_ce_vfl;
+    for (auto pw_des_pbn=0; pw_des_pbn<range; ++pw_des_pbn)
+    {
+        if (ctx.reserved_block_pool_map[pw_des_pbn] == block)
+        {
+            auto diff = _blocks_per_bank_vfl - ctx.reserved_block_pool_start;
+            auto vbak = ce + _ce_count * (pw_des_pbn / diff);
+            auto vblk = ctx.reserved_block_pool_start + (pw_des_pbn % diff);
+            auto z    = virtual_block_to_physical_block(vbak, vblk);
+
+            return z;
+        }
+    }
+
+    cout << "bad block " << block << " not remapped\n";
+    return block;
+}
+
 auto VSVFL::virtual_page_number_to_physical(uint32_t vpn) -> PhysicalAddr
 {
     auto vbank  = vpn % _banks_total; 
@@ -317,7 +336,7 @@ auto VSVFL::virtual_page_number_to_physical(uint32_t vpn) -> PhysicalAddr
          pblock = remap_block(ce, pblock);
 
     auto bank_offset = _bank_address_space * (pblock / _blocks_per_bank);
-    auto page   =  _pages_per_block_2 * (bank_offset + (pblock & _blocks_per_bank))
+    auto page   =  _pages_per_block_2 * (bank_offset + (pblock % _blocks_per_bank))
                      + ((vpn % _pages_per_block) / _banks_total);
 
     PhysicalAddr paddr;
