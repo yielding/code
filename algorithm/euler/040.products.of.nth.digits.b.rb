@@ -4,9 +4,9 @@ require_relative "numeric_ext"
 
 sum = 0
 res = []
-vals = (0..6).map {|e| 10 ** e}
+vals = (0..6).map { |e| 10 ** e }
     
-s = (1..200000).each { |e|
+(1..200000).each { |e|
   count = e.digit_count
 
   count.times { |p|
