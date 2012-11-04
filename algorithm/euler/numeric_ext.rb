@@ -68,6 +68,8 @@ class Numeric
   end
 
   def concat no
+    return self * 10 if no == 0
+
     tmp, pow = no, 1
     while tmp > 0
       pow *= 10
