@@ -301,7 +301,7 @@ auto VSVFL::is_good_block(vector<uint8_t> const& bbt, uint32_t block) -> bool
         throw std::runtime_error(msg.c_str());
     }
 
-    return (bbt[block/8] & (1 << (block & 8))) != 0;
+    return (bbt[block / 8] & (1 << (block % 8))) != 0;
 }
 
 auto VSVFL::remap_block(uint32_t ce, uint32_t block) -> uint32_t
@@ -337,7 +337,7 @@ auto VSVFL::virtual_page_number_to_physical(uint32_t vpn) -> PhysicalAddr
 
     auto bank_offset = _bank_address_space * (pblock / _blocks_per_bank);
     auto page   =  _pages_per_block_2 * (bank_offset + (pblock % _blocks_per_bank))
-                     + ((vpn % _pages_per_block) / _banks_total);
+                     + ((vpn % _pages_per_sublk) / _banks_total);
 
     PhysicalAddr paddr;
     paddr.ce   = ce;

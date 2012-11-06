@@ -33,17 +33,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "nand/develop/src/DeviceInfo.cpp"
-         timestampString = "367484190.918967"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "168"
-         endingLineNumber = "168">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "nand/main.cpp"
          timestampString = "369887683.789987"
          startingColumnNumber = "9223372036854775807"
@@ -52,19 +41,6 @@
          endingLineNumber = "17"
          landmarkName = "main(int argc, const char *argv[])"
          landmarkType = "7">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "nand/develop/src/NAND.cpp"
-         timestampString = "372585368.01076"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "183"
-         endingLineNumber = "183"
-         landmarkName = "NAND::NAND(char const* fname, DeviceInfo&amp; dinfo, int64_t ppn)"
-         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
@@ -84,12 +60,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "nand/develop/src/YAFTL.cpp"
-         timestampString = "373534793.280079"
+         timestampString = "373871530.872537"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "121"
-         endingLineNumber = "121"
-         landmarkName = "YAFTL::YAFTL(VSVFL* vsvfl, uint32_t usn)"
+         startingLineNumber = "153"
+         endingLineNumber = "153"
+         landmarkName = "YAFTL::yaftl_restore()"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "nand/develop/src/YAFTL.cpp"
+         timestampString = "373879093.788745"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "243"
+         endingLineNumber = "243"
+         landmarkName = "YAFTL::yaftl_restore()"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

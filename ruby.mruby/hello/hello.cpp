@@ -26,6 +26,7 @@ static void test_free(mrb_state* mrb, void* p)
 mrb_value test_init(mrb_state* mrb, mrb_value exec)
 {
   printf("Test.initialize is called\n");
+  return mrb_nil_value();
 }
 
 mrb_value test_run(mrb_state* mrb, mrb_value exec)

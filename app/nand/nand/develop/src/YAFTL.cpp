@@ -6,6 +6,7 @@
 
 #include <boost/format.hpp>
 #include <iostream>
+#include <map>
 
 using namespace boost;
 using namespace std;
@@ -150,11 +151,11 @@ auto YAFTL::yaftl_read_page(uint32_t page_no, ByteBuffer const& key, uint32_t lp
 
 void YAFTL::yaftl_restore()
 {
-    // REMARK 
-    //   to use load_cached_data member function, we should include
-    //   NAND.h
+    //
+    // REMARK : To use load_cached_data member function, we should include NAND.h
+    //
     auto const& nd = _vfl->nand();
-    _lpn2vpn = nd.load_cached_data("yaftlrestore");
+    _lpn2vpn = nd.load_cached_data("yaftlrestore.1");
     if (!_lpn2vpn.empty())
     {
         cout << "Found cached FTL restore information\n";
@@ -162,7 +163,7 @@ void YAFTL::yaftl_restore()
     }
 
     NAND::Cache user_blocks, index_blocks;
-    for (auto b=0; b<_num_blocks_per_bank; b++)
+    for (uint32_t b=0; b<_num_blocks_per_bank; b++)
     {
         auto page = yaftl_read_page(b * _vfl->pages_per_sublk(), META_KEY);
         if (page.spare.empty())
@@ -192,12 +193,12 @@ void YAFTL::yaftl_restore()
     NAND::Cache lpn2vpn;
     for (auto it = user_blocks.rbegin(); it != user_blocks.rend(); ++it)
     {
-        auto usn = it->first;
-        auto b = user_blocks[usn];
+        auto usn  = it->first;
+        auto b    = user_blocks[usn];
         auto btoc = read_btoc_pages(b, _total_pages);
         if (!btoc.empty())
         {
-            for (int i=btoc.size()-1; i>=0; --i)
+            for (int i=_user_pages_per_block-1; i>=0; --i)
             {
                 auto key = btoc[i];
                 auto val = b * _vfl->pages_per_sublk() + i;
@@ -208,7 +209,7 @@ void YAFTL::yaftl_restore()
         }
         else
         {
-            auto msg = str(format("BTOC not found for block %d (usn %d), scanning all pages\n") 
+            auto msg = str(format("BTOC not found for block %d (usn %d), scanning all pages\n")
                            % b % usn);
             cout << msg;
 
@@ -218,18 +219,27 @@ void YAFTL::yaftl_restore()
             {
                 auto page_no = b * _vfl->pages_per_sublk() + p;
                 auto page    = yaftl_read_page(page_no, META_KEY);
-
-                SpareData s(page.spare);
                 if (!page.spare.empty())
-                    i++;
-                lpn2vpn.insert(pair<uint32_t, uint32_t>(s.lpn, page_no));
+                {
+                    i += 1;
+                    SpareData s(page.spare);
+                    lpn2vpn.insert(pair<uint32_t, uint32_t>(s.lpn, page_no));
+                }
             }
 
             cout << str(format("%d used pages in block") % i);
         }
     }
 
-    _vfl->nand().save_cache_data("yaftlrestore", lpn2vpn);
+    ofstream tmp("/Users/yielding/Desktop/a.txt");
+    for (auto it=lpn2vpn.begin(); it != lpn2vpn.end(); ++it)
+    {
+        auto line = str(format("%d, %d\n") % it->first % it->second);
+        tmp << line;
+    }
+    tmp.close();
+    
+    // _vfl->nand().save_cache_data("yaftlrestore.1", lpn2vpn);
     _lpn2vpn.swap(lpn2vpn);
 }
 
@@ -340,7 +350,7 @@ auto YAFTL::read_btoc_pages(uint32_t block, uint32_t max_val) -> vector<uint32_t
     while (data.has_remaining())
     {
         auto val = data.get_uint4_le();
-        if (val > max_val) 
+        if (val > max_val)
             val = max_val;
         btoc.push_back(val);
     }
