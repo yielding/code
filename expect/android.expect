@@ -1,0 +1,7 @@
+#!/usr/bin/expect
+
+spawn adb shell
+set timeout 10
+expect shell@android:
+send "su\r"
+interact
