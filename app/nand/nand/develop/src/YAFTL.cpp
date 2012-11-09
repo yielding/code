@@ -144,15 +144,10 @@ YAFTL::YAFTL(VSVFL* vsvfl, uint32_t usn)
     yaftl_restore();
 }
 
-auto YAFTL::yaftl_read_page(uint32_t page_no, ByteBuffer const& key, uint32_t lpn) -> NANDPage
-{
-    return _vfl->read_single_page(page_no, key, lpn);
-}
-
 void YAFTL::yaftl_restore()
 {
     //
-    // REMARK : To use load_cached_data member function, we should include NAND.h
+    // REMARK : To call load_cached_data member function, we should include NAND.h
     //
     auto const& nd = _vfl->nand();
     _lpn2vpn = nd.load_cached_data("yaftlrestore.1");
@@ -239,7 +234,7 @@ void YAFTL::yaftl_restore()
     }
     tmp.close();
     
-    // _vfl->nand().save_cache_data("yaftlrestore.1", lpn2vpn);
+    _vfl->nand().save_cache_data("yaftlrestore.1", lpn2vpn);
     _lpn2vpn.swap(lpn2vpn);
 }
 
@@ -309,8 +304,8 @@ bool YAFTL::yaftl_read_ctx_info(uint32_t page_no)
     return true;
 }
 
-auto YAFTL::yaftl_read_n_page(uint32_t page_to_read, uint32_t n, bool failIfBlank)
-    -> ByteBuffer 
+ByteBuffer 
+YAFTL::yaftl_read_n_page(uint32_t page_to_read, uint32_t n, bool failIfBlank)
 {
     ByteBuffer result;
 
@@ -331,7 +326,32 @@ auto YAFTL::yaftl_read_n_page(uint32_t page_to_read, uint32_t n, bool failIfBlan
     return result;
 }
 
-auto YAFTL::read_btoc_pages(uint32_t block, uint32_t max_val) -> vector<uint32_t>
+NANDPage YAFTL::yaftl_read_page(uint32_t page_no, ByteBuffer const& key, uint32_t lpn)
+{
+    return _vfl->read_single_page(page_no, key, lpn);
+}
+
+uint32_t YAFTL::translate_lpn2vpn(uint32_t lpn)
+{
+    if (!_lpn2vpn.empty())
+        return (_lpn2vpn.find(lpn) == _lpn2vpn.end())
+            ? 0xffffffff
+            : _lpn2vpn[lpn];
+
+    uint32_t toc_page_no = lpn / _toc_entries_per_page;
+    uint32_t index_page  = _toc_array_index_pages[toc_page_no];
+    if (index_page == 0xffffffff)
+        return 0xffffffff;
+
+    //if (_index_cache
+
+
+
+
+}
+
+vector<uint32_t> 
+YAFTL::read_btoc_pages(uint32_t block, uint32_t max_val)
 {
     vector<uint32_t> btoc;
 
