@@ -4,7 +4,7 @@ public class CSharpApp
 {
   static void Main()
   {
-    int[] a = {1, 2, 3, 4, 5 };
+    int[] a = { 1, 2, 3, 4, 5 };
     int[] b = new int[3];
 
     // a = source array

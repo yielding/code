@@ -226,6 +226,8 @@ void YAFTL::yaftl_restore()
         }
     }
 
+    // REMARK: data test
+    /*
     ofstream tmp("/Users/yielding/Desktop/a.txt");
     for (auto it=lpn2vpn.begin(); it != lpn2vpn.end(); ++it)
     {
@@ -233,6 +235,7 @@ void YAFTL::yaftl_restore()
         tmp << line;
     }
     tmp.close();
+    */
     
     _vfl->nand().save_cache_data("yaftlrestore.1", lpn2vpn);
     _lpn2vpn.swap(lpn2vpn);
