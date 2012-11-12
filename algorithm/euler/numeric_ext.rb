@@ -89,6 +89,11 @@ class Numeric
 
     count
   end
+
+  def is_pentagonal?
+    v = (Math.sqrt(1 + 24 * self) + 1.0) / 6.0
+    return v == Integer(v)
+  end
 end
 
 class Array

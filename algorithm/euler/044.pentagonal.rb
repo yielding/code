@@ -7,7 +7,6 @@ class Numeric
     v = (Math.sqrt(1 + 24*self) + 1.0) / 6.0
     return v == Integer(v)
   end
-
 end
 
 i = 1
