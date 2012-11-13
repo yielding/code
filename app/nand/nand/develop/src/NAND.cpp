@@ -239,7 +239,7 @@ NAND::~NAND()
     }
 }
 
-auto NAND::find_lockers_unit() -> ByteBuffer
+ByteBuffer NAND::find_lockers_unit() 
 {
     ByteBuffer empty;
 
@@ -264,8 +264,9 @@ auto NAND::find_lockers_unit() -> ByteBuffer
     return empty;
 }
 
-auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer const& key,
-                     uint32_t lpn, SpareType st) const -> NANDPage
+NANDPage
+NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer const& key,
+                     uint32_t lpn, SpareType st) const 
 {
     NANDPage page;
 
@@ -311,8 +312,9 @@ auto NAND::read_page(uint32_t ce_no, uint32_t page_no, ByteBuffer const& key,
     return page;
 }
 
-auto NAND::read_block_page(uint32_t ce_no, uint32_t block, uint32_t page,
-     ByteBuffer const& key, uint32_t lpn, SpareType st) const -> NANDPage
+NANDPage
+NAND::read_block_page(uint32_t ce_no, uint32_t block, uint32_t page,
+     ByteBuffer const& key, uint32_t lpn, SpareType st) const 
 {
     assert(page < _pages_per_block);
     
@@ -321,14 +323,14 @@ auto NAND::read_block_page(uint32_t ce_no, uint32_t block, uint32_t page,
     return read_page(ce_no, page_no, key, lpn, st);
 }
 
-auto NAND::read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st) const
-    -> NANDPage
+NANDPage
+NAND::read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st) const
 {
     return read_block_page(ce, block, page, META_KEY, 0xffffffff, st);
 }
 
-auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
-    -> map<string, ByteBuffer>
+map<string, ByteBuffer>
+NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
 {
     map<string, ByteBuffer> specials;
 
@@ -382,16 +384,14 @@ auto NAND::read_special_pages(uint32_t ce_no, vector<string>& magics)
     return specials;
 }
 
-auto NAND::unpack_spacial_page(ByteBuffer& data)
-    -> ByteBuffer 
+ByteBuffer NAND::unpack_spacial_page(ByteBuffer& data)
 {
     auto loc = data.offset(0x34).get_uint4_le();
 
     return data.slice(0x38, 0x38 + loc);
 }
 
-auto NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no) const
-    -> ByteBuffer 
+ByteBuffer NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no) const
 {
     ByteBuffer spare;
 
@@ -410,8 +410,8 @@ auto NAND::unwhiten_metadata(ByteBuffer& spare_, uint32_t page_no) const
     return spare;
 }
 
-auto NAND::decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no) const
-    -> ByteBuffer 
+ByteBuffer 
+NAND::decrypt_page(ByteBuffer data, ByteBuffer const& key, uint32_t page_no) const
 {
     return aes_decrypt_cbc(data, key, iv_for_page(page_no));
 }
@@ -470,7 +470,7 @@ void NAND::init_geometry(NandInfo const& nand)
     _bank_mask = (int) util::log2(_bank_address_space * _pages_per_block);
 }
 
-auto NAND::iv_for_page(uint32_t page_no) const -> ByteBuffer
+ByteBuffer NAND::iv_for_page(uint32_t page_no) const
 {
     ByteBuffer iv;
     
@@ -487,9 +487,9 @@ auto NAND::iv_for_page(uint32_t page_no) const -> ByteBuffer
     return iv;
 }
 
-auto NAND::load_cached_data(char const* name) const -> Cache
+NANDCache NAND::load_cached_data(char const* name) const
 {
-    Cache cache;
+    NANDCache cache;
     if (strncmp(name, "remote", 6) == 0)
         return cache;
 
@@ -511,7 +511,7 @@ auto NAND::load_cached_data(char const* name) const -> Cache
     return cache;
 }
 
-void NAND::save_cache_data(char const* name, Cache const& cache) const
+void NAND::save_cache_data(char const* name, NANDCache const& cache) const
 {
     if (_filename == "remote")
         return;
@@ -529,6 +529,57 @@ void NAND::save_cache_data(char const* name, Cache const& cache) const
         auto k = it->first ; ofs.write((char*)&k, 4);
         auto v = it->second; ofs.write((char*)&v, 4);
     }
+}
+
+NANDCache2 NAND::load_cached_data2(char const* name) const
+{
+    NANDCache2 cache;
+    if (strncmp(name, "remote", 6) == 0)
+        return cache;
+
+    auto fname = _filename + "." + string(name);
+    ifstream ifs(fname.c_str());
+    if (!ifs.is_open())
+        return cache;
+
+    auto load_hash = [&ifs](NANDCache& cache) -> void {
+        uint32_t count = 0;
+        ifs.read((char*)&count, 4);
+        for (auto i=0; i<count; i++) {
+            uint32_t k; ifs.read((char*)&k, 4);
+            uint32_t v; ifs.read((char*)&v, 4);
+            cache[k] = v;
+        }
+    };
+
+    load_hash(cache.first);
+    load_hash(cache.second);
+
+    return cache;
+}
+
+void NAND::save_cache_data2(char const* name, NANDCache2 const& cache) const
+{
+    if (_filename == "remote")
+        return;
+
+    auto fname = _filename + "." + string(name);
+    ofstream ofs(fname.c_str());
+    if (!ofs.is_open())
+        return;
+
+    auto save_hash = [&ofs](NANDCache const& cache) -> void {
+        uint32_t count = (uint32_t)cache.size();
+        ofs.write((char*)&count, 4);
+
+        for (auto it=cache.begin(); it != cache.end(); ++it) {
+            auto k = it->first ; ofs.write((char*)&k, 4);
+            auto v = it->second; ofs.write((char*)&v, 4);
+        }
+    };
+
+    save_hash(cache.first);
+    save_hash(cache.second);
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8

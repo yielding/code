@@ -37,11 +37,11 @@ struct nand_chip_info
     uint16_t unk9;
 };
 
+typedef std::map<uint32_t, uint32_t>    NANDCache;
+typedef std::pair<NANDCache, NANDCache> NANDCache2;
+
 class NAND 
 {
-public:
-    typedef map<uint32_t, uint32_t> Cache;
-    
 public:
     NAND(char const* fname, DeviceInfo& dinfo, int64_t ppn=-1);
    ~NAND();
@@ -63,10 +63,11 @@ public:
     auto read_meta_page(uint32_t ce, uint32_t block, uint32_t page, SpareType st) const
       -> NANDPage;
 
-    auto load_cached_data(char const* name) const 
-      -> Cache;
+    auto load_cached_data (char const* name) const -> NANDCache;
+    auto load_cached_data2(char const* name) const -> NANDCache2;
 
-    auto save_cache_data(char const* name, Cache const&) const -> void;
+    auto save_cache_data (char const* name, NANDCache const&) const -> void;
+    auto save_cache_data2(char const* name, NANDCache2 const& cache) const -> void;
 
 public:
     auto banks_total() const      -> uint32_t { return _ce_count * _banks_per_ce_vfl; }
@@ -78,9 +79,9 @@ public:
     auto vendor_type() const      -> uint32_t { return _vendor_type;                  }
     auto device_readid() const    -> uint64_t { return _device_readid;                }
     auto banks_per_ce_physical() const -> uint32_t { return _banks_per_ce_physical;   }
-    auto bank_address_space() const -> uint32_t    { return _bank_address_space;      }
-    auto boot_from_nand() const -> bool            { return _bfn;                     }
-    auto page_size() const -> uint32_t             { return _page_size;               } 
+    auto bank_address_space()    const -> uint32_t { return _bank_address_space;      }
+    auto boot_from_nand()        const -> bool     { return _bfn;                     }
+    auto page_size()             const -> uint32_t { return _page_size;               } 
 
 private:
     void init_geometry(NandInfo const& n);

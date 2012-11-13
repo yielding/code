@@ -72,14 +72,15 @@ YAFTL::YAFTL(VSVFL* vsvfl, uint32_t usn)
     _num_pages_block_erase_counts = util::ceil_divide(_num_blocks_per_bank*4, bytes_per_page);
     _num_pages_block_valid_pages_d_numbers = _num_pages_block_read_counts;
     _num_pages_block_valid_pages_i_numbers = _num_pages_block_read_counts;
-    _ctrl_block_page_offset       = _num_pages_toc_page_indices 
-                                  + _num_pages_block_statuses
-                                  + _num_pages_block_read_counts
-                                  + _num_pages_block_erase_counts
-                                  + _num_pages_block_valid_pages_d_numbers
-                                  + _num_pages_block_valid_pages_i_numbers
-                                  + 2 * _toc_pages_per_block
-                                  + 2;
+    _ctrl_block_page_offset 
+        = _num_pages_toc_page_indices 
+        + _num_pages_block_statuses
+        + _num_pages_block_read_counts
+        + _num_pages_block_erase_counts
+        + _num_pages_block_valid_pages_d_numbers
+        + _num_pages_block_valid_pages_i_numbers
+        + 2 * _toc_pages_per_block
+        + 2;
     
     _total_pages = (_num_blocks_per_bank - 8) * 
                    (_vfl->pages_per_sublk() - _toc_pages_per_block);
@@ -157,7 +158,7 @@ void YAFTL::yaftl_restore()
         return;
     }
 
-    NAND::Cache user_blocks, index_blocks;
+    NANDCache user_blocks, index_blocks;
     for (uint32_t b=0; b<_num_blocks_per_bank; b++)
     {
         auto page = yaftl_read_page(b * _vfl->pages_per_sublk(), META_KEY);
@@ -185,7 +186,7 @@ void YAFTL::yaftl_restore()
         }
     }
 
-    NAND::Cache lpn2vpn;
+    NANDCache lpn2vpn;
     for (auto it = user_blocks.rbegin(); it != user_blocks.rend(); ++it)
     {
         auto usn  = it->first;
@@ -329,12 +330,14 @@ YAFTL::yaftl_read_n_page(uint32_t page_to_read, uint32_t n, bool failIfBlank)
     return result;
 }
 
-NANDPage YAFTL::yaftl_read_page(uint32_t page_no, ByteBuffer const& key, uint32_t lpn)
+NANDPage 
+YAFTL::yaftl_read_page(uint32_t page_no, ByteBuffer const& key, uint32_t lpn)
 {
     return _vfl->read_single_page(page_no, key, lpn);
 }
 
-uint32_t YAFTL::translate_lpn2vpn(uint32_t lpn)
+uint32_t 
+YAFTL::translate_lpn2vpn(uint32_t lpn)
 {
     if (!_lpn2vpn.empty())
         return (_lpn2vpn.find(lpn) == _lpn2vpn.end())
@@ -346,11 +349,134 @@ uint32_t YAFTL::translate_lpn2vpn(uint32_t lpn)
     if (index_page == 0xffffffff)
         return 0xffffffff;
 
-    //if (_index_cache
+    IndexPages toc_page_buffer;
+    if (_index_cache.find(index_page) != _index_cache.end())
+    {
+        toc_page_buffer = _index_cache[index_page];
+    }
+    else
+    {
+        auto page = yaftl_read_page(index_page, META_KEY);
+        if (page.data.empty())
+        {
+            cout << "tocPageBuffer fail\n";
+            return 0xffffffff;
+        }
 
+        SpareData s(page.spare);
+        if (s.type != PAGETYPE_INDEX)
+            throw runtime_error("Wrong Page Type!");
 
+        for (size_t i=0; i<page.data.size(); i++)
+            toc_page_buffer.push_back(uint16_t(page.data[i]));
 
+        _index_cache[index_page] = toc_page_buffer;
+    }
 
+    // toc_entry;
+    return toc_page_buffer[lpn % _toc_entries_per_page];
+}
+
+ByteBuffer 
+YAFTL::read_lpn(uint32_t lpn, ByteBuffer key) 
+{
+    ByteBuffer blank;
+    auto vpn = translate_lpn2vpn(lpn);
+    if (vpn == 0xffffffff)
+        return blank;
+
+    auto page = yaftl_read_page(vpn, key, lpn);
+    if (page.data.empty())
+        return blank;
+
+    SpareData s(page.spare);
+    if (s.lpn != lpn)
+    {
+        auto msg = str(format("YAFTL translatioin FAIL spare lpn : %d vs expected %d")
+                       % s.lpn % lpn);
+        throw runtime_error(msg.c_str());
+    }
+
+    return page.data;
+}
+
+NANDCache2 YAFTL::yaftl_lookup1()
+{
+    auto cache = _vfl->nand().load_cached_data2("YAFTL_lookup1");
+    
+    if (!cache.first.empty() || !cache.second.empty())
+    {
+        cout << "Found cached FTL lookup table\n";
+        return cache;
+    }
+
+    auto& usr_blk = cache.first;
+    auto& idx_blk = cache.second;
+
+    for (auto b=0; b<_num_blocks_per_bank; ++b)
+    {
+        auto page = yaftl_read_page(b * _vfl->pages_per_sublk() + 0, META_KEY);
+        if (page.spare.empty())
+            continue;
+
+        SpareData s(page.spare);
+        if (s.type == PAGETYPE_INDEX)
+        {
+            idx_blk[s.usn] = b;
+        }
+        else if (s.type == PAGETYPE_LBN)
+        {
+            auto res = usr_blk.insert(pair<uint32_t, uint32_t>(s.usn, b));
+            if (!res.second)
+                throw std::runtime_error("Two blocks with same USN, something is weird");
+        }
+        else if (s.type == PAGETYPE_FTL_CLEAN)
+        {}
+    }
+
+    NANDCache lpn2vpn;
+
+    for (auto it = usr_blk.rbegin(); it != usr_blk.rend(); ++it)
+    {
+        auto usn  = it->first;
+        auto b    = usr_blk[usn];
+        auto btoc = read_btoc_pages(b, _total_pages);
+
+        if (!btoc.empty())
+        {
+            for (int i=_user_pages_per_block-1; i>=0; --i)
+            {
+                // TODO
+                // lpn2vpn.setdefault <== 이거 어떻게 하는 거지?
+            }
+        }
+        else
+        {
+            uint32_t i   = 0;
+            int64_t usn_ = -1;
+            int beg = _vfl->pages_per_sublk() - _toc_pages_per_block - 1;
+            for (int p = beg; p >= 0; --p)
+            {
+                auto page_no = b * _vfl->pages_per_sublk() + p;
+                auto page    = yaftl_read_page(page_no, META_KEY);
+                if (page.spare.empty())
+                    break;
+
+                i += 1;
+                SpareData s(page.spare);
+
+                if (usn_ == -1 || usn_ != s.usn)
+                    usn_ = s.usn;
+
+                // TODO
+                // lpn2vpn.setdefault <== 이거 어떻게 하는 거지?
+            }
+
+            cout << str(format("%d used pages in block") % i);
+        }
+    }
+
+    return cache;
 }
 
 vector<uint32_t> 
