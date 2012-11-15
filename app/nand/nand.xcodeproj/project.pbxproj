@@ -27,6 +27,7 @@
 		DFCBEAB015DDCEA20088C5C0 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCBEAAF15DDCEA20088C5C0 /* libcrypto.a */; };
 		DFCED53215B6760700D8CDAF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFCED53115B6760700D8CDAF /* main.cpp */; };
 		DFCED53415B6760700D8CDAF /* nand.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFCED53315B6760700D8CDAF /* nand.1 */; };
+		DFF28E3016547845000986D6 /* Carver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFF28E2F16547845000986D6 /* Carver.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -74,6 +75,8 @@
 		DFCED52D15B6760700D8CDAF /* nand */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = nand; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFCED53115B6760700D8CDAF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DFCED53315B6760700D8CDAF /* nand.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = nand.1; sourceTree = "<group>"; };
+		DFF28E2E16547845000986D6 /* Carver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Carver.h; path = develop/include/Carver.h; sourceTree = "<group>"; };
+		DFF28E2F16547845000986D6 /* Carver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Carver.cpp; path = develop/src/Carver.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,8 @@
 		DFCED53015B6760700D8CDAF /* nand */ = {
 			isa = PBXGroup;
 			children = (
+				DFF28E2E16547845000986D6 /* Carver.h */,
+				DFF28E2F16547845000986D6 /* Carver.cpp */,
 				DF9D58771635609500295AB9 /* VFLBase.cpp */,
 				DF9D58751635608800295AB9 /* VFLBase.h */,
 				DF9E026C1622C42D00022874 /* VSVFL.h */,
@@ -210,6 +215,7 @@
 				DF6DC156161EB0C000513DC7 /* VSVFL.cpp in Sources */,
 				DF9E026A1622C41F00022874 /* YAFTL.cpp in Sources */,
 				DF9D58781635609500295AB9 /* VFLBase.cpp in Sources */,
+				DFF28E3016547845000986D6 /* Carver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

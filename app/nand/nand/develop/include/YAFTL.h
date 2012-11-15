@@ -103,8 +103,9 @@ struct BlockStates
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 class NAND;
 
-typedef std::map<uint32_t, uint32_t> NANDCache;
-typedef std::pair<NANDCache, NANDCache> NANDCache2;
+typedef std::map<uint32_t, uint32_t>         NANDCache;
+typedef std::map<uint32_t, vector<uint32_t>> NANDCache2;
+typedef std::pair<NANDCache2, NANDCache>     NANDCachePair;
 
 class YAFTL
 {
@@ -115,7 +116,8 @@ public:
     YAFTL(VSVFL* vsvfl, uint32_t usn=0);
 
 public:
-    NANDCache2 yaftl_lookup1();
+    auto yaftl_lookup1() -> NANDCachePair;
+    auto yaftl_hax2()    -> void;
 
     bool yaftl_read_ctx_info(uint32_t page_no);
     void yaftl_restore();
@@ -130,8 +132,9 @@ public:
 
     auto translate_lpn2vpn(uint32_t lpn) -> uint32_t;
 
-    auto read_lpn(uint32_t, ByteBuffer b=ByteBuffer()) 
-         -> ByteBuffer;
+    auto read_lpn(uint32_t, ByteBuffer b=ByteBuffer()) -> ByteBuffer;
+    auto block_lpn2vpn(uint32_t block) -> NANDCache;
+    auto build_lpn2vpn() -> NANDCache;
 
 private:
     map<uint32_t, uint32_t>   _lpn2vpn;

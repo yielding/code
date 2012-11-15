@@ -1,36 +1,50 @@
 ## TODO
   * source file 구조 개선
-    - 현재 develop 및에 모여진 코드가 일부는 common으로 일부는 
-      nand 및으로 이동해야 한다.
+    - 현재 develop 및에 모여진 코드가 일부는 common으로, 일부는 nand 밑으로 이동해야 한다.
 
   * NAND class 구현
+    - is_ios5
+
     - refactoring
       > header 및 객체의 위치를 정확하게 조정한다.
 
-    - read\_page
-      > 여러가지 SpareData 에 대한 정확한 해석 및
-        코드 위치 잡기 정확하게 refactoring
-
     - NANDRemote
-      : readPage
+      > readPage
+
+    - load_cache1/2, save_cache1/2 test
+
+    - integration test
 
   * YAFTL
-    - test
+    - integration test
+
+  * NANDCarver
+    - constructor
+
+  * PartitionTable
+    - LWVM
+    - MBR
+    - GPT
 
 ## DOING
-  * YAFTL
-    - constructor test
+  * META_KEY의 linkage 정확하게 이해
+    - 
 
-  * VSVFL
-    - Test remap_block
+  * NAND class 구현
+    - get_partition_table
+
+  * NANDCarver
 
 ## DONE
   * YAFTL
+    - constructor test
+    - Test remap_block
+
+  * YAFTL
     - yaftl_restore
     - gzip test using gzstream
-      사용하지 않음. python에서는 pickle을 이용한 serialized object를 gzip으로 묶어서
-      저장 -> serialize한 데이터를 공유할 필요가 없는 이상 같은 포멧을 고집할 이유가
-      없다.
+      사용하지 않음. python에서는 pickle을 이용한 serialized object를 gzip으로 묶어서 저장 
+      -> serialize한 데이터를 공유할 필요가 없는 이상 같은 포멧을 고집할 이유가 없다.
 
   * VSVFL
     - 구현
@@ -44,6 +58,10 @@
   * AES class ByteBuffer const correctness check
 
   * NAND class 구현
+    - read\_page
+      > 여러가지 SpareData 에 대한 정확한 해석 및
+        코드 위치 잡기 정확하게 refactoring
+
     - find\_lockers\_unit
 
     - AES wrapper class (same interface as python) 구현

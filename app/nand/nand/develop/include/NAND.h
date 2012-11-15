@@ -37,8 +37,9 @@ struct nand_chip_info
     uint16_t unk9;
 };
 
-typedef std::map<uint32_t, uint32_t>    NANDCache;
-typedef std::pair<NANDCache, NANDCache> NANDCache2;
+typedef std::map<uint32_t, uint32_t>         NANDCache;
+typedef std::map<uint32_t, vector<uint32_t>> NANDCache2;
+typedef std::pair<NANDCache2, NANDCache>     NANDCachePair;
 
 class NAND 
 {
@@ -64,10 +65,12 @@ public:
       -> NANDPage;
 
     auto load_cached_data (char const* name) const -> NANDCache;
-    auto load_cached_data2(char const* name) const -> NANDCache2;
+    auto load_cached_data2(char const* name) const -> NANDCachePair;
 
     auto save_cache_data (char const* name, NANDCache const&) const -> void;
-    auto save_cache_data2(char const* name, NANDCache2 const& cache) const -> void;
+    auto save_cache_data2(char const* name, NANDCachePair const& cache) const -> void;
+
+    void get_partition_table();
 
 public:
     auto banks_total() const      -> uint32_t { return _ce_count * _banks_per_ce_vfl; }

@@ -501,7 +501,7 @@ NANDCache NAND::load_cached_data(char const* name) const
     uint32_t count = 0;
     ifs.read((char*)&count, 4);
 
-    for (auto i=0; i<count; i++)
+    for (auto i = 0; i < count; i++)
     {
         uint32_t k; ifs.read((char*)&k, 4);
         uint32_t v; ifs.read((char*)&v, 4);
@@ -524,16 +524,24 @@ void NAND::save_cache_data(char const* name, NANDCache const& cache) const
     uint32_t count = (uint32_t)cache.size();
     ofs.write((char*)&count, 4);
 
-    for (auto it=cache.begin(); it != cache.end(); ++it)
+    for (auto it = cache.begin(); it != cache.end(); ++it)
     {
         auto k = it->first ; ofs.write((char*)&k, 4);
         auto v = it->second; ofs.write((char*)&v, 4);
     }
 }
 
-NANDCache2 NAND::load_cached_data2(char const* name) const
+//
+// format for saving NANDCachePair
+// 1. key size : 10
+// 2. data     :  k  c  v's  (key, count, value's)
+//               [1] 3, 1, 1, 1
+//               [2] 2, 1, 0
+//               [3] 0
+//               [4] 5, 1 2 3 4 5
+NANDCachePair NAND::load_cached_data2(char const* name) const
 {
-    NANDCache2 cache;
+    NANDCachePair cache;
     if (strncmp(name, "remote", 6) == 0)
         return cache;
 
@@ -542,23 +550,39 @@ NANDCache2 NAND::load_cached_data2(char const* name) const
     if (!ifs.is_open())
         return cache;
 
-    auto load_hash = [&ifs](NANDCache& cache) -> void {
+    auto load_cache2 = [&ifs](NANDCache2& cache) -> void {
         uint32_t count = 0;
         ifs.read((char*)&count, 4);
-        for (auto i=0; i<count; i++) {
+        for (auto i = 0; i < count; i++) {
+            uint32_t k; ifs.read((char*)&k, 4);
+            uint32_t c; ifs.read((char*)&c, 4);
+            
+            vector<uint32_t> vals;
+            for (auto j = 0; j < c; j++) {
+                uint32_t v; ifs.read((char*)&v, 4);
+                vals.push_back(v);
+            }
+            cache[k] = vals;
+        }
+    };
+
+    auto load_cache1 = [&ifs](NANDCache& cache) -> void {
+        uint32_t count = 0;
+        ifs.read((char*)&count, 4);
+        for (auto i = 0; i < count; i++) {
             uint32_t k; ifs.read((char*)&k, 4);
             uint32_t v; ifs.read((char*)&v, 4);
             cache[k] = v;
         }
     };
 
-    load_hash(cache.first);
-    load_hash(cache.second);
+    load_cache2(cache.first);
+    load_cache1(cache.second);
 
     return cache;
 }
 
-void NAND::save_cache_data2(char const* name, NANDCache2 const& cache) const
+void NAND::save_cache_data2(char const* name, NANDCachePair const& cache) const
 {
     if (_filename == "remote")
         return;
@@ -568,18 +592,43 @@ void NAND::save_cache_data2(char const* name, NANDCache2 const& cache) const
     if (!ofs.is_open())
         return;
 
-    auto save_hash = [&ofs](NANDCache const& cache) -> void {
+    auto save_cache2 = [&ofs](NANDCache2 const& cache) -> void {
         uint32_t count = (uint32_t)cache.size();
         ofs.write((char*)&count, 4);
 
-        for (auto it=cache.begin(); it != cache.end(); ++it) {
+        for (auto it = cache.begin(); it != cache.end(); ++it) {
+            auto k = it->first ; ofs.write((char*)&k, 4);
+            auto& vals = it->second; 
+            uint32_t c = vals.size();
+            ofs.write((char*)&c, 4);
+            for (auto i = 0; i < c; i++)
+                ofs.write((char*)&vals[i], 4);
+        }
+    };
+
+    auto save_cache1 = [&ofs](NANDCache const& cache) -> void {
+        uint32_t count = (uint32_t)cache.size();
+        ofs.write((char*)&count, 4);
+
+        for (auto it = cache.begin(); it != cache.end(); ++it) {
             auto k = it->first ; ofs.write((char*)&k, 4);
             auto v = it->second; ofs.write((char*)&v, 4);
         }
     };
 
-    save_hash(cache.first);
-    save_hash(cache.second);
+    save_cache2(cache.first);
+    save_cache1(cache.second);
+}
+
+void NAND::get_partition_table()
+{
+    //
+    // partition_table type?
+    //
+    /*
+    if (partition_table)
+        return partition_table;
+    */
 }
 
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
