@@ -24,6 +24,12 @@ using namespace boost::phoenix::arg_names;
 using namespace boost;
 using namespace std;
 
+//
+// NOTICE: Declared in NAND.h like this:
+// extern ByteBuffer META_KEY;
+//
+auto META_KEY = ByteBuffer::from_hexcode("92a742ab08c969bf006c9412d3cc79a5");
+
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
 //
 //// REMARK: find appropriate postions for the below anonymous namespace codes
@@ -60,7 +66,7 @@ namespace
         { 0x32956845,  0x2000,  0x80, 0x2000, 0x1C0,    8, 0, 9, 2, 0 }
     };
 
-    auto META_KEY = ByteBuffer::from_hexcode("92a742ab08c969bf006c9412d3cc79a5");
+    // auto META_KEY = ByteBuffer::from_hexcode("92a742ab08c969bf006c9412d3cc79a5");
 
     vector<uint32_t> gen_h2fmi_hash_table()
     {

@@ -31,6 +31,8 @@ uint32_t const PAGETYPE_LBN       = 0x10; // User data
 uint32_t const PAGETYPE_FTL_CLEAN = 0x20; // FTL context (unmounted, clean)
 uint32_t const PAGETYPE_VFL       = 0x80; // VFL context
 
+extern ByteBuffer META_KEY;
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //

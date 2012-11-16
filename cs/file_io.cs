@@ -1,34 +1,9 @@
 using System;
 using System.IO;
+using System.Text;
 
 class CSharpApp
 {
-    public void TextFileIO(string path)
-    {
-        try
-        {
-            if (File.Exists(path))
-                File.Delete(path);
-
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                sw.WriteLine("This");
-                sw.WriteLine("is some text");
-                sw.WriteLine("to test");
-                sw.WriteLine("Reading");
-            }
-
-            using (StreamReader sr = new StreamReader(path))
-            {
-                while (sr.Peek() > 0)
-                    Console.WriteLine(sr.ReadLine());
-            }
-        }
-        catch(Exception e)
-        {
-            Console.WriteLine("The process failed: {0}", e.ToString());
-        }
-    }
 
     public void BinFileIO(string path)
     {
@@ -37,19 +12,38 @@ class CSharpApp
             if (File.Exists(path))
                 File.Delete(path);
 
-            FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
-            using (BinaryWriter bw = new BinaryWriter(fs))
+            var fs0 = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+            using (var bw = new BinaryWriter(fs0))
             {
-                int one = 1;
-                double dl_one = 0.01;
-                string s = "Hello C#";
-                bw.Write(one);
-                bw.Write(dl_one);
-                bw.Write(s);
+                // int    one    = 1;
+                // double dl_one = 0.01;
+                // REMARK
+                // the first byte of string is its "length"
+                //
+                // format: length, utf8
+                string s = "l";  
+                var res = "";
+
+                for(int i=0; i<2000; i++)
+                    res += s;
+
+                
+                // bw.Write(one); bw.Write(dl_one); 
+                bw.Write(res);
+
+                /*
+                var utf8  = System.Text.Encoding.UTF8;
+                var bytes = utf8.GetBytes(s);
+                bw.Write(bytes);
+
+                foreach(var b in bytes)
+                    Console.Write("{0:X} ", b);
+                */
             }
 
-            FileStream fs1 = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
-            using (BinaryReader br = new BinaryReader(fs1))
+            /*
+            var fs1 = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
+            using (var br = new BinaryReader(fs1))
             {
                 var one    = br.ReadInt32();
                 var bl_one = br.ReadDouble();
@@ -58,6 +52,7 @@ class CSharpApp
                 Console.WriteLine("{0}, {1}, {2}", 
                         one.ToString(), bl_one.ToString(), str);
             }
+            */
         }
         catch(Exception e)
         {
@@ -67,9 +62,9 @@ class CSharpApp
 
     static void Main(string[] args)
     {
-        string path = "/Users/yielding/code/cs/file_io.txt";
+        string path = "/Users/yielding/code/cs/file_io.bin";
         var app = new CSharpApp();
-        app.TextFileIO(path);
+        // app.TextFileIO(path);
         app.BinFileIO(path);
     }
 }

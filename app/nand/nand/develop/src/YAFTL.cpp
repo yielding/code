@@ -15,11 +15,6 @@ using namespace std;
 //
 //
 /////////1/////////2/////////3/////////4/////////5/////////6/////////7/////////8
-namespace
-{
-    auto META_KEY = ByteBuffer::from_hexcode("92a742ab08c969bf006c9412d3cc79a5");
-}
-
 void YAFTLContext::read_from(ByteBuffer const& b)
 {
     for (int i=0; i<4; i++) version[i] = b.get_int1();
