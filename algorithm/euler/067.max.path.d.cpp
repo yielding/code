@@ -129,7 +129,7 @@ int main()
     auto t = DP.solve();
 
     cout << "최대값 : " << t.max_value() << endl;
-    cout << "경로  : " << t.max_trace();
+    cout << "경로 : "   << t.max_trace();
 
     return 0;
 }
