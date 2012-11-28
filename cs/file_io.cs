@@ -4,7 +4,6 @@ using System.Text;
 
 class CSharpApp
 {
-
     public void BinFileIO(string path)
     {
         try
@@ -15,33 +14,20 @@ class CSharpApp
             var fs0 = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
             using (var bw = new BinaryWriter(fs0))
             {
-                // int    one    = 1;
-                // double dl_one = 0.01;
+                int    one    = 1;
+                double dl_one = 0.01;
+                string res    = "leech";
+
                 // REMARK
                 // the first byte of string is its "length"
                 //
                 // format: length, utf8
-                string s = "l";  
-                var res = "";
-
-                for(int i=0; i<2000; i++)
-                    res += s;
-
                 
-                // bw.Write(one); bw.Write(dl_one); 
+                bw.Write(one); 
+                bw.Write(dl_one); 
                 bw.Write(res);
-
-                /*
-                var utf8  = System.Text.Encoding.UTF8;
-                var bytes = utf8.GetBytes(s);
-                bw.Write(bytes);
-
-                foreach(var b in bytes)
-                    Console.Write("{0:X} ", b);
-                */
             }
 
-            /*
             var fs1 = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
             using (var br = new BinaryReader(fs1))
             {
@@ -52,7 +38,6 @@ class CSharpApp
                 Console.WriteLine("{0}, {1}, {2}", 
                         one.ToString(), bl_one.ToString(), str);
             }
-            */
         }
         catch(Exception e)
         {
