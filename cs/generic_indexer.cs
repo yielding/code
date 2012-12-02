@@ -13,13 +13,9 @@ namespace Generic
 
         public T this[int index]
         {
-            get
-            {
-                return array[index];
-            }
+            get { return array[index]; }
 
-            set 
-            {
+            set {
                 if (index >= array.Length)
                 {
                     Array.Resize<T>(ref array, index+1);

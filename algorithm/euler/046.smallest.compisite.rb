@@ -9,10 +9,10 @@ class Numeric
   end
 end
 
-from = 2
-to   = 10000
-primes = eratosthenes_sieve(to)
-odds   = (from..to).select { |n| n.odd? }
+from      = 2
+to        = 10000
+primes    = eratosthenes_sieve(to)
+odds      = (from..to).select { |n| n.odd? }
 composite = odds - primes
 
 found = false
@@ -23,7 +23,10 @@ composite.each { |c|
 
   primes.each { |prime|  
     break if c <= prime
-    begin found = false; break; end if (c - prime).twice_square?
+    if (c - prime).twice_square?
+      found = false; 
+      break
+    end
   }
 
   p c if found

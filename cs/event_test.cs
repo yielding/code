@@ -11,7 +11,8 @@ namespace EventTest
         {
             int temp = number % 10;
             if (temp != 0 && temp % 3 == 0)
-                SomethingHappened(String.Format("{0}", number));
+                if (SomethingHappened != null)
+                    SomethingHappened(String.Format("{0}", number));
         }
     }
 
@@ -26,7 +27,6 @@ namespace EventTest
         {
             MyNotifier notifier = new MyNotifier();
             notifier.SomethingHappened += new EventHandler(MyHandler);
-
             for (int i=1; i<30; i++)
                 notifier.DoSomething(i);
         }
