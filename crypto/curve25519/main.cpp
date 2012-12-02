@@ -16,6 +16,14 @@ void curve25519()
 
 int main(int argc, char const* argv[])
 {
+    ByteBuffer b;
+    for (int i=1; i<=8; i++)
+      b.set_uint1(i);
+
+    b.flip();
+    cout << "be: " << b.get_uint3_be() << endl;
+
+    /*
     auto z           = ByteBuffer::from_hexcode("04000000080000000200000048000000000000000000000000000000000000000000000002917dc2542198edeb1078c4d1ebab74d9ca87890657ba02b9825dadf20a002f44360c6f87743fac0236df1f9eedbea801e31677aef3a09adfb4e10a37ae27facf419ab3ea3f39f4");
     auto my_secret_  = ByteBuffer::from_hexcode("99b66345829d8c05041eea1ba1ed5b2984c3e5ec7a756ef053473c7f22b49f14").get_buffer();
     auto my_public_  = ByteBuffer::from_hexcode("b1c652786697a5feef36a56f36fde524a21193f4e563627977ab515f600fdb3a").get_buffer();
@@ -56,6 +64,7 @@ int main(int argc, char const* argv[])
     vector<uint8_t> final(32, 0);
     AES_unwrap_key(&aes_key, NULL, &final[0], wrapped, 40);
     cout << ByteBuffer::to_hexcode(final) << endl;
+    */
 
     return 0;
 }
