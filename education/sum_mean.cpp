@@ -40,14 +40,15 @@ int main(int argc, const char *argv[])
   srand(time(nullptr));
   for (int i=0; i<10; i++) 
   {
-    v.push_back(rand()  % 100);
-    sort(v);
-    cout << "arr: [" << join(v) << "]\n";
+      v.push_back(rand()  % 100);
+      sort(v);
+      cout << "arr: [" << join(v) << "]\n";
 
-    auto s = sum(v);
-    auto m = float(s) / v.size();
-    cout << "sum: " << s << endl;
-    printf("avr: %5.2f\n", m);
+      auto s = sum(v);
+      auto m = float(s) / v.size();
+      cout << "sum: " << s << endl;
+      printf("avr: %5.2f\n", m);
+      cout << "avr: " << m << endl;
   }
 
   return 0;
