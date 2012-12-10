@@ -96,7 +96,7 @@ class Numeric
   end
 end
 
-class Array
+module Enumerable
   def sum
     self.reduce(:+)
   end
@@ -106,8 +106,9 @@ if __FILE__ == $PROGRAM_NAME
   p 28.divisors
   p 28.proper_divisors
   p 131.is_palindrome?
-  p [28, 29].map { |e| p e.is_prime? }
+  p [28, 29].map { |e| p e.is_prime? } == [false, true]
   p 978654321.is_pandigital?
   p 78654321.is_pandigital?
-  p 99999.digit_count
+  p 99999.digit_count == 5
+  p [1, 2, 3, 4, 5].sum == 15
 end
