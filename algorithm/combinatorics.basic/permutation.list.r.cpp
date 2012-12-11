@@ -16,7 +16,7 @@ void string_permutation(string head, string tail)
 
 int main(int argc, const char *argv[])
 {
-  string head = "0123456789";
+  string head = "0123";
   string tail = "";
 
   string_permutation(head, tail);
