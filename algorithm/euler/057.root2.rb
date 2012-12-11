@@ -6,6 +6,7 @@ require_relative "numeric_ext"
 
 a = 1 + Rational(1,2)
 b = 1 + Rational(1, 2 + Rational(1, 2))
+b = 1 + Rational(1, 1 + 1 + Rational(1, 2))
 c = 1 + Rational(1, 2 + Rational(1, 2 + Rational(1, 2)))
 p a, b, c
     
@@ -21,9 +22,9 @@ count = 0
 
   count += 1 if a > b
 }
-
 p count
 =end
+
 
 =begin rdoc
    3/2, 7/5, 17/12, 41/29 

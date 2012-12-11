@@ -41,5 +41,4 @@ def e n
   return cache[n]
 end
 
-p 123.digits.sum
 p e(100).digits.sum

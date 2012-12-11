@@ -28,7 +28,6 @@ class CSharpApp
                 bw.Write(res);
             }
 
-            var fs1 = new FileStream(path, FileMode.Open, FileAccess.ReadWrite);
             using (var br = new BinaryReader(fs1))
             {
                 var one    = br.ReadInt32();
