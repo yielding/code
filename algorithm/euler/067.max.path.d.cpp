@@ -81,10 +81,10 @@ void DynamicP::generate()
     _m[2][2] =  7;
 
     /*
-       for (int i=0; i<_m.size(); i++)
+    for (int i=0; i<_m.size(); i++)
        for (int j=0; j<=i; j++)
-       _m[i][j] = rand() % 50;
-       */
+         _m[i][j] = rand() % 50;
+    */
 }
 
 void DynamicP::print_to(ostream& out)
