@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, const char *argv[])
 {
-  auto alpha = [] (char c) { return isalpha(c); };
+  auto alpha = [] (char c) { return c == 1; };
 
   auto n = string("123leech123");
   auto i = find_if( n.begin(),  n.end(), alpha);

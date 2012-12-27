@@ -34,4 +34,3 @@ class TestFourBox < Test::Unit::TestCase
     assert_equal(boxes.area, 26)
   end
 end
-
