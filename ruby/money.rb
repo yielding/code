@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby -KU
+
 require "test/unit"
 
-
-            
 class Fixnum
   def to_money(sep=",", width=3)
     res = self.to_s
