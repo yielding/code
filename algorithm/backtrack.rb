@@ -33,7 +33,7 @@ class Backtrack
       process_solution
     else
       depth += 1
-      construct_candidate.each { |c|
+      [true, false].each { |c|
         a[depth] = c
         backtrack(a, depth)
       }
