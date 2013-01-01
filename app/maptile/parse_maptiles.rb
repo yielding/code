@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -wKU
+#!/usr/bin/env ruby19 -wKU
 
 infile = ARGV[0] || "#{Dir.pwd}/Maptiles.sql"
 dir    = "#{Dir.pwd}/maptiles-output"
