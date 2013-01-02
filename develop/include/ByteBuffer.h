@@ -111,6 +111,7 @@ public:
 
     auto set_uint4_le(uint32_t) -> ByteBuffer&;
     auto set_uint2_le(uint16_t) -> ByteBuffer&;
+    auto set_varint(uint64_t)   -> ByteBuffer&;
 
     auto get_int1()     const -> int8_t;
     auto get_uint1()    const -> uint8_t;
@@ -127,6 +128,9 @@ public:
 
     auto get_uint8_le() const -> uint64_t;
     auto get_uint8_be() const -> uint64_t;
+    auto get_varint()   const -> uint64_t;
+    auto get_varint(uint8_t& sz) const -> uint64_t;
+
     auto get_binary(uint32_t size) const -> uint8_t*;
 
     auto get_hex_string(uint32_t size) const -> std::string;

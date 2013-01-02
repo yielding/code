@@ -1,0 +1,23 @@
+# -*- ruby -*-
+
+APP       = "var_int"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{ 
+                /Users/yielding/code/develop/src/ByteBuffer.cpp
+                ./var_int.cpp
+                ./main.cpp 
+              }
+
+TEST_SRCS = %w{ 
+                /Users/yielding/code/develop/src/ByteBuffer.cpp
+                ./var_int.cpp
+                ./test_main.cpp
+              }
+INCS      = "/Users/yielding/code/develop/include"
+CXX       = "clang++"          # c++0x, clang++, blank
+CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
+LIBS      = "gmock"
+
+load "~/code/build/app2.rake"
+
+# task :default => [:test]

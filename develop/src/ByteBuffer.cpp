@@ -483,6 +483,198 @@ uint64_t ByteBuffer::get_uint8_le() const
     return res;
 }
 
+uint64_t ByteBuffer::get_varint() const
+{
+    uint8_t size;
+
+    return get_varint(size);
+}
+
+uint64_t ByteBuffer::get_varint(uint8_t& size) const
+{
+    size = 0;
+
+    uint32_t a = m_buffer[m_offset++];
+    if (!(a & 0x80))
+    {
+        size = 1;
+        return a;
+    }
+
+    uint32_t b = m_buffer[m_offset++];
+    if (!(b & 0x80))
+    {
+        size = 2;
+        a &= 0x7f;
+        a = a << 7;
+        a = a | b;
+
+        return a;
+    }
+
+#define SLOT_2_0     0x001fc07f
+#define SLOT_4_2_0   0xf01fc07f
+
+    a = a << 14;
+    a = a | m_buffer[m_offset++];
+
+    if (!(a & 0x80))
+    {
+        size = 3;
+        a &= SLOT_2_0;
+        b &= 0x7f;
+        b = b << 7;
+        a = a | b;
+
+        return a;
+    }
+
+    a = a & SLOT_2_0;
+    b = b << 14;
+    b = b | m_buffer[m_offset++];
+
+    /* b: p1<<14 | p3 (unmasked) */
+    if (!(b & 0x80))
+    {
+        size = 4;
+        b = b & SLOT_2_0;
+        a = a << 7;
+        a = a | b;
+        return a;
+    }
+
+    b &= SLOT_2_0;
+    uint32_t s = a;
+
+    a = a << 14;
+    a = a | m_buffer[m_offset++];
+
+    if (!(a & 0x80))
+    {
+        size = 5;
+        b = b << 7;
+        a = a | b;
+        s = s >> 18;
+
+        return uint64_t(s) << 32 | a;
+    }
+    
+    s = s << 7;
+    s = s | b;
+
+    b = b << 14;
+    b = b | m_buffer[m_offset++];
+    if (!(b & 0x80))
+    {
+        size = 6;
+        a &= SLOT_2_0;
+        a = a<<7;
+        a = a | b;
+        s = s >> 18;
+
+        return uint64_t(s) << 32 | a;
+    }
+
+    a = a << 14;
+    a = a | m_buffer[m_offset++];
+    if (!(a & 0x80))
+    {
+        size = 7;
+        a &= SLOT_4_2_0;
+        b &= SLOT_2_0;
+        b = b<<7;
+        a |= b;
+        s = s>>11;
+
+        return uint64_t(s) << 32 | a;
+    }
+
+    /* CSE2 from below */
+    a &= SLOT_2_0;
+    b = b<<14;
+    b = b | m_buffer[m_offset++];
+    if (!(b & 0x80))
+    {
+        size = 8;
+        b &= SLOT_4_2_0;
+        a = a<<7;
+        a |= b;
+        s = s>>4;
+
+        return uint64_t(s)<<32 | a;
+    }
+
+    size = 9;
+    a = a << 15;
+    a = a | m_buffer[m_offset++];
+
+    b &= SLOT_2_0;
+    b = b << 8;
+    a = a | b;
+
+    s = s << 4;
+    b = m_buffer[m_offset - 4];
+    b = b & 0x7f;
+    b = b >> 3;
+    s = s | b;
+
+    return uint64_t(s) << 32 | a;
+}
+
+ByteBuffer& ByteBuffer::set_varint(uint64_t v)
+{
+    uint8_t buf[10];
+
+    // v의 most significant 바이트에 값이 있는지 검사
+    // (즉, 가장 큰 바이트에 값이 있을 경우는 8바이트 정수이므로
+    // 무조건 9바이트의 varint가 필요)
+    if (v & ((uint64_t(0xff000000)) << 32))
+    {
+        if (m_offset + 8 > m_buffer.size())
+            throw std::runtime_error("ByteBuffer::set_varint() - out of index error");
+
+        m_buffer[m_offset + 8] = v;
+
+        v >>= 8;
+
+        for (int i=7; i>=0; i--)
+        {
+            m_buffer[m_offset + i] = (v & 0x7f) | 0x80;
+            v >>= 7;
+        }
+
+        m_offset += 9;
+
+        return *this;
+    }
+
+    int n = 0;
+
+    // 8바이트 크기 정수가 아닌 경우는 첫번째 비트를 1로 하면서
+    // 7비트씩 차례로 buffer에 인코딩
+    // (현 시점에서는 바이트 길이를 판단하기 힘드므로 가장 마지막 바이트
+    // 를 buf[0]에 assign하면서 역순으로 처리)
+    do 
+    {
+        buf[n++] = (v & 0x7f) | 0x80;
+        v >>= 7;
+    } 
+    while (v != 0);
+
+    if (n + m_offset > m_buffer.size())
+        throw std::runtime_error("ByteBuffer::set_varint() - out of index error");
+
+    // 인코딩 종료 후 마지막 바이트의 첫번째 비트를 다시 0으로 만듬
+    buf[0] &= 0x7f;
+
+    // output 변수에 바이트 순서를 뒤집어서 copy
+    for (int i=0, j=n-1; j>=0; j--, i++)
+        m_buffer[m_offset + i] = buf[j];
+
+    m_offset += n;
+    return *this;
+}
+
 uint8_t* ByteBuffer::get_binary(uint32_t size) const
 {
     if (m_offset + size > int64_t(m_buffer.size()))
