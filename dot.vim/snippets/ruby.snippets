@@ -1,6 +1,6 @@
 # #!/usr/bin/env ruby
 snippet #!
-	#!/usr/bin/env ruby
+	#!/usr/bin/env ruby19
 
 # New Block
 snippet =b
@@ -10,13 +10,17 @@ snippet =b
 snippet y
 	:yields: ${1:arguments}
 snippet rb
-	#!/usr/bin/env ruby -wKU
+	#!/usr/bin/env ruby19 -wKU
+snippet u8
+	# encoding: utf-8
 snippet beg
 	begin
 		${3}
 	rescue ${1:Exception} => ${2:e}
 	end
 
+snippet reql
+	require_relative "${1}"${2}
 snippet req
 	require "${1}"${2}
 snippet #
