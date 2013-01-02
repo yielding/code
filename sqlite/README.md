@@ -11,3 +11,7 @@ create DB
 reference
 =========
   - [faq](http://sqlite-ruby.rubyforge.org/sqlite3/faq.html "title")
+
+DONE
+=========
+ ~/code/develop/include/ByteBuffer에 get\_va\_int(),  set\_va\_int() 구현
