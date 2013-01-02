@@ -1,12 +1,10 @@
-"mod_tcsoft is based on the tcsoft-color scheme
-"(http://www.vim.org/scripts/script.php?script_id=641), made by Ingo Fabbri
-"<vim@tcsoft.net>
+"mod_tcsoft is based on the tcsoft-color scheme (http://www.vim.org/scripts/script.php?script_id=641),
+"made by Ingo Fabbri <vim@tcsoft.net>
 "
 "I changed the cursor and the background-colors. Hope you like it.
 
-" Author: André Kelpe <fs111 at web dot de>
-" Last Change:  Jan 13 10:33:46 CET 2005
-"
+""Author: André Kelpe <fs111 at web dot de>
+" Last change Sa Okt 30 13:34:52 CEST 2004
 
 set background=light
 hi clear
@@ -16,23 +14,19 @@ endif
 let colors_name = "mod_tcsoft"
 
 hi Normal       guifg=#000000   guibg=floralwhite 
+
 hi Ignore       guifg=bg
-hi Comment      guifg=#1050ff   gui=italic  
-hi Folded       guifg=black     guibg=#d1cdc5
-hi FoldColumn   guifg=black     guibg=#d1cdc5
+
+hi Comment      guifg=#000099   gui=italic  "dunkelblau
 hi Constant     guifg=#666666   gui=NONE    "grau
 hi Special      guifg=#FF0000   gui=NONE    "rot
 hi Identifier   guifg=#993300   gui=NONE    "rostfarbig
 hi Statement    guifg=#FF9900   gui=NONE    "orange
 hi PreProc      guifg=#009900   gui=NONE    "dunkelgrün
 hi Type         guifg=#FF9900   gui=bold    "orange
-hi Cursor       guifg=#FFFFFF   guibg=#000000  "schwarz
+hi Cursor       guifg=#FFFFFF guibg=#000000  "schwarz
 hi LineNr       guifg=#000000   gui=NONE    "schwarz
 hi StatusLine   guifg=#000000   gui=reverse,bold "schwarz
-hi Title        guifg=#1050ff   gui=bold
-hi Todo         guibg=#1050ff   guifg=floralwhite gui=bold
-hi Search       guifg=white   guibg=#1050ff   
-
 
 hi link   Function    PreProc
 hi link   String	    Constant

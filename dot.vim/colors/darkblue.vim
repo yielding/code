@@ -53,9 +53,9 @@ hi Comment			guifg=#80a0ff ctermfg=darkred
 hi Constant			ctermfg=magenta guifg=#ffa0a0 cterm=none
 hi Special			ctermfg=brown guifg=Orange cterm=none gui=none
 hi Identifier		ctermfg=cyan guifg=#40ffff cterm=none
-hi Statement		ctermfg=yellow cterm=none guifg=#ffff60 gui=underline
+hi Statement		ctermfg=yellow cterm=none guifg=#ffff60 gui=none
 hi PreProc			ctermfg=magenta guifg=#ff80ff gui=none cterm=none
-hi type				ctermfg=green guifg=#60ff60 gui=underline cterm=none
+hi type				ctermfg=green guifg=#60ff60 gui=none cterm=none
 hi Underlined		cterm=underline term=underline
 hi Ignore			guifg=bg ctermfg=bg
 

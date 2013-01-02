@@ -1,15 +1,14 @@
-" gVim color file for working with files in GDL/VCG format.
-" Works nice in conjunction with gdl.vim
+" Vim color file for working with files in GDL/VCG format
+" works nice in conjunction with gdl.vim 
 " (see www.vim.org or www.aisee.com)
 " Works fine for C/C++, too.
 
-" Author : Alexander A. Evstyugov-Babaev <alex@absint.com>
-" Version: 0.2 for gVim/Linux,
-"          tested with gVim 6.3.25 under Ubuntu Linux (Warty)
-"          by Jo Vermeulen <jo@lumumba.luc.ac.be>
-" Date   : January 25th 2005
+" Author : Alexander A. Evstiougov-Babaev <alex@absint.com>
+" Version: 0.2win (not useful for Unix terminals)
+"          tested with gVim 6.2 under Windows 2000
+" Date   : 8 September 2003
 
-set background=dark
+set background=dark	
 hi clear
 if exists("syntax_on")
     syntax reset
@@ -20,7 +19,7 @@ let g:colors_name="aiseered"
 hi Normal guifg=lightred guibg=#600000
 hi Cursor guifg=bg guibg=fg
 hi ErrorMsg guibg=red ctermfg=1
-hi Search term=reverse ctermfg=darkred ctermbg=lightred guibg=lightred guifg=#060000
+hi Search term=reverse ctermfg=darkred ctermbg=lightred guibg=lightred guifg=#600000
 
 hi Comment guifg=#ffffff
 hi Constant guifg=#88ddee

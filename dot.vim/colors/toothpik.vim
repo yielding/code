@@ -25,7 +25,7 @@ highlight LineNr term=underline  guifg=Brown
 highlight MoreMsg term=bold  gui=bold guifg=SeaGreen
 highlight ModeMsg term=bold  gui=bold
 highlight NonText term=bold  gui=bold guifg=Blue guibg=grey
-highlight Normal guibg=grey font='Fixedsys'
+highlight Normal guibg=grey 
 highlight Question term=standout  gui=bold guifg=SeaGreen
 highlight PreProc term=underline  guifg=Purple
 highlight Search term=reverse  guibg=Yellow

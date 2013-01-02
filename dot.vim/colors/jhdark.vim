@@ -1,4 +1,4 @@
-" Vim color file by Jörn Horstmann <joern_h@gmx.net>
+" Vim color file by J?rn Horstmann <joern_h@gmx.net>
 " Light background in GUI, dark background in Console
 " Last change 16.07.2004
 " TODO

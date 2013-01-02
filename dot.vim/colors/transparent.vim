@@ -1,7 +1,7 @@
 " Vim color file
 " Maintainer:   Sir Raorn <raorn@altlinux.ru>
-" Last Change:  Dec, 20 2005
-" URL:		http://people.altlinux.ru/~raorn/
+" Last Change:  Nov 10, 2002
+" URL:		http://hell.binec.ru/
 
 " This color scheme uses "transparent" background (dark dark blue in gvim)
 " Looks really nice when vim (console) started in transparent aterm
@@ -34,21 +34,9 @@ hi LineNr			ctermfg=Yellow						guifg=DarkCyan
 hi ModeMsg	cterm=bold	ctermfg=White				gui=bold	guifg=White
 hi MoreMsg	cterm=bold	ctermfg=White				gui=bold	guifg=White
 hi NonText			ctermfg=NONE						guifg=NONE
-if version >= 700
-hi Pmenu			ctermfg=Black	ctermbg=Cyan				guifg=Black	guibg=Cyan
-hi PmenuSel			ctermfg=Black	ctermbg=Grey				guifg=Black	guibg=Grey
-hi PmenuSbar			ctermfg=Black	ctermbg=Grey				guifg=Black	guibg=Grey
-hi PmenuThumb			cterm=reverse				gui=reverse
-endif
 hi Question			ctermfg=Green						guifg=Green
 hi Search	cterm=reverse	ctermfg=fg	ctermbg=NONE		gui=reverse	guifg=fg	guibg=bg
 hi SpecialKey			ctermfg=LightRed					guifg=Red
-if version >= 700
-hi SpellBad					ctermbg=Red		gui=undercurl					guisp=Red
-hi SpellCap					ctermbg=Blue		gui=undercurl					guisp=Blue
-hi SpellRare					ctermbg=Magenta		gui=undercurl					guisp=Magenta
-hi SpellLocal					ctermbg=Cyan		gui=undercurl					guisp=Cyan
-endif
 hi StatusLine	cterm=bold,reverse ctermfg=White ctermbg=Black		gui=bold,reverse guifg=White	guibg=Black
 hi StatusLineNC	cterm=reverse	ctermfg=Gray	ctermbg=Black		gui=reverse	guifg=DarkGray	guibg=Black
 hi Title			ctermfg=LightGreen			gui=bold	guifg=Green

@@ -1,7 +1,6 @@
 " Vim color file
-"  Maintainer: Jeff Lanzarotta <jefflanzarotta at yahoo dot com>
-" Last Change: 19 March 2003
-" grey on black
+" Maintainer: Jeff Lanzarotta <jefflanzarotta@yahoo.com>
+" Last Change: January 24, 2002
 
 set background=dark
 
@@ -13,37 +12,57 @@ if exists("syntax_on")
   syntax reset
 endif
 
-let g:colors_name = "lanzarotta"
+if has("gui_running")
+  let colors_name = "lanzarotta"
 
-" GUI
-"highlight Comment       gui=none      guifg=#80a0ff
-highlight Comment       gui=none      guifg=#4682b4
-"highlight Comment       gui=none      guifg=#507080
-"highlight Constant     gui=none       guifg=#ff9900       guibg=Black
-"highlight Cursor        gui=none      guifg=Black         guibg=Green
-highlight Cursor        gui=none      guifg=Black         guibg=Orange
-highlight IncSearch     gui=none      guifg=Black         guibg=Yellow
-highlight NonText       gui=none      guifg=DarkGrey      guibg=Black
-highlight Normal        gui=none      guifg=LightGrey     guibg=Black
-highlight Number        gui=none      guifg=LightMagenta  guibg=Black
-"highlight Preproc       gui=none      guifg=#ff5577       guibg=Black
-highlight Search        gui=none      guifg=Black         guibg=Yellow
-highlight Special                     guifg=Orange
-highlight Statement     gui=none      guifg=Yellow
-"highlight StatusLine    gui=none      guifg=White         guibg=Blue
-highlight StatusLine    gui=none      guifg=White         guibg=OrangeRed3
-highlight StatusLineNC  gui=none      guifg=Grey          guibg=#333333
-highlight Todo          gui=NONE      guifg=Blue          guibg=Yellow
-highlight Type          gui=none
-highlight Visual        gui=none      guifg=Black         guibg=Gray
+  hi Boolean      guifg=LightMagenta
+  hi Character    guifg=LightRed
+  hi Comment      guifg=SteelBlue
+  hi Conditional  guifg=LightYellow
+  hi Constant     gui=None guifg=Orange
+  hi Cursor       gui=None guifg=bg guibg=DarkGoldenrod1
+  hi DiffAdd      guibg=Blue
+  hi DiffChange   guibg=Purple
+  hi DiffDelete   gui=Bold guifg=Blue guibg=Cyan
+  hi DiffText     gui=Bold guibg=Red
+  hi Directory    guifg=LightRed
+  hi Error        guifg=White guibg=Red
+  hi ErrorMsg     guifg=Black guibg=Red
+  hi Exception    guifg=Red
+  hi Float        guifg=LightMagenta
+  hi FoldColumn   guibg=Grey guifg=DarkBlue
+  hi Folded       guibg=LightGrey guifg=DarkBlue
+  hi Function     guifg=GoldenRod
+  hi Identifier   guifg=#99cc99
+  hi IncSearch    guifg=Yellow guibg=Black
+  hi Keyword      guifg=Salmon
+  hi Label        guifg=LightYellow
+  hi LineNr       guifg=DarkGrey
+  hi Macro        guifg=Orange
+  hi ModeMsg      gui=None guifg=Blue guibg=White
+  hi MoreMsg      gui=Bold guifg=SeaGreen
+  hi NonText      guifg=DarkGrey
+  hi Normal       guifg=LightCyan guibg=Black
+  hi Number       guifg=LightMagenta
+  hi Operator     guifg=LightGrey
+  hi Preproc      guifg=Green
+  hi Question     gui=Bold guifg=Cyan
+  hi Repeat       guifg=LightYellow
+  hi Search       guifg=Black guibg=Yellow
+  hi Special      guifg=White
+  hi SpecialKey   gui=Reverse guifg=Gray
+  hi Statement    gui=None guifg=LightYellow
+  hi StatusLine   gui=None guifg=White guibg=OrangeRed3
+  hi StatusLineNC gui=None guifg=Gray guibg=#333333
+  hi String       guifg=LightRed
+  hi Title        guifg=DarkGrey
+  hi Todo         guifg=Blue guibg=Yellow
+  hi Type         gui=None guifg=LightGreen
+  hi VertSplit    gui=Reverse
+  hi Visual       gui=None guifg=Black guibg=Gray
+  hi VisualNOS    gui=Underline,Bold
+  hi WarningMsg   guifg=Red
+  hi WildMenu     guifg=Black guibg=Yellow
+endif
 
-" Console
-highlight Normal                      ctermfg=LightGrey   ctermbg=Black
-highlight Search        cterm=none    ctermfg=Black       ctermbg=Red
-highlight Visual        cterm=reverse
-highlight Cursor        cterm=bold    ctermfg=Black       ctermbg=Green
-highlight Special                     ctermfg=Brown
-highlight Comment                     ctermfg=Blue
-highlight StatusLine                  ctermfg=blue        ctermbg=white
-highlight Statement     cterm=none    ctermfg=Yellow
-highlight Type          cterm=none
+" vim: sw=8
