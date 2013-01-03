@@ -74,6 +74,13 @@ class ByteBuffer
     str.pack("C*")
   end
 
+  def get_string(size)
+    arr = Array.new(size)
+    0.upto(size-1) {|i| arr[i] = @buffer[@pos+i] }
+    @pos += size
+    arr.pack("C*")
+  end
+
   def get_binary(size)
     arr = Array.new(size)
     0.upto(size-1) {|i| arr[i] = @buffer[@pos+i] }
