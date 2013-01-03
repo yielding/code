@@ -210,7 +210,7 @@ class Builder
     if should_link? app, objs
       case os
       when :osx
-        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} -lgtest -lgtest_main"
+        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} -lgtest -lgmock -lgtest_main"
         # `#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} -lgtest -lgtest_main`
       end
     end

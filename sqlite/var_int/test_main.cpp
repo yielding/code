@@ -2,7 +2,6 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-#include "var_int.h"
 #include "ByteBuffer.h"
 
 using namespace std;
@@ -51,6 +50,7 @@ void to_hex(uint8_t* buffer, size_t size)
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+/*
 TEST_F(VITest, OneByte)
 {
     uint8_t buffer[10] = { 0 };
@@ -81,6 +81,7 @@ TEST_F(VITest, OneByte)
 
     EXPECT_EQ(1, 1);
 }
+*/
 
 TEST_F(VITest, set_varint3)
 {

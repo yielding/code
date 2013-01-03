@@ -2,22 +2,19 @@
 
 APP       = "var_int"
 APP_TEST  = "test_#{APP}"
-SRCS      = %w{ 
-                /Users/yielding/code/develop/src/ByteBuffer.cpp
-                ./var_int.cpp
+SRCS      = %w{ /Users/yielding/code/develop/src/ByteBuffer.cpp
                 ./main.cpp 
               }
 
-TEST_SRCS = %w{ 
-                /Users/yielding/code/develop/src/ByteBuffer.cpp
-                ./var_int.cpp
+TEST_SRCS = %w{ /Users/yielding/code/develop/src/ByteBuffer.cpp
                 ./test_main.cpp
               }
+
 INCS      = "/Users/yielding/code/develop/include"
-CXX       = "clang++"          # c++0x, clang++, blank
+CXX       = "clang++"         # c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
-LIBS      = "gmock"
+LIBS      = ""
 
 load "~/code/build/app2.rake"
 
-# task :default => [:test]
+task :default => [:test]
