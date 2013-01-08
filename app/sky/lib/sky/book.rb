@@ -17,7 +17,7 @@ module Sky
       uint16  :email_index
       stringz :name
       string  :skip1, 
-              :read_length => -> { 0x214 - 12 - (name.length + 1) }
+              :read_length => lambda { 0x214 - 12 - (name.length + 1) }
     end
 
     def names

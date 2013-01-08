@@ -14,10 +14,10 @@ module Sky
       uint16  :skip0
       uint16  :book_rid
       string  :skip1,   :read_length => 3
-      uint8   :type
+      uint8   :type2
       stringz :phone_no
       string  :skip2,   
-              :read_length => -> { 0x2e - 12 - (phone_no.length + 1) }
+              :read_length => lambda { 0x2e - 12 - (phone_no.length + 1) }
     end
 
     def numbers
