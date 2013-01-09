@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby1.9
 # -*- encoding: utf-8 -*-
 
 require 'test/unit' 
