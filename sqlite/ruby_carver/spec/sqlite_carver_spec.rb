@@ -16,6 +16,4 @@ describe SQLiteCarver do
     end
   end
 
-  context "Page size" do
-  end
 end
