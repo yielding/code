@@ -12,7 +12,7 @@ public class CSharpApp
         int[] a = {1, 2, 3, 4, 5 };
 
         int b = 10;
-        call_by_value(b);
+        call_by_value(ref b);
 
         Console.WriteLine(b);
     }
