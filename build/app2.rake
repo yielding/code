@@ -75,7 +75,7 @@ if defined? LDFLAGS
            when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
            when /:rice/ ; " -L#{RVM}/lib -L#{RICE}/lib -ldl -lruby.1.9.1 -lrice"
            when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
-           when /:mvm/  ; " -L#{MVM}/lib -lmruby -lmruby_core"
+           when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
            else
              " -L#{e}"
            end
