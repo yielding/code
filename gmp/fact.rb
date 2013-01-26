@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby1.9
 
 def fact n
   res = 1

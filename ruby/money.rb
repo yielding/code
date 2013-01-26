@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -KU
+#!/usr/bin/env ruby1.9
 
 require "test/unit"
 

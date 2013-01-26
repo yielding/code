@@ -6,7 +6,7 @@ using namespace std;
 
 string insert_separator(string s, char separator = ',', int width=3) 
 { 
-  string res(s);
+  auto res(s);
   auto i = res.end() - width; 
 
   for (; i>res.begin(); i -= width) 
