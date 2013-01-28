@@ -5,16 +5,13 @@
 # TODO
   - iPad GUI
 
-  - Algorithm
-    * march up
-    * march down
-
 # DOING
   - Algorithm
-    * recordinate
+    * is\_less
 
 # DONE
   - Algorithm
     * point class
       - cross product
       - distance (Math.hypot)
+

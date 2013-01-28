@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby1.9
 
+require "pp"
+
 class Point
   attr_accessor :x, :y 
 
@@ -85,6 +87,8 @@ class Point
 end
 
 class JarvisMarch
+  attr_reader :h
+  attr_reader :p
 
   def compute_hull p
     @p = p
@@ -127,7 +131,7 @@ end
 
 require "test/unit"
 
-class TestPoint < Test::Unit::TestCase
+class TestHull < Test::Unit::TestCase
   def setup
     @p0 = Point.new(3, 0)
     @p1 = Point.new(5, 2)
@@ -135,13 +139,16 @@ class TestPoint < Test::Unit::TestCase
     @p3 = Point.new(1, 2)
     @p4 = Point.new(2, 2)
     @p5 = Point.new(3, 2)
-    @ps = [@p0, @p1, @p2, @p3, @p4, @p5]
+    @p  = [@p0, @p1, @p2, @p3, @p4, @p5]
   end
 
   def test_hull
     hull = JarvisMarch.new
-    #p hull.compute_hull(@ps)
-
+    hull.compute_hull(@p)
+    sz = hull.h
+    for pt in 0...sz
+      p hull.p[pt]
+    end
   end
 end
 
@@ -151,32 +158,20 @@ class TestPoint < Test::Unit::TestCase
     @p1 = Point.new(5, 2)
     @p2 = Point.new(3, 4)
     @p3 = Point.new(1, 2)
-    @p4 = Point.new(2, 2)
-    @p5 = Point.new(3, 2)
-    @ps = [@p0, @p1, @p2, @p3, @p4, @p5]
   end
 
   def test_area2
-    p0 = Point.new(0, 0)
-    p1 = Point.new(1, 0)
-    p2 = Point.new(1, 1)
-    assert_equal(p0.area2(p1, p2), 1)
+    assert_equal(@p1.area2(@p2, @p0), 8)
   end
 
   def test_is_less
-    p0 = Point.new(2, 1)
-    p1 = Point.new(2, 2)
-    assert(p1.is_further(p0))
-    assert(p0.is_less(p1))
+    assert(@p1.is_further(@p0))
+    assert(@p0.is_less(@p1))
   end
 
   def test_is_convex
-    p0 = Point.new(0, 0)
-    p1 = Point.new(1, 0)
-    p2 = Point.new(1, 1)
-    p3 = Point.new(0, 1)
-    assert(p1.is_convex(p0, p2))
-    assert(!p3.is_convex(p0, p2))
+    assert(@p2.is_convex(@p1, @p0))
+    assert(!@p0.is_convex(@p1, @p2))
   end
 
   def test_is_lower
@@ -195,16 +190,6 @@ class TestPoint < Test::Unit::TestCase
   def test_reversed
     assert_equal(Point.new(1, 1), Point.new(-1, -1).reversed)
   end
-
-  # def test_mininum_index
-  #   min_idx = @ps.each_with_index.reduce(0) do |min_idx, (v, i)|
-  #     @ps[min_idx].y  > v.y or 
-  #     @ps[min_idx].y == v.y && @ps[min_idx].x < @ps[i].x ? i : min_idx
-  #   end
-
-  #   assert_equal(min_idx, 0)
-  #   assert_equal(@ch.min_index, min_idx)
-  # end
 
   def test_recoordinate
     p = @p0.clone
