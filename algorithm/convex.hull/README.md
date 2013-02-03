@@ -8,10 +8,6 @@
     * 패널 
       . 점찍기 시작 버튼
       . 100개 랜덤으로 구하기
-      . 지우기 버튼
-      . hull 구하기 버튼
-
-    * 페인트뷰
 
 # DOING
   - iPad GUI
@@ -20,6 +16,12 @@
     * is\_less
 
 # DONE
+  - iPad GUI
+    * 페인트뷰
+    * 패널 
+      . 지우기 버튼
+      . hull 구하기 버튼
+
   - Algorithm
     * point class
       - cross product

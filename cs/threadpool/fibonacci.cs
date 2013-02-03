@@ -44,9 +44,9 @@ public class ThreadPoolExample
         const int FibonacciCalculations = 10;
 
         // One event is used for each Fibonacci object
-        ManualResetEvent[] doneEvents = new ManualResetEvent[FibonacciCalculations];
-        Fibonacci[] fibArray = new Fibonacci[FibonacciCalculations];
-        Random r = new Random();
+        var doneEvents = new ManualResetEvent[FibonacciCalculations];
+        var fibArray = new Fibonacci[FibonacciCalculations];
+        var r = new Random();
 
         // Configure and launch threads using ThreadPool:
         Console.WriteLine("launching {0} tasks...", FibonacciCalculations);

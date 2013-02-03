@@ -10,7 +10,7 @@ class Point
   end
 
   def rel_to(p)
-    return Point.new(@x - p.x, @y - p.y)
+    Point.new(@x - p.x, @y - p.y)
   end
 
   def make_rel_to(p)
@@ -19,11 +19,11 @@ class Point
   end
 
   def translate(x0, y0)
-    return Point.new(@x + x0, @y + y0)
+    Point.new(@x + x0, @y + y0)
   end
 
   def reversed
-    return Point.new(-@x, -@y)
+    Point.new(-@x, -@y)
   end
 
   def is_lower(p)
@@ -95,6 +95,7 @@ class JarvisMarch
     @n = p.size
     @h = 0
     calculate
+    @h
   end
 
   private
@@ -116,10 +117,18 @@ class JarvisMarch
   end
 
   def index_of_lowest_point
-    @p.each_with_index.reduce(0) do |min_idx, (v, i)|
-      @p[min_idx].y  > v.y or 
-      @p[min_idx].y == v.y && @p[min_idx].x < @p[i].x ? i : min_idx
+    min_idx = 0
+    for i in 1...@n
+      if @p[i].y < @p[min_idx].y || @p[i].y == @p[min_idx].y && @p[i].x < @p[min_idx].x
+        min_idx = i
+      end
     end
+
+    min_idx
+    # @p.each_with_index.reduce(0.0) do |min_idx, (v, i)|
+    #   @p[min_idx].y  > v.y || 
+    #   @p[min_idx].y == v.y && @p[min_idx].x < @p[i].x ? i : min_idx
+    # end
   end
 
   def exchange i, j
@@ -144,8 +153,7 @@ class TestHull < Test::Unit::TestCase
 
   def test_hull
     hull = JarvisMarch.new
-    hull.compute_hull(@p)
-    sz = hull.h
+    sz = hull.compute_hull(@p)
     for pt in 0...sz
       p hull.p[pt]
     end
