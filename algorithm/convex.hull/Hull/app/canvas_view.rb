@@ -1,4 +1,5 @@
 class CanvasView < UIView
+  SZ = 7
   def initWithFrame(rect)
     if super
       @hull = JarvisMarch.new
@@ -27,63 +28,64 @@ class CanvasView < UIView
     setNeedsDisplay
   end
 
-
   def drawRect(rect)
     UIColor.blackColor.set
     UIBezierPath.bezierPathWithRect(rect).fill
 
     if @poly_mode
       pts = @points.slice(0, @sz).map { |p| [p.x, p.y] }
-      drawPoly pts
+      drawPoly pts, UIColor.blueColor
     end
 
-    #@points.slice(0, @sz).each { |pt| drawPoint pt }
     @points.each { |pt| drawPoint pt }
   end
 
-  def drawLine(p0, p1)
-    path = UIBezierPath.new
-    path.lineWidth = 2
-    path.moveToPoint p0
-    path.addLineToPoint p1
-    UIColor.orangeColor.setStroke
-    line.stroke
-  end
-
-  def drawPoint p, size=4
+  def drawPoint p, size=SZ
     x, y = p.x, p.y
     p0, p1 = [x - size, y - size], [x + size, y - size]
     p2, p3 = [x + size, y + size], [x - size, y + size]
-    drawPoly [p0, p1, p2, p3]
+    drawPoly [p0, p1, p2, p3], UIColor.orangeColor
   end
 
-  def drawPoly points
+  def drawPoly(points, fc=UIColor.orangeColor, sc=UIColor.yellowColor)
     pl = UIBezierPath.new
     pl.lineWidth = 2
-    points.each.with_index { |p, i| 
+    points.each.with_index do |p, i| 
       i == 0 ? pl.moveToPoint(p) : pl.addLineToPoint(p) 
-    }
+    end
     pl.closePath
 
-    UIColor.orangeColor.setFill
-    pl.fill
-    UIColor.yellowColor.setStroke
-    pl.stroke
+    fc.setFill;   pl.fill
+    sc.setStroke; pl.stroke
   end
 
   def touchesBegan(touches, withEvent:e)
     touch = e.touchesForView(self).anyObject
-    point = touch.locationInView(self)
+    pt    = touch.locationInView(self)
 
-    @points << Point.new(point[0], point[1])
-    @sz = @points.size
-    setNeedsDisplay
+    @selected = @points.find_index do |p| 
+      p.x.between?(pt[0]-SZ, pt[0]+SZ) and
+      p.y.between?(pt[1]-SZ, pt[1]+SZ) 
+    end
+
+    if @selected.nil?
+      @points << Point.new(pt[0], pt[1])
+      @sz = @points.size
+      setNeedsDisplay
+    end
   end
 
   def touchesMoved(touches, withEvent:e)
+    if not @selected.nil?
+      touch = e.touchesForView(self).anyObject
+      pt    = touch.locationInView(self)
+      @points[@selected].x = pt[0]
+      @points[@selected].y = pt[1]
+      setNeedsDisplay
+    end
   end
 
   def touchesEnded(touches, withEvent:e)
-    @prev_point = nil
+    @selected = nil
   end
 end

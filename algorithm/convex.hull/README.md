@@ -6,14 +6,14 @@
   - iPad GUI
     * 처음으로 내 스스로 디자인한다. 설래네
     * 패널 
-      . 점찍기 시작 버튼
       . 100개 랜덤으로 구하기
 
 # DOING
   - iPad GUI
+      . 사용자가 점을 선택하면 이동시키기
 
   - Algorithm
-    * is\_less
+    * is\_less 이해하기
 
 # DONE
   - iPad GUI
