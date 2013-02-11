@@ -10,13 +10,13 @@
 
 # DOING
   - iPad GUI
-      . 사용자가 점을 선택하면 이동시키기
 
   - Algorithm
     * is\_less 이해하기
 
 # DONE
   - iPad GUI
+    * 사용자가 점을 선택하면 이동시키기
     * 페인트뷰
     * 패널 
       . 지우기 버튼

@@ -10,13 +10,15 @@ class ConvexHullViewController < UIViewController
 
   def viewDidLoad
     super
+    @queue = Dispatch::Queue.new("com.myhome.hull.task")
 
     self.title = "Jarvis March"
 
     vs = view.bounds.size
     ns = navigationController.navigationBar.frame.size
     ts = navigationController.toolbar.frame.size
-    frame = [[0, ts.height], [vs.width, vs.height - ns.height - ns.height]]
+    #frame = [[0, ts.height], [vs.width, vs.height - ns.height - ns.height]]
+    frame = [[0, 0], [vs.width, vs.height]]
     @canvas_view = CanvasView.alloc.initWithFrame(frame)
 
     self.view.addSubview(@canvas_view)
@@ -29,20 +31,22 @@ class ConvexHullViewController < UIViewController
     navigationController.setToolbarHidden(false, animated:true)
 
     UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleDefault
+    
     nb = self.navigationController.navigationBar 
     nb.barStyle    = UIBarStyleDefault
-    nb.translucent = true
+    nb.translucent = true; nb.alpha = 0.8
 
     tb = self.navigationController.toolbar
     tb.barStyle    = UIBarStyleDefault
-    tb.translucent = true
+    tb.translucent = true; tb.alpha = 0.8
+
     b1 = UIBarButtonItem.alloc.initWithBarButtonSystemItem(
             UIBarButtonSystemItemRefresh,
             target:self,
             action:'clearCanvas')
 
     b2 = UIBarButtonItem.alloc.initWithBarButtonSystemItem(
-            UIBarButtonSystemItemAction,
+            UIBarButtonSystemItemPlay,
             target:self,
             action:'findHull')
 
@@ -50,9 +54,10 @@ class ConvexHullViewController < UIViewController
 
     UIView.setAnimationsEnabled(true)
   end
-
+#
   def clearCanvas
     @canvas_view.clearCanvas
+    @queue.async { sleep 1; puts :hello }
   end
 
   def findHull
