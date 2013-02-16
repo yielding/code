@@ -1,17 +1,20 @@
 class CanvasView < UIView
   SZ = 7
+
+  attr_accessor :selected_mode
+
   def initWithFrame(rect)
     if super
-      @hull = JarvisMarch.new
+      @hull   = JarvisMarch.new
       @points = []
-      @sz = 0
+      @sz     = 0
       @poly_mode = false
+      @selected_mode = 0
     end
 
     self
   end
 
-  # commands
   def clearCanvas
     @points = []
     @sz = 0
@@ -21,6 +24,8 @@ class CanvasView < UIView
   end
 
   def findHull
+    return if @points.size == 0
+
     @poly_mode = true
     @sz     = @hull.compute_hull(@points.clone)
     @points = @hull.p
@@ -40,11 +45,11 @@ class CanvasView < UIView
     @points.each { |pt| drawPoint pt }
   end
 
-  def drawPoint p, size=SZ
+  def drawPoint p, sz=SZ
     x, y = p.x, p.y
-    p0, p1 = [x - size, y - size], [x + size, y - size]
-    p2, p3 = [x + size, y + size], [x - size, y + size]
-    drawPoly [p0, p1, p2, p3], UIColor.orangeColor
+    p0, p1 = [x - sz, y - sz], [x + sz, y - sz]
+    p2, p3 = [x + sz, y + sz], [x - sz, y + sz]
+    drawPoly([p0, p1, p2, p3], UIColor.orangeColor)
   end
 
   def drawPoly(points, fc=UIColor.orangeColor, sc=UIColor.yellowColor)
@@ -69,14 +74,19 @@ class CanvasView < UIView
     end
 
     if @selected.nil?
+      gen = -> { pt = generate; 
+                 @points << Point.new(pt[0], pt[1]) }
       @points << Point.new(pt[0], pt[1])
+      2.times { gen.call } if @selected_mode == 1
+      4.times { gen.call } if @selected_mode == 2
+
       @sz = @points.size
       setNeedsDisplay
     end
   end
 
   def touchesMoved(touches, withEvent:e)
-    if not @selected.nil?
+    unless @selected.nil?
       touch = e.touchesForView(self).anyObject
       pt    = touch.locationInView(self)
       @points[@selected].x = pt[0]
@@ -87,5 +97,10 @@ class CanvasView < UIView
 
   def touchesEnded(touches, withEvent:e)
     @selected = nil
+  end
+
+  def generate
+    fs = frame.size
+    [Random.rand(fs.width), Random.rand(fs.height-90) + 45]
   end
 end

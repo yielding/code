@@ -10,16 +10,16 @@ class ConvexHullViewController < UIViewController
 
   def viewDidLoad
     super
-    @queue = Dispatch::Queue.new("com.myhome.hull.task")
+    #@queue = Dispatch::Queue.new("com.myhome.hull.task")
 
     self.title = "Jarvis March"
 
     vs = view.bounds.size
     ns = navigationController.navigationBar.frame.size
     ts = navigationController.toolbar.frame.size
-    #frame = [[0, ts.height], [vs.width, vs.height - ns.height - ns.height]]
     frame = [[0, 0], [vs.width, vs.height]]
     @canvas_view = CanvasView.alloc.initWithFrame(frame)
+    @canvas_view.selected_mode = 0
 
     self.view.addSubview(@canvas_view)
   end
@@ -50,17 +50,27 @@ class ConvexHullViewController < UIViewController
             target:self,
             action:'findHull')
 
-    self.setToolbarItems([b1, b2], animated:true);
+    @sg = UISegmentedControl.alloc.initWithItems(["1", "3R", "5R"])
+    @sg.selectedSegmentIndex = 0
+    @sg.frame = [[0, 0], [100, 30]]
+    @sg.addTarget(self, action:'segmentDidChange:', forControlEvents:UIControlEventValueChanged)
+    bs = UIBarButtonItem.alloc.initWithCustomView(@sg)
+
+    self.setToolbarItems([b1, b2, bs], animated:true);
 
     UIView.setAnimationsEnabled(true)
   end
-#
+
   def clearCanvas
     @canvas_view.clearCanvas
-    @queue.async { sleep 1; puts :hello }
+    # @queue.async { sleep 1; puts :hello }
   end
 
   def findHull
     @canvas_view.findHull
+  end
+
+  def segmentDidChange(sender)
+    @canvas_view.selected_mode = sender.selectedSegmentIndex
   end
 end

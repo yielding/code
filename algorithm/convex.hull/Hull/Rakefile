@@ -3,6 +3,10 @@ $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project'
 
 Motion::Project::App.setup do |app|
-  # Use `rake config' to see complete project settings.
   app.name = 'Hull'
+  app.codesign_certificate = 'iPhone Developer: Chang Ha Lee (E7UHUA76KH)'
+  app.identifier = 'kr.yielding.ConvexHull'
+  app.icons = ['icon57x57.png', 'icon114x114.png']
+
+  app.provisioning_profile = '/Users/yielding/Library/MobileDevice/Provisioning Profiles/435FBE4F-1EDA-48AF-B754-0D6EA22E2968.mobileprovision'
 end
