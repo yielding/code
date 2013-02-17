@@ -5,7 +5,8 @@ class RootViewController < UITableViewController
     @items = [
       "SampleForFrame",
       "SampleForAlpha",
-      "SampleForHide"
+      "SampleForHide",
+      "SampleForBackground",
     ]
   end
 
