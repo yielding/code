@@ -7,7 +7,8 @@ class RootViewController < UITableViewController
       "SampleForAlpha",
       "SampleForHide",
       "SampleForBackground",
-      "SampleForTransform"
+      "SampleForTransform",
+      "SampleForAutoResize"
     ]
   end
 
