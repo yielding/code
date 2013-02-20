@@ -15,8 +15,7 @@ class SampleForFontWithName < UITableViewController
   CELLID = "Cell"
   def tableView(tableView, cellForRowAtIndexPath:ip)
     cell = tableView.dequeueReusableCellWithIdentifier(CELLID) || begin 
-      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELLID)
-      cell
+      UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:CELLID)
     end
 
     family_name = fonts[ip.section][:family]
