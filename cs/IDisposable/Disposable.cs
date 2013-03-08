@@ -15,7 +15,6 @@ namespace MD.memory
 
         protected virtual void Dispose(bool disposing)
         {
-
         }
     }
 
