@@ -37,10 +37,11 @@ class ConvexHullViewController < UIViewController
     sg.selectedSegmentIndex = 0
     sg.frame = [[0, 0], [100, 30]]
     sg.addTarget(self, action:'segmentDidChange:', 
-                  forControlEvents:UIControlEventValueChanged)
+                       forControlEvents:UIControlEventValueChanged)
     bs = UIBarButtonItem.alloc.initWithCustomView(sg)
 
-    self.setToolbarItems([b1, b2, sp, bs], animated:true);
+    #self.setToolbarItems([b1, b2, sp, bs], animated:true);
+    self.setToolbarItems([b1, b2, bs], animated:true);
 
     UIView.setAnimationsEnabled(true)
   end

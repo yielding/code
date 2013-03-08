@@ -1,7 +1,12 @@
 class CanvasView < UIView
   SZ = 7
-
-  attr_accessor :selected_mode
+  COLORS = [ UIColor.blackColor,  UIColor.darkGrayColor, UIColor.lightGrayColor,
+             UIColor.whiteColor,  UIColor.grayColor,     UIColor.redColor,
+             UIColor.greenColor,  UIColor.blueColor,     UIColor.cyanColor,
+             UIColor.yellowColor, UIColor.magentaColor,  UIColor.orangeColor,
+             UIColor.purpleColor, UIColor.brownColor]
+  
+  attr_accessor :selected_mode # random [1, 3, 5]
 
   def initWithFrame(rect)
     if super
@@ -49,7 +54,7 @@ class CanvasView < UIView
     x, y = p.x, p.y
     p0, p1 = [x - sz, y - sz], [x + sz, y - sz]
     p2, p3 = [x + sz, y + sz], [x - sz, y + sz]
-    drawPoly([p0, p1, p2, p3], UIColor.orangeColor)
+    drawPoly([p0, p1, p2, p3], p.color)
   end
 
   def drawPoly(points, fc=UIColor.orangeColor, sc=UIColor.yellowColor)
@@ -74,9 +79,9 @@ class CanvasView < UIView
     end
 
     if @selected.nil?
-      gen = -> { pt = generate; 
-                 @points << Point.new(pt[0], pt[1]) }
-      @points << Point.new(pt[0], pt[1])
+      gen = -> { pt = generatePoint; 
+                 @points << Point.new(pt[0], pt[1], generateColor) }
+      @points << Point.new(pt[0], pt[1], generateColor)
       2.times { gen.call } if @selected_mode == 1
       4.times { gen.call } if @selected_mode == 2
 
@@ -99,8 +104,13 @@ class CanvasView < UIView
     @selected = nil
   end
 
-  def generate
+  def generatePoint
     fs = frame.size
     [Random.rand(fs.width), Random.rand(fs.height-90) + 45]
+  end
+
+  def generateColor
+    r = Random.rand(COLORS.size)
+    COLORS[r]
   end
 end

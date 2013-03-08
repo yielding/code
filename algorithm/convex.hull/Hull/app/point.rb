@@ -1,8 +1,10 @@
 class Point
   attr_accessor :x, :y 
+  attr_reader   :color
 
-  def initialize(x, y)
+  def initialize(x, y, color=UIColor.orangeColor)
     @x, @y = x, y
+    @color = color
   end
 
   def rel_to(p)
