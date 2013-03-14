@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby1.9
 
 def fibo n
   return n if n <= 1
@@ -10,4 +10,6 @@ def fibo n
   cache[n]
 end
 
-1.upto(1000) { |i| p fibo i }
+#1.upto(1000) { |i| p fibo i }
+
+p (1..2000).reduce(0) { |r, n| r + fibo(n) }
