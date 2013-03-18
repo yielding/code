@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -KU
+#!/usr/bin/env ruby2.0
 #encoding: utf-8
 
 require "openssl"
