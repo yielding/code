@@ -15,3 +15,4 @@ module Enumerable
 end
 
 p [1, 4, 2, 3].jolly?
+p [10, 5, 1, 4, 6, 12, 19, 27, 26].jolly?

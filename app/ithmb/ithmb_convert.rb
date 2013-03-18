@@ -1,5 +1,5 @@
-#!/usr/bin/env ruby1.9
-#
+#!/usr/bin/env ruby2.0
+
 require "pp"
 
 image = File.binread("05.bin").unpack("S*")
