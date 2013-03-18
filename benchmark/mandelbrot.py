@@ -9,7 +9,7 @@ MAX_ITERATIONS = 1000
 
 class Iterator:
   def __init__(self):
-    print 'Rendering...'
+    print('Rendering...')
     for y in range(-39, 39):
       stdout.write('\n')
       for x in range(-39, 39):
@@ -42,4 +42,4 @@ class Iterator:
 
 t = time.time()
 Iterator()
-print 'Python Elapsed %.02f' % (time.time() - t)
+print('Python Elapsed %.02f' % (time.time() - t))

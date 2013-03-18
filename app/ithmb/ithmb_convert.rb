@@ -2,8 +2,13 @@
 
 require "pp"
 
+# 
+# 1. 160x158, 28 byte padding
+# 2. 120x120. 28 byte padding
+#
 image = File.binread("05.bin").unpack("S*")
 out   = []
+image.pop(14)    # for 28 byte padding
 image.each { |color| 
   r = ((color /    1) % 32) * 8; r += r / 32
   g = ((color /   32) % 32) * 8; g += g / 32
