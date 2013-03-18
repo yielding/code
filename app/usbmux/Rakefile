@@ -1,0 +1,21 @@
+# -*- ruby -*-
+
+APP       = "usbmux"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{ 
+                ./develop/src/usbmux.cpp
+                ./main.cpp 
+              }
+
+TEST_SRCS = %w{ 
+                ./develop/src/usbmux.cpp
+                ./test_main.cpp
+              }
+INCS      = "./develop/include"
+CXX       = "c++11"          # c++0x, clang++, blank
+CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
+LIBS      = ":s "
+
+load "~/code/build/app2.rake"
+
+# task :default => [:test]
