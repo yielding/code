@@ -1,0 +1,10 @@
+APP       = "sync1.client"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{ ./sync1.client.cpp }
+TEST_SRCS = %w{ }
+CXX       = "clang++"       # c++0x, clang++, blank
+CXXFLAGS  = ":v :d"         # :d , :O0 :O3 :w = -Wall
+LIBS      = ":s :t"
+
+load '~/code/build/app2.rake'
+CLOBBER.include("*.o")
