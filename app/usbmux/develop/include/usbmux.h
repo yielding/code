@@ -39,6 +39,9 @@ class BinaryProtocol
 {
 public:
     BinaryProtocol(tcp::socket& s);
+
+protected:
+    tcp::socket& _socket;
 };
 
 class PlistProtocol: public BinaryProtocol

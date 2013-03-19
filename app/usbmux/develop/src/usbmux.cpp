@@ -10,10 +10,12 @@ using namespace std;
 //
 ////////////////////////////////////////////////////////////////////////////////
 BinaryProtocol::BinaryProtocol(tcp::socket& s)
+    : _socket(s)
 {
 }
 
 PlistProtocol::PlistProtocol(tcp::socket& s)
+    : BinaryProtocol(s)
 {
 }
 
