@@ -1,0 +1,25 @@
+# -*- ruby -*-
+
+HOME      = "#{ENV['HOME']}/code"
+APP       = "usbmux"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{ 
+                ~/code/develop/src/ByteBuffer.cpp
+                ./usbmux-proxy2/protocol.cpp
+                ./usbmux-proxy2/main.cpp 
+              }
+
+TEST_SRCS = %w{ 
+                ~/code/develop/src/ByteBuffer.cpp
+                ./usbmux-proxy2/protocol.cpp
+                ./usbmux-proxy2/test_main.cpp
+              }
+
+INCS      = "#{HOME}/app/usbmux-proxy2/usbmux-proxy2 #{HOME}/develop/include"
+CXX       = "clang++"         # c++0x, clang++, blank
+CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
+LIBS      = ":s "
+
+load "~/code/build/app2.rake"
+
+# task :default => [:test]

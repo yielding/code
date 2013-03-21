@@ -1,17 +1,12 @@
-//
-//  main.cpp
-//  usbmux-proxy2
-//
-//  Created by yielding on 13. 3. 15..
-//  Copyright (c) 2013년 yielding. All rights reserved.
-//
-
-#include <boost/asio.hpp>
+#include "usbmux2.h"
 #include <iostream>
 
 int main(int argc, const char * argv[])
 {
-    std::cout << "Hello, World!\n";
-    
+    asio::io_service ios;
+    tcp::endpoint endpoint(tcp::v4(), 2222);
+    usbmux2::Proxy proxy(ios, endpoint, 22);
+    ios.run();
+
     return 0;
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF77CB2A16FAA38800B95A69 /* usbmux2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF77CB2816FAA38800B95A69 /* usbmux2.cpp */; };
 		DFB1B89616F2F99200DF0F0C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFB1B89516F2F99200DF0F0C /* main.cpp */; };
 		DFB1B89816F2F99200DF0F0C /* usbmux_proxy2.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFB1B89716F2F99200DF0F0C /* usbmux_proxy2.1 */; };
 		DFB1B89F16F2FC1B00DF0F0C /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB1B89E16F2FC1B00DF0F0C /* libboost_system-mt.a */; };
@@ -27,6 +28,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DF77CB2816FAA38800B95A69 /* usbmux2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = usbmux2.cpp; sourceTree = "<group>"; };
+		DF77CB2916FAA38800B95A69 /* usbmux2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usbmux2.h; sourceTree = "<group>"; };
 		DFB1B89216F2F99200DF0F0C /* usbmux-proxy2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "usbmux-proxy2"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFB1B89516F2F99200DF0F0C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DFB1B89716F2F99200DF0F0C /* usbmux_proxy2.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = usbmux_proxy2.1; sourceTree = "<group>"; };
@@ -71,6 +74,8 @@
 				DFB1B89716F2F99200DF0F0C /* usbmux_proxy2.1 */,
 				DFB1B8A016F2FD9300DF0F0C /* protocol.cpp */,
 				DFB1B8A116F2FD9300DF0F0C /* protocol.h */,
+				DF77CB2816FAA38800B95A69 /* usbmux2.cpp */,
+				DF77CB2916FAA38800B95A69 /* usbmux2.h */,
 			);
 			path = "usbmux-proxy2";
 			sourceTree = "<group>";
@@ -128,6 +133,7 @@
 			files = (
 				DFB1B89616F2F99200DF0F0C /* main.cpp in Sources */,
 				DFB1B8A216F2FD9300DF0F0C /* protocol.cpp in Sources */,
+				DF77CB2A16FAA38800B95A69 /* usbmux2.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +244,7 @@
 				DFB1B89D16F2F99200DF0F0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
