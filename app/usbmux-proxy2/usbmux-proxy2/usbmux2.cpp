@@ -16,6 +16,7 @@ ProxySession::ProxySession(asio::io_service& ios, uint16_t rport)
   , _usbmux_socket(ios)
   , _usbmux_endpoint("/var/run/usbmuxd")
   , _remote_port(rport)
+  , _tag(2)
 {
 }
 
@@ -41,7 +42,7 @@ void ProxySession::send_hello()
   r->header.length  = sizeof(usbmux_hello_request);
   r->header.version = 0;
   r->header.type    = usbmux_hello;
-  r->header.tag     = 2;
+  r->header.tag     = _tag;
 
   asio::async_write(_usbmux_socket,
       asio::buffer(_mux_buffer_data, sizeof(usbmux_hello_request)),
@@ -73,14 +74,45 @@ void ProxySession::receive_hello_response()
 
 void ProxySession::handle_receive_hello_response(system::error_code const& error, size_t bytes_transffered)
 {
+  if (!error)
+  {
+      auto header = reinterpret_cast<usbmux_header*>(_mux_buffer_data);
+      auto l = header->length;
+      auto v = header->version;
+      auto t = header->type;
+      auto tag = header->tag;
+      
+      if (tag == _tag)
+          receive_device_id();
+  }
+  else
+  {
+    cerr << "USBMUX2 Proxy: Could not send hello to usbmux" << endl;
+  }
 }
 
 void ProxySession::receive_device_id()
 {
+  asio::async_read(_usbmux_socket,
+      asio::buffer(_mux_buffer_data, 0x011c),
+      asio::transfer_at_least(0x011c),
+      bind(&ProxySession::handle_receive_device_id, shared_from_this(), asio::placeholders::error,
+        asio::placeholders::bytes_transferred)
+      );           
 }
 
-void ProxySession::handle_receive_device_id()
+void ProxySession::handle_receive_device_id(system::error_code const& error, size_t bytes_transffered)
 {
+  if (!error)
+  {
+    _device_id = _mux_buffer_data[16];
+    send_connect();
+  } 
+  else 
+  {
+    cout << "E: Could not receive client id from usbmux" << endl;
+  }
+
 }
 
 void ProxySession::send_connect()
@@ -133,7 +165,7 @@ void ProxySession::handle_write_to_client(system::error_code const& error, size_
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-//
+// Proxy 이름 다시 만든다.
 //
 ////////////////////////////////////////////////////////////////////////////////
 Proxy::Proxy(asio::io_service& ios, tcp::endpoint const endpoint, uint16_t rport)

@@ -3,7 +3,8 @@
 
 using namespace std;
 
-struct Foo {
+struct Foo 
+{
   Foo(int num): num_(num) {}
 
   void print_add(int i) const { cout << num_ + i << endl; }

@@ -5,20 +5,28 @@ APP       = "usbmux"
 APP_TEST  = "test_#{APP}"
 SRCS      = %w{ 
                 ~/code/develop/src/ByteBuffer.cpp
+                ~/code/develop/src/Base64.cpp
                 ./usbmux-proxy2/protocol.cpp
+                ./usbmux-proxy2/usbmux2.cpp
+                ./usbmux-proxy2/BPlistRepr.cpp
+                ./usbmux-proxy2/BPlist.cpp
                 ./usbmux-proxy2/main.cpp 
               }
 
 TEST_SRCS = %w{ 
                 ~/code/develop/src/ByteBuffer.cpp
+                ~/code/develop/src/Base64.cpp
                 ./usbmux-proxy2/protocol.cpp
+                ./usbmux-proxy2/usbmux2.cpp
+                ./usbmux-proxy2/BPlistRepr.cpp
+                ./usbmux-proxy2/BPlist.cpp
                 ./usbmux-proxy2/test_main.cpp
               }
 
 INCS      = "#{HOME}/app/usbmux-proxy2/usbmux-proxy2 #{HOME}/develop/include"
-CXX       = "clang++"         # c++0x, clang++, blank
+CXX       = "xcrun"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
-LIBS      = ":s "
+LIBS      = ":s :f"
 
 load "~/code/build/app2.rake"
 

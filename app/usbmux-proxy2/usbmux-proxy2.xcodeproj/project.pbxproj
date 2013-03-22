@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		DF77CB2A16FAA38800B95A69 /* usbmux2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF77CB2816FAA38800B95A69 /* usbmux2.cpp */; };
+		DF77CB4216FBFB8800B95A69 /* BPlist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF77CB4016FBFB8800B95A69 /* BPlist.cpp */; };
+		DF77CB4316FBFB8800B95A69 /* BPlistRepr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF77CB4116FBFB8800B95A69 /* BPlistRepr.cpp */; };
+		DF77CB4516FBFBDA00B95A69 /* ByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF77CB4416FBFBDA00B95A69 /* ByteBuffer.cpp */; };
+		DF77CB4716FBFC8D00B95A69 /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF77CB4616FBFC8D00B95A69 /* Base64.cpp */; };
+		DF77CB4B16FBFCE600B95A69 /* libboost_filesystem-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF77CB4A16FBFCE600B95A69 /* libboost_filesystem-mt.a */; };
 		DFB1B89616F2F99200DF0F0C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFB1B89516F2F99200DF0F0C /* main.cpp */; };
 		DFB1B89816F2F99200DF0F0C /* usbmux_proxy2.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFB1B89716F2F99200DF0F0C /* usbmux_proxy2.1 */; };
 		DFB1B89F16F2FC1B00DF0F0C /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB1B89E16F2FC1B00DF0F0C /* libboost_system-mt.a */; };
@@ -30,6 +35,11 @@
 /* Begin PBXFileReference section */
 		DF77CB2816FAA38800B95A69 /* usbmux2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = usbmux2.cpp; sourceTree = "<group>"; };
 		DF77CB2916FAA38800B95A69 /* usbmux2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usbmux2.h; sourceTree = "<group>"; };
+		DF77CB4016FBFB8800B95A69 /* BPlist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BPlist.cpp; sourceTree = "<group>"; };
+		DF77CB4116FBFB8800B95A69 /* BPlistRepr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BPlistRepr.cpp; sourceTree = "<group>"; };
+		DF77CB4416FBFBDA00B95A69 /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ByteBuffer.cpp; path = ../../../develop/src/ByteBuffer.cpp; sourceTree = "<group>"; };
+		DF77CB4616FBFC8D00B95A69 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Base64.cpp; path = ../../../develop/src/Base64.cpp; sourceTree = "<group>"; };
+		DF77CB4A16FBFCE600B95A69 /* libboost_filesystem-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-mt.a"; path = "../../../../../opt/local/lib/libboost_filesystem-mt.a"; sourceTree = "<group>"; };
 		DFB1B89216F2F99200DF0F0C /* usbmux-proxy2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "usbmux-proxy2"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFB1B89516F2F99200DF0F0C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DFB1B89716F2F99200DF0F0C /* usbmux_proxy2.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = usbmux_proxy2.1; sourceTree = "<group>"; };
@@ -44,6 +54,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFB1B89F16F2FC1B00DF0F0C /* libboost_system-mt.a in Frameworks */,
+				DF77CB4B16FBFCE600B95A69 /* libboost_filesystem-mt.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +64,7 @@
 		DFB1B88916F2F99200DF0F0C = {
 			isa = PBXGroup;
 			children = (
+				DF77CB4A16FBFCE600B95A69 /* libboost_filesystem-mt.a */,
 				DFB1B89E16F2FC1B00DF0F0C /* libboost_system-mt.a */,
 				DFB1B89416F2F99200DF0F0C /* usbmux-proxy2 */,
 				DFB1B89316F2F99200DF0F0C /* Products */,
@@ -70,6 +82,10 @@
 		DFB1B89416F2F99200DF0F0C /* usbmux-proxy2 */ = {
 			isa = PBXGroup;
 			children = (
+				DF77CB4616FBFC8D00B95A69 /* Base64.cpp */,
+				DF77CB4416FBFBDA00B95A69 /* ByteBuffer.cpp */,
+				DF77CB4016FBFB8800B95A69 /* BPlist.cpp */,
+				DF77CB4116FBFB8800B95A69 /* BPlistRepr.cpp */,
 				DFB1B89516F2F99200DF0F0C /* main.cpp */,
 				DFB1B89716F2F99200DF0F0C /* usbmux_proxy2.1 */,
 				DFB1B8A016F2FD9300DF0F0C /* protocol.cpp */,
@@ -134,6 +150,10 @@
 				DFB1B89616F2F99200DF0F0C /* main.cpp in Sources */,
 				DFB1B8A216F2FD9300DF0F0C /* protocol.cpp in Sources */,
 				DF77CB2A16FAA38800B95A69 /* usbmux2.cpp in Sources */,
+				DF77CB4216FBFB8800B95A69 /* BPlist.cpp in Sources */,
+				DF77CB4316FBFB8800B95A69 /* BPlistRepr.cpp in Sources */,
+				DF77CB4516FBFBDA00B95A69 /* ByteBuffer.cpp in Sources */,
+				DF77CB4716FBFC8D00B95A69 /* Base64.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +187,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /opt/local/include;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/Users/yielding/code/develop/include,
+				);
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
@@ -196,7 +219,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /opt/local/include;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/Users/yielding/code/develop/include,
+				);
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;

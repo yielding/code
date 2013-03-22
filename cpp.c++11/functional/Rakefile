@@ -1,8 +1,8 @@
 # -*- ruby -*-
 
-SRCS      = %w{ ./time_point.cpp }
-TEST_SRCS = %w{ ./test_time_point.cpp }
-APP       = "time_point"
+SRCS      = %w{ hash.cpp }
+TEST_SRCS = %w{ test_hash.cpp }
+APP       = "hash"
 CXX       = "xcrun"
 CXXFLAGS  = ":d"
 

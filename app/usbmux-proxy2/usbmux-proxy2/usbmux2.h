@@ -63,7 +63,7 @@ public:
     void handle_receive_hello_response(system::error_code const& error, size_t bytes_transffered);
 
     void receive_device_id();
-    void handle_receive_device_id();
+    void handle_receive_device_id(system::error_code const& error, size_t bytes_transffered);
 
     // connect
     void send_connect();
@@ -97,6 +97,9 @@ private:
 
     char   _cli_buffer_data[SZ];
     size_t _cli_buffer_length;
+
+    uint8_t _device_id;
+    uint32_t _tag;
 };
 
 typedef boost::shared_ptr<ProxySession> ProxySessionPtr;
