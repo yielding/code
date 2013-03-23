@@ -1,8 +1,8 @@
 # -*- ruby -*-
 
-SRCS      = %w{ ./addressof.cpp }
-TEST_SRCS = %w{ ./test_addressof.cpp }
-APP       = "addressof"
+SRCS      = %w{ forward.list.cpp }
+TEST_SRCS = %w{ test_forward.list.cpp }
+APP       = "forward.list"
 CXX       = "xcrun"
 CXXFLAGS  = ":d"
 
