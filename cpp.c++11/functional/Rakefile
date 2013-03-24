@@ -1,10 +1,10 @@
 # -*- ruby -*-
 
-SRCS      = %w{ hash.cpp }
-TEST_SRCS = %w{ test_hash.cpp }
-APP       = "hash"
+SRCS      = %w{ ./functional.cpp }
+TEST_SRCS = %w{ ./test_functional.cpp }
+APP       = "functional"
 CXX       = "xcrun"
-CXXFLAGS  = ":d"
+#CXXFLAGS  = ":d"
 
 DIR = File.dirname __FILE__
 

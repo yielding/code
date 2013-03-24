@@ -4,7 +4,7 @@ SRCS      = %w{ forward.list.cpp }
 TEST_SRCS = %w{ test_forward.list.cpp }
 APP       = "forward.list"
 CXX       = "xcrun"
-CXXFLAGS  = ":d"
+#CXXFLAGS  = ":d"
 
 DIR = File.dirname __FILE__
 
