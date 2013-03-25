@@ -1,5 +1,9 @@
 snippet #!
 	#!/usr/bin/env python
+snippet utf
+	# encoding: utf-8
+snippet u8
+	# encoding: utf-8
 snippet imp
 	import ${1:module}
 # Module Docstring
@@ -33,10 +37,25 @@ snippet cl
 			self.$4 = $4
 			${6}
 # New Function
+snippet tc
+	import unittest
+
+	class Test${1:LibraryName}(unittest.TestCase):
+		def setUp(self):
+			${2:pass}
+
+		def tearDown(self):
+			${3:pass}
+
+	if __name__ == '__main__':
+		unittest.main()
 snippet def
 	def ${1:fname}(${2:`indent('.') ? 'self' : ''`}):
 		"""${3:docstring for $1}"""
 		${4:pass}
+snippet deft
+	def test_${1:case_name}(self):
+		${2:pass}
 snippet deff
 	def ${1:fname}(${2:`indent('.') ? 'self' : ''`}):
 		${3}
@@ -102,6 +121,9 @@ snippet ipdb
 snippet pdbbb
 	import pdbpp; pdbpp.set_trace()
 # GPL
+snippet app
+	if __name__ == '__main__':
+		${1}
 snippet gpl
 	# ${1:Name}
 	# Copyright (C) `strftime("%Y")` ${2:Author}
