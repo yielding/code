@@ -1,6 +1,9 @@
 #include "usbmux2.h"
+#include "BPlist.h"
 #include <boost/bind.hpp>
 #include <iostream>
+
+using namespace utility::parser;
 
 namespace usbmux2 {
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,17 +41,25 @@ void ProxySession::start()
 
 void ProxySession::send_hello()
 {
+  CFDictionary dict;
+  dict.add("ClientVersionString", "usbmux2 by yielding");
+  dict.add("MessageType", "Listen");
+  dict.add("ProgName", "tcprelay");
+  PropertyList plist;
+  auto s = plist.set(dict).to_xml();
+
   auto r = reinterpret_cast<usbmux_hello_request*>(_mux_buffer_data);
-  r->header.length  = sizeof(usbmux_hello_request);
+  r->header.length  = sizeof(usbmux_hello_request) + uint32_t(s.length());
   r->header.version = 0;
   r->header.type    = usbmux_hello;
-  r->header.tag     = _tag;
+  r->header.tag     = _tag;  
+  strncpy(_mux_buffer_data + 16, s.c_str(), s.length());
 
   asio::async_write(_usbmux_socket,
       asio::buffer(_mux_buffer_data, sizeof(usbmux_hello_request)),
       bind(&ProxySession::handle_send_hello,
-            shared_from_this(), 
-            asio::placeholders::error));       
+            shared_from_this(),
+            asio::placeholders::error));
 }
 
 void ProxySession::handle_send_hello(const system::error_code& error)
@@ -65,6 +76,10 @@ void ProxySession::handle_send_hello(const system::error_code& error)
 
 void ProxySession::receive_hello_response()
 {
+  asio::read(_usbmux_socket, asio::buffer(_mux_buffer_data, 4));
+  
+  auto length = *(uint32_t *)_mux_buffer_data;
+  
   asio::async_read(_usbmux_socket,
       asio::buffer(_mux_buffer_data, sizeof(usbmux_response)),
       asio::transfer_at_least(sizeof(usbmux_response)),

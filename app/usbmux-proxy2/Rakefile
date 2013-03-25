@@ -3,8 +3,7 @@
 HOME      = "#{ENV['HOME']}/code"
 APP       = "usbmux"
 APP_TEST  = "test_#{APP}"
-SRCS      = %w{ 
-                ~/code/develop/src/ByteBuffer.cpp
+SRCS      = %w{ ~/code/develop/src/ByteBuffer.cpp
                 ~/code/develop/src/Base64.cpp
                 ./usbmux-proxy2/protocol.cpp
                 ./usbmux-proxy2/usbmux2.cpp
@@ -13,8 +12,7 @@ SRCS      = %w{
                 ./usbmux-proxy2/main.cpp 
               }
 
-TEST_SRCS = %w{ 
-                ~/code/develop/src/ByteBuffer.cpp
+TEST_SRCS = %w{ ~/code/develop/src/ByteBuffer.cpp
                 ~/code/develop/src/Base64.cpp
                 ./usbmux-proxy2/protocol.cpp
                 ./usbmux-proxy2/usbmux2.cpp
@@ -24,7 +22,8 @@ TEST_SRCS = %w{
               }
 
 INCS      = "#{HOME}/app/usbmux-proxy2/usbmux-proxy2 #{HOME}/develop/include"
-CXX       = "xcrun"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
+#CXX       = "xcrun"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
+CXX       = "c++11"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
 LIBS      = ":s :f"
 
