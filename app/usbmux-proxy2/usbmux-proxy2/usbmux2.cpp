@@ -1,7 +1,10 @@
 #include "usbmux2.h"
+
 #include "BPlist.h"
+#include "PlistParser.h"
 #include <boost/bind.hpp>
 #include <iostream>
+#include <map>
 
 using namespace utility::parser;
 
@@ -50,13 +53,13 @@ void ProxySession::send_hello()
 
   auto r = reinterpret_cast<usbmux_hello_request*>(_mux_buffer_data);
   r->header.length  = sizeof(usbmux_hello_request) + uint32_t(s.length());
-  r->header.version = 0;
-  r->header.type    = usbmux_hello;
+  r->header.version = 1;
+  r->header.type    = 8;             // 8 means TYPE_PLIST
   r->header.tag     = _tag;  
   strncpy(_mux_buffer_data + 16, s.c_str(), s.length());
-
+  
   asio::async_write(_usbmux_socket,
-      asio::buffer(_mux_buffer_data, sizeof(usbmux_hello_request)),
+      asio::buffer(_mux_buffer_data, r->header.length),
       bind(&ProxySession::handle_send_hello,
             shared_from_this(),
             asio::placeholders::error));
@@ -81,7 +84,7 @@ void ProxySession::receive_hello_response()
   auto length = *(uint32_t *)_mux_buffer_data;
   
   asio::async_read(_usbmux_socket,
-      asio::buffer(_mux_buffer_data, sizeof(usbmux_response)),
+      asio::buffer(_mux_buffer_data + 4, length - 4),
       asio::transfer_at_least(sizeof(usbmux_response)),
       bind(&ProxySession::handle_receive_hello_response, shared_from_this(), asio::placeholders::error,
         asio::placeholders::bytes_transferred));    
@@ -91,14 +94,25 @@ void ProxySession::handle_receive_hello_response(system::error_code const& error
 {
   if (!error)
   {
-      auto header = reinterpret_cast<usbmux_header*>(_mux_buffer_data);
-      auto l = header->length;
-      auto v = header->version;
-      auto t = header->type;
-      auto tag = header->tag;
-      
-      if (tag == _tag)
-          receive_device_id();
+    auto  header = reinterpret_cast<usbmux_header*>(_mux_buffer_data);
+    auto  length = header->length;
+    auto version = header->version;
+    auto     tag = header->tag;
+
+    // TODO version
+    if (version != 1) 
+      throw runtime_error("version mismatch");
+
+    if (tag != _tag)
+      throw runtime_error("tag mismatch");
+
+    utility::parser::PListParser parser;
+    parser.init_with_string(string(_mux_buffer_data + 16, length - 16));
+    auto value = parser.get_string("Number", "plist.dict");
+    if (value != "0")
+      throw runtime_error("wrong hello response");
+
+    receive_device_id();
   }
   else
   {
@@ -108,12 +122,25 @@ void ProxySession::handle_receive_hello_response(system::error_code const& error
 
 void ProxySession::receive_device_id()
 {
+  /**/
+  asio::read(_usbmux_socket, asio::buffer(_mux_buffer_data, 4));
+  
+  auto length = *(uint32_t *)_mux_buffer_data;
+  
   asio::async_read(_usbmux_socket,
-      asio::buffer(_mux_buffer_data, 0x011c),
-      asio::transfer_at_least(0x011c),
+      asio::buffer(_mux_buffer_data + 4, length - 4),
+      bind(&ProxySession::handle_receive_device_id, shared_from_this(), asio::placeholders::error,
+        asio::placeholders::bytes_transferred));    
+  /**/
+  
+  /*
+  asio::async_read(_usbmux_socket,
+      asio::buffer(_mux_buffer_data, 0x02ad),
+      //asio::transfer_at_least(0x02ad),
       bind(&ProxySession::handle_receive_device_id, shared_from_this(), asio::placeholders::error,
         asio::placeholders::bytes_transferred)
-      );           
+      );
+   */
 }
 
 void ProxySession::handle_receive_device_id(system::error_code const& error, size_t bytes_transffered)

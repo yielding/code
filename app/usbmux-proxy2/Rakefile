@@ -5,6 +5,7 @@ APP       = "usbmux"
 APP_TEST  = "test_#{APP}"
 SRCS      = %w{ ~/code/develop/src/ByteBuffer.cpp
                 ~/code/develop/src/Base64.cpp
+                ~/code/develop/src/PlistParser.cpp
                 ./usbmux-proxy2/protocol.cpp
                 ./usbmux-proxy2/usbmux2.cpp
                 ./usbmux-proxy2/BPlistRepr.cpp
@@ -14,6 +15,7 @@ SRCS      = %w{ ~/code/develop/src/ByteBuffer.cpp
 
 TEST_SRCS = %w{ ~/code/develop/src/ByteBuffer.cpp
                 ~/code/develop/src/Base64.cpp
+                ~/code/develop/src/PlistParser.cpp
                 ./usbmux-proxy2/protocol.cpp
                 ./usbmux-proxy2/usbmux2.cpp
                 ./usbmux-proxy2/BPlistRepr.cpp
