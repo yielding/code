@@ -10,9 +10,9 @@
 		DF10FD7E15FDA6ED0037B3D1 /* SFTPChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF10FD7D15FDA6ED0037B3D1 /* SFTPChannel.cpp */; };
 		DF4C0E931540F7E800882746 /* SCPChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF4C0E921540F7E800882746 /* SCPChannel.cpp */; };
 		DF4C0E971540FA0900882746 /* SSHChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF4C0E961540FA0900882746 /* SSHChannel.cpp */; };
+		DF77CB4D16FC312C00B95A69 /* libssh.4.2.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DF77CB4C16FC312C00B95A69 /* libssh.4.2.4.dylib */; };
 		DF897420153E39850067BE5D /* SSHSession.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF89741F153E39850067BE5D /* SSHSession.cpp */; };
 		DF897422153E39970067BE5D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF897421153E39970067BE5D /* main.cpp */; };
-		DF897424153E40F30067BE5D /* libssh.4.2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DF897423153E40F30067BE5D /* libssh.4.2.2.dylib */; };
 		DFB54A6B15452C1E00FC07C0 /* libboost_filesystem-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB54A6915452C1E00FC07C0 /* libboost_filesystem-mt.dylib */; };
 		DFB54A6C15452C1E00FC07C0 /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB54A6A15452C1E00FC07C0 /* libboost_system-mt.dylib */; };
 /* End PBXBuildFile section */
@@ -37,9 +37,9 @@
 		DF4C0E961540FA0900882746 /* SSHChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SSHChannel.cpp; path = develop/src/SSHChannel.cpp; sourceTree = "<group>"; };
 		DF4C0E981540FB0F00882746 /* SCPChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCPChannel.h; path = develop/include/SCPChannel.h; sourceTree = "<group>"; };
 		DF4C0E991540FB0F00882746 /* SSHChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSHChannel.h; path = develop/include/SSHChannel.h; sourceTree = "<group>"; };
+		DF77CB4C16FC312C00B95A69 /* libssh.4.2.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssh.4.2.4.dylib; path = ../../../../../opt/local/lib/libssh.4.2.4.dylib; sourceTree = "<group>"; };
 		DF89741F153E39850067BE5D /* SSHSession.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SSHSession.cpp; path = develop/src/SSHSession.cpp; sourceTree = "<group>"; };
 		DF897421153E39970067BE5D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		DF897423153E40F30067BE5D /* libssh.4.2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssh.4.2.2.dylib; path = ../../../../../opt/local/lib/libssh.4.2.2.dylib; sourceTree = "<group>"; };
 		DF8A48961548E14000A99FD5 /* SSHHostList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSHHostList.h; path = develop/include/SSHHostList.h; sourceTree = "<group>"; };
 		DFAE407A153D6ABA00D43554 /* scp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = scp; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFB54A6615452BEE00FC07C0 /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "../../../../../opt/local/lib/libboost_system-mt.a"; sourceTree = "<group>"; };
@@ -54,7 +54,7 @@
 			files = (
 				DFB54A6B15452C1E00FC07C0 /* libboost_filesystem-mt.dylib in Frameworks */,
 				DFB54A6C15452C1E00FC07C0 /* libboost_system-mt.dylib in Frameworks */,
-				DF897424153E40F30067BE5D /* libssh.4.2.2.dylib in Frameworks */,
+				DF77CB4D16FC312C00B95A69 /* libssh.4.2.4.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,10 +80,10 @@
 		DFAE406F153D6ABA00D43554 = {
 			isa = PBXGroup;
 			children = (
+				DF77CB4C16FC312C00B95A69 /* libssh.4.2.4.dylib */,
 				DFB54A6915452C1E00FC07C0 /* libboost_filesystem-mt.dylib */,
 				DFB54A6A15452C1E00FC07C0 /* libboost_system-mt.dylib */,
 				DFB54A6615452BEE00FC07C0 /* libboost_system-mt.a */,
-				DF897423153E40F30067BE5D /* libssh.4.2.2.dylib */,
 				DFAE407D153D6ABA00D43554 /* scp */,
 				DFAE407B153D6ABA00D43554 /* Products */,
 			);
