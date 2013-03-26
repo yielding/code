@@ -1,0 +1,85 @@
+$ python tcprelay.py -t 22:2222
+Forwarding local port 2222 to remote port 22
+Incoming connection to 2222
+<<send packet>> : 
+<<send packet>> : <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>ClientVersionString</key>
+  <string>usbmux.py by marcan</string>
+  <key>MessageType</key>
+  <string>Listen</string>
+  <key>ProgName</key>
+  <string>tcprelay</string>
+</dict>
+</plist>
+
+<<get packet>> : <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>MessageType</key>
+  <string>Result</string>
+  <key>Number</key>
+  <integer>0</integer>
+</dict>
+</plist>
+
+Waiting for devices...
+<<get packet>> : <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>DeviceID</key>
+  <integer>250</integer>
+  <key>MessageType</key>
+  <string>Attached</string>
+  <key>Properties</key>
+  <dict>
+    <key>ConnectionSpeed</key>
+    <integer>480000000</integer>
+    <key>ConnectionType</key>
+    <string>USB</string>
+    <key>DeviceID</key>
+    <integer>250</integer>
+    <key>LocationID</key>
+    <integer>437387264</integer>
+    <key>ProductID</key>
+    <integer>4762</integer>
+    <key>SerialNumber</key>
+    <string>0c06f4701d4c60b677dc661981ea55f35c39adb6</string>
+  </dict>
+</dict>
+</plist>
+
+Connecting to device <MuxDevice: ID 250 ProdID 0x129a Serial '0c06f4701d4c60b677dc661981ea55f35c39adb6' Location 0x1a120000>
+<<send packet>> : <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>ClientVersionString</key>
+  <string>usbmux.py by marcan</string>
+  <key>DeviceID</key>
+  <integer>250</integer>
+  <key>MessageType</key>
+  <string>Connect</string>
+  <key>PortNumber</key>
+  <integer>5632</integer>
+  <key>ProgName</key>
+  <string>tcprelay</string>
+</dict>
+</plist>
+
+<<get packet>> : <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>MessageType</key>
+  <string>Result</string>
+  <key>Number</key>
+  <integer>0</integer>
+</dict>
+</plist>
+
+Connection established, relaying data

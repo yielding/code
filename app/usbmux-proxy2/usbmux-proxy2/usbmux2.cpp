@@ -2,9 +2,8 @@
 
 #include "BPlist.h"
 #include "PlistParser.h"
-
-#include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/bind.hpp>
 #include <iostream>
 #include <map>
 
@@ -21,7 +20,7 @@ namespace usbmux2 {
 ////////////////////////////////////////////////////////////////////////////////
 ProxySession::ProxySession(asio::io_service& ios, uint16_t rport)
   : _client_socket(ios)
-  , _usbmux_socket(ios)
+  , _usbmux_socket(ios) , _usbmux_socket2(ios)
   , _usbmux_endpoint("/var/run/usbmuxd")
   , _remote_port(rport)
   , _tag(2)
@@ -53,6 +52,7 @@ void ProxySession::send_hello()
   PropertyList plist;
   auto s = plist.set(dict).to_xml();
 
+  _tag++;
   auto r = reinterpret_cast<usbmux_hello_request*>(_mux_buffer_data);
   r->header.length  = sizeof(usbmux_hello_request) + uint32_t(s.length());
   r->header.version = 1;
@@ -150,7 +150,7 @@ void ProxySession::handle_receive_device_id(system::error_code const& error, siz
     }
 
     auto dict  = parser.get_dict("Properties", "plist.dict");
-    _device_id = lexical_cast<int>(dict["DeviceID"]);
+    _device_id = dict["DeviceID"];
     auto location_id = dict["LocationID"];
     auto product_id  = dict["ProductID"];
 
@@ -164,50 +164,154 @@ void ProxySession::handle_receive_device_id(system::error_code const& error, siz
 
 void ProxySession::send_connect()
 {
+  system::error_code error;
+  _usbmux_socket2.connect(_usbmux_endpoint, error);
+
+  auto port = lexical_cast<string>(htons(_remote_port));
+
+  CFDictionary dict;
+  dict.add("ClientVersionString", "usbmux2 by yielding");
+  dict.add("DeviceID", _device_id.c_str());
+  dict.add("MessageType", "Connect");
+  dict.add("PortNumber", port.c_str());
+  dict.add("ProgName", "tcprelay");
+  PropertyList plist;
+  auto s = plist.set(dict).to_xml();
+
+  memset(_mux_buffer_data, 0x00, 32*1024);
+
+  _tag++;
+  auto r = reinterpret_cast<usbmux_hello_request*>(_mux_buffer_data);
+  r->header.length  = sizeof(usbmux_hello_request) + uint32_t(s.length());
+  r->header.version = 1;
+  r->header.type    = 8;             // 8 means TYPE_PLIST
+  r->header.tag     = _tag;
+  strncpy(_mux_buffer_data + 16, s.c_str(), s.length());
+  
+  asio::async_write(_usbmux_socket2,
+    asio::buffer(_mux_buffer_data, r->header.length),
+    bind(&ProxySession::handle_send_connect,
+          shared_from_this(),
+          asio::placeholders::error));
 }
 
 void ProxySession::handle_send_connect(system::error_code const& error)
 {
+  receive_connect_response();
 }
 
 void ProxySession::receive_connect_response()
 {
+  asio::read(_usbmux_socket2, asio::buffer(_mux_buffer_data, 4));
+  auto length = *(uint32_t *)_mux_buffer_data;
+
+  asio::async_read(_usbmux_socket2,
+      asio::buffer(_mux_buffer_data + 4, length - 4),
+      bind(&ProxySession::handle_receive_connect_response, shared_from_this(), asio::placeholders::error,
+        asio::placeholders::bytes_transferred));    
 }
 
 void ProxySession::handle_receive_connect_response(system::error_code const& error, size_t bytes_transffered)
 {
+  if (!error)
+  {
+    // read_from_usbmux();
+    read_from_client();
+  }
+  else
+  {
+    cout << "Could not receive connect response usbmux" << endl;
+  }
 }
 
+//
+// TODO here
+// why async_read_some fails here?
+//   1. invalid _client_socket
+//   2. async_read_some
+//
 void ProxySession::read_from_client()
 {
+  _client_socket.async_read_some(
+      // asio::buffer(_cli_buffer_data, sizeof(_cli_buffer_data)),
+      asio::buffer(_cli_buffer_data, 1),
+      bind(&ProxySession::handle_read_from_client, shared_from_this(), asio::placeholders::error,
+          asio::placeholders::bytes_transferred));
 }
 
 void ProxySession::handle_read_from_client(system::error_code const& error, size_t bytes_transffered)
 {
+  if (!error && bytes_transffered > 0)
+  {
+    _cli_buffer_length = bytes_transffered;
+    write_to_usbmux();
+  }
+  else
+  {
+    cout << "Could not read from client" << endl;
+  }
 }
 
 void ProxySession::write_to_usbmux()
 {
+  asio::async_write(
+    _usbmux_socket2,
+    asio::buffer(_cli_buffer_data, _cli_buffer_length),
+    bind(&ProxySession::handle_write_to_usbmux, 
+         shared_from_this(), asio::placeholders::error));
 }
 
-void ProxySession::handle_write_to_usbmux(system::error_code const& error, size_t bytes_transffered)
+void ProxySession::handle_write_to_usbmux(system::error_code const& error)
 {
+  if (!error)
+  {
+    read_from_client();
+  }
+  else
+  {
+    cout << "Could not write to usbmux" << endl;
+  }
 }
 
 void ProxySession::read_from_usbmux()
 {
+  _usbmux_socket2.async_read_some(
+      asio::buffer(_mux_buffer_data, sizeof(_mux_buffer_data)),
+      bind(&ProxySession::handle_read_from_usbmux, shared_from_this(), asio::placeholders::error,
+          asio::placeholders::bytes_transferred));
 }
 
 void ProxySession::handle_read_from_usbmux(system::error_code const& error, size_t bytes_transffered)
 {
+  if (!error && bytes_transffered > 0)
+  {
+    _mux_buffer_length = bytes_transffered;
+    write_to_client();
+  }
+  else
+  {
+    cout << "Could not read from usbmux" << endl;
+  }
 }
 
 void ProxySession::write_to_client()
 {
+  asio::async_write(
+    _client_socket,
+    asio::buffer(_mux_buffer_data, _mux_buffer_length),
+    bind(&ProxySession::handle_write_to_client, shared_from_this(), asio::placeholders::error));
 }
 
-void ProxySession::handle_write_to_client(system::error_code const& error, size_t bytes_transffered)
+void ProxySession::handle_write_to_client(system::error_code const& error)
 {
+  if (!error)
+  {
+    read_from_usbmux();
+  }
+  else
+  {
+    cerr << "USBMUX could not write to client" << endl;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

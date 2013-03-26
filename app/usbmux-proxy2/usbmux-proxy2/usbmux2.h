@@ -75,18 +75,19 @@ public:
     void read_from_client();
     void handle_read_from_client(system::error_code const& error, size_t bytes_transffered);
     void write_to_usbmux();
-    void handle_write_to_usbmux(system::error_code const& error, size_t bytes_transffered);
+    void handle_write_to_usbmux(system::error_code const& error);
 
     // relay: usbmux
     void read_from_usbmux();
     void handle_read_from_usbmux(system::error_code const& error, size_t bytes_transffered);
     void write_to_client();
-    void handle_write_to_client(system::error_code const& error, size_t bytes_transffered);
+    void handle_write_to_client(system::error_code const& error);
 
 private:
     tcp::socket _client_socket;
 
     asio::local::stream_protocol::socket _usbmux_socket;
+    asio::local::stream_protocol::socket _usbmux_socket2;
     asio::local::stream_protocol::endpoint _usbmux_endpoint;
 
     uint16_t _remote_port;
@@ -98,7 +99,7 @@ private:
     char   _cli_buffer_data[SZ];
     size_t _cli_buffer_length;
 
-    int _device_id;
+    std::string _device_id;
     uint32_t _tag;
 };
 
