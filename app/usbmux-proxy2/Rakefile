@@ -24,8 +24,8 @@ TEST_SRCS = %w{ ~/code/develop/src/ByteBuffer.cpp
               }
 
 INCS      = "#{HOME}/app/usbmux-proxy2/usbmux-proxy2 #{HOME}/develop/include"
-#CXX       = "xcrun"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
-CXX       = "c++11"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
+CXX       = "xcrun"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
+#CXX       = "c++11"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
 LIBS      = ":s :f"
 

@@ -2,7 +2,9 @@
 
 #include "BPlist.h"
 #include "PlistParser.h"
+
 #include <boost/bind.hpp>
+#include <boost/lexical_cast.hpp>
 #include <iostream>
 #include <map>
 
@@ -106,7 +108,7 @@ void ProxySession::handle_receive_hello_response(system::error_code const& error
     if (tag != _tag)
       throw runtime_error("tag mismatch");
 
-    utility::parser::PListParser parser;
+    PListParser parser;
     parser.init_with_string(string(_mux_buffer_data + 16, length - 16));
     auto value = parser.get_string("Number", "plist.dict");
     if (value != "0")
@@ -123,22 +125,12 @@ void ProxySession::handle_receive_hello_response(system::error_code const& error
 void ProxySession::receive_device_id()
 {
   asio::read(_usbmux_socket, asio::buffer(_mux_buffer_data, 4));
-  
   auto length = *(uint32_t *)_mux_buffer_data;
   
   asio::async_read(_usbmux_socket,
       asio::buffer(_mux_buffer_data + 4, length - 4),
       bind(&ProxySession::handle_receive_device_id, shared_from_this(), asio::placeholders::error,
         asio::placeholders::bytes_transferred));    
-  
-  /*
-  asio::async_read(_usbmux_socket,
-      asio::buffer(_mux_buffer_data, 0x02ad),
-      //asio::transfer_at_least(0x02ad),
-      bind(&ProxySession::handle_receive_device_id, shared_from_this(), asio::placeholders::error,
-        asio::placeholders::bytes_transferred)
-      );
-   */
 }
 
 void ProxySession::handle_receive_device_id(system::error_code const& error, size_t bytes_transffered)
@@ -147,7 +139,8 @@ void ProxySession::handle_receive_device_id(system::error_code const& error, siz
   {
     auto header = reinterpret_cast<usbmux_header*>(_mux_buffer_data);
     auto length = header->length;
-    utility::parser::PListParser parser;
+
+    PListParser parser;
     parser.init_with_string(string(_mux_buffer_data + 16, length - 16));
     auto msg_type = parser.get_string("MessageType", "plist.dict");
     if (msg_type != "Attached")
@@ -155,19 +148,18 @@ void ProxySession::handle_receive_device_id(system::error_code const& error, siz
       cerr << "No available device information" << endl;
       return;
     }
-    
-    auto dict = parser.get_dict("Properties", "plist.dict");
-    auto device_id   = dict["DeviceID"];
+
+    auto dict  = parser.get_dict("Properties", "plist.dict");
+    _device_id = lexical_cast<int>(dict["DeviceID"]);
     auto location_id = dict["LocationID"];
     auto product_id  = dict["ProductID"];
-    
+
     send_connect();
   } 
   else 
   {
     cout << "E: Could not receive client id from usbmux" << endl;
   }
-
 }
 
 void ProxySession::send_connect()

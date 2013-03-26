@@ -98,7 +98,7 @@ private:
     char   _cli_buffer_data[SZ];
     size_t _cli_buffer_length;
 
-    uint8_t _device_id;
+    int _device_id;
     uint32_t _tag;
 };
 
