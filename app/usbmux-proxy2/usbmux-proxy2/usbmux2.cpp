@@ -18,12 +18,16 @@ namespace usbmux2 {
 ////////////////////////////////////////////////////////////////////////////////
 void ps(usbmux_header* h, string s)
 {
+#ifdef DEBUG
   cout << "[send packet] :" << h->to_s() << endl << s << endl;
+#endif
 }
 
 void pr(usbmux_header* h, string s)
 {
+#ifdef DEBUG
   cout << "[recv packet] :" << h->to_s() << endl << s << endl;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -242,7 +246,8 @@ void ProxySession::receive_connect_response()
            asio::placeholders::bytes_transferred));
 }
 
-void ProxySession::handle_receive_connect_response(system::error_code const& error, size_t bytes_transffered)
+void ProxySession::handle_receive_connect_response(system::error_code const& error,
+                                                   size_t bytes_transffered)
 {
   if (error)
   {
@@ -267,12 +272,6 @@ void ProxySession::handle_receive_connect_response(system::error_code const& err
   read_from_client();
 }
 
-//
-// TODO here
-// why async_read_some fails here?
-//   1. invalid _client_socket
-//   2. async_read_some
-//
 void ProxySession::read_from_client()
 {
   _client_socket.async_read_some(
@@ -282,7 +281,8 @@ void ProxySession::read_from_client()
            asio::placeholders::bytes_transferred));
 }
 
-void ProxySession::handle_read_from_client(system::error_code const& error, size_t bytes_transffered)
+void ProxySession::handle_read_from_client(system::error_code const& error,
+                                           size_t bytes_transffered)
 {
   if (!error && bytes_transffered > 0)
   {
@@ -324,7 +324,8 @@ void ProxySession::read_from_usbmux()
            asio::placeholders::bytes_transferred));
 }
 
-void ProxySession::handle_read_from_usbmux(system::error_code const& error, size_t bytes_transffered)
+void ProxySession::handle_read_from_usbmux(system::error_code const& error,
+                                           size_t bytes_transffered)
 {
   if (!error && bytes_transffered > 0)
   {
