@@ -1,8 +1,9 @@
 $ python tcprelay.py -t 22:2222
 Forwarding local port 2222 to remote port 22
 Incoming connection to 2222
-<<send packet>> : 
-<<send packet>> : <?xml version="1.0" encoding="UTF-8"?>
+[send packet] : 
+[send packet] : 
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -15,7 +16,8 @@ Incoming connection to 2222
 </dict>
 </plist>
 
-<<get packet>> : <?xml version="1.0" encoding="UTF-8"?>
+[get packet] : 
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -27,7 +29,8 @@ Incoming connection to 2222
 </plist>
 
 Waiting for devices...
-<<get packet>> : <?xml version="1.0" encoding="UTF-8"?>
+[get packet] : 
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -53,8 +56,11 @@ Waiting for devices...
 </dict>
 </plist>
 
-Connecting to device <MuxDevice: ID 250 ProdID 0x129a Serial '0c06f4701d4c60b677dc661981ea55f35c39adb6' Location 0x1a120000>
-<<send packet>> : <?xml version="1.0" encoding="UTF-8"?>
+Connecting to device 
+  : <MuxDevice: ID 250 ProdID 0x129a Serial '0c06f4701d4c60b677dc661981ea55f35c39adb6' Location 0x1a120000>
+
+[send packet] : 
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -71,7 +77,8 @@ Connecting to device <MuxDevice: ID 250 ProdID 0x129a Serial '0c06f4701d4c60b677
 </dict>
 </plist>
 
-<<get packet>> : <?xml version="1.0" encoding="UTF-8"?>
+[get packet] : 
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
