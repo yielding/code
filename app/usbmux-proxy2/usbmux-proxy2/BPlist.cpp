@@ -228,7 +228,7 @@ string PropertyList::to_xml() const
     boost::apply_visitor(v, m_value);
     string header = 
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-        "<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \""
+        "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \""
         "http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
         "<plist version=\"1.0\">\n";
     string footer = "</plist>\n";
