@@ -33,12 +33,15 @@ struct usbmux_header
   }
 };
 
-int const SZ = 32 * 1024;
-
-class ProxySession: public boost::enable_shared_from_this<ProxySession>
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+class RelaySession: public boost::enable_shared_from_this<RelaySession>
 {
 public:
-  ProxySession(asio::io_service& ios, uint16_t rport);
+  RelaySession(asio::io_service& ios, uint16_t rport);
 
 public:
   tcp::socket& socket();
@@ -75,6 +78,7 @@ public:
 
 private:
   void clear_buffer();
+  bool check_response(system::error_code const& error);
 
 private:
   tcp::socket _client_socket;
@@ -87,30 +91,31 @@ private:
   uint16_t _remote_port;
 
 private:
-  char   _mux_buffer_data[SZ];
+  enum { BUF_SZ = 32 * 1024 };
+  char   _mux_buffer_data[BUF_SZ];
   size_t _mux_buffer_length;
 
-  char   _cli_buffer_data[SZ];
+  char   _cli_buffer_data[BUF_SZ];
   size_t _cli_buffer_length;
 
   int _device_id;
   uint32_t _tag;
 };
 
-typedef boost::shared_ptr<ProxySession> ProxySessionPtr;
+typedef boost::shared_ptr<RelaySession> RelaySessionPtr;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class Proxy
+class RelayServer
 {
 public:
-  Proxy(asio::io_service& ios, tcp::endpoint const endpoint, uint16_t rport);
+  RelayServer(asio::io_service&, tcp::endpoint const endpoint, uint16_t rport);
 
 public:
-  void handle_accept(ProxySessionPtr, system::error_code const& error);
+  void handle_accept(RelaySessionPtr, system::error_code const& error);
 
 private:
   asio::io_service& _ios;

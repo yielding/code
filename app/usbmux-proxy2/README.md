@@ -6,12 +6,13 @@ TODO
 DOING
 =====
   * refactoring
-    - exchange 합치기
 
 DONE
 ====
   * refactoring
     - usbmux\_response 없애기
+    - Proxy => RelayServer
+    - ProxySession => RelaySession
 
   * 연결 안되는 현상 테스트 방안
     - socket을 하나만 만들어 본다. (python code)
@@ -33,3 +34,6 @@ DONE
 NOT-DONE
 ========
   * usb-proxy 코드의 구조를 그대로 따라간다.  python code는 이해하는 수단으로
+
+  * refactoring
+    - exchange 합치기
