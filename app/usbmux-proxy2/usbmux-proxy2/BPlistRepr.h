@@ -380,7 +380,7 @@ struct vector_enumerator<std::string>
     { 
         visitor_type visitor;
         for (size_t i=0; i<arr.size(); i++) 
-            boost::apply_visitor(visitor, arr[i]);
+            boost::apply_visitor(visitor, arr[uint32_t(i)]);
 
         m_value = visitor.result();
     }
@@ -406,7 +406,7 @@ struct vector_enumerator<int64_t>
     { 
         visitor_type visitor;
         for (size_t i=0; i<arr.size(); i++) 
-            boost::apply_visitor(visitor, arr[i]);
+            boost::apply_visitor(visitor, arr[uint32_t(i)]);
 
         m_value = visitor.result();
     }

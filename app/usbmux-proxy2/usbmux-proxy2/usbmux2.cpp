@@ -18,12 +18,16 @@ namespace usbmux2 {
 ////////////////////////////////////////////////////////////////////////////////
 void ps(usbmux_header* h, string s)
 {
+#ifdef DEBUG
   cout << "[send packet] :" << h->to_s() << endl << s << endl;
+#endif
 }
 
 void pr(usbmux_header* h, string s)
 {
+#ifdef DEBUG
   cout << "[recv packet] :" << h->to_s() << endl << s << endl;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +38,7 @@ void pr(usbmux_header* h, string s)
 // Why? asio를 쓰면 바꾸는 것은 문제가 안되므로
 // 
 ////////////////////////////////////////////////////////////////////////////////
-ProxySession::ProxySession(asio::io_service& ios, uint16_t rport)
+RelaySession::RelaySession(asio::io_service& ios, uint16_t rport)
   : _client_socket(ios)
   , _usbmux_socket(ios), _usbmux_socket2(ios)
   , _usbmux_endpoint("/var/run/usbmuxd")
@@ -43,12 +47,12 @@ ProxySession::ProxySession(asio::io_service& ios, uint16_t rport)
 {
 }
 
-tcp::socket& ProxySession::socket()
+tcp::socket& RelaySession::socket()
 {
   return _client_socket;
 }
 
-void ProxySession::start()
+void RelaySession::start()
 {
   system::error_code error; _usbmux_socket.connect(_usbmux_endpoint, error);
 
@@ -61,32 +65,32 @@ void ProxySession::start()
   send_hello();
 }
 
-void ProxySession::send_hello()
+void RelaySession::send_hello()
 {
   CFDictionary dict;
   dict.add("ClientVersionString", "usbmux2 by yielding");
   dict.add("MessageType", "Listen");
   dict.add("ProgName",    "tcprelay");
   PropertyList plist;
-  auto s = plist.set(dict).to_xml();
+  auto payload = plist.set(dict).to_xml();
   
   _tag++;
   auto header = reinterpret_cast<usbmux_header*>(_mux_buffer_data);
-  header->length  = sizeof(usbmux_header) + uint32_t(s.length());
+  header->length  = sizeof(usbmux_header) + uint32_t(payload.length());
   header->version = 1;             // support only version 1
   header->type    = 8;             // 8 means TYPE_PLIST
   header->tag     = _tag;  
-  strncpy(_mux_buffer_data + 16, s.c_str(), s.length());
+  strncpy(_mux_buffer_data + 16, payload.c_str(), payload.length());
   
-  ps(header, s);
+  ps(header, payload);
   
   asio::async_write(_usbmux_socket,
       asio::buffer(_mux_buffer_data, header->length),
-      bind(&ProxySession::handle_send_hello, shared_from_this(),
+      bind(&RelaySession::handle_send_hello, shared_from_this(),
             asio::placeholders::error));
 }
 
-void ProxySession::handle_send_hello(const system::error_code& error)
+void RelaySession::handle_send_hello(const system::error_code& error)
 {
   if (error)
   {
@@ -97,7 +101,7 @@ void ProxySession::handle_send_hello(const system::error_code& error)
   receive_hello_response();
 }
 
-void ProxySession::receive_hello_response()
+void RelaySession::receive_hello_response()
 {
   asio::read(_usbmux_socket, asio::buffer(_mux_buffer_data, 4));
   auto length = *(uint32_t *)_mux_buffer_data;
@@ -105,43 +109,24 @@ void ProxySession::receive_hello_response()
   asio::async_read(_usbmux_socket,
       asio::buffer(_mux_buffer_data + 4, length - 4),
       asio::transfer_at_least(length - 4),
-      bind(&ProxySession::handle_receive_hello_response, shared_from_this(), 
+      bind(&RelaySession::handle_receive_hello_response, shared_from_this(), 
            asio::placeholders::error,
            asio::placeholders::bytes_transferred));    
 }
 
-void ProxySession::handle_receive_hello_response(system::error_code const& error, size_t bytes_transffered)
+void RelaySession::handle_receive_hello_response(system::error_code const& error,
+                                                 size_t bytes_transffered)
 {
-  if (!error)
-  {
-    auto  header = reinterpret_cast<usbmux_header*>(_mux_buffer_data);
-    auto  length = header->length;
-    auto version = header->version;
-    auto     tag = header->tag;
-
-    if (version != 1) 
-      throw runtime_error("version mismatch");
-
-    if (tag != _tag)
-      throw runtime_error("tag mismatch");
-
-    pr(header, string(_mux_buffer_data + 16, length - 16));
-
-    PListParser parser;
-    parser.init_with_string(string(_mux_buffer_data + 16, length - 16));
-    auto value = parser.get_string("Number", "plist.dict");
-    if (value != "0")
-      throw runtime_error("wrong hello response");
-
-    receive_device_id();
-  }
-  else
+  if (!check_response(error))
   {
     cerr << "USBMUX2 Proxy: Could not send hello to usbmux" << endl;
+    return;
   }
+
+  receive_device_id();
 }
 
-void ProxySession::receive_device_id()
+void RelaySession::receive_device_id()
 {
   asio::read(_usbmux_socket, asio::buffer(_mux_buffer_data, 4));
   auto length = *(uint32_t *)_mux_buffer_data;
@@ -149,12 +134,13 @@ void ProxySession::receive_device_id()
   asio::async_read(_usbmux_socket,
       asio::buffer(_mux_buffer_data + 4, length - 4),
       asio::transfer_at_least(length - 4),
-      bind(&ProxySession::handle_receive_device_id, shared_from_this(),
+      bind(&RelaySession::handle_receive_device_id, shared_from_this(),
            asio::placeholders::error,
            asio::placeholders::bytes_transferred));
 }
 
-void ProxySession::handle_receive_device_id(system::error_code const& error, size_t bytes_transffered)
+void RelaySession::handle_receive_device_id(system::error_code const& error,
+                                            size_t bytes_transffered)
 {
   if (!error)
   {
@@ -177,8 +163,6 @@ void ProxySession::handle_receive_device_id(system::error_code const& error, siz
     auto location_id = dict["LocationID"];
     auto product_id  = dict["ProductID"];
 
-    _tag = 0;
-    
     send_connect();
   } 
   else 
@@ -187,7 +171,7 @@ void ProxySession::handle_receive_device_id(system::error_code const& error, siz
   }
 }
 
-void ProxySession::send_connect()
+void RelaySession::send_connect()
 {
   clear_buffer();
   system::error_code error; _usbmux_socket2.connect(_usbmux_endpoint, error);
@@ -198,26 +182,27 @@ void ProxySession::send_connect()
   dict.add("MessageType", "Connect");
   dict.add("PortNumber", CFInteger(htons(_remote_port)));
   dict.add("ProgName", "tcprelay");
+
   PropertyList plist;
-  auto s = plist.set(dict).to_xml();
+  auto payload = plist.set(dict).to_xml();
   
   _tag++;
   auto header = reinterpret_cast<usbmux_header*>(_mux_buffer_data);
-  header->length  = sizeof(usbmux_header) + uint32_t(s.length());
+  header->length  = sizeof(usbmux_header) + uint32_t(payload.length());
   header->version = 1;
   header->type    = 8;             // 8 means TYPE_PLIST
   header->tag     = _tag;
-  strncpy(_mux_buffer_data + 16, s.c_str(), s.length());
+  strncpy(_mux_buffer_data + 16, payload.c_str(), payload.length());
   
-  ps(header, s);
+  ps(header, payload);
   
   asio::async_write(_usbmux_socket2,
-    asio::buffer(_mux_buffer_data, header->length),
-    bind(&ProxySession::handle_send_connect, shared_from_this(),
-         asio::placeholders::error));
+      asio::buffer(_mux_buffer_data, header->length),
+      bind(&RelaySession::handle_send_connect, shared_from_this(),
+           asio::placeholders::error));
 }
 
-void ProxySession::handle_send_connect(system::error_code const& error)
+void RelaySession::handle_send_connect(system::error_code const& error)
 {
   if (error)
   {
@@ -228,7 +213,7 @@ void ProxySession::handle_send_connect(system::error_code const& error)
   receive_connect_response();
 }
 
-void ProxySession::receive_connect_response()
+void RelaySession::receive_connect_response()
 {
   clear_buffer();
   asio::read(_usbmux_socket2, asio::buffer(_mux_buffer_data, 4));
@@ -237,52 +222,35 @@ void ProxySession::receive_connect_response()
   asio::async_read(_usbmux_socket2,
       asio::buffer(_mux_buffer_data + 4, length - 4),
       asio::transfer_at_least(length - 4),
-      bind(&ProxySession::handle_receive_connect_response, shared_from_this(),
+      bind(&RelaySession::handle_receive_connect_response, shared_from_this(),
            asio::placeholders::error,
            asio::placeholders::bytes_transferred));
 }
 
-void ProxySession::handle_receive_connect_response(system::error_code const& error, size_t bytes_transffered)
+void RelaySession::handle_receive_connect_response(system::error_code const& error,
+                                                   size_t bytes_transffered)
 {
-  if (error)
+  if (!check_response(error))
   {
     cout << "Could not receive connect response usbmux\n";
     return;
   }
 
-  auto header = reinterpret_cast<usbmux_header*>(_mux_buffer_data);
-  if (header->tag != _tag)
-    throw runtime_error("Tag mismatch! cannot start new session!\n");
-
-  auto length = header->length;
-  pr(header, string(_mux_buffer_data + 16, length - 16));
-
-  PListParser parser;
-  parser.init_with_string(string(_mux_buffer_data + 16, length - 16));
-  auto value = parser.get_string("Number", "plist.dict");
-  if (value != "0")
-    throw runtime_error("wrong hello response");
-
   read_from_usbmux();
   read_from_client();
 }
 
-//
-// TODO here
-// why async_read_some fails here?
-//   1. invalid _client_socket
-//   2. async_read_some
-//
-void ProxySession::read_from_client()
+void RelaySession::read_from_client()
 {
   _client_socket.async_read_some(
       asio::buffer(_cli_buffer_data, sizeof(_cli_buffer_data)),
-      bind(&ProxySession::handle_read_from_client, shared_from_this(),
+      bind(&RelaySession::handle_read_from_client, shared_from_this(),
            asio::placeholders::error,
            asio::placeholders::bytes_transferred));
 }
 
-void ProxySession::handle_read_from_client(system::error_code const& error, size_t bytes_transffered)
+void RelaySession::handle_read_from_client(system::error_code const& error,
+                                           size_t bytes_transffered)
 {
   if (!error && bytes_transffered > 0)
   {
@@ -295,16 +263,16 @@ void ProxySession::handle_read_from_client(system::error_code const& error, size
   }
 }
 
-void ProxySession::write_to_usbmux()
+void RelaySession::write_to_usbmux()
 {
   asio::async_write(
-    _usbmux_socket2,
-    asio::buffer(_cli_buffer_data, _cli_buffer_length),
-    bind(&ProxySession::handle_write_to_usbmux, shared_from_this(), 
-         asio::placeholders::error));
+      _usbmux_socket2,
+      asio::buffer(_cli_buffer_data, _cli_buffer_length),
+      bind(&RelaySession::handle_write_to_usbmux, shared_from_this(), 
+           asio::placeholders::error));
 }
 
-void ProxySession::handle_write_to_usbmux(system::error_code const& error)
+void RelaySession::handle_write_to_usbmux(system::error_code const& error)
 {
   if (error)
   {
@@ -315,16 +283,17 @@ void ProxySession::handle_write_to_usbmux(system::error_code const& error)
   read_from_client();
 }
 
-void ProxySession::read_from_usbmux()
+void RelaySession::read_from_usbmux()
 {
   _usbmux_socket2.async_read_some(
       asio::buffer(_mux_buffer_data, sizeof(_mux_buffer_data)),
-      bind(&ProxySession::handle_read_from_usbmux, shared_from_this(),
+      bind(&RelaySession::handle_read_from_usbmux, shared_from_this(),
            asio::placeholders::error,
            asio::placeholders::bytes_transferred));
 }
 
-void ProxySession::handle_read_from_usbmux(system::error_code const& error, size_t bytes_transffered)
+void RelaySession::handle_read_from_usbmux(system::error_code const& error,
+                                           size_t bytes_transffered)
 {
   if (!error && bytes_transffered > 0)
   {
@@ -337,16 +306,16 @@ void ProxySession::handle_read_from_usbmux(system::error_code const& error, size
   }
 }
 
-void ProxySession::write_to_client()
+void RelaySession::write_to_client()
 {
   asio::async_write(
-    _client_socket,
-    asio::buffer(_mux_buffer_data, _mux_buffer_length),
-    bind(&ProxySession::handle_write_to_client, shared_from_this(),
-         asio::placeholders::error));
+      _client_socket,
+      asio::buffer(_mux_buffer_data, _mux_buffer_length),
+      bind(&RelaySession::handle_write_to_client, shared_from_this(),
+           asio::placeholders::error));
 }
 
-void ProxySession::handle_write_to_client(system::error_code const& error)
+void RelaySession::handle_write_to_client(system::error_code const& error)
 {
   if (error)
   {
@@ -357,40 +326,68 @@ void ProxySession::handle_write_to_client(system::error_code const& error)
   read_from_usbmux();
 }
 
+void RelaySession::clear_buffer()
+{
+  memset(_mux_buffer_data, 0x00, sizeof(_mux_buffer_data));
+}
+
+bool RelaySession::check_response(system::error_code const& error)
+{
+  if (error)
+    return false;
+
+  auto  header = reinterpret_cast<usbmux_header*>(_mux_buffer_data);
+  auto  length = header->length;
+  auto version = header->version;
+  auto     tag = header->tag;
+  auto payload = string(_mux_buffer_data + 16, length - 16);
+
+  if (version != 1) 
+    throw runtime_error("version mismatch");
+
+  if (tag != _tag)
+    throw runtime_error("tag mismatch");
+
+  pr(header, payload);
+
+  PListParser parser;
+  parser.init_with_string(payload);
+  auto value = parser.get_string("Number", "plist.dict");
+  if (value != "0")
+    throw runtime_error("wrong hello response");
+
+  return true;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Proxy 이름 다시 만든다.
+//
 //
 ////////////////////////////////////////////////////////////////////////////////
-Proxy::Proxy(asio::io_service& ios, tcp::endpoint const endpoint, uint16_t rport)
+RelayServer::RelayServer(asio::io_service& ios, tcp::endpoint const endpoint, uint16_t rport)
   : _ios(ios)
   , _acceptor(ios, endpoint)
   , _rport(rport)
 {
-  ProxySessionPtr new_session(new ProxySession(_ios, _rport));
+  RelaySessionPtr new_session(new RelaySession(_ios, _rport));
   _acceptor.async_accept(new_session->socket(),
-      bind(&Proxy::handle_accept, this, new_session, asio::placeholders::error));
+      bind(&RelayServer::handle_accept, this, new_session, asio::placeholders::error));
 }
 
-void Proxy::handle_accept(ProxySessionPtr session, system::error_code const& error)
+void RelayServer::handle_accept(RelaySessionPtr session, system::error_code const& error)
 {
   if (error)
   {
-    cerr << "USBMUX Proxy: Cannot accept new connection" << endl;
+    cerr << "USBMUX RelayServer: Cannot accept new connection" << endl;
     return;
   }
 
   session->start();
 
-  ProxySessionPtr new_session(new ProxySession(_ios, _rport));
+  RelaySessionPtr new_session(new RelaySession(_ios, _rport));
   _acceptor.async_accept(new_session->socket(),
-      bind(&Proxy::handle_accept, this, new_session, 
+      bind(&RelayServer::handle_accept, this, new_session, 
            asio::placeholders::error));
-}
-
-void ProxySession::clear_buffer()
-{
-  memset(_mux_buffer_data, 0x00, sizeof(_mux_buffer_data));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
