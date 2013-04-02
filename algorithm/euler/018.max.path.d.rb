@@ -21,12 +21,11 @@ $tri = %w{
 }
 
 class MaxPath
-  attr_reader :max, :grid
+  attr_reader :grid
 
   def initialize iter, size
     @size = size
     @grid = 0.upto(size-1).map { |e| (e+1).times.map { iter.next.to_i } }
-    @max  = 0
   end
 
   def solve_dynamic

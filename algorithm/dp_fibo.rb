@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby1.9
+#!/usr/bin/env ruby2.0
 
 def fibo n
   return n if n <= 1

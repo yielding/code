@@ -1,4 +1,6 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby20
+
+require "pp"
 
 class MaxPath
   attr_reader :max, :grid

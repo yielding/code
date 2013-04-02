@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby2.0
 
 class Fibo
   @@cache = {1=>1, 2=>1}
@@ -13,7 +13,7 @@ class Fibo
 end
 
 f = Fibo.new
-4000.upto(6000) { |p|
+2.upto(6000) { |p|
   s = f.fibo(p).to_s
   if s.size >= 1000
     puts "answer: #{p}"
