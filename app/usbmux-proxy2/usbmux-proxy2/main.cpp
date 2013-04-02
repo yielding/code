@@ -1,7 +1,12 @@
+#include "stdafx.h"
 #include "usbmux2.h"
 #include <iostream>
 
-int main(int argc, const char * argv[])
+#ifdef WIN32
+int _tmain(int argc, _TCHAR* argv[])
+#else
+int main(int argc, char* argv[])
+#endif
 {
   try
   {
