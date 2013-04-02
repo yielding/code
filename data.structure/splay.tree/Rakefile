@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-HOME      = "#{ENV['HOME']}/code/data.structure"
+HOME      = "#{ENV['HOME']}/code/data.structure/splay.tree"
 DEV       = "#{ENV['HOME']}/code/develop"
 APP       = "main"
 APP_TEST  = "test_#{APP}"

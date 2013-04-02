@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby2.0
 
 class MaxPath
   attr_reader :max, :grid
