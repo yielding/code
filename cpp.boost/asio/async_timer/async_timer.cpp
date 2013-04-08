@@ -93,11 +93,14 @@ public:
     
     thread t(bind(&HTMLParser::parse0, this));
 
+    // REMARK 
+    //   below run() is waiting for timer
+    //
     m_io_service.run();
 
     if (m_res == false)
     {
-      cout << "fail to complete the parsing";
+      cout << "fail to complete the parsing\n";
       t.interrupt();
     }
     else

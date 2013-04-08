@@ -17,6 +17,7 @@ void consumer(int i, ofstream& f)
     char buf[50] = { 0 };
     sprintf(buf, "line %d\n", i);
 
+    f    << buf;
     cout << buf;
 }
 

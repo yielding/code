@@ -4,7 +4,7 @@ SRCS      = %w{ ./time_point.cpp }
 TEST_SRCS = %w{ ./test_time_point.cpp }
 APP       = "time_point"
 CXX       = "xcrun"
-CXXFLAGS  = ":d"
+CXXFLAGS  = ":d :O3"
 
 DIR = File.dirname __FILE__
 

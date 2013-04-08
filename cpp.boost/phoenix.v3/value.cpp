@@ -16,6 +16,6 @@ int main(int argc, char const* argv[])
 
   cout << val("Hello")() << endl;
   pr(val(3));
-  
+
   return 0;
 }
