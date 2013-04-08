@@ -4,7 +4,7 @@ SRCS      = %w{ ./print_time.cpp }
 TEST_SRCS = %w{ ./print_time.cpp }
 APP       = "print_time"
 APP_TEST  = "test_print_time"
-CXX       = "clang++"
+CXX       = "xcrun"
 CXXFLAGS  = ":v :Os :w"   # :d , :w=-Wall :O0 :O3
 LDFLAGS   = ""
 LIBS      = ":s :f boost_chrono-mt"

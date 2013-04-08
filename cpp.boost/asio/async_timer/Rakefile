@@ -1,0 +1,11 @@
+# -*- ruby -*-
+
+SRCS      = %w{ ./async_timer.cpp }
+TEST_SRCS = %w{ ./test_async_timer.cpp }
+APP       = "async_timer"
+CXX       = "xcrun"
+LIBS      = ":t :s"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'

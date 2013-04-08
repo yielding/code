@@ -2,7 +2,7 @@ APP       = "driver"
 APP_TEST  = "test_#{APP}"
 SRCS      = %w{ driver.cpp http_client.cpp }
 TEST_SRCS = %w{ test_http_client.cpp }
-CXX       = "c++0x"         # c++0x, clang++, blank
+CXX       = "xcrun"         # c++0x, clang++, blank
 CXXFLAGS  = ":v :d"         # :d , :O0 :O3 :w = -Wall
 LIBS      = ":s :t"
 

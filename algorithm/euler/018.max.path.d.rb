@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby2.0
 
 require "test/unit"
 
@@ -37,7 +37,6 @@ class MaxPath
 
     max[0]
   end
-
 end
 
 class TestMaxPath < Test::Unit::TestCase

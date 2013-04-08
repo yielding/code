@@ -12,5 +12,5 @@ class Fibo
   end
 end
 
-f = Fibo.new()
+f = Fibo.new
 p (1..2000).reduce { |s, n| s + f.fibo(n) }
