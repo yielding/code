@@ -1,0 +1,11 @@
+# -*- ruby -*-
+
+SRCS      = %w{ ./result_of.std.cpp }
+TEST_SRCS = %w{ ./test_result_of.std.cpp }
+APP       = "result_of.std"
+CXX       = "xcrun"
+CXXFLAGS  = ":d"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
