@@ -19,7 +19,7 @@ if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+0x/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+11/
-  $CXX = "xcrun clang++ -stdlib=libc++ " if CXX =~ /xcrun/
+  $CXX = "xcrun clang++ -stdlib=libc++" if CXX =~ /xcrun/
 end
 
 $CXXFLAGS = " -std=c++11 -DPOSIX"
@@ -43,13 +43,12 @@ end
 
 # YRV : YARV 
 YVM     = "/opt/local"
-YVM_INC = "#{YVM}/include/ruby-1.9.1"
+YVM_INC = "#{YVM}/include/ruby-2.0.0"
 
 # YRV : YARV 
 MVM     = "/Users/yielding/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
-RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.3-p0"
 RVM_INC = "#{RVM}/include/ruby-1.9.1"
 RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems"
 RICE    = "#{RVM_GEM}/rice-1.4.3/ruby/lib"
