@@ -1,8 +1,9 @@
 # -*- ruby -*-
 
-SRCS      = %w{ ./functional.cpp }
-TEST_SRCS = %w{ ./test_functional.cpp }
-APP       = "functional"
+SRC       = "functional"
+SRCS      = %W{ ./#{SRC}.cpp }
+TEST_SRCS = %W{ ./test_#{SRC}.cpp }
+APP       = "#{SRC}"
 CXX       = "xcrun"
 #CXXFLAGS  = ":d"
 

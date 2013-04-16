@@ -20,11 +20,13 @@ int main(int argc, char const* argv[])
 {
   S<int> s = { 1, 2, 3, 4, 5 };
 
-  for (auto n: s.v) cout << n << " ";
+  for (auto n: s.v) 
+    cout << n << " ";
+
   cout << endl;
 
   auto it = next(s.v.begin(), 3);
   cout << *it;
-  
+
   return 0;
 }

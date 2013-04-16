@@ -1,8 +1,9 @@
 # -*- ruby -*-
 
-SRCS      = %w{ forward.list.cpp }
-TEST_SRCS = %w{ test_forward.list.cpp }
-APP       = "forward.list"
+SRC       = "vector"
+SRCS      = %W{ #{SRC}.cpp }
+TEST_SRCS = %W{ test_#{SRC}.cpp }
+APP       = "#{SRC}"
 CXX       = "xcrun"
 #CXXFLAGS  = ":d"
 
