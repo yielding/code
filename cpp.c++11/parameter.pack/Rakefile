@@ -1,0 +1,11 @@
+# -*- ruby -*-
+
+SRCS      = %w{ ./parameter_pack.cpp }
+TEST_SRCS = %w{ ./test_parameter_pack.cpp }
+APP       = "parameter_pack"
+CXX       = "xcrun"
+CXXFLAGS  = ":d"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
