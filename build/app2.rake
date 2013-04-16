@@ -49,6 +49,7 @@ YVM_INC = "#{YVM}/include/ruby-2.0.0"
 MVM     = "/Users/yielding/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
+RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.3-p0"
 RVM_INC = "#{RVM}/include/ruby-1.9.1"
 RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems"
 RICE    = "#{RVM_GEM}/rice-1.4.3/ruby/lib"
