@@ -50,7 +50,7 @@ int main()
     using boost::phoenix::local_names::_a;
 
     int x = 10;
-    std::vector<std::vector<int> > v(10);
+    std::vector<std::vector<int>> v(10);
 
     for_each(arg1, 
         lambda(_a = arg2)
@@ -64,7 +64,3 @@ int main()
 
   return 0;
 }
-
-
-
-
