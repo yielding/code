@@ -1,11 +1,11 @@
 # -*- ruby -*-
 
-SRC       = "time_point"
-SRCS      = %W{ ./#{SRC}.cpp }
-TEST_SRCS = %W{ ./test_#{SRC}.cpp }
+SRC       = "forward_as_tuple"
+SRCS      = %W{ #{SRC}.cpp }
+TEST_SRCS = %W{ test_#{SRC}.cpp }
 APP       = "#{SRC}"
 CXX       = "xcrun"
-CXXFLAGS  = ":d :O3"
+#CXXFLAGS  = ":d"
 
 DIR = File.dirname __FILE__
 
