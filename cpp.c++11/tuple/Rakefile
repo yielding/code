@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "forward_as_tuple"
+SRC       = "tie"
 SRCS      = %W{ #{SRC}.cpp }
 TEST_SRCS = %W{ test_#{SRC}.cpp }
 APP       = "#{SRC}"
