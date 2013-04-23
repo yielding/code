@@ -1,0 +1,23 @@
+# -*- ruby -*-
+
+HOME      = "#{ENV['HOME']}/code/data.structure/AVL.tree"
+DEV       = "#{ENV['HOME']}/code/develop"
+APP       = "main"
+APP_TEST  = "test_#{APP}"
+SRCS      = %W{ 
+                #{HOME}/main.cpp 
+              }
+
+TEST_SRCS = %W{ 
+                #{HOME}/test_main.cpp
+              }
+
+INCS      = "#{HOME} #{DEV}/include"
+CXX       = "xcrun"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
+#CXX      = "c++11"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
+CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
+LIBS      = ":s :f"
+
+load "~/code/build/app2.rake"
+
+# task :default => [:test]
