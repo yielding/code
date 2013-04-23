@@ -1,3 +1,6 @@
+#!/usr/bin/env ruby2.0 -wKU
+# encoding: utf-8
+
 class Object
   def depth
     0

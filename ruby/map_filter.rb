@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby2.0
 
 class Array
   def sum
@@ -6,6 +6,6 @@ class Array
   end
 end
 
-p (1..10).select { |e| e < 5 } \
-         .map { |e| e ** 2 } \
+p (1..10).select { |e| e < 5 }
+         .map    { |e| e * e }
          .sum
