@@ -4,7 +4,7 @@ SRCS      = %w{ bind.cpp }
 TEST_SRCS = %w{ test_bind.cpp }
 APP       = "bind"
 CXX       = "xcrun"
-CXXFLAGS  = ":d"
+CXXFLAGS  = ":Os"
 
 DIR = File.dirname __FILE__
 
