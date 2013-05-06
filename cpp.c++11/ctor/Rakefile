@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "accumulate"
+SRC       = "ctor"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
