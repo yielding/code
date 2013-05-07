@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char const* argv[])
 {
-  vector<double> v = { 1.0, 2.0, 3.0, 4.0, 5.0 };
+  vector<double> v = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
 
   auto x = [=](double memo, double x) { return memo + x * x; };
 
