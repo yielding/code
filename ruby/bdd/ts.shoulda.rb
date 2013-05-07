@@ -1,5 +1,5 @@
-#!/usr/bin/env ruby1.9
-# -*- encoding: utf-8 -*-
+#!/usr/bin/env ruby2.0
+# encoding: utf-8
 
 require 'test/unit' 
 require 'shoulda' 

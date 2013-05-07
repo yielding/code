@@ -11,5 +11,4 @@ def fibo n
 end
 
 #1.upto(1000) { |i| p fibo i }
-
 p (1..2000).reduce(0) { |r, n| r + fibo(n) }

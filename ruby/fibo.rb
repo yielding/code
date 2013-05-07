@@ -1,9 +1,7 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby2.0
 
 def fibo n
-  return 1 if n == 1 or n == 2
-
-  fibo(n-1) + fibo(n-2)
+  n < 2 ? n : fibo(n-1) + fibo(n-2)
 end
 
 p fibo 40
