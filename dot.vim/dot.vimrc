@@ -1,6 +1,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" 
 "
-" Last modified : 2012년 6월 27일 수요일 15시 44분 37초 KST by yielding
+" Last modified : 2013년 5월  9일 목요일 13시 08분 26초 KST by yielding
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -293,7 +293,7 @@ endif
 "-----------------------------------------------------------------------------
 nmap ,gc :vimgrep <cword> *.c* *.h *.m *.mm<CR> :copen <CR>
 nmap ,gy :vimgrep <cword> *.py <CR> :copen <CR>
-nmap ,gr :vimgrep <cword> *.py <CR> :copen <CR>
+nmap ,gr :vimgrep <cword> *.rb <CR> :copen <CR>
 
 set grepformat=%f:%l:%m "%f: filename %l: line %m: messgae
 
