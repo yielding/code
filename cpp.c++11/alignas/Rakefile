@@ -1,0 +1,11 @@
+# -*- ruby -*-
+
+SRCS      = %w{ ./alignas.cpp }
+TEST_SRCS = %w{ ./test_alignas.cpp }
+APP       = "alignas"
+CXX       = "xcrun"
+CXXFLAGS  = ":d"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'

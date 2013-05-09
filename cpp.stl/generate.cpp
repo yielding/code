@@ -1,35 +1,15 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
-#include <iterator>
+#include <numeric>
 
 using namespace std;
 
-template <typename Container>
-void p(Container const& v)
-{
-  copy(v.begin(), v.end(), ostream_iterator<int>(cout, " "));
-}
-
-int main0()
+int main()
 {
   vector<int> v(10);
-
-  int i=0; auto gen = [&i](){ i +=1; return i; };
-  generate(v.begin(), v.end(), gen); 
-
-  p(v);
+  // int i=0; generate(v.begin(), v.end(), [&i](){ return ++i; }); 
+  iota(v.begin(), v.end(), 0);
+  for (auto i:v) cout << i << " ";
   
-  return 0;
-}
-
-int main1()
-{
-}
-
-int main(int argc, const char *argv[])
-{
-  main1();
-
   return 0;
 }
