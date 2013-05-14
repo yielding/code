@@ -159,11 +159,11 @@ class ByteBuffer
     value   = 0
     complete = false
 
-    while (byteNo < 9 and byteNo < viBytes.size and not complete)
+    while byteNo < 9 and byteNo < viBytes.size and not complete
       viByte = viBytes[byteNo]
-      if ((viByte & 0b10000000) == 0b10000000 and byteNo < 8)
+      if (viByte & 0b10000000) == 0b10000000 and byteNo < 8
         value = (value << 7) | (viByte & 0b01111111)
-      elsif ((viByte & 0b10000000) == 0b10000000 and byteNo == 8)
+      elsif (viByte & 0b10000000) == 0b10000000 and byteNo == 8
         value = (value << 8) | (viByte)
         complete = true
       else
