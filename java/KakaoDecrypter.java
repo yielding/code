@@ -35,7 +35,6 @@ class DecryptServer {
         if (server == null)
             return false;
 
-System.out.println("0");
         boolean shouldTerminate = false;
         while (true) {
             if (shouldTerminate)
@@ -53,9 +52,9 @@ System.out.println("1.2: reading header");
                 byte header = in.readByte();
 System.out.println("2: header=" + header);
                 switch (header) {
+                    case 0: shouldTerminate = true;        break;
                     case 1: processPingPacket(in, out);    break;
                     case 2: processDecryptPacket(in, out); break;
-                    case 3: shouldTerminate = true;        break;
                 }
 
                 client.close();
@@ -70,6 +69,13 @@ System.out.println("2: header=" + header);
     }
 
     private void processPingPacket(DataInputStream in, DataOutputStream out) {
+        try {
+            byte[] body = readBytes(in, 5);
+            out.writeByte(1);
+            out.write(body, 0, 5);
+            out.flush();
+        } catch(Exception e) {
+        }
     }
 
     private void processDecryptPacket(DataInputStream in, DataOutputStream out) throws Exception {
@@ -89,12 +95,12 @@ System.out.println(new String(salt));
             // 1: ok, 2: fail
             //
             if (plainText != null) {
-                out.writeByte(1);
+                out.writeByte(3);
                 int length = plainText.length;
                 out.writeInt(length);
                 out.write(plainText, 0, length);
             } else {
-                out.writeByte(2);
+                out.writeByte(4);
             }
             out.flush();
 
@@ -106,7 +112,6 @@ System.out.println(new String(salt));
         try {
             byte[]  buffer = new byte[len];
             int actualRead = in.read(buffer);
-
             if (len != actualRead)
                 return null;
 
