@@ -1,5 +1,4 @@
-// TODO
-// package com.gmdmfix.KakaoDecryptor;
+//package com.gmdmfix.KakaoDecryptor;
 
 import java.net.*;
 import java.io.*;
@@ -42,15 +41,11 @@ class DecryptServer {
 
             Socket client = null;
             try {
-System.out.println("1.0 accepting...");
                 client = server.accept();
-System.out.println("1.1: accepted");
                 DataInputStream   in = new DataInputStream (new BufferedInputStream (client.getInputStream()));
                 DataOutputStream out = new DataOutputStream(new BufferedOutputStream(client.getOutputStream()));
 
-System.out.println("1.2: reading header");
                 byte header = in.readByte();
-System.out.println("2: header=" + header);
                 switch (header) {
                     case 0: shouldTerminate = true;        break;
                     case 1: processPingPacket(in, out);    break;
@@ -70,6 +65,10 @@ System.out.println("2: header=" + header);
 
     private void processPingPacket(DataInputStream in, DataOutputStream out) {
         try {
+            int l0 = in.readInt();
+            if (l0 != 5)
+                throw new Exception("wrong ping packet arraibed");
+
             byte[] body = readBytes(in, 5);
             out.writeByte(1);
             out.write(body, 0, 5);
@@ -79,15 +78,12 @@ System.out.println("2: header=" + header);
     }
 
     private void processDecryptPacket(DataInputStream in, DataOutputStream out) throws Exception {
-System.out.println("1");
         try {
             int l0 = in.readInt();
             byte[] cipheredText = readBytes(in, l0);
-System.out.println(new String(cipheredText));
 
             int l1 = in.readInt();
             byte[] salt = readBytes(in, l1);
-System.out.println(new String(salt));
 
             byte[] plainText = decrypter.decrypt(cipheredText, salt);
 

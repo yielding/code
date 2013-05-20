@@ -46,6 +46,7 @@ public class KakaoClient {
             String body = "MDSBC";
             byte[] bodyBytes = body.getBytes("UTF-8");
             out.writeByte(1);
+            out.writeInt(5);
             out.write(bodyBytes, 0, bodyBytes.length);
             out.flush();
             
@@ -68,15 +69,12 @@ public class KakaoClient {
         String cipheredText = "m+oavcl6PVEo1RBcCFlKSQ==";
         String salt = "23303370";
 
-        /*
         for (int i=0; i<10; i++) {
             KakaoClient client = new KakaoClient("172.16.17.1", 7781);
             pl(client.decryptString(cipheredText, salt));
         }
-        */
 
         KakaoClient client = new KakaoClient("172.16.17.1", 7781);
         pl(client.ping());
-
     }
 }
