@@ -42,20 +42,25 @@ class DecryptServer {
 
             Socket client = null;
             try {
+System.out.println("1.0 accepting...");
                 client = server.accept();
+System.out.println("1.1: accepted");
                 DataInputStream   in = new DataInputStream (new BufferedInputStream (client.getInputStream()));
                 DataOutputStream out = new DataOutputStream(new BufferedOutputStream(client.getOutputStream()));
 
+System.out.println("1.2: reading header");
                 byte header = in.readByte();
+System.out.println("2: header=" + header);
                 switch (header) {
+                    case 0: shouldTerminate = true;        break;
                     case 1: processPingPacket(in, out);    break;
                     case 2: processDecryptPacket(in, out); break;
-                    case 3: shouldTerminate = true;        break;
                 }
 
                 client.close();
 
             } catch(Exception e) {
+                e.printStackTrace();
                 break;
             }
         }
@@ -64,19 +69,25 @@ class DecryptServer {
     }
 
     private void processPingPacket(DataInputStream in, DataOutputStream out) {
+        try {
+            byte[] body = readBytes(in, 5);
+            out.writeByte(1);
+            out.write(body, 0, 5);
+            out.flush();
+        } catch(Exception e) {
+        }
     }
 
-    //
-    // TODO refactoring decryt
-    //
     private void processDecryptPacket(DataInputStream in, DataOutputStream out) throws Exception {
-
+System.out.println("1");
         try {
             int l0 = in.readInt();
             byte[] cipheredText = readBytes(in, l0);
+System.out.println(new String(cipheredText));
 
             int l1 = in.readInt();
             byte[] salt = readBytes(in, l1);
+System.out.println(new String(salt));
 
             byte[] plainText = decrypter.decrypt(cipheredText, salt);
 
@@ -84,13 +95,14 @@ class DecryptServer {
             // 1: ok, 2: fail
             //
             if (plainText != null) {
-                out.writeByte(1);
+                out.writeByte(3);
                 int length = plainText.length;
                 out.writeInt(length);
                 out.write(plainText, 0, length);
             } else {
-                out.writeByte(2);
+                out.writeByte(4);
             }
+            out.flush();
 
         } catch(IOException e) {
         }
@@ -100,7 +112,6 @@ class DecryptServer {
         try {
             byte[]  buffer = new byte[len];
             int actualRead = in.read(buffer);
-
             if (len != actualRead)
                 return null;
 
@@ -184,31 +195,33 @@ public class KakaoDecrypter {
     }
 
     public static void main(String[] args) throws Exception {
-        if (args.length != 2) {
-            System.out.println("Wrong no. of argument");
+        /*
+        if (args.length != 1) {
+            System.out.println("usage: java KakaoDecrypter portNo");
+            System.exit(1);
+        }
+        */
+
+        KakaoDecrypter dec = new KakaoDecrypter();
+        DecryptServer server = new DecryptServer(7781, dec);
+
+        System.out.println("Starting decrypt server");
+        if (!server.startServer())
+        {
+            System.out.println("failed to start server");
             System.exit(1);
         }
 
-        KakaoDecrypter dec = new KakaoDecrypter();
-
-/*
-        String encryptedStr = args[0];
-        String saltStr      = args[1];
-*/
-        //byte[] salt  = { 50, 51, 51, 48, 51, 51, 55, 48, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-        // String r0 = dec.encrypt("01027707344", salt);
-        // System.out.println(r0);
-
+        /*
         try
         {
-            //String r1 = dec.decrypt(encryptedStr, saltStr);
         	String r1 = dec.decrypt("m+oavcl6PVEo1RBcCFlKSQ==", "23303370");
             System.out.println(r1);
         }
         catch (Exception ex)
         {
         }
+        */
     }
 }
 
