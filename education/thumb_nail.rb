@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -KU
+#!/usr/bin/env ruby2.0
 
 image = File.binread("1.jpg")
 

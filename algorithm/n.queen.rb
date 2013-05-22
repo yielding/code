@@ -2,7 +2,7 @@
 
 require "set"
 
-n = 4
+n = 8
 a = [*0...n]
 a.permutation.each { |c| 
   s1 = Set.new(c.zip(a).map { |e| e.reduce(:+) }) 

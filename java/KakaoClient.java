@@ -35,7 +35,25 @@ public class KakaoClient {
                 in.read(plainBytes, 0, length);
                 return new String(plainBytes);
             }
+
+            if (packetType == 4) {
+                int length = in.readInt();
+                byte[] plainBytes = new byte[length];
+                in.read(plainBytes, 0, length);
+                return new String(plainBytes);
+            }
+
         } catch(IOException e) {
+        }
+
+        return null;
+    }
+
+    public String terminateServer() {
+        try {
+            out.writeByte(0);
+            out.flush();
+        } catch(Exception e) {
         }
 
         return null;
@@ -49,12 +67,12 @@ public class KakaoClient {
             out.writeInt(5);
             out.write(bodyBytes, 0, bodyBytes.length);
             out.flush();
-            
+
             int reader = in.readByte();
             byte[] bodyBack = new byte[5];
             in.read(bodyBack, 0, 5);
             return new String(bodyBack);
-            
+
         } catch(Exception e) {
         }
 
@@ -68,13 +86,20 @@ public class KakaoClient {
     public static void main(String[] args) {
         String cipheredText = "m+oavcl6PVEo1RBcCFlKSQ==";
         String salt = "23303370";
+        // String salt = "41784962";
 
-        for (int i=0; i<10; i++) {
-            KakaoClient client = new KakaoClient("172.16.17.1", 7781);
+        //KakaoClient client = new KakaoClient("192.168.0.204", 7781);
+        //client.terminateServer();
+        
+        for (int i=0; i<10; i++)
+        {
+            KakaoClient client = new KakaoClient("127.0.0.1", 7781);
             pl(client.decryptString(cipheredText, salt));
         }
 
-        KakaoClient client = new KakaoClient("172.16.17.1", 7781);
-        pl(client.ping());
+        //KakaoClient client = new KakaoClient("172.16.17.1", 7781);
+        //pl(client.ping());
+
+        try { Thread.sleep(1000); } catch(Exception e) { }
     }
 }
