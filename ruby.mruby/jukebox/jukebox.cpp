@@ -139,7 +139,7 @@ mrb_value dvd_initialize(mrb_state* mrb, mrb_value self)
         dvd_free(mrb, dvd);
     }
 
-    if (mrb->ci->argc == 0)
+    if (mrb->c->ci->argc == 0)
         return mrb_nil_value();
 
     mrb_value name; 
@@ -176,7 +176,7 @@ mrb_value dvd_get_name(mrb_state* mrb, mrb_value self)
     return mrb_nil_value();
   }
 
-  return mrb_str_new2(mrb, dvd->name.c_str());
+  return mrb_str_new_cstr(mrb, dvd->name.c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +206,7 @@ mrb_value jb_initialize(mrb_state* mrb, mrb_value self)
   if (jb != nullptr)
     jb_free(mrb, jb);
 
-  if (mrb->ci->argc == 0) // REMARK ci : call info
+  if (mrb->c->ci->argc == 0) // REMARK ci : call info
   {
     // error, ci->argc should be "1" in this class
     return mrb_nil_value();
@@ -258,7 +258,7 @@ mrb_value jb_avg_seek_time(mrb_state* mrb, mrb_value self)
   auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
   assert(jb);
 
-  return mrb_float_value(jb->avg_seek_time());
+  return mrb_float_value(mrb, jb->avg_seek_time());
 }
 
 mrb_value jb_get_dvd_list(mrb_state* mrb, mrb_value self)
@@ -269,7 +269,7 @@ mrb_value jb_get_dvd_list(mrb_state* mrb, mrb_value self)
   // REMARK: getting with reference is very important
   auto& dl = jb->get_dvd_list();
   auto  ar = mrb_ary_new_capa(mrb, dl.size());
-  auto cls = mrb_class_obj_get(mrb, "DVD");
+  auto cls = mrb_class_get(mrb, "DVD");
 
   for (auto it=dl.begin(); it!=dl.end(); ++it)
   {
@@ -292,12 +292,12 @@ mrb_value jb_get_user_list(mrb_state* mrb, mrb_value self)
   auto& ul = jb->get_user_list();
   auto  hs = mrb_hash_new_capa(mrb, ul.size());
 
-  auto cls = mrb_class_obj_get(mrb, "DVD");
+  auto cls = mrb_class_get(mrb, "DVD");
   for (auto it=ul.begin(); it!=ul.end(); ++it)
   {
     auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) &*it));
-    auto key = mrb_str_new2(mrb, it->first.c_str());
-    auto val = mrb_str_new2(mrb, it->second.c_str());
+    auto key = mrb_str_new_cstr(mrb, it->first.c_str());
+    auto val = mrb_str_new_cstr(mrb, it->second.c_str());
 
     mrb_hash_set(mrb, hs, key, val);
   }
@@ -330,7 +330,7 @@ mrb_value ms_get_jukebox(mrb_state* mrb, mrb_value val)
   assert(ms);
 
   mrb_int id; mrb_get_args(mrb, "i", &id);
-  auto cls = mrb_class_obj_get(mrb, "CDJukeBox");
+  auto cls = mrb_class_get(mrb, "CDJukeBox");
   auto jb  = ms->make_jukebox(id);
   return mrb_obj_value(Data_Wrap_Struct(mrb, cls, &jukebox_type, (void*) jb));
 }

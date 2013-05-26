@@ -38,7 +38,7 @@ mrb_value ds_get_file_systems(mrb_state* mrb, mrb_value self)
   for (auto it = fss.begin(); it != fss.end(); ++it)
   {
     auto fs_p = *it;
-    auto key  = mrb_str_new2(mrb, fs_p->name().c_str());
+    auto key  = mrb_str_new_cstr(mrb, fs_p->name().c_str());
     auto fs_r = fs_wrap(mrb, fs_p);
     mrb_hash_set(mrb, hs, key, fs_r);
   }
@@ -54,7 +54,7 @@ mrb_value ds_get_description(mrb_state* mrb, mrb_value self)
   auto desc = str(format("DataStore for %s (%d file systems (%d nodes), %d models)")
         % ds->device_name() % sz % 1024 % 2048);
 
-  return mrb_str_new2(mrb, desc.c_str());
+  return mrb_str_new_cstr(mrb, desc.c_str());
 }
 
 void init_data_store(mrb_state* mrb)

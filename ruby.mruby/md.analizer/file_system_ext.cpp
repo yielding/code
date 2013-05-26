@@ -30,7 +30,7 @@ static struct mrb_data_type fs_type =
 
 mrb_value fs_wrap(mrb_state* mrb, FileSystem* fs)
 {
-  auto cls = mrb_class_obj_get(mrb, "FileSystem");
+  auto cls = mrb_class_get(mrb, "FileSystem");
   return mrb_obj_value(Data_Wrap_Struct(mrb, cls, &fs_type, (void*)fs));
 }
 
@@ -40,7 +40,7 @@ mrb_value fs_initialize(mrb_state* mrb, mrb_value self)
   if (fs != nullptr)
     fs_free(mrb, fs);
 
-  if (mrb->ci->argc == 0)
+  if (mrb->c->ci->argc == 0)
     return mrb_nil_value();
 
   mrb_value name; mrb_get_args(mrb, "S", &name);
@@ -55,7 +55,7 @@ mrb_value fs_get_name(mrb_state* mrb, mrb_value self)
   auto fs = (FileSystem*)mrb_check_datatype(mrb, self, &fs_type);
   assert(fs);
 
-  return mrb_str_new2(mrb, fs->name().c_str());
+  return mrb_str_new_cstr(mrb, fs->name().c_str());
 }
 
 void init_file_system(mrb_state* mrb)

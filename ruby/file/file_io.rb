@@ -9,7 +9,7 @@ class TestBinaryFile < Test::Unit::TestCase
   end
 
   def teardown
-    #File.delete(@fname) if File.exists?(@fname)
+    File.delete(@fname) if File.exists?(@fname)
   end
 
   def test_write_with_seek

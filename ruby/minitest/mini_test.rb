@@ -1,8 +1,8 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby2.0
 
 require "minitest/autorun"
 
-class FooTest < MiniTest::Unit::TestCase
+class FooTest < MiniTest::Test
   WIN32 = true
 
   def test_foo
