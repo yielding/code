@@ -6,6 +6,8 @@ using namespace std;
 class ICoffee
 {
 public:
+  virtual ~ICoffee() = default;  
+
   virtual double cost() = 0;
   virtual string ingredient() = 0; 
 };
@@ -108,6 +110,8 @@ int main(int argc, char const* argv[])
   ICoffee* coffee = new Sprinkles(new Milk(new SimpleCoffee()));
   cout << coffee->cost() << endl;
   cout << coffee->ingredient() << endl;
+
+  delete coffee;
 
   return 0;
 }
