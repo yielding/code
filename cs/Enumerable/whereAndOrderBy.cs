@@ -7,7 +7,7 @@ class CSharpApp
 {
     public class Student
     {
-        public int Age { get; set; }
+        public int    Age  { get; set; }
         public string Name { get; set; }
     }
 
@@ -21,11 +21,8 @@ class CSharpApp
             new Student() { Age=21, Name="kyung" }
         };
 
-        var ss = students.Where(x=>x.Age > 20)
-                         .OrderBy(x=>x.Name).ToList();
-
-        foreach(var s in ss) {
-            Console.WriteLine(s.Name);
-        }
+        students.Where  (e => e.Age > 20)
+                .OrderBy(e => e.Name)
+                .ForEach(e => Console.WriteLine(e.Name));
     }
 }
