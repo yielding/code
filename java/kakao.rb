@@ -36,7 +36,9 @@ kakao = KakaoClient.new()
 # decrypt
 ciphered = "m+oavcl6PVEo1RBcCFlKSQ=="
 salt     = "23303370"
-print kakao.decrypt(ciphered, salt)
+100000.times { |i|
+  printf "%d, %s\n", i, kakao.decrypt(ciphered, salt)
+}
 
 # kill server
 # kakao.kill_server

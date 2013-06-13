@@ -84,20 +84,19 @@ public class KakaoClient {
     }
 
     public static void main(String[] args) {
+
         String cipheredText = "m+oavcl6PVEo1RBcCFlKSQ==";
         String salt = "23303370";
-        // String salt = "41784962";
 
-        //KakaoClient client = new KakaoClient("192.168.0.204", 7781);
-        //client.terminateServer();
-        
+        KakaoClient client = new KakaoClient("127.0.0.1", 7781);
+
         for (int i=0; i<10; i++)
         {
-            KakaoClient client = new KakaoClient("127.0.0.1", 7781);
+            System.out.print(i + " ");
             pl(client.decryptString(cipheredText, salt));
         }
 
-        //KakaoClient client = new KakaoClient("172.16.17.1", 7781);
+        client.terminateServer();
         //pl(client.ping());
 
         try { Thread.sleep(1000); } catch(Exception e) { }

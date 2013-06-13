@@ -1,4 +1,4 @@
-//package com.gmdmfix.KakaoDecryptor;
+package com.gmdmfix.KakaoDecryptor;
 
 import java.net.*;
 import java.io.*;
@@ -47,24 +47,27 @@ class DecryptServer {
             DataOutputStream out = null;
             try {
                 client = server.accept();
-                in = new DataInputStream (new BufferedInputStream (client.getInputStream()));
+                in  = new DataInputStream (new BufferedInputStream (client.getInputStream()));
                 out = new DataOutputStream(new BufferedOutputStream(client.getOutputStream()));
 
-                byte header = in.readByte();
-                switch (header) {
-                    case 0: shouldTerminate = true;        break;
-                    case 1: processPingPacket(in, out);    break;
-                    case 2: processDecryptPacket(in, out);  
-                            // DEBUG Point
-                            // System.out.println("Success!");
-                            break;
-                    case 5: processPCHDecryptPacket(in, out); 
-                            // DEBUG Point
-                            // System.out.println("Success!");
-                            break;
+                while (true)
+                {
+                    byte header = in.readByte();
+                    switch (header) {
+                        case 0: shouldTerminate = true;        break;
+                        case 1: processPingPacket(in, out);    break;
+                        case 2: processDecryptPacket(in, out);  
+                                // DEBUG Point
+                                // System.out.println("Success!");
+                                break;
+                        case 5: processPCHDecryptPacket(in, out); 
+                                // DEBUG Point
+                                // System.out.println("Success!");
+                                break;
+                    }
                 }
 
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // e.printStackTrace();
                 // DEBUG Point
                 // System.out.println("Error! data : " + tmpCiperedText + ", salt: " + tmpSalt);
@@ -190,6 +193,8 @@ public class KakaoDecryptor {
 
     public byte[] decryptPCH(byte[] ciphered) throws Exception {
         byte[] saltBytes = { 12, 10, -8, -43, -12, 44, 5, -8, -32, 7, 34, -24, -2, 3, 33, -33 };
+        // TODO
+        // byte[] saltBytes = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; 
         return decrypt(ciphered, saltBytes, 2);
     }
 
@@ -214,8 +219,21 @@ public class KakaoDecryptor {
         byte[] iv = (choice == 1) ? iv1 : iv2;
 
         d.init(2, localSecretKeySpec, new IvParameterSpec(iv));
+        byte[] decryptedBytes = Base64.decodeToBytes(cipheredText);
 
-        return d.doFinal(Base64.decodeToBytes(cipheredText));
+        int remainder = decryptedBytes.length % 16;
+        if (remainder != 0)
+        {
+            byte[] paddedRes = new byte[decryptedBytes.length + (16 - remainder)];
+            for (int i=0; i<paddedRes.length; i++)
+                paddedRes[i] = (i < decryptedBytes.length) ? decryptedBytes[i] : 0;
+
+            return d.doFinal(paddedRes);
+        }
+        else
+        {
+            return d.doFinal(decryptedBytes);
+        }
     }
 
     private SecretKeySpec getLocalSecretKeySpec(byte[] salt, int choice) {

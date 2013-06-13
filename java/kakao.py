@@ -27,12 +27,11 @@ kakao = KakaoClient()
 print kakao.ping()
 """
 
-""" decrypt
 kakao = KakaoClient()
 ciphered = "m+oavcl6PVEo1RBcCFlKSQ=="
 salt     = "23303370"
-print kakao.decrypt(ciphered, salt)
-"""
+for i in xrange(100000):
+    print "%d, %s" % (i, kakao.decrypt(ciphered, salt))
 
 """ terminate
 kakao = KakaoClient()

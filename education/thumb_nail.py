@@ -3,6 +3,9 @@
 import sys
 
 def search(image, pattern, offset):
+    if len(image) < len(pattern):
+        return -1
+
     for i in xrange(offset, len(image) - len(pattern)):
         image_block = image[i: i + len(pattern)]
         if pattern == image_block:
