@@ -59,6 +59,19 @@ public class KakaoClient {
         return null;
     }
 
+    public void close() {
+        try {
+            if (this.socket != null)
+            {
+                socket.close();
+                socket = null;
+            }
+        } catch(Exception e) {
+System.out.println("socket close error");
+        }
+System.out.println("socket close ok");
+    }
+
     public String ping() {
         try {
             String body = "MDSBC";
@@ -90,15 +103,19 @@ public class KakaoClient {
 
         KakaoClient client = new KakaoClient("127.0.0.1", 7781);
 
-        for (int i=0; i<10; i++)
+        for (int i=0; i<1000000; i++)
         {
             System.out.print(i + " ");
             pl(client.decryptString(cipheredText, salt));
+            if (i % 10 == 9)
+                try { Thread.sleep(1000); } catch(Exception e) { }
         }
 
-        client.terminateServer();
-        //pl(client.ping());
+pl("try to close conn");
+        client.close();
+try { Thread.sleep(1000); } catch(Exception e) { }
 
-        try { Thread.sleep(1000); } catch(Exception e) { }
+
+        try { Thread.sleep(5000); } catch(Exception e) { }
     }
 }

@@ -47,31 +47,45 @@ class DecryptServer {
             DataOutputStream out = null;
             try {
                 client = server.accept();
+                // NOTICE
+                // client.setSoTimeout(3 * 1000);
                 in  = new DataInputStream (new BufferedInputStream (client.getInputStream()));
                 out = new DataOutputStream(new BufferedOutputStream(client.getOutputStream()));
 
-                while (true)
-                {
-                    byte header = in.readByte();
-                    switch (header) {
-                        case 0: shouldTerminate = true;        break;
-                        case 1: processPingPacket(in, out);    break;
-                        case 2: processDecryptPacket(in, out);  
-                                // DEBUG Point
-                                // System.out.println("Success!");
-                                break;
-                        case 5: processPCHDecryptPacket(in, out); 
-                                // DEBUG Point
-                                // System.out.println("Success!");
-                                break;
-                    }
+                while (true) {
+                    if (shouldTerminate)
+                        break;
+
+                    int header = (int)in.readByte();
+                    try {
+                        switch (header) {
+                            case 0: shouldTerminate = true;        break;
+                            case 1: processPingPacket(in, out);    break;
+                            case 2: processDecryptPacket(in, out);  
+                                    // DEBUG Point
+                                    // System.out.println("Success!");
+                                    break;
+                            case 5: processPCHDecryptPacket(in, out); 
+                                    // DEBUG Point
+                                    // System.out.println("Success!");
+                                    break;
+                            default:
+                                    System.out.println("unkown protocol header : " + header);
+                                    break;
+                        }
+
+                    } catch(Exception e) {
+                        // e.printStackTrace();
+                        // DEBUG Point
+                        System.out.println("Error : " + e.getMessage());
+                        processErrorPacket(in, out, e.getMessage());
+                    } 
                 }
 
+            } catch (SocketTimeoutException e) {
+                System.out.print("Connection Closeed by timeout");
+                try { client.close(); } catch(Exception ex) {}
             } catch (Exception e) {
-                // e.printStackTrace();
-                // DEBUG Point
-                // System.out.println("Error! data : " + tmpCiperedText + ", salt: " + tmpSalt);
-                processErrorPacket(in, out, e.getMessage());
             } finally {
                 try { client.close(); } catch(Exception ex) {}
             }
