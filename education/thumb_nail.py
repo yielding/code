@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 import sys
 
 def search(image, pattern, offset):
