@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby20
+#!/usr/bin/env ruby2.0
 
 module NumberQuery
   refine String do

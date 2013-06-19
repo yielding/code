@@ -39,6 +39,11 @@ class HFSFile
     f.close
   end
 
+  def read_all_buffer2(truncate=true)
+    r = (0...@total_blocks).reduce("") { |m, i| m + self.read_block_at i }
+    truncate ? r.slice(0, @logical_size) : r
+  end
+
   def read_all_buffer(truncate=true)
     r = ""
     0.upto(@total_blocks-1) { |i| r += self.read_block_at i  }

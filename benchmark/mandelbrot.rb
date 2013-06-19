@@ -26,7 +26,7 @@ class Iterator
 		zr = 0.0
 		i = 0
 		
-		while (1)
+		while true
 			i += 1
 			temp = zr * zi
 			zr2 = zr * zr

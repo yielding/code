@@ -4,7 +4,7 @@ SRCS      = %w{ ./addressof.cpp }
 TEST_SRCS = %w{ ./test_addressof.cpp }
 APP       = "addressof"
 CXX       = "xcrun"
-CXXFLAGS  = ":d"
+CXXFLAGS  = ":Os"
 
 DIR = File.dirname __FILE__
 

@@ -5,7 +5,7 @@ SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
 CXX       = "xcrun"
-#CXXFLAGS  = ":d"
+CXXFLAGS  = ":Os"
 
 DIR = File.dirname __FILE__
 

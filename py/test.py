@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import string
+
 square = lambda x: x*x
 is_odd = lambda x: x%2 == 1
 
@@ -10,3 +12,4 @@ print v
 # or 
 print sum(map(lambda x:x*x, 
               filter(lambda x:x%2==1, range(10))))
+

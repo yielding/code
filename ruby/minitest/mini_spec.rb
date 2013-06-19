@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby2.0
 
 require "minitest/spec"
 require "minitest/autorun"

@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby20
+#!/usr/bin/env ruby2.0
 
 def wrap(string, before:"<", after: ">")
   "#{before}#{string}#{after}"

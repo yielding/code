@@ -22,7 +22,6 @@ int main(int argc, const char * argv[])
   function<void(int)> f_display = print_num;
   f_display(-9);
 
-  // function<void()> f_display_42 = []() { print_num(42); };
   auto f_display_42 = []() { print_num(42); };
   f_display_42();
 

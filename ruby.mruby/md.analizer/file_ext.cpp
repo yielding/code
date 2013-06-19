@@ -30,7 +30,7 @@ mrb_value fi_initialize(mrb_state* mrb, mrb_value self)
   if (fi != nullptr)
     fi_free(mrb, fi);
 
-  if (mrb->ci->argc == 0)
+  if (mrb->c->ci->argc == 0)
     return mrb_nil_value();
 
   mrb_value path; mrb_get_args(mrb, "S", &path);
@@ -43,19 +43,19 @@ mrb_value fi_initialize(mrb_state* mrb, mrb_value self)
 mrb_value fi_get_name(mrb_state* mrb, mrb_value self)
 {
   auto fi = (File*)mrb_check_datatype(mrb, self, &fi_type); assert(fi);
-  return mrb_str_new2(mrb, fi->name().c_str());
+  return mrb_str_new_cstr(mrb, fi->name().c_str());
 }
 
 mrb_value fi_get_path(mrb_state* mrb, mrb_value self)
 {
   auto fi = (File*)mrb_check_datatype(mrb, self, &fi_type); assert(fi);
-  return mrb_str_new2(mrb, fi->path().c_str());
+  return mrb_str_new_cstr(mrb, fi->path().c_str());
 }
 
 mrb_value fi_get_parent(mrb_state* mrb, mrb_value self)
 {
   auto fi = (File*)mrb_check_datatype(mrb, self, &fi_type); assert(fi);
-  return mrb_str_new2(mrb, fi->parent().c_str());
+  return mrb_str_new_cstr(mrb, fi->parent().c_str());
 }
 
 mrb_value fi_get_size(mrb_state* mrb, mrb_value self)

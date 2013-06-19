@@ -3,7 +3,7 @@
 SRCS     = %w{ libssh.cpp }
 APP      = "libssh"
 TEST_APP = "test_libssh"
-CXX      = "c++0x"    # c++0x, clang++, blank
+CXX      = "xcrun"
 CXXFLAGS = ":v :Os"
 LIBS     = ":s :f ssh"
 

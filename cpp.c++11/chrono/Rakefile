@@ -1,11 +1,11 @@
 # -*- ruby -*-
 
-SRC       = "time_point"
+SRC       = "set_vector"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
 CXX       = "xcrun"
-CXXFLAGS  = ":d :O3"
+CXXFLAGS  = ":Os"
 
 DIR = File.dirname __FILE__
 

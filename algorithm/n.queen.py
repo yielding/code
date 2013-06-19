@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#encoding: utf-8
 
 from itertools import permutations
 
@@ -10,4 +9,4 @@ for v in permutations(cols):
   l2 = len(set(v[i] - i for i in cols))  # 같은 대각선에 있는 놈들은 같은 값을 가진다.
                                          # 기울기의 절대값이 1인것이 아이디어
   if (l1 == l2 == n):
-      print "%d, [%s]" % (n, str(v))
+      print v
