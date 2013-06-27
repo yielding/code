@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby2.0
+#!/usr/bin/env ruby
 #-*- coding:utf-8 -*-
 # encoding: utf-8
 

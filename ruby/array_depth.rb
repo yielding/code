@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby2.0 -wKU
+#!/usr/bin/env ruby -wKU
 # encoding: utf-8
 
 class Object

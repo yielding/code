@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby2.0 -wKU
+#!/usr/bin/env ruby -wKU
 
 #
 # This function will be used in the ByteBuffer

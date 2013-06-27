@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19 -wKU
+#!/usr/bin/env ruby -wKU
 
 r = rand(100)
 a = [*1..100]

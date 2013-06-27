@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby
 
 #[*1..4].permutation.each { |e| p e }
 

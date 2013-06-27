@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby2.0
+#!/usr/bin/env ruby
 
 def Integer.all
   Enumerator.new do |yielder, n: 0|

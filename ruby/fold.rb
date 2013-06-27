@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby2.0
+#!/usr/bin/env ruby
 
 def fold (seq, prev, &action)
   if seq.empty?
