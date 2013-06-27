@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby2.0
+#!/usr/bin/env ruby
 # encoding: utf-8
 
 class TennisScorer
