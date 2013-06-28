@@ -1,0 +1,4 @@
+group :development do
+    gem 'guard'
+    gem 'ruby_gntp'
+end
