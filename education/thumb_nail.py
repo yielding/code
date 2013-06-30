@@ -38,5 +38,3 @@ try:
 
 except IOError:
     print >> sys.stderr, "cannot open file"
-
-# print hex(ord(image[0]))

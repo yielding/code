@@ -93,7 +93,7 @@ class ByteBuffer
     arr = Array.new(size)
     0.upto(size-1) { |i| arr[i] = @buffer[@pos+i] }
     @pos += size
-    arr.pack("C*")
+    return arr.pack("C*")
   end
 
   def get_binary(size)
@@ -189,7 +189,7 @@ class ByteBuffer
     res
   end
 
-  def get_varint
+  def get_varint_with_size
     viBytes = @buffer[@pos..-1]
     byteNo  = 0
     value   = 0
@@ -212,6 +212,11 @@ class ByteBuffer
     @pos += byteNo
 
     raise "No valid varint found" unless complete
+    return value, byteNo
+  end
+
+  def get_varint
+    value, byteNo = get_varint_with_size
     return value
   end
 

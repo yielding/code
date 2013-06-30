@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-require_relative "byte_buffer"
+require "byte_buffer"
+require "ostruct"
+require "pp"
 
 module SQLite
   class DatabaseHeader
@@ -51,36 +53,81 @@ module SQLite
     end
   end
 
+  # REMARK
+  # 생각보다 클래스 이름을 식별하기 힘드는 군
+  # PageHeader안에 Cell을 다 넣으면 이상한 것. 어떻게 클래스를 분리할 지 생각
+  #
   class PageHeader
+    attr_reader :no_of_cells, :right_pointer
+    attr_reader :first_cell_offset
+    attr_reader :cells
+
     def initialize(buffer, offset=0)
-      b = ByteBuffer.new(buffer)
+      b = ByteBuffer.new(buffer, offset)
 
       @flag = b.get_int1
       @offset_first_free_block = b.get_uint2_be
       @no_of_cells             = b.get_uint2_be
-      @offset_first_cell_contents_area = b.get_uint2_be
+      @first_cell_offset       = b.get_uint2_be
       @no_of_fragmented_free_bytes     = b.get_int1
-      if (interior_index? || interior_table?)
-        @right_pointer = b.get_uint4_be
+      @right_pointer = b.get_uint4_be if interior_index? or interior_table?
+
+      # TODO
+      # 각각의 record로 refactoring
+      @cells = []
+      @no_of_cells.times { |n| @cells[n] = b.get_uint2_be }
+    end
+
+    def leaf_table?;     @flag == 0x0d end
+    def leaf_index?;     @flag == 0x0a end
+    def interior_table?; @flag == 0x05 end
+    def interior_index?; @flag == 0x02 end
+  end
+
+  class TableInternalRecord
+    attr_reader :pointer
+    attr_reader :key
+
+    def initialize(buffer, offset)
+      b = ByteBuffer.new(buffer, offset)
+      @pointer = b.get_uint4_be
+      @key = b.get_varint
+    end
+  end
+
+  class TableLeafRecord
+    attr_reader :length, :rid, :size
+    attr_reader :column_types, :fields
+
+    def initialize(buffer, offset=0)
+      b = ByteBuffer.new(buffer, offset)
+      @length, sz0 = b.get_varint_with_size
+      @rid, sz1    = b.get_varint_with_size
+      @size = length + sz0 + sz1
+      @column_types = []
+      @fields       = []
+      hdr_len, sz = b.get_varint_with_size
+      left = hdr_len - sz
+      while left > 0
+        len, sz = b.get_varint_with_size
+        @column_types << len
+        left -= sz
       end
+
+      @column_types.each { |col| @fields << field_from(col, b) }
     end
 
-    def leaf_table?
-      @flag == 0x0d
+    def field_from(serial, b)
+      return b.get_int1    if serial == 1
+      return b.get_int2_be if serial == 2
+      return b.get_int3_be if serial == 3
+      return b.get_int4_be if serial == 4
+      return b.get_int6_be if serial == 5
+      return b.get_int8_be if serial == 6
+      return b.get_int8_be if serial == 7
+      return b.get_string((serial - 12) / 2) if serial >= 12 and serial.even?
+      return b.get_string((serial - 13) / 2) if serial >= 13 and serial.odd?
     end
-
-    def leaf_index?
-      @flag == 0x0a
-    end
-
-    def interior_table?
-      @flag == 0x05
-    end
-
-    def interior_index?
-      @flag == 0x02
-    end
-
   end
 
 end

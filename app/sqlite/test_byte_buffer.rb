@@ -61,8 +61,6 @@ class TestByteBuffer < Test::Unit::TestCase
     assert_raise(IndexError) { @b.get_int2_le }
   end
 
-
-
 =begin rdoc
 
     @b.reset
