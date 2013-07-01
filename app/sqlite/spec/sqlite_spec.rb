@@ -5,10 +5,11 @@ describe SQLite do
     before (:each) do
       @path = "/Users/yielding/Desktop/work/KakaoTalk.db"
       File.exists?(@path).should == true
-      @header = File.binread(@path, 0x1000)
-      @header.length.should == 0x1000
+      @root_page = File.binread(@path, 0x1000)
+      @root_page.length.should == 0x1000
 
-      @dh = SQLite::DatabaseHeader.new(@header)
+      @dh = SQLite::DatabaseHeader.new(@root_page)
+      @ph = SQLite::PageHeader.new(@root_page, 100)
     end
 
     it "should be the same as" do
@@ -32,23 +33,19 @@ describe SQLite do
       @dh.sqlite_version_no.should == 0x002de21d
     end
 
-    it "should read root page" do
-      ph = SQLite::PageHeader.new(@header, 100)
-      ph.interior_table?.should == true
-      ph.no_of_cells.should == 1
-      ph.right_pointer.should == 0x67
-      ph.cells.length.should == 1
-      offset = ph.first_cell_offset
-      r0 = SQLite::TableInternalRecord.new(@header, offset)
-      r0.pointer.should == 0x68
-      r0.key.should == 0x0d
+    it "should read root page header like this" do
+      @ph.interior_table?.should == true
+      @ph.no_of_cells.should == 1
+      @ph.right_pointer.should == 0x67
+      @ph.cells.length.should == 1
     end
 
-    it "should read master records" do
-      ph = SQLite::PageHeader.new(@header, 100)
+    it "should read all records except right_most pointer" do
+      offset = @ph.first_cell_offset
+      r0 = SQLite::TableInternalRecord.new(@root_page, offset)
+      r0.pointer.should == 0x68
+      r0.key.should == 0x0d
 
-      offset = ph.first_cell_offset
-      r0 = SQLite::TableInternalRecord.new(@header, offset)
       lp_addr = (r0.pointer - 1) * @dh.page_size
       lp_addr.should == 0x67000
       page = File.binread(@path, 0x1000, lp_addr)
@@ -56,30 +53,43 @@ describe SQLite do
       p68.leaf_table?.should == true
       p68.no_of_cells.should == 0x0d
 
-      offset = 0
       for i in 0...p68.no_of_cells
         offset = p68.cells[i]
         r0 = SQLite::TableLeafRecord.new(page, offset)
-        p r0.fields[0]
-        p r0.fields[1]
-        p r0.fields[2]
-        p r0.fields[3]
-        p r0.fields[4]
+        #p r0.fields[0..4]
       end
+    end
 
-      #offset = p68.first_cell_offset
-      #r0 = SQLite::TableLeafRecord.new(page, offset)
-      #r0.fields[0].should == "table"
-      #r0.fields[1].should == "chat_rooms"
-      #r0.fields[2].should == "chat_rooms"
-      #r0.fields[3].should == 15
+    it "should read right master records" do
+      rp_addr = (@ph.right_pointer - 1) * @dh.page_size
+      page = File.binread(@path, 0x1000, rp_addr)
+      p67 = SQLite::PageHeader.new(page)
+      p67.leaf_table?.should == true
+      p67.no_of_cells.should == 0x1a
 
-      #offset += r0.size
-      #p offset.to_s(16)
-      #r1 = SQLite::TableLeafRecord.new(page, offset)
-      #p r1.fields[0]
-      #p r1.fields[1]
-      #p r1.fields[2]
+      offset = 0
+      for i in 0...p67.no_of_cells
+        offset = p67.cells[i]
+        r0 = SQLite::TableLeafRecord.new(page, offset)
+        #p r0.fields[0..4]
+      end
     end
   end
+
+  context "DB Header" do
+    before (:each) do
+      @path   = "/Users/yielding/Desktop/work/KakaoTalk.db"
+      @sqlite = SQLite::SQLiteAnalyzer.new(@path)
+    end
+
+    it "should contain tables" do
+      tables = [ "android_metadata", "schema_migrations", "ip_table", "friends",
+                 "sqlite_sequence", "chat_rooms", "chat_logs", "chat_sending_logs",
+                 "recently_emoticons", "item", "item_resource", "track_logs",
+                 "wifi_cache", "wifi_cache_bssid", "apps" ]
+      #pp @sqlite.table_names.should 
+
+    end
+  end
+
 end

@@ -49,6 +49,5 @@ describe ByteBuffer do
       @bb.pos = 7
       expect { @bb.get_uint2_le }.to raise_error(IndexError)
     end
-
   end
 end

@@ -53,10 +53,6 @@ module SQLite
     end
   end
 
-  # REMARK
-  # 생각보다 클래스 이름을 식별하기 힘드는 군
-  # PageHeader안에 Cell을 다 넣으면 이상한 것. 어떻게 클래스를 분리할 지 생각
-  #
   class PageHeader
     attr_reader :no_of_cells, :right_pointer
     attr_reader :first_cell_offset
@@ -69,11 +65,9 @@ module SQLite
       @offset_first_free_block = b.get_uint2_be
       @no_of_cells             = b.get_uint2_be
       @first_cell_offset       = b.get_uint2_be
-      @no_of_fragmented_free_bytes     = b.get_int1
-      @right_pointer = b.get_uint4_be if interior_index? or interior_table?
+      @no_of_fragmented_free_bytes = b.get_int1
+      @right_pointer               = b.get_uint4_be if interior_index? or interior_table?
 
-      # TODO
-      # 각각의 record로 refactoring
       @cells = []
       @no_of_cells.times { |n| @cells[n] = b.get_uint2_be }
     end
@@ -92,6 +86,10 @@ module SQLite
       b = ByteBuffer.new(buffer, offset)
       @pointer = b.get_uint4_be
       @key = b.get_varint
+    end
+
+    def to_s
+      "pointer: 0x#{@pointer.to_s(16)}, key: 0x#{@key.to_s(16)}" 
     end
   end
 
@@ -124,12 +122,68 @@ module SQLite
       return b.get_int4_be if serial == 4
       return b.get_int6_be if serial == 5
       return b.get_int8_be if serial == 6
-      return b.get_int8_be if serial == 7
+      return b.get_int8_be if serial == 7  # TODO return as double
+      return 0             if serial == 8
+      return 1             if serial == 9
       return b.get_string((serial - 12) / 2) if serial >= 12 and serial.even?
       return b.get_string((serial - 13) / 2) if serial >= 13 and serial.odd?
     end
   end
+  
+  class SQLiteAnalyzer
+    attr_reader :schemas
 
+    def initialize path
+      raise Exception.new("File not exist") unless File.exists?(path)
+      @path = path
+
+      root_page  = File.binread(path, 0x1000)
+      @db_header = SQLite::DatabaseHeader.new(root_page)
+      @page_size = @db_header.page_size
+      @schemas   = read_schema(1)
+    end
+
+    def table_names
+      @schemas.select { |schema| schema.type == "table" }
+              .map    { |schema| schema.name }
+    end
+
+    private
+    def read_schema(page_no)
+      schemas = []
+      page    = read_page(page_no)
+      offset  = page_no == 1 ? 100 : 0
+      phdr    = PageHeader.new(page, offset)
+      if phdr.interior_table?
+        # 1. all records except right_most one
+        phdr.no_of_cells.times do |i|
+          ir = TableInternalRecord.new(page, phdr.cells[i])
+          schemas += read_schema(ir.pointer)
+        end
+
+        # 2. right_most record
+        schemas += read_schema(phdr.right_pointer)
+      elsif phdr.leaf_table?
+        phdr.no_of_cells.times do |i|
+          leaf = TableLeafRecord.new(page, phdr.cells[i])
+          schema = OpenStruct.new
+          schema.type      = leaf.fields[0]
+          schema.name      = leaf.fields[1]
+          schema.tbl_name  = leaf.fields[2]
+          schema.root_page = leaf.fields[3]
+          schema.sql       = leaf.fields[4]
+          schemas << schema
+        end
+      end
+
+      return schemas
+    end
+
+    def read_page(page_no)
+      addr = (page_no - 1) * @page_size
+      File.binread(@path, @page_size, addr)
+    end
+  end
 end
 
 if __FILE__ == $PROGRAM_NAME
