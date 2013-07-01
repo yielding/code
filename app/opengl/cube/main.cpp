@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 
 #ifdef __APPLE__
 #include <OpenGL/OpenGL.h>
