@@ -6,10 +6,11 @@ hdr : row ;
 row : field (',' field)* '\r'? '\n' ;
 
 field
-    :   TEXT	# text
+    :   TEXT	  # text
     |   STRING	# string
-    |		# empty
+    |		        # empty
     ;
 
 TEXT : ~[,\n\r"]+ ;
 STRING : '"' ('""'|~'"')* '"' ;
+
