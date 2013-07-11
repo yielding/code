@@ -65,14 +65,14 @@ exprList : expr (',' expr)* ;   // arg list
 K_FLOAT : 'float';
 K_INT   : 'int';
 K_VOID  : 'void';
-ID  :   LETTER (LETTER | [0-9])* ;
-fragment
-LETTER : [a-zA-Z] ;
+ID      :   LETTER (LETTER | [0-9])* ;
+  fragment
+LETTER  : [a-zA-Z] ;
 
-INT :   [0-9]+ ;
+INT     :   [0-9]+ ;
 
-WS  :   [ \t\n\r]+ -> skip ;
+WS      :   [ \t\n\r]+ -> skip ;
 
 SL_COMMENT
-    :   '//' .*? '\n' -> skip
-    ;
+        :   '//' .*? '\n' -> skip
+        ;
