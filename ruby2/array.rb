@@ -1,3 +1,3 @@
-#!/usr/bin/env ruby2.0
+#!/usr/bin/env ruby
 
 p %i{hurray huzzah whoop}   #=> [:hurray, :huzzah, :whoop]
