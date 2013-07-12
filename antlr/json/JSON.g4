@@ -2,32 +2,38 @@
 
 grammar JSON;
 
-json:   object
+json
+    :   object
     |   array
     ;
 
 object
-    :   '{' pair (',' pair)* '}'
-    |   '{' '}' // empty object
+    :   '{' pair (',' pair)* '}'   # AnObject
+    |   '{' '}'                    # EmptyObject
     ;
-pair:   STRING ':' value ;
+
+pair
+    :   STRING ':' value 
+    ;
 
 array
-    :   '[' value (',' value)* ']'
-    |   '[' ']' // empty array
+    :   '[' value (',' value)* ']' # ArrayOfValues
+    |   '[' ']'                    # EmptyArray
     ;
 
 value
-    :   STRING
-    |   NUMBER
-    |   object  // recursion
-    |   array   // recursion
-    |   'true'  // keywords
-    |   'false'
-    |   'null'
+    :   STRING                     # String
+    |   NUMBER                     # Atom
+    |   object                     # ObjectValue 
+    |   array                      # ArrayValue
+    |   'true'                     # Atom
+    |   'false'                    # Atom
+    |   'null'                     # Atom
     ;
 
-STRING :  '"' (ESC | ~["\\])* '"' ;
+STRING 
+    :  '"' (ESC | ~["\\])* '"' 
+    ;
 
 fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
 fragment UNICODE : 'u' HEX HEX HEX HEX ;
