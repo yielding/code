@@ -1,11 +1,3 @@
-/***
- * Excerpted from "The Definitive ANTLR 4 Reference",
- * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
- * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
- * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
-***/
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.MultiMap;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
@@ -35,12 +27,15 @@ public class CallGraph {
         Set<String> nodes = new OrderedHashSet<String>(); // list of functions
         MultiMap<String, String> edges =                  // caller->callee
             new MultiMap<String, String>();
+
         public void edge(String source, String target) {
             edges.map(source, target);
         }
+
         public String toString() {
             return "edges: "+edges.toString()+", functions: "+ nodes;
         }
+
         public String toDOT() {
             StringBuilder buf = new StringBuilder();
             buf.append("digraph G {\n");
@@ -111,27 +106,23 @@ public class CallGraph {
 
     public static void main(String[] args) throws Exception {
         String inputFile = null;
-        if ( args.length>0 ) inputFile = args[0];
+        if (args.length > 0) inputFile = args[0];
+
         InputStream is = System.in;
-        if ( inputFile!=null ) {
+        if (inputFile != null)
             is = new FileInputStream(inputFile);
-        }
+    
         ANTLRInputStream input = new ANTLRInputStream(is);
         CymbolLexer lexer = new CymbolLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         CymbolParser parser = new CymbolParser(tokens);
         parser.setBuildParseTree(true);
         ParseTree tree = parser.file();
-        // show tree in text form
-//        System.out.println(tree.toStringTree(parser));
 
         ParseTreeWalker walker = new ParseTreeWalker();
         FunctionListener collector = new FunctionListener();
         walker.walk(collector, tree);
         System.out.println(collector.graph.toString());
         System.out.println(collector.graph.toDOT());
-
-        // Here's another example that uses StringTemplate to generate output
-//        System.out.println(collector.graph.toST().render());
     }
 }
