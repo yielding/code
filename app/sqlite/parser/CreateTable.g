@@ -30,7 +30,7 @@ column_name returns [String cn]
     :   ID {$cn = String.valueOf($ID.text); };
  
 column_constraint
-    :   'not' 'null';
+    :  'not' 'null';
  
 data_type_def returns [String tpe, Integer len]
     : data_type {$tpe = $data_type.tp;} length_constraint? {$len = $length_constraint.len;}      
