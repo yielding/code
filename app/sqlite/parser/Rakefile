@@ -1,0 +1,10 @@
+task :default => [:rebuild]
+
+task :rebuild => [:clean] do
+  sh "antlr4 CreateTable.g4"
+  sh "javac *.java SQLiteParser.java"
+end
+
+task :clean do
+  sh "rm -f *.class *.tokens Create*.java"
+end

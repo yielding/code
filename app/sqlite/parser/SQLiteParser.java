@@ -141,6 +141,7 @@ class SQLiteCreateTableListener extends CreateTableBaseListener {
 //    System.out.println("["+ctx.getText()+"]");
 //}
 	@Override public void exitTableName(CreateTableParser.TableNameContext ctx) { 
+        System.out.println("sssssssssssssssss");
         System.out.println(ctx.getText());
     }
 
@@ -165,7 +166,7 @@ public class SQLiteParser {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         CreateTableParser parser = new CreateTableParser(tokens);
         parser.setBuildParseTree(true);
-        ParseTree tree = parser.createTableStmt();
+        ParseTree tree = parser.tableList();
 
         ParseTreeWalker walker = new ParseTreeWalker();
         SQLiteCreateTableListener listener = new SQLiteCreateTableListener();
