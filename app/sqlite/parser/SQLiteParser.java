@@ -85,61 +85,65 @@ class SQLiteCreateTableListener extends CreateTableBaseListener {
     Table table;
     Column col;
 
-	public void enterTable_element(CreateTableParser.Table_elementContext ctx) { 
-        col = new Column();
-    }
-
-	public void exitColumn_name(CreateTableParser.Column_nameContext ctx) { 
-        if (col != null)
-            col.setName(ctx.getText());
-    }
-
-    public void exitColumn_constraint(CreateTableParser.Column_constraintContext ctx) {
-        if (col == null)
-            return;
-
-        if (ctx.NOT() != null)
-            col.setNotNull(true);
-
-        if (ctx.PRIMARY() != null)
-            col.setPrimaryKey(true);
-    }
-
-	public void exitData_type(CreateTableParser.Data_typeContext ctx) { 
-        if (col != null)
-            col.setType(ctx.getText());
-    }
-
-	public void exitLength_constraint(CreateTableParser.Length_constraintContext ctx) { 
-        if (col != null)
-            col.setTypeLength(Integer.parseInt(ctx.NUMBER().getText()));
-    }
-
-	public void exitTable_element(CreateTableParser.Table_elementContext ctx) { 
-        table.add(col);
-    }
-
-	public void exitTmp(CreateTableParser.TmpContext ctx) { 
-        if (ctx.TEMP() != null || ctx.TEMPORARY() != null)
-            table.setTemporary(true);
-    }
-
-	public void enterTable_def(CreateTableParser.Table_defContext ctx) { 
-        table = new Table();
-    }
-
-    public void exitTable_name(CreateTableParser.Table_nameContext ctx) { 
-        table.setName(ctx.getText());
-    }
-
-	public void exitTable_def(CreateTableParser.Table_defContext ctx) { 
-        tables.add(table);
-        table = null;
-    }
+//    public void enterTable_element(CreateTableParser.Table_elementContext ctx) { 
+//        col = new Column();
+//    }
+//
+//    public void exitColumn_name(CreateTableParser.Column_nameContext ctx) { 
+//        if (col != null)
+//            col.setName(ctx.getText());
+//    }
+//
+//    public void exitColumn_constraint(CreateTableParser.Column_constraintContext ctx) {
+//        if (col == null)
+//            return;
+//
+//        if (ctx.NOT() != null)
+//            col.setNotNull(true);
+//
+//        if (ctx.PRIMARY() != null)
+//            col.setPrimaryKey(true);
+//    }
+//
+//    public void exitData_type(CreateTableParser.Data_typeContext ctx) { 
+//        if (col != null)
+//            col.setType(ctx.getText());
+//    }
+//
+//    public void exitLength_constraint(CreateTableParser.Length_constraintContext ctx) { 
+//        if (col != null)
+//            col.setTypeLength(Integer.parseInt(ctx.NUMBER().getText()));
+//    }
+//
+//    public void exitTable_element(CreateTableParser.Table_elementContext ctx) { 
+//        table.add(col);
+//    }
+//
+//    public void exitTmp(CreateTableParser.TmpContext ctx) { 
+//        if (ctx.TEMP() != null || ctx.TEMPORARY() != null)
+//            table.setTemporary(true);
+//    }
+//
+//    public void enterTable_def(CreateTableParser.Table_defContext ctx) { 
+//        table = new Table();
+//    }
+//
+//    public void exitTable_name(CreateTableParser.Table_nameContext ctx) { 
+//        table.setName(ctx.getText());
+//    }
+//
+//    public void exitTable_def(CreateTableParser.Table_defContext ctx) { 
+//        tables.add(table);
+//        table = null;
+//    }
 
 //public void enterTable_list(CreateTableParser.Table_listContext ctx) { 
 //    System.out.println("["+ctx.getText()+"]");
 //}
+	@Override public void exitTableName(CreateTableParser.TableNameContext ctx) { 
+        System.out.println(ctx.getText());
+    }
+
     public void printDBInfo() {
         for (Table t : tables)
             System.out.println(t);
@@ -161,11 +165,11 @@ public class SQLiteParser {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         CreateTableParser parser = new CreateTableParser(tokens);
         parser.setBuildParseTree(true);
-        ParseTree tree = parser.table_list();
+        ParseTree tree = parser.createTableStmt();
 
         ParseTreeWalker walker = new ParseTreeWalker();
         SQLiteCreateTableListener listener = new SQLiteCreateTableListener();
         walker.walk(listener, tree);
-        listener.printDBInfo();
+//      listener.printDBInfo();
     }
 };

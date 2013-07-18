@@ -1,109 +1,142 @@
 grammar CreateTable;
 
-table_list 
-  : (table_def)* 
-  ;
-
-table_def 
-  : CREATE tmp? TABLE (database_name DOT)? table_name LPARAN column_def (COMMA column_def)* RPARAN
+createTableStmt
+  : CREATE tmp? TABLE (databaseName POINT)? tableName LP columnDefs (tableConstraints)? RP SEMICOLON
   ;
 
 tmp
-  : TEMP
-  | TEMPORARY
+  : TEMP | TEMPORARY
   ;
 
-column_def
-  : column_name (type_name)? (column_constraint)*
+columnDefs
+  : columnDef (COMMA columnDef)*
   ;
 
-type_name
+columnDef
+  : columnName typeName? columnConstraint*
+  ;
+
+typeName
+  : ID+ LP SIGNED_NUMBER COMMA SIGNED_NUMBER RP
+  | ID+ LP SIGNED_NUMBER RP
+  | ID+ 
+  ;
+
+// REMARK Simplified
+columnConstraint
+  : (CONSTRAINT name)? PRIMARY KEY (ASC|DESC)? conflictClause AUTOINCREMENT 
+  | (CONSTRAINT name)? NOT NULL conflictClause
+  | (CONSTRAINT name)? UNIQUE conflictClause
+//  | (CONSTRAINT name)? CHECK LP expr RP
+//  | (CONSTRAINT name)? DEFAULT (SIGNED_NUMBER|LITERAL_VALUE|(LP expr RP))
+  | (CONSTRAINT name)? DEFAULT (SIGNED_NUMBER|LITERAL_VALUE)
+  | (CONSTRAINT name)? COLLATE collationName
+  | (CONSTRAINT name)? foreignKeyCaluse
+  ;
+
+// REMARK Simplified
+// confer http://www.sqlite.org/lang_createtable.html
+foreignKeyCaluse
+  : REFERENCES tableName (LP columnNames RP)?
+  ;
+
+tableConstraints
+  : tableConstraint (COMMA tableConstraint)*
+  ;
+
+// REMARK Simplified
+tableConstraint
+  : (CONSTRAINT name)? (PRIMARY KEY|UNIQUE) LP indexedColumn (COMMA indexedColumn)* RP conflictClause
+//| (CONSTRAINT name)? CHECK LP expr RP
+  | (CONSTRAINT name)? FOREIGN KEY LP columnNames RP foreignKeyCaluse
+  ;
+
+conflictClause
+  : ON CONFLICT
+  ;
+
+columnNames
+  : columnName (COMMA columnName)*
+  ;
+
+indexedColumns
+  : indexedColumn (COMMA indexedColumn)*
+  ;
+
+indexedColumn
+  : columnName (COLLATE collationName)? (ASC|DESC)?
+  ;
+
+collationName
+  : name
+  ;
+
+columnName
+  : name
+  ;
+
+databaseName
+  : name
+  ;
+
+tableName
+  : name
+  ;
+
+name
   : ID
-  | LPARAN signed_number RPARAN
-  | LPARAN signed_number COMMA signed_number RPARAN
   ;
 
-column_constraint 
-  : (CONSTRAINT constraint_name)?
-  ;
-  
-data_type_def 
-  : data_type length_constraint? ;
+POINT           : '.' ;
+LP              : '(' ;
+RP              : ')' ;
+COMMA           : ',' ;
+SEMICOLON       : ';' ;
+PLUS            : '+' ;
+MINUS           : '-' ;
+NUMERIC_LITERAL : DIGIT+ (POINT DIGIT*)? ('E' (PLUS|MINUS)? DIGIT+)?  | POINT DIGIT+ ('E' (PLUS|MINUS)? DIGIT+)?  ;
+STRING_LITERAL  : '\'' (~'\'')* '\'' ;
+BLOB_LITERAL    : 'X' STRING_LITERAL ;
+LITERAL_VALUE   : NUMERIC_LITERAL | STRING_LITERAL | BLOB_LITERAL | NULL | CURRENT_TIME | CURRENT_DATE | CURRENT_TIMESTAMP ;
+SIGNED_NUMBER   : (PLUS|MINUS)? NUMERIC_LITERAL ;
 
-data_type 
-  : ID 
-  ;
+ID              : LETTER (LETTER|DIGIT)*;
+WS              : [ \t\r\n]+ -> skip;
+NL              : '\r'? '\n' ;
 
-length_constraint 
-  : LPARAN NUMBER RPARAN 
-  ;
+ABORT         : A B O R T;
+ASC           : A S C;
+AUTOINCREMENT : A U T O I N C R E M E N T ;
+CHECK         : C H E C K ;
+CONFLICT      : C O N F L I C T ;
+CONSTRAINT    : C O N S T R A I N T ;
+COLLATE       : C O L L A T E;
+CREATE        : C R E A T E ;
+CURRENT_TIME  : C U R R E N T UNDER_BAR T I M E;
+CURRENT_DATE  : C U R R E N T UNDER_BAR D A T E;
+CURRENT_TIMESTAMP : C U R R E N T UNDER_BAR T I M E S T A M P;
+DEFAULT       : D E F A U L T;
+DESC          : D E S C;
+FAIL          : F A I L;
+FOREIGN       : F O R E I G N;
+IGNORE        : I G N O R E;
+KEY           : K E Y ;
+NOT           : N O T ;
+NULL          : N U L L ;
+ON            : O N;
+PRIMARY       : P R I M A R Y ;
+REFERENCES    : R E F E R E N C E S;
+REPLACE       : R E P L A C E;
+ROLLBACK      : R O L L B A C K;
+TABLE         : T A B L E ;
+TEMP          : T E M P ;
+TEMPORARY     : T E M P O R A R Y ;
+UNIQUE        : U N I Q U E ;
 
-column_name 
-  : ID 
-  ;
-constraint_name
-  : ID
-  ;
+UNDER_BAR : '_';
 
-database_name 
-  : ID 
-  ;
-
-table_name 
-  : ID 
-  ;
-
-CONSTRAINT
-  : C O N S T R A I N T
-  ;
-
-CREATE
-  : C R E A T E;
-
-TABLE
-  : T A B L E;
-
-TEMP
-  : T E M P;
-
-TEMPORARY
-  : T E M P O R A R Y;
-
-NOT
-  : N O T;
-
-NULL
-  : N U L L ;
-
-PRIMARY
-  : P R I M A R Y;
-
-KEY
-  : K E Y;
-
-AUTOINCREMENT
-  : A U T O I N C R E M E N T;
-
-DEFAULT
-  : D E F A U L T;
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-LPARAN    : '(';
-RPARAN    : ')';
-COMMA     : ',';
-SEMICOLON : ';';
-DOT       : '.';
-MINUS     : '-';
-NUMBER    : (MINUS)? (DIGIT)+;
-ID        : (('a'..'z'|'A'..'Z' | '_' |'\'') ((DIGIT)*))+ ;
-NEWLINE   :'\r'? '\n';
-//WS        : ('\t' | ' ' | '\r' | '\n' | '\u000C')+ -> skip ;
-WS        : [ \t\r\n]+ -> skip;
-
-fragment DIGIT   : [0-9];
+fragment DIGIT     : [0-9] ;
+fragment LETTER    : [a-zA-Z_];
 
 fragment A:('a'|'A');
 fragment B:('b'|'B');
