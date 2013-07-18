@@ -1,10 +1,14 @@
-task :default => [:rebuild]
+task :default => [:run]
 
 task :rebuild => [:clean] do
-  sh "antlr4 CreateTable.g4"
+  sh "java -jar /Users/yielding/code/java/antlr-4.0-complete.jar CreateTable.g4"
   sh "javac *.java SQLiteParser.java"
 end
 
 task :clean do
   sh "rm -f *.class *.tokens Create*.java"
+end
+
+task :run => [:rebuild] do
+  sh "java SQLiteParser t.sql"
 end
