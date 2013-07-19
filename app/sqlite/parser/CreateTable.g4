@@ -1,7 +1,11 @@
 grammar CreateTable;
 
+tableList
+  : (createTableStmt)* 
+  ;
+
 createTableStmt
-  : CREATE tmp? TABLE (databaseName POINT)? tableName LP columnDefs (tableConstraints)? RP SEMICOLON
+  : CREATE tmp? TABLE (IF 'NOT' EXISTS)? (databaseName POINT)? tableName LP columnDefs (COMMA tableConstraints)? RP SEMICOLON
   ;
 
 tmp
@@ -24,18 +28,15 @@ typeName
 
 // REMARK Simplified
 columnConstraint
-  : (CONSTRAINT name)? PRIMARY KEY (ASC|DESC)? conflictClause AUTOINCREMENT 
-  | (CONSTRAINT name)? NOT NULL conflictClause
+  : (CONSTRAINT name)? PRIMARY1 ('KEY'|'key') ('ASC'|'DESC')? conflictClause AUTOINCREMENT?
+  | (CONSTRAINT name)? 'NOT' 'NULL' conflictClause
+  | (CONSTRAINT name)? 'NULL' conflictClause
   | (CONSTRAINT name)? UNIQUE conflictClause
-//  | (CONSTRAINT name)? CHECK LP expr RP
-//  | (CONSTRAINT name)? DEFAULT (SIGNED_NUMBER|LITERAL_VALUE|(LP expr RP))
-  | (CONSTRAINT name)? DEFAULT (SIGNED_NUMBER|LITERAL_VALUE)
-  | (CONSTRAINT name)? COLLATE collationName
+  | (CONSTRAINT name)? DEFAULT (SIGNED_NUMBER | literalValue)
+  | (CONSTRAINT name)? 'COLLATE' collationName
   | (CONSTRAINT name)? foreignKeyCaluse
   ;
 
-// REMARK Simplified
-// confer http://www.sqlite.org/lang_createtable.html
 foreignKeyCaluse
   : REFERENCES tableName (LP columnNames RP)?
   ;
@@ -46,13 +47,13 @@ tableConstraints
 
 // REMARK Simplified
 tableConstraint
-  : (CONSTRAINT name)? (PRIMARY KEY|UNIQUE) LP indexedColumn (COMMA indexedColumn)* RP conflictClause
-//| (CONSTRAINT name)? CHECK LP expr RP
-  | (CONSTRAINT name)? FOREIGN KEY LP columnNames RP foreignKeyCaluse
+  : (CONSTRAINT name)? (PRIMARY2 'KEY'|UNIQUE) LP indexedColumns RP conflictClause
+  | (CONSTRAINT name)? FOREIGN 'KEY' LP columnNames RP foreignKeyCaluse
   ;
 
 conflictClause
-  : ON CONFLICT
+  : ON 'CONFLICT' (ROLLBACK | ABORT | FAIL | IGNORE | REPLACE)
+  |
   ;
 
 columnNames
@@ -64,7 +65,7 @@ indexedColumns
   ;
 
 indexedColumn
-  : columnName (COLLATE collationName)? (ASC|DESC)?
+  : columnName ('COLLATE' collationName)? ('ASC'|'DESC')?
   ;
 
 collationName
@@ -84,47 +85,61 @@ tableName
   ;
 
 name
-  : ID
+  : STRING_LITERAL | '"' ID '"' | ID
   ;
 
-POINT           : '.' ;
-LP              : '(' ;
-RP              : ')' ;
-COMMA           : ',' ;
-SEMICOLON       : ';' ;
-PLUS            : '+' ;
-MINUS           : '-' ;
-NUMERIC_LITERAL : DIGIT+ (POINT DIGIT*)? ('E' (PLUS|MINUS)? DIGIT+)?  | POINT DIGIT+ ('E' (PLUS|MINUS)? DIGIT+)?  ;
-STRING_LITERAL  : '\'' (~'\'')* '\'' ;
-BLOB_LITERAL    : 'X' STRING_LITERAL ;
-LITERAL_VALUE   : NUMERIC_LITERAL | STRING_LITERAL | BLOB_LITERAL | NULL | CURRENT_TIME | CURRENT_DATE | CURRENT_TIMESTAMP ;
-SIGNED_NUMBER   : (PLUS|MINUS)? NUMERIC_LITERAL ;
+SIGNED_NUMBER
+  : (PLUS|MINUS)? NUMERIC_LITERAL
+  ;
 
-ID              : LETTER (LETTER|DIGIT)*;
-WS              : [ \t\r\n]+ -> skip;
-NL              : '\r'? '\n' ;
+// using name instead of STRING_LITERAL
+literalValue
+  : NUMERIC_LITERAL 
+  | BLOB_LITERAL 
+  | name 
+  | 'NULL'
+  | 'CURRENT_TIME'
+  | 'CURRENT_DATE '
+  | 'CURRENT_TIMESTAMP'
+  ;
+
+NUMERIC_LITERAL 
+  : DIGIT+ (POINT DIGIT*)? ('E' (PLUS|MINUS)? DIGIT+)? 
+  | POINT DIGIT+ ('E' (PLUS|MINUS)? DIGIT+)?
+  ;
+
+BLOB_LITERAL   : ('x'|'X') STRING_LITERAL ;
+STRING_LITERAL : '\'' (~'\'')* '\'' ;
+
+POINT         : '.' ;
+LP            : '(' ;
+RP            : ')' ;
+COMMA         : ',' ;
+SEMICOLON     : ';' ;
+PLUS          : '+' ;
+MINUS         : '-' ;
 
 ABORT         : A B O R T;
-ASC           : A S C;
+// ASC           : A S C;
 AUTOINCREMENT : A U T O I N C R E M E N T ;
-CHECK         : C H E C K ;
-CONFLICT      : C O N F L I C T ;
+// CHECK         : C H E C K ;
+// CONFLICT      : C O N F L I C T ;
 CONSTRAINT    : C O N S T R A I N T ;
-COLLATE       : C O L L A T E;
+// COLLATE       : C O L L A T E;
 CREATE        : C R E A T E ;
-CURRENT_TIME  : C U R R E N T UNDER_BAR T I M E;
-CURRENT_DATE  : C U R R E N T UNDER_BAR D A T E;
-CURRENT_TIMESTAMP : C U R R E N T UNDER_BAR T I M E S T A M P;
 DEFAULT       : D E F A U L T;
-DESC          : D E S C;
+// DESC          : D E S C;
+EXISTS        : E X I S T S;
 FAIL          : F A I L;
 FOREIGN       : F O R E I G N;
+IF            : I F;
 IGNORE        : I G N O R E;
-KEY           : K E Y ;
-NOT           : N O T ;
-NULL          : N U L L ;
+// KEY           : K E Y ;
+// NOT           : N O T ;
+// NULL          : N U L L ;
 ON            : O N;
-PRIMARY       : P R I M A R Y ;
+PRIMARY1      : P R I M A R Y ;
+PRIMARY2      : P R I M A R Y ;
 REFERENCES    : R E F E R E N C E S;
 REPLACE       : R E P L A C E;
 ROLLBACK      : R O L L B A C K;
@@ -133,10 +148,11 @@ TEMP          : T E M P ;
 TEMPORARY     : T E M P O R A R Y ;
 UNIQUE        : U N I Q U E ;
 
-UNDER_BAR : '_';
-
+ID            : LETTER (LETTER|DIGIT)*;
+WS            : [ \t\r\n\f]+ -> channel(HIDDEN);
 fragment DIGIT     : [0-9] ;
 fragment LETTER    : [a-zA-Z_];
+NL            : '\r'? '\n' ;
 
 fragment A:('a'|'A');
 fragment B:('b'|'B');

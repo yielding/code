@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
+import java.util.regex.*;
 
 class Column {
     String name;
@@ -20,19 +21,18 @@ class Column {
         this.isPrimaryKey = false;
     }
 
-    public void setName(String name)   { this.name = name;   }
-    public void setType(String type)   { this.type = type;   }
-    public void setTypeLength(int len) { this.typeLen = len; }
+    public void setName(String name)     { this.name = name;      }
+    public void setType(String type)     { this.type = type;      }
+    public void setTypeLength(int len)   { this.typeLen = len;    }
 
-    public void setNotNull(boolean v)  { this.notNull = v;   }
-    public void setPrimaryKey(boolean v)  { this.isPrimaryKey = v;   }
-
+    public void setNotNull(boolean v)    { this.notNull = v;      }
+    public void setPrimaryKey(boolean v) { this.isPrimaryKey = v; }
 
     public String toString() {
         return String.format("cn: %20s, type: %7s, len: %3d, NN: %2S, PRI: %2S",
-                             name, type, typeLen, 
-                             TF(notNull),
-                             TF(isPrimaryKey));
+                name, type, typeLen, 
+                TF(notNull),
+                TF(isPrimaryKey));
     }
 
     private String TF(boolean v) { return v ? "T" : "F"; }
@@ -85,64 +85,69 @@ class SQLiteCreateTableListener extends CreateTableBaseListener {
     Table table;
     Column col;
 
-//    public void enterTable_element(CreateTableParser.Table_elementContext ctx) { 
-//        col = new Column();
-//    }
-//
-//    public void exitColumn_name(CreateTableParser.Column_nameContext ctx) { 
-//        if (col != null)
-//            col.setName(ctx.getText());
-//    }
-//
-//    public void exitColumn_constraint(CreateTableParser.Column_constraintContext ctx) {
-//        if (col == null)
-//            return;
-//
-//        if (ctx.NOT() != null)
-//            col.setNotNull(true);
-//
-//        if (ctx.PRIMARY() != null)
-//            col.setPrimaryKey(true);
-//    }
-//
-//    public void exitData_type(CreateTableParser.Data_typeContext ctx) { 
-//        if (col != null)
-//            col.setType(ctx.getText());
-//    }
-//
-//    public void exitLength_constraint(CreateTableParser.Length_constraintContext ctx) { 
-//        if (col != null)
-//            col.setTypeLength(Integer.parseInt(ctx.NUMBER().getText()));
-//    }
-//
-//    public void exitTable_element(CreateTableParser.Table_elementContext ctx) { 
-//        table.add(col);
-//    }
-//
-//    public void exitTmp(CreateTableParser.TmpContext ctx) { 
-//        if (ctx.TEMP() != null || ctx.TEMPORARY() != null)
-//            table.setTemporary(true);
-//    }
-//
-//    public void enterTable_def(CreateTableParser.Table_defContext ctx) { 
-//        table = new Table();
-//    }
-//
-//    public void exitTable_name(CreateTableParser.Table_nameContext ctx) { 
-//        table.setName(ctx.getText());
-//    }
-//
-//    public void exitTable_def(CreateTableParser.Table_defContext ctx) { 
-//        tables.add(table);
-//        table = null;
-//    }
-
-//public void enterTable_list(CreateTableParser.Table_listContext ctx) { 
-//    System.out.println("["+ctx.getText()+"]");
-//}
-	@Override public void exitTableName(CreateTableParser.TableNameContext ctx) { 
-        System.out.println(ctx.getText());
+    // table
+    @Override 
+    public void enterCreateTableStmt(CreateTableParser.CreateTableStmtContext ctx) { 
+        table = new Table();
     }
+
+    @Override public void exitTmp(CreateTableParser.TmpContext ctx) { 
+        table.setTemporary(true);
+    }
+
+    @Override 
+    public void exitTableName(CreateTableParser.TableNameContext ctx) { 
+        table.setName(ctx.getText());
+    }
+
+    @Override 
+    public void exitCreateTableStmt(CreateTableParser.CreateTableStmtContext ctx) { 
+        tables.add(table);
+        table = null;
+    }
+
+    // column
+    @Override 
+    public void enterColumnDef(CreateTableParser.ColumnDefContext ctx) { 
+        col = new Column();
+    }
+
+    @Override 
+    public void exitColumnName(CreateTableParser.ColumnNameContext ctx) { 
+        String name = ctx.getText();
+        if (name.startsWith("'") || name.startsWith("\""))
+            name = name.substring(1, name.length()-1);
+
+        col.setName(name);
+    }
+
+    @Override 
+    public void exitTypeName(CreateTableParser.TypeNameContext ctx) { 
+        col.setType(ctx.getText());
+    }
+
+    @Override 
+    public void exitColumnConstraint(CreateTableParser.ColumnConstraintContext ctx) { 
+        String text = ctx.getText();
+        //System.out.println(ctx.getChildCount() +  " : " + ctx.getText());
+
+        if (text.matches(".*NOTNULL.*"))
+            col.setNotNull(true);
+
+        if (text.matches(".*PRIMARY.*"))
+            col.setPrimaryKey(true);
+    }
+
+    @Override 
+    public void exitColumnDef(CreateTableParser.ColumnDefContext ctx) { 
+        table.add(col);
+    }
+
+    //    public void exitLength_constraint(CreateTableParser.Length_constraintContext ctx) { 
+    //        if (col != null)
+    //            col.setTypeLength(Integer.parseInt(ctx.NUMBER().getText()));
+    //    }
+    //
 
     public void printDBInfo() {
         for (Table t : tables)
@@ -151,7 +156,6 @@ class SQLiteCreateTableListener extends CreateTableBaseListener {
 }
 
 public class SQLiteParser {
-
     public static void main(String[] args) throws Exception {
         String inputFile = null;
         if (args.length > 0)
@@ -165,11 +169,11 @@ public class SQLiteParser {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         CreateTableParser parser = new CreateTableParser(tokens);
         parser.setBuildParseTree(true);
-        ParseTree tree = parser.createTableStmt();
+        ParseTree tree = parser.tableList();
 
         ParseTreeWalker walker = new ParseTreeWalker();
         SQLiteCreateTableListener listener = new SQLiteCreateTableListener();
         walker.walk(listener, tree);
-//      listener.printDBInfo();
+        listener.printDBInfo();
     }
 };
