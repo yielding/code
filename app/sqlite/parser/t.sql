@@ -1,4 +1,4 @@
-cREATE TABLE Account (
+CREATE TABLE Account (
     _id integer primary key autoincrement, 
     displayName text, 
     emailAddress text, 
