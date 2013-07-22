@@ -85,6 +85,8 @@ class SQLiteCreateTableListener extends CreateTableBaseListener {
     Table table;
     Column col;
 
+    private boolean colDefMode = false;
+
     // table
     @Override 
     public void enterCreateTableStmt(CreateTableParser.CreateTableStmtContext ctx) { 
@@ -108,17 +110,31 @@ class SQLiteCreateTableListener extends CreateTableBaseListener {
 
     // column
     @Override 
+    public void enterColumnDefs(CreateTableParser.ColumnDefsContext ctx) { 
+      colDefMode = true;
+    }
+
+    @Override 
+    public void exitColumnDefs(CreateTableParser.ColumnDefsContext ctx) { 
+      colDefMode = false;
+    }
+
+    @Override 
     public void enterColumnDef(CreateTableParser.ColumnDefContext ctx) { 
-        col = new Column();
+        if (colDefMode)
+          col = new Column();
     }
 
     @Override 
     public void exitColumnName(CreateTableParser.ColumnNameContext ctx) { 
-        String name = ctx.getText();
-        if (name.startsWith("'") || name.startsWith("\""))
-            name = name.substring(1, name.length()-1);
+        if (colDefMode)
+        {
+            String name = ctx.getText();
+            if (name.startsWith("'") || name.startsWith("\""))
+                name = name.substring(1, name.length()-1);
 
-        col.setName(name);
+            col.setName(name);
+        }
     }
 
     @Override 
@@ -128,7 +144,7 @@ class SQLiteCreateTableListener extends CreateTableBaseListener {
 
     @Override 
     public void exitColumnConstraint(CreateTableParser.ColumnConstraintContext ctx) { 
-        String text = ctx.getText();
+        String text = ctx.getText().toUpperCase();
         //System.out.println(ctx.getChildCount() +  " : " + ctx.getText());
 
         if (text.matches(".*NOTNULL.*"))

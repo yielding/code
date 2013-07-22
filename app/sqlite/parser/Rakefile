@@ -10,5 +10,9 @@ task :clean do
 end
 
 task :run => [:rebuild] do
-  sh "java SQLiteParser t.sql"
+  sh "java SQLiteParser t2.sql"
+end
+
+task :test => [:rebuild] do
+  sh "java SQLiteParser t0.sql"
 end
