@@ -4,7 +4,6 @@ tableList
   : (createTableStmt)* 
   ;
 
-// TODO COMMA
 createTableStmt
   : CREATE tmp? TABLE (IF NOT EXISTS)? (databaseName POINT)? tableName LP columnDefs (COMMA? tableConstraints)? RP SEMICOLON
   ;
@@ -22,15 +21,12 @@ columnDef
   ;
 
 typeName
-  : sqliteType LP SIGNED_NUMBER COMMA SIGNED_NUMBER RP
-  | sqliteType LP SIGNED_NUMBER RP
+  : sqliteType LP SIGNED_NUMBER (COMMA SIGNED_NUMBER)? RP
   | sqliteType
   ;
 
 sqliteType
-  : intType
-  | textType
-  | ID
+  : intType | textType | ID
   ;
 
 intType
@@ -100,16 +96,12 @@ tableName
   ;
 
 name
-  : ID
-  | '\"' ID '\"'
-  | STRING_LITERAL
+  : ID | '\"' ID '\"' | STRING_LITERAL | CONFLICT | TEXT
   ;
 
-// In real input 'ID' exists
 literalValue
   : NUMERIC_LITERAL 
-  | BLOB_LITERAL 
-  | STRING_LITERAL | ID
+  | BLOB_LITERAL | STRING_LITERAL | ID
   | NULL
   | CURRENT_TIME
   | CURRENT_DATE
@@ -138,6 +130,7 @@ MINUS           : '-' ;
 ABORT           : A B O R T;
 ASC             : A S C;
 AUTOINCREMENT   : A U T O I N C R E M E N T ;
+CONFLICT        : C O N F L I C T ;
 CONSTRAINT      : C O N S T R A I N T ;
 COLLATE         : C O L L A T E;
 CREATE          : C R E A T E ;
@@ -154,6 +147,7 @@ IGNORE          : I G N O R E;
 KEY             : K E Y ;
 NOT             : N O T ;
 NULL            : N U L L ;
+ON              : O N;
 PRIMARY         : P R I M A R Y ;
 REFERENCES      : R E F E R E N C E S;
 REPLACE         : R E P L A C E;
@@ -161,6 +155,7 @@ ROLLBACK        : R O L L B A C K;
 TABLE           : T A B L E ;
 TEMP            : T E M P ;
 TEMPORARY       : T E M P O R A R Y ;
+TEXT            : T E X T;
 UNIQUE          : U N I Q U E ;
 
 WS              : [ \t\r\n\f]+ -> channel(HIDDEN);
@@ -169,9 +164,6 @@ fragment LETTER : [a-zA-Z_];
 fragment DIGIT  : [0-9] ;
 NL              : '\r'? '\n' ;
 
-ON              : O N;
-CONFLICT        : C O N F L I C T ;
-TEXT            : T E X T;
 
 fragment A:('a'|'A');
 fragment B:('b'|'B');
