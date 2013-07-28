@@ -1,3 +1,7 @@
+#!/usr/bin/env ruby
+
+require "pp"
+
 class String
   def to_money
     len = length
@@ -10,13 +14,5 @@ class String
   end
 end
 
-moneys = ["1", 
-          "10", 
-          "100", 
-          "1000", 
-          "10000", 
-          "100000", 
-          "100000000"
-          ]
-
-moneys.each { |money| puts money.to_money }
+moneys = ["1", "10", "100", "1000", "10000", "100000", "100000000" ]
+pp moneys.map { |money| money.to_money }

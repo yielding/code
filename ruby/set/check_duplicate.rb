@@ -6,8 +6,6 @@ set = Set.new
 str = "a very very long string"
 
 str.scan(/\w+/).each { |word| 
-  unless set.add?(word)
-    p word
-  end
+  p word unless set.add?(word)
 }
 
