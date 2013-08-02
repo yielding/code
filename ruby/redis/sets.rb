@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby
 require 'redis'
 
 r = Redis.new
