@@ -11,6 +11,7 @@ end
 
 class Person
   attr_accessor :name, :salary
+
   def initialize name, salary
     @name ||= name
     @salary ||= salary
@@ -18,8 +19,5 @@ class Person
 end
 
 people = [Person.new('leech', 100), Person.new('kamin', 200)]
-arr = people.map {|person| person.name }
-arr.each {|e| puts e }
-
-arr = people.map(&:name)
-arr.each {|e| puts e }
+pp people.map { |person| person.name }
+pp people.map(&:name)
