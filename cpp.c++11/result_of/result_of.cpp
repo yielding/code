@@ -22,13 +22,11 @@ struct Confused
 {
   double operator()(int) const
   {
-    //cout << "Clear::operator()(int)" << endl;
     return 1.0;
   }
 
   int operator()(double) const
   {
-    //cout << "Clear::operator()(double)" << endl;
     return 2;
   }
 };
