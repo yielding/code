@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require File.dirname(__FILE__) + '/test_helper.rb'
+require 'test_helper.rb'
 
 class TestPhoneNumber < Minitest::Test
   def setup
