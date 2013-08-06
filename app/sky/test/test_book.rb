@@ -1,7 +1,7 @@
 # encoding: utf-8
 require File.dirname(__FILE__) + '/test_helper.rb'
 
-class TestBook < Test::Unit::TestCase
+class TestBook < Minitest::Test
   def setup
     @fname = "resources/book.pbk"
     @book  = Sky::Book.new

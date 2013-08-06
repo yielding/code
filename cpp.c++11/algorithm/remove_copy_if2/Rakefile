@@ -1,0 +1,17 @@
+# -*- ruby -*-
+
+APP       = "remove_copy_if2"
+APP_TEST  = "test_#{APP}"
+SRCS      = %W{ ./remove_copy_if2.cpp
+              }
+
+TEST_SRCS = %W{ ./test_remove_copy_if2.cpp
+              }
+
+CXX       = "xcrun"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
+CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
+LIBS      = ""
+
+load "~/code/build/app2.rake"
+
+# task :default => [:test]

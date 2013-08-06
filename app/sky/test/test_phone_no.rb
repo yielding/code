@@ -1,7 +1,8 @@
 # encoding: utf-8
+
 require File.dirname(__FILE__) + '/test_helper.rb'
 
-class TestPhoneNumber < Test::Unit::TestCase
+class TestPhoneNumber < Minitest::Test
   def setup
     @fname = "resources/number.pbk"
     @phone = Sky::PhoneNumber.new
@@ -34,5 +35,4 @@ class TestPhoneNumber < Test::Unit::TestCase
     rec = @phone.records[1]
     assert_equal(rec.phone_no, "01035950423")
   end
-
 end
