@@ -8,8 +8,8 @@ TODO
     + union 없애기
       - BPlistRepr참고해서 variant로 구현한다. (variant는 utree 참고)
 
-    + attribute -> get_all_attributes
-    + ExtentsTree::search_extents 구현
+    + attribute -> get\_all\_attributes
+    + ExtentsTree::search\_extents 구현
     + console에서 HFSPlusStr255 정상 출력하기
     + compressed된 HFS 구현하기
     + HFSX 구현하기. (for OSX forensics)
@@ -17,7 +17,7 @@ TODO
 DOING
 =====
  1. verification
-    + brute_force 검증
+    + brute\_force 검증
 
  2. refactoring
 
@@ -32,13 +32,13 @@ DONE
       중요한 파일에 대해서는 같게 나옴
 
  2. refactoring
-    + read_leaf_record를 잘 정리해서 carv_tree_node 구현하기
+    + read\_leaf\_record를 잘 정리해서 carv\_tree\_node 구현하기
      -> 내부의 try { } catch () {} 는 refactoring 가능
      -> exception처리까지 해서 가능하면 재활용할 수 있게 하는게 좋을 듯. 생각을 잘 하자....
 
     + BTree의 record type과 node type을 template으로 refactor하다. 
-    + read_index_record
-    + read_leaf_record
+    + read\_index\_record
+    + read\_leaf\_record
 
  3. implemantation
     + KeyStore객체를 만든다.
@@ -58,11 +58,11 @@ DONE
     + curve25519 구현 
       - 추가 검증. 이런 검증이 어렵네
 
-    + brute_force 방법을 기존대로 구현하기.
-    + read_empty_space는 btree의 사용하지 않는 노드를 carving하는 함수
+    + brute\_force 방법을 기존대로 구현하기.
+    + read\_empty\_space는 btree의 사용하지 않는 노드를 carving하는 함수
       현재 테스트 이미지에는 데이타가 없음
       데이타가 하나도 없음 
 
     + journal read
-    + attribute : get_attribute 
+    + attribute : get\_attribute 
     + EMFVolume : open
