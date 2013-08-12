@@ -2,7 +2,7 @@
 
 APP      = "binary"
 SRCS     = %w{ ./file.binary.cpp }
-CXX      = "c++11"
+CXX      = "xcrun"
 CXXFLAGS = ":v"
 
 DIR = File.dirname __FILE__
