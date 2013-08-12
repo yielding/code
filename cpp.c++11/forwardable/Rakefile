@@ -1,0 +1,11 @@
+# -*- ruby -*-
+
+SRCS      = %w{ forward.cpp }
+TEST_SRCS = %w{ test_forward.cpp }
+APP       = "forward"
+CXX       = "xcrun"
+#CXXFLAGS  = ":d"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
