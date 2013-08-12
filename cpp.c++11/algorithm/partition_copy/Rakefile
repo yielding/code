@@ -1,0 +1,17 @@
+# -*- ruby -*-
+
+APP       = "partition_copy"
+APP_TEST  = "test_#{APP}"
+SRCS      = %W{ ./partition_copy.cpp
+              }
+
+TEST_SRCS = %W{ ./test_partition_copy.cpp
+              }
+
+CXX       = "xcrun"           # xcrun(clang++ for Apple compiler), c++0x, clang++, blank
+CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
+LIBS      = ""
+
+load "~/code/build/app2.rake"
+
+# task :default => [:test]
