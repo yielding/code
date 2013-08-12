@@ -44,7 +44,7 @@ def complete(r,prefix,count)
     return results
 end
 
-complete(r,"dani",50).each{|res|
+complete(r,"dani",50).each { |res|
     puts res
 }
 
