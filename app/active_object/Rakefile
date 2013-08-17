@@ -1,9 +1,0 @@
-# -*- ruby -*-
-
-SRCS       = %w{driver.cpp}
-APP        = "ao"
-CXX        = "clang++"       # c++0x, clang++, blank
-CXXFLAGS   = ":v :Os"        # :debug, :nodebug
-LIBS       = ":t :f :s"
-
-load '~/code/build/app2.rake'
