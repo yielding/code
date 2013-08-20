@@ -1,6 +1,0 @@
-group :test do
-  source 'https://rubygems.org'
-  gem 'guard-minitest'
-  gem 'ruby_gntp'
-  gem 'bindata'
-end
