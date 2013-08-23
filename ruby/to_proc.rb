@@ -3,6 +3,7 @@
 require 'pp'
 
 # http://ruby.insightbook.co.kr/?p=23
+
 class Symbol
   def to_proc
     Proc.new {|*args| args.shift.__send__(self, *args) }

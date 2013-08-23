@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -wKU
+#!/usr/bin/env ruby
 #-*- coding:utf-8 -*-
 
 "이창하".each_byte { |b| puts b }

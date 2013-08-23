@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 unless 2.0.respond_to? :pow
   class Float
     def pow(num)
