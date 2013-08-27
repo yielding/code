@@ -26,7 +26,7 @@ static struct mrb_data_type fi_type =
 
 mrb_value fi_initialize(mrb_state* mrb, mrb_value self)
 {
-  auto fi = (File*)mrb_get_datatype(mrb, self, &fi_type);
+  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File);
   if (fi != nullptr)
     fi_free(mrb, fi);
 
@@ -42,31 +42,36 @@ mrb_value fi_initialize(mrb_state* mrb, mrb_value self)
 
 mrb_value fi_get_name(mrb_state* mrb, mrb_value self)
 {
-  auto fi = (File*)mrb_check_datatype(mrb, self, &fi_type); assert(fi);
+  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+
   return mrb_str_new_cstr(mrb, fi->name().c_str());
 }
 
 mrb_value fi_get_path(mrb_state* mrb, mrb_value self)
 {
-  auto fi = (File*)mrb_check_datatype(mrb, self, &fi_type); assert(fi);
+  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+
   return mrb_str_new_cstr(mrb, fi->path().c_str());
 }
 
 mrb_value fi_get_parent(mrb_state* mrb, mrb_value self)
 {
-  auto fi = (File*)mrb_check_datatype(mrb, self, &fi_type); assert(fi);
+  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+
   return mrb_str_new_cstr(mrb, fi->parent().c_str());
 }
 
 mrb_value fi_get_size(mrb_state* mrb, mrb_value self)
 {
-  auto fi = (File*)mrb_check_datatype(mrb, self, &fi_type); assert(fi);
+  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+
   return mrb_fixnum_value(fi->size());
 }
 
 mrb_value fi_deleted(mrb_state* mrb, mrb_value self)
 {
-  auto fi = (File*)mrb_check_datatype(mrb, self, &fi_type); assert(fi);
+  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+
   return fi->deleted()
     ? mrb_true_value()
     : mrb_false_value();
@@ -74,9 +79,10 @@ mrb_value fi_deleted(mrb_state* mrb, mrb_value self)
 
 mrb_value fi_save_to(mrb_state* mrb, mrb_value self)
 {
-  auto fi = (File*)mrb_check_datatype(mrb, self, &fi_type); assert(fi);
+  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
   mrb_value path; mrb_get_args(mrb, "S", &path);
   auto res = fi->save_to(RSTRING_PTR(path));
+
   return res ? mrb_true_value()
              : mrb_false_value();
 }

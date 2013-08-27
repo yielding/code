@@ -2,7 +2,7 @@
 
 class CDJukeBox
   def count
-   10 
+    10 
   end
 end
 
