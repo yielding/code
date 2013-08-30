@@ -1,0 +1,11 @@
+require "rake/clean"
+
+task :default => [:setup]
+
+task :setup do
+  system %{ 
+    zsh -i ~/.zshrc
+    ls -al
+  }
+end
+
