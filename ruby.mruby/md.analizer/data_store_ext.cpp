@@ -30,7 +30,7 @@ struct mrb_data_type ds_type =
 
 mrb_value ds_get_file_systems(mrb_state* mrb, mrb_value self)
 {
-  auto ds = (DataStore*)mrb_check_datatype(mrb, self, &ds_type);
+  auto ds = DATA_CHECK_GET_PTR(mrb, self, &ds_type, class DVD);
   assert(ds);
 
   auto fss = ds->get_file_systems();
@@ -48,7 +48,7 @@ mrb_value ds_get_file_systems(mrb_state* mrb, mrb_value self)
 
 mrb_value ds_get_description(mrb_state* mrb, mrb_value self)
 {
-  auto ds  = (DataStore*)mrb_check_datatype(mrb, self, &ds_type);
+  auto ds = DATA_CHECK_GET_PTR(mrb, self, &ds_type, class DVD);
   auto fss = ds->get_file_systems();
   auto sz  = fss.size();
   auto desc = str(format("DataStore for %s (%d file systems (%d nodes), %d models)")

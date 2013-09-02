@@ -1,4 +1,5 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/env ruby
+
 # 1. how to comment multiple lines
 # 2. better code design
 # 3. study array, string (esp regex) more thoroughly

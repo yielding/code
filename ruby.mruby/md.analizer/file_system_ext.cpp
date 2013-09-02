@@ -36,7 +36,7 @@ mrb_value fs_wrap(mrb_state* mrb, FileSystem* fs)
 
 mrb_value fs_initialize(mrb_state* mrb, mrb_value self)
 {
-  auto fs = (FileSystem*)mrb_get_datatype(mrb, self, &fs_type);
+  auto fs = DATA_CHECK_GET_PTR(mrb, self, &fs_type, class FileSystem);
   if (fs != nullptr)
     fs_free(mrb, fs);
 
@@ -52,7 +52,7 @@ mrb_value fs_initialize(mrb_state* mrb, mrb_value self)
 
 mrb_value fs_get_name(mrb_state* mrb, mrb_value self)
 {
-  auto fs = (FileSystem*)mrb_check_datatype(mrb, self, &fs_type);
+  auto fs = DATA_CHECK_GET_PTR(mrb, self, &fs_type, class FileSystem);
   assert(fs);
 
   return mrb_str_new_cstr(mrb, fs->name().c_str());

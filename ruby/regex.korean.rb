@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-#-*- coding:utf-8 -*-
 # encoding: utf-8
 
 a = "leech kamin 이창하공장"

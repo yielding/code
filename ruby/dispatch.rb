@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -wKU
+#!/usr/bin/env *ruby*
 
 class Dispatcher1
   def initialize(origin, &block)

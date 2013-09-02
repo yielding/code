@@ -1,8 +1,8 @@
 require 'test/unit'
 
-# ³ªÁß¿¡´Â ArrayÅ¬·¡ÀÌ½º¾È¿¡ subsum method¸¦ ³Ö°í
-# mainÀº [31, -41, 59, 26, -53, 58, 97, -93, -23, 84].subsum()
-# ÀÌ·¸°Ô
+# ë‚˜ì¤‘ì—ëŠ” Arrayí´ë˜ì´ìŠ¤ì•ˆì— subsum methodë¥¼ ë„£ê³ 
+# mainì€ [31, -41, 59, 26, -53, 58, 97, -93, -23, 84].subsum()
+# ì´ë ‡ê²Œ
 
 class ArrayProb
   def initialize

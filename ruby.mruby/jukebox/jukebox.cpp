@@ -132,7 +132,7 @@ static struct mrb_data_type dvd_type =
 
 mrb_value dvd_initialize(mrb_state* mrb, mrb_value self)
 {
-    auto dvd = (DVD*)mrb_get_datatype(mrb, self, &dvd_type);
+    auto dvd = DATA_CHECK_GET_PTR(mrb, self, &dvd_type, class DVD);
     if (dvd != nullptr)
     {
         cout << "dvd instance is not nil\n";
@@ -152,7 +152,7 @@ mrb_value dvd_initialize(mrb_state* mrb, mrb_value self)
 
 mrb_value dvd_set_name(mrb_state* mrb, mrb_value self)
 {
-  auto dvd = (DVD*)mrb_check_datatype(mrb, self, &dvd_type);
+  auto dvd = DATA_CHECK_GET_PTR(mrb, self, &dvd_type, class DVD);
   if (dvd == nullptr)
   {
     cout << "c: dvd set.name is null\n";
@@ -168,7 +168,7 @@ mrb_value dvd_set_name(mrb_state* mrb, mrb_value self)
 
 mrb_value dvd_get_name(mrb_state* mrb, mrb_value self)
 {
-  auto dvd = (DVD *)mrb_check_datatype(mrb, self, &dvd_type);
+  auto dvd = DATA_CHECK_GET_PTR(mrb, self, &dvd_type, class DVD);
 
   if (dvd == nullptr)
   {
@@ -202,7 +202,7 @@ static struct mrb_data_type jukebox_type =
 
 mrb_value jb_initialize(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_get_datatype(mrb, self, &jukebox_type);
+  auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   if (jb != nullptr)
     jb_free(mrb, jb);
 
@@ -221,7 +221,7 @@ mrb_value jb_initialize(mrb_state* mrb, mrb_value self)
 
 mrb_value jb_seek(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   assert(jb);
 
   mrb_int disk, track;
@@ -236,7 +236,7 @@ mrb_value jb_seek(mrb_state* mrb, mrb_value self)
 
 mrb_value jb_get_unit(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   assert(jb);
 
   return mrb_fixnum_value(jb->unit());
@@ -244,7 +244,7 @@ mrb_value jb_get_unit(mrb_state* mrb, mrb_value self)
 
 mrb_value jb_set_unit(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   assert(jb);
 
   mrb_int id; mrb_get_args(mrb, "i", &id);
@@ -255,7 +255,7 @@ mrb_value jb_set_unit(mrb_state* mrb, mrb_value self)
 
 mrb_value jb_avg_seek_time(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   assert(jb);
 
   return mrb_float_value(mrb, jb->avg_seek_time());
@@ -263,7 +263,7 @@ mrb_value jb_avg_seek_time(mrb_state* mrb, mrb_value self)
 
 mrb_value jb_get_dvd_list(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   assert(jb);
 
   // REMARK: getting with reference is very important
@@ -286,7 +286,7 @@ mrb_value jb_get_dvd_list(mrb_state* mrb, mrb_value self)
 // 한글 처리 문제
 mrb_value jb_get_user_list(mrb_state* mrb, mrb_value self)
 {
-  auto jb = (CDJukeBox*)mrb_check_datatype(mrb, self, &jukebox_type);
+  auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   assert(jb);
 
   auto& ul = jb->get_user_list();
@@ -326,7 +326,7 @@ static struct mrb_data_type mstore_type =
 
 mrb_value ms_get_jukebox(mrb_state* mrb, mrb_value val)
 {
-  auto ms = (MusicStore*)mrb_check_datatype(mrb, val, &mstore_type);
+  auto ms = DATA_CHECK_GET_PTR(mrb, val, &mstore_type, class MusicStore);
   assert(ms);
 
   mrb_int id; mrb_get_args(mrb, "i", &id);

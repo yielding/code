@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
-#
+
 require 'syslog'
+
 log = Syslog.open("test")   # "test" is the app name
 # log.debug("Warm and fuzzy greetings from your program")
 # log.info("Program starting")
