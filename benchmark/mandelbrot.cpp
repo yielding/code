@@ -1,5 +1,6 @@
 #include <sys/time.h>
 #include <stdio.h>
+
 #define BAILOUT 16
 #define MAX_ITERATIONS 1000
 
