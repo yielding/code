@@ -36,7 +36,6 @@ mrb_value fi_initialize(mrb_state* mrb, mrb_value self)
   mrb_value path; mrb_get_args(mrb, "S", &path);
   DATA_PTR(self)  = new File(RSTRING_PTR(path));
   DATA_TYPE(self) = &fi_type;
-
   return self;
 }
 
