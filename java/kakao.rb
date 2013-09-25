@@ -29,15 +29,19 @@ class KakaoClient
 
 end
 
-kakao = KakaoClient.new()
+kakao = KakaoClient.new("192.168.0.129")
+#kakao = KakaoClient.new()
 # ping
 # print kakao.ping
 
 # decrypt
 ciphered = "m+oavcl6PVEo1RBcCFlKSQ=="
 salt     = "23303370"
-100000.times { |i|
-  printf "%d, %s\n", i, kakao.decrypt(ciphered, salt)
+100.times {
+  10.times { |i|
+    printf "%d, %s\n", i, kakao.decrypt(ciphered, salt)
+  }
+  sleep(1)
 }
 
 # kill server

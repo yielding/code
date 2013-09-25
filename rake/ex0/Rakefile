@@ -12,5 +12,6 @@ namespace :alcoholic do
   desc "This task will drink one too many"
   task :getSmashed => :mixDrink do
     puts "Dood"
+    
   end
 end

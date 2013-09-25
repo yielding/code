@@ -2,13 +2,13 @@ package
 {
   import flash.display.Sprite;
   import flash.events.*;
-  
+
   public class SpriteExample extends Sprite 
   {
     private var size:uint = 100;
     private var bgColor:uint = 0xFFCC00;
     private var box:Sprite;
-    
+
     public function SpriteExample() 
     {
       var child:Sprite = new Sprite();
@@ -17,7 +17,7 @@ package
       draw(child);
       box = Sprite(addChild(child));
     }
-    
+
     private function mouseDownHandler(event:MouseEvent):void 
     {
       trace("mouseDownHandler");
@@ -25,7 +25,7 @@ package
       sprite.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
       sprite.startDrag();
     }
-    
+
     private function mouseUpHandler(event:MouseEvent):void 
     {
       trace("mouseUpHandler");
@@ -33,13 +33,13 @@ package
       sprite.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
       sprite.stopDrag();
     }
-    
+
     private function mouseMoveHandler(event:MouseEvent):void 
     {
       trace("mouseMoveHandler");
       event.updateAfterEvent();
     }
-    
+
     private function draw(sprite:Sprite):void 
     {
       sprite.graphics.beginFill(bgColor);

@@ -10,13 +10,13 @@ fs = $ds.file_systems["hfs"]
 p fs.name
 
 puts "create new file"
-f = File.new "/opt/local/include/iostream" 
+f = File.new("/opt/local/include/iostream")
 
 puts "inspect some properties"
-p f.name
-p f.path
-p f.parent
-p f.size
-p f.deleted?
+puts "name  : #{f.name}"
+puts "path  : #{f.path}"
+puts "parent: #{f.parent}"
+puts "size  : #{f.size}"
+puts "delete: #{f.deleted?}"
 
 p f.save_to('/Users/yielding/Desktop/result');

@@ -1,4 +1,4 @@
-package com.gmdmfix.KakaoDecryptor;
+//package com.gmdmfix.KakaoDecryptor;
 
 import java.net.*;
 import java.io.*;
