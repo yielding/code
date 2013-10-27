@@ -1,0 +1,12 @@
+# -*- ruby -*-
+
+SRCS      = %w{ ./fact.cpp }
+TEST_SRCS = %w{ ./test_fact.cpp }
+APP       = "fact"
+CXX       = "xcrun"
+CXXFLAGS  = ":d"
+LIBS      = "gmp"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
