@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-#RADIO_ADDR = "mms://211.218.209.124/L-FM_300k"
 RADIO_ADDR = "rtmp://ebsandroid.nefficient.com/fmradiofamilypc/familypc1m"
 RADIO_NAME = "ebs_radio"
 
