@@ -17,159 +17,6 @@ import com.Ostermiller.util.*;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-class DecryptServer {
-    ServerSocket   server = null;
-    KakaoDecryptor decrypter = null;
-
-    // DEBUG Point
-    // String tmpCiperedText = "";
-    // String tmpSalt = "";
-
-    public DecryptServer(int port, KakaoDecryptor decrypter) {
-        try {
-            server = new ServerSocket(port);
-            this.decrypter = decrypter;
-        } catch(IOException e) {
-        }
-    }
-
-    public boolean startServer() {
-        if (server == null)
-            return false;
-
-        boolean shouldTerminate = false;
-        while (true) {
-            if (shouldTerminate)
-                break;
-
-            Socket client = null;
-            DataInputStream in = null;
-            DataOutputStream out = null;
-            try {
-                client = server.accept();
-                // NOTICE
-                // client.setSoTimeout(3 * 1000);
-                in  = new DataInputStream (new BufferedInputStream (client.getInputStream()));
-                out = new DataOutputStream(new BufferedOutputStream(client.getOutputStream()));
-
-                while (true) {
-                    if (shouldTerminate)
-                        break;
-
-                    int header = (int)in.readByte();
-                    try {
-                        switch (header) {
-                            case 0: shouldTerminate = true;        break;
-                            case 1: processPingPacket(in, out);    break;
-                            case 2: processDecryptPacket(in, out);  
-                                    // DEBUG Point
-                                    // System.out.println("Success!");
-                                    break;
-                            case 5: processPCHDecryptPacket(in, out); 
-                                    // DEBUG Point
-                                    // System.out.println("Success!");
-                                    break;
-                            default:
-                                    System.out.println("unkown protocol header : " + header);
-                                    break;
-                        }
-
-                    } catch(Exception e) {
-                        // e.printStackTrace();
-                        // DEBUG Point
-                        System.out.println("Error : " + e.getMessage());
-                        processErrorPacket(in, out, e.getMessage());
-                    } 
-                }
-
-            } catch (SocketTimeoutException e) {
-                System.out.print("Connection Closeed by timeout");
-                try { client.close(); } catch(Exception ex) {}
-            } catch (Exception e) {
-            } finally {
-                try { client.close(); } catch(Exception ex) {}
-            }
-        }
-
-        return true;
-    }
-
-    private void processErrorPacket(DataInputStream in, DataOutputStream out, String message) {
-        try {
-            byte[] bytes = message.getBytes("UTF-8");
-            out.writeByte(4);
-            out.writeInt(bytes.length);
-            out.write(bytes, 0, bytes.length);
-            out.flush();
-        } catch(Exception e) {
-        }
-    }
-
-    private void processPingPacket(DataInputStream in, DataOutputStream out) throws Exception {
-        try {
-            int l0 = in.readInt();
-            if (l0 != 5)
-                throw new Exception("wrong ping packet arraibed");
-
-            byte[] body = readBytes(in, 5);
-            out.writeByte(1);
-            out.write(body, 0, 5);
-            out.flush();
-        } catch(Exception e) {
-            throw e;
-        }
-    }
-
-    private void processPCHDecryptPacket(DataInputStream in, DataOutputStream out) throws Exception {
-        int l0 = in.readInt();
-        byte[] cipheredText = readBytes(in, l0);
-        byte[]    plainText = decrypter.decryptPCH(cipheredText);
-        int length = plainText.length;
-        out.writeByte(3);
-        out.writeInt(length);
-        out.write(plainText, 0, length);
-        out.flush();
-    }
-
-    private void processDecryptPacket(DataInputStream in, DataOutputStream out) throws Exception {
-        int l0 = in.readInt();
-        byte[] cipheredText = readBytes(in, l0);
-        // DEBUG Point
-        // tmpCiperedText = new String(cipheredText);
-
-        int l1 = in.readInt();
-        byte[] salt = readBytes(in, l1);
-        // DEBUG Point
-        // tmpSalt = new String(salt);
-
-        byte[] plainText = decrypter.decrypt(cipheredText, salt, 1);
-
-        //
-        // 1: ok, 2: fail
-        //
-        if (plainText != null) {
-            out.writeByte(3);
-            int length = plainText.length;
-            out.writeInt(length);
-            out.write(plainText, 0, length);
-            out.flush();
-        } else {
-            String message = "decrypt failed";
-            processErrorPacket(in, out, message);
-        }
-    }
-
-    private byte[] readBytes(DataInputStream in, int len) throws Exception {
-        try {
-            byte[]  buffer = new byte[len];
-            int actualRead = in.read(buffer);
-            return len == actualRead ? buffer : null;
-        } catch (IOException e) {
-            throw e;
-        }
-    }
-}
-
 public class KakaoDecryptor {
     char[] password1 = { 22, 8, 9, 111, 2, 23, 43, 8, 33, 33, 10, 16, 3, 3, 7, 6 }; 
     byte[] iv1       = { 15, 8, 1, 0, 25, 71, 37, -36, 21, -11, 23, -32, -31, 21, 12, 53 }; 
@@ -258,6 +105,10 @@ public class KakaoDecryptor {
             pbeKeySpec = new PBEKeySpec(pw, salt, 2, 256);
 
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBEWithSHAAnd256BitAES-CBC-BC");
+            
+System.out.println(password1);
+System.out.println(keyFactory.generateSecret(pbeKeySpec).getEncoded());
+
             SecretKeySpec localSecretKeySpec = new SecretKeySpec(keyFactory.generateSecret(pbeKeySpec).getEncoded(), "AES");
             return localSecretKeySpec;
         } catch (Exception ex) {
@@ -267,22 +118,13 @@ public class KakaoDecryptor {
     }
 
     public static void main(String[] args) throws Exception {
-        KakaoDecryptor   dec = new KakaoDecryptor();
-        DecryptServer server = new DecryptServer(7781, dec);
-
-        System.out.println("Starting decrypt server");
-        if (!server.startServer()) {
-            System.out.println("failed to start server");
-            System.exit(1);
-        }
+        KakaoDecryptor  dec = new KakaoDecryptor();
 
         // DEBUG Point
-        /*
         // Test 1: PCH field (in xml file) decrypt test
-        System.out.println(dec.decryptPCH("qmza6Is0boO+IoxkLwKz/A=="));
+        // System.out.println(dec.decryptPCH("qmza6Is0boO+IoxkLwKz/A=="));
 
         // Test 2: fields in table decrypt test
         System.out.println(dec.decrypt("m+oavcl6PVEo1RBcCFlKSQ==", "23303370"));
-        */
     }
 }
