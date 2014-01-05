@@ -1,5 +1,10 @@
 REMARK
 ======
-  mrggem: time, array 두 예제를 참조한다.
+
+  * embedding reference
+    - mruby/mrbgems/mruby-bin-mirb/tools/mirbc/mirb.c
+
+  * mrbgem reference
+    - time, array
 
 

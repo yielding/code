@@ -379,7 +379,7 @@ void init_music_store(mrb_state* mrb)
 
   auto store = mrb_obj_value(
       Data_Wrap_Struct(mrb, ms, &mstore_type, (void*)g_ms));
-  mrb_gv_set(mrb, mrb_intern(mrb, "$mstore"), store);
+  mrb_gv_set(mrb, mrb_intern_lit(mrb, "$mstore"), store);
 }
 
 }
@@ -414,8 +414,8 @@ int main(int argc, const char *argv[])
   // p->lineno = 1;
   // mrb_parser_parse(p, c);
 
-  auto n = mrb_generate_code(mrb, p);
-  mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_top_self(mrb));
+  auto proc = mrb_generate_code(mrb, p);
+  mrb_run(mrb, proc, mrb_top_self(mrb));
   if (mrb->exc)
   {
     mrb_p(mrb, mrb_obj_value(mrb->exc));

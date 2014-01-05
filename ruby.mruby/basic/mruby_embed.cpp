@@ -17,13 +17,13 @@ namespace {
 mrb_value t_init(mrb_state* mrb, mrb_value self)
 {
   auto arr = mrb_ary_new(mrb);
-  mrb_iv_set(mrb, self, mrb_intern(mrb, "@arr"), arr);
+  mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@arr"), arr);
   return self;
 }
 
 mrb_value t_add(mrb_state* mrb, mrb_value self)
 {
-  auto arr = mrb_iv_get(mrb, self, mrb_intern(mrb, "@arr"));
+  auto arr = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@arr"));
   mrb_value obj;
   mrb_get_args(mrb, "o", &obj);
   mrb_funcall(mrb, arr, "push", 1, obj);
@@ -66,8 +66,9 @@ int main()
 
   auto c = mrbc_context_new(mrb);
   auto p = mrb_parse_string(mrb, code.c_str(), c);
-  auto n = mrb_generate_code(mrb, p);
-  mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_top_self(mrb));
+  auto proc = mrb_generate_code(mrb, p);
+  //mrb_context_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_top_self(mrb));
+  mrb_context_run(mrb, proc, mrb_top_self(mrb), 0);
   if (mrb->exc) // exception?
     mrb_p(mrb, mrb_obj_value(mrb->exc));
 
