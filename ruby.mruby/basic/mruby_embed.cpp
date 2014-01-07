@@ -17,13 +17,13 @@ namespace {
 mrb_value t_init(mrb_state* mrb, mrb_value self)
 {
   auto arr = mrb_ary_new(mrb);
-  mrb_iv_set(mrb, self, mrb_intern(mrb, "@arr"), arr);
+  mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@arr"), arr);
   return self;
 }
 
 mrb_value t_add(mrb_state* mrb, mrb_value self)
 {
-  auto arr = mrb_iv_get(mrb, self, mrb_intern(mrb, "@arr"));
+  auto arr = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@arr"));
   mrb_value obj;
   mrb_get_args(mrb, "o", &obj);
   mrb_funcall(mrb, arr, "push", 1, obj);
