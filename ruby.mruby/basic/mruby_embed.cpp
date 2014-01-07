@@ -66,8 +66,9 @@ int main()
 
   auto c = mrbc_context_new(mrb);
   auto p = mrb_parse_string(mrb, code.c_str(), c);
-  auto n = mrb_generate_code(mrb, p);
-  mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_top_self(mrb));
+  auto proc = mrb_generate_code(mrb, p);
+  //mrb_context_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_top_self(mrb));
+  mrb_context_run(mrb, proc, mrb_top_self(mrb), 0);
   if (mrb->exc) // exception?
     mrb_p(mrb, mrb_obj_value(mrb->exc));
 
