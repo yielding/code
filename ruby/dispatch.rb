@@ -1,4 +1,5 @@
-#!/usr/bin/env *ruby*
+#!/usr/bin/env ruby
+# encoding: utf-8
 
 class Dispatcher1
   def initialize(origin, &block)

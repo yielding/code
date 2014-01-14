@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 def fold (seq, prev, &action)
   if seq.empty?

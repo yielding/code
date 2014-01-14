@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-#-*- coding:utf-8 -*-
+# encoding: utf-8
 
 "이창하".each_byte { |b| puts b }
 "이창하".each_char { |c| puts c }

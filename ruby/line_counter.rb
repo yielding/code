@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 # 1. how to comment multiple lines
 # 2. better code design

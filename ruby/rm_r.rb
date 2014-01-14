@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 def rm_r files
   Dir["*"].each do |dir| 

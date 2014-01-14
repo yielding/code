@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 begin require 'rubygems'; rescue LoadError; end
 require 'rbosa'

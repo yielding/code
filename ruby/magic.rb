@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-#encoding: UTF-8
+# encoding: UTF-8
 
 class MagicSquare
   def initialize dim

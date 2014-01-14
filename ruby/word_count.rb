@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 def count_frequency word_list
   counts = Hash.new(0)

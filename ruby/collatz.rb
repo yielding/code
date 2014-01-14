@@ -1,4 +1,5 @@
-#!/usr/bin/env ruby -KU
+#!/usr/bin/env ruby
+# encoding: utf-8
 
 %w{facets/memoize}.each { |lib| require lib }
 

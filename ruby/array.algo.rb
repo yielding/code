@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'test/unit'
 
 # 나중에는 Array클래이스안에 subsum method를 넣고

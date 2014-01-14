@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# -*- encoding: utf-8 -*-
+# encoding: utf-8 
 
 module Cache
   def cache_method(target_method)

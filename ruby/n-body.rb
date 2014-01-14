@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 unless 2.0.respond_to? :pow
   class Float

@@ -1,3 +1,6 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
 require "test/unit"
 
 Chunk = Struct.new(:offset, :count)
