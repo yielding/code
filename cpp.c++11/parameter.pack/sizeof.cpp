@@ -1,6 +1,6 @@
 #include <iostream>
  
-template<class... Args>
+template <class... Args>
 std::size_t f()
 {
     return sizeof...(Args);
