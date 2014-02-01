@@ -25,9 +25,10 @@ string join(ForwardIterator f, ForwardIterator l, string const& sep=", ")
 {
   stringstream ss;
 
-  for (; f != l - 1; ++f) ss << *f << sep;
-
   ss << *f;
+  for (++f; f != l - 1; ++f) 
+    ss << sep << *f;
+
 
   return ss.str();
 }
