@@ -1,0 +1,12 @@
+# -*- ruby -*-
+
+SRCS     = %w{decompose.cpp}
+APP      = "decompose"
+INCS     = "../include ../../include"
+CXX      = "xcrun"    # c++0x, clang++, blank
+jXXFLAGS = ":v :d :w"         # :d , :w=-Wall :O0 :O3
+LDFLAGS  = ""
+LIBS     = "icuuc icudata" 
+
+load '~/code/build/app2.rake'
+# CLOBBER.include("a.out")
