@@ -11,4 +11,3 @@ arr = [c for c in s]
 print arr
 
 print translate(arr)
-
