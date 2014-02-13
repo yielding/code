@@ -28,13 +28,11 @@ def search_file(s, beg, end, key):
 
   return offsets
 
+path = "data.bin"
+size = os.path.getsize(path)
 
-if __name__ == '__main__':
-  path = "data.bin"
-  size = os.path.getsize(path)
-
-  # 한글
-  h = open(path, "rb")
-  print search_file(h, 0, size/2-1, "monday")
-  print search_file(h, size/2, size-1, "monday")
-  h.close()
+# 한글
+h = open(path, "rb")
+print search_file(h, 0, size/2-1, "monday")
+print search_file(h, size/2, size-1, "monday")
+h.close()
