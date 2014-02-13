@@ -15,12 +15,12 @@ def search_block(block, key):
   return pos_list
 
 def search_file(s, beg, end, key):
-  size   = end - beg + 1
-  blocks = (size + 1023) / 1024
-  print "size: %d, block count: %d " % (size,  blocks)
+  size = end - beg + 1
+  blks = (size + 1023) / 1024
+  print "size: %d, block count: %d " % (size,  blks)
 
   offsets = []
-  for i in range(blocks):
+  for i in range(blks):
     s.seek(beg + i*1024)
     block = s.read(1024 + len(key)-1)
     roffsets = search_block(block, key)
@@ -28,13 +28,11 @@ def search_file(s, beg, end, key):
 
   return offsets
 
+path = "data.bin"
+size = os.path.getsize(path)
 
-if __name__ == '__main__':
-  path = "data.bin"
-  size = os.path.getsize(path)
-
-  # 한글
-  h = open(path, "rb")
-  print search_file(h, 0, size/2-1, "monday")
-  print search_file(h, size/2, size-1, "monday")
-  h.close()
+# 한글
+h = open(path, "rb")
+print search_file(h, 0, size/2-1, "monday")
+print search_file(h, size/2, size-1, "monday")
+h.close()
