@@ -2,38 +2,33 @@
 
 import threading
 import time
+import search
+import os
 
 class SearchThread(threading.Thread):
-    def __init__(self, threadID, name, counter):
-        threading.Thread.__init__(self)
-        self.threadID = threadID
-        self.name = name
-        self.counter = counter
+  def __init__(self, path, beg, end, key):
+    threading.Thread.__init__(self)
+    self.path = path
+    self.beg  = beg
+    self.end  = end
+    self.key  = key
+    self.offset = []
 
-    def run(self):
-        print "Starting " + self.name
-        threadLock.acquire()
-        print_time(self.name, self.counter, 3)
-        threadLock.release()
+  def run(self):
+    s = open(self.path, "rb")
+    self.offset = search.search_file(s, self.beg, self.end, self.key)
+    s.close()
 
-def print_time(threadName, delay, counter):
-    while counter:
-        time.sleep(delay)
-        print "%s: %s" % (threadName, time.ctime(time.time()))
-        counter -= 1
-
-threadLock = threading.Lock()
-
-th1 = SearchThread(1, "Thread-1", 1)
-th2 = SearchThread(2, "Thread-2", 2)
+p0 = "data0.bin"
+p1 = "data1.bin"
+size = os.path.getsize(p0)
+th1 = SearchThread(p0, 0, size-1, "monday")
+th2 = SearchThread(p1, 0, size-1, "monday")
 
 th1.start()
 th2.start()
-threads = []
-threads.append(th1)
-threads.append(th2)
+threads = [th1, th2]
 
-for t in threads:
-    t.join()
+[t.join() for t in threads]
 
-print "Exiting Main Thread"
+print [t.offset for t in threads]
