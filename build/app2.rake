@@ -14,7 +14,7 @@ if not defined? SRCS
   exit
 end
 
-$CXX = "g++"
+$CXX = "gxcrun clang++ -stdlib=libc++"
 if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+0x/
@@ -54,7 +54,7 @@ RVM_INC = "#{RVM}/include/ruby-1.9.1"
 RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems"
 RICE    = "#{RVM_GEM}/rice-1.4.3/ruby/lib"
 
-$INCS = " -I. -I/opt/local/include"
+$INCS = " -I. -I/opt/local/include -I/Users/yielding/code/develop/include"
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
