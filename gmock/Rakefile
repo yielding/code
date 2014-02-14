@@ -1,0 +1,10 @@
+# -*- ruby -*-
+
+SRCS     = %w{ ./turtle.1st.cpp }
+APP      = "turtle"
+CXX      = "xcrun"
+CXXFLAGS = ":v :d :w"         # :d , :w=-Wall :O0 :O3
+LIBS     = "gmock gtest"
+
+load '~/code/build/app2.rake'
+# CLOBBER.include("a.out")

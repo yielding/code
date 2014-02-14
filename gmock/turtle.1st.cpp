@@ -30,21 +30,6 @@ public:
 };
 
 
-class ConcretePacketStream
-{
-public:
-  void AppendPacket(Packet* new_packet);
-  auto GetPacket(size_t packet_no) const -> const Packet*;
-  auto NumberofPackets() const -> size_t;
-};
-
-template <typename PacketStream> 
-class PacketReader
-{
-public:
-  void ReadPackets(PacketStream* stream, size_t packet_no);
-};
-
 using ::testing::AtLeast;
 
 TEST(TurtleTest, DrawTurtle)
