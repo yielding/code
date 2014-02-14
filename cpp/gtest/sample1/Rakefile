@@ -1,31 +1,10 @@
-#-*- ruby -*-   
+# -*- ruby -*-
 
-require 'rake/clean'
+APP      = "sample1"
+SRCS     = %w{ ./sample1.cpp }
+CXX      = "xcrun"    # c++0x, clang++, blank
+CXXFLAGS = ":v :d :w"         # :d , :w=-Wall :O0 :O3
+LIBS     = "gtest"
 
-TARGET = 'sample1'
-
-task :default => [TARGET]
-
-CLEAN.include("*.o")
-CLOBBER.include(TARGET)
-
-LDFLAGS  = '-L/usr/local/lib'
-LIBS     = '-lgtest -lgtest_main'
-CXXFLAGS = ''
-SRC      = FileList['*.cpp']
-OBJ      = SRC.ext('o')
-
-rule '.o' => '.cpp' do |t|
-  sh "g++ -O2 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
-end
-
-file TARGET => OBJ do
-  sh "g++ -o #{TARGET} #{OBJ} #{LDFLAGS} #{LIBS} --gtest_break_on_failure"
-end
-                
-task :run => [TARGET] do
-  sh "./#{TARGET}"
-end
-
-file 'sample1.o'          => ['sample1.cpp']
-file 'sample1_unittest.o' => ['sample1_unittest.cpp']
+load '~/code/build/app2.rake'
+# CLOBBER.include("a.out")

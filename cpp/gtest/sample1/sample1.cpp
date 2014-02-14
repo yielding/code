@@ -1,4 +1,5 @@
 #include "sample1.h"
+#include <gtest/gtest.h>
 
 int Factorial(int n)
 {
@@ -34,3 +35,10 @@ bool IsPrime(int n)
   // n has no integer factor in the range (1, n), and thus is prime.
   return true;
 }
+
+int main(int argc, char *argv[])
+{
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
+

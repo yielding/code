@@ -14,7 +14,7 @@ if not defined? SRCS
   exit
 end
 
-$CXX = "gxcrun clang++ -stdlib=libc++"
+$CXX = "g++"
 if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+0x/
@@ -68,7 +68,7 @@ if defined? INCS
   end
 end
 
-$LDFLAGS = " -L. -L/opt/local/lib"
+$LDFLAGS = " -L. -L/opt/local/lib -L/Users/yielding/code/develop/lib"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
     flag = case e
