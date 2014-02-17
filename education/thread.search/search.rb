@@ -18,21 +18,23 @@ def search_file(s, beg, end_, key)
   blks = (size + 1023) / 1024
   offsets = []
   blks.times { |n|
-    s.seek(beg + n*1024)
+    s.seek(beg + n * 1024)
     block = s.read(1024 + key.size - 1)
     roffsets = search_block(block, key)
-    offsets += roffsets.map { |e| beg + e + n * 1024 }
+    offsets += roffsets.map { |e| e + beg + n * 1024 }
   }
 
   offsets
 end
 
-block = "\x00leech\x00leech"
-search_block(block, "leech") { |pos|
-  p pos 
-}
+if __FILE__ == $PROGRAM_NAME
+  block = "\x00leech\x00leech"
+  search_block(block, "leech") { |pos|
+    p pos 
+  }
 
-path = "data0.bin"
-f    = File.open(path, "rb")
-size = File.size(path)
-p search_file(f, 0, size-1, "monday") 
+  path = "data0.bin"
+  f    = File.open(path, "rb")
+  size = File.size(path)
+  p search_file(f, 0, size-1, "monday") 
+end
