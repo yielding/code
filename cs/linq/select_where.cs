@@ -11,6 +11,12 @@ public class Student
     this.Age = age;
   }
 
+  public override string ToString()
+  {
+    return String.Format("{0}, {1}", this.Name, this.Age);
+  }
+
+
   public string Name { get; set; }
   public int    Age  { get; set; }
 }
@@ -23,8 +29,8 @@ class Application
     var s1 = new Student("gunlee", 10 );
 
     var students = new List<Student>() { s0, s1 };
-    var res = students.Where (i => i.Age == 40)
-                      .Select(i => i.Name)
+    var res = students.Where (i => i.Age == 50)
+                      //.Select(i => i.Name)
                       .ToList();
     res.ForEach(n => Console.WriteLine(n));
 
