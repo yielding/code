@@ -28,11 +28,6 @@ def search_file(s, beg, end_, key)
 end
 
 if __FILE__ == $PROGRAM_NAME
-  block = "\x00leech\x00leech"
-  search_block(block, "leech") { |pos|
-    p pos 
-  }
-
   path = "data0.bin"
   f    = File.open(path, "rb")
   size = File.size(path)
