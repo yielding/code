@@ -5,15 +5,16 @@ using System.Collections.Generic;
 
 class CSharpApp
 {
-    static void Main(string[] args)
-    {
-        var names = new List<string>() { 
-          "leech", "kamin", "gunhee", "gunhee2"
-        };
+  static void Main(string[] args)
+  {
+    var names = new List<string>() { 
+      "leech", "kamin", "gunhee", "gunhee2"
+    };
 
-        string nameList = names.Where(name => name.StartsWith("g"))
-                               .Aggregate("", (all, next) => all + ", " + next);
+    var nameList 
+      = names.Where(name => name.StartsWith("g"))
+             .Aggregate("", (all, next) => all + ", " + next);
 
-        Console.WriteLine(nameList);
-    }
+    Console.WriteLine(nameList);
+  }
 }
