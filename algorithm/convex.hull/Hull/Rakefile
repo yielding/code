@@ -8,9 +8,6 @@ Motion::Project::App.setup do |app|
   app.identifier = 'kr.yielding.ConvexHull'
   app.icons = ['icon57x57.png', 'icon114x114.png']
 
-<<<<<<< HEAD
   app.provisioning_profile = '/Users/yielding/Library/MobileDevice/Provisioning Profiles/B798B91B-3239-4E6A-BD2A-7DB015421268.mobileprovision'
-=======
-  app.provisioning_profile = '/Users/yielding/Library/MobileDevice/Provisioning Profiles/4DFEF585-9522-44B4-BEC2-B32A0D082FA0.mobileprovision'
->>>>>>> 8dd3a71577334bc3f6d55d29b4612a44b819e2be
+  #app.provisioning_profile = '/Users/yielding/Library/MobileDevice/Provisioning Profiles/4DFEF585-9522-44B4-BEC2-B32A0D082FA0.mobileprovision'
 end

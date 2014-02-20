@@ -31,7 +31,7 @@ if __name__ == "__main__":
   path = "data.bin"
   size = os.path.getsize(path)
 
-  #block = "leech\x00\x00leech\x00leech"
+  # block = "leech\x00\x00leech\x00leech"
   # 한글
   h = open(path, "rb")
   print search_file(h, 0, size/2-1, "monday")
