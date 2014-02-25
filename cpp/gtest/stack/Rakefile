@@ -1,10 +1,15 @@
 # -*- ruby -*-
 # 
 
-SRCS     = %w{stack_unittest.cpp}
-APP      = "su"
-OSX_LIBS = "-lgtest -lgtest_main"
+APP        = "stack"
+APP_TEST   = "test_stack"
+SRCS       = %w{ ./my_stack.cpp 
+                 ./main.cpp 
+           }
+TEST_SRCS  = %w{ ./stack_unittest.cpp }
+CXX        = "xcrun"
+OSX_LIBS   = "-lgtest -lgtest_main"
 
 DIR = File.dirname __FILE__
 
-load '~/code/build/app.rake'
+load '~/code/build/app2.rake'
