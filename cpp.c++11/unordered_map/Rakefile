@@ -3,7 +3,7 @@
 SRCS      = %w{ unordered_map.cpp }
 TEST_SRCS = %w{ test_unordered_map.cpp }
 APP       = "unordered_map"
-CXX       = "c++0x"
+CXX       = "xcrun"
 CXXFLAGS  = ":d"
 
 DIR = File.dirname __FILE__
