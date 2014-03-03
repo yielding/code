@@ -4,7 +4,7 @@ SRCS      = %w{ stack.mm }
 TEST_SRCS = %w{ test_stack.mm }
 APP       = "stack"
 APP_TEST  = "test_stack"
-CXX       = "clang++"
+CXX       = "xcrun"
 CXXFLAGS  = ":v :d :w :arc"   # :d , :w => -Wall :arc => -fobjc-arc
 LDFLAGS   = ""
 FRAMEWORKS= "Foundation"
