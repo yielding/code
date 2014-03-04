@@ -3,7 +3,10 @@
 APP       = "accumulate"
 APP_TEST  = "test_#{APP}"
 SRCS      = %W{ ./#{APP}.cpp }
-TEST_SRCS = %W{ ./test_#{APP}.cpp }
+TEST_SRCS = %W{ ./test_accumulate.cpp
+                ./test_map.cpp 
+                ./test_lambda.cpp 
+              }
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
 LIBS      = "gmock"
