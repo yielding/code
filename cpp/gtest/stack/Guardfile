@@ -2,6 +2,6 @@ notification :growl
 
 guard 'shell' do
   watch(%r{^.+\.(h|cpp)$}) do
-    `rake test`
+    `rake test && ./test_stack`
   end
 end

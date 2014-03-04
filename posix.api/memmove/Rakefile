@@ -3,9 +3,9 @@
 
 APP       = "memmove"
 APP_TEST  = "test_#{APP}"
-SRCS      = %w{memmove.cpp}
-TEST_SRCS = %w{test_memmove.cpp}
-CXX       = "c++11"           # c++0x, clang++, blank
+SRCS      = %w{ ./memmove.cpp }
+TEST_SRCS = %w{ ./test_memmove.cpp }
+CXX       = "xcrun"           # c++0x, clang++, blank
 CXXFLAGS  = ":v"              # :d , :O0 :O3
 
 load '~/code/build/app2.rake'
