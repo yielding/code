@@ -1,13 +1,12 @@
 # -*- ruby -*-
 
-SRCS     = %w{app_name.cpp}
-APP      = "<app_name>"
-APP_TEST = "<test_app_name>"
-INCS     = "../include ../../include"
-CXX      = "compiler.name"    # c++0x, clang++, blank
-CXXFLAGS = ":v :d :w"         # :d , :w=-Wall :O0 :O3
-LDFLAGS  = "lib_path1 lib_path2"
-LIBS     = ":t :s :f :d abc kkk" 
+SRC       = "mem"
+SRCS      = %W{ ./#{SRC}.cpp }
+TEST_SRCS = %W{ ./test_#{SRC}.cpp }
+APP       = "#{SRC}"
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+
+DIR = File.dirname __FILE__
 
 load '~/code/build/app2.rake'
-# CLOBBER.include("a.out")

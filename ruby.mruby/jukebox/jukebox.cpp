@@ -81,8 +81,10 @@ struct CDJukeBox
 
   auto get_user_list() -> map<string, string>&
   {
-    user_list["leech"] = "군포시 광정동 세종아파트";
-    user_list["leeks"] = "안산시 somewhere";
+    user_list["leech"] = "sanbon";
+    user_list["leeks"] = "ansan";
+    //user_list["leech"] = "군포시 광정동 세종아파트";
+    //user_list["leeks"] = "안산시 somewhere";
 
     return user_list;
   }
@@ -91,11 +93,11 @@ struct CDJukeBox
   map<string, string> user_list;
 
   int   status;
-  int   request;
-  void* data;
-  char  pending;
+  //int   request;
+  //void* data;
+  //char  pending;
   int   unit_id;
-  void* stats;
+  //void* stats;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -120,9 +122,15 @@ struct MusicStore
 void dvd_free(mrb_state* mrb, void* p)
 {
   auto dvd = (DVD*)p;
-  cout << str(format("c:dvd_free at %x, name %s\n") % p % dvd->name);
-  if (dvd != nullptr)
-    delete dvd;
+  if (dvd)
+  {
+    cout << str(format("c:dvd_free at %x, name %s\n") % p % dvd->name);
+    if (dvd != nullptr)
+    {
+      delete dvd;
+      dvd = nullptr;
+    }
+  }
 }
 
 static struct mrb_data_type dvd_type = 
@@ -273,7 +281,7 @@ mrb_value jb_get_dvd_list(mrb_state* mrb, mrb_value self)
 
   for (auto it=dl.begin(); it!=dl.end(); ++it)
   {
-    DVD* pdvd = new DVD(*it);
+    auto pdvd = new DVD(*it);
     auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) pdvd));
     // auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) &*it));
 
@@ -281,28 +289,6 @@ mrb_value jb_get_dvd_list(mrb_state* mrb, mrb_value self)
   }
 
   return ar;
-}
-
-// 한글 처리 문제
-mrb_value jb_get_user_list(mrb_state* mrb, mrb_value self)
-{
-  auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
-  assert(jb);
-
-  auto& ul = jb->get_user_list();
-  auto  hs = mrb_hash_new_capa(mrb, ul.size());
-
-  auto cls = mrb_class_get(mrb, "DVD");
-  for (auto it=ul.begin(); it!=ul.end(); ++it)
-  {
-    auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) &*it));
-    auto key = mrb_str_new_cstr(mrb, it->first.c_str());
-    auto val = mrb_str_new_cstr(mrb, it->second.c_str());
-
-    mrb_hash_set(mrb, hs, key, val);
-  }
-
-  return hs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -363,7 +349,6 @@ void init_jukebox(mrb_state* mrb)
   mrb_define_method(mrb, jb, "unit=", jb_set_unit, ARGS_REQ(1));
 
   mrb_define_method(mrb, jb, "dvd_list", jb_get_dvd_list, ARGS_NONE());
-  mrb_define_method(mrb, jb, "user_list", jb_get_user_list, ARGS_NONE());
 }
 
 MusicStore* g_ms = nullptr;
