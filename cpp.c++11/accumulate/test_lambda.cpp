@@ -5,9 +5,11 @@
 using namespace std;
 using namespace testing;
 
-void operator*(int times, function<void(int)> f)
+int operator*(int times, function<void(int)> f)
 {
   for (int i=0; i<times; i++) f(i);
+
+  return times;
 }
 
 TEST(Lambda, OperatorTimes)
