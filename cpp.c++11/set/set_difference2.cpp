@@ -15,8 +15,7 @@ int main(int argc, char *argv[])
   set_difference(s1.begin(), s1.end(), s2.begin(), s2.end(), 
       back_inserter(s3));
 
-  for (auto i : s3) 
-    cout << i << " ";
+  for (auto i : s3) cout << i << " ";
 
   cout << endl;
 }

@@ -1,43 +1,23 @@
+#ifndef MY_STACK_H
+#define MY_STACK_H
+
+
+
 //////////////////////////////////////////////////////////////////////////////
 //
 // programed by leech 2008 11.18
 //
 //////////////////////////////////////////////////////////////////////////////
-/*
 class stack
 {
 public:
-  stack(int size=100) 
-    : m_size(size)
-    , m_top(0)
-    , m_data(new int[size])
-  {}
+  stack(int size=100);
+  ~stack();
 
-  ~stack()
-  {
-    delete [] m_data;
-  }
-
-  int top()
-  {
-    return m_data[m_top-1];
-  }
-
-  void pop()
-  {
-    m_top--;
-  }
-
-  void push(int data)
-  {
-    m_data[m_top] = data;
-    m_top++;
-  }
-
-  int size()
-  {
-    return m_top;
-  }
+  auto top() -> int;
+  auto pop() -> void;
+  auto push(int data) ->void;
+  auto size() -> int;
 
 private:
   int m_top;      // 
@@ -50,4 +30,4 @@ private:
 //
 //
 //////////////////////////////////////////////////////////////////////////////
-*/
+#endif /* end of MY_STACK_H */

@@ -20,7 +20,6 @@ p "count is #{$jb.count}"
 p "average seek time #{$jb.avg_seek_time}"
 
 $jb.dvd_list.each  { |dvd| p dvd.name }
-#$jb.user_list.each { |k, v| p "name: #{k}, value: #{v}" }
 
 $d = DVD.new("leech"); puts $d.name
 $d.name = "kamin";     puts $d.name
