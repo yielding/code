@@ -1,11 +1,13 @@
 # -*- ruby -*-
-# 
 
-SRCS     = %w{sender.cpp}
-APP      = "sender"
-WIN_LIBS = "-lboost_system-mt"
-OSX_LIBS = "-lboost_system-mt"
+SRC       = "sender"
+SRCS      = %W{ ./#{SRC}.cpp }
+TEST_SRCS = %W{ ./test_#{SRC}.cpp }
+APP       = "#{SRC}"
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = ":s"
 
 DIR = File.dirname __FILE__
 
-load '~/code/build/app.rake'
+load '~/code/build/app2.rake'

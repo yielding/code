@@ -1,10 +1,4 @@
-#include <gmock/gmock.h>
-#include <set>
-#include <vector>
-#include <string>
-
-using namespace std;
-using namespace testing;
+#include "common.h"
 
 TEST(Set, Difference)
 {
@@ -19,4 +13,28 @@ TEST(Set, Difference)
 
   ASSERT_THAT(s3, Eq(vector<string>{"leech2", "leech3"}));
   ASSERT_THAT(s3, ElementsAre("leech2", "leech3"));
+}
+
+TEST(Set, RemoveDuplicate)
+{
+  struct data 
+  {
+    string name;
+    int age;
+
+    bool operator<(data const& rhs) const { return name < rhs.name; }
+  };
+
+  set<data> s;
+
+  data a0{"leech", 39}, a1{"kamin", 37}, a2{"kamin", 39};
+
+  s.insert(a0);
+  s.insert(a1);
+  s.insert(a2);
+
+  vector<string> v;
+  for (auto e:s) v.push_back(e.name);
+
+  ASSERT_THAT(v, ElementsAre("kamin", "leech"));
 }

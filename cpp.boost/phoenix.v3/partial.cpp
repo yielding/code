@@ -14,18 +14,18 @@ using namespace phx::arg_names;
 ////////////////////////////////////////////////////////////////////////////////
 void consumer(int i, ofstream& f)
 {
-    char buf[50] = { 0 };
-    sprintf(buf, "line %d\n", i);
+  char buf[50] = { 0 };
+  sprintf(buf, "line %d\n", i);
 
-    f    << buf;
-    cout << buf;
+  f    << buf;
+  cout << buf;
 }
 
 template <typename F> 
 void producer(F waster)
 {
-    for (int i=0; i<10; i++)
-        waster(i);
+  for (int i=0; i<10; i++)
+    waster(i);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,11 +35,11 @@ void producer(F waster)
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char const* argv[])
 {
-    ofstream f;
-    f.open("a.txt", ios_base::binary);
+  ofstream f;
+  f.open("a.txt", ios_base::binary);
 
-    // The point is phx::ref
-    producer(phx::bind(&consumer, arg1, phx::ref(f)));
+  // The point is phx::ref
+  producer(phx::bind(&consumer, arg1, phx::ref(f)));
 
-    return 0;
+  return 0;
 }
