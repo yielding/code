@@ -1,9 +1,11 @@
+#!/usr/bin/env python
+
 import time
 
-def factorial(N):
+def factorial(n):
   """docstring for factorial"""
   fac = 1
-  for i in xrange(1, N+1):
+  for i in xrange(1, n+1):
     fac *= i
 
   return fac
