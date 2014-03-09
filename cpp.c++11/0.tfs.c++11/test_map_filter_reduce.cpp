@@ -53,3 +53,21 @@ TEST(MapFilterReduce, MapByTransform2)
   ASSERT_THAT(v2, ElementsAre("one-l", "two-l", "three-l"));
 }
 
+TEST(MapFilterReduce, Filter1)
+{
+  vector<string> v1{"one", "two", "three"};
+  v1.erase(remove_if(v1.begin(), v1.end(), [](string& s) { return s == "one"; }),
+      v1.end());
+
+  ASSERT_THAT(v1, ElementsAre("two", "three"));
+}
+
+TEST(MapFilterReduce, Filter2)
+{
+  vector<string> v1{"one", "two", "three"}, v2;
+  remove_copy_if(v1.begin(), v1.end(), back_inserter(v2),
+      [](string& s) { return s == "one"; });
+
+
+  ASSERT_THAT(v2, ElementsAre("two", "three"));
+}

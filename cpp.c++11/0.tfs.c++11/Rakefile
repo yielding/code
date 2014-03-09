@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-APP       = "accumulate"
+APP       = "std.lib"
 APP_TEST  = "test_#{APP}"
 SRCS      = %W{ ./#{APP}.cpp }
 TEST_SRCS = %W{ ./test_numeric.cpp
@@ -9,6 +9,7 @@ TEST_SRCS = %W{ ./test_numeric.cpp
                 ./test_set.cpp 
                 ./test_vector.cpp 
                 ./test_list.cpp 
+                ./test_algorithm.cpp 
                 ./test_lambda.cpp 
                 ./test_idiom.cpp 
               }
