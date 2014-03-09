@@ -4,6 +4,7 @@ APP       = "accumulate"
 APP_TEST  = "test_#{APP}"
 SRCS      = %W{ ./#{APP}.cpp }
 TEST_SRCS = %W{ ./test_numeric.cpp
+                ./test_algorithm.cpp 
                 ./test_map.cpp 
                 ./test_set.cpp 
                 ./test_vector.cpp 

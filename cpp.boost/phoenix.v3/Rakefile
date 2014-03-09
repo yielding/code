@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "accumulate"
+SRC       = "phoenix_lambda"
 SRCS      = %W{ #{SRC}.cpp }
 TEST_SRCS = %W{ test_#{SRC}.cpp }
 APP       = "#{SRC}"
