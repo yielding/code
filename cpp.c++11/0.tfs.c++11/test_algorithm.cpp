@@ -35,3 +35,12 @@ TEST(Algorithm, ReplaceIf2)
   replace_if(a.begin(), a.end(), arg1 % 2 == 0, 100);
   ASSERT_THAT(a, ElementsAre(1, 100, 3, 100, 5));
 }
+
+TEST(Algorithm, SwapRange)
+{
+  vector<int> v{1, 2, 3, 4, 5};
+  list<int> l{-1, -2, -3, -4, -5};
+
+  swap_ranges(v.begin(), v.begin() + 3, l.begin());
+  ASSERT_THAT(l, ElementsAre(1, 2, 3, -4, -5));
+}
