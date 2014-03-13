@@ -7,7 +7,7 @@ class Application
 {
   public static int Main(string[] args)
   {
-    var paths = Directory.GetFiles(@"/Users/yielding/code", "*.rb",
+    var paths = Directory.GetFiles(@"/Users/yielding/code", "*",
         SearchOption.AllDirectories);
 
      foreach (var path in paths)

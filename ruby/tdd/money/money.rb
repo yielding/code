@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'profiler'
-
 class Expression
   def reduce(bank, to); end
   def + (addend); end
@@ -89,9 +87,6 @@ class Bank
   end
 
   def reduce(source, to)
-    # if source.class == Money
-    #   return source
-    # end
     source.reduce(self, to)
   end
 
