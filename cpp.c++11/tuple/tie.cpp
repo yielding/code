@@ -23,7 +23,7 @@ int main(int argc, const char *argv[])
 
   int* s = nullptr;
 
-  S value {42, "Test", 3.14};
+  S value{42, "Test", 3.14};
   set<S>::iterator iter;
   bool inserted;
 
@@ -31,5 +31,5 @@ int main(int argc, const char *argv[])
   tie(iter, inserted) = set_of_s.insert(value);
 
   if (inserted)
-    cout << "Value was inserted successfully\n";
+    cout << "value was inserted successfully\n";
 }
