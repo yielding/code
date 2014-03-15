@@ -10,7 +10,7 @@ int main(int argc, char const* argv[])
   auto x = [=](double memo, double x) { return memo + x * x; };
 
   cout << accumulate(v.begin(), v.end(), 0.0, x) << endl;
-  cout << inner_product(v.begin(), v.end(), v.begin(), 0) << endl;
+  cout << inner_product(begin(v), end(v), begin(v), 0) << endl;
 
   return 0;
 }

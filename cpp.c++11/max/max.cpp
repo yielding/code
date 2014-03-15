@@ -24,9 +24,9 @@ string str_max1()
 string str_max2()
 {
   return max({"Lee1", "leee2", "lee3"}, 
-      [](string const& s1, string const& s2) {
-        return s1.size() < s2.size();
-      }
+    [](string const& s1, string const& s2) {
+       return s1.size() < s2.size();
+    }
   );
 }
 

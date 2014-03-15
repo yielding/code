@@ -10,7 +10,7 @@ enum class altitude: char
 
 int main(int argc, const char *argv[])
 {
-  altitude a = altitude::low;
+  auto a = altitude::low;
 
   cout << static_cast<char>(a);
 

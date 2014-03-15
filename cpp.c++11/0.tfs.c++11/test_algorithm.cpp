@@ -44,3 +44,18 @@ TEST(Algorithm, SwapRange)
   swap_ranges(v.begin(), v.begin() + 3, l.begin());
   ASSERT_THAT(l, ElementsAre(1, 2, 3, -4, -5));
 }
+
+TEST(Algorithm, PartitionCopy)
+{
+  int arr[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+  int true_arr[5] = { 0 };
+  int fals_arr[5] = { 0 };
+
+  partition_copy(begin(arr), end(arr),
+                 begin(true_arr),
+                 begin(fals_arr),
+                 [](int i) { return i > 5; });
+
+  ASSERT_THAT(true_arr, ElementsAre(6, 7, 8, 9, 10));
+  ASSERT_THAT(fals_arr, ElementsAre(1, 2, 3, 4, 5));
+}
