@@ -71,9 +71,11 @@ end
 $LDFLAGS = " -L. -L/opt/local/lib -L/Users/yielding/code/develop/lib"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
+    sdk_path = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk"
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
-           when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
+           #when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
+           when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
            when /:rice/ ; " -L#{RVM}/lib -L#{RICE}/lib -ldl -lruby.1.9.1 -lrice"
            when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
            when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
