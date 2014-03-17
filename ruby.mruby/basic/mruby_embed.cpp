@@ -6,7 +6,6 @@
 #include <mruby/array.h>
 #include <mruby/variable.h>
 #include <mruby/proc.h>
-#include <mruby/compile.h>
 
 namespace {
 ////////////////////////////////////////////////////////////////////////////////
