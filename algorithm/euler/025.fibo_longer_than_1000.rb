@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby2.0
+#!/usr/bin/env ruby
 
 class Fibo
   @@cache = {1=>1, 2=>1}
