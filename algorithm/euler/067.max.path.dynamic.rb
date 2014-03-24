@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-#!/usr/bin/env ruby2.0
-=======
-#!/usr/bin/env ruby20
+#!/usr/bin/env ruby
 
 require "pp"
->>>>>>> 01edb46d07ff55aed8c18025eb00bd2aacbeada0
 
 class MaxPath
   attr_reader :max, :grid
