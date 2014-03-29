@@ -77,7 +77,7 @@ int main(int argc, char const* argv[])
   Object o;
 
   auto x = 5;
-  auto f = make_lambda_closure([&o, x]() { o.increment(x); });
+  auto f = make_lambda_closure([&o, x] { o.increment(x); });
   f->Execute();
   f->Execute();
   cout << o.result();
