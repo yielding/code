@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestHello < Minitest::Test
+class TestHello < MiniTest::Test
   def setup
     @hello = Hello.new("hello")
   end

@@ -22,6 +22,16 @@ public class Student
 
 class Application
 {
+  public static void TestAggregate()
+  {
+    var s0 = new Student("leech", 40);
+    var s1 = new Student("gunhee", 10);
+
+    var students = new List<Student>() { s0, s1 };
+    var res = students.Aggregate("", (a, b) => a += b.Name);
+    Console.WriteLine(res);
+  }
+
   public static void TestList()
   {
     var s0 = new Student("leech", 40);
@@ -55,7 +65,7 @@ class Application
 
   public static int Main(string[] args)
   {
-    TestMap();
+    TestAggregate();
 
     return 0;
   }

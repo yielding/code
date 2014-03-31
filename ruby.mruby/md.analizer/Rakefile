@@ -14,7 +14,7 @@ TEST_SRCS = %w{ ./test_main.cpp
               }
 
 INCS      = ":mvm"
-CXX       = "clang++"          # c++0x, clang++, blank
+CXX       = "xcrun"            # c++0x, clang++, blank
 CXXFLAGS  = ":v"               # :d, :O0 :O3 :w = -Wall
 LDFLAGS   = ":mvm"
 LIBS      = ":f :s"

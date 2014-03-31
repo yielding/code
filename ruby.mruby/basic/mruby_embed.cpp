@@ -1,4 +1,4 @@
-#include <string>
+#include <sstream>
 #include <fstream>
 #include <iostream>
 
@@ -6,7 +6,6 @@
 #include <mruby/array.h>
 #include <mruby/variable.h>
 #include <mruby/proc.h>
-#include <mruby/compile.h>
 
 namespace {
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,10 +53,15 @@ int main()
   cout << "Executing Ruby code from C++!\n";
 
   ifstream ifs("mytest.rb");
-  string line, code;
-  while (getline(ifs, line)) 
-    code += line + "\n";
+  if (!ifs.is_open())
+  {
+    cout << "Can't find the file";
+    exit(EXIT_FAILURE);
+  }
 
+  stringstream buffer; 
+  buffer << ifs.rdbuf();
+  auto code = buffer.str();
   cout << code;
 
   auto mrb = mrb_open();
@@ -67,10 +71,9 @@ int main()
   auto c = mrbc_context_new(mrb);
   auto p = mrb_parse_string(mrb, code.c_str(), c);
   auto proc = mrb_generate_code(mrb, p);
-  //mrb_context_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_top_self(mrb));
   mrb_context_run(mrb, proc, mrb_top_self(mrb), 0);
   if (mrb->exc) // exception?
-    mrb_p(mrb, mrb_obj_value(mrb->exc));
+      mrb_p(mrb, mrb_obj_value(mrb->exc));
 
   mrb_close(mrb);
 
