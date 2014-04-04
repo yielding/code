@@ -20,7 +20,7 @@ TEST(MapFilterReduce, Reduce2)
   int a[5]{ 0 };
   iota(a, a+5, 10);
   ASSERT_THAT(a, ElementsAre(10, 11, 12, 13, 14));
-  auto sum = accumulate(a, a+5, 0,  adder());
+  auto sum = accumulate(a, a+5, 0, adder());
 }
 
 TEST(MapFilterReduce, MapByForEach)
