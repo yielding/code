@@ -7,7 +7,6 @@
 
 using namespace boost::phoenix::arg_names;
 
-
 TEST(Algorithm, Assign)
 {
   vector<int> v1(10); iota(v1.begin(), v1.end(), 1);
