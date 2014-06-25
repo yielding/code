@@ -19,66 +19,70 @@ void fi_free(mrb_state* mrb, void* p)
     delete fi;
 }
 
-static struct mrb_data_type fi_type = 
-{
+static const struct mrb_data_type fi_type = {
   "File", fi_free
 };
 
-mrb_value fi_initialize(mrb_state* mrb, mrb_value self)
+static mrb_value fi_initialize(mrb_state* mrb, mrb_value self)
 {
   auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File);
   if (fi != nullptr)
     fi_free(mrb, fi);
 
+  /*
   if (mrb->c->ci->argc == 0)
     return mrb_nil_value();
+  */
+
+  DATA_TYPE(self) = NULL;
 
   mrb_value path; mrb_get_args(mrb, "S", &path);
-  DATA_PTR(self)  = new File(RSTRING_PTR(path));
   DATA_TYPE(self) = &fi_type;
+  DATA_PTR(self)  = new File(RSTRING_PTR(path));
+
   return self;
 }
 
-mrb_value fi_get_name(mrb_state* mrb, mrb_value self)
+static mrb_value fi_get_name(mrb_state* mrb, mrb_value self)
 {
-  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+  auto fi = DATA_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
 
   return mrb_str_new_cstr(mrb, fi->name().c_str());
 }
 
-mrb_value fi_get_path(mrb_state* mrb, mrb_value self)
+static mrb_value fi_get_path(mrb_state* mrb, mrb_value self)
 {
-  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+  auto fi = DATA_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
 
   return mrb_str_new_cstr(mrb, fi->path().c_str());
 }
 
-mrb_value fi_get_parent(mrb_state* mrb, mrb_value self)
+static mrb_value fi_get_parent(mrb_state* mrb, mrb_value self)
 {
-  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+  auto fi = DATA_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
 
   return mrb_str_new_cstr(mrb, fi->parent().c_str());
 }
 
-mrb_value fi_get_size(mrb_state* mrb, mrb_value self)
+static mrb_value fi_get_size(mrb_state* mrb, mrb_value self)
 {
-  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+  auto fi = DATA_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
 
   return mrb_fixnum_value(fi->size());
 }
 
-mrb_value fi_deleted(mrb_state* mrb, mrb_value self)
+static mrb_value fi_deleted(mrb_state* mrb, mrb_value self)
 {
-  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+  auto fi = DATA_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
 
   return fi->deleted()
     ? mrb_true_value()
     : mrb_false_value();
 }
 
-mrb_value fi_save_to(mrb_state* mrb, mrb_value self)
+static mrb_value fi_save_to(mrb_state* mrb, mrb_value self)
 {
-  auto fi = DATA_CHECK_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
+  auto fi = DATA_GET_PTR(mrb, self, &fi_type, class File); assert(fi);
   mrb_value path; mrb_get_args(mrb, "S", &path);
   auto res = fi->save_to(RSTRING_PTR(path));
 

@@ -35,8 +35,8 @@ void init_by_test(mrb_state* mrb)
 {
   cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
 
-  mrb_define_method(mrb, cTest, "initialize", t_init, ARGS_NONE());
-  mrb_define_method(mrb, cTest, "add", t_add, ARGS_REQ(1));
+  mrb_define_method(mrb, cTest, "initialize", t_init, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cTest, "add"       , t_add , MRB_ARGS_REQ(1));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
