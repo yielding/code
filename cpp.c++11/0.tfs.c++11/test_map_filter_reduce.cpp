@@ -68,6 +68,5 @@ TEST(MapFilterReduce, Filter2)
   remove_copy_if(v1.begin(), v1.end(), back_inserter(v2),
       [](string& s) { return s == "one"; });
 
-
   ASSERT_THAT(v2, ElementsAre("two", "three"));
 }
