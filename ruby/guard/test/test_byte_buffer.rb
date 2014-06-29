@@ -1,9 +1,8 @@
-require "test/unit"
-require "pp"
+#!/usr/bin/env ruby
 
-require "byte_buffer"
+require "test_helper"
 
-class TestByteBuffer < Test::Unit::TestCase
+class TestByteBuffer < MiniTest::Test
   def setup
     @b = ByteBuffer.new
   end
