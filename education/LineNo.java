@@ -14,9 +14,9 @@ public class LineNo {
       int ln = 0;
       String s;
       while ((s = in.readLine()) != null) {
-      String res = String.format("%-5d : %s", ln++, s);
-      System.out.println(res);
-      out.write(res+"\n");
+        String res = String.format("%-5d : %s", ln++, s);
+        System.out.println(res);
+        out.write(res+"\n");
       }
       out.close();
     } catch(IOException e) {
