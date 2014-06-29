@@ -40,7 +40,7 @@ int main()
   };
 
   cout << f({ "hello", "world" }).first // list-initialization in function call
-       << '\n';
+      << '\n';
 
   const int (&ar)[2] = { 1, 2 }; // binds a lvalue reference to a temporary array
   int&& r1 = {1};                // binds a rvalue reference to a temporary int
@@ -53,14 +53,14 @@ int main()
   Foo f;
 
   cout << n0 << ' ' << n1 << ' ' << n2 << '\n'
-       << s1 << ' ' << s2 << ' ' << s3 << '\n';
+      << s1 << ' ' << s2 << ' ' << s3 << '\n';
 
   for (auto p: m)
-      cout << p.first << ' ' << p.second << '\n';
+    cout << p.first << ' ' << p.second << '\n';
 
   for (auto n: f.mem)
-      cout << n << ' ';
+    cout << n << ' ';
 
   for (auto n: f.mem2)
-      cout << n << ' ';
+    cout << n << ' ';
 }
