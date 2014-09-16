@@ -133,7 +133,7 @@ void dvd_free(mrb_state* mrb, void* p)
   }
 }
 
-static struct mrb_data_type dvd_type = 
+static const struct mrb_data_type dvd_type = 
 {
   "DVD", dvd_free
 };
@@ -147,8 +147,10 @@ mrb_value dvd_initialize(mrb_state* mrb, mrb_value self)
         dvd_free(mrb, dvd);
     }
 
+    /*
     if (mrb->c->ci->argc == 0)
         return mrb_nil_value();
+    */
 
     mrb_value name; 
     mrb_get_args(mrb, "S", &name);
@@ -195,7 +197,7 @@ mrb_value dvd_get_name(mrb_state* mrb, mrb_value self)
 // MRI ruby 예제의 jb_alloc과 jb_initialize를 합치다.
 //
 ////////////////////////////////////////////////////////////////////////////////
-void jb_free(mrb_state* mrb, void* p)
+static void jb_free(mrb_state* mrb, void* p)
 {
   cout << "c: jb_free is called\n";
   auto jukebox = (CDJukeBox*)p;
@@ -203,31 +205,29 @@ void jb_free(mrb_state* mrb, void* p)
     delete jukebox;
 }
 
-static struct mrb_data_type jukebox_type = 
+static const struct mrb_data_type jukebox_type = 
 {
   "CDJukeBox", jb_free
 };
 
-mrb_value jb_initialize(mrb_state* mrb, mrb_value self)
+static mrb_value 
+jb_initialize(mrb_state* mrb, mrb_value self)
 {
   auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   if (jb != nullptr)
     jb_free(mrb, jb);
 
-  if (mrb->c->ci->argc == 0) // REMARK ci : call info
-  {
-    // error, ci->argc should be "1" in this class
-    return mrb_nil_value();
-  }
+  mrb_int unit;   
+  mrb_get_args(mrb, "i", &unit);
 
-  mrb_int unit;   mrb_get_args(mrb, "i", &unit);
   DATA_PTR(self)  = new CDJukeBox(unit);
   DATA_TYPE(self) = &jukebox_type;
 
   return self;
 }
 
-mrb_value jb_seek(mrb_state* mrb, mrb_value self)
+static mrb_value 
+jb_seek(mrb_state* mrb, mrb_value self)
 {
   auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   assert(jb);
@@ -242,15 +242,17 @@ mrb_value jb_seek(mrb_state* mrb, mrb_value self)
   return self;
 }
 
-mrb_value jb_get_unit(mrb_state* mrb, mrb_value self)
+static mrb_value 
+jb_get_unit(mrb_state* mrb, mrb_value self)
 {
-  auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
+  auto jb = DATA_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   assert(jb);
 
   return mrb_fixnum_value(jb->unit());
 }
 
-mrb_value jb_set_unit(mrb_state* mrb, mrb_value self)
+static mrb_value 
+jb_set_unit(mrb_state* mrb, mrb_value self)
 {
   auto jb = DATA_CHECK_GET_PTR(mrb, self, &jukebox_type, class CDJukeBox);
   assert(jb);
@@ -318,6 +320,7 @@ mrb_value ms_get_jukebox(mrb_state* mrb, mrb_value val)
   mrb_int id; mrb_get_args(mrb, "i", &id);
   auto cls = mrb_class_get(mrb, "CDJukeBox");
   auto jb  = ms->make_jukebox(id);
+
   return mrb_obj_value(Data_Wrap_Struct(mrb, cls, &jukebox_type, (void*) jb));
 }
 

@@ -18,14 +18,11 @@ int main(int argc, const char *argv[])
   while (getline(ifs, line)) 
     lines.push_back(line);
 
-  auto comp = [](string const& s1, string const& s2) {
+  sort(lines.begin(), lines.end(), [](string const& s1, string const& s2) {
     return s1.length() < s2.length();
-  };
-
-  sort(lines.begin(), lines.end(), comp);
+  });
   
-  for (auto it=lines.begin(); it!=lines.end(); ++it)
-      cout << *it << endl;
+  for (auto line: lines) cout << line << endl;
 
   return 0;
 }

@@ -180,6 +180,6 @@ end
 class AttributesTree < BTree
   def initialize file
     super(file, HFSPlusAttrKey, HFSPlusAttrData)
-
   end
+
 end

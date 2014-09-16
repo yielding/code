@@ -97,16 +97,19 @@ System.out.println("socket close ok");
     }
 
     public static void main(String[] args) {
+pl("1");
 
         String cipheredText = "m+oavcl6PVEo1RBcCFlKSQ==";
         String salt = "23303370";
 
-        KakaoClient client = new KakaoClient("127.0.0.1", 7781);
+        KakaoClient client = new KakaoClient("127.0.0.1", 7780);
+pl("2");
 
-        for (int i=0; i<1000000; i++)
+        for (int i=0; i<10; i++)
         {
             System.out.print(i + " ");
             pl(client.decryptString(cipheredText, salt));
+pl("3");
             if (i % 10 == 9)
                 try { Thread.sleep(1000); } catch(Exception e) { }
         }

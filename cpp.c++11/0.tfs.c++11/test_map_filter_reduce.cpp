@@ -20,7 +20,7 @@ TEST(MapFilterReduce, Reduce2)
   int a[5]{ 0 };
   iota(a, a+5, 10);
   ASSERT_THAT(a, ElementsAre(10, 11, 12, 13, 14));
-  auto sum = accumulate(a, a+5, 0,  adder());
+  auto sum = accumulate(a, a+5, 0, adder());
 }
 
 TEST(MapFilterReduce, MapByForEach)
@@ -67,7 +67,6 @@ TEST(MapFilterReduce, Filter2)
   vector<string> v1{"one", "two", "three"}, v2;
   remove_copy_if(v1.begin(), v1.end(), back_inserter(v2),
       [](string& s) { return s == "one"; });
-
 
   ASSERT_THAT(v2, ElementsAre("two", "three"));
 }

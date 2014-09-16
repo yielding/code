@@ -16,7 +16,7 @@ SRC      = FileList['*.cpp']
 OBJ      = SRC.ext('o')
 
 rule '.o' => '.cpp' do |t|
-  sh "g++ -O7 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
+  sh "g++ -O3 -c -o #{t.name} #{t.source} #{CXXFLAGS}"
 end
 
 file TARGET => OBJ do
