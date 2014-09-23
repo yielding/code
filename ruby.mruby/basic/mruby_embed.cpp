@@ -6,6 +6,8 @@
 #include <mruby/array.h>
 #include <mruby/variable.h>
 #include <mruby/proc.h>
+#include <mruby/class.h>
+#include <mruby/data.h>
 
 namespace {
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,10 +32,10 @@ mrb_value t_add(mrb_state* mrb, mrb_value self)
   return arr;
 }
 
-static struct RClass* cTest;
+//static struct RClass* cTest;
 void init_by_test(mrb_state* mrb)
 {
-  cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
+  struct RClass* cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
 
   mrb_define_method(mrb, cTest, "initialize", t_init, MRB_ARGS_NONE());
   mrb_define_method(mrb, cTest, "add"       , t_add , MRB_ARGS_REQ(1));

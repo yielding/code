@@ -2,7 +2,7 @@ REMARK
 ======
 
   * embedding reference
-    - mruby/mrbgems/mruby-bin-mirb/tools/mirbc/mirb.c
+    - ~/opensource/mruby/mrbgems/mruby-bin-mirb/tools/mirb/mirb.c
 
   * mrbgem reference
     - time, array
