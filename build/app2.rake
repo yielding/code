@@ -54,7 +54,7 @@ RVM_INC = "#{RVM}/include/ruby-1.9.1"
 RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems"
 RICE    = "#{RVM_GEM}/rice-1.4.3/ruby/lib"
 
-$INCS = " -I. -I/opt/local/include -I/Users/yielding/code/develop/include"
+$INCS = " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
