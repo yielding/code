@@ -15,7 +15,8 @@ void print_time(system_clock::time_point t)
   cout << tmptr->tm_hour << ':' 
        << tmptr->tm_min  << ':' 
        << tmptr->tm_sec  << '.' 
-       << (d - duration_cast<seconds>(d)).count();
+       << (d - duration_cast<seconds>(d)).count()
+       << endl;
 }
 
 int main(int argc, char const* argv[])

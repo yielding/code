@@ -68,7 +68,8 @@ if defined? INCS
   end
 end
 
-$LDFLAGS = " -L. -L/opt/local/lib -L/Users/yielding/code/develop/lib"
+#$LDFLAGS = " -L. -L/opt/local/lib -L/Users/yielding/code/develop/lib"
+$LDFLAGS = " -L. -L/usr/local/lib -L/Users/yielding/code/develop/lib"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
     sdk_path = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk"
