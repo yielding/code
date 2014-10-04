@@ -46,7 +46,7 @@ class Test
     double[] doubles1 = Apply(a, m.Multiply);
     double[] doubles2 = Apply(a, (double x) => x * 2.0);
 
-    foreach (var v in doubles2)
+    foreach (var v in doubles1)
     {
       Console.WriteLine("value = " + v.ToString());
     }

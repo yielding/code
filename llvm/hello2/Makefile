@@ -1,9 +1,9 @@
 EXECUTABLE=hello
 
 all: hello.ll
-	llvm-as-mp-3.3 hello.ll
-	llc-mp-3.3 hello.bc
-	gcc -o $(EXECUTABLE) hello.s
+	llvm-as hello.ll
+	llc hello.bc
+	xcrun clang -o $(EXECUTABLE) hello.s
 	./$(EXECUTABLE)
 
 clean:
