@@ -72,7 +72,7 @@ end
 $LDFLAGS = " -L. -L/usr/local/lib -L/Users/yielding/code/develop/lib"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
-    sdk_path = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk"
+    sdk_path = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk"
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
            #when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
