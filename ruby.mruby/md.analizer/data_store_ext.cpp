@@ -4,6 +4,7 @@
 
 #include "mruby_basis.h"
 
+#include <iostream>
 #include <cassert>
 #include <boost/format.hpp>
 
