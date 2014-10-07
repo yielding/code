@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRCS     = %w{random.plot.cpp}
+SRCS     = %w{./random.plot.cpp}
 APP      = "random.plot"
 TEST_APP = "test.random.plot"
 CXX      = "clang++"
