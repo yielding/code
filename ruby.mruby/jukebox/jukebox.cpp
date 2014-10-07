@@ -8,14 +8,11 @@
 
 #include <mruby.h>
 #include <mruby/array.h>
-#include <mruby/hash.h>
 #include <mruby/string.h>
 #include <mruby/variable.h>
 #include <mruby/data.h>
 #include <mruby/class.h>
-#include <mruby/proc.h>
 #include <mruby/compile.h>
-#include <mruby/dump.h>
 
 using namespace std;
 using namespace boost;
@@ -70,10 +67,13 @@ struct CDJukeBox
 
   auto get_dvd_list() -> vector<DVD>&
   {
-    if (dvd_list.empty()) for (int i=0; i<10; i++)
+    if (dvd_list.empty()) 
     {
-      DVD d(str(format("dvd no: %d") % i));
-      dvd_list.push_back(d);
+      for (int i=0; i<10; i++)
+      {
+        DVD d(str(format("dvd no: %d") % i));
+        dvd_list.push_back(d);
+      }
     }
 
     return dvd_list;
@@ -81,23 +81,22 @@ struct CDJukeBox
 
   auto get_user_list() -> map<string, string>&
   {
-    user_list["leech"] = "sanbon";
-    user_list["leeks"] = "ansan";
-    //user_list["leech"] = "군포시 광정동 세종아파트";
-    //user_list["leeks"] = "안산시 somewhere";
+    if (user_list.empty())
+    {
+
+      user_list["leech"] = "sanbon";
+      user_list["leeks"] = "ansan";
+    }
 
     return user_list;
   }
 
+private:
   vector<DVD> dvd_list;
   map<string, string> user_list;
 
   int   status;
-  //int   request;
-  //void* data;
-  //char  pending;
   int   unit_id;
-  //void* stats;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -365,8 +364,7 @@ void init_music_store(mrb_state* mrb)
 
   g_ms = new MusicStore;
 
-  auto store = mrb_obj_value(
-      Data_Wrap_Struct(mrb, ms, &mstore_type, (void*)g_ms));
+  auto store = mrb_obj_value(Data_Wrap_Struct(mrb, ms, &mstore_type, (void*)g_ms));
   mrb_gv_set(mrb, mrb_intern_lit(mrb, "$mstore"), store);
 }
 
@@ -394,7 +392,6 @@ int main(int argc, const char *argv[])
   auto code = load_script("myscript.rb");
 
   auto c = mrbc_context_new(mrb);
-
   auto p = mrb_parse_string(mrb, code.c_str(), c);
   // auto p = mrb_parser_new(mrb);
   // p->s    = code.c_str();

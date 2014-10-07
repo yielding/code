@@ -19,8 +19,6 @@ void fs_free(mrb_state* mrb, void* p)
 {
   auto fs = (FileSystem*)p;
   cout << str(format("c: fs_free at %x, name: %s\n") % p % fs->name());
-  // if (fs != nullptr)
-  //   delete fs;
 }
 
 static struct mrb_data_type fs_type = 
