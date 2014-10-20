@@ -1,9 +1,9 @@
 CXX = clang++
-SDL = -framework SDL2
+SDL = -L/usr/local/lib -lsdl2
 # If your compiler is a bit older you may need to change -std=c++11 to -std=c++0x
 CXXFLAGS = -Wall -c -std=c++11 -I/opt/local/include
 LDFLAGS = $(SDL)
-EXE = SDL_Lesson1
+EXE = SDL_Lesson2
 
 all: $(EXE)
 

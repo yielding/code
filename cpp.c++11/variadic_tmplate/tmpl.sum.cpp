@@ -17,7 +17,7 @@ struct my_sum<i, tail...>
 
 int main(int argc, const char *argv[])
 {
-  cout << my_sum<1, 2, 3, 4, 5>::value;
+  std::cout << my_sum<1, 2, 3, 4, 5>::value;
 
   return 0;
 }
