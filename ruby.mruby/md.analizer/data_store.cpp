@@ -19,10 +19,10 @@ DataStore::DataStore()
 
 DataStore::~DataStore()
 {
-    cout << "c: the destructor of singleton DataStore is called\n";
-    cout << "delete filesystem object only once at here\n";
-    for (auto it=_filesystems.begin(); it!=_filesystems.end(); ++it)
-        delete *it;
+  cout << "c: the destructor of singleton DataStore is called\n";
+  cout << "delete filesystem object only once at here\n";
+  for (auto it=_filesystems.begin(); it!=_filesystems.end(); ++it)
+    delete *it;
 }
 
 auto DataStore::get_file_systems() -> std::vector<FileSystem*>&
