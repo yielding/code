@@ -22,7 +22,7 @@ if defined? CXX
   $CXX = "xcrun clang++ -stdlib=libc++" if CXX =~ /xcrun/
 end
 
-$CXXFLAGS = " -std=c++11 -DPOSIX"
+$CXXFLAGS = " -std=c++1y -DPOSIX"
 if defined? CXXFLAGS
   CXXFLAGS.split.each do |f|
     flag = case f
