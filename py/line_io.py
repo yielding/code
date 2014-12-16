@@ -8,4 +8,3 @@ f = open("b.bin", "w")
 for k,v in h.items():
     f.write("{0}, {1}\n".format(k, v))
 f.close
-
