@@ -9,10 +9,10 @@ r.del 'logs'
 puts
 
 p "pushing log messages into a LIST"
-r.rpush 'logs', 'some log message'
-r.rpush 'logs', 'another log message'
-r.rpush 'logs', 'yet another log message'
-r.rpush 'logs', 'also another log message'
+r.rpush('logs', 'some log message')
+r.rpush('logs', 'another log message')
+r.rpush('logs', 'yet another log message')
+r.rpush('logs', 'also another log message')
 
 puts
 p 'contents of logs LIST'
