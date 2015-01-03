@@ -6,8 +6,7 @@ using namespace std;
 
 int main(int argc, char const* argv[])
 {
-  int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-  vector<int> v(arr, arr+10);
+  vector<int> v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
   vector<int> c;
 
   remove_copy(v.begin(), v.end(), 
