@@ -9,9 +9,8 @@ int main(int argc, const char *argv[])
 {
   auto alpha = [] (char c) { return c == '1'; };
 
-  auto n = string("123leech123");
-  auto i = find_if( n.begin(),  n.end(), alpha);
-
+  auto n = "123leech123"s;
+  auto i = find_if(n.begin(),  n.end(), alpha);
   auto j = find_if(n.rbegin(), n.rend(), alpha);
 
   auto beg = distance(n.begin(), i),
