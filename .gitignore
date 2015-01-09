@@ -9,3 +9,4 @@ a.out
 *.efs2
 tags
 *.lock
+*.class
