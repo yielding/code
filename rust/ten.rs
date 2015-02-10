@@ -7,5 +7,5 @@ fn ten_times(f: &fn(int)) {
 }
 
 fn main() {
-  ten_times(|k| println(fmt!("hello, %d", k)));
+  ten_times(|k| println(format!("hello, %d", k)));
 }
