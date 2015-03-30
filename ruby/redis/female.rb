@@ -7,7 +7,7 @@ r = Redis.new
 # Create the completion sorted set
 if !r.exists(:compl)
     puts "Loading entries in the Redis DB\n"
-    File.new('female-names.txt').each_line{|n|
+    File.new('female-names.txt').each_line { |n|
         n.strip!
         (1..(n.length)).each{|l|
             prefix = n[0...l]
