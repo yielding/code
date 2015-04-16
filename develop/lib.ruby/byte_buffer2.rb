@@ -92,6 +92,10 @@ class ByteBuffer2
     @buffer.bytesize 
   end
 
+  def remained_size
+    size - @pos
+  end
+
   def reset
     @pos = @offset
     self
@@ -137,6 +141,10 @@ class ByteBuffer2
   end
 
   def get_binary_for(size)
+    get_string_for(size).bytes
+  end
+
+  def get_bytes(size)
     get_string_for(size).bytes
   end
 
@@ -223,7 +231,13 @@ class ByteBuffer2
     arr.pack("C*").unpack("Q")[0]
   end
 
-  def from_varint_with_size
+  def get_double
+    arr = @buffer[@pos..@pos+7].bytes
+    @pos += 8
+    arr.pack("C*").unpack("G")[0]
+  end
+
+  def get_varint_with_size
     viBytes  = @buffer[@pos..-1].bytes
     byte_no  = 0
     value    = 0
@@ -249,8 +263,8 @@ class ByteBuffer2
     return value, byte_no
   end
 
-  def from_varint
-    value, _ = from_varint_with_size
+  def get_varint
+    value, _ = get_varint_with_size
     value
   end
 
