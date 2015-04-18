@@ -235,11 +235,11 @@ int main(int argc, char const *argv[])
             "userid=joe&password=guessme"
             ;   
                           
-//  req_str = "GET http://192.168.10.12:8080/index.html?userid=joe&password=guessme HTTP/1.1\r\n"
-//            "Host: www.mysite.com\r\n"
-//            "User-Agent: Mozilla/4.0\r\n"
-//            "\r\n"
-//            ;
+  req_str = "GET http://192.168.10.12:8080/index.html?userid=joe&password=guessme HTTP/1.1\r\n"
+            "Host: www.mysite.com\r\n"
+            "User-Agent: Mozilla/4.0\r\n"
+            "\r\n"
+            ;
 
   typedef std::string::const_iterator Iterator;
   typedef http_request_parser<Iterator> http_request_parser;
