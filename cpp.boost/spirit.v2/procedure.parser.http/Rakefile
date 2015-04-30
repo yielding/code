@@ -10,7 +10,7 @@ CLEAN.include("*.o").include("Makefile").include("*.log")
 CLOBBER.include(TARGET).include("*.bun*")
 
 LIBS      = ""
-CXXFLAGS  = "-I/opt/local/include"
+CXXFLAGS  = "-I/usr/local/include"
 SRC       = FileList["http_parser.cpp"]
 OBJ       = SRC.ext('o')
 

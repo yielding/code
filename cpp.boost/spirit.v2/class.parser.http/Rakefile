@@ -1,29 +1,12 @@
-#-*- ruby -*-   
+# -*- ruby -*-
 
-require 'rake/clean'
+SRCS      = %w{http_parser.cpp}
+TEST_SRCS = %w{test_http_parser.cpp}
+APP       = "http_parser"
+APP_TEST  = "test_http_parser"
+CXX       = "xcrun"    # c++0x, clang++, blank
+CXXFLAGS  = ":v :O3"       
+LIBS      = ":t :s" 
 
-TARGET = 'http'
-
-task :default => [:run]
-
-CLEAN.include("*.o").include("Makefile").include("*.log")
-CLOBBER.include(TARGET).include("*.bun*")
-
-LIBS      = ""
-#CXXFLAGS  = "-I/Users/yielding/opensource/boost-trunk"
-CXXFLAGS  = "-I/opt/local/include"
-SRC       = FileList["http_parser.cpp"]
-OBJ       = SRC.ext('o')
-
-rule '.o' => '.cpp' do |t|
-  #sh "g++-4.2 -c -O7 -DBOOST_VERSION=103900 -o #{t.name} #{t.source} #{CXXFLAGS}"
-  sh "clang++ -c -O3  -o #{t.name} #{t.source} #{CXXFLAGS}"
-end
-
-file TARGET => OBJ do
-  sh "clang++ -o #{TARGET} #{OBJ}  #{LIBS}"
-end
-
-task :run => [TARGET] do
-  sh "./#{TARGET}"
-end
+load '~/code/build/app2.rake'
+CLOBBER.include("*.o")
