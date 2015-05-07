@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "regex_sample"
+SRC       = "regex_sample2"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
