@@ -1,0 +1,23 @@
+Sun Sep  5 13:12:42 EDT 2004
+	o lemon.c was updated. I've added the
+	latest version of lemon.c
+
+Fri Sep  3 10:19:22 EDT 2004
+	o Added desktop_calc.cc
+
+Sun Aug  8 12:57:51 EDT 2004
+	o Added #include <string.h> for strlen for lexer.l 
+	
+Sat Aug  7 20:40:09 EDT 2004
+	o Changed ex5 to take double
+	as well as reals
+	
+Sat Aug  7 14:21:29 EDT 2004
+	o Adding documentation example1.y, example2.y
+
+Fri Aug  6 20:40:33 EDT 2004
+	o Added more documentation to ex5
+
+Wed Aug  4 20:32:07 EST 2004
+	o First posting with 4
+	examples.

@@ -1,0 +1,114 @@
+ State 0:
+          program ::= * expr
+          expr ::= * expr MINUS expr
+          expr ::= * expr PLUS expr
+          expr ::= * expr TIMES expr
+          expr ::= * expr DIVIDE expr
+          expr ::= * INTEGER
+
+                       INTEGER shift  10
+                       program accept
+                          expr shift  1
+
+State 1:
+      (0) program ::= expr *
+          expr ::= expr * MINUS expr
+          expr ::= expr * PLUS expr
+          expr ::= expr * TIMES expr
+          expr ::= expr * DIVIDE expr
+
+                             $ reduce 0
+                          PLUS shift  4
+                         MINUS shift  2
+                        DIVIDE shift  8
+                         TIMES shift  6
+
+State 2:
+          expr ::= * expr MINUS expr
+          expr ::= expr MINUS * expr
+          expr ::= * expr PLUS expr
+          expr ::= * expr TIMES expr
+          expr ::= * expr DIVIDE expr
+          expr ::= * INTEGER
+
+                       INTEGER shift  10
+                          expr shift  3
+
+State 3:
+          expr ::= expr * MINUS expr
+      (1) expr ::= expr MINUS expr *
+          expr ::= expr * PLUS expr
+          expr ::= expr * TIMES expr
+          expr ::= expr * DIVIDE expr
+
+                        DIVIDE shift  8
+                         TIMES shift  6
+                     {default} reduce 1
+
+State 4:
+          expr ::= * expr MINUS expr
+          expr ::= * expr PLUS expr
+          expr ::= expr PLUS * expr
+          expr ::= * expr TIMES expr
+          expr ::= * expr DIVIDE expr
+          expr ::= * INTEGER
+
+                       INTEGER shift  10
+                          expr shift  5
+
+State 5:
+          expr ::= expr * MINUS expr
+          expr ::= expr * PLUS expr
+      (2) expr ::= expr PLUS expr *
+          expr ::= expr * TIMES expr
+          expr ::= expr * DIVIDE expr
+
+                        DIVIDE shift  8
+                         TIMES shift  6
+                     {default} reduce 2
+
+State 6:
+          expr ::= * expr MINUS expr
+          expr ::= * expr PLUS expr
+          expr ::= * expr TIMES expr
+          expr ::= expr TIMES * expr
+          expr ::= * expr DIVIDE expr
+          expr ::= * INTEGER
+
+                       INTEGER shift  10
+                          expr shift  7
+
+State 7:
+          expr ::= expr * MINUS expr
+          expr ::= expr * PLUS expr
+          expr ::= expr * TIMES expr
+      (3) expr ::= expr TIMES expr *
+          expr ::= expr * DIVIDE expr
+
+                     {default} reduce 3
+
+State 8:
+          expr ::= * expr MINUS expr
+          expr ::= * expr PLUS expr
+          expr ::= * expr TIMES expr
+          expr ::= * expr DIVIDE expr
+          expr ::= expr DIVIDE * expr
+          expr ::= * INTEGER
+
+                       INTEGER shift  10
+                          expr shift  9
+
+State 9:
+          expr ::= expr * MINUS expr
+          expr ::= expr * PLUS expr
+          expr ::= expr * TIMES expr
+          expr ::= expr * DIVIDE expr
+      (4) expr ::= expr DIVIDE expr *
+
+                     {default} reduce 4
+
+State 10:
+      (5) expr ::= INTEGER *
+
+                     {default} reduce 5
+

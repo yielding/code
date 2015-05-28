@@ -1,0 +1,16 @@
+# Shell binary
+shell
+# Lemon auto-generated files
+shellparser.c
+shellparser.h
+shellparser.cpp
+shellparser.hpp
+shellparser.out
+# Flex auto-generated files
+shellscanner.yy.cpp
+shellscanner.yy.hpp
+# Object files
+*.o
+# Junk
+*.swp
+*~
