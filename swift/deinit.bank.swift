@@ -1,3 +1,5 @@
+#!/usr/bin/env swift
+
 class Bank {
     static var coinsInBank = 10_100
     static func vendCoins(var noOfCoinsToVend: Int) -> Int {
@@ -25,3 +27,11 @@ class Player {
         Bank.receiveCoins(coinsInPurse)
     }
 }
+
+var playerOne: Player? = Player(coins: 100)
+print("A new player has joined the game with \(playerOne!.coinsInPurse) coins")
+
+print("There are now \(Bank.coinsInBank) coins left in the bank")
+
+playerOne!.winCoins(2_000)
+print("There are now \(Bank.coinsInBank) coins left in the bank")
