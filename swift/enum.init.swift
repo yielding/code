@@ -3,7 +3,7 @@
 enum TemperatureUnit {
     case Kelvin, Celsius, Fahrenheit
 
-    init?(symbol: Character) {
+    init? (symbol: Character) {
         switch symbol {
         case "K": self = .Kelvin
         case "C": self = .Celsius
@@ -23,5 +23,3 @@ let unkownUnit = TemperatureUnit(symbol: "X")
 if unkownUnit == nil {
     print("init fail")
 }
-
-

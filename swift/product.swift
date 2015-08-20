@@ -24,7 +24,7 @@ class Document {
 
     init() {}
 
-    init?(name: String) {
+    init? (name: String) {
         self.name = name
         if name.isEmpty { return nil }
     }
@@ -36,7 +36,7 @@ class AutomaticallyNamedDocument: Document {
         self.name = "[Untitled]"
     }
 
-    override init(name: String) {
+    override init (name: String) {
         super.init()
         self.name = "[Untitled]"
         if name.isEmpty {
