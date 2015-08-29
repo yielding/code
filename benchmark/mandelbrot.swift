@@ -1,35 +1,47 @@
 #!/usr/bin/env swift
 
-let N = 1000;
-let depth = 200;
-let escape2 = 400.0;
+import Foundation
 
-func trans_x(x:Int) -> Double
-{
-	return 3.0 * (Double(x) / Double(N)) - 2.0;
-}
-func trans_y(y:Int) -> Double
-{
-	return 3.0 * (Double(y) / Double(N)) - 1.5;
+let BAILOUT = 16
+let MAX_ITERATIONS = 1000
+
+func loop() -> Void {
+    print("Rendering")
+    for y in -39..<39 {
+        print("")
+        for x in -39..<39 {
+            let i = mandel(Double(x)/40.0, y: Double(y)/40.0)
+            if i == 0  { 
+                print("*", appendNewline: false)
+            } else {
+                print(" ", appendNewline: false)
+            }
+        }
+    }
 }
 
-func mag2(r:Double, i:Double) -> Double {
-	return r*r + i*i
+func mandel(x: Double, y: Double) -> Int {
+	let cr = y - 0.5
+	let ci = x
+    var zi = 0.0
+    var zr = 0.0
+
+    var i = 0
+    while true {
+        i += 1
+        let temp = zr * zi
+        let zr2  = zr * zr
+        let zi2  = zi * zi
+        zr = zr2 - zi2 + cr
+        zi = temp + temp + ci
+        if Int(zi2 + zr2) > BAILOUT { return i } 
+        if i > MAX_ITERATIONS  { return 0 }
+    }
 }
 
-func mandel(idx: Int) -> Double {
-	let z0_r = trans_x(idx % N)
-	let z0_i = trans_y(idx / N)
-	
-	var z_r = 0.0
-	var z_i = 0.0
-	
-	var k = 0;
-	for ; k <= depth && mag2(z_r, z_i) < escape2; ++k {
-		let t_r = z_r
-		let t_i = z_i
-		z_r = t_r * t_r - t_i * t_i + z0_r
-		z_i = 2 * t_r * t_i + z0_i
-	}
-	return log(Double(k) + 1.0 - log(log(max(mag2(z_r, z_i), escape2)) / 2.0) / log(2.0));
-}
+var start = NSDate()
+loop()
+var end = NSDate()
+var timeTaken = end.timeIntervalSinceDate(start)
+print("")
+print("Time taken: \(timeTaken) ms.")
