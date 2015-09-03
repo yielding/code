@@ -8,7 +8,7 @@ using namespace std::chrono;
 void print_time(system_clock::time_point t)
 {
   auto c_time = system_clock::to_time_t(t);
-  auto  tmptr = std::localtime(&c_time);
+  auto  tmptr = localtime(&c_time);
   system_clock::duration d = t.time_since_epoch();
 
   cout << tmptr->tm_hour << ':' 
