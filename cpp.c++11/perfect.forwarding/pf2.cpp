@@ -26,7 +26,7 @@ unique_ptr<T> make_unique(U&& u)
 int main(int argc, const char *argv[])
 {
   auto p1 = make_unique<A>(2);
-  int i = 10;
+  auto  i = 10;
   auto p2 = make_unique<A>(i);
   
   return 0;
