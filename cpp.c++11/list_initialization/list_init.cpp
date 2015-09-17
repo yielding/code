@@ -53,7 +53,7 @@ int main()
   Foo f;
 
   cout << n0 << ' ' << n1 << ' ' << n2 << '\n'
-      << s1 << ' ' << s2 << ' ' << s3 << '\n';
+       << s1 << ' ' << s2 << ' ' << s3 << '\n';
 
   for (auto p: m)
     cout << p.first << ' ' << p.second << '\n';

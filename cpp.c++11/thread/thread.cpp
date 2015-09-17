@@ -11,8 +11,8 @@ void write_sum(int size, int* data, int& res)
 int main(int argc, char const* argv[])
 {
   int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-  int res = 0;
-  std::thread t(write_sum, 10, arr, std::ref(res));
+  int res   = 0;
+  thread t(write_sum, 10, arr, ref(res));
   t.join();
 
   cout << res;

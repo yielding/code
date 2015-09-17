@@ -8,8 +8,8 @@ using namespace std;
 
 int main(int argc, const char *argv[])
 {
-  array<int, 3> a1 { {1, 2, 3} };
-  array<int, 3> a2 = { 1, 2, 3 };
+  auto a1 = array<int, 3> { {1, 2, 3} };
+  auto a2 = array<int, 3> { 1, 2, 3 };
   array<string, 2> a3 = { string("a"), "b" };
 
   sort(a1.begin(), a1.end());
