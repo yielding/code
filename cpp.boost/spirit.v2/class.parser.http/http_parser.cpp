@@ -15,47 +15,49 @@ namespace ascii = boost::spirit::qi::ascii;
 
 namespace http
 {      
-  typedef std::map <std::string, std::string> header_map;
+  using namespace std;
+
+  typedef map<string, string> header_map;
   
   struct request
   {
     int content_length()
     { 
-      header_map::const_iterator i = m_headers.find("Content-Length");
+      auto i = m_headers.find("Content-Length");
       return (i == m_headers.end()) 
         ? 0
         : atoi(i->second.c_str());
     } 
     
-    std::string query()
+    string query()
     {  
-      std::size_t found = m_abs_path.find("?");
-      return (found == std::string::npos)
+      auto found = m_abs_path.find("?");
+      return (found == string::npos)
         ? ""
         : m_abs_path.substr(found+1);
     }
     
-    std::string post_data(std::string const& in)
+    string post_data(string const& in)
     {            
       return (m_method == "POST")
         ? in.substr(in.length() - content_length(), content_length())
         : "";
     }
     
-    std::string m_method;
-    std::string m_abs_path;
-    std::string m_http_version;
-    std::string m_query;
-    std::string m_host;
-    std::string m_post_data;
+    string m_method;
+    string m_abs_path;
+    string m_http_version;
+    string m_query;
+    string m_host;
+    string m_post_data;
     header_map  m_headers;
   };
 }
 
 BOOST_FUSION_ADAPT_STRUCT(http::request,
-  (std::string,      m_method)
-  (std::string,      m_abs_path)
-  (std::string,      m_http_version)
+  (string,      m_method)
+  (string,      m_abs_path)
+  (string,      m_http_version)
   (http::header_map, m_headers)
 );
 
@@ -161,8 +163,7 @@ public:
       %= raw[ segment >> *('/' >> segment) ];
 
     abs_path
-      %= string("/")
-      >> path_segments;
+      %= string("/") >> path_segments;
 
     request_uri
       %= string("*")
@@ -224,7 +225,9 @@ private:
 
 int main(int argc, char const *argv[])
 {
-  std::string req_str;
+  using namespace std;
+
+  string req_str;
   
   req_str = "POST /login.jsp HTTP/1.1\r\n"
             "Host: www.mysite.com\r\n"
@@ -241,7 +244,7 @@ int main(int argc, char const *argv[])
             "\r\n"
             ;
 
-  typedef std::string::const_iterator Iterator;
+  typedef string::const_iterator Iterator;
   typedef http_request_parser<Iterator> http_request_parser;
   http_request_parser g;
   
@@ -256,12 +259,14 @@ int main(int argc, char const *argv[])
   bool r = qi::parse(beg, end, g, request);
   if (r && beg == end)
   {                     
-    std::cout << "ok\n";
-    std::cout << request.content_length() << "\n";
-    std::cout << request.query() << "\n";
+    cout << "ok\n";
+    cout << request.content_length() << "\n";
+    cout << request.query() << "\n";
   }
   else
-    std::cout << "error on parsing!";
+  {
+    cout << "error on parsing!";
+  }
 
   return 0;
 }
