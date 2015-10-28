@@ -42,10 +42,6 @@ if defined? CXXFLAGS
 end
 
 # YRV : YARV 
-YVM     = "/opt/local"
-YVM_INC = "#{YVM}/include/ruby-2.0.0"
-
-# YRV : YARV 
 MVM     = "/Users/yielding/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
@@ -64,11 +60,10 @@ if defined? INCS
             else
              " -I#{i}"
             end
-     $INCS += flag
+     $INCS = flag + $INCS
   end
 end
 
-#$LDFLAGS = " -L. -L/opt/local/lib -L/Users/yielding/code/develop/lib"
 $LDFLAGS = " -L. -L/usr/local/lib -L/Users/yielding/code/develop/lib"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
