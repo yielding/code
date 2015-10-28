@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+SRCS      = %w{roman.cpp}
+TEST_SRCS = %w{test_roman.cpp}
+APP       = "roman"
+APP_TEST  = "test_roman"
+CXX       = "xcrun"    # c++0x, clang++, blank
+CXXFLAGS  = ":v :O3"       
+LIBS      = ":t :s" 
+INCS      = "/Users/yielding/opensource/spirit/include"
+
+load '~/code/build/app2.rake'
+CLOBBER.include("*.o")
