@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-  string str = "Hello";
+  auto str = "Hello"s;
   vector<string> v;
 
   // uses the push_back(const T&) overload, which means 
@@ -24,4 +24,6 @@ int main()
 
   cout << "The contents of the vector are \"" << v[0]
        << "\", \"" << v[1] << "\"\n";
+
+  return 0;
 }
