@@ -1,7 +1,7 @@
 # -*- ruby -*-
 
 SRC       = "test_gz"
-SRCS      = %W{ ./#{SRC}.cpp ./gzip.cpp ./zlib.cpp}
+SRCS      = %W{ ./#{SRC}.cpp ./gzip.cpp ./zlib.cpp }
 APP       = "#{SRC}"
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
