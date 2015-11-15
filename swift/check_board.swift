@@ -6,14 +6,14 @@ struct CheckerBoard {
     //
     let boardColors: [Bool] = {
         var tempBoard = [Bool]()
-            var isBlack = false
-            for i in 1...10 {
-                for j in 1...10 {
-                    tempBoard.append(isBlack)
-                    isBlack = !isBlack
-                }
+        var isBlack = false
+        for i in 1...10 {
+            for j in 1...10 {
+                tempBoard.append(isBlack)
                 isBlack = !isBlack
             }
+            isBlack = !isBlack
+        }
 
         return tempBoard
     } ()
