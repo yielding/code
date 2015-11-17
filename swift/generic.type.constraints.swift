@@ -16,7 +16,6 @@ if let foundIndex = findStringIndex(strs, "llama") {
     print("The index of llama is \(foundIndex)")
 }
 
-
 func findIndex<T: Equatable>(arr: [T], _ valueToFind: T) -> Int? {
     for (index, value) in arr.enumerate() {
         if value == valueToFind {
@@ -33,4 +32,3 @@ if let foundIndex = findIndex(strs, "llama") {
 
 let doubleIndex = findIndex([3.14, 0.1, 0.25], 9.3)
 print(doubleIndex)
-
