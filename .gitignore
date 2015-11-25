@@ -1,5 +1,5 @@
 a.out
-*.o
+*.[oa]
 .DS_Store
 *.bundle
 *.log
