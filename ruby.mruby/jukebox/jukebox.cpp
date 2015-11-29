@@ -333,9 +333,9 @@ void init_dvd(mrb_state* mrb)
   auto dvd = mrb_define_class(mrb, "DVD", mrb->object_class);
 
   MRB_SET_INSTANCE_TT(dvd, MRB_TT_DATA);
-  mrb_define_method(mrb, dvd, "initialize", dvd_initialize, ARGS_REQ(1));
-  mrb_define_method(mrb, dvd, "name",  dvd_get_name, ARGS_NONE());
-  mrb_define_method(mrb, dvd, "name=", dvd_set_name, ARGS_REQ(1));
+  mrb_define_method(mrb, dvd, "initialize", dvd_initialize, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, dvd, "name",  dvd_get_name, MRB_ARGS_NONE());
+  mrb_define_method(mrb, dvd, "name=", dvd_set_name, MRB_ARGS_REQ(1));
 }
 
 void init_jukebox(mrb_state* mrb)
@@ -344,13 +344,13 @@ void init_jukebox(mrb_state* mrb)
 
   MRB_SET_INSTANCE_TT(jb, MRB_TT_DATA);
 
-  mrb_define_method(mrb, jb, "initialize", jb_initialize, ARGS_REQ(1));
-  mrb_define_method(mrb, jb, "seek", jb_seek, ARGS_REQ(1));
-  mrb_define_method(mrb, jb, "avg_seek_time", jb_avg_seek_time, ARGS_NONE());
-  mrb_define_method(mrb, jb, "unit",  jb_get_unit, ARGS_NONE());
-  mrb_define_method(mrb, jb, "unit=", jb_set_unit, ARGS_REQ(1));
+  mrb_define_method(mrb, jb, "initialize", jb_initialize, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, jb, "seek", jb_seek, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, jb, "avg_seek_time", jb_avg_seek_time, MRB_ARGS_NONE());
+  mrb_define_method(mrb, jb, "unit",  jb_get_unit, MRB_ARGS_NONE());
+  mrb_define_method(mrb, jb, "unit=", jb_set_unit, MRB_ARGS_REQ(1));
 
-  mrb_define_method(mrb, jb, "dvd_list", jb_get_dvd_list, ARGS_NONE());
+  mrb_define_method(mrb, jb, "dvd_list", jb_get_dvd_list, MRB_ARGS_NONE());
 }
 
 MusicStore* g_ms = nullptr;
@@ -360,7 +360,7 @@ void init_music_store(mrb_state* mrb)
   auto ms = mrb_define_class(mrb, "MusicStore", mrb->object_class);
 
   MRB_SET_INSTANCE_TT(ms, MRB_TT_DATA);
-  mrb_define_method(mrb, ms, "create_jukebox", ms_get_jukebox, ARGS_REQ(1));
+  mrb_define_method(mrb, ms, "create_jukebox", ms_get_jukebox, MRB_ARGS_REQ(1));
 
   g_ms = new MusicStore;
 

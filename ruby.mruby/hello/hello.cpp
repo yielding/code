@@ -2,11 +2,11 @@
 #include <stdio.h>
 
 /* Include the mruby header */
-#include "mruby.h"
-#include "mruby/proc.h"
-#include "mruby/class.h"
-#include "mruby/data.h"
-#include "mruby/compile.h"
+#include <mruby.h>
+#include <mruby/proc.h>
+#include <mruby/class.h>
+#include <mruby/data.h>
+#include <mruby/compile.h>
 
 static void test_free(mrb_state* mrb, void* p);
 
@@ -44,8 +44,8 @@ void init_TestClass(mrb_state* mrb)
 {
   TestClass = mrb_define_class(mrb, "Test", mrb->object_class);
   MRB_SET_INSTANCE_TT(TestClass, MRB_TT_CLASS);
-  mrb_define_method(mrb, TestClass, "initialize", test_init, ARGS_ANY());
-  mrb_define_method(mrb, TestClass, "run", test_run, ARGS_ANY());
+  mrb_define_method(mrb, TestClass, "initialize", test_init, MRB_ARGS_NONE());
+  mrb_define_method(mrb, TestClass, "run", test_run, MRB_ARGS_NONE());
 }
 
 int main()
