@@ -67,8 +67,8 @@ void init_data_store(mrb_state* mrb)
   auto ds_r = mrb_obj_value(Data_Wrap_Struct(mrb, ds, &ds_type, (void*)ds_p));
 
   mrb_gv_set(mrb, mrb_intern_lit(mrb, "$ds"), ds_r);
-  mrb_define_method(mrb, ds, "file_systems", ds_get_file_systems, ARGS_NONE());
-  mrb_define_method(mrb, ds, "desc", ds_get_description, ARGS_NONE());
+  mrb_define_method(mrb, ds, "file_systems", ds_get_file_systems, MRB_ARGS_NONE());
+  mrb_define_method(mrb, ds, "desc", ds_get_description, MRB_ARGS_NONE());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

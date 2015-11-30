@@ -62,8 +62,8 @@ void init_file_system(mrb_state* mrb)
 
   MRB_SET_INSTANCE_TT(fs, MRB_TT_DATA);
 
-  mrb_define_method(mrb, fs, "initialize", fs_initialize, ARGS_REQ(1));
-  mrb_define_method(mrb, fs, "name", fs_get_name, ARGS_NONE());
+  mrb_define_method(mrb, fs, "initialize", fs_initialize, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, fs, "name", fs_get_name, MRB_ARGS_NONE());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

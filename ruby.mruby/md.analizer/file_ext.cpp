@@ -95,13 +95,13 @@ void init_file(mrb_state* mrb)
   auto fi = mrb_define_class(mrb, "FFile", mrb->object_class);
   MRB_SET_INSTANCE_TT(fi, MRB_TT_DATA);
 
-  mrb_define_method(mrb, fi, "initialize", fi_initialize, ARGS_REQ(1));
-  mrb_define_method(mrb, fi, "name",       fi_get_name,   ARGS_NONE());
-  mrb_define_method(mrb, fi, "path",       fi_get_path,   ARGS_NONE());
-  mrb_define_method(mrb, fi, "parent",     fi_get_parent, ARGS_NONE());
-  mrb_define_method(mrb, fi, "size",       fi_get_size,   ARGS_NONE());
-  mrb_define_method(mrb, fi, "deleted?",   fi_deleted,    ARGS_NONE());
-  mrb_define_method(mrb, fi, "save_to",    fi_save_to,    ARGS_REQ(1));
+  mrb_define_method(mrb, fi, "initialize", fi_initialize, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, fi, "name",       fi_get_name,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, fi, "path",       fi_get_path,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, fi, "parent",     fi_get_parent, MRB_ARGS_NONE());
+  mrb_define_method(mrb, fi, "size",       fi_get_size,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, fi, "deleted?",   fi_deleted,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, fi, "save_to",    fi_save_to,    MRB_ARGS_REQ(1));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

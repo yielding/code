@@ -2,6 +2,7 @@
 
 struct Stack<T> {
     var items = [T]()
+
     mutating func push(item: T) {
         items.append(item)
     }

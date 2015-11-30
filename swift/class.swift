@@ -15,8 +15,8 @@ enum TriStateSwitch {
 
     mutating func next() {
         switch self {
-            case Off: self = Low
-            case Low: self = High
+            case Off : self = Low
+            case Low : self = High
             case High: self = Off
         }
     }

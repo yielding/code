@@ -56,4 +56,3 @@ struct Rect {
 
 var square = Rect(origin: Point(x: 0.0, y: 0.0)
                   size: Size(width:10.0, height: 10.0))
-

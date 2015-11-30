@@ -1,11 +1,11 @@
 # -*- ruby -*-
 
-SRC       = "test_gz"
-SRCS      = %W{ ./#{SRC}.cpp ./gzip.cpp ./zlib.cpp }
+SRC       = "ref.this"
+SRCS      = %W{ ./#{SRC}.cpp }
+TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
-LIBS      = ":s z"
 
 DIR = File.dirname __FILE__
 
