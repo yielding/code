@@ -20,10 +20,11 @@ end
 
 class Korean
   def initialize()
-    @first  = 0x1100..0x1112
-    @center = 0x1161..0x1175
-    @last   = 0x11a8..0x11c2
-    @compat = 0x3130..0x318e
+    @first   = 0x1100..0x1112
+    @center  = 0x1161..0x1175
+    @last    = 0x11a8..0x11c2
+    @compat  = 0x3130..0x318e
+    @phoneme = Phoneme.new
   end
 
   def transcode(s)
@@ -90,36 +91,6 @@ class Korean
   end
 
   def from_compatible_jamo(code)
-    result = case code
-             when 0x3131 then 0x1100  # 초성 ㄱ
-             when 0x3131 then 0x11A8  # 종성 ㄱ
-             when 0x3132 then 0x1101  # ㄲ
-             #when 0x3134 then 0x1102  # 초성 ㄴ
-             when 0x3134 then 0x11AB  # 받침 ㄴ
-             when 0x3135 then 0x11AC  # ㄴㅈ
-             when 0x3136 then 0x11AD  # ㄴㅎ
-             when 0x3137 then 0x1103  # ㄷ
-             when 0x3138 then 0x1104  # ㄸ
-             when 0x3139 then 0x1105  # ㄹ
-             when 0x313A then 0x11B0  # ㄹㄱ
-             when 0x313B then 0x11B1  # ㄹㅁ
-             when 0x313C then 0x11B2  # ㄹㅂ
-             when 0x3141 then 0x1106  # 초성 ㅁ
-             when 0x3145 then 0x1109  # ㅅ
-             #when 0x3146 then 0x110A  # 초성 ㅆ
-             when 0x3146 then 0x11BB  # 받침 ㅆ
-             when 0x3147 then 0x110B  # ㅇ
-             when 0x314F then 0x1161  # ㅏ
-             when 0x3153 then 0x1165  # ㅓ
-             when 0x3154 then 0x1166  # ㅔ
-             when 0x3157 then 0x1169  # ㅗ
-             when 0x315A then 0x116C  # 외
-             when 0x3163 then 0x1171  # ㅣ
-             else
-               v = code
-               puts "error: 0x#{v.to_s(16)}"
-             end
-    result
   end
 end
 

@@ -55,6 +55,27 @@ class Phoneme
     }
   end
 
+  def compact_vowels(codes)
+    result = []
+    skip = false
+    codes.each_cons(2) do |c|
+      if skip
+        skip = false
+        next
+      end
+
+      if c == [0x3157, 0x3163]   # ㅗㅣ
+        result.push(0x315A)      # 외
+        skip = true 
+      else
+        result.push(c[0])
+      end
+    end
+
+    result.push(codes.last)
+    result
+  end
+
   def translate(code, pos=0)
     return 0 if 0x3131..0x314e.include?(code) and pos > 1
 
