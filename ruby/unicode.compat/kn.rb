@@ -4,10 +4,6 @@
 require_relative "phoneme"
 require "pp"
 
-=begin rdoc
-  1. 펼쳐진 모음을 모은다.
-=end
-
 class Numeric
   def to_hex; "0x#{self.to_s(16)}" end
   def to_bin; "0b#{self.to_s(2)}"  end
@@ -16,7 +12,6 @@ end
 class Array
   def to_hex; "[" + self.map { |e| e.to_hex }.join(", ") + "]" end
 end
-
 
 class Korean
   def initialize()
@@ -33,7 +28,6 @@ class Korean
     while i < s.length
       ch = 0
       if @first.include?(s[i])
-        puts "if i #{i}"
         use_count = 2
         first  = s[i] - @first.first
         second = s[i + 1] - @center.first
@@ -46,7 +40,6 @@ class Korean
         ch = (first * 21 + second) * 28 + thrid + 0xac00
         i += use_count
       else
-        puts "else i #{i}: #{s[i].to_s(16)}"
         ch = s[i]
         i += 1
       end
@@ -58,39 +51,11 @@ class Korean
   end
 
   def transcode_compat(codepoints)
-    p codepoints.to_hex
-
-    vowel_combined = self.combine_duped_vowels(codepoints)
-    p vowel_combined.to_hex
-
-    default_jamo = vowel_combined.map { |cp| self.from_compatible_jamo(cp) }
-    p default_jamo.to_hex
+    f0 = @phoneme.compact_vowels(codepoints)
+    f1 = @phoneme.compact_cons(f0)
+    default_jamo = @phoneme.to_jamo(f1)
 
     return self.transcode(default_jamo)
-  end
-
-  def combine_duped_vowels(codes)
-    result = []
-    skip = false
-    codes.each_cons(2) do |c|
-      if skip
-        skip = false
-        next
-      end
-
-      if c == [0x3157, 0x3163]   # ㅗ ㅣ
-        result.push(0x315A)      # 외
-        skip = true 
-      else
-        result.push(c[0])
-      end
-    end
-
-    result.push(codes.last)
-    result
-  end
-
-  def from_compatible_jamo(code)
   end
 end
 
@@ -101,15 +66,12 @@ f.pos = 0x18
 # ok
 data = f.read()
 sentences = data.split "\u0000".encode("utf-16le")
-ss = sentences[1]
-pp ss
 
-# ok
-codepoint = ss.codepoints.map { |c| c }
-#pp codepoint.to_hex
-#pp codepoint.pack("U*").unicode_normalize(:nfkc)
- 
 kor = Korean.new
-p kor.transcode_compat(codepoint)
- 
-# 안되겠다
+sentences.each { |s|
+  next if s.length < 2
+  codepoints = s.codepoints.map { |c| c }
+  pp codepoints.to_hex
+  pp codepoints.pack("U*").unicode_normalize(:nfd)
+  pp kor.transcode_compat(codepoints)
+}
