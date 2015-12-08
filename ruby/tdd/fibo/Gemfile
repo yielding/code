@@ -3,5 +3,5 @@ group :test, :development do
   gem 'guard-minitest'
   gem 'guard-rspec'
   gem 'ruby_gntp'
-  gem 'rb-fsevent', '~> 0.9.1'
+  gem 'rb-fsevent', '~> 0.9.6'
 end
