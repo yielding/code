@@ -19,7 +19,7 @@ if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+0x/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+11/
-  $CXX = "ccache xcrun clang++ -stdlib=libc++" if CXX =~ /xcrun/
+  $CXX = "xcrun clang++ -stdlib=libc++" if CXX =~ /xcrun/
 end
 
 $CXXFLAGS = " -std=c++1y -DPOSIX"

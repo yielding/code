@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "property_tree"
+SRC       = "ptree_xml"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
