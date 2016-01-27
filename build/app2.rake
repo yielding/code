@@ -45,16 +45,10 @@ end
 MVM     = "/Users/yielding/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
-RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.3-p0"
-RVM_INC = "#{RVM}/include/ruby-1.9.1"
-RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems"
-RICE    = "#{RVM_GEM}/rice-1.4.3/ruby/lib"
-
 $INCS = " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
-            when /:rice/ ; " -I#{RVM_INC}/x86_64-darwin11.2.0 -I#{RVM_INC} -I#{RICE}/include"
             when /:yvm/  ; " -I#{YVM_INC}/x86_64-darwin11     -I#{YVM_INC}"
             when /:mvm/  ; " -I#{MVM_INC}"
             else
@@ -72,7 +66,6 @@ if defined? LDFLAGS
            when /:framework/; " -F/System/Library/PrivateFrameworks"
            #when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
            when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
-           when /:rice/ ; " -L#{RVM}/lib -L#{RICE}/lib -ldl -lruby.1.9.1 -lrice"
            when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
            when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
            else
