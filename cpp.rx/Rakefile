@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "sum"
+SRC       = "switch_on_next"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
