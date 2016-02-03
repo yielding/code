@@ -1,0 +1,829 @@
+%PDF-1.3
+%‚„œ”
+2 0 obj
+<<
+/Length 5516
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(12/08/15)Tj
+-0.0552 -1.0667 TD
+(16:10:35)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(1)Tj
+/TT6 1 Tf
+14 0 0 14 279.2241 786.5 Tm
+0 g
+(./kn.rb)Tj
+/TT8 1 Tf
+10 0 0 10 54 769 Tm
+(1:)Tj
+/TT10 1 Tf
+0.698 0.133 0.133 rg
+1.8 0 TD
+(#!/usr/bin/env ruby)Tj
+/TT8 1 Tf
+-1.8 -1.1 TD
+(2:)Tj
+/TT10 1 Tf
+1.8 0 TD
+(# encoding: utf-8)Tj
+/TT8 1 Tf
+-1.8 -1.1 TD
+(3:)Tj
+0 g
+T*
+[(4:)-599.8(require_relative )]TJ
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+12 0 TD
+("phoneme")Tj
+/TT8 1 Tf
+0 g
+-12 -1.1 TD
+[(5:)-599.8(require )]TJ
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+6.6 0 TD
+("pp")Tj
+/TT8 1 Tf
+0 g
+-6.6 -1.1 TD
+(6:)Tj
+T*
+(7:)Tj
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+1.8 0 TD
+(class)Tj
+/TT8 1 Tf
+0 g
+3 0 TD
+( Numeric)Tj
+-4.8 -1.1 TD
+[(8:)-599.8(  )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+3 0 TD
+(def)Tj
+/TT8 1 Tf
+0 g
+1.8 0 TD
+( )Tj
+/TT12 1 Tf
+0 0 1 rg
+0.6 0 TD
+(to_hex; "0x#{self.to_s)Tj
+/TT8 1 Tf
+0 g
+13.2 0 TD
+(\(16\)})Tj
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+3 0 TD
+(" end)Tj
+/TT8 1 Tf
+-21.6 -1.1 TD
+(9:)Tj
+/TT12 1 Tf
+1.8 0 TD
+(  def to_bin; ")Tj
+/TT8 1 Tf
+0 g
+9 0 TD
+(0b)Tj
+/TT10 1 Tf
+0.698 0.133 0.133 rg
+1.2 0 TD
+(#{self.to_s\(2\)}"  end)Tj
+/TT8 1 Tf
+-12.6 -1.1 TD
+(10:)Tj
+0 g
+2.4 0 TD
+(end)Tj
+-2.4 -1.1 TD
+(11:)Tj
+T*
+(12:)Tj
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+2.4 0 TD
+(class)Tj
+/TT8 1 Tf
+0 g
+3 0 TD
+( Array)Tj
+-5.4 -1.1 TD
+[(13:)-599.7(  )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+3.6 0 TD
+(def)Tj
+/TT8 1 Tf
+0 g
+1.8 0 TD
+( )Tj
+/TT12 1 Tf
+0 0 1 rg
+0.6 0 TD
+(to_hex; "[" + self.map { |e| e.to_hex }.join)Tj
+/TT8 1 Tf
+0 g
+26.4 0 TD
+(\()Tj
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+0.6 0 TD
+(", ")Tj
+/TT8 1 Tf
+0 g
+2.4 0 TD
+(\) + )Tj
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+2.4 0 TD
+("]")Tj
+/TT8 1 Tf
+0 g
+1.8 0 TD
+( end)Tj
+-39.6 -1.1 TD
+[(14:)-599.7(end)]TJ
+T*
+(15:)Tj
+T*
+(16:)Tj
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+2.4 0 TD
+(class)Tj
+/TT8 1 Tf
+0 g
+3 0 TD
+( Korean)Tj
+-5.4 -1.1 TD
+[(17:)-599.7(  )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+3.6 0 TD
+(def)Tj
+/TT8 1 Tf
+0 g
+1.8 0 TD
+( )Tj
+/TT12 1 Tf
+0 0 1 rg
+0.6 0 TD
+(initialize)Tj
+/TT8 1 Tf
+0 g
+6 0 TD
+(\(\))Tj
+-12 -1.1 TD
+[(18:)-599.7(    @first   = 0x1100..0x1112)]TJ
+T*
+[(19:)-599.7(    @center  = 0x1161..0x1175)]TJ
+T*
+[(20:)-599.7(    @last    = 0x11a8..0x11c2)]TJ
+T*
+[(21:)-599.7(    @compat  = 0x3130..0x318e)]TJ
+T*
+[(22:)-599.7(    @phoneme = Phoneme.new)]TJ
+T*
+[(23:)-599.7(  end)]TJ
+T*
+(24:)Tj
+T*
+[(25:)-599.7(  )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+3.6 0 TD
+(def)Tj
+/TT8 1 Tf
+0 g
+1.8 0 TD
+( )Tj
+/TT12 1 Tf
+0 0 1 rg
+0.6 0 TD
+(transcode)Tj
+/TT8 1 Tf
+0 g
+5.4 0 TD
+(\(s\))Tj
+-11.4 -1.1 TD
+[(26:)-599.7(    res = )]TJ
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+8.4 0 TD
+("")Tj
+/TT8 1 Tf
+0 g
+-8.4 -1.1 TD
+[(27:)-599.7(    i = 0)]TJ
+T*
+[(28:)-599.7(    )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+4.8 0 TD
+(while)Tj
+/TT8 1 Tf
+0 g
+3 0 TD
+( i < s.length)Tj
+-7.8 -1.1 TD
+[(29:)-599.7(      ch = 0)]TJ
+T*
+[(30:)-599.7(      )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+6 0 TD
+(if)Tj
+/TT8 1 Tf
+0 g
+1.2 0 TD
+( @first.include?\(s[i]\))Tj
+-7.2 -1.1 TD
+[(31:)-599.7(        use_count = 2)]TJ
+T*
+[(32:)-599.7(        first  = s[i] - @first.first)]TJ
+T*
+[(33:)-599.7(        second = s[i + 1] - @center.first)]TJ
+T*
+[(34:)-599.7(        thrid  = 0)]TJ
+T*
+[(35:)-599.7(        )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+7.2 0 TD
+(if)Tj
+/TT8 1 Tf
+0 g
+1.2 0 TD
+( i + 2 < s.length )Tj
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+10.8 0 TD
+(and)Tj
+/TT8 1 Tf
+0 g
+1.8 0 TD
+( @last.include?\(s[i+2]\))Tj
+-21 -1.1 TD
+[(36:)-599.7(          thrid = s[i+2] - @last.first + 1)]TJ
+T*
+[(37:)-599.7(          use_count += 1)]TJ
+T*
+[(38:)-599.7(        end)]TJ
+T*
+(39:)Tj
+T*
+[(40:)-599.7(        ch = \(first * 21 + second\) * 28 + thrid + 0xac00)]TJ
+T*
+[(41:)-599.7(        i += use_count)]TJ
+T*
+[(42:)-599.7(      )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+6 0 TD
+(else)Tj
+/TT8 1 Tf
+0 g
+-6 -1.1 TD
+[(43:)-599.7(        ch = s[i])]TJ
+T*
+[(44:)-599.7(        i += 1)]TJ
+T*
+[(45:)-599.7(      end)]TJ
+T*
+(46:)Tj
+T*
+[(47:)-599.7(      res += [ch].pack\()]TJ
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+16.2 0 TD
+("U")Tj
+/TT8 1 Tf
+0 g
+1.8 0 TD
+(\))Tj
+-18 -1.1 TD
+[(48:)-599.7(    end)]TJ
+T*
+(49:)Tj
+T*
+[(50:)-599.7(    res)]TJ
+T*
+[(51:)-599.7(  end)]TJ
+T*
+(52:)Tj
+T*
+[(53:)-599.7(  )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+3.6 0 TD
+(def)Tj
+/TT8 1 Tf
+0 g
+1.8 0 TD
+( )Tj
+/TT12 1 Tf
+0 0 1 rg
+0.6 0 TD
+(transcode_compat)Tj
+/TT8 1 Tf
+0 g
+9.6 0 TD
+(\(codepoints\))Tj
+-15.6 -1.1 TD
+[(54:)-599.7(    f0 = @phoneme.compact_vowels\(codepoints\))]TJ
+T*
+[(55:)-599.7(    f1 = @phoneme.compact_cons\(f0\))]TJ
+T*
+[(56:)-599.7(    default_jamo = @phoneme.to_jamo\(f1\))]TJ
+T*
+(57:)Tj
+T*
+[(58:)-599.7(    )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+4.8 0 TD
+(return)Tj
+/TT8 1 Tf
+0 g
+3.6 0 TD
+( self.transcode\(default_jamo\))Tj
+-8.4 -1.1 TD
+[(59:)-599.7(  end)]TJ
+T*
+[(60:)-599.7(end)]TJ
+T*
+(61:)Tj
+T*
+(62:)Tj
+/TT10 1 Tf
+0.698 0.133 0.133 rg
+2.4 0 TD
+(# ok)Tj
+/TT8 1 Tf
+-2.4 -1.1 TD
+(63:)Tj
+0 g
+2.4 0 TD
+(f = File.open\()Tj
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+8.4 0 TD
+("keyboard.dat")Tj
+/TT8 1 Tf
+0 g
+8.4 0 TD
+(, )Tj
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+1.2 0 TD
+("r:utf-8:utf-16le")Tj
+/TT8 1 Tf
+0 g
+10.8 0 TD
+(\))Tj
+-31.2 -1.1 TD
+[(64:)-599.7(f.pos = 0x18)]TJ
+T*
+(65:)Tj
+T*
+(66:)Tj
+/TT10 1 Tf
+0.698 0.133 0.133 rg
+2.4 0 TD
+(# ok)Tj
+/TT8 1 Tf
+-2.4 -1.1 TD
+(67:)Tj
+0 g
+2.4 0 TD
+(data = f.read\(\))Tj
+-2.4 -1.1 TD
+[(68:)-599.7(sentences = data.split )]TJ
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+16.2 0 TD
+("\\u0000")Tj
+/TT8 1 Tf
+0 g
+4.8 0 TD
+(.encode\()Tj
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+4.8 0 TD
+("utf-16le")Tj
+/TT8 1 Tf
+0 g
+6 0 TD
+(\))Tj
+ET
+endstream
+endobj
+3 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+/TT10 8 0 R
+/TT12 9 0 R
+>>
+/ExtGState <<
+/GS1 10 0 R
+>>
+>>
+endobj
+13 0 obj
+<<
+/Length 893
+>>
+stream
+0.95 g
+/GS1 gs
+24 800 547 -18 re
+f
+0.7 g
+24 818 72 -36 re
+f
+BT
+/TT2 1 Tf
+12 0 0 12 38.666 802 Tm
+0 g
+0 Tc
+0 Tw
+(12/08/15)Tj
+-0.0552 -1.0667 TD
+(16:10:35)Tj
+ET
+0.7 g
+499 818 72 -36 re
+f
+BT
+/TT4 1 Tf
+28.8 0 0 28.8 526.9914 789.2 Tm
+1 g
+(2)Tj
+/TT6 1 Tf
+14 0 0 14 279.2241 786.5 Tm
+0 g
+(./kn.rb)Tj
+/TT8 1 Tf
+10 0 0 10 48 769 Tm
+(69:)Tj
+0 -1.1 TD
+[(70:)-599.7(kor = Korean.new)]TJ
+T*
+[(71:)-599.7(sentences.each { |s|)]TJ
+T*
+[(72:)-599.7(  next )]TJ
+/TT12 1 Tf
+0.627 0.125 0.941 rg
+6.6 0 TD
+(if)Tj
+/TT8 1 Tf
+0 g
+1.2 0 TD
+( s.length < 2)Tj
+-7.8 -1.1 TD
+[(73:)-599.7(  codepoints = s.codepoints.map { |c| c })]TJ
+T*
+[(74:)-599.7(  pp codepoints.to_hex)]TJ
+T*
+[(75:)-599.7(  pp codepoints.pack\()]TJ
+/TT12 1 Tf
+0.737 0.561 0.561 rg
+15 0 TD
+("U*")Tj
+/TT8 1 Tf
+0 g
+2.4 0 TD
+(\).unicode_normalize\(:nfd\))Tj
+-17.4 -1.1 TD
+[(76:)-599.7(  pp kor.transcode_compat\(codepoints\))]TJ
+T*
+[(77:)-599.7(})]TJ
+ET
+endstream
+endobj
+14 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+/TT6 6 0 R
+/TT8 7 0 R
+/TT12 9 0 R
+>>
+/ExtGState <<
+/GS1 10 0 R
+>>
+>>
+endobj
+10 0 obj
+<<
+/Type /ExtGState
+/SA false
+/SM 0.02
+/OP false
+/op false
+/OPM 1
+/BG2 /Default
+/UCR2 /Default
+/HT /Default
+/TR2 /Default
+>>
+endobj
+15 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 750
+/CapHeight 676
+/Descent -250
+/Flags 262178
+/FontBBox [-168 -218 1000 935]
+/FontName /Times-Bold
+/ItalicAngle 0
+/StemV 133
+/XHeight 461
+/StemH 139
+>>
+endobj
+16 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 770
+/CapHeight 718
+/Descent -229
+/Flags 262176
+/FontBBox [-170 -228 1003 962]
+/FontName /Helvetica-Bold
+/ItalicAngle 0
+/StemV 133
+/XHeight 532
+/StemH 140
+>>
+endobj
+17 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 750
+/CapHeight 662
+/Descent -250
+/Flags 34
+/FontBBox [-168 -218 1000 898]
+/FontName /Times-Roman
+/ItalicAngle 0
+/StemV 84
+/XHeight 450
+/StemH 84
+>>
+endobj
+18 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 753
+/CapHeight 562
+/Descent -246
+/Flags 35
+/FontBBox [-28 -250 628 805]
+/FontName /Courier
+/ItalicAngle 0
+/StemV 51
+/XHeight 426
+/StemH 51
+>>
+endobj
+19 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 753
+/CapHeight 562
+/Descent -246
+/Flags 99
+/FontBBox [-28 -250 742 805]
+/FontName /Courier-Oblique
+/ItalicAngle -15
+/StemV 51
+/XHeight 426
+/StemH 51
+>>
+endobj
+20 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 753
+/CapHeight 562
+/Descent -246
+/Flags 262179
+/FontBBox [-113 -250 749 801]
+/FontName /Courier-Bold
+/ItalicAngle 0
+/StemV 133
+/XHeight 439
+/StemH 84
+>>
+endobj
+4 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 47
+/LastChar 58
+/Widths [278 500 500 500 500 0 500 500 0 500 0 333 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Times-Bold
+/FontDescriptor 15 0 R
+>>
+endobj
+5 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 49
+/LastChar 50
+/Widths [556 556 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Helvetica-Bold
+/FontDescriptor 16 0 R
+>>
+endobj
+6 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 46
+/LastChar 114
+/Widths [250 278 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 500 0 0 0 0 0 0 0 0 500 0 0 
+500 0 0 0 333 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Times-Roman
+/FontDescriptor 17 0 R
+>>
+endobj
+7 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 32
+/LastChar 125
+/Widths [600 0 0 0 0 0 0 0 600 600 600 600 600 600 600 0 
+600 600 600 600 600 600 600 600 600 600 600 0 600 600 0 600 
+600 600 0 0 0 0 600 0 0 0 0 600 0 0 600 0 
+600 0 0 0 0 0 0 0 0 0 0 600 0 600 0 600 
+0 600 600 600 600 600 600 600 600 600 600 600 600 600 600 600 
+600 600 600 600 600 600 600 600 600 600 600 600 600 600 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Courier
+/FontDescriptor 18 0 R
+>>
+endobj
+8 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 32
+/LastChar 125
+/Widths [600 600 600 600 0 0 0 0 600 600 0 0 0 600 600 600 
+0 0 600 0 0 0 0 0 600 0 600 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 600 
+0 0 600 600 600 600 600 600 0 600 0 600 600 0 600 600 
+0 0 600 600 600 600 600 0 0 600 0 600 0 600 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Courier-Oblique
+/FontDescriptor 19 0 R
+>>
+endobj
+9 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 32
+/LastChar 125
+/Widths [600 0 600 600 0 0 0 0 0 0 600 600 600 600 600 0 
+600 600 0 0 0 0 600 0 600 0 600 600 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 600 0 0 0 0 0 600 600 600 0 600 
+0 600 600 600 600 600 600 0 600 600 600 600 600 600 600 600 
+600 0 600 600 600 600 0 600 600 600 600 600 600 600 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Courier-Bold
+/FontDescriptor 20 0 R
+>>
+endobj
+1 0 obj
+<<
+/Type /Page
+/Parent 11 0 R
+/Resources 3 0 R
+/Contents 2 0 R
+>>
+endobj
+12 0 obj
+<<
+/Type /Page
+/Parent 11 0 R
+/Resources 14 0 R
+/Contents 13 0 R
+>>
+endobj
+21 0 obj
+<<
+/S /D
+>>
+endobj
+22 0 obj
+<<
+/Nums [0 21 0 R ]
+>>
+endobj
+11 0 obj
+<<
+/Type /Pages
+/Kids [1 0 R 12 0 R]
+/Count 2
+/MediaBox [0 0 595 842]
+>>
+endobj
+23 0 obj
+<<
+/CreationDate (D:20151218143300+09'00')
+/ModDate (D:20151218143300+09'00')
+/Producer (Apple pstopdf)
+>>
+endobj
+24 0 obj
+<<
+/Type /Catalog
+/Pages 11 0 R
+/PageLabels 22 0 R
+>>
+endobj
+xref
+0 25
+0000000000 65535 f 
+0000010206 00000 n 
+0000000016 00000 n 
+0000005584 00000 n 
+0000008164 00000 n 
+0000008368 00000 n 
+0000008542 00000 n 
+0000008860 00000 n 
+0000009333 00000 n 
+0000009758 00000 n 
+0000006824 00000 n 
+0000010439 00000 n 
+0000010287 00000 n 
+0000005737 00000 n 
+0000006682 00000 n 
+0000006965 00000 n 
+0000007167 00000 n 
+0000007373 00000 n 
+0000007570 00000 n 
+0000007761 00000 n 
+0000007962 00000 n 
+0000010371 00000 n 
+0000010399 00000 n 
+0000010528 00000 n 
+0000010651 00000 n 
+trailer
+<<
+/Size 25
+/Root 24 0 R
+/Info 23 0 R
+/ID [<ced643309b2da20fbd2f71d9513970f0><ced643309b2da20fbd2f71d9513970f0>]
+>>
+startxref
+10721
+%%EOF
