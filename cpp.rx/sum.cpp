@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
   v.subscribe(
     [](int v) { std::cout << v << std::endl; },
-    []{}
+    {}
   );
 
   return 0;

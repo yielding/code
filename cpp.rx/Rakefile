@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "switch_on_next"
+SRC       = "distinct"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
