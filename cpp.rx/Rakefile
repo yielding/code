@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "combine_latest"
+SRC       = "finally"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
