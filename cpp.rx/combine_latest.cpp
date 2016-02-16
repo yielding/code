@@ -3,21 +3,17 @@
 #include "catch.hpp"
 #include "rxcpp/rx.hpp"
 
-#include <sstream>
+#include "get_pid.h"
 
 using namespace std;
       namespace rx = rxcpp;
 
 using triple = tuple<int, int, int>;
-
-string get_pid()
-{
-  stringstream ss;
-  ss << this_thread::get_id();
-
-  return ss.str();
-}
-
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 SCENARIO("combine_latest sample") {
   auto o1 = rx::observable<>::interval(chrono::milliseconds(2));
   auto o2 = rx::observable<>::interval(chrono::milliseconds(3));
@@ -31,6 +27,11 @@ SCENARIO("combine_latest sample") {
   values.take(5).subscribe(on_next);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 SCENARIO("coordination combine_latest sample") {
   auto thr = rx::synchronize_event_loop();
   auto o1  = rx::observable<>::interval(chrono::milliseconds(2)).map([](int v) {
@@ -57,6 +58,11 @@ SCENARIO("coordination combine_latest sample") {
   values.take(5).as_blocking().subscribe(on_next);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 SCENARIO("Selector combine_latest sample") {
   printf("//! [Selector combine_latest sample]\n");
 
@@ -70,8 +76,14 @@ SCENARIO("Selector combine_latest sample") {
 
   values
     .take(5)
-    .subscribe([](int v){printf("OnNext: %d\n", v);},
-               [](){printf("OnCompleted\n");});
+    .subscribe([](int v) { printf("OnNext: %d\n", v); },
+               []        { printf("OnCompleted\n");   });
 
   printf("//! [Selector combine_latest sample]\n");
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////

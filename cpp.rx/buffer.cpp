@@ -3,18 +3,10 @@
 #include "catch.hpp"
 #include "rxcpp/rx.hpp"
 
-#include <sstream>
+#include "get_pid.h"
 
 using namespace std;
       namespace rx = rxcpp;
-
-string get_pid()
-{
-  stringstream ss;
-  ss << this_thread::get_id();
-
-  return ss.str();
-}
 
 SCENARIO("buffer count sample") 
 {
@@ -58,13 +50,9 @@ SCENARIO("buffer count+skip+coordination sample")
     printf("\n");
   };
 
-  auto on_complete = []() {
+  auto on_complete = [] {
     printf("[thread %s] OnCompleted\n", get_pid().c_str());
   };
 
-  values.as_blocking()
-        .subscribe(on_next);
-        // .subscribe(on_next, on_complete);
+  values.as_blocking().subscribe(on_next);
 }
-
-
