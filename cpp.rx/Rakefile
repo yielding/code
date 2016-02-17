@@ -1,7 +1,7 @@
 # -*- ruby -*-
 
 SRC       = "buffer"
-SRCS      = %W{ ./#{SRC}.cpp }
+SRCS      = %W{ get_pid.cpp ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
 CXX       = "xcrun"
