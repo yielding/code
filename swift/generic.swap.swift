@@ -1,9 +1,9 @@
 #!/usr/bin/env swift
 
 func swap<T>(inout a: T, inout b: T) {
-    let temp = a
-    a = b
-    b = temp
+  let temp = a
+  a = b
+  b = temp
 }
 
 var a = 10

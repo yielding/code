@@ -3,14 +3,14 @@
 var possibleNo: String? = "hi"
 
 if let actualNumber = Int(possibleNo!) {
-    print("ok")
+  print("ok")
 } else {
-    print("not ok")
+  print("not ok")
 }
 
 if let first = Int("5"), second = Int("42") 
-    where first < second {
-    print("ok2")
+where first < second {
+  print("ok2")
 }
 
 

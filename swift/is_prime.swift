@@ -5,8 +5,7 @@ import Foundation
 class Test {
     var primes: [Int] = []
 
-    init() {
-    }
+    init() { }
 
     func factorial(n: Int) -> Int {
         return n <= 1 ? 1 : n * factorial(n-1)
@@ -19,7 +18,7 @@ class Test {
     func isPrime(n: Int) -> Bool {
         if n < 2 { return false }
 
-        var limit = Int(sqrt(Float(n)))
+        let limit = Int(sqrt(Float(n)))
             if limit < 2 { return true }
 
         for i in 2...limit {
