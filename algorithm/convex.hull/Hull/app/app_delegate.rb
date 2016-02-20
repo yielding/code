@@ -1,12 +1,14 @@
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    bounds  = UIScreen.mainScreen.bounds
-    @window = UIWindow.alloc.initWithFrame(bounds)
+
     root_vc = ConvexHullViewController.alloc.init
     @navi   = UINavigationController.alloc.initWithRootViewController(root_vc)
     @navi.setNavigationBarHidden(false, animated:true)
-    @window.setRootViewController(@navi)
+
+    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    @window.rootViewController = @navi
     @window.makeKeyAndVisible
+
     true
   end
 end
