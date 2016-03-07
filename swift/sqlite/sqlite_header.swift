@@ -3,6 +3,7 @@
 
 struct SqliteHeader {
   init() {
+
   }
 }
 
