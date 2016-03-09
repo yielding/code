@@ -69,7 +69,8 @@ if defined? LDFLAGS
            #when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
            when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
            when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
-           when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
+           #when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
+           when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby"
            else
              " -L#{e}"
            end

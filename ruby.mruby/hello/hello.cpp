@@ -7,6 +7,7 @@
 #include <mruby/class.h>
 #include <mruby/data.h>
 #include <mruby/compile.h>
+#include <mruby/string.h>
 
 static void test_free(mrb_state* mrb, void* p);
 
@@ -48,6 +49,27 @@ void init_TestClass(mrb_state* mrb)
   mrb_define_method(mrb, TestClass, "run", test_run, MRB_ARGS_NONE());
 }
 
+static void
+p(mrb_state *mrb, mrb_value obj, int prompt)
+{
+  mrb_value val;
+
+  val = mrb_funcall(mrb, obj, "inspect", 0); 
+  if (prompt) {
+    if (!mrb->exc) {
+      fputs(" => ", stdout);
+    }   
+    else {
+      val = mrb_funcall(mrb, mrb_obj_value(mrb->exc), "inspect", 0); 
+    }   
+  }
+  if (!mrb_string_p(val)) {
+    val = mrb_obj_as_string(mrb, obj);
+  }
+  fwrite(RSTRING_PTR(val), RSTRING_LEN(val), 1, stdout);
+  putc('\n', stdout);
+}
+
 int main()
 {
   mrb_state *mrb = mrb_open();
@@ -59,9 +81,29 @@ int main()
   auto c = mrbc_context_new(mrb);
   auto p = mrb_parse_string(mrb, code, c);
   auto n = mrb_generate_code(mrb, p);
-  mrb_run(mrb, n, mrb_top_self(mrb));
-  if (mrb->exc)
+
+  // mrb_run(mrb, n, mrb_top_self(mrb));
+  unsigned stack_keep = 0;
+  auto result = mrb_vm_run(mrb,
+                n,
+                mrb_top_self(mrb),
+                stack_keep);
+
+  if (mrb->exc) // have exception
+  {
     mrb_p(mrb, mrb_obj_value(mrb->exc));
+    mrb->exc = 0;
+  }
+  else
+  {
+    if (!mrb_respond_to(mrb, result, mrb_intern_lit(mrb, "inspect")))
+      result = mrb_any_to_s(mrb, result);
+    
+    mrb_p(mrb, result);
+  }
+
+  mrbc_context_free(mrb, c);
+  mrb_close(mrb);
 
   return 0;
 }
