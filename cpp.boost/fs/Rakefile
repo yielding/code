@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRCS      = %w{ ./tut4.cpp}
+SRCS      = %w{ ./fs.basic.cpp}
 TEST_SRCS = %w{test_fs.basic.cpp}
 APP       = "tut4"
 APP_TEST  = "test_tut4"
