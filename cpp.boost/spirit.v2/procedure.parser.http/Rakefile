@@ -15,11 +15,11 @@ SRC       = FileList["http_parser.cpp"]
 OBJ       = SRC.ext('o')
 
 rule '.o' => '.cpp' do |t|
-  sh "clang++ -c -O3 -o #{t.name} #{t.source} #{CXXFLAGS}"
+  sh "xcrun clang++ -c -O3 -o #{t.name} #{t.source} #{CXXFLAGS}"
 end
 
 file TARGET => OBJ do
-  sh "clang++ -o #{TARGET} #{OBJ}  #{LIBS}"
+  sh "xcrun clang++ -o #{TARGET} #{OBJ}  #{LIBS}"
 end
 
 task :run => [TARGET] do

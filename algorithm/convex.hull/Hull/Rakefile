@@ -4,10 +4,10 @@ require 'motion/project/template/ios'
 
 Motion::Project::App.setup do |app|
   app.name = 'Hull'
-  app.codesign_certificate = 'iPhone Developer: Chang Ha Lee (E7UHUA76KH)'
-  app.identifier = 'kr.yielding.ConvexHull'
+  app.identifier = 'com.hancomgmd.*'
   app.icons = ['icon57x57.png', 'icon114x114.png']
+  app.deployment_target = "8.4"
 
-  app.provisioning_profile = '/Users/yielding/Library/MobileDevice/Provisioning Profiles/B798B91B-3239-4E6A-BD2A-7DB015421268.mobileprovision'
-  #app.provisioning_profile = '/Users/yielding/Library/MobileDevice/Provisioning Profiles/4DFEF585-9522-44B4-BEC2-B32A0D082FA0.mobileprovision'
+  app.codesign_certificate = 'iPhone Developer: Chang Ha Lee (E7UHUA76KH)'
+  app.provisioning_profile = "/Users/yielding/Dropbox/00.iphone.provisions/ConvexHullAppDevelopment.mobileprovision"
 end

@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+SRC       = "scan"
+SRCS      = %W{ get_pid.cpp ./#{SRC}.cpp }
+TEST_SRCS = %W{ ./test_#{SRC}.cpp }
+APP       = "#{SRC}"
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = ":s"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'

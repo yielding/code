@@ -22,7 +22,8 @@ class CartItem: Product {
 class Document {
     var name: String?
 
-    init() {}
+    init() {
+    }
 
     init? (name: String) {
         self.name = name
@@ -46,5 +47,3 @@ class AutomaticallyNamedDocument: Document {
         }
     }
 }
-
-

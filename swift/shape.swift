@@ -51,22 +51,22 @@ class EquilateralTriangle: NamedShape {
 }
 
 class TriangleAndSqure {
-    var triangle: EquilateralTriangle {
-        willSet {
-            square.sideLength = newValue.sideLength
-        }
+  var triangle: EquilateralTriangle {
+    willSet {
+      square.sideLength = newValue.sideLength
     }
+  }
 
-    var square: Square {
-        willSet {
-            triangle.sideLength = newValue.sideLength
-        }
+  var square: Square {
+    willSet {
+      triangle.sideLength = newValue.sideLength
     }
+  }
 
-    init(size:Double, name:String) {
-        square = Square(sideLength: size, name: name)
-        triangle = EquilateralTriangle(sideLength: size, name: name)
-    }
+  init(size:Double, name:String) {
+    square = Square(sideLength: size, name: name)
+    triangle = EquilateralTriangle(sideLength: size, name: name)
+  }
 }
 
 var triangleAndSqure = TriangleAndSqure(size:10, name: "anoter test shape")
@@ -75,4 +75,3 @@ print(triangleAndSqure.square.sideLength)
 print(triangleAndSqure.triangle.sideLength)
 triangleAndSqure.square = Square(sideLength: 50, name: "larger square")
 print(triangleAndSqure.triangle.sideLength)
-

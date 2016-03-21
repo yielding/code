@@ -47,12 +47,9 @@ extension Int {
 
     return self
   }
-
 }
 
-/*
 3.times { print("hello") }
 5.times { print("\($0)") }
 [1, 2, 3].each { print("\($0)") }
 [1:"kamin", 2:"gunhee", 3:"me"].each { print("\($0.0) => \($0.1)") }
-*/

@@ -7,6 +7,7 @@ APP_TEST  = "test_double_list2"
 CXX       = "xcrun"    # c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"       
 LIBS      = ":t :s" 
+INCS      = "/Users/yielding/opensource/spirit/include"
 
 load '~/code/build/app2.rake'
 CLOBBER.include("*.o")

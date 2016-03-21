@@ -8,7 +8,4 @@ def fib(n)
   end
 end
 
-36.times do |i|
-  puts "n=#{i} => #{fib(i)}"
-end
-
+36.times { |i| puts "n=#{i} => #{fib(i)}" }

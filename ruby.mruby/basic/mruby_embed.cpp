@@ -15,14 +15,15 @@ namespace {
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-mrb_value t_init(mrb_state* mrb, mrb_value self)
+auto t_init(mrb_state* mrb, mrb_value self) -> mrb_value 
 {
   auto arr = mrb_ary_new(mrb);
   mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@arr"), arr);
+
   return self;
 }
 
-mrb_value t_add(mrb_state* mrb, mrb_value self)
+auto t_add(mrb_state* mrb, mrb_value self) -> mrb_value 
 {
   auto arr = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@arr"));
   mrb_value obj;
@@ -33,7 +34,7 @@ mrb_value t_add(mrb_state* mrb, mrb_value self)
 }
 
 //static struct RClass* cTest;
-void init_by_test(mrb_state* mrb)
+auto init_by_test(mrb_state* mrb) -> void 
 {
   struct RClass* cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
 

@@ -9,7 +9,7 @@ using namespace boost::phoenix::arg_names;
 
 int main(int argc, const char *argv[])
 {
-  vector<string> v{"one", "two", "three"};
+  vector<string> v {"one", "two", "three"};
 
   string two("two");
   two.append(1, 0);

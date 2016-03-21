@@ -35,8 +35,8 @@ void plot_histogram(vector<int> const& slots, int samples, double from, double t
 }
 
 // I am not sure whether these two should be in the library as well
-
 // maintain sum of NumberGenerator results
+//
 template<class NumberGenerator, class Sum = typename NumberGenerator::result_type>
 class sum_result 
 {

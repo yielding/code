@@ -3,7 +3,7 @@ SRCS     = %w{ ./bzip.decomp.cpp
                ./bzip2.cpp 
              }
 APP      = "bzip_decomp"
-CXX      = "clang++"
+CXX      = "xcrun"
 CXXFLAGS = ":v :O0"
 LIBS     = ":t :s bz2"
 

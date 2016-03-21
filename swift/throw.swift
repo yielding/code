@@ -13,8 +13,8 @@ struct Item {
 
 var inventory = [
     "Candy Bar" : Item(price: 125, count: 7),
-    "Chips" : Item(price: 100, count: 4),
-    "Pretzels" : Item(price: 75, count: 3)
+    "Chips"     : Item(price: 100, count: 4),
+    "Pretzels"  : Item(price: 75, count: 3)
 ]
 
 var amountDeposited = 100

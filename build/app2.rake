@@ -19,10 +19,10 @@ if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+0x/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+11/
-  $CXX = "xcrun clang++ -stdlib=libc++" if CXX =~ /xcrun/
+  $CXX = "ccache xcrun clang++ -stdlib=libc++" if CXX =~ /xcrun/
 end
 
-$CXXFLAGS = " -std=c++1y -DPOSIX"
+$CXXFLAGS = " -std=c++1z -DPOSIX"
 if defined? CXXFLAGS
   CXXFLAGS.split.each do |f|
     flag = case f
@@ -42,33 +42,28 @@ if defined? CXXFLAGS
 end
 
 # YRV : YARV 
-YVM     = "/opt/local"
-YVM_INC = "#{YVM}/include/ruby-2.0.0"
-
-# YRV : YARV 
 MVM     = "/Users/yielding/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
-RVM     = "/Users/yielding/.rvm/rubies/ruby-1.9.3-p0"
-RVM_INC = "#{RVM}/include/ruby-1.9.1"
-RVM_GEM = "/Users/yielding/.rvm/gems/ruby-1.9.3-p0/gems"
-RICE    = "#{RVM_GEM}/rice-1.4.3/ruby/lib"
+$INCS  = " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
+$INCS += " -I/Users/yielding/opensource/Catch/include" 
 
+<<<<<<< HEAD
 $INCS = " -I. -I/Users/yielding/opensource/spirit_x3/include -I/usr/local/include -I/Users/yielding/code/develop/include"
+=======
+>>>>>>> 8b652abdd9093524e963f30a575929aacaf96d04
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
-            when /:rice/ ; " -I#{RVM_INC}/x86_64-darwin11.2.0 -I#{RVM_INC} -I#{RICE}/include"
             when /:yvm/  ; " -I#{YVM_INC}/x86_64-darwin11     -I#{YVM_INC}"
             when /:mvm/  ; " -I#{MVM_INC}"
             else
              " -I#{i}"
             end
-     $INCS += flag
+     $INCS = flag + $INCS
   end
 end
 
-#$LDFLAGS = " -L. -L/opt/local/lib -L/Users/yielding/code/develop/lib"
 $LDFLAGS = " -L. -L/usr/local/lib -L/Users/yielding/code/develop/lib"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
@@ -77,9 +72,9 @@ if defined? LDFLAGS
            when /:framework/; " -F/System/Library/PrivateFrameworks"
            #when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
            when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
-           when /:rice/ ; " -L#{RVM}/lib -L#{RICE}/lib -ldl -lruby.1.9.1 -lrice"
            when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
-           when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
+           #when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
+           when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby"
            else
              " -L#{e}"
            end

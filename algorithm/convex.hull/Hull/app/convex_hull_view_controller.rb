@@ -4,8 +4,6 @@ class ConvexHullViewController < UIViewController
 
     self.title = "Jarvis March"
     vs = view.bounds.size
-    ns = navigationController.navigationBar.frame.size
-    ts = navigationController.toolbar.frame.size
     frame = [[0, 0], [vs.width, vs.height]]
     @canvas_view = CanvasView.alloc.initWithFrame(frame)
     @canvas_view.selected_mode = 0
@@ -60,5 +58,18 @@ class ConvexHullViewController < UIViewController
 
   def segmentDidChange sender 
     @canvas_view.selected_mode = sender.selectedSegmentIndex
+  end
+
+  def addSkipBackupAttributeToItemAtURL(url)
+    dm = NSFileManager.defaultManager
+    if dm.fileExistsAtPath(url.path)
+      #url.setResourceValue
+    end
+  end
+
+  def addSkipBackupAttributeToItemAtPath(path)
+  end
+
+  def searchAndSkipBackupAttributesToAllFiles
   end
 end

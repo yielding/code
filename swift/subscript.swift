@@ -1,11 +1,11 @@
 #!/usr/bin/env swift
 
 struct TimeTable {
-    let multiplier: Int
+  let multiplier: Int
 
-    subscript(index: Int) -> Int {
-        return multiplier * index
-    }
+  subscript(index: Int) -> Int {
+    return multiplier * index
+  }
 }
 
 let threeTimesTable = TimeTable(multiplier: 3)
