@@ -17,20 +17,17 @@ public struct Blob {
 			($0 < 16 ? "0" : "") + String($0, radix: 16, uppercase: false)
 		}.joinWithSeparator("")
 	}
-
 }
 
 extension Blob : CustomStringConvertible {
-
 	public var description: String {
 		return "x'\(toHex())'"
 	}
-
 }
 
 extension Blob : Equatable {
 }
 
-public func ==(lhs: Blob, rhs: Blob) -> Bool {
+public func == (lhs: Blob, rhs: Blob) -> Bool {
 	return lhs.bytes == rhs.bytes
 }

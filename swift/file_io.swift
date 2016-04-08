@@ -2,14 +2,6 @@
 
 import Foundation
 
-class ByteBuffer {
-
-  private var data: [UInt8] = []
-
-  init() {
-  }
-}
-
 extension UInt8 {
   func char() -> Character {
     return Character(UnicodeScalar(Int(self)))
@@ -31,4 +23,4 @@ extension UInt8 {
 // print(data)
 
 // JPEG endmark
-var endMarker = NSData(bytes: [0xFF, 0xD9] as [UInt8], length: 2)
+// var endMarker = NSData(bytes: [0xFF, 0xD9] as [UInt8], length: 2)

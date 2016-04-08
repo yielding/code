@@ -2,7 +2,7 @@
 
 import Foundation 
 
-var ss = try String(contentsOfFile: "/Users/yielding/.vimrc", encoding:NSUTF8StringEncoding)
+var ss = try String(contentsOfFile: "/Users/yielding/.vimrc", encoding: NSUTF8StringEncoding)
 
 var arr = ss.componentsSeparatedByString("\r\n")
 

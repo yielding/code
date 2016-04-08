@@ -9,7 +9,6 @@ var header: UInt16 = 0
 data.getBytes(&header, range: NSRange(location: 0, length: 2))
 
 print(header.description)
-// header = UInt16(bigEndian: header)
 header = UInt16(littleEndian: header)
 print(header.description)
 

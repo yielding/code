@@ -1,3 +1,3 @@
 # The purpose of this directory
 
-* gether meaningful source code while studying swift programming lanugage
+* gether meaningful source code while studying swift programming language
