@@ -1,22 +1,21 @@
 #!/usr/bin/env swift
 
 struct Stack<T> {
-    var items = [T]()
+  var items = [T]()
 
-    mutating func push(item: T) {
-        items.append(item)
-    }
+  mutating func push(item: T) {
+    items.append(item)
+  }
 
-    mutating func pop() -> T {
-        return items.removeLast()
-    }
+  mutating func pop() -> T {
+    return items.removeLast()
+  }
 }
 
 extension Stack {
-    var topItem: T? {
-        return items.isEmpty ? nil :
-            items[items.count - 1]
-    }
+  var topItem: T? {
+    return items.isEmpty ? nil : items[items.count - 1]
+  }
 }
 
 var ss = Stack<String>()
@@ -30,5 +29,5 @@ ss.push("6")
 print(ss.pop())
 
 if let topItem = ss.topItem {
-    print ("The top item on the stack is \(topItem).")
+  print ("The top item on the stack is \(topItem).")
 }
