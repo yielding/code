@@ -115,12 +115,14 @@ public class ByteBuffer2 {
   public func getInt16LE() -> Int16 {
     let result = data[offset..<offset+2].reduce(0) { $0 * 16 + Int16($1) }
     offset += 2
+
     return result
   }
 
   public func getInt16BE() -> Int16 {
     let result = data[offset..<offset+2].reversed().reduce(0) { $0 * 16 + Int16($1) }
     offset += 2
+
     return result
   }
 
@@ -136,9 +138,9 @@ public class ByteBuffer2 {
     return result
   }
 
-  public func flip() {
-    offset = 0
-  }
+  public func flip()  { offset = 0 }
+
+  public func reset() { offset = 0 }
 
   public func toHex() -> String {
     return data.map {
@@ -149,6 +151,40 @@ public class ByteBuffer2 {
   // private func getIntLE<T: SignedInteger where T: SignedInteger>() -> T {
   //   return data[offset..<offset + sizeof(T)].reversed().reduce(0) { $0 * 16 + T($1) }
   // }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Block
+//
+////////////////////////////////////////////////////////////////////////////////
+public enum DataSource: Int {
+  case DB = 1
+  case RBJ, WAL
+}
+
+public class Block {
+  public var Offset: Int = 0
+  public var Size: Int = 0
+  public var Source: DataSource = DataSource.DB
+
+  public var Data: [UInt8]
+
+  public var description: String {
+    get { return "size: \(Size), offset: \(Offset)" }
+  }
+
+  public init(data: [UInt8], offset: Int, size: Int = -1, source: DataSource = DataSource.DB) {
+    Data   = data
+    Offset = offset
+    Size   = size
+    Source = source
+  }
+
+  public func IsInteriorIndex() -> Bool { return Data[0] == 0x02 }
+  public func IsInteriorTable() -> Bool { return Data[0] == 0x05 }
+  public func IsLeafIndex() -> Bool { return Data[0] == 0x0a }
+  public func IsLeafTable() -> Bool { return Data[0] == 0x0d }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -174,7 +210,7 @@ public class ByteBuffer2 {
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// ByteBuffer1
+// ByteBuffer2
 //
 ////////////////////////////////////////////////////////////////////////////////
 var d0: [UInt8] = [0x00, 0x01, 0x00, 0x02]
