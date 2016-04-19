@@ -33,12 +33,12 @@ extension Dictionary {
   }
 }
 
-extension Int {
+extension Integer {
   func times(block: () -> ()) {
     for _ in 0..<self { block() }
   }
 
-  func times(block:(Int) -> ()) -> Int {
+  func times(block:(Self) -> ()) -> Self {
     for i in 0..<self { block(i) }
     return self
   }
@@ -49,5 +49,5 @@ extension Int {
 [1.1, 2.1, 3.1].each { print("\($0)") }
 [1:"kamin", 2:"gunhee", 3:"me"].each { print("\($0.0) => \($0.1)") }
 
-var arr = [Int16](2..<10)
+var arr = [UInt16](2..<10)
 arr.each { print("\($0)") }
