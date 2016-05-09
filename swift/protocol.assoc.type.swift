@@ -1,8 +1,9 @@
 #!/usr/bin/env swift
 
 protocol Container {
-  typealias ItemType
-  mutating func append(item: ItemType)
+  associatedtype ItemType
+  mutating func append(_ item: ItemType)
+
   var count: Int { get }
   subscript(i: Int) -> ItemType { get }
 }
@@ -19,8 +20,8 @@ struct IntStack: Container {
   }
 
   typealias ItemType = Int
-  mutating func append(item: Int) {
-    self.push(item)
+  mutating func append(_ item: ItemType) {
+    self.push(item: item)
   }
 
   var count: Int { return items.count }
@@ -40,8 +41,8 @@ struct Stack<T>: Container {
     return items.removeLast()
   }
 
-  mutating func append(item: T) {
-    self.push(item)
+  mutating func append(_ item: T) {
+    self.push(item: item)
   }
 
   var count: Int {
@@ -56,11 +57,10 @@ struct Stack<T>: Container {
 extension Array: Container {}
 
 
-func allItemsMatch<
-C1: Container, C2: Container
-where C1.ItemType == C2.ItemType,
-C1.ItemType: Equatable>
-(someContainer: C1, _ anotherContainer: C2) -> Bool {
+func allItemsMatch<C1: Container, C2: Container
+    where C1.ItemType == C2.ItemType,
+          C1.ItemType: Equatable>
+    (someContainer: C1, _ anotherContainer: C2) -> Bool {
   if someContainer.count != anotherContainer.count {
     return false
   }
