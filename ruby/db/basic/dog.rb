@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby1.9
+#!/usr/bin/env ruby
 
 require "active_record"
 require "pp"
@@ -8,7 +8,6 @@ ActiveRecord::Base.establish_connection(conn)
 
 ActiveRecord::Schema.define do
   create_table :dogs do |t|
-    t.integer  :id, :null => false
     t.string   :name
     t.date     :dob
   end
@@ -19,4 +18,4 @@ end
 
 dog = Dog.create({ name: 'Scruffy', dob:  '2012-01-01' })
 
-Dog.find(:all).each { |dog| pp dog }
+Dog.find_each { |dog| pp dog }
