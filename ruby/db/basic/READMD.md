@@ -1,7 +1,7 @@
 TODO
 ====
   1. install
-    - sudo gem1.9 install sqlite3
+    - sudo gem install sqlite3
 
   2. mkdir db
 
