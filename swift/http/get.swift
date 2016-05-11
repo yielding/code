@@ -13,7 +13,7 @@ let task = NSURLSession.shared().dataTask(with: req) {
     return
   }
 
-  let rspStr = String(data: data!, encoding: NSUTF8StringEncoding)
+  let rspStr = NSString(data: data!, encoding: NSUTF8StringEncoding)
   print(rspStr)
 }
 
