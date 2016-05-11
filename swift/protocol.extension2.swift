@@ -39,6 +39,8 @@ struct SwiftBird: Bird, Flyable {
   var airspeedVelocity: Double { return 2000.0 }
 }
 
-var res = ["flog", "pants"].map       { $0.characters.count }
-                           .reduce(0) { $0 + $1 }
+var res = ["flog", "pants"]
+    .map { $0.characters.count }
+    .reduce(0, combine: +)
+
 print(res)
