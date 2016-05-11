@@ -7,12 +7,15 @@ require 'pp'
 dbconf = YAML::load(File.open('db.yaml'))
 ActiveRecord::Base.establish_connection(dbconf)
 
-class Dept < ActiveRecord::Base
-  set_table_name 'dept'
+class App < ActiveRecord::Base
+  self.primary_key = 'id'
+  self.table_name  = 'apps'
 end
 
-puts Dept.count
+puts App.count
 
-Dept.find(:all).each { |s| puts s.dname }
+pp App.find_each { |s| pp s }
+# pp App.find_by(name: "QQ")
 
-#Dept.find(:all, :select => "dname").each { |s| puts s.dname }
+# App.find(:all).each { |s| puts s }
+
