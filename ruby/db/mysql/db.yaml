@@ -1,0 +1,4 @@
+adapter: mysql2
+database: appmgr
+username: gmd
+password: Gmd#9876
