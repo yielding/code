@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require "rsec"
 
 include Rsec::Helpers
