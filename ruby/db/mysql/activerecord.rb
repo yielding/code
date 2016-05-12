@@ -14,8 +14,8 @@ end
 
 puts App.count
 
-pp App.find_each { |s| pp s }
+# pp App.find_each { |s| pp s }
 # pp App.find_by(name: "QQ")
 
-# App.find(:all).each { |s| puts s }
-
+# pp App.find([1, 2])
+pp App.select("name, name_id")
