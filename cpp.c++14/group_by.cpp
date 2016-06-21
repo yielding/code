@@ -57,8 +57,7 @@ auto operator<<(std::basic_ostream<Ch, Tr>& os, std::vector<T> const& v)
 // pair 타입 출력
 template<class Ch, class Tr, class T1, class T2>
 auto operator<<(std::basic_ostream<Ch, Tr>& os, std::pair<T1, T2> const& p)
--> std::basic_ostream<Ch, Tr>& 
-{
+-> std::basic_ostream<Ch, Tr>& {
   return os << "<" << p.first << ", " << p.second << ">";
 }
 
