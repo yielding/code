@@ -35,7 +35,10 @@ int main(int argc, const char *argv[])
   auto proc = mrb_generate_code(mrb, p);
   mrb_run(mrb, proc, mrb_top_self(mrb));
   if (mrb->exc)
+  {
     mrb_p(mrb, mrb_obj_value(mrb->exc));
+    mrb->exc = 0;
+  }
 
   mrb_close(mrb);
 
