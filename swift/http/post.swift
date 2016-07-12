@@ -11,7 +11,7 @@ var req  = URLRequest(url: URL(string: page)!)
 req.httpMethod = "POST"
 req.httpBody   = paramStr.data(using: String.Encoding.utf8)
 
-let task = URLSession.shared().dataTask(with: req) {
+let task = URLSession.shared.dataTask(with: req) {
   data, response, error in
   guard error == nil && data != nil else {
     print("error =\(error)")
