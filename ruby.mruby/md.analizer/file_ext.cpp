@@ -92,7 +92,7 @@ static mrb_value fi_save_to(mrb_state* mrb, mrb_value self)
 
 void init_file(mrb_state* mrb)
 {
-  auto fi = mrb_define_class(mrb, "FFile", mrb->object_class);
+  auto fi = mrb_define_class(mrb, "File", mrb->object_class);
   MRB_SET_INSTANCE_TT(fi, MRB_TT_DATA);
 
   mrb_define_method(mrb, fi, "initialize", fi_initialize, MRB_ARGS_REQ(1));

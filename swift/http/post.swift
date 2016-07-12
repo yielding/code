@@ -5,19 +5,20 @@ import Foundation
 let str = "create table Message(col TEXT)"
 let paramStr = "app[table]=Message&app[script]=\(str)"
 
-let page = "http://localhost:3000/apps"
-let req  = NSMutableURLRequest(url: NSURL(string: page)!)
+// work/rails/schema_mgr
+let page = "http://localhost:3000/apps" 
+var req  = URLRequest(url: URL(string: page)!)
 req.httpMethod = "POST"
-req.httpBody   = paramStr.data(using: NSUTF8StringEncoding)
+req.httpBody   = paramStr.data(using: String.Encoding.utf8)
 
-let task = NSURLSession.shared().dataTask(with: req) { 
+let task = URLSession.shared().dataTask(with: req) {
   data, response, error in
   guard error == nil && data != nil else {
     print("error =\(error)")
     return
   }
-
-  let rspStr = NSString(data: data!, encoding: NSUTF8StringEncoding)
+  
+  let rspStr = String(data: data!, encoding: String.Encoding.utf8)!
   print(rspStr)
 }
 
