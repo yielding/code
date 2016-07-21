@@ -28,7 +28,8 @@ int main()
   auto fp = fopen("wiki-example.rb","r");
 
   // Load the data from the .rb file into the Ruby environment
-  mrb_value obj = mrb_load_file(mrb,fp);
+  mrb_value obj = mrb_load_file(mrb, fp);
+  cout << "xx: " << mrb_fixnum(obj) << endl;
 
   // close the file
   fclose(fp); 
