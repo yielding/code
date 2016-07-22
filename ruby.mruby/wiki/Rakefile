@@ -1,0 +1,15 @@
+# -*- ruby -*-
+
+APP       = "wiki-example"
+APP_TEST  = "test_#{APP}"
+SRCS      = %w{ ./wiki-example.cpp }
+TEST_SRCS = %w{ }
+
+INCS      = ":mvm"
+CXX       = "xcrun"       # c++0x, clang++, blank
+CXXFLAGS  = ":v"          # :d, :O0 :O3 :w = -Wall
+LDFLAGS   = ":mvm"
+
+load "~/code/build/app2.rake"
+
+# task :default => [:test]
