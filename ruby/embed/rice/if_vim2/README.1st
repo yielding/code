@@ -29,5 +29,4 @@
     1. Data_Object<WindowExt> o(new WindowExt(&windows[index])) 
 
     c++에서 native로 유지하고 있는 데이타를 ruby로 pointer를 넘길때는
-    gc가 손대지 못하게 gc_mark, gc_free를 rice 사용자가 
-    직접 제어해야한다.
+    gc가 손대지 못하게 gc_mark, gc_free를 rice 사용자가 직접 제어해야한다.
