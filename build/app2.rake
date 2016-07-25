@@ -1,5 +1,4 @@
 #-*- ruby -*-   
-
 require 'rake/clean'
 
 include Rake::DSL
