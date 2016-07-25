@@ -14,9 +14,7 @@ using namespace boost;
 File::File(std::string const& p)
   : _path(p)
 {
-  // TODO
   _name = fs::path(_path).filename().string();
-  //_name = "leech";
   _size = 1234;
 }
 
