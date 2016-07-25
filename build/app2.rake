@@ -45,7 +45,7 @@ MVM     = "/Users/yielding/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
 $INCS  = " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
-$INCS += " -I/Users/yielding/opensource/Catch/include" 
+#$INCS += " -I/Users/yielding/opensource/Catch/include" 
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
@@ -65,7 +65,6 @@ if defined? LDFLAGS
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
            #when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
-           when /:dylib/; " -dynamiclib -arch x86_64 -Wl"
            when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
            #when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
            when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby"
@@ -88,9 +87,6 @@ $LIBS = ""
 if defined? LIBS
   LIBS.split.each do |e|  
     $LIBS += case e
-             # when /:rice/; " -ldl -lruby.1.9.1 -lrice"
-             # when /:yvm/ ; " -ldl -lruby.1.9.1"
-             # when /:mvm/ ; " -lmruby -lmruby_core"
              when /:t/; BOOST[:t]
              when /:s/; BOOST[:s]
              when /:f/; BOOST[:f]
@@ -182,7 +178,6 @@ class Builder
         when :osx
           path = out_path_of obj.osx.o
           sh "#{$CXX} -c #{$CXXFLAGS} #{$INCS} #{obj.cpp} -o #{path}"
-          #     `#{$CXX} -c #{$CXXFLAGS} #{$INCS} #{obj.cpp} -o #{path}`
         end
       end
     end
@@ -194,7 +189,6 @@ class Builder
       case os
       when :osx
         sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS}"
-        #`#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS}`
       end
     end
   end
@@ -205,7 +199,6 @@ class Builder
       case os
       when :osx
         sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} -lgtest -lgmock -lgtest_main"
-        # `#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} -lgtest -lgtest_main`
       end
     end
   end
@@ -216,6 +209,16 @@ class Builder
       case os
       when :osx
         `(ar crl #{app} #{objs_os_o}) && ranlib #{app}`
+      end
+    end
+  end
+
+  def link_dylib app, objs
+    objs_os_o = objs.map { |obj| os_o(obj) }.join ' '
+    if should_link? app, objs
+      case os
+      when :osx
+        sh "#{$CXX} -dynamiclib -arch x86_64 -o #{app} #{objs_os_o} #{$LDFLAGS}  #{$LIBS}"
       end
     end
   end
@@ -246,6 +249,11 @@ task :osx_lib_link => [:osx_compile] do
   builder.link_lib APP, SRCS
 end
 
+task :osx_dylib_link => [:osx_compile] do
+  builder = Builder.new :os => :osx
+  builder.link_dylib APP, SRCS
+end
+
 task :osx_test_link => [:osx_test_compile] do
   builder = Builder.new :os => :osx
   builder.link_test APP_TEST, TEST_SRCS
@@ -262,7 +270,7 @@ task :osx => [:osx_link] do
   puts "#{APP} build ok"
 end
 
-task :dylib => [:osx_link] do
+task :dylib => [:osx_dylib_link] do
   puts "#{APP} build ok"
 end
 
