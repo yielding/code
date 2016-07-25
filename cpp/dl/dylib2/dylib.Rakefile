@@ -10,7 +10,6 @@ LIBS      = ""
 
 DIR = File.dirname __FILE__
 
+task :default => [:osx_dylib_link]
+
 load '~/code/build/app2.rake'
-
-task :dylib
-
