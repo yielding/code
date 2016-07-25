@@ -46,12 +46,12 @@ public:
     m_impl.close();
   }
 
-  creator_t* get_creator(char* name="create")
+  creator_t* get_creator(char const* name="create")
   {
     return m_impl.get_creator(name);
   }
 
-  destroyer_t* get_destroyer(char* name="destroy")
+  destroyer_t* get_destroyer(char const* name="destroy")
   {
     return m_impl.get_destroyer(name);
   }

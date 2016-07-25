@@ -39,7 +39,7 @@ public:
     dlclose(m_handle);
   }
 
-  creator_t* get_creator(char* name)
+  creator_t* get_creator(char const* name)
   {
     creator_t* c = (creator_t*)dlsym(m_handle, name);
     char const* err = dlerror();
@@ -52,7 +52,7 @@ public:
     return c;
   }
 
-  destroyer_t* get_destroyer(char* name)
+  destroyer_t* get_destroyer(char const* name)
   {
     destroyer_t* d = (destroyer_t*) dlsym(m_handle, name);
     char const* err = dlerror();

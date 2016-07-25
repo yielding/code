@@ -9,7 +9,7 @@ example1: main.cpp hello.dylib
 	$(CXX) $(CXXFLAGS) -o example1 main.cpp -ldl
 
 hello.dylib: hello.cpp
-	$(CXX) $(CXXFLAGS) -dynamiclib -arch i386 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5u.sdk hello.cpp -o hello.dylib
+	$(CXX) $(CXXFLAGS) -dynamiclib -arch i386 -Wl hello.cpp -o hello.dylib
 
 clean:
 	rm -f example1 hello.dylib hello.o
