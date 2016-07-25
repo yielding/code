@@ -1,3 +1,7 @@
+# REMARK
+  - The items "DONE" are all the elements that will be used for script embedding.
+    completed well.
+
 # TODO
   + mruby embedding
 
@@ -6,10 +10,6 @@
   + refactoring
 
 # DOING
-  + mruby embedding
-
-  + filesystem toy
-    - file
 
 # DONE
   + mruby basic embedding
@@ -23,3 +23,4 @@
 
   + filesystem toy
     - filesystem
+    - file

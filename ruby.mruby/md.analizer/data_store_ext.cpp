@@ -19,17 +19,13 @@ void ds_free(mrb_state* mrb, void* p)
 {
   auto ds = (DataStore*)p;
   cout << str(format("c: ds_free at %x\n") % p);
-  // DataStore is Scott Singleton
-  // if (ds != nullptr)
-  //   delete ds;
 }
 
-struct mrb_data_type ds_type = 
-{
+struct mrb_data_type ds_type = {
   "DataStore", ds_free
 };
 
-mrb_value ds_get_file_systems(mrb_state* mrb, mrb_value self)
+auto ds_get_file_systems(mrb_state* mrb, mrb_value self) -> mrb_value 
 {
   auto ds = DATA_CHECK_GET_PTR(mrb, self, &ds_type, class DataStore);
   assert(ds);
@@ -47,7 +43,7 @@ mrb_value ds_get_file_systems(mrb_state* mrb, mrb_value self)
   return hs;
 }
 
-mrb_value ds_get_description(mrb_state* mrb, mrb_value self)
+auto ds_get_description(mrb_state* mrb, mrb_value self) -> mrb_value 
 {
   auto ds  = DATA_CHECK_GET_PTR(mrb, self, &ds_type, class DataStore);
   auto fss = ds->get_file_systems();
@@ -58,7 +54,7 @@ mrb_value ds_get_description(mrb_state* mrb, mrb_value self)
   return mrb_str_new_cstr(mrb, desc.c_str());
 }
 
-void init_data_store(mrb_state* mrb)
+auto init_data_store(mrb_state* mrb) -> RClass*
 {
   auto ds = mrb_define_class(mrb, "DataStore", mrb->object_class);
   MRB_SET_INSTANCE_TT(ds, MRB_TT_DATA);
@@ -69,6 +65,8 @@ void init_data_store(mrb_state* mrb)
   mrb_gv_set(mrb, mrb_intern_lit(mrb, "$ds"), ds_r);
   mrb_define_method(mrb, ds, "file_systems", ds_get_file_systems, MRB_ARGS_NONE());
   mrb_define_method(mrb, ds, "desc", ds_get_description, MRB_ARGS_NONE());
+
+  return ds;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

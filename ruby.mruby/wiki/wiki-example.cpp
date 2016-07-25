@@ -29,7 +29,6 @@ int main()
 
   // Load the data from the .rb file into the Ruby environment
   mrb_value obj = mrb_load_file(mrb, fp);
-  cout << "xx: " << mrb_fixnum(obj) << endl;
 
   // close the file
   fclose(fp); 
@@ -55,6 +54,8 @@ int main()
 
   // call the connect method on WikiManager
   auto res2 = mrb_funcall(mrb, c, "connect", 0);
+  cout << "connect result: " << mrb_bool(res2)
+       << endl;
 
   // If crashed, provide exception info
   if (mrb->exc) 

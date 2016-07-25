@@ -9,8 +9,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 class FileSystem;
 
-mrb_value fs_wrap(mrb_state* mrb, FileSystem* fs);
-void      init_file_system(mrb_state* mrb);
+auto fs_wrap(mrb_state* mrb, FileSystem* fs) -> mrb_value;
+auto init_file_system(mrb_state* mrb) -> RClass*;
 
 ////////////////////////////////////////////////////////////////////////////////
 //

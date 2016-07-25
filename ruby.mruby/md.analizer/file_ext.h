@@ -10,7 +10,7 @@
 class File;
 
 // mrb_value fi_wrap(mrb_state* mrb, File* fs);
-void      init_file(mrb_state* mrb);
+auto init_file(mrb_state* mrb) -> RClass*;
 
 ////////////////////////////////////////////////////////////////////////////////
 //

@@ -4,11 +4,11 @@ module WikiExample
 
     def connect
       self.active = _we_connected(3)
-      p self.active
+      return true
     end
 
     def get_version
-      return 1
+      return 5
     end
 
     # _we_connected() is defined in C
