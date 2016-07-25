@@ -45,7 +45,7 @@ end
 MVM     = "/Users/yielding/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
-$INCS  = " -I. -I/Users/yielding/opensource/spirit_x3/include -I/usr/local/include -I/Users/yielding/code/develop/include"
+$INCS  = " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
 $INCS += " -I/Users/yielding/opensource/Catch/include" 
 if defined? INCS
   INCS.split.each do |i|
@@ -65,8 +65,8 @@ if defined? LDFLAGS
     sdk_path = "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk"
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
-           #when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk"
-           when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
+           #when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
+           when /:dylib/; " -dynamiclib -arch x86_64 -Wl"
            when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
            #when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
            when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby"

@@ -6,10 +6,10 @@
 # Licensed under the GNU GPL.
 
 driver: main.cpp polygon.hpp triangle.dylib
-	$(CXX) $(CXXFLAGS) -o driver main.cpp -ldl -DPOSIX
+	xcrun clang++ -std=c++1z -o driver main.cpp -ldl -DPOSIX
 
 triangle.dylib: triangle.cpp polygon.hpp
-	$(CXX) $(CXXFLAGS) -dynamiclib -arch x86_64 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.7.sdk triangle.cpp -o triangle.dylib
+	xcrun clang++ -std=c++1z -dynamiclib -arch x86_64 -Wl triangle.cpp -o triangle.dylib
 
 clean:
 	rm -f driver triangle.dylib *.o
