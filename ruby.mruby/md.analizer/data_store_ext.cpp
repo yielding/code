@@ -19,9 +19,6 @@ void ds_free(mrb_state* mrb, void* p)
 {
   auto ds = (DataStore*)p;
   cout << str(format("c: ds_free at %x\n") % p);
-  // DataStore is Scott Singleton
-  // if (ds != nullptr)
-  //   delete ds;
 }
 
 struct mrb_data_type ds_type = {

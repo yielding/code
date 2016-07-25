@@ -34,12 +34,14 @@ auto t_add(mrb_state* mrb, mrb_value self) -> mrb_value
 }
 
 //static struct RClass* cTest;
-auto init_by_test(mrb_state* mrb) -> void 
+auto init_by_test(mrb_state* mrb) -> RClass* 
 {
-  struct RClass* cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
+  auto cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
 
   mrb_define_method(mrb, cTest, "initialize", t_init, MRB_ARGS_NONE());
   mrb_define_method(mrb, cTest, "add"       , t_add , MRB_ARGS_REQ(1));
+
+  return cTest;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

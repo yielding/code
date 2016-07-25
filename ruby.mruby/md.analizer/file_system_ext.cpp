@@ -55,7 +55,7 @@ auto fs_get_name(mrb_state* mrb, mrb_value self) -> mrb_value
   return mrb_str_new_cstr(mrb, fs->name().c_str());
 }
 
-void init_file_system(mrb_state* mrb)
+auto init_file_system(mrb_state* mrb) -> RClass*
 {
   auto fs = mrb_define_class(mrb, "FileSystem", mrb->object_class);
 
@@ -63,6 +63,8 @@ void init_file_system(mrb_state* mrb)
 
   mrb_define_method(mrb, fs, "initialize", fs_initialize, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, fs, "name", fs_get_name, MRB_ARGS_NONE());
+
+  return fs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

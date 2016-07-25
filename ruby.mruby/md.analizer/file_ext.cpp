@@ -90,7 +90,7 @@ static mrb_value fi_save_to(mrb_state* mrb, mrb_value self)
              : mrb_false_value();
 }
 
-void init_file(mrb_state* mrb)
+auto init_file(mrb_state* mrb) -> RClass*
 {
   auto fi = mrb_define_class(mrb, "File", mrb->object_class);
   MRB_SET_INSTANCE_TT(fi, MRB_TT_DATA);
@@ -102,6 +102,8 @@ void init_file(mrb_state* mrb)
   mrb_define_method(mrb, fi, "size",       fi_get_size,   MRB_ARGS_NONE());
   mrb_define_method(mrb, fi, "deleted?",   fi_deleted,    MRB_ARGS_NONE());
   mrb_define_method(mrb, fi, "save_to",    fi_save_to,    MRB_ARGS_REQ(1));
+
+  return fi;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
