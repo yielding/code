@@ -26,14 +26,14 @@ int main()
     return 1;
   }
 
-  dylib_t::creator_t* creator = dylib.get_creator("create");
+  auto creator = dylib.get_creator("create");
   if (creator == NULL)
   {
     cout << dylib.last_error() << endl;
     return 1;
   }
 
-  dylib_t::destroyer_t* destroyer = dylib.get_destroyer("destroy");
+  auto destroyer = dylib.get_destroyer("destroy");
   if (destroyer == NULL)
   {
     cout << dylib.last_error() << endl;
@@ -41,7 +41,7 @@ int main()
   }
 
   void* p = NULL;
-  polygon* poly = creator(p);
+  auto poly = creator(p);
   poly->set_side_length(7);
   cout << "The area is: " << poly->area() << '\n';
   destroyer(poly);
