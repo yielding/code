@@ -45,11 +45,11 @@ auto ds_get_file_systems(mrb_state* mrb, mrb_value self) -> mrb_value
 
 auto ds_get_description(mrb_state* mrb, mrb_value self) -> mrb_value 
 {
-  auto ds  = DATA_CHECK_GET_PTR(mrb, self, &ds_type, class DataStore);
-  auto fss = ds->get_file_systems();
-  auto sz  = fss.size();
+  auto ds   = DATA_CHECK_GET_PTR(mrb, self, &ds_type, class DataStore);
+  auto fss  = ds->get_file_systems();
+  auto sz   = fss.size();
   auto desc = str(format("DataStore for %s (%d file systems (%d nodes), %d models)")
-        % ds->device_name() % sz % 1024 % 2048);
+                  % ds->device_name() % sz % 1024 % 2048);
 
   return mrb_str_new_cstr(mrb, desc.c_str());
 }

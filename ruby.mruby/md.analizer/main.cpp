@@ -31,7 +31,7 @@ int main(int argc, const char *argv[])
   init_file(mrb);
 
   auto code = load_script("myscript.rb");
-  auto p = mrb_parse_string(mrb, code.c_str(), 0);
+  auto p    = mrb_parse_string(mrb, code.c_str(), 0);
   auto proc = mrb_generate_code(mrb, p);
   mrb_run(mrb, proc, mrb_top_self(mrb));
   if (mrb->exc)

@@ -19,7 +19,7 @@ static const struct mrb_data_type test_type = {
 
 static void test_free(mrb_state* mrb, void* p)
 {
-  int* value = (int*)p;
+  auto value = (int*)p;
   free(value);
 
   printf("test_free is called\n");
@@ -36,8 +36,9 @@ mrb_value test_run(mrb_state* mrb, mrb_value exec)
   for (int i=0; i<10; i++)
     printf("Test is running: %d\n", i);
 
-  int* value = (int*)malloc(sizeof(int));
+  auto value = (int*)malloc(sizeof(int));
   *value = 10;
+
   return mrb_obj_value(Data_Wrap_Struct(mrb, TestClass, &test_type, (void*)value));
 }
 
