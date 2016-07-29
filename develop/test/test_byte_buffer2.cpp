@@ -2,15 +2,15 @@
 #include <string>
 #include <iostream>
 
-#include "ByteBuffer.h"
+#include "byte_buffer2.h"
 
 using namespace std;
-using namespace utility::hex;
+//using namespace utility::hex;
 
-class ByteBufferTest: public testing::Test 
+class ByteBuffer2Test: public testing::Test 
 {
 public:
-    ByteBufferTest()
+    ByteBuffer2Test()
     {}
 
 protected:
@@ -21,6 +21,12 @@ protected:
     {}
 };
 
+TEST_F(ByteBuffer2Test, Start)
+{
+    EXPECT_EQ(1, 1);
+}
+
+/*
 TEST_F(ByteBufferTest, ConstructBeginEnd)
 {
     uint8_t arr[] = { 'l', 'e', 'e', 'c', 'h' };
@@ -123,3 +129,4 @@ TEST_F(ByteBufferTest, Take)
     auto t3 = a.take(2); EXPECT_EQ(t3.to_s(), string("45"));
     EXPECT_EQ(a.offset(), 6);
 }
+*/
