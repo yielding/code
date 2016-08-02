@@ -170,9 +170,7 @@ class ByteBuffer2
   end
 
   def get_string_for(sz)
-    if sz > size - @pos
-      sz = size - @pos
-    end
+    sz = size - @pos if sz > size - @pos
 
     val = @buffer.slice(@pos, sz); @pos += sz
     val.pack("c*")

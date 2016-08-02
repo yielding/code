@@ -5,128 +5,310 @@
 #include "byte_buffer2.h"
 
 using namespace std;
-//using namespace utility::hex;
 
 class ByteBuffer2Test: public testing::Test 
 {
 public:
-    ByteBuffer2Test()
-    {}
+  ByteBuffer2Test()
+  {}
 
 protected:
-    virtual void SetUp()
-    {}
+  virtual void SetUp() {
+    arr = new uint8_t[10] {
+      0x01, 0x02, 0x03, 0x04, 0x05, 
+      0x06, 0x07, 0x08, 0x09, 0x0a
+    };
 
-    virtual void TearDown()
-    {}
+    minus = new uint8_t[10] { 
+      0xff, 0xff, 0xff, 0xff, 0xff, 
+      0xff, 0xff, 0xff, 0xff, 0 
+    };
+
+    src = new uint8_t[5] { 'l', 'e', 'e', 'c', 'h' };
+  }
+
+  virtual void TearDown() {
+    delete [] arr;
+    delete [] src;
+  }
+
+  uint8_t* arr;
+  uint8_t* minus;
+  uint8_t* src;
 };
 
-TEST_F(ByteBuffer2Test, Start)
+TEST_F(ByteBuffer2Test, ConstructBeginEnd)
 {
-    EXPECT_EQ(1, 1);
+  ByteBuffer2 b(src, 5);
+
+  EXPECT_EQ(b.to_s(), "leech");
 }
 
-/*
-TEST_F(ByteBufferTest, ConstructBeginEnd)
+TEST_F(ByteBuffer2Test, ToS)
 {
-    uint8_t arr[] = { 'l', 'e', 'e', 'c', 'h' };
-    ByteBuffer b(arr, arr + 5);
-    EXPECT_EQ(b.to_s(), "leech");
+  ByteBuffer2 b("leech");
+
+  EXPECT_EQ(b.to_s(), "leech");
 }
 
-TEST_F(ByteBufferTest, FromHexCode)
+TEST_F(ByteBuffer2Test, HasRemaining)
 {
-    uint8_t arr[] = { 
-        0x92, 0xa7, 0x42, 0xab, 0x08, 0xc9, 0x69, 0xbf, 
-        0x00, 0x6c, 0x94, 0x12, 0xd3, 0xcc, 0x79, 0xa5 };
+  ByteBuffer2 b(arr, 0, 10, false);
 
-    auto b = ByteBuffer::from_hexcode("92a742ab08c969bf006c9412d3cc79a5");
-    for (int i=0; i<b.size(); i++)
-        EXPECT_EQ(uint8_t(b[i]), arr[i]);
+  for (int i=0; i<10; i++)
+  {
+    EXPECT_TRUE(b.has_remaining());
+    b.get_int8();
+  }
 }
 
-TEST_F(ByteBufferTest, StartsWith)
+TEST_F(ByteBuffer2Test, GetInt16BE)
 {
-    ByteBuffer b("leech");
-    EXPECT_EQ(b.starts_with("lee"), true);
-    EXPECT_EQ(b.starts_with("kee"), false);
+  ByteBuffer2 b(arr, 0, 5);
+
+  EXPECT_EQ(0x0102, b.get_int16_be());
+  EXPECT_EQ(0x0304, b.get_int16_be());
+  ASSERT_THROW(b.get_int16_be(), out_of_range);
+  b.reset();
+  EXPECT_EQ(0x0102, b.get_uint16_be());
+  EXPECT_EQ(0x0304, b.get_uint16_be());
+  ASSERT_THROW(b.get_int16_be(), out_of_range);
+
+  b.reset();
+  ByteBuffer2 m(minus, 0, 5);
+  EXPECT_EQ(-1, m.get_int16_be());
+  EXPECT_EQ(2,  m.offset());
 }
 
-TEST_F(ByteBufferTest, ToS)
+TEST_F(ByteBuffer2Test, GetInt24BE)
 {
-    ByteBuffer b("leech");
+  ByteBuffer2 b(arr, 0, 6);
 
-    EXPECT_EQ(b.to_s(), "leech");
+  EXPECT_EQ(0x010203, b.get_int24_be());
+  EXPECT_EQ(0x040506, b.get_int24_be());
+  b.reset();
+  EXPECT_EQ(0x010203, b.get_uint24_be());
+  EXPECT_EQ(0x040506, b.get_uint24_be());
+
+  b.reset();
+  ByteBuffer2 m(minus, 0, 6);
+  EXPECT_EQ(-1, m.get_int24_be());
+  EXPECT_EQ(-1, m.get_int24_be());
+  ASSERT_THROW(m.get_int24_be(), out_of_range);
 }
 
-TEST_F(ByteBufferTest, SetUint2LE)
+TEST_F(ByteBuffer2Test, GetInt32BE)
 {
-    ByteBuffer b;
-    uint32_t value = 0x0102;
-    b.set_uint2_le(value);
+  ByteBuffer2 b(arr, 0, 8);
 
-    EXPECT_EQ(int(b[0]), 2);
-    EXPECT_EQ(int(b[1]), 1);
+  EXPECT_EQ(0x01020304, b.get_int32_be());
+  EXPECT_EQ(0x05060708, b.get_int32_be());
+  ASSERT_THROW(b.get_int16_be(), out_of_range);
+
+  b.reset();
+  EXPECT_EQ(0x01020304, b.get_uint32_be());
+  EXPECT_EQ(0x05060708, b.get_uint32_be());
+  ASSERT_THROW(b.get_int16_be(), out_of_range);
+
+  b.reset();
+  ByteBuffer2 m(minus, 0, 5);
+  EXPECT_EQ(-1, m.get_int32_be());
+  EXPECT_EQ(4,  m.offset());
 }
 
-TEST_F(ByteBufferTest, SetUint4LE)
+TEST_F(ByteBuffer2Test, GetInt40BE)
 {
-    ByteBuffer b;
-    uint32_t value = 0x01020304;
-    b.set_uint4_le(value);
+  ByteBuffer2 b(arr, 0, 8);
 
-    for (int i=0; i<4; i++)
-        EXPECT_EQ(int(b[i]), 4 - i);
+  EXPECT_EQ(0x0102030405, b.get_int40_be());
+
+  b.reset();
+  EXPECT_EQ(0x0102030405, b.get_uint40_be());
+
+  b.reset();
+  EXPECT_EQ(0x0504030201, b.get_int40_le());
+
+  b.reset();
+  EXPECT_EQ(0x0504030201, b.get_uint40_le());
+
+  b.reset();
+  ByteBuffer2 m(minus, 0, 8);
+  EXPECT_EQ(-1, m.get_int40_be());
+  ASSERT_THROW(m.get_int40_be(), out_of_range);
 }
 
-TEST_F(ByteBufferTest, LastN)
+TEST_F(ByteBuffer2Test, GetInt48BE)
 {
-    ByteBuffer b("leech");
-    auto res0 = b.last();
-    auto res1 = b.last(3);
-    auto res2 = b.last(5);
+  ByteBuffer2 b(arr, 0, 8);
 
-    EXPECT_EQ(res0, uint8_t('h'));
-    EXPECT_EQ(res1.to_s(), string("ech"));
-    EXPECT_EQ(res2.to_s(), string("leech"));
+  EXPECT_EQ(0x010203040506, b.get_int48_be());
+
+  b.reset();
+  EXPECT_EQ(0x010203040506, b.get_uint48_be());
+
+  b.reset();
+  EXPECT_EQ(0x060504030201, b.get_int48_le());
+
+  b.reset();
+  EXPECT_EQ(0x060504030201, b.get_uint48_le());
+
+  b.reset();
+  ByteBuffer2 m(minus, 0, 8);
+  EXPECT_EQ(-1, m.get_int48_be());
+  ASSERT_THROW(m.get_int48_be(), out_of_range);
 }
 
-TEST_F(ByteBufferTest, FirstN)
+TEST_F(ByteBuffer2Test, GetInt56BE)
 {
-    ByteBuffer b("leech");
+  ByteBuffer2 b(arr, 0, 8);
 
-    auto res1 = b.first(3);
-    auto res2 = b.first(5);
-    EXPECT_EQ(res1.to_s(), string("lee"));
-    EXPECT_EQ(res2.to_s(), string("leech"));
+  EXPECT_EQ(0x01020304050607, b.get_int56_be());
+
+  b.reset();
+  EXPECT_EQ(0x01020304050607, b.get_uint56_be());
+
+  b.reset();
+  EXPECT_EQ(0x07060504030201, b.get_int56_le());
+
+  b.reset();
+  EXPECT_EQ(0x07060504030201, b.get_uint56_le());
+
+  b.reset();
+  ByteBuffer2 m(minus, 0, 8);
+  EXPECT_EQ(-1, m.get_int56_be());
+  ASSERT_THROW(m.get_int56_be(), out_of_range);
 }
 
-TEST_F(ByteBufferTest, Reverse)
+TEST_F(ByteBuffer2Test, GetInt64BE)
 {
-    ByteBuffer b("leech");
-    ByteBuffer c("leech ");
+  ByteBuffer2 b(arr, 0, 8);
 
-    b.reverse();
-    auto res = b.to_s();
-    EXPECT_EQ(b.to_s(), res);
-    EXPECT_FALSE(c.to_s() == res);
+  EXPECT_EQ(0x0102030405060708, b.get_int64_be());
+  ASSERT_THROW(b.get_int16_be(), out_of_range);
+
+  b.reset();
+  EXPECT_EQ(0x0102030405060708, b.get_uint64_be());
+  ASSERT_THROW(b.get_int16_be(), out_of_range);
+
+  b.reset();
+  ByteBuffer2 m(minus, 0, 8);
+  EXPECT_EQ(-1, m.get_int64_be());
+  EXPECT_EQ(8,  m.offset());
 }
 
-TEST_F(ByteBufferTest, Slice)
+TEST_F(ByteBuffer2Test, VarInt)
 {
-    ByteBuffer a("0123456789");
+  int size = 0;
+  int64_t r0 = 0;
 
-    auto s = a.slice(4, 8);
-    EXPECT_EQ(s.to_s(), string("4567"));
-    EXPECT_EQ(a.offset(), 0);
+  ByteBuffer2 b0 = { 0x81, 0x7f };
+
+  r0 = b0.get_varint_with_size(&size);
+  EXPECT_EQ(2,  size);
+  EXPECT_EQ(0xff, r0);
+
+  b0.reset({ 0x83, 0xff, 0x7f });
+  r0 = b0.get_varint_with_size(&size);
+  EXPECT_EQ(3,  size);
+  EXPECT_EQ(0xffff, r0);
+
+  b0.reset({ 0x87, 0xff, 0xff, 0x7f });
+  r0 = b0.get_varint_with_size(&size);
+  EXPECT_EQ(4,  size);
+  EXPECT_EQ(0xffffff, r0);
+
+  b0.reset({ 0x8f, 0xff, 0xff, 0xff, 0x7f });
+  r0 = b0.get_varint_with_size(&size);
+  EXPECT_EQ(5,  size);
+  EXPECT_EQ(0xffffffff, r0);
+
+  b0.reset({ 0x9f, 0xff, 0xff, 0xff, 0xff, 0x7f });
+  r0 = b0.get_varint_with_size(&size);
+  EXPECT_EQ(6,  size);
+  EXPECT_EQ(0xffffffffff, r0);
+
+  b0.reset({ 0xbf, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f });
+  r0 = b0.get_varint_with_size(&size);
+  EXPECT_EQ(7,  size);
+  EXPECT_EQ(0xffffffffffff, r0);
+
+  b0.reset({ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f });
+  r0 = b0.get_varint_with_size(&size);
+  EXPECT_EQ(8,  size);
+  EXPECT_EQ(0xffffffffffffff, r0);
+
+  b0.reset({ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff });
+  r0 = b0.get_varint_with_size(&size);
+  EXPECT_EQ(9,  size);
+  EXPECT_EQ(0xffffffffffffffff, r0);
+
+  b0.reset();
+  r0 = b0.get_varint();
+  EXPECT_EQ(0xffffffffffffffff, r0);
 }
 
-TEST_F(ByteBufferTest, Take)
+TEST_F(ByteBuffer2Test, Skip)
 {
-    ByteBuffer a("0123456789");
-    auto t1 = a.take(2); EXPECT_EQ(t1.to_s(), string("01"));
-    auto t2 = a.take(2); EXPECT_EQ(t2.to_s(), string("23"));
-    auto t3 = a.take(2); EXPECT_EQ(t3.to_s(), string("45"));
-    EXPECT_EQ(a.offset(), 6);
+  ByteBuffer2 b(arr, 0, 10);
+  EXPECT_EQ(2, b.skip(2).offset());
 }
-*/
+
+TEST_F(ByteBuffer2Test, Take)
+{
+  ByteBuffer2 a("0123456789");
+  EXPECT_EQ(a.take(2).to_s(), string("01"));
+  EXPECT_EQ(a.take(2).to_s(), string("23"));
+  EXPECT_EQ(a.take(2).to_s(), string("45"));
+  EXPECT_EQ(a.offset(), 6);
+}
+
+TEST_F(ByteBuffer2Test, FirstN)
+{
+  ByteBuffer2 b("leech");
+
+  auto res1 = b.first(3);
+  auto res2 = b.first(5);
+  EXPECT_EQ(res1.to_s(), string("lee"));
+  EXPECT_EQ(res2.to_s(), string("leech"));
+}
+
+TEST_F(ByteBuffer2Test, LastN)
+{
+  ByteBuffer2 b("leech");
+
+  EXPECT_EQ(b.last(), uint8_t('h'));
+  EXPECT_EQ(b.last(3).to_s(), string("ech"));
+  EXPECT_EQ(b.last(5).to_s(), string("leech"));
+}
+
+TEST_F(ByteBuffer2Test, FromHexCode)
+{
+  uint8_t arr[] = { 
+    0x92, 0xa7, 0x42, 0xab, 0x08, 0xc9, 0x69, 0xbf, 
+    0x00, 0x6c, 0x94, 0x12, 0xd3, 0xcc, 0x79, 0xa5 };
+
+  auto b = ByteBuffer2::from_hexcode("92a742ab08c969bf006c9412d3cc79a5");
+  for (int i=0; i<b.size(); i++) 
+    EXPECT_EQ( arr[i] , uint8_t(b[i]));
+}
+
+TEST_F(ByteBuffer2Test, Slice)
+{
+  ByteBuffer2 a("0123456789");
+
+  auto s0 = a.slice(4, 4);
+  EXPECT_EQ(s0.to_s(), string("4567"));
+  EXPECT_EQ(a.offset(), 0);
+
+  auto s1 = a.slice(4, 0);
+  EXPECT_EQ(s1.to_s(), string(""));
+  EXPECT_EQ(a.offset(), 0);
+}
+
+TEST_F(ByteBuffer2Test, StartsWith)
+{
+  ByteBuffer2 b("leech");
+  EXPECT_TRUE(b.starts_with("lee"));
+  EXPECT_FALSE(b.starts_with("kee"));
+  EXPECT_THROW(b.starts_with("leeche"), out_of_range);
+}
