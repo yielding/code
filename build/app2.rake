@@ -68,6 +68,7 @@ if defined? LDFLAGS
            when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
            #when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
            when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby"
+           when /:cl/; " -framework OpenCL"
            else
              " -L#{e}"
            end

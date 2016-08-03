@@ -1,0 +1,14 @@
+# -*- ruby -*-
+
+APP       = "transform_data"
+APP_TEST  = "test_#{APP}"
+SRCS      = %W{ ./#{APP}.cpp }
+TEST_SRCS = %W{ ./test_#{APP}.cpp } + SRCS
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LDFLAGS   = ":cl"
+LIBS      = "gmock"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
