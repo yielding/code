@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+APP       = "sqlte3.c++.api"
+APP_TEST  = "test_#{APP}"
+SRCS      = %W{ sqlite_api.cpp }
+TEST_SRCS = %W{ ./test_sqlite_api.cpp } + SRCS
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = "gmock sqlite3"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
