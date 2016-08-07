@@ -2,7 +2,7 @@
 
 APP       = "sqlte3.c++.api"
 APP_TEST  = "test_#{APP}"
-SRCS      = %W{ sqlite_api.cpp }
+SRCS      = %W{ sqlite_api.cpp main.cpp }
 TEST_SRCS = %W{ ./test_sqlite_api.cpp } + SRCS
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
