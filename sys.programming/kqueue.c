@@ -22,10 +22,10 @@ typedef void (action) (register struct kevent const *const kep);
 
 /* Event Control Block (ecb) */
 typedef struct {
-    action	*do_read;
-    action	*do_write;
-    char	*buf;
-    unsigned	bufsiz;
+    action  *do_read;
+    action  *do_write;
+    char    *buf;
+    unsigned bufsiz;
 } ecb;
 
 static char const *pname;
