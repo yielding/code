@@ -2,7 +2,6 @@
 
 #include <sqlite3.h>
 #include <stdexcept>
-#include <iostream>
 
 #include <boost/format.hpp>
 
@@ -18,18 +17,20 @@ class SQLiteApi::impl
 public:
   impl(char const* path): m_path(path)
   {
+    m_db = nullptr;
+    m_opened = false;
   }
 
   ~impl()
   {
     if (m_db != nullptr)
-      sqlite3_close(m_db);
+      ::sqlite3_close(m_db);
   }
 
   auto open() -> bool 
   {
     sqlite3* db = nullptr;
-    if (sqlite3_open(m_path, &db) != SQLITE_OK)
+    if (::sqlite3_open_v2(m_path, &db, SQLITE_OPEN_READONLY, nullptr) != SQLITE_OK)
       return false;
 
     m_db = db;
@@ -60,13 +61,12 @@ public:
   {
     vector<string> result;
 
-    auto sql = "select name from sqlite_master where type='table'";
-    auto stmt = prepare_stmt(sql);
+    auto stmt = prepare_stmt("select name from sqlite_master where type='table'");
     if (stmt == nullptr)
       return result;
 
-    while(::sqlite3_step(stmt) == SQLITE_ROW)
-      result.push_back(std::move(get_str(stmt, 0)));
+    while (::sqlite3_step(stmt) == SQLITE_ROW)
+      result.push_back(get_str(stmt, 0));
 
     ::sqlite3_finalize(stmt);
 
@@ -124,7 +124,7 @@ private:
 private:
   sqlite3* m_db;
   char const* m_path;
-  bool m_opened = false;
+  bool m_opened;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
