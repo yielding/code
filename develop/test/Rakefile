@@ -11,3 +11,6 @@ LIBS      = "gmock"
 DIR = File.dirname __FILE__
 
 load '~/code/build/app2.rake'
+
+#task :defalut => [:run_test]
+task :default => [:run_test] do; end

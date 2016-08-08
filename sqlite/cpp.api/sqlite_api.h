@@ -12,7 +12,7 @@ class SQLiteApi
 {
 public:
   SQLiteApi(char const* path);
-  ~SQLiteApi();
+ ~SQLiteApi();
 
   auto open() const -> bool;
 
