@@ -32,6 +32,7 @@ if defined? CXXFLAGS
            when /:O3/; " -O3"
            when /:Os/; " -Os"
            when /:arc/; " -fobjc-arc"
+           when /:objc/; " -ObjC++"
            else
              " -D#{f}"
            end
@@ -64,11 +65,10 @@ if defined? LDFLAGS
     sdk_path = "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk"
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
-           #when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
+           when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
            when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
            #when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby -lmruby_core"
            when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby"
-           when /:cl/; " -framework OpenCL"
            else
              " -L#{e}"
            end

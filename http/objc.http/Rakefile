@@ -1,0 +1,16 @@
+# -*- ruby -*-
+
+APP        = "get"
+APP_TEST   = "test_#{APP}"
+SRCS       = %W{ get.cpp }
+TEST_SRCS  = %W{ ./test_get.cpp } + SRCS
+CXX        = "xcrun"
+CXXFLAGS   = ":objc :Os"
+LIBS       = "gmock"
+FRAMEWORKS = "Foundation"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
