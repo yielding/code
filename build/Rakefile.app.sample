@@ -1,9 +1,13 @@
 # -*- ruby -*-
 
-APP       = "develop_test"
+APP       = "develop"
 APP_TEST  = "test_#{APP}"
-SRCS      = %W{ ../src/byte_buffer2.cpp }
-TEST_SRCS = %W{ ./test_byte_buffer2.cpp } + SRCS
+SRCS      = %W{ ~/code/develop/src/byte_buffer2.cpp 
+
+              }
+TEST_SRCS = %W{ ~/code/develop/test/test_byte_buffer2.cpp 
+
+              } + SRCS
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
 LIBS      = "gmock"
