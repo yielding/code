@@ -1,0 +1,14 @@
+# -*- ruby -*-
+
+APP       = "traverse"
+APP_TEST  = "test_#{APP}"
+SRCS      = %W{ ./traverse.cpp }
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = ""
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
