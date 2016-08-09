@@ -18,10 +18,10 @@ if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+0x/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+11/
-  $CXX = "ccache xcrun clang++ -stdlib=libc++" if CXX =~ /xcrun/
+  $CXX = "ccache xcrun clang++ -std=c++1z -stdlib=libc++" if CXX =~ /xcrun/
 end
 
-$CXXFLAGS = " -std=c++1z -DPOSIX"
+$CXXFLAGS = " -DPOSIX"
 if defined? CXXFLAGS
   CXXFLAGS.split.each do |f|
     flag = case f
@@ -50,7 +50,7 @@ $INCS  = " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
-            when /:yvm/  ; " -I#{YVM_INC}/x86_64-darwin11     -I#{YVM_INC}"
+            when /:yvm/  ; " -I#{YVM_INC}/x86_64-darwin11 -I#{YVM_INC}"
             when /:mvm/  ; " -I#{MVM_INC}"
             else
              " -I#{i}"
