@@ -1,12 +1,11 @@
 # -*- ruby -*-
 
-APP       = "json_def"
-APP_TEST  = "test_#{APP}"
-SRCS      = %W{ json_def.cpp }
-TEST_SRCS = %W{ test_json_def.cpp } + SRCS
+SRC       = "ptree_json"
+SRCS      = %W{ ./#{SRC}.cpp }
+TEST_SRCS = %W{ ./test_#{SRC}.cpp }
+APP       = "#{SRC}"
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
-LIBS      = "gmock :s"
 
 DIR = File.dirname __FILE__
 
