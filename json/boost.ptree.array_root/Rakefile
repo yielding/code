@@ -1,0 +1,15 @@
+# -*- ruby -*-
+
+APP       = "json"
+APP_TEST  = "test_#{APP}"
+SRCS      = %W{ }
+TEST_SRCS = %W{ ./test_json.cpp } + SRCS
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = "gmock"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:run_test]

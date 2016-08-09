@@ -15,10 +15,10 @@ protected:
   }
 
   virtual void TearDown() {
-
+  }
 };
 
 TEST_F(SampleTest, AlwaysTrue)
 {
-  EXPECT_EQ(1, 1)
+  EXPECT_EQ(1, 1);
 }
