@@ -12,3 +12,4 @@ LIBS      = "python2.7 boost_python"
 
 load '~/code/build/app2.rake'
 # CLOBBER.include("a.out")
+task :default => [:osx]

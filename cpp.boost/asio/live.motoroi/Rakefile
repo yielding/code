@@ -8,3 +8,5 @@ LIBS      = ":s :t"
 
 load '~/code/build/app2.rake'
 CLOBBER.include("*.o")
+
+task :default => [:osx]

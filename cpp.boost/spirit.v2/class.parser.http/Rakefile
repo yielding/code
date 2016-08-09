@@ -1,7 +1,7 @@
 # -*- ruby -*-
 
-SRCS      = %w{http_parser.cpp}
-TEST_SRCS = %w{test_http_parser.cpp}
+SRCS      = %w{ http_parser.cpp }
+TEST_SRCS = %w{ test_http_parser.cpp }
 APP       = "http_parser"
 APP_TEST  = "test_http_parser"
 CXX       = "xcrun"    # c++0x, clang++, blank
@@ -10,3 +10,4 @@ LIBS      = ":t :s"
 
 load '~/code/build/app2.rake'
 CLOBBER.include("*.o")
+task :default => [:osx]

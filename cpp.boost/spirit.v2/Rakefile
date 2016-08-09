@@ -1,7 +1,7 @@
 # -*- ruby -*-
 
-SRCS      = %w{double_list2.cpp}
-TEST_SRCS = %w{test_double_list2.cpp}
+SRCS      = %w{ double_list2.cpp }
+TEST_SRCS = %w{ test_double_list2.cpp }
 APP       = "double_list2"
 APP_TEST  = "test_double_list2"
 CXX       = "xcrun"    # c++0x, clang++, blank
@@ -10,3 +10,5 @@ LIBS      = ":t :s"
 
 load '~/code/build/app2.rake'
 CLOBBER.include("*.o")
+
+task :default => [:osx]

@@ -12,3 +12,4 @@ LIBS      = ":s :f boost_chrono-mt"
 
 load '~/code/build/app2.rake'
 # CLOBBER.include("a.out")
+task :default => [:osx]
