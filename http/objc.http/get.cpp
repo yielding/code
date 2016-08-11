@@ -8,9 +8,9 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-  NSURL *url = [NSURL URLWithString:@"http://www.32133.com/test?name=xx"];
-  NSData *data = [NSData dataWithContentsOfURL:url];
-  NSString *ret = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  auto url = [NSURL URLWithString:@"http://www.32133.com/test?name=xx"];
+  auto data = [NSData dataWithContentsOfURL:url];
+  auto ret = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
   NSLog(@"ret=%@", ret);
 
   return 0;
