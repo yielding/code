@@ -1,5 +1,6 @@
 # coding: utf-8
 
+# monkey patching
 class CDJukeBox
   def count
     10 

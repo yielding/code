@@ -1,0 +1,21 @@
+
+[step0] build mruby
+
+% git clone git://github.com/takeru/mruby.git --branch examples
+% cd mruby
+% make
+
+% ls bin
+mrbc  mruby  mrubysample
+
+% ls lib
+ritevm.a
+
+% ./bin/mruby -e 'puts "Hello"; puts 1+2+3'
+Hello
+6
+
+% cd examples
+
+let's go to step1
+
