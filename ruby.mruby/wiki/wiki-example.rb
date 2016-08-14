@@ -8,6 +8,9 @@ module WikiExample
     end
 
     def get_version
+      h = HttpRequest.new
+      p h.get("http://www.nexon.net")
+
       return 5
     end
 

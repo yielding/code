@@ -12,4 +12,4 @@ LDFLAGS   = ":mvm"
 
 load "~/code/build/app2.rake"
 
-# task :default => [:test]
+task :default => [:osx]

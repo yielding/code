@@ -20,18 +20,26 @@ auto we_connected(mrb_state* mrb, mrb_value self) -> mrb_value
   return mrb_bool_value(i >= 2);
 }
 
+auto load_file(mrb_state* mrb, char const* path) -> bool
+{
+  auto fp = fopen(path,"r");
+  if (!fp)
+    return false;
+
+  auto obj = mrb_load_file(mrb, fp);
+
+  fclose(fp); 
+
+  return mrb_fixnum(obj) != 0;
+}
+
 int main()
 {
   auto mrb = mrb_open();
   if (!mrb) { /* handle error */ }
 
-  auto fp = fopen("wiki-example.rb","r");
-
-  // Load the data from the .rb file into the Ruby environment
-  mrb_value obj = mrb_load_file(mrb, fp);
-
-  // close the file
-  fclose(fp); 
+  if (!load_file(mrb, "wiki-example.rb"))
+    return 1;
 
   // First access the module
   auto mod = mrb_module_get(mrb, "WikiExample");

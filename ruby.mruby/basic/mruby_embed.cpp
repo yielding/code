@@ -78,7 +78,7 @@ int main()
   auto proc = mrb_generate_code(mrb, p);
   mrb_context_run(mrb, proc, mrb_top_self(mrb), 0);
   if (mrb->exc) // exception?
-      mrb_p(mrb, mrb_obj_value(mrb->exc));
+    mrb_p(mrb, mrb_obj_value(mrb->exc));
 
   mrb_close(mrb);
 
