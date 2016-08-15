@@ -1,4 +1,4 @@
-/* vi:set ts=8 sts=4 sw=4:
+/* vi:set ts=2 sts=2 sw=2:
  *
  * VIM - Vi IMproved    by Bram Moolenaar
  *
@@ -64,6 +64,7 @@ mruby_end()
     mrbc_context_free(mrb, context);
     context = NULL;
   }
+
   if (mrb) {
     mrb_close(mrb);
     mrb = NULL;
@@ -88,6 +89,7 @@ eval_string(const char *str)
     int n = mrb_generate_code(mrb, parser);
     result = mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_top_self(mrb));
   }
+
   mrb_gc_arena_restore(mrb, ai);
   mrb_parser_free(parser);
   return result;
@@ -104,6 +106,7 @@ ex_mruby(exarg_T *eap)
     if (mrb->exc)
       error_print();
   }
+
   vim_free(script);
 }
 
@@ -115,6 +118,7 @@ void ex_mrubydo(exarg_T *eap)
   {
     if (u_save(eap->line1 - 1, eap->line2 + 1) != OK)
       return;
+
     for (i = eap->line1; i <= eap->line2; i++) {
       mrb_value line;
 
@@ -122,19 +126,21 @@ void ex_mrubydo(exarg_T *eap)
       mrb_vm_const_set(mrb, mrb_intern(mrb, "$_"), line);
       line = eval_string((char *) eap->arg);
       if (mrb->exc) {
-	error_print();
-	break;
+        error_print();
+        break;
       }
+
       line = mrb_vm_const_get(mrb, mrb_intern(mrb, "$_"));
       if (!mrb_nil_p(line)) {
-	if (mrb_type(line) != MRB_TT_STRING) {
-	  EMSG(_("E265: $_ must be an instance of String"));
-	  return;
-	}
-	ml_replace(i, (char_u *) mrb_string_value_ptr(mrb, line), 1);
-	changed();
+        if (mrb_type(line) != MRB_TT_STRING) {
+          EMSG(_("E265: $_ must be an instance of String"));
+          return;
+        }
+
+        ml_replace(i, (char_u *) mrb_string_value_ptr(mrb, line), 1);
+        changed();
 #ifdef SYNTAX_HL
-	syn_changed(i); /* recompute syntax hl. for this line */
+        syn_changed(i); /* recompute syntax hl. for this line */
 #endif
       }
     }
@@ -157,7 +163,6 @@ void ex_mrubyfile(exarg_T *eap)
     } else {
       EMSG("Cannot open file");
     }
-
   }
 }
 
@@ -166,8 +171,9 @@ void mruby_buffer_free(buf_T *buf)
   if (buf->b_mruby_ref)
   {
     mrb_funcall(mrb, objtbl, "[]=", 2,
-      mrb_fixnum_value(mrb_obj_id(*(mrb_value*) buf->b_mruby_ref)),
-      mrb_nil_value());
+        mrb_fixnum_value(mrb_obj_id(*(mrb_value*) buf->b_mruby_ref)),
+        mrb_nil_value());
+
     ((struct RData*) buf->b_mruby_ref)->data = NULL;
   }
 }
@@ -177,24 +183,26 @@ void mruby_window_free(win_T *win)
   if (win->w_mruby_ref)
   {
     mrb_funcall(mrb, objtbl, "[]=", 2,
-      mrb_fixnum_value(mrb_obj_id(*(mrb_value*) win->w_mruby_ref)),
-      mrb_nil_value());
+        mrb_fixnum_value(mrb_obj_id(*(mrb_value*) win->w_mruby_ref)),
+        mrb_nil_value());
     ((struct RData*) win->w_mruby_ref)->data = NULL;
   }
 }
 
-static int ensure_mruby_initialized(void)
+static int ensure_mruby_initialized()
 {
   if (!mrb)
   {
     mrb = mrb_open();
-    if (mrb) {
+    if (mrb) 
+    {
       context = mrbc_context_new(mrb);
       context->capture_errors = 1;
       mruby_io_init();
       mruby_vim_init();
     }
   }
+
   return mrb != NULL;
 }
 
@@ -219,6 +227,7 @@ static mrb_value vim_message(mrb_state *mrb, mrb_value self)
   } else {
     MSG("");
   }
+
   mrb_gc_arena_restore(mrb, ai);
   return mrb_nil_value();
 }
@@ -248,7 +257,7 @@ static mrb_value vim_to_mruby(typval_T *tv)
   if (tv->v_type == VAR_STRING)
   {
     result = mrb_str_new_cstr(mrb, tv->vval.v_string == NULL
-      ? "" : (char *)(tv->vval.v_string));
+        ? "" : (char *)(tv->vval.v_string));
   }
   else if (tv->v_type == VAR_NUMBER)
   {
@@ -271,7 +280,7 @@ static mrb_value vim_to_mruby(typval_T *tv)
     {
       for (curr = list->lv_first; curr != NULL; curr = curr->li_next)
       {
-	mrb_ary_push(mrb, result, vim_to_mruby(&curr->li_tv));
+        mrb_ary_push(mrb, result, vim_to_mruby(&curr->li_tv));
       }
     }
   }
@@ -288,15 +297,15 @@ static mrb_value vim_to_mruby(typval_T *tv)
 
       for (hi = ht->ht_array; todo > 0; ++hi)
       {
-	if (!HASHITEM_EMPTY(hi))
-	{
-	  --todo;
+        if (!HASHITEM_EMPTY(hi))
+        {
+          --todo;
 
-	  di = dict_lookup(hi);
-	  mrb_funcall(mrb, result, "[]=", 2,
-	    mrb_str_new_cstr(mrb, (char *)hi->hi_key),
-	    vim_to_mruby(&di->di_tv));
-	}
+          di = dict_lookup(hi);
+          mrb_funcall(mrb, result, "[]=", 2,
+              mrb_str_new_cstr(mrb, (char *)hi->hi_key),
+              vim_to_mruby(&di->di_tv));
+        }
       }
     }
   } /* else return mrb_nil_value(); */
@@ -308,8 +317,8 @@ static mrb_value vim_to_mruby(typval_T *tv)
 static mrb_value vim_evaluate(mrb_state* mrb, mrb_value self)
 {
 #ifdef FEAT_EVAL
-  typval_T    *tv;
-  mrb_value       result;
+  typval_T *tv;
+  mrb_value result;
   mrb_value str;
   mrb_get_args(mrb, "S", &str);
 
@@ -318,6 +327,7 @@ static mrb_value vim_evaluate(mrb_state* mrb, mrb_value self)
   {
     return mrb_nil_value();
   }
+
   result = vim_to_mruby(tv);
 
   free_tv(tv);
@@ -341,6 +351,7 @@ static mrb_value buffer_new(buf_T *buf)
     mrb_funcall(mrb, objtbl, "[]=", 2,
       mrb_fixnum_value(mrb_obj_id(mrb_obj_value(obj))),
       mrb_obj_value(obj));
+
     return mrb_obj_value(obj);
   }
 }
@@ -352,6 +363,7 @@ static buf_T *get_buf(mrb_value obj)
   Data_Get_Struct(mrb, obj, &VIM_Buffer_type, buf);
   if (buf == NULL)
     mrb_raise(mrb, eDeletedBufferError, "attempt to refer to deleted buffer");
+
   return buf;
 }
 
@@ -379,16 +391,14 @@ static mrb_value buffer_s_count(mrb_state* mrb, mrb_value self)
 static mrb_value buffer_s_aref(mrb_state* mrb, mrb_value self)
 {
   mrb_value num;
-  buf_T *b;
-  int n;
-  
   mrb_get_args(mrb, "i", &num);
-  n = mrb_fixnum(num);
+  int n = mrb_fixnum(num);
 
+  buf_T *b;
   for (b = firstbuf; b != NULL; b = b->b_next)
   {
     /*  Deleted buffers should not be counted
-     *    SegPhault - 01/07/05 */
+          SegPhault - 01/07/05 */
     if (!b->b_p_bl)
       continue;
 
@@ -397,6 +407,7 @@ static mrb_value buffer_s_aref(mrb_state* mrb, mrb_value self)
 
     n--;
   }
+
   return mrb_nil_value();
 }
 
@@ -404,7 +415,9 @@ static mrb_value buffer_name(mrb_state* mrb, mrb_value self)
 {
   buf_T *buf = get_buf(self);
 
-  return buf->b_ffname ? mrb_str_new_cstr(mrb, (char *)buf->b_ffname) : mrb_nil_value();
+  return buf->b_ffname 
+    ? mrb_str_new_cstr(mrb, (char *)buf->b_ffname) 
+    : mrb_nil_value();
 }
 
 static mrb_value buffer_number(mrb_state* mrb, mrb_value self)
@@ -424,7 +437,9 @@ static mrb_value buffer_count(mrb_state* mrb, mrb_value self)
 static mrb_value get_buffer_line(buf_T *buf, linenr_T n)
 {
   if (n <= 0 || n > buf->b_ml.ml_line_count)
-    mrb_raisef(mrb, E_INDEX_ERROR, "line number %ld out of range", (long)n);
+    mrb_raisef(mrb, E_INDEX_ERROR, 
+        "line number %ld out of range", (long)n);
+
   return mrb_str_new_cstr(mrb, (char *)ml_get_buf(buf, n, FALSE));
 }
 
@@ -432,11 +447,13 @@ static mrb_value buffer_aref(mrb_state* mrb, mrb_value self)
 {
   buf_T *buf = get_buf(self);
 
-  if (buf != NULL) {
+  if (buf != NULL) 
+  {
     mrb_value num;
     mrb_get_args(mrb, "i", &num);
     return get_buffer_line(buf, (linenr_T)mrb_fixnum(num));
   }
+
   return mrb_nil_value(); /* For stop warning */
 }
 
@@ -468,6 +485,7 @@ static mrb_value set_buffer_line(buf_T *buf, linenr_T n, mrb_value str)
   {
     mrb_raisef(mrb, E_INDEX_ERROR, "line number %ld out of range", (long)n);
   }
+
   return str;
 }
 
@@ -477,9 +495,9 @@ static mrb_value buffer_aset(mrb_state* mrb, mrb_value self)
   mrb_value num, str;
 
   mrb_get_args(mrb, "iS", &num, &str);
-  if (buf != NULL) {
+  if (buf != NULL)
     return set_buffer_line(buf, (linenr_T)mrb_fixnum(num), str);
-  }
+
   return str;
 }
 
@@ -517,6 +535,7 @@ static mrb_value buffer_delete(mrb_state* mrb, mrb_value self)
   {
     mrb_raisef(mrb, E_INDEX_ERROR, "line number %ld out of range", n);
   }
+
   return mrb_nil_value();
 }
 
@@ -560,6 +579,7 @@ static mrb_value buffer_append(mrb_state* mrb, mrb_value self)
   {
     mrb_raisef(mrb, E_INDEX_ERROR, "line number %ld out of range", n);
   }
+
   return str;
 }
 
@@ -576,6 +596,7 @@ static mrb_value window_new(win_T *win)
     mrb_funcall(mrb, objtbl, "[]=", 2,
       mrb_fixnum_value(mrb_obj_id(mrb_obj_value(obj))),
       mrb_obj_value(obj));
+
     return mrb_obj_value(obj);
   }
 }
@@ -587,6 +608,7 @@ static win_T *get_win(mrb_value obj)
   Data_Get_Struct(mrb, obj, &VIM_Window_type, win);
   if (win == NULL)
     mrb_raise(mrb, eDeletedWindowError, "attempt to refer to deleted window");
+
   return win;
 }
 
@@ -617,7 +639,6 @@ static mrb_value current_line_number(mrb_state* mrb, mrb_value self)
 }
 
 
-
 static mrb_value window_s_count(mrb_state* mrb, mrb_value self)
 {
 #ifdef FEAT_WINDOWS
@@ -626,6 +647,7 @@ static mrb_value window_s_count(mrb_state* mrb, mrb_value self)
 
   for (w = firstwin; w != NULL; w = w->w_next)
     n++;
+
   return mrb_fixnum_value(n);
 #else
   return mrb_fixnum_value(1);
@@ -647,6 +669,7 @@ static mrb_value window_s_aref(mrb_state* mrb, mrb_value self)
 #endif
     if (n == 0)
       return window_new(w);
+
   return mrb_nil_value();
 }
 
@@ -674,6 +697,7 @@ static mrb_value window_set_height(mrb_state* mrb, mrb_value self)
   curwin = win;
   win_setheight(mrb_fixnum(height));
   curwin = savewin;
+
   return height;
 }
 
@@ -701,7 +725,9 @@ static mrb_value window_cursor(mrb_value self)
 {
   win_T *win = get_win(self);
 
-  return mrb_assoc_new(mrb, mrb_fixnum_value(win->w_cursor.lnum), mrb_fixnum_value(win->w_cursor.col));
+  return mrb_assoc_new(mrb, 
+      mrb_fixnum_value(win->w_cursor.lnum), 
+      mrb_fixnum_value(win->w_cursor.col));
 }
 
 static mrb_value window_set_cursor(mrb_state* mrb, mrb_value self)
@@ -714,12 +740,15 @@ static mrb_value window_set_cursor(mrb_state* mrb, mrb_value self)
   mrb_check_type(mrb, pos, MRB_TT_ARRAY);
   if (RARRAY_LEN(pos) != 2)
     mrb_raise(mrb, E_ARGUMENT_ERROR, "array length must be 2");
+
   lnum = RARRAY_PTR(pos)[0];
   col = RARRAY_PTR(pos)[1];
   win->w_cursor.lnum = mrb_fixnum(lnum);
   win->w_cursor.col = mrb_fixnum(col);
   check_cursor();            /* put cursor on an existing line */
+
   update_screen(NOT_VALID);
+
   return mrb_nil_value();
 }
 
@@ -732,17 +761,18 @@ static mrb_value f_p(mrb_state* mrb, mrb_value self)
 {
   int argc;
   mrb_value *argv;
-  int i;
-  mrb_value str;
 
   mrb_get_args(mrb, "*", &argv, &argc);
-  str = mrb_str_new(mrb, "", 0);
+  auto str = mrb_str_new(mrb, "", 0);
 
-  for (i = 0; i < argc; i++) {
+  for (int i=0; i<argc; i++) 
+  {
     if (i > 0) mrb_str_cat(mrb, str, ", ", 2);
     mrb_str_concat(mrb, str, mrb_inspect(mrb, argv[i]));
   }
+
   MSG(RSTRING_PTR(str));
+
   return mrb_nil_value();
 }
 
@@ -793,7 +823,6 @@ static void mruby_vim_init(void)
   mrb_define_method(mrb, cBuffer, "line_number", current_line_number, ARGS_NONE());
   mrb_define_method(mrb, cBuffer, "line", line_s_current, ARGS_NONE());
   mrb_define_method(mrb, cBuffer, "line=", set_current_line, ARGS_REQ(1));
-
 
   cVimWindow = mrb_define_class_under(mrb, mVIM, "Window", mrb->object_class);
   mrb_define_singleton_method(mrb, cVimWindow, "current", window_s_current, ARGS_NONE());
