@@ -46,7 +46,7 @@ MVM     = "/Users/yielding/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
 $INCS  = " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
-#$INCS += " -I/Users/yielding/opensource/Catch/include" 
+$INCS += " -I/Users/yielding/code/develop/vendor/include"
 if defined? INCS
   INCS.split.each do |i|
      flag = case i

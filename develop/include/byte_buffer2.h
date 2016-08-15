@@ -74,6 +74,7 @@ public:
   auto offset() const -> int { return m_offset; }
   auto size() const -> int { return m_count; }
 
+  auto advance(int) -> ByteBuffer2&;
   auto skip(int) -> ByteBuffer2&;
   auto take(int) const -> ByteBuffer2;
 
