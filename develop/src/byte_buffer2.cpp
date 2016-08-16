@@ -557,7 +557,7 @@ auto ByteBuffer2::reset(initializer_list<uint8_t> l) -> void
   m_data   = (uint8_t *)&*l.begin();
   m_offset = 0;
   m_begin  = 0;
-  m_count  = l.size();
+  m_count  = (int)l.size();
   m_limit  = m_count;
   m_owner  = false;
 }
