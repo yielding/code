@@ -18,7 +18,7 @@ protected:
   }
 };
 
-TEST_F(SampleTest, AlwaysTrue)
+TEST(SampleTest, AlwaysTrue)
 {
   EXPECT_EQ(1, 1);
 }
