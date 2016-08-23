@@ -17,53 +17,59 @@ template<typename Container>
 class container_source
 {
 public:
-    typedef typename Container::value_type  char_type;
-    typedef source_tag                      category;
-    container_source(Container& container)
-        : container_(container), pos_(0)
-        { }
-    std::streamsize read(char_type* s, std::streamsize n)
-    {
-        using namespace std;
-        std::streamsize amt = 
-            static_cast<std::streamsize>(container_.size() - pos_);
-        std::streamsize result = (min)(n, amt);
-        if (result != 0) {
-            std::copy( container_.begin() + pos_,
-                       container_.begin() + pos_ + result,
-                       s );
-            pos_ += result;
-            return result;
-        } else {
-            return -1; // EOF
-        }
+  typedef typename Container::value_type  char_type;
+  typedef source_tag                      category;
+  container_source(Container& container)
+    : container_(container), pos_(0)
+  { }
+
+  std::streamsize read(char_type* s, std::streamsize n)
+  {
+    using namespace std;
+    std::streamsize amt = 
+      static_cast<std::streamsize>(container_.size() - pos_);
+    std::streamsize result = (min)(n, amt);
+    if (result != 0) {
+      std::copy( container_.begin() + pos_,
+          container_.begin() + pos_ + result,
+          s );
+      pos_ += result;
+      return result;
+    } else {
+      return -1; // EOF
     }
-    Container& container() { return container_; }
+  }
+
+  Container& container() { return container_; }
+
 private:
-    container_source operator=(const container_source&);
-    typedef typename Container::size_type   size_type;
-    Container&  container_;
-    size_type   pos_;
+  container_source operator=(const container_source&);
+  typedef typename Container::size_type   size_type;
+  Container&  container_;
+  size_type   pos_;
 };
 
 //
 // Model of Sink which appends to an STL-compatible sequence.
 //
 template<typename Container>
-class container_sink {
+class container_sink 
+{
 public:
-    typedef typename Container::value_type  char_type;
-    typedef sink_tag                        category;
-    container_sink(Container& container) : container_(container) { }
-    std::streamsize write(const char_type* s, std::streamsize n)
-    {
-        container_.insert(container_.end(), s, s + n);
-        return n;
-    }
-    Container& container() { return container_; }
+  typedef typename Container::value_type  char_type;
+  typedef sink_tag                        category;
+  container_sink(Container& container) : container_(container) { }
+  std::streamsize write(const char_type* s, std::streamsize n)
+  {
+    container_.insert(container_.end(), s, s + n);
+    return n;
+  }
+
+  Container& container() { return container_; }
+
 private:
-    container_sink operator=(const container_sink&);
-    Container& container_;
+  container_sink operator=(const container_sink&);
+  Container& container_;
 };
 
 //
@@ -74,79 +80,89 @@ template<typename Container>
 class container_device
 {
 public:
-    typedef typename Container::value_type  char_type;
-    typedef seekable_device_tag             category;
-    container_device(Container& container)
-        : container_(container), pos_(0)
-        { }
+  typedef typename Container::value_type  char_type;
+  typedef seekable_device_tag             category;
+  container_device(Container& container)
+    : container_(container), pos_(0)
+  { }
 
-    std::streamsize read(char_type* s, std::streamsize n)
+  std::streamsize read(char_type* s, std::streamsize n)
+  {
+    using namespace std;
+
+    auto amt = static_cast<std::streamsize>(container_.size() - pos_);
+    auto result = (min)(n, amt);
+    if (result != 0) {
+      std::copy( container_.begin() + pos_,
+          container_.begin() + pos_ + result,
+          s );
+      pos_ += result;
+      return result;
+    } else {
+      return -1; // EOF
+    }
+  }
+
+  std::streamsize write(const char_type* s, std::streamsize n)
+  {
+    using namespace std;
+
+    std::streamsize result = 0;
+
+    if (pos_ != container_.size()) 
     {
-        using namespace std;
-        std::streamsize amt = 
-            static_cast<std::streamsize>(container_.size() - pos_);
-        std::streamsize result = (min)(n, amt);
-        if (result != 0) {
-            std::copy( container_.begin() + pos_,
-                       container_.begin() + pos_ + result,
-                       s );
-            pos_ += result;
-            return result;
-        } else {
-            return -1; // EOF
-        }
+      std::streamsize amt =
+        static_cast<std::streamsize>(container_.size() - pos_);
+      result = (min)(n, amt);
+      std::copy(s, s + result, container_.begin() + pos_);
+      pos_ += result;
     }
 
-    std::streamsize write(const char_type* s, std::streamsize n)
+    if (result < n) 
     {
-        using namespace std;
-        std::streamsize result = 0;
-        if (pos_ != container_.size()) {
-            std::streamsize amt =
-                static_cast<std::streamsize>(container_.size() - pos_);
-            result = (min)(n, amt);
-            std::copy(s, s + result, container_.begin() + pos_);
-            pos_ += result;
-        }
-        if (result < n) {
-            container_.insert(container_.end(), s, s + n);
-            pos_ = container_.size();
-        }
-        return n;
+      container_.insert(container_.end(), s, s + n);
+      pos_ = container_.size();
     }
 
-    stream_offset seek(stream_offset off, BOOST_IOS::seekdir way)
-    {
-        using namespace std;
+    return n;
+  }
 
-        // Determine new value of pos_
-        stream_offset next;
-        if (way == BOOST_IOS::beg) {
-            next = off;
-        } else if (way == BOOST_IOS::cur) {
-            next = pos_ + off;
-        } else if (way == BOOST_IOS::end) {
-            next = container_.size() + off - 1;
-        } else {
-            throw BOOST_IOSTREAMS_FAILURE("bad seek direction");
-        }
+  stream_offset seek(stream_offset off, BOOST_IOS::seekdir way)
+  {
+    using namespace std;
 
-        // Check for errors
-        if (next < 0 || next >= container_.size())
-            throw BOOST_IOSTREAMS_FAILURE("bad seek offset");
-
-        pos_ = next;
-        return pos_;
+    // Determine new value of pos_
+    stream_offset next;
+    if (way == BOOST_IOS::beg) {
+      next = off;
+    } else if (way == BOOST_IOS::cur) {
+      next = pos_ + off;
+    } else if (way == BOOST_IOS::end) {
+      next = container_.size() + off - 1;
+    } else {
+      throw BOOST_IOSTREAMS_FAILURE("bad seek direction");
     }
 
-    Container& container() { return container_; }
+    // Check for errors
+    if (next < 0 || next >= container_.size())
+      throw BOOST_IOSTREAMS_FAILURE("bad seek offset");
+
+    pos_ = next;
+
+    return pos_;
+  }
+
+  Container& container() { return container_; }
+
 private:
-    container_device operator=(const container_device&);
-    typedef typename Container::size_type   size_type;
-    Container&  container_;
-    size_type   pos_;
+  container_device operator=(const container_device&);
+  typedef typename Container::size_type   size_type;
+  Container&  container_;
+  size_type   pos_;
 };
 
-} } } // End namespaces example, iostreams, boost.
+} 
+} 
+} // End namespaces example, iostreams, boost.
 
 #endif
