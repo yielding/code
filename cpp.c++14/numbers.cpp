@@ -6,7 +6,7 @@ using namespace std;
 
 auto count_no(int no) -> map<int, int>
 {
-  std::map<int, int> result;
+  map<int, int> result;
 
   while (no > 0)
   {
@@ -20,9 +20,9 @@ auto count_no(int no) -> map<int, int>
   return result;
 }
 
-auto count_no_range(vector<int> const& nos) -> map<int, int>
+auto count_no_range(vector<int> const& nos) -> decltype(auto)
 {
-  std::map<int, int> result;
+  map<int, int> result;
 
   for (auto no: nos)
   {

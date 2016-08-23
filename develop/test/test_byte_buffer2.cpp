@@ -37,6 +37,15 @@ protected:
   uint8_t* src;
 };
 
+TEST_F(ByteBuffer2Test, CtorWithInit)
+{
+  ByteBuffer2 b = { 1, 2, 3 };
+
+  EXPECT_EQ(b.offset(), 0);
+  EXPECT_EQ(b.size(), 3);
+  EXPECT_EQ(b[0], 1);
+}
+
 TEST_F(ByteBuffer2Test, ConstructBeginEnd)
 {
   ByteBuffer2 b(src, 5);
@@ -49,6 +58,7 @@ TEST_F(ByteBuffer2Test, ToS)
   ByteBuffer2 b("leech");
 
   EXPECT_EQ(b.to_s(), "leech");
+  EXPECT_EQ(b.offset(), 0);
 }
 
 TEST_F(ByteBuffer2Test, HasRemaining)

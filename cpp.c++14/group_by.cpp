@@ -11,9 +11,9 @@ namespace fun {
   template <typename C, typename F>
   auto group_by(C&& c, F f) 
   {
-    using element = std::decay_t<decltype(*std::data(c))>;
-    using desc    = decltype(f(*std::data(c)));
-    std::map<desc, std::vector<element>> r;
+    using element = decay_t<decltype(*data(c))>;
+    using desc    = decltype(f(*data(c)));
+    map<desc, vector<element>> r;
 
     for (auto&& e : c) 
       r[f(e)].emplace_back(e);
@@ -24,10 +24,10 @@ namespace fun {
   template <typename C, typename F>
   auto map(C&& c, F f)
   {
-    using key_t = decltype(f(*std::begin(c)).first);
-    using val_t = decltype(f(*std::begin(c)).second);
+    using key_t = decltype(f(*begin(c)).first);
+    using val_t = decltype(f(*begin(c)).second);
 
-    std::map<key_t, val_t> r;
+    map<key_t, val_t> r;
     for (auto&& e : c)
     {
       auto&& mapped = f(e);
@@ -39,8 +39,8 @@ namespace fun {
 }
 
 template<class Ch, class Tr, class T>
-auto operator<<(std::basic_ostream<Ch, Tr>& os, std::vector<T> const& v)
--> std::basic_ostream<Ch, Tr>& 
+auto operator<<(basic_ostream<Ch, Tr>& os, vector<T> const& v)
+-> basic_ostream<Ch, Tr>& 
 {
   os << "{";
   for (size_t i = 0; i < v.size(); ++i) 
@@ -56,8 +56,9 @@ auto operator<<(std::basic_ostream<Ch, Tr>& os, std::vector<T> const& v)
 
 // pair 타입 출력
 template<class Ch, class Tr, class T1, class T2>
-auto operator<<(std::basic_ostream<Ch, Tr>& os, std::pair<T1, T2> const& p)
--> std::basic_ostream<Ch, Tr>& {
+auto operator<<(basic_ostream<Ch, Tr>& os, pair<T1, T2> const& p)
+-> basic_ostream<Ch, Tr>& 
+{
   return os << "<" << p.first << ", " << p.second << ">";
 }
 
