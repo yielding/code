@@ -13,7 +13,7 @@ auto file_size(const char* filename) -> ifstream::pos_type
   return ifs.tellg();
 }
 
-auto file_size(ifstream& ifs) -> ifstream::pos_type
+auto file_size(istream& ifs) -> ifstream::pos_type
 {
   if (!ifs.good())
     return 0;
