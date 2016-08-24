@@ -3,7 +3,7 @@
 SRCS     = %w{ container_device.cpp }
 APP      = "container_device"
 TEST_APP = "test_container_device"
-CXX      = "clang++"    # c++0x, clang++, blank
+CXX      = "xcrun"    # c++0x, clang++, blank
 CXXFLAGS = ":v :Os"
 LIBS     = ":s" 
 
