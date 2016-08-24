@@ -13,4 +13,6 @@ int main()
   io::stream<io::file_descriptor_sink> out(fdsink);
 
   out << "FILE* " << file << " fd: " << fd << "\n";
+
+  return 0;
 }

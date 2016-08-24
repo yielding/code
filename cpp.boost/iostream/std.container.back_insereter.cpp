@@ -9,9 +9,11 @@ int main()
 {
   using namespace std;
 
-  string                 result;
+  string result;
   io::filtering_ostream  out(io::back_inserter(result));
   out << "Hello World!";
   out.flush();
   assert(result == "Hello World!");
+
+  return 0;
 }

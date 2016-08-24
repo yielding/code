@@ -1,19 +1,21 @@
 #include <fstream>
 
 using namespace std;
+
+namespace util {
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-auto file_size(const char* filename) -> ifstream::pos_type
+auto file_size(const char* filename) -> long
 {
   ifstream ifs(filename, ios::ate | ios::binary);
 
-  return ifs.tellg();
+  return long(ifs.tellg());
 }
 
-auto file_size(istream& ifs) -> ifstream::pos_type
+auto file_size(ifstream& ifs) -> long
 {
   if (!ifs.good())
     return 0;
@@ -24,7 +26,7 @@ auto file_size(istream& ifs) -> ifstream::pos_type
 
   ifs.seekg(backup_pos, ios::beg);
 
-  return result;
+  return long(result);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,3 +34,4 @@ auto file_size(istream& ifs) -> ifstream::pos_type
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+}
