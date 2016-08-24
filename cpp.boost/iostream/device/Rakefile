@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRCS     = %w{ container_device.cpp }
+SRCS     = %w{ ./container_device.cpp }
 APP      = "container_device"
 TEST_APP = "test_container_device"
 CXX      = "xcrun"    # c++0x, clang++, blank

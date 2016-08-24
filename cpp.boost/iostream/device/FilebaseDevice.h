@@ -17,38 +17,38 @@ namespace md {
 class FileBase
 {
 public:
-    static int const SIZE = 1024 * 1024;
+  static int const SIZE = 1024 * 1024;
 
 public:
-    FileBase()
-    {
-        m_data.reserve(SIZE);
-        for (int i=0; i<SIZE; ++i) 
-            m_data[i] = i % 15 + 0xf0;
+  FileBase()
+  {
+    m_data.reserve(SIZE);
+    for (int i=0; i<SIZE; ++i) 
+      m_data[i] = i % 15 + 0xf0;
 
-        m_data[0] = 0xff;
-        m_data[1] = 0xff;
-        m_data[SIZE-2] = 0xff;
-        m_data[SIZE-1] = 0xff;
-    }
+    m_data[0] = 0xff;
+    m_data[1] = 0xff;
+    m_data[SIZE-2] = 0xff;
+    m_data[SIZE-1] = 0xff;
+  }
 
-    bool GetData(unsigned char* buf, int64_t size, int64_t offset)
-    {
-        if (size + offset > SIZE)
-            return false;
+  bool GetData(unsigned char* buf, int64_t size, int64_t offset)
+  {
+    if (size + offset > SIZE)
+      return false;
 
-        std::copy(m_data.begin()+offset, m_data.begin()+offset+size, buf);
+    std::copy(m_data.begin()+offset, m_data.begin()+offset+size, buf);
 
-        return true;
-    }
+    return true;
+  }
 
-    int64_t GetActualSize()
-    {
-        return SIZE;
-    }
+  int64_t GetActualSize()
+  {
+    return SIZE;
+  }
 
 private:
-    std::vector<uint8_t> m_data;
+  std::vector<uint8_t> m_data;
 };
 
 }
@@ -65,59 +65,59 @@ namespace io = boost::iostreams;
 class FileBaseDevice
 {
 public:
-    typedef char                    char_type;
-    typedef io::seekable_device_tag category;
+  typedef char                    char_type;
+  typedef io::seekable_device_tag category;
 
 public:
-    FileBaseDevice(md::FileBase* fb, int offset = 0)
-        : m_fb(fb)
-        , m_offset(offset)
-        , m_limit(fb->GetActualSize())
-        , m_pos(offset)
-    {}
+  FileBaseDevice(md::FileBase* fb, int offset = 0)
+    : m_fb(fb)
+    , m_offset(offset)
+    , m_limit(fb->GetActualSize())
+    , m_pos(offset)
+  {}
 
-    std::streamsize read(char_type* s, std::streamsize n)
-    {
-        using namespace std;
-        const streamsize result = m_fb->GetData((unsigned char*)s, n, m_pos);
-        if (result == 0)
-            return -1;
+  std::streamsize read(char_type* s, std::streamsize n)
+  {
+    using namespace std;
+    const streamsize result = m_fb->GetData((unsigned char*)s, n, m_pos);
+    if (result == 0)
+      return -1;
 
-        m_pos += result;
-        return result;
-    }
+    m_pos += result;
+    return result;
+  }
 
-    std::streamsize write(char_type const* /*s*/, std::streamsize /*n*/)
-    {
-        return -1;
-    }
+  std::streamsize write(char_type const* /*s*/, std::streamsize /*n*/)
+  {
+    return -1;
+  }
 
-    std::streampos seek(std::streampos off, std::ios_base::seekdir way)
-    {
-        std::streampos next;
+  std::streampos seek(std::streampos off, std::ios_base::seekdir way)
+  {
+    std::streampos next;
 
-        if (way == std::ios_base::beg)
-            next = m_offset + off;
-        else if (way == std::ios_base::cur)
-            next = m_pos + off;
-        else if (way == std::ios_base::end)
-            next = m_limit + off;
-        else
-            throw std::ios_base::failure("bad seek direction");
+    if (way == std::ios_base::beg)
+      next = m_offset + off;
+    else if (way == std::ios_base::cur)
+      next = m_pos + off;
+    else if (way == std::ios_base::end)
+      next = m_limit + off;
+    else
+      throw std::ios_base::failure("bad seek direction");
 
-        if (next < 0 || next > m_limit)
-            throw std::ios_base::failure("bad seek offset");
+    if (next < 0 || next > m_limit)
+      throw std::ios_base::failure("bad seek offset");
 
-        m_pos = next;
+    m_pos = next;
 
-        return m_pos;
-    }
+    return m_pos;
+  }
 
 private:
-    md::FileBase* m_fb;
-    const int64_t m_offset;
-    const int64_t m_limit;
-    std::streamsize m_pos;
+  md::FileBase* m_fb;
+  const int64_t m_offset;
+  const int64_t m_limit;
+  std::streamsize m_pos;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

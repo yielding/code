@@ -9,14 +9,14 @@ using namespace std;
 
 int main(int argc, char const* argv[])
 {
-    io::filtering_istream in;
-    in.push(io::counter());
-    in.push(io::file_source("hello"));
+  io::filtering_istream in;
+  in.push(io::counter());
+  in.push(io::file_source("hello"));
 
-    string s;
-    getline(in, s); getline(in, s); getline(in, s);
-    cout << in.component<0, io::counter>()->lines() << endl;
-    cout << in.component<0, io::counter>()->characters() << endl;
+  string s;
+  getline(in, s); getline(in, s); getline(in, s);
+  cout << in.component<0, io::counter>()->lines() << endl;
+  cout << in.component<0, io::counter>()->characters() << endl;
 
-    return 0;
+  return 0;
 }

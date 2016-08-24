@@ -26,11 +26,11 @@ class TestMoney < Test::Unit::TestCase
   end
 
   def test_4
-    assert_equal(     10.to_money(width:4), "10")
-    assert_equal(    100.to_money(width:4), "100")
-    assert_equal(   1000.to_money(width:4), "1000")
-    assert_equal(  10000.to_money(width:4), "1,0000")
-    assert_equal( 100000.to_money(width:4), "10,0000")
-    assert_equal(1000000.to_money(width:4), "100,0000")
+    assert_equal(     10.to_money(width: 4), "10")
+    assert_equal(    100.to_money(width: 4), "100")
+    assert_equal(   1000.to_money(width: 4), "1000")
+    assert_equal(  10000.to_money(width: 4), "1,0000")
+    assert_equal( 100000.to_money(width: 4), "10,0000")
+    assert_equal(1000000.to_money(width: 4), "100,0000")
   end
 end

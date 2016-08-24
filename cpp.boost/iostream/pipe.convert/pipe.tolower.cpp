@@ -63,9 +63,9 @@ int main(int argc, char const* argv[])
   in.push(io::file_source("hello"));
 
   string s;
-    getline(in, s); cout << s << endl;
-    getline(in, s); cout << s << endl;
-    getline(in, s); cout << s << endl;
+  getline(in, s); cout << s << endl;
+  getline(in, s); cout << s << endl;
+  getline(in, s); cout << s << endl;
 
   return 0;
 }

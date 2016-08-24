@@ -22,7 +22,7 @@ let task = URLSession.shared.dataTask(with: req) {
   print(rspStr)
 }
 
-task.resume()
+self.wait_for(task);
 
 print("1")
 sleep(100)

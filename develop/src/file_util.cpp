@@ -1,20 +1,24 @@
 #include <fstream>
 
 using namespace std;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 112d6874a000810562da8a090bf6077bf06f5079
 namespace util {
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-auto file_size(const char* filename) -> ifstream::pos_type
+auto file_size(const char* filename) -> long
 {
   ifstream ifs(filename, ios::ate | ios::binary);
 
-  return ifs.tellg();
+  return long(ifs.tellg());
 }
 
-auto file_size(ifstream& ifs) -> ifstream::pos_type
+auto file_size(ifstream& ifs) -> long
 {
   if (!ifs.good())
     return 0;
@@ -25,7 +29,7 @@ auto file_size(ifstream& ifs) -> ifstream::pos_type
 
   ifs.seekg(backup_pos, ios::beg);
 
-  return result;
+  return long(result);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

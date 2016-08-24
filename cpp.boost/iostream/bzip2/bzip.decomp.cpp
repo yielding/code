@@ -16,7 +16,7 @@ int main(int argc, char const* argv[])
   in.push(io::bzip2_decompressor());
   in.push(file);
 
-  boost::iostreams::copy(in, cout);
+  io::copy(in, cout);
 
   return 0;
 }

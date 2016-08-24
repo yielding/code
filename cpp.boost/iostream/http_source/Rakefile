@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+APP       = "develop"
+SRCS      = %W{ ./http_source.cpp ./main.cpp }
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = ":s"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]

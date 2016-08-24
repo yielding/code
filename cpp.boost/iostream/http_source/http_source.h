@@ -2,38 +2,36 @@
 #define HTTP_SOURCE_H_KCO69NC1
 
 #include <boost/iostreams/concepts.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <string>
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-class HTTPSourceImpl;
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 class HTTPSource: public boost::iostreams::source
 {
 public:
   HTTPSource();
   HTTPSource(std::string const& url, int timeout=60);
- ~HTTPSource() {}
+ ~HTTPSource() = default;
 
-  bool  handshake();
-  bool  handshake(std::string const& url, int timeout=60);
+  auto handshake();
+  auto handshake(std::string const& url, int timeout=60);
 
 public:
-  std::streamsize 
-        read(char* s, std::streamsize n);
+  auto read(char* s, std::streamsize n) -> std::streamsize;
 
-  void  timouto(int to);
-  int   timeout();
+  auto timeout(int to);
+  auto timeout();
 
-  void  url(std::string const& url);
-  std::string
-        url();
+  auto url(std::string const& url);
+  auto url();
 
 private:
-  boost::shared_ptr<HTTPSourceImpl> m_impl;
+  struct Impl;
+  std::shared_ptr<Impl> m_impl;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
