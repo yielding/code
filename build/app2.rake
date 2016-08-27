@@ -59,7 +59,7 @@ if defined? INCS
   end
 end
 
-$LDFLAGS = " -L. -L/usr/local/lib -L/Users/yielding/code/develop/lib"
+$LDFLAGS = " -L. -L/usr/local/lib -L/Users/yielding/code/develop/lib -L/Users/yielding/code/develop/vendor/lib"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
     sdk_path = "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk"
