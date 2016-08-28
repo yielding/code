@@ -241,7 +241,7 @@ auto ByteBuffer2::get_uint32_le() const -> uint32_t
   return res;
 }
 
-auto ByteBuffer2::get_int40_be()  const -> int64_t
+auto ByteBuffer2::get_int40_be() const -> int64_t
 {
   check_offset(5);
 
@@ -437,6 +437,14 @@ auto ByteBuffer2::get_uint64_le() const -> uint64_t
 auto ByteBuffer2::get_varint() const -> int64_t
 {
   int size = 0; return get_varint_with_size(&size);
+}
+
+auto ByteBuffer2::get_varint2() const -> std::pair<int64_t, int>
+{
+  int size = 0; 
+  auto result = get_varint_with_size(&size);
+
+  return make_pair(result, size);
 }
 
 auto ByteBuffer2::get_varint_with_size(int* size) const -> int64_t

@@ -67,6 +67,7 @@ public:
   auto get_uint64_le() const -> uint64_t;
 
   auto get_varint() const -> int64_t;
+  auto get_varint2() const -> std::pair<int64_t, int>;
   auto get_varint_with_size(int* size) const -> int64_t;
 
   auto has_remaining() const -> bool;
