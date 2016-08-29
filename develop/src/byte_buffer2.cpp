@@ -487,7 +487,7 @@ auto ByteBuffer2::has_remaining() const -> bool
   return m_offset < m_limit;
 }
 
-auto ByteBuffer2::remained_size() const -> bool
+auto ByteBuffer2::remained_size() const -> int
 {
   return m_limit - m_offset;
 }
