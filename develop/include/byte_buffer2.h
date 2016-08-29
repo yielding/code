@@ -71,6 +71,7 @@ public:
   auto get_varint_with_size(int* size) const -> int64_t;
 
   auto has_remaining() const -> bool;
+  auto remained_size() cosnt -> int;
 
   auto offset() const -> int { return m_offset; }
   auto size() const -> int { return m_count; }
