@@ -18,4 +18,4 @@ puts App.count
 # pp App.find_by(name: "QQ")
 
 # pp App.find([1, 2])
-pp App.select("name, name_id")
+pp App.select("name")

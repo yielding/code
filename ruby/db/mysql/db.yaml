@@ -1,4 +1,6 @@
 adapter: mysql2
 database: appmgr
+host: 172.16.3.208
 username: gmd
 password: Gmd#9876
+timeout: 5000
