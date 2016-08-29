@@ -322,3 +322,9 @@ TEST_F(ByteBuffer2Test, StartsWith)
   EXPECT_FALSE(b.starts_with("kee"));
   EXPECT_THROW(b.starts_with("leeche"), out_of_range);
 }
+
+TEST_F(ByteBuffer2Test, GetDouble)
+{
+  ByteBuffer2 bb = { 0x3f, 0xf3, 0xae, 0x14, 0x7a, 0xe1, 0x47, 0xae };
+  EXPECT_EQ(bb.get_double(), 1.23);
+}

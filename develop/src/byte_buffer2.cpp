@@ -434,6 +434,13 @@ auto ByteBuffer2::get_uint64_le() const -> uint64_t
   return res;
 }
 
+auto ByteBuffer2::get_double() const -> double
+{
+  auto res = get_int64_be();
+
+  return *(double *)&res;
+}
+
 auto ByteBuffer2::get_varint() const -> int64_t
 {
   int size = 0; return get_varint_with_size(&size);
