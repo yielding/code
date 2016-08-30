@@ -441,11 +441,20 @@ auto ByteBuffer2::get_double() const -> double
   return *(double *)&res;
 }
 
+<<<<<<< HEAD
 auto ByteBuffer2::get_bytes(int size) const -> uint8_t*
 {
   check_offset(size);
   
   auto result = &m_data[m_offset];
+=======
+auto ByteBuffer2::get_bytes(int size)  const -> uint8_t*
+{
+  check_offset(size);
+
+  auto result = &m_data[m_offset];
+
+>>>>>>> d3cd4ba5560df93e8642b0dc2975667156946543
   m_offset += size;
 
   return result;
