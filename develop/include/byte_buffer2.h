@@ -68,6 +68,8 @@ public:
 
   auto get_double()    const -> double;
 
+  auto get_hex_string(int size) -> const std::string;
+
   auto get_varint() const -> int64_t;
   auto get_varint2() const -> std::pair<int64_t, int>;
   auto get_varint_with_size(int* size) const -> int64_t;
@@ -75,8 +77,9 @@ public:
   auto has_remaining() const -> bool;
   auto remained_size() const -> int;
 
+  auto offset(int off)       { m_offset = off;  }
   auto offset() const -> int { return m_offset; }
-  auto size() const -> int { return m_count; }
+  auto size() const -> int   { return m_count;  }
 
   auto advance(int) -> ByteBuffer2&;
   auto skip(int) -> ByteBuffer2&;

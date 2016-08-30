@@ -328,3 +328,10 @@ TEST_F(ByteBuffer2Test, GetDouble)
   ByteBuffer2 bb = { 0x3f, 0xf3, 0xae, 0x14, 0x7a, 0xe1, 0x47, 0xae };
   EXPECT_EQ(bb.get_double(), 1.23);
 }
+
+TEST_F(ByteBuffer2Test, GetHexString)
+{
+  ByteBuffer2 bb = { 0x00, 0x01, 0x02, 0x03};
+  EXPECT_EQ(bb.get_hex_string(3), "000102"s);
+  EXPECT_EQ(bb.offset(), 3);
+}
