@@ -1,0 +1,15 @@
+# -*- ruby -*-
+
+APP       = "basic"
+APP_TEST  = "test_#{APP}"
+SRCS      = %W{ ./basic.cpp }
+TEST_SRCS = %W{ } + SRCS
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = ""
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
