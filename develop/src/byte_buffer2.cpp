@@ -441,6 +441,17 @@ auto ByteBuffer2::get_double() const -> double
   return *(double *)&res;
 }
 
+auto ByteBuffer2::get_bytes(int size)  const -> uint8_t*
+{
+  check_offset(size);
+
+  auto result = &m_data[m_offset];
+
+  m_offset += size;
+
+  return result;
+}
+
 auto ByteBuffer2::get_hex_string(int size) -> const string
 {
   constexpr char hmap[] = { '0', '1', '2', '3', '4', '5', '6',

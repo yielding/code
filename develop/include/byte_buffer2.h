@@ -68,6 +68,8 @@ public:
 
   auto get_double()    const -> double;
 
+  auto get_bytes(int)  const -> uint8_t*;
+
   auto get_hex_string(int size) -> const std::string;
 
   auto get_varint() const -> int64_t;
