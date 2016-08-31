@@ -441,12 +441,20 @@ auto ByteBuffer2::get_double() const -> double
   return *(double *)&res;
 }
 
+<<<<<<< HEAD
+auto ByteBuffer2::get_bytes(int size) const -> uint8_t*
+{
+  check_offset(size);
+  
+  auto result = &m_data[m_offset];
+=======
 auto ByteBuffer2::get_bytes(int size)  const -> uint8_t*
 {
   check_offset(size);
 
   auto result = &m_data[m_offset];
 
+>>>>>>> d3cd4ba5560df93e8642b0dc2975667156946543
   m_offset += size;
 
   return result;
@@ -454,14 +462,16 @@ auto ByteBuffer2::get_bytes(int size)  const -> uint8_t*
 
 auto ByteBuffer2::get_hex_string(int size) -> const string
 {
-  constexpr char hmap[] = { '0', '1', '2', '3', '4', '5', '6',
-    '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+  constexpr char hmap[] =
+    { '0', '1', '2', '3', '4', '5', '6', '7',
+      '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
   string result(size * 2, ' ');
+
   for (int i=0; i<size; i++)
   {
     result[2*i + 0] = hmap[(m_data[m_offset + i] & 0xf0) >> 4];
-    result[2*i + 1] = hmap[m_data[m_offset + i] & 0x0f];
+    result[2*i + 1] = hmap[(m_data[m_offset + i] & 0x0f)];
   }
 
   m_offset += size;
