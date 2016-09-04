@@ -53,6 +53,16 @@ TEST_F(ByteBuffer2Test, ConstructBeginEnd)
   EXPECT_EQ(b.to_s(), "leech");
 }
 
+TEST_F(ByteBuffer2Test, GetInt8)
+{
+  ByteBuffer2 b = { 1, 2, 3 };
+
+  EXPECT_EQ(b.get_uint8(2), 3);
+  EXPECT_EQ(b.get_int8(2), 3);
+  EXPECT_EQ(b.size(), 3);
+  EXPECT_EQ(b[0], 1);
+}
+
 TEST_F(ByteBuffer2Test, ToS)
 {
   ByteBuffer2 b("leech");

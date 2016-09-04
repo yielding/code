@@ -28,48 +28,48 @@ public:
   auto get_ascii() const -> std::string;
   auto to_s(int from=-1, int to=-1) const -> std::string;
 
-  auto get_int8()  const -> int8_t;
-  auto get_uint8() const -> uint8_t;
+  auto get_int8(int at=-1)  const -> int8_t;
+  auto get_uint8(int at=-1) const -> uint8_t;
 
-  auto get_int16_be()  const -> int16_t;
-  auto get_int16_le()  const -> int16_t;
-  auto get_uint16_be() const -> uint16_t;
-  auto get_uint16_le() const -> uint16_t;
+  auto get_int16_be(int at=-1)  const -> int16_t;
+  auto get_int16_le(int at=-1)  const -> int16_t;
+  auto get_uint16_be(int at=-1) const -> uint16_t;
+  auto get_uint16_le(int at=-1) const -> uint16_t;
 
-  auto get_int24_be()  const -> int32_t;
-  auto get_int24_le()  const -> int32_t;
-  auto get_uint24_be() const -> uint32_t;
-  auto get_uint24_le() const -> uint32_t;
+  auto get_int24_be(int at=-1)  const -> int32_t;
+  auto get_int24_le(int at=-1)  const -> int32_t;
+  auto get_uint24_be(int at=-1) const -> uint32_t;
+  auto get_uint24_le(int at=-1) const -> uint32_t;
 
-  auto get_int32_be()  const -> int32_t;
-  auto get_int32_le()  const -> int32_t;
-  auto get_uint32_be() const -> uint32_t;
-  auto get_uint32_le() const -> uint32_t;
+  auto get_int32_be(int at=-1)  const -> int32_t;
+  auto get_int32_le(int at=-1)  const -> int32_t;
+  auto get_uint32_be(int at=-1) const -> uint32_t;
+  auto get_uint32_le(int at=-1) const -> uint32_t;
 
-  auto get_int40_be()  const -> int64_t;
-  auto get_int40_le()  const -> int64_t;
-  auto get_uint40_be() const -> uint64_t;
-  auto get_uint40_le() const -> uint64_t;
+  auto get_int40_be(int at=-1)  const -> int64_t;
+  auto get_int40_le(int at=-1)  const -> int64_t;
+  auto get_uint40_be(int at=-1) const -> uint64_t;
+  auto get_uint40_le(int at=-1) const -> uint64_t;
 
-  auto get_int48_be()  const -> int64_t;
-  auto get_int48_le()  const -> int64_t;
-  auto get_uint48_be() const -> uint64_t;
-  auto get_uint48_le() const -> uint64_t;
+  auto get_int48_be(int at=-1)  const -> int64_t;
+  auto get_int48_le(int at=-1)  const -> int64_t;
+  auto get_uint48_be(int at=-1) const -> uint64_t;
+  auto get_uint48_le(int at=-1) const -> uint64_t;
 
-  auto get_int56_be()  const -> int64_t;
-  auto get_int56_le()  const -> int64_t;
-  auto get_uint56_be() const -> uint64_t;
-  auto get_uint56_le() const -> uint64_t;
+  auto get_int56_be(int at=-1)  const -> int64_t;
+  auto get_int56_le(int at=-1)  const -> int64_t;
+  auto get_uint56_be(int at=-1) const -> uint64_t;
+  auto get_uint56_le(int at=-1) const -> uint64_t;
 
-  auto get_int64_be()  const -> int64_t;
-  auto get_int64_le()  const -> int64_t;
-  auto get_uint64_be() const -> uint64_t;
-  auto get_uint64_le() const -> uint64_t;
+  auto get_int64_be(int at=-1)  const -> int64_t;
+  auto get_int64_le(int at=-1)  const -> int64_t;
+  auto get_uint64_be(int at=-1) const -> uint64_t;
+  auto get_uint64_le(int at=-1) const -> uint64_t;
 
-  auto get_double()    const -> double;
+  auto get_double(int at=-1)    const -> double;
 
-  auto get_bytes(int)  const -> uint8_t*;
-  auto get_hex_string(int) -> const std::string;
+  auto get_bytes(int, int at=-1)  const -> uint8_t*;
+  auto get_hex_string(int, int at=-1) -> const std::string;
 
   auto get_varint()    const -> int64_t;
   auto get_varint2()   const -> std::pair<int64_t, int>;
@@ -100,7 +100,7 @@ public:
   auto reset(std::initializer_list<uint8_t> l) -> void;
 
 public:
-  auto operator[](uint32_t index) -> uint8_t;
+  auto operator[](uint32_t index) -> uint8_t&;
   auto operator[](uint32_t index) const -> uint8_t const;
 
 public:
@@ -109,6 +109,7 @@ public:
 private:
   auto check_offset(int) const -> void;
   auto leading_byte(uint8_t) const -> uint8_t;
+  auto advance(int at, int dist) const -> int;
 
 private:
   mutable int m_offset;

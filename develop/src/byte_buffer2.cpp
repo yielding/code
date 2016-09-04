@@ -2,20 +2,19 @@
 
 #include <climits>
 #include <utility>
-#include <iostream>
 #include <cctype>
 #include <algorithm>
 #include <sstream>
 #include <exception>
 
 using namespace std;
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-namespace {
 
+namespace {
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 template <typename T>
 T swap_endian(T u)
 {
@@ -35,6 +34,11 @@ T swap_endian(T u)
   return dest.u;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +100,7 @@ ByteBuffer2::~ByteBuffer2()
 // ByteBuffer2 is for shallow version of buffer
 //
 ////////////////////////////////////////////////////////////////////////////////
-auto ByteBuffer2::operator[](uint32_t index) -> uint8_t
+auto ByteBuffer2::operator[](uint32_t index) -> uint8_t&
 {
   check_offset(index);
   return m_data[m_begin + index];
@@ -109,365 +113,373 @@ auto ByteBuffer2::operator[](uint32_t index) const -> uint8_t const
   return m_data[m_begin + index];
 }
 
-auto ByteBuffer2::get_int8() const -> int8_t
+auto ByteBuffer2::get_int8(int at) const -> int8_t
 {
   check_offset(1);
 
-  return (int8_t)m_data[m_offset++];
+  auto here = advance(at, 1);
+  return (int8_t)m_data[here];
 }
 
-auto ByteBuffer2::get_uint8() const -> uint8_t
+auto ByteBuffer2::get_uint8(int at) const -> uint8_t
 {
   check_offset(1);
 
-  return m_data[m_offset++];
+  auto here = advance(at, 1);
+  return m_data[here];
 }
 
-auto ByteBuffer2::get_int16_be() const -> int16_t
+auto ByteBuffer2::get_int16_be(int at) const -> int16_t
 {
   check_offset(2);
 
-  auto res = *(int16_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 2;
+  auto here = advance(at, 2);
+  auto res  = *(int16_t*)(uint8_t*)&m_data[here];
 
   return swap_endian<int16_t>(res);
 }
 
-auto ByteBuffer2::get_int16_le() const -> int16_t
+auto ByteBuffer2::get_int16_le(int at) const -> int16_t
 {
   check_offset(2);
 
-  auto res = *(int16_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 2;
+  auto here = advance(at, 2);
+  auto res  = *(int16_t*)(uint8_t*)&m_data[here];
 
   return res;
 }
 
-auto ByteBuffer2::get_uint16_be() const -> uint16_t
+auto ByteBuffer2::get_uint16_be(int at) const -> uint16_t
 {
   check_offset(2);
 
-  auto res = *(uint16_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 2;
+  auto here = advance(at, 2);
+  auto res  = *(uint16_t*)(uint8_t*)&m_data[here];
 
   return swap_endian<uint16_t>(res);
 }
 
-auto ByteBuffer2::get_uint16_le() const -> uint16_t
+auto ByteBuffer2::get_uint16_le(int at) const -> uint16_t
 {
   check_offset(2);
 
-  auto res = *(uint16_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 2;
+  auto here = advance(at, 2);
+  auto res  = *(uint16_t*)(uint8_t*)&m_data[here];
 
   return res;
 }
 
-auto ByteBuffer2::get_int24_be() const -> int32_t
+auto ByteBuffer2::get_int24_be(int at) const -> int32_t
 {
   check_offset(3);
 
-  auto result = (int32_t)leading_byte(m_data[m_offset]);
+  auto here = advance(at, 3);
+  auto res  = (int32_t)leading_byte(m_data[here]);
 
-  for (int i=m_offset; i<m_offset+3; i++)
-    result = (result << 8) + m_data[i]; 
+  for (int i=here; i<here+3; i++)
+    res = (res << 8) + m_data[i]; 
 
-  m_offset += 3;
-
-  return result;
+  return res;
 }
 
-auto ByteBuffer2::get_int24_le() const -> int32_t
+auto ByteBuffer2::get_int24_le(int at) const -> int32_t
 {
   return 0;
 }
 
-auto ByteBuffer2::get_uint24_be() const -> uint32_t
+auto ByteBuffer2::get_uint24_be(int at) const -> uint32_t
 {
   check_offset(3);
 
-  auto result = (uint32_t)0;
+  auto here = advance(at, 3);
+  auto res  = (uint32_t)0;
 
-  for (int i=m_offset; i<m_offset+3; i++)
-    result = (result << 8) + m_data[i]; 
+  for (int i=here; i<here+3; i++)
+    res = (res << 8) + m_data[i]; 
 
-  m_offset += 3;
-
-  return result;
+  return res;
 }
 
-auto ByteBuffer2::get_uint24_le() const -> uint32_t
+auto ByteBuffer2::get_uint24_le(int at) const -> uint32_t
 {
+  // auto here = advance(at, 3);
   return 0;
 }
 
-auto ByteBuffer2::get_int32_be() const -> int32_t
+auto ByteBuffer2::get_int32_be(int at) const -> int32_t
 {
   check_offset(4);
 
-  auto res = *(int32_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 4;
+  auto here = advance(at, 4);
+  auto res  = *(int32_t*)(uint8_t*)&m_data[here];
 
   return swap_endian<int32_t>(res);
 }
 
-auto ByteBuffer2::get_int32_le() const -> int32_t
+auto ByteBuffer2::get_int32_le(int at) const -> int32_t
 {
   check_offset(4);
 
-  auto res = *(int32_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 4;
+  auto here = advance(at, 4);
+  auto res  = *(int32_t*)(uint8_t*)&m_data[here];
 
   return res;
 }
 
-auto ByteBuffer2::get_uint32_be() const -> uint32_t
+auto ByteBuffer2::get_uint32_be(int at) const -> uint32_t
 {
   check_offset(4);
 
-  auto res = *(uint32_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 4;
+  auto here = advance(at, 4);
+  auto res  = *(uint32_t*)(uint8_t*)&m_data[here];
 
   return swap_endian<uint32_t>(res);
 }
 
-auto ByteBuffer2::get_uint32_le() const -> uint32_t
+auto ByteBuffer2::get_uint32_le(int at) const -> uint32_t
 {
   check_offset(4);
 
-  auto res = *(uint32_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 4;
+  auto here = advance(at, 4);
+  auto res  = *(uint32_t*)(uint8_t*)&m_data[here];
 
   return res;
 }
 
-auto ByteBuffer2::get_int40_be() const -> int64_t
+auto ByteBuffer2::get_int40_be(int at) const -> int64_t
 {
   check_offset(5);
 
-  auto sign = (int64_t)leading_byte(m_data[m_offset]);
-  auto result = (sign << 16) | (sign << 8) | sign;
+  auto here = advance(at, 5);
+  auto sign = (int64_t)leading_byte(m_data[here]);
+  auto res  = (sign << 16) | (sign << 8) | sign;
 
-  for (int i=m_offset; i<m_offset+5; i++)
-    result = (result << 8) + m_data[i]; 
+  for (int i=here; i<here+5; i++)
+    res = (res << 8) + m_data[i]; 
 
-  m_offset += 5;
-
-  return result;
+  return res;
 }
 
-auto ByteBuffer2::get_int40_le()  const -> int64_t
-{
-  check_offset(5);
-  auto sign = (int64_t)leading_byte(m_data[m_offset+4]);
-  auto result = (sign << 16) | (sign << 8) | sign;
-
-  for (int i=m_offset+4; i>=m_offset; i--)
-    result = (result << 8) + m_data[i]; 
-
-  return result;
-}
-
-auto ByteBuffer2::get_uint40_be() const -> uint64_t
+auto ByteBuffer2::get_int40_le(int at)  const -> int64_t
 {
   check_offset(5);
 
-  auto result = (uint64_t)0;
+  auto here = advance(at, 5);
+  auto sign = (int64_t)leading_byte(m_data[here+4]);
+  auto res  = (sign << 16) | (sign << 8) | sign;
 
-  for (int i=m_offset; i<m_offset+5; i++)
-    result = (result << 8) + m_data[i]; 
+  for (int i=here+4; i>=here; i--)
+    res = (res << 8) + m_data[i]; 
 
-  m_offset += 5;
-
-  return result;
+  return res;
 }
 
-auto ByteBuffer2::get_uint40_le() const -> uint64_t
+auto ByteBuffer2::get_uint40_be(int at) const -> uint64_t
 {
   check_offset(5);
-  auto result = (uint64_t)0;
-  for (int i=m_offset+4; i>=m_offset; i--)
-    result = (result << 8) + m_data[i]; 
 
-  return result;
+  auto here = advance(at, 5);
+  auto res  = (uint64_t)0;
+
+  for (int i=here; i<here+5; i++)
+    res = (res << 8) + m_data[i]; 
+
+  return res;
 }
 
-auto ByteBuffer2::get_int48_be() const -> int64_t
+auto ByteBuffer2::get_uint40_le(int at) const -> uint64_t
+{
+  check_offset(5);
+
+  auto here = advance(at, 5);
+  auto res  = (uint64_t)0;
+  for (int i=here+4; i>=here; i--)
+    res = (res << 8) + m_data[i]; 
+
+  return res;
+}
+
+auto ByteBuffer2::get_int48_be(int at) const -> int64_t
 {
   check_offset(6);
 
-  auto sign = (int64_t)leading_byte(m_data[m_offset]);
-  auto result = (sign << 8) | sign;
+  auto here = advance(at, 6);
+  auto sign = (int64_t)leading_byte(m_data[here]);
+  auto res  = (sign << 8) | sign;
 
-  for (int i=m_offset; i<m_offset+6; i++)
-    result = (result << 8) + m_data[i]; 
+  for (int i=here; i<here+6; i++)
+    res = (res << 8) + m_data[i]; 
 
-  m_offset += 6;
-
-  return result;
+  return res;
 }
 
-auto ByteBuffer2::get_int48_le() const -> int64_t
+auto ByteBuffer2::get_int48_le(int at) const -> int64_t
 {
   check_offset(6);
 
+  auto here = advance(at, 6);
   auto sign = (int64_t)leading_byte(m_data[m_offset+5]);
-  auto result = (sign << 8) | sign;
-  for (int i=m_offset+5; i>=m_offset; i--)
-    result = (result << 8) + m_data[i]; 
+  auto res  = (sign << 8) | sign;
 
-  return result;
+  for (int i=here+5; i>=here; i--)
+    res = (res << 8) + m_data[i]; 
+
+  return res;
 }
 
-auto ByteBuffer2::get_uint48_be() const -> uint64_t
+auto ByteBuffer2::get_uint48_be(int at) const -> uint64_t
 {
   check_offset(6);
 
-  auto result = (uint64_t)0;
+  auto here = advance(at, 6);
+  auto res = (uint64_t)0;
 
-  for (int i=m_offset; i<m_offset+6; i++)
-    result = (result << 8) + m_data[i]; 
+  for (int i=here; i<here+6; i++)
+    res = (res << 8) + m_data[i]; 
 
-  m_offset += 6;
-
-  return result;
+  return res;
 }
 
-auto ByteBuffer2::get_uint48_le() const -> uint64_t
+auto ByteBuffer2::get_uint48_le(int at) const -> uint64_t
 {
   check_offset(6);
 
-  auto result = (uint64_t)0;
-  for (int i=m_offset+5; i>=m_offset; i--)
-    result = (result << 8) + m_data[i]; 
+  auto here = advance(at, 6);
+  auto res  = (uint64_t)0;
 
-  return result;
+  for (int i=here+5; i>=here; i--)
+    res = (res << 8) + m_data[i]; 
+
+  return res;
 }
 
-auto ByteBuffer2::get_int56_be() const -> int64_t
+auto ByteBuffer2::get_int56_be(int at) const -> int64_t
 {
   check_offset(7);
 
-  auto result = (int64_t)leading_byte(m_data[m_offset]);
+  auto here = advance(at, 7);
+  auto res  = (int64_t)leading_byte(m_data[m_offset]);
 
-  for (int i=m_offset; i<m_offset+7; i++)
-    result = (result << 8) + m_data[i]; 
+  for (int i=here; i<here+7; i++)
+    res = (res << 8) + m_data[i]; 
+
+  return res;
+}
+
+auto ByteBuffer2::get_int56_le(int at) const -> int64_t
+{
+  check_offset(7);
+
+  auto here = advance(at, 7);
+  auto res  = (int64_t)leading_byte(m_data[m_offset+6]);
+
+  for (int i=here+6; i>=here; i--)
+    res = (res << 8) + m_data[i]; 
+
+  return res;
+}
+
+auto ByteBuffer2::get_uint56_be(int at) const -> uint64_t
+{
+  check_offset(7);
+
+  auto here = advance(at, 7);
+  auto res  = (uint64_t)0;
+
+  for (int i=here; i<here+7; i++)
+    res = (res << 8) + m_data[i]; 
 
   m_offset += 7;
 
-  return result;
+  return res;
 }
 
-auto ByteBuffer2::get_int56_le() const -> int64_t
+auto ByteBuffer2::get_uint56_le(int at) const -> uint64_t
 {
   check_offset(7);
 
-  auto result = (int64_t)leading_byte(m_data[m_offset+6]);
-  for (int i=m_offset+6; i>=m_offset; i--)
-    result = (result << 8) + m_data[i]; 
+  auto here = advance(at, 7);
+  auto res  = (uint64_t)0;
 
-  return result;
+  for (int i=here+6; i>=here; i--)
+    res = (res << 8) + m_data[i]; 
+
+  return res;
 }
 
-auto ByteBuffer2::get_uint56_be() const -> uint64_t
-{
-  check_offset(7);
-
-  auto result = (uint64_t)0;
-
-  for (int i=m_offset; i<m_offset+7; i++)
-    result = (result << 8) + m_data[i]; 
-
-  m_offset += 7;
-
-  return result;
-}
-
-auto ByteBuffer2::get_uint56_le() const -> uint64_t
-{
-  check_offset(7);
-
-  auto result = (uint64_t)0;
-  for (int i=m_offset+6; i>=m_offset; i--)
-    result = (result << 8) + m_data[i]; 
-
-  return result;
-}
-
-auto ByteBuffer2::get_int64_be() const -> int64_t
+auto ByteBuffer2::get_int64_be(int at) const -> int64_t
 {
   check_offset(8);
 
-  auto res = *(int64_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 8;
+  auto here = advance(at, 8);
+  auto res  = *(int64_t*)(uint8_t*)&m_data[here];
 
   return swap_endian<int64_t>(res);
 }
 
-auto ByteBuffer2::get_int64_le() const -> int64_t
+auto ByteBuffer2::get_int64_le(int at) const -> int64_t
 {
   check_offset(8);
 
-  auto res = *(int64_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 8;
+  auto here = advance(at, 8);
+  auto res  = *(int64_t*)(uint8_t*)&m_data[here];
 
   return res;
 }
 
-auto ByteBuffer2::get_uint64_be() const -> uint64_t
+auto ByteBuffer2::get_uint64_be(int at) const -> uint64_t
 {
   check_offset(8);
 
-  auto res = *(uint64_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 8;
+  auto here = advance(at, 8);
+  auto res  = *(uint64_t*)(uint8_t*)&m_data[here];
 
   return swap_endian<uint64_t>(res);
 }
 
-auto ByteBuffer2::get_uint64_le() const -> uint64_t
+auto ByteBuffer2::get_uint64_le(int at) const -> uint64_t
 {
   check_offset(8);
 
-  auto res = *(uint64_t*)(uint8_t*)&m_data[m_offset];
-  m_offset += 8;
+  auto here = advance(at, 8);
+  auto res  = *(uint64_t*)(uint8_t*)&m_data[here];
 
   return res;
 }
 
-auto ByteBuffer2::get_double() const -> double
+auto ByteBuffer2::get_double(int at) const -> double
 {
-  auto res = get_int64_be();
+  auto res = get_int64_be(at);
 
   return *(double *)&res;
 }
 
-auto ByteBuffer2::get_bytes(int size) const -> uint8_t*
+auto ByteBuffer2::get_bytes(int size, int at) const -> uint8_t*
 {
   check_offset(size);
   
-  auto result = &m_data[m_offset];
-  m_offset += size;
+  auto here = advance(at, size);
+  auto res  = &m_data[here];
 
-  return result;
+  return res;
 }
 
-auto ByteBuffer2::get_hex_string(int size) -> const string
+auto ByteBuffer2::get_hex_string(int size, int at) -> const string
 {
   constexpr char hmap[] =
     { '0', '1', '2', '3', '4', '5', '6', '7',
       '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-  string result(size * 2, ' ');
+  auto here = advance(at, size);
+  string res(size * 2, ' ');
 
   for (int i=0; i<size; i++)
   {
-    result[2*i + 0] = hmap[(m_data[m_offset + i] & 0xf0) >> 4];
-    result[2*i + 1] = hmap[(m_data[m_offset + i] & 0x0f)];
+    res[2*i + 0] = hmap[(m_data[here + i] & 0xf0) >> 4];
+    res[2*i + 1] = hmap[(m_data[here + i] & 0x0f)];
   }
 
-  m_offset += size;
-
-  return result;
+  return res;
 }
 
 auto ByteBuffer2::get_varint() const -> int64_t
@@ -478,9 +490,9 @@ auto ByteBuffer2::get_varint() const -> int64_t
 auto ByteBuffer2::get_varint2() const -> std::pair<int64_t, int>
 {
   int size = 0; 
-  auto result = get_varint_with_size(&size);
+  auto res = get_varint_with_size(&size);
 
-  return make_pair(result, size);
+  return make_pair(res, size);
 }
 
 auto ByteBuffer2::get_varint_with_size(int* size) const -> int64_t
@@ -620,11 +632,11 @@ auto ByteBuffer2::get_ascii() const -> string
 
   auto size = offset - m_offset;
 
-  string result((char*)&m_data[m_offset], size);
+  string res((char*)&m_data[m_offset], size);
 
   m_offset += size + 1;
 
-  return result;
+  return res;
 }
 
 auto ByteBuffer2::from_hexcode(string const& s, bool is_be) -> ByteBuffer2
@@ -647,8 +659,8 @@ auto ByteBuffer2::from_hexcode(string const& s, bool is_be) -> ByteBuffer2
       data[i] = (uint8_t)val;
     }
 
-    ByteBuffer2 result(data, 0, size, true);
-    return move(result);
+    ByteBuffer2 res(data, 0, size, true);
+    return move(res);
   }
   
   return ByteBuffer2();
@@ -671,6 +683,15 @@ auto ByteBuffer2::check_offset(int count) const -> void
 auto ByteBuffer2::leading_byte(uint8_t b) const -> uint8_t 
 {
   return (b & 0x80) == 0 ? 0 : 0xff;
+}
+
+auto ByteBuffer2::advance(int at, int dist) const -> int
+{
+  auto here = (at == -1) ? m_offset : m_begin + at;
+  if (at == -1)
+    m_offset += dist;
+
+  return here;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
