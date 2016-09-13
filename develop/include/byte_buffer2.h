@@ -7,9 +7,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-// ByteBuffer2 is basically, for shallow version of buffer.
+// ByteBuffer2 is basically, a shallow version of byte buffer.
 //
-// But, It can contain buffer memory
+// But, It can own buffer memory
 //
 ////////////////////////////////////////////////////////////////////////////////
 class ByteBuffer2
@@ -82,8 +82,8 @@ public:
   auto offset() const -> int { return m_offset; }
   auto size() const -> int   { return m_count;  }
 
-  auto advance(int) -> ByteBuffer2&;
-  auto skip(int) -> ByteBuffer2&;
+  auto advance(int) const -> ByteBuffer2&;
+  auto skip(int) const -> ByteBuffer2&;
   auto take(int) const -> ByteBuffer2;
 
   auto slice(int from, int count) -> ByteBuffer2;
@@ -128,3 +128,4 @@ private:
 //
 ////////////////////////////////////////////////////////////////////////////////
 #endif
+

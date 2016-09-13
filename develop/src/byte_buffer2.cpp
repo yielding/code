@@ -540,14 +540,14 @@ auto ByteBuffer2::remained_size() const -> int
   return m_limit - m_offset;
 }
 
-auto ByteBuffer2::advance(int count) -> ByteBuffer2&
+auto ByteBuffer2::advance(int count) const -> ByteBuffer2&
 {
   m_offset += count;
 
   return *this;
 }
 
-auto ByteBuffer2::skip(int count) -> ByteBuffer2&
+auto ByteBuffer2::skip(int count) const -> ByteBuffer2&
 {
   m_offset += count;
 
@@ -699,3 +699,4 @@ auto ByteBuffer2::advance(int at, int dist) const -> int
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+
