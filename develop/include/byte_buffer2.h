@@ -82,8 +82,8 @@ public:
   auto offset() const -> int { return m_offset; }
   auto size() const -> int   { return m_count;  }
 
-  auto advance(int) const -> ByteBuffer2&;
-  auto skip(int) const -> ByteBuffer2&;
+  auto advance(int) -> ByteBuffer2&;
+  auto skip(int) -> ByteBuffer2&;
   auto take(int) const -> ByteBuffer2;
 
   auto slice(int from, int count) -> ByteBuffer2;
