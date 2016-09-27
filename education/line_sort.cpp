@@ -18,7 +18,7 @@ int main(int argc, const char *argv[])
   while (getline(ifs, line)) 
     lines.push_back(line);
 
-  sort(lines.begin(), lines.end(), [](string const& s1, string const& s2) {
+  sort(lines.begin(), lines.end(), [](auto& s1, auto& s2) {
     return s1.length() < s2.length();
   });
   
