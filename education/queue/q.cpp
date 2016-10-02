@@ -12,7 +12,7 @@ int main(int argc, const char *argv[])
     for (int i=0; i<10; i++)
         dq.push_front(i);
 
-    while(!dq.empty()) 
+    while (!dq.empty()) 
     {
         cout << dq.back() << " ";
         dq.pop_back();
@@ -20,6 +20,7 @@ int main(int argc, const char *argv[])
 
     return 0;
 }
+
 /*
 int main(int argc, const char *argv[])
 {
