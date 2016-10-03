@@ -44,6 +44,21 @@ public:
   }
   
 private:
+  void build_tree(vector<int>& arr, int ti, int lo, int hi)
+  {
+    if (lo == hi)
+    {
+      m_tree[ti] = arr[lo];
+      return;
+    }
+
+    auto mid = lo + (hi - lo) / 2;
+    build_tree(arr, 2*ti + 1, lo, mid);
+    build_tree(arr, 2*ti + 2, mid+1, hi);
+
+    m_tree[ti] = m_tree[2*ti + 1] + m_tree[2*ti + 2];
+  }
+
   void traverse_tree(vector<int>& res, int ti, int lo, int hi)
   {
     if (lo == hi) {
@@ -68,8 +83,7 @@ private:
 
     if (i > mid)
       return query_tree(2*ti + 2, mid + 1, hi, i, j);
-
-    if (j <= mid)
+    else if (j <= mid)
       return query_tree(2*ti + 1, lo, mid, i, j);
 
     auto lq = query_tree(ti*2 + 1, lo, mid, i, j);
@@ -166,21 +180,6 @@ private:
     m_tree[ti] = m_tree[2*ti + 1] + m_tree[2*ti + 2];
   }
 
-  void build_tree(vector<int>& arr, int ti, int lo, int hi)
-  {
-    if (lo == hi)
-    {
-      m_tree[ti] = arr[lo];
-      return;
-    }
-
-    auto mid = lo + (hi - lo) / 2;
-    build_tree(arr, 2*ti + 1, lo, mid);
-    build_tree(arr, 2*ti + 2, mid+1, hi);
-
-    m_tree[ti] = m_tree[2*ti + 1] + m_tree[2*ti + 2];
-  }
-  
 private:
   vector<int> m_tree, m_lazy;
   int m_n;
