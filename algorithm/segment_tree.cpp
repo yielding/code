@@ -1,139 +1,217 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-struct node
-{
-  node() { value = 0; lazy = 0; }
-  
-  long value;
-  long lazy;
-};
-
-template<int SZ>
 class SegmentTree
 {
 public:
-  SegmentTree(long* arr)
+  SegmentTree(vector<int>& nums)
   {
-    for (int i=0; i<SZ*3; i++)
-    {
-      tree[i].value = (long)0;
-      tree[i].lazy  = 0;
-    }
-    
-    init(arr, 1, 1, SZ);
+    m_n = nums.size();
+    m_tree.resize(4*m_n, 0);
+    m_lazy.resize(4*m_n, 0);
+
+    build_tree(nums, 0, 0, m_n - 1);
   }
   
-  void update(int pos, long value)
+  void update(int pos, int val)
   {
-    _update(1, 1, SZ, pos, value);
+    update_tree(0, 0, m_n - 1, pos, val);
+  }
+
+  void update_range(int i, int j, int val)
+  {
+    update_lazy_tree(0, 0, m_n - 1, i, j, val);
   }
   
-  long sum(int i, int j)
+  int query(int i, int j)
   {
-    return _sum(1, 1, SZ, i, j);
+    return query_tree(0, 0, m_n - 1, i, j);
+  }
+
+  int query_lazy(int i, int j)
+  {
+    return query_lazy_tree(0, 0, m_n - 1, i, j);
+  }
+
+  auto traverse() -> vector<int>
+  {
+    vector<int> res;
+    traverse_tree(res, 0, 0, m_n - 1);
+
+    return res;
   }
   
 private:
-  long _sum(int node, int start, int end, int i, int j)
+  void traverse_tree(vector<int>& res, int ti, int lo, int hi)
   {
-    if (tree[node].lazy != 0)
-    {
-      tree[node].value += (end - start + 1) * tree[node].lazy;
-      if (start != end)
-      {
-        tree[node * 2 + 0].lazy += tree[node].lazy;
-        tree[node * 2 + 1].lazy += tree[node].lazy;
-      }
-
-      tree[node].lazy = 0;
+    if (lo == hi) {
+      res.push_back(m_tree[ti]);
+      return;
     }
 
-    if (i > end || j < start)
+    auto mid = lo + (hi - lo) / 2;
+    traverse_tree(res, 2*ti + 1, lo, mid);
+    traverse_tree(res, 2*ti + 2, mid + 1, hi);
+  }
+
+  int query_tree(int ti, int lo, int hi, int i, int j)
+  {
+    if (i > hi or j < lo)
       return 0;
     
-    if (i <= start && end <= j)
-      return tree[node].value;
-    
-    return _sum(node*2, start, (start + end)/2, i, j)
-           +
-           _sum(node*2 + 1, (start + end)/2 + 1, end, i, j);
-  }
-  
-  void _update(int node, int start, int end, int pos, long diff)
-  {
-    if (pos < start || pos > end)
-      return;
-    
-    tree[node].value = tree[node].value + diff;
-    
-    if (start != end)
-    {
-      _update(node * 2, start, (start + end) / 2, pos, diff);
-      _update(node * 2 + 1, (start + end) / 2 + 1, end, pos, diff);
-    }
+    if (i == lo and j == hi)
+      return m_tree[ti];
+
+    auto mid = lo + (hi - lo) / 2;
+
+    if (i > mid)
+      return query_tree(2*ti + 2, mid + 1, hi, i, j);
+
+    if (j <= mid)
+      return query_tree(2*ti + 1, lo, mid, i, j);
+
+    auto lq = query_tree(ti*2 + 1, lo, mid, i, j);
+    auto rq = query_tree(ti*2 + 2, mid + 1, hi, i, j);
+
+    return lq + rq;
   }
 
-  void _update_range(int node, int start, int end, int i, int j, long diff)
+  int query_lazy_tree(int ti, int lo, int hi, int i, int j)
   {
-    if (tree[node].lazy != 0)
+    if (i > hi or j < lo)
+      return 0;
+
+    if (m_lazy[ti] != 0)
     {
-      tree[node].value += (end - start + 1) * tree[node].lazy;
-      if (start != end)
+      m_tree[ti] += (hi - lo + 1) * m_lazy[ti];  // normalize current node by removing laziness
+      if (lo != hi)
       {
-        tree[node*2+0].lazy += tree[node].lazy;
-        tree[node*2+1].lazy += tree[node].lazy;
+        m_lazy[2*ti + 1] += m_lazy[ti];          // update lazy[] for children nodes
+        m_lazy[2*ti + 2] += m_lazy[ti];
       }
 
-      tree[node].lazy = 0;
+      m_lazy[ti] = 0;
     }
 
-    if (j < start || i > end)
+    if (i <= lo and j >= hi)
+      return m_tree[ti];
+
+    auto mid = lo + (hi - lo) / 2;
+    if (i > mid)
+      return query_lazy_tree(2*ti + 2, mid + 1, hi, i, j);
+    else if (j <= mid)
+      return query_lazy_tree(2*ti + 1, lo, mid, i, j);
+
+    auto lq = query_lazy_tree(2*ti + 1, lo, mid + i, i, mid);
+    auto rq = query_lazy_tree(2*ti + 2, mid + 1, hi, mid + 1, j);
+
+    return lq + rq;
+  }
+  
+  void update_tree(int ti, int lo, int hi, int ai, int val)
+  {
+    if (lo == hi)
+    {
+      m_tree[ti] = val;
+      return;
+    }
+
+    auto mid = lo + (hi - lo) / 2;
+
+    if (ai > mid)
+      update_tree(2*ti + 2, mid + 1, hi, ai, val);
+    else
+      update_tree(2*ti + 1, lo, mid, ai, val);
+
+    m_tree[ti] = m_tree[2*ti + 1] + m_tree[2*ti + 2];
+  }
+
+  void update_lazy_tree(int ti, int lo, int hi, int i, int j, int val)
+  {
+    if (m_lazy[ti] != 0)
+    {
+      m_tree[ti] += (hi - lo + 1) * m_lazy[ti];  // normalize current node by removing laziness
+      if (lo != hi)
+      {
+        m_lazy[2*ti + 1] += m_lazy[ti];          // update lazy[] for children nodes
+        m_lazy[2*ti + 2] += m_lazy[ti];
+      }
+
+      m_lazy[ti] = 0;
+    }
+
+    if (lo > hi or lo > j or hi < i)
       return;
 
-    if (i <= start && end <= j)
+    if (i <= lo and hi <= j)
     {
-      tree[node].value += (end - start + 1) * diff;
-      if (start != end)
+      m_tree[ti] += (hi - lo + 1) * val;
+      if (lo != hi)
       {
-        tree[node * 2 + 0].lazy += diff;
-        tree[node * 2 + 1].lazy += diff;
+        m_lazy[2*ti + 1] += val;
+        m_lazy[2*ti + 2] += val;
       }
 
       return;
     }
 
-    _update_range(node*2  , start, (start+end)/2, i, j, diff);
-    _update_range(node*2+1, (start+end)/2+1, end, i, j, diff);
+    auto mid = lo + (hi - lo) / 2;
 
-    tree[node].value = tree[node*2].value + tree[node*2 + 1].value;
+    update_lazy_tree(2*ti + 1, lo, mid, i, j, val);
+    update_lazy_tree(2*ti + 2, mid+1, hi, i, j, val);
+
+    // merge updates
+    m_tree[ti] = m_tree[2*ti + 1] + m_tree[2*ti + 2];
   }
-  
-  long init(long* arr, int node, int start, int end)
+
+  void build_tree(vector<int>& arr, int ti, int lo, int hi)
   {
-    if (start == end)
-      return tree[node].value = arr[start];
-    
-    return tree[node].value =
-      init(arr, node * 2, start, (start + end) / 2)
-      +
-      init(arr, node * 2 + 1, (start + end) / 2 + 1, end);
+    if (lo == hi)
+    {
+      m_tree[ti] = arr[lo];
+      return;
+    }
+
+    auto mid = lo + (hi - lo) / 2;
+    build_tree(arr, 2*ti + 1, lo, mid);
+    build_tree(arr, 2*ti + 2, mid+1, hi);
+
+    m_tree[ti] = m_tree[2*ti + 1] + m_tree[2*ti + 2];
   }
   
 private:
-  node tree[SZ*3];
+  vector<int> m_tree, m_lazy;
+  int m_n;
 };
+
+void p(vector<int>&& nums)
+{
+  for (auto i: nums) cout << i << " ";
+  cout << endl;
+  cout.flush();
+}
 
 int main(int argc, char *argv[])
 {
-  long arr[] = { 0, 1, 10, 3, 6, 5, 6, 4, 0 };
+  vector<int> arr = { 1, 10, 3, 6, 5, 6, 4 };
   
-  SegmentTree<8> sg(arr);
+  SegmentTree sg(arr);
+  cout << sg.query(0, 6) << " : ";
+  p(sg.traverse());
   
-  sg.update(7, 2);
-  cout << sg.sum(1, 7);
-  cout.flush();
-  
+  sg.update(6, 2);
+  cout << sg.query(0, 6) << " : ";
+  p(sg.traverse());
+
+  sg.update_range(1, 3, 2);
+  cout << sg.query_lazy(0, 6) << " : ";  
+  p(sg.traverse());
+
+  cout << sg.query_lazy(2, 2) << endl;
+  cout << sg.query_lazy(3, 3) << endl;
+  p(sg.traverse());
+
   return 0;
 }
