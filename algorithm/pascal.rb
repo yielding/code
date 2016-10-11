@@ -6,12 +6,11 @@ class Pascal
   def value_of(x, y)
     return 0 if x < 1 or y < 1 or y > x
     return 1 if x == 1 
-    return value_of(x-1, y-1) + value_of(x-1, y)
+    value_of(x-1, y-1) + value_of(x-1, y)
   end
   
   def values_of(row)
-    return [] if row == 0
-    1.upto(row).map { |col| value_of(row, col) }
+    row == 0 ? [] : 1.upto(row).map { |col| value_of(row, col) }
   end
   
   def line_of(row)
