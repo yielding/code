@@ -11,9 +11,7 @@ class Pascal
   
   def values_of(row)
     return [] if row == 0
-    res = []
-    1.upto(row) { |col| res << value_of(row, col) }
-    res
+    1.upto(row).map { |col| value_of(row, col) }
   end
   
   def line_of(row)
