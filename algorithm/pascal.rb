@@ -15,13 +15,11 @@ class Pascal
   end
   
   def line_of(row)
-    res = ""; 1.upto(row) {|col| res += sprintf("%6d", value_of(row, col)) }
-    res
+    1.upto(row).reduce("") {|sum, col| sum + sprintf("%6d", value_of(row, col)) }
   end
   
   def lines_upto(row)
-    res = ""; 1.upto(row) { |r| res += " " * (row-r)*3 + line_of(r) + "\n" }
-    res
+    1.upto(row).reduce("") { |sum, r| sum + " " * (row-r)*3 + line_of(r) + "\n" }
   end
 end
 
