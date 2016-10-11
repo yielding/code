@@ -3,6 +3,19 @@
 require 'test/unit'
 
 class Pascal
+  def initialize
+    @map = Hash.new { |h, k| h[k] = Hash.new(-1) }
+  end
+
+  def value_of2(x, y)
+    return 0 if x < 1 or y < 1 or y > x
+    return 1 if x == 1
+
+    @map[x-1][y-1] = value_of(x-1, y-1) if @map[x-1][y-1] == -1
+    @map[x-1][y  ] = value_of(x-1, y  ) if @map[x-1][y  ] == -1
+
+    @map[x-1][y-1] + @map[x-1][y]
+
   def value_of(x, y)
     return 0 if x < 1 or y < 1 or y > x
     return 1 if x == 1 
