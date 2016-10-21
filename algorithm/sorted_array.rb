@@ -33,12 +33,13 @@ class Array
       if res == -1
         lo = mid + 1
       elsif res == 1
-        hi = mid -1
+        hi = mid - 1
       else
         return mid
       end
     end
-    ~lo
+
+    return ~lo
   end
 end
 
