@@ -107,7 +107,7 @@ private:
 
 int main(int argc, char const* argv[])
 {
-  ICoffee* coffee = new Sprinkles(new Milk(new SimpleCoffee()));
+  auto coffee = new Sprinkles(new Milk(new SimpleCoffee()));
   cout << coffee->cost() << endl;
   cout << coffee->ingredient() << endl;
 
