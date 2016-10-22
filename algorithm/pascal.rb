@@ -3,27 +3,35 @@
 require 'test/unit'
 
 class Pascal
+  def initialize
+    @map = Hash.new { |h, k| h[k] = Hash.new(-1) }
+  end
+
+  def value_of2(x, y)
+    return 0 if x < 1 or y < 1 or y > x
+    return 1 if x == 1
+
+    @map[x-1][y-1] = value_of(x-1, y-1) if @map[x-1][y-1] == -1
+    @map[x-1][y  ] = value_of(x-1, y  ) if @map[x-1][y  ] == -1
+
+    @map[x-1][y-1] + @map[x-1][y]
+
   def value_of(x, y)
     return 0 if x < 1 or y < 1 or y > x
     return 1 if x == 1 
-    return value_of(x-1, y-1) + value_of(x-1, y)
+    value_of(x-1, y-1) + value_of(x-1, y)
   end
   
   def values_of(row)
-    return [] if row == 0
-    res = []
-    1.upto(row) { |col| res << value_of(row, col) }
-    res
+    row == 0 ? [] : 1.upto(row).map { |col| value_of(row, col) }
   end
   
   def line_of(row)
-    res = ""; 1.upto(row) {|col| res += sprintf("%6d", value_of(row, col)) }
-    res
+    1.upto(row).reduce("") {|sum, col| sum + sprintf("%6d", value_of(row, col)) }
   end
   
   def lines_upto(row)
-    res = ""; 1.upto(row) { |r| res += " " * (row-r)*3 + line_of(r) + "\n" }
-    res
+    1.upto(row).reduce("") { |sum, r| sum + " " * (row-r)*3 + line_of(r) + "\n" }
   end
 end
 

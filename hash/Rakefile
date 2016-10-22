@@ -1,10 +1,10 @@
 # -*- ruby -*-
 
-APP       = "sha1"
-SRCS      = %W{ ./sha1.cpp }
+APP       = "page"
+SRCS      = %W{ ./page.cpp }
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
-LIBS      = ""
+LIBS      = ":f :s"
 
 DIR = File.dirname __FILE__
 
