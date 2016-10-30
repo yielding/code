@@ -56,12 +56,12 @@ ByteBuffer2::ByteBuffer2(uint8_t* data, int offset, int count, bool owner)
   m_owner  = owner;
 }
 
-ByteBuffer2::ByteBuffer2(uint8_t* data, int count)
-  : ByteBuffer2(data, 0, count, false) 
+ByteBuffer2::ByteBuffer2(uint8_t* data, int count, bool owner)
+  : ByteBuffer2(data, 0, count, owner)
 {}
 
 ByteBuffer2::ByteBuffer2()
-  : ByteBuffer2(nullptr, 0, 0) 
+  : ByteBuffer2(nullptr, 0, 0)
 {}
 
 ByteBuffer2::ByteBuffer2(string && src)
@@ -88,8 +88,15 @@ ByteBuffer2::ByteBuffer2(ByteBuffer2&& rhs)
 
 ByteBuffer2::~ByteBuffer2()
 {
+  destroy();
+}
+
+auto ByteBuffer2::destroy() -> void
+{
   if (m_owner)
   {
+    m_data[0] = 255;
+    m_data[1] = 255;
     delete [] m_data;
     m_data = nullptr;
   }
@@ -501,14 +508,15 @@ auto ByteBuffer2::get_varint_with_size(int* size) const -> int64_t
   auto value_size = 0;
   auto value = 0L;
 
-  while (value_size < 9 && !complete && m_offset + value_size < m_limit)
+  while (value_size < 9 and !complete and m_offset + value_size < m_limit)
   {
     auto val = int64_t(m_data[m_offset + value_size]);
     if ((val & 0b10000000) == 0b10000000 && value_size < 8)
     {
       value = (value << 7) | (val & 0b01111111);
     } 
-    else if ((val & 0b10000000) == 0b10000000 && value_size == 8) { 
+    else if ((val & 0b10000000) == 0b10000000 && value_size == 8)
+    {
       value = (value << 8) | val;
       complete = true;
     } 
@@ -562,8 +570,15 @@ auto ByteBuffer2::take(int amount) const -> ByteBuffer2
   return subrange;
 }
 
-auto ByteBuffer2::slice(int from, int count) -> ByteBuffer2
+auto ByteBuffer2::slice(int from, int count, bool deep) -> ByteBuffer2
 {
+  if (deep)
+  {
+    auto data = new uint8_t[count];
+    memcpy(data, m_data + from, count);
+    return ByteBuffer2(data, count, true);
+  }
+  
   return ByteBuffer2(m_data, from, count);
 }
 
@@ -612,7 +627,7 @@ auto ByteBuffer2::reset() -> ByteBuffer2&
 
   return *this;
 }
-
+ 
 auto ByteBuffer2::reset(initializer_list<uint8_t> l) -> void
 {
   m_data   = (uint8_t *)&*l.begin();

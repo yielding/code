@@ -323,6 +323,15 @@ TEST_F(ByteBuffer2Test, Slice)
   auto s1 = a.slice(4, 0);
   EXPECT_EQ(s1.to_s(), string(""));
   EXPECT_EQ(a.offset(), 0);
+
+  // deep copy test
+  auto arr = new uint8_t[4];
+  arr[0] = 1; arr[1] = 2; arr[2] = 3; arr[3] = 4;
+  ByteBuffer2 b(arr, 0, 4, true);
+  auto s2 = b.slice(0, 2, true);
+  b.destroy();
+  EXPECT_EQ(s2[0], 1);
+  EXPECT_EQ(s2[1], 2);
 }
 
 TEST_F(ByteBuffer2Test, StartsWith)

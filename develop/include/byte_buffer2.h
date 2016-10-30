@@ -17,7 +17,7 @@ class ByteBuffer2
 public:
   ByteBuffer2();
   ByteBuffer2(uint8_t* data, int offset, int count, bool owner=false);
-  ByteBuffer2(uint8_t* data, int count);
+  ByteBuffer2(uint8_t* data, int count, bool owner=false);
   ByteBuffer2(std::string && src);
   ByteBuffer2(std::initializer_list<uint8_t> l);
   ByteBuffer2(ByteBuffer2 &&);
@@ -86,7 +86,7 @@ public:
   auto skip(int) -> ByteBuffer2&;
   auto take(int) const -> ByteBuffer2;
 
-  auto slice(int from, int count) -> ByteBuffer2;
+  auto slice(int from, int count, bool deep=false) -> ByteBuffer2;
 
   auto first() const -> uint8_t;
   auto first(int) const -> ByteBuffer2;
@@ -98,6 +98,8 @@ public:
 
   auto reset() -> ByteBuffer2&;
   auto reset(std::initializer_list<uint8_t> l) -> void;
+  
+  auto destroy() -> void;
 
 public:
   auto operator[](uint32_t index) -> uint8_t&;
