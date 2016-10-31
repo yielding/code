@@ -9,7 +9,7 @@
 
 using namespace std;
 
-namespace {
+namespace detail {
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -238,7 +238,7 @@ auto ByteBuffer2::get_uint32_be(int at) const -> uint32_t
   check_offset(4);
 
   auto here = advance(at, 4);
-  auto res  = *(uint32_t*)(uint8_t*)&m_data[here];
+  auto res  = *(uint32_t *)(uint8_t *)&m_data[here];
 
   return swap_endian<uint32_t>(res);
 }
@@ -675,7 +675,7 @@ auto ByteBuffer2::from_hexcode(string const& s, bool is_be) -> ByteBuffer2
     }
 
     ByteBuffer2 res(data, 0, size, true);
-    return move(res);
+    return res;
   }
   
   return ByteBuffer2();
