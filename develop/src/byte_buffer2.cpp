@@ -64,18 +64,37 @@ auto ByteBuffer2::destroy() -> void
 {
   if (m_owner)
   {
-    m_data[0] = 255;
-    m_data[1] = 255;
     delete [] m_data;
     m_data = nullptr;
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////
 //
-// ByteBuffer2 is for shallow version of buffer
+// Note:
+//   This function is implemented naively, on purpose,
+//   because it'll be used rarely.
 //
-////////////////////////////////////////////////////////////////////////////////
+auto ByteBuffer2::append(uint8_t* buffer, int offset, int count) -> int
+{
+  if (!m_owner or offset < 0 or count <= 0)
+    return -1;
+  
+  if (buffer == nullptr)
+    return -1;
+  
+  auto new_size = m_count + count;
+  auto new_data = new uint8_t[new_size];
+  
+  memcpy(new_data, m_data, m_count);
+  memcpy(new_data + m_count, buffer, count);
+  
+  m_data  = new_data;
+  m_count = new_size;
+  m_limit = new_size;
+  
+  return new_size;
+}
+
 auto ByteBuffer2::operator[](uint32_t index) -> uint8_t&
 {
   check_offset(index);
@@ -539,16 +558,17 @@ auto ByteBuffer2::take(int amount) const -> ByteBuffer2
   return subrange;
 }
 
-auto ByteBuffer2::slice(int from, int count, bool deep) -> ByteBuffer2
+auto ByteBuffer2::slice(int from, int count) -> ByteBuffer2
 {
-  if (deep)
-  {
-    auto data = new uint8_t[count];
-    memcpy(data, m_data + from, count);
-    return ByteBuffer2(data, count, true);
-  }
-  
   return ByteBuffer2(m_data, from, count);
+}
+  
+auto ByteBuffer2::copy_slice(int from, int count) -> ByteBuffer2
+{
+  auto data = new uint8_t[count];
+  memcpy(data, m_data + from, count);
+  
+  return ByteBuffer2(data, count, true);
 }
 
 auto ByteBuffer2::first() const -> uint8_t

@@ -13,7 +13,8 @@ public:
   {}
 
 protected:
-  virtual void SetUp() {
+  virtual void SetUp() 
+  {
     arr = new uint8_t[10] {
       0x01, 0x02, 0x03, 0x04, 0x05, 
       0x06, 0x07, 0x08, 0x09, 0x0a
@@ -36,6 +37,14 @@ protected:
   uint8_t* minus;
   uint8_t* src;
 };
+
+TEST_F(ByteBuffer2Test, Append)
+{
+  ByteBuffer2 bb(arr, 0, 10, true);
+  bb.append(src, 0, 6);
+  EXPECT_EQ(bb.size(), 16);
+  EXPECT_EQ(bb[10], 'l');
+}
 
 TEST_F(ByteBuffer2Test, CtorWithInit)
 {
@@ -328,10 +337,11 @@ TEST_F(ByteBuffer2Test, Slice)
   auto arr = new uint8_t[4];
   arr[0] = 1; arr[1] = 2; arr[2] = 3; arr[3] = 4;
   ByteBuffer2 b(arr, 0, 4, true);
-  auto s2 = b.slice(0, 2, true);
-  b.destroy();
-  EXPECT_EQ(s2[0], 1);
-  EXPECT_EQ(s2[1], 2);
+  auto s2 = b.copy_slice(0, 2);
+
+  //b.destroy();
+  //EXPECT_EQ(s2[0], 1);
+  //EXPECT_EQ(s2[1], 2);
 }
 
 TEST_F(ByteBuffer2Test, StartsWith)

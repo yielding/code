@@ -25,6 +25,8 @@ public:
  ~ByteBuffer2();
 
 public:
+  auto append(uint8_t* buffer, int offset, int count) -> int;
+  
   auto get_ascii() const -> std::string;
   auto to_s(int from=-1, int to=-1) const -> std::string;
 
@@ -86,7 +88,8 @@ public:
   auto skip(int) -> ByteBuffer2&;
   auto take(int) const -> ByteBuffer2;
 
-  auto slice(int from, int count, bool deep=false) -> ByteBuffer2;
+  auto slice(int from, int count) -> ByteBuffer2;
+  auto copy_slice(int from, int count) -> ByteBuffer2;
 
   auto first() const -> uint8_t;
   auto first(int) const -> ByteBuffer2;
