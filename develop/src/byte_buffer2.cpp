@@ -1,4 +1,5 @@
 #include "byte_buffer2.h"
+#include "endian_swap.h"
 
 #include <climits>
 #include <utility>
@@ -8,38 +9,6 @@
 #include <exception>
 
 using namespace std;
-
-namespace detail {
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-template <typename T>
-T swap_endian(T u)
-{
-  static_assert (CHAR_BIT == 8, "CHAR_BIT != 8");
-
-  union
-  {
-    T u;
-    uint8_t u8[sizeof(T)];
-  } source, dest;
-
-  source.u = u;
-
-  for (auto k=0; k<sizeof(T); k++)
-    dest.u8[k] = source.u8[sizeof(T) - k - 1];
-
-  return dest.u;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -143,7 +112,7 @@ auto ByteBuffer2::get_int16_be(int at) const -> int16_t
   auto here = advance(at, 2);
   auto res  = *(int16_t*)(uint8_t*)&m_data[here];
 
-  return swap_endian<int16_t>(res);
+  return endian_swap_bytes<HOST_ENDIAN_ORDER, BIG_ENDIAN_ORDER>(res);
 }
 
 auto ByteBuffer2::get_int16_le(int at) const -> int16_t
@@ -163,7 +132,7 @@ auto ByteBuffer2::get_uint16_be(int at) const -> uint16_t
   auto here = advance(at, 2);
   auto res  = *(uint16_t*)(uint8_t*)&m_data[here];
 
-  return swap_endian<uint16_t>(res);
+  return endian_swap_bytes<HOST_ENDIAN_ORDER, BIG_ENDIAN_ORDER>(res);
 }
 
 auto ByteBuffer2::get_uint16_le(int at) const -> uint16_t
@@ -220,7 +189,7 @@ auto ByteBuffer2::get_int32_be(int at) const -> int32_t
   auto here = advance(at, 4);
   auto res  = *(int32_t*)(uint8_t*)&m_data[here];
 
-  return swap_endian<int32_t>(res);
+  return endian_swap_bytes<HOST_ENDIAN_ORDER, BIG_ENDIAN_ORDER>(res);
 }
 
 auto ByteBuffer2::get_int32_le(int at) const -> int32_t
@@ -240,7 +209,7 @@ auto ByteBuffer2::get_uint32_be(int at) const -> uint32_t
   auto here = advance(at, 4);
   auto res  = *(uint32_t *)(uint8_t *)&m_data[here];
 
-  return swap_endian<uint32_t>(res);
+  return endian_swap_bytes<HOST_ENDIAN_ORDER, BIG_ENDIAN_ORDER>(res);
 }
 
 auto ByteBuffer2::get_uint32_le(int at) const -> uint32_t
@@ -421,7 +390,7 @@ auto ByteBuffer2::get_int64_be(int at) const -> int64_t
   auto here = advance(at, 8);
   auto res  = *(int64_t*)(uint8_t*)&m_data[here];
 
-  return swap_endian<int64_t>(res);
+  return endian_swap_bytes<HOST_ENDIAN_ORDER, BIG_ENDIAN_ORDER>(res);
 }
 
 auto ByteBuffer2::get_int64_le(int at) const -> int64_t
@@ -441,7 +410,7 @@ auto ByteBuffer2::get_uint64_be(int at) const -> uint64_t
   auto here = advance(at, 8);
   auto res  = *(uint64_t*)(uint8_t*)&m_data[here];
 
-  return swap_endian<uint64_t>(res);
+  return endian_swap_bytes<HOST_ENDIAN_ORDER, BIG_ENDIAN_ORDER>(res);
 }
 
 auto ByteBuffer2::get_uint64_le(int at) const -> uint64_t
