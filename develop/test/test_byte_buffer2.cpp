@@ -109,6 +109,23 @@ TEST_F(ByteBuffer2Test, GetInt16BE)
   EXPECT_EQ(2,  m.offset());
 }
 
+TEST_F(ByteBuffer2Test, GetInt24LE)
+{
+  ByteBuffer2 b(arr, 0, 6);
+
+  EXPECT_EQ(0x030201, b.get_int24_le());
+  EXPECT_EQ(0x060504, b.get_int24_le());
+  b.reset();
+  EXPECT_EQ(0x030201, b.get_uint24_le());
+  EXPECT_EQ(0x060504, b.get_uint24_le());
+
+  b.reset();
+  ByteBuffer2 m(minus, 0, 6);
+  EXPECT_EQ(-1, m.get_int24_be());
+  EXPECT_EQ(-1, m.get_int24_be());
+  ASSERT_THROW(m.get_int24_be(), out_of_range);
+}
+
 TEST_F(ByteBuffer2Test, GetInt24BE)
 {
   ByteBuffer2 b(arr, 0, 6);
