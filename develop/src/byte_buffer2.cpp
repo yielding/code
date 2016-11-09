@@ -179,7 +179,17 @@ auto ByteBuffer2::get_int24_be(int at) const -> int32_t
 
 auto ByteBuffer2::get_int24_le(int at) const -> int32_t
 {
-  return 0;
+  check_offset(3);
+
+  auto here = advance(at, 3);
+  
+  auto first = m_data[here+2];
+  auto l = (int32_t) leading_byte(first);
+  auto r = (l << 8) | first; r <<= 8;
+  r |= m_data[here + 1]; r <<= 8;
+  r |= m_data[here + 0];
+  
+  return int32_t(r);
 }
 
 auto ByteBuffer2::get_uint24_be(int at) const -> uint32_t
@@ -190,15 +200,20 @@ auto ByteBuffer2::get_uint24_be(int at) const -> uint32_t
   auto res  = (uint32_t)0;
 
   for (int i=here; i<here+3; i++)
-    res = (res << 8) + m_data[i]; 
+    res = (res << 8) + m_data[i];
 
   return res;
 }
 
 auto ByteBuffer2::get_uint24_le(int at) const -> uint32_t
 {
-  // auto here = advance(at, 3);
-  return 0;
+  check_offset(3);
+  auto here = advance(at, 3);
+  auto res  = uint32_t(m_data[here+2]); res <<= 8;
+  res |= m_data[here + 1]; res <<= 8;
+  res |= m_data[here];
+  
+  return res;
 }
 
 auto ByteBuffer2::get_int32_be(int at) const -> int32_t
