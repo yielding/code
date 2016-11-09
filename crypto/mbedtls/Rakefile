@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+APP       = "aes"
+SRCS      = %W{ ./aes.cpp }
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = "mbedtls mbedcrypto"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
