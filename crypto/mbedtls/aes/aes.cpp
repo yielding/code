@@ -2,11 +2,27 @@
 
 #include <cstdint>
 
+class Aes
+{
+public:
+  Aes()
+  {
+    mbedtls_aes_init(&ctx);
+  }
+
+  ~Aes()
+  {
+    mbedtls_aes_free(&ctx);
+  }
+
+private:
+  mbedtls_aes_context ctx;
+};
+
 int main(int argc, char *argv[])
 {
   uint8_t key[32];
 
-  mbedtls_aes_context aes;
   ::mbedtls_aes_setkey_enc(&aes, key, 256);
 
   
