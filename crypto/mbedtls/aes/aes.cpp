@@ -22,9 +22,9 @@ private:
 int main(int argc, char *argv[])
 {
   uint8_t key[32];
+  Aes a;
 
-  ::mbedtls_aes_setkey_enc(&aes, key, 256);
+  // ::mbedtls_aes_setkey_enc(&aes, key, 256);
 
-  
   return 0;
 }

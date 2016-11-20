@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+APP       = "md5"
+SRCS      = %W{ ./md5.cpp }
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = "mbedtls mbedcrypto"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
