@@ -19,7 +19,7 @@ void dg_cli(int sockfd, char* sendline, sockaddr const* pservaddr, socklen_t ser
 {
   char recvline[MAXLINE + 1];
   socklen_t	en;
-  sockaddr* preply_addr = (sockaddr*)malloc(servlen);
+  auto preply_addr = (sockaddr*)malloc(servlen);
 
   sendto(sockfd, sendline, strlen(sendline), 0, pservaddr, servlen);
 
