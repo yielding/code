@@ -1,0 +1,14 @@
+# -*- ruby -*-
+
+APP        = "bplist"
+SRCS       = %W{ ./main.mm }
+CXX        = "xcrun"
+CXXFLAGS   = ":Os HOST :objc"
+FRAMEWORKS = "Foundation"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+CLOBBER.include("obj").include("*.obj").include("*.o")
+
+task :default => [:osx]
