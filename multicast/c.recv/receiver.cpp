@@ -1,5 +1,5 @@
 #include <boost/asio.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind.hpp> 
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <string>
@@ -54,7 +54,6 @@ public:
         holder::error,
         holder::bytes_transferred));
   }
-
 private:
   ip::udp::socket socket_;
   ip::udp::endpoint sender_endpoint_;
@@ -84,4 +83,3 @@ int main(int argc, char* argv[])
 
   return 0;
 }
-
