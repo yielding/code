@@ -2,8 +2,11 @@
 
 #include <sqlite3.h>
 #include <stdexcept>
+#include <iostream>
 
 #include <boost/format.hpp>
+#include <boost/algorithm/string/join.hpp>
+
 
 using namespace std;
 using namespace boost;
@@ -73,9 +76,9 @@ public:
     return result;
   }
 
-  auto table_info(char const* name) const -> map<string, string>
+  auto table_info(char const* name) const -> vector<string>
   {
-    map<string, string> result;
+    vector<string> results;
 
     auto sql  = str(format("pragma table_info(%s)") % name);
     auto stmt = prepare_stmt(sql.c_str());
@@ -83,16 +86,20 @@ public:
     {
       while (::sqlite3_step(stmt) == SQLITE_ROW)
       {
+        map<string, string> result; 
         auto id    = get_int(stmt, 0); result["id"]   = to_string(id);
         auto name  = get_str(stmt, 1); result["name"] = name;
         auto type  = get_str(stmt, 2); result["type"] = type;
         auto nn    = get_str(stmt, 3); result["nn"]   = nn;
         auto defv  = get_str(stmt, 4); result["defv"] = defv;
         auto pk    = get_str(stmt, 5); result["pk"]   = pk;
+        auto json  = row_to_json(result);
+
+        results.push_back(json);
       }
     }
 
-    return result;
+    return results;
   }
 
 protected:
@@ -119,6 +126,19 @@ private:
     return c0 == nullptr 
       ? ""
       : string((const char*)c0);
+  }
+
+  auto row_to_json(map<string, string> const& row) const -> string
+  {
+    vector<string> items;
+
+    for (auto pair: row)
+    {
+      auto item = str(format("\"%s\": \"%s\"") % pair.first % pair.second);
+      items.push_back(item);
+    }
+
+    return str(format("{ %s }") % algorithm::join(items, ", "));
   }
 
 private:
@@ -157,7 +177,7 @@ auto SQLiteApi::table_list() const -> vector<string>
   return pimpl->table_list();
 }
 
-auto SQLiteApi::table_info(char const* name) const -> map<string, string>
+auto SQLiteApi::table_info(char const* name) const -> vector<string>
 {
   return pimpl->table_info(name);
 }

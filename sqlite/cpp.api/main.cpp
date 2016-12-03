@@ -23,12 +23,8 @@ int main(int argc, char *argv[])
     cout << db.schema("images") << endl;
     for (auto name: db.table_list()) cout << name << endl;
     
-    auto info = db.table_info("images");
-    for (auto p: info)
-    {
-      cout << p.first << ":" << p.second << endl;
-    }
-
+    auto defs = db.table_info("images");
+    for (auto d: defs) cout << d << endl;
   }
   catch(exception e)
   {

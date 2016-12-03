@@ -8,6 +8,10 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+using std::string;
+using std::map;
+using std::vector;
+
 class SQLiteApi
 {
 public:
@@ -17,9 +21,9 @@ public:
   auto open() const -> bool;
 
 public:
-  auto schema(char const* ofTable) const -> std::string;
-  auto table_list() const -> std::vector<std::string>;
-  auto table_info(char const* name) const -> std::map<std::string, std::string>;
+  auto schema(char const* ofTable) const -> string;
+  auto table_list() const -> vector<string>;
+  auto table_info(char const* name) const -> vector<string>;
 
 private:
   class impl; std::unique_ptr<impl> pimpl;
