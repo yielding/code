@@ -3,7 +3,9 @@
 SRCS     = %w{./random.plot.cpp}
 APP      = "random.plot"
 TEST_APP = "test.random.plot"
-CXX      = "clang++"
+CXX      = "xcrun clang++"
 CXXFLAGS = ":v :Os"
 
 load '~/code/build/app2.rake'
+
+task :default => [:osx]

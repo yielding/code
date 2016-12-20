@@ -9,9 +9,10 @@ using namespace std;
 
 void plot_histogram(vector<int> const& slots, int samples, double from, double to)
 {
-  int m = *max_element(slots.begin(), slots.end());
-  const int nRows = 20;
-  cout.setf(std::ios::fixed | std::ios::left);
+  auto m = *max_element(slots.begin(), slots.end());
+  auto nRows = 20;
+
+  cout.setf(ios::fixed | ios::left);
   cout.precision(5);
 
   for (int r=0; r<nRows; r++) 
@@ -23,6 +24,7 @@ void plot_histogram(vector<int> const& slots, int samples, double from, double t
       char out = ' ';
       if (slots[col]/double(samples) >= y)
         out = 'x';
+
       cout << out;
     }
 
@@ -44,6 +46,7 @@ public:
   typedef NumberGenerator base_type;
   typedef typename base_type::result_type result_type;
   explicit sum_result(const base_type & g) : gen(g), _sum(0) { }
+
   result_type operator()() { result_type r = gen(); _sum += r; return r; }
   base_type & base()       { return gen;  }
   Sum sum() const          { return _sum; }
@@ -77,7 +80,7 @@ void histogram(RNG base, int samples, double from, double to, const string & nam
   typedef squaresum_result< sum_result<RNG, double>, double > SRNG;
   SRNG gen((sum_result<RNG, double>(base)));
   const int nSlots = 60;
-  vector<int> slots(nSlots,0);
+  vector<int> slots(nSlots, 0);
   for (int i=0; i<samples; i++) 
   {
     double val = gen();
