@@ -18,7 +18,8 @@ struct overload<F1> : F1
 };
 
 template<class... Fs>
-auto make_overload(Fs... fs) {
+auto make_overload(Fs... fs)
+{
   return overload<Fs...>(fs...);
 }
 
