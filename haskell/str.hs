@@ -3,7 +3,7 @@ module StringManip where
 import Data.Char
 
 uppercase, lowercase :: String -> String
-uppercase = map toUpper
+jppercase = map toUpper
 lowercase = map toLower
 
 capitalize :: String -> String
