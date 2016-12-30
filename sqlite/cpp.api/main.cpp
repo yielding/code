@@ -20,9 +20,13 @@ int main(int argc, char *argv[])
       return 1;
     }
 
-    cout << db.schema("images") << endl;
+    // 0. list schema
     for (auto name: db.table_list()) cout << name << endl;
-    
+
+    // 1. read schema of given table
+    cout << db.schema("images") << endl;
+
+    // 2. show columns of table
     auto defs = db.table_info("images");
     for (auto d: defs) cout << d << endl;
   }
