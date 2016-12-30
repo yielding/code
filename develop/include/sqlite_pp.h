@@ -1,7 +1,7 @@
 #ifndef IO_SQLITE_HPP_
 #define IO_SQLITE_HPP_
 
-#include "sqlite3/sqlite3.h"
+#include "sqlite3.h"
 
 #include <exception>
 #include <algorithm>

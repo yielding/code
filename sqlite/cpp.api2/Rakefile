@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+APP       = "cpp.api2"
+SRCS      = %W{ ./cpp.api2.cpp }
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = "gmock sqlite3"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
