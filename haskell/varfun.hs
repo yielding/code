@@ -1,3 +1,5 @@
+heron a b c = sqrt (s*(s-a)*(s-b)*(s-c))
+  where s = (a + b + c) / 2
 
 areaTriangleTrig a b c = c * height / 2
   where cosa   = (b^2 + c^2 - a^2) / (2*b*c)
