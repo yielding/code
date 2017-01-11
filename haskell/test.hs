@@ -1,3 +1,5 @@
+--import Char
+
 firsts     :: [(a, b)] -> [a]
 firsts ps  = [x | (x, _) <- ps]
 
@@ -16,5 +18,17 @@ primes n   = [x | x <- [2..n], prime x]
 find       :: Eq a => a -> [(a, b)] -> [b]
 find k t   = [v | (k', v) <- t, k==k']
 
-pairs      :: [a] => [(a, a)]
-pairs xs   = [(a, b) | zip(xs, tail xs)]
+pairs      :: [a] -> [(a, a)]
+pairs xs   = zip xs (tail xs)
+
+sorted     :: Ord a => [a] -> Bool
+sorted xs  = and [x <= y | (x, y) <- pairs xs]
+
+positions  :: Eq a => a -> [a] -> [Int]
+positions x xs
+            = [i | (x', i) <- zip xs [0..n], x == x']
+              where n = length xs - 1
+
+let2int    :: Char -> Int
+let2int c  = ord c - ord 'a'
+           
