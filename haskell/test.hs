@@ -8,6 +8,7 @@ length' xs  = sum [1 | _ <- xs]
 
 factors     :: Int -> [Int]
 factors n   = [x | x <- [1..n], n `mod` x == 0]
+
 prime       :: Int -> Bool
 prime n     = factors n == [1, n]
 
@@ -24,7 +25,7 @@ sorted      :: Ord a => [a] -> Bool
 sorted xs   = and [x <= y | (x, y) <- pairs xs]
 
 positions   :: Eq a => a -> [a] -> [Int]
-positions x  xs
+positions x xs
             = [i | (x', i) <- zip xs [0..n], x == x']
               where n = length xs - 1
 
