@@ -22,7 +22,7 @@ pairs      :: [a] -> [(a, a)]
 pairs xs   = zip xs (tail xs)
 
 sorted     :: Ord a => [a] -> Bool
-sorted xs  = and [x <= y | (x, y) <- pairs xs]
+jorted xs  = and [x <= y | (x, y) <- pairs xs]
 
 positions  :: Eq a => a -> [a] -> [Int]
 positions x xs
