@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <int name="oneTimeInitializationProgress" value="2" />
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.addsignature" value="true" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.name">gmdsystem2013</string>
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.securityAuth"></string>
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.flagDownloadOnScroll" value="true" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.syncScheduleData">480_1020_62_15_15_0_false</string>
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.messageFormat" value="0" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.senderUri">c210cCt0bHMrOi8vZ21kMjAxMjplYzk4NzZAc210cC5uYXZlci5jb206NTg3</string>
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.smimeSignAlgorithm" value="0" />
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.flagIsSignatureEdited" value="false" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.accountType" value="775" />
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.flagIsSignatureEdited" value="false" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.passwd"></string>
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.syncWindow" value="4" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.sendaddr"></string>
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.callookback" value="-1" />
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.flagForwardWithFiles" value="true" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.accountNumber" value="-1" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.localStoreUri">local://localhost//data/user/0/com.samsung.android.email.provider/databases/d67c4d54-8c04-43f7-b7a2-21c4e375ff3f.db</string>
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.ringtone">/system/media/audio/notifications/Letter.ogg</string>
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.backupFlags" value="17" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.retrival" value="1" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.capabilities"></string>
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.sentFolderName"></string>
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.smimeOwnCertificateAlias"></string>
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.textPreviewSize" value="128" />
+    <long name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.securityFlags" value="0" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.sendSecurityFlags" value="0" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.messageFormat" value="0" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.email">gmdtest0@gmail.com</string>
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.addsignature" value="true" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.storeUri">aW1hcCtzc2wrOi8vZ21kc3lzdGVtMjAxMzpFQzk4NzZlY0BpbWFwLmRhdW0ubmV0Ojk5Mw==</string>
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.trashFolderName"></string>
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.accountFlagsbkp" value="2105353" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.syncScheduleData">480_1020_62_15_15_0_false</string>
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.smimeSignAll" value="false" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.senderCapabilities"></string>
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.outboxFolderName"></string>
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.senderUri">c210cCtzc2wrOi8vZ21kc3lzdGVtMjAxMzpFQzk4NzZlY0BzbXRwLmRhdW0ubmV0OjQ2NQ==</string>
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.lookback" value="4" />
+    <int name="toplinemode" value="1" />
+    <boolean name="master_notification" value="true" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.capabilities"></string>
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.accountFlagsbkp" value="2105353" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.sendport" value="0" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.name">gmd2012</string>
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.notifyNewMail" value="true" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.automaticCheckIntervalMinutes" value="15" />
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.autoDownload" value="false" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.retrival_roaming" value="2048" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.conflictFlags" value="1" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.accountNumber" value="-1" />
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.vibrateWhenSilent" value="false" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.textPreviewSize" value="128" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.backupFlags" value="17" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.trashFolderName"></string>
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.smimeSignAll" value="false" />
+    <string name="deviceUID">fae3869a-6d1b-41be-b5ef-3a128549c9bb</string>
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.retrival_roaming" value="2048" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.autoRetryTimes" value="10" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.email">gmdsystem2013@daum.net</string>
+    <long name="a788b5bc-8b7d-481f-93bc-0cc67686e530.flagIsSpamfolderkey" value="0" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.protocolVersion"></string>
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.securityAuth"></string>
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.outboxFolderName"></string>
+    <long name="a788b5bc-8b7d-481f-93bc-0cc67686e530.lastAutomaticCheckTime" value="0" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.automaticCheckIntervalMinutes" value="15" />
+    <long name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.lastAutomaticCheckTime" value="0" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.smimeOwnCertificateAlias"></string>
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.senderCapabilities"></string>
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.sentFolderName"></string>
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.vibrate" value="false" />
+    <int name="DebugBits" value="0" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.localStoreUri">local://localhost//data/user/0/com.samsung.android.email.provider/databases/97c9aeb2-a843-4183-94b0-4461474488f5.db</string>
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.sentFolderName"></string>
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.mimeEncryptAll" value="false" />
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.smimeSignAll" value="false" />
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.defaultaccount" value="false" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.accountNumber" value="-1" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.description">gmd2012@naver.com</string>
+    <long name="accountId2" value="3" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.draftsFolderName"></string>
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.flagIsDefaultEmailSize" value="true" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.smimeOwnSignCertAlias"></string>
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.flagShowImages" value="true" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.draftsFolderName"></string>
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.mimeEncryptAll" value="false" />
+    <long name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.flagIsSpamfolderkey" value="0" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.conflictFlags" value="1" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.ringtone">/system/media/audio/notifications/Letter.ogg</string>
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.notifyNewMail" value="true" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.name">gmdtest0</string>
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.localStoreUri">local://localhost//data/user/0/com.samsung.android.email.provider/databases/de1f0cf3-bb72-4727-9306-ed3294475e81.db</string>
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.signature">삼성 갤럭시 스마트폰에서 보냈습니다.</string>
+    <boolean name="vip_vibrate" value="false" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.description">gmdsystem2013@daum.net</string>
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.deletePolicy" value="2" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.smimeSignAlgorithm" value="0" />
+    <boolean name="delete_email_confirm" value="false" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.retrival" value="1" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.smimeEncryptionAlgorithm" value="0" />
+    <boolean name="refresh_on_open" value="true" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.protocolVersion"></string>
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.deletePolicy" value="2" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.autoRetryTimes" value="10" />
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.vibrate" value="false" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.ringtone">/system/media/audio/notifications/Letter.ogg</string>
+    <boolean name="vip_notification" value="true" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.conversationMode" value="0" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.accountType" value="775" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.storeUri">aW1hcCtzc2wrOi8vZ21kMjAxMjplYzk4NzZAaW1hcC5uYXZlci5jb206OTkz</string>
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.retrival_roaming" value="2048" />
+    <long name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.flagIsSpamfolderkey" value="0" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.sendSecurityFlags" value="0" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.callookback" value="-1" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.recentMessages" value="0" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.sendaddr"></string>
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.sendport" value="0" />
+    <long name="a788b5bc-8b7d-481f-93bc-0cc67686e530.securityFlags" value="0" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.email">gmd2012@naver.com</string>
+    <long name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.securityFlags" value="0" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.capabilities"></string>
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.vibrateWhenSilent" value="false" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.passwd"></string>
+    <int name="attachment_storage" value="0" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.callookback" value="-1" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.retrival" value="1" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.recentMessages" value="0" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.outboxFolderName"></string>
+    <boolean name="splitmode" value="false" />
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.defaultaccount" value="false" />
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.vibrate" value="false" />
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.defaultaccount" value="true" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.lookback" value="4" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.smimeEncryptionAlgorithm" value="0" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.smimeOwnSignCertAlias"></string>
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.smimeSignAlgorithm" value="0" />
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.flagIsDefaultEmailSize" value="true" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.automaticCheckIntervalMinutes" value="15" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.recentMessages" value="0" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.accountFlagsbkp" value="8396809" />
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.flagIsSignatureEdited" value="false" />
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.autoDownload" value="false" />
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.flagIsDefaultEmailSize" value="true" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.conversationMode" value="0" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.accountType" value="775" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.conflictFlags" value="1" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.deletePolicy" value="2" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.senderUri">c210cCtzc2wrOi8vZ21kdGVzdDAlNDBnbWFpbC5jb206eWEyOS5DbDNOQV85UHF0LWd1R1A2WF81Qi1rdXFBNjQtdUFSb2s4aDQ2XzRaX3g4Wk8yRERwdHRBT3Z5MWF5MWpqU0JYa2JRaHFHbGN0X2cxbWE1dUZuRFJzQXFQaVBIWlJ0cVZmWkcxNFJ4YWpDS1RPc09DTTFjRXJpaXJHM3RvMTRVQHNtdHAuZ21haWwuY29tOjQ2NT91c2VHb29nbGVUb2tlbg==</string>
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.textPreviewSize" value="128" />
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.flagDownloadOnScroll" value="true" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.signature">삼성 갤럭시 스마트폰에서 보냈습니다.</string>
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.trashFolderName"></string>
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.description">gmdtest0@gmail.com</string>
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.flagForwardWithFiles" value="true" />
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.flagDownloadOnScroll" value="true" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.sendSecurityFlags" value="0" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.smimeOwnSignCertAlias"></string>
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.protocolVersion"></string>
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.flagShowImages" value="true" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.passwd"></string>
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.mimeEncryptAll" value="false" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.conversationMode" value="0" />
+    <string name="accountUuids">96db6b6b-bd13-4fa1-8920-8699c4a7ef94,b5729046-0624-4f22-9ba1-2fbb7d3cf3cc,a788b5bc-8b7d-481f-93bc-0cc67686e530</string>
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.storeUri">aW1hcCtzc2wrOi8vZ21kdGVzdDAlNDBnbWFpbC5jb206eWEyOS5DbDNOQV85UHF0LWd1R1A2WF81Qi1rdXFBNjQtdUFSb2s4aDQ2XzRaX3g4Wk8yRERwdHRBT3Z5MWF5MWpqU0JYa2JRaHFHbGN0X2cxbWE1dUZuRFJzQXFQaVBIWlJ0cVZmWkcxNFJ4YWpDS1RPc09DTTFjRXJpaXJHM3RvMTRVQGltYXAuZ21haWwuY29tOjk5Mz91c2VHb29nbGVUb2tlbg==</string>
+    <boolean name="UiAccountChanged" value="false" />
+    <boolean name="auto_fit" value="true" />
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.messageFormat" value="0" />
+    <boolean name="a788b5bc-8b7d-481f-93bc-0cc67686e530.flagShowImages" value="true" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.backupFlags" value="21" />
+    <string name="vip_ringtone">/system/media/audio/notifications/Letter.ogg</string>
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.signature">삼성 갤럭시 스마트폰에서 보냈습니다.</string>
+    <int name="a788b5bc-8b7d-481f-93bc-0cc67686e530.syncWindow" value="4" />
+    <int name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.smimeEncryptionAlgorithm" value="0" />
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.vibrateWhenSilent" value="false" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.senderCapabilities"></string>
+    <long name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.lastAutomaticCheckTime" value="0" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.autoRetryTimes" value="10" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.syncScheduleData">480_1020_62_15_15_0_false</string>
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.notifyNewMail" value="true" />
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.autoDownload" value="false" />
+    <boolean name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.flagForwardWithFiles" value="true" />
+    <boolean name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.addsignature" value="true" />
+    <string name="b5729046-0624-4f22-9ba1-2fbb7d3cf3cc.draftsFolderName"></string>
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.smimeOwnCertificateAlias"></string>
+    <long name="accountId" value="3" />
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.lookback" value="4" />
+    <string name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.securityAuth"></string>
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.syncWindow" value="4" />
+    <string name="a788b5bc-8b7d-481f-93bc-0cc67686e530.sendaddr"></string>
+    <int name="96db6b6b-bd13-4fa1-8920-8699c4a7ef94.sendport" value="0" />
+</map>
+
