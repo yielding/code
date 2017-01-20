@@ -48,19 +48,28 @@ doubleList [] = []
 doubleList (n:ns) = (2 * n) : doubleList ns
 
 
-tripleList   :: [Int] -> [Int]
+tripleList  :: [Int] -> [Int]
 tripleList xs = [3*x | x <- xs]
 
 
-takeInt      :: Int -> [a] -> [a]
+takeInt     :: Int -> [a] -> [a]
 takeInt 0 (x:xs) = []
 takeInt n (x:xs)
              = x : takeInt (n-1) xs
 
-
-dropInt      :: Int -> [a] -> [a]
+dropInt     :: Int -> [a] -> [a]
 dropInt _ []     = []
 dropInt 0 (x:xs) = (x:xs)
 dropInt 1 (x:xs) = xs
 dropInt n (x:xs) = dropInt (n-1) xs
 
+applyToInts :: (Int -> Int) -> [Int] -> [Int]
+applyToInts _ [] = []
+applyToInts f (n:ns) = (f n) : applyToInts f ns
+
+multiplyList :: Integer -> [Integer] -> [Integer]
+multiplyList = map (*)
+
+heads :: [[a]] -> [a]
+heads = map head
+                               
