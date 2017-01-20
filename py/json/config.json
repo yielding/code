@@ -1,0 +1,19 @@
+[
+  {
+    "packagePath" : "com.apparillos.android.androshredder",
+    "name"        : "AndroShredder",
+    "packageName" : "com.acr.encryptfilefree",
+    "apkName"     : "com.apparillos.android.androshredder-1.apk",
+    "description" : "AndroShredderDescription",
+    "appStoreUri" : "AndroShredderUri"
+  },
+
+  {
+    "packagePath" : "com.acr.encryptfilefree",
+    "name"        : "EncryptFileFree",
+    "packageName" : "com.acr.encryptfilefree",
+    "apkName"     : "com.acr.encryptfilefree-1.apk",
+    "description" : "EncryptFileFreeDescription",
+    "appStoreUri" : "EncryptFileFreeUri"
+  }
+]
