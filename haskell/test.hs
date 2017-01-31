@@ -67,9 +67,13 @@ applyToInts :: (Int -> Int) -> [Int] -> [Int]
 applyToInts _ [] = []
 applyToInts f (n:ns) = (f n) : applyToInts f ns
 
-multiplyList :: Integer -> [Integer] -> [Integer]
-multiplyList = map (*)
-
 heads :: [[a]] -> [a]
 heads = map head
                                
+f x = 
+    case x of
+      0 -> 18
+      1 -> 15
+      2 -> 12
+      _ -> 12 - x
+
