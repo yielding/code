@@ -1,6 +1,10 @@
 #ifndef __CLONE_HPP__
 #define __CLONE_HPP__
 
+#include <memory>
+#include <iostream>
+
+using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -20,8 +24,7 @@ public:
     // cout << "destructor of clonable_base\n";
   }
 
-private:
-  virtual clonable_base* do_clone() const = 0;
+private: virtual clonable_base* do_clone() const = 0;
 };
 
 template<typename Derived, typename Base = clonable_base>
@@ -52,10 +55,6 @@ private:
 // usage
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include <boost/shared_ptr.hpp>
-#include <iostream>
-
-using namespace std;
 
 class test: public clonable_impl<test>
 {
@@ -89,14 +88,19 @@ private:
 //
 //
 //////////////////////////////////////////////////////////////////////////////
-
 int main(int argc, char const* argv[])
 {
-  boost::shared_ptr<test> sp_test1(new test);
-  boost::shared_ptr<test> sp_test2(new test(*sp_test1));
+  auto sp_test1 = shared_ptr<test>(new test);
+  auto sp_test2 = shared_ptr<test>(new test(*sp_test1));
+
   sp_test2->set_id(10);
   sp_test1->print();
   sp_test2->print();
+
+  auto test3 = sp_test2->clone();
+  test3->set_id(20);
+  test3->print();
+  delete test3;
 
   return 0;
 }
