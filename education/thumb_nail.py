@@ -32,7 +32,7 @@ try:
     end = search(img, end_pattern, 3)
 
     if beg != -1 and end != -1:
-       thumbnail = image[beg:end + 2]
+       thumbnail = img[beg:end + 2]
        write_file("1_thumb2.jpg", thumbnail)
        print "Thumbnail is made."
 
