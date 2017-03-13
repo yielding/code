@@ -685,7 +685,7 @@ auto ByteBuffer2::from_hexcode(string const& s, bool is_be) -> ByteBuffer2
   return ByteBuffer2();
 }
 
-auto ByteBuffer2::to_s(int from, int to) const -> string
+auto ByteBuffer2::to_s(int from, int to) const -> std::string
 {
   if (from == -1) from = m_offset;
   if (to == -1) to = m_limit;
