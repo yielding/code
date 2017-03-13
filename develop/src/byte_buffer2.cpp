@@ -497,7 +497,7 @@ auto ByteBuffer2::get_varint() const -> int64_t
   int size = 0; return get_varint_with_size(&size);
 }
 
-auto ByteBuffer2::get_varint2() const -> std::pair<int64_t, int>
+auto ByteBuffer2::get_varint2() const -> pair<int64_t, int>
 {
   int size = 0; 
   auto res = get_varint_with_size(&size);
@@ -685,7 +685,7 @@ auto ByteBuffer2::from_hexcode(string const& s, bool is_be) -> ByteBuffer2
   return ByteBuffer2();
 }
 
-auto ByteBuffer2::to_s(int from, int to) const -> std::string
+auto ByteBuffer2::to_s(int from, int to) const -> string
 {
   if (from == -1) from = m_offset;
   if (to == -1) to = m_limit;

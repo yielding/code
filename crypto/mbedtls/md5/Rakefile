@@ -1,7 +1,7 @@
 # -*- ruby -*-
 
 APP       = "md5"
-SRCS      = %W{ ./md5.cpp }
+SRCS      = %W{ ./md5.cpp ./main.cpp }
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
 LIBS      = "mbedtls mbedcrypto"

@@ -1,19 +1,26 @@
+#include "md5.h"
+
 #include "mbedtls/md5.h"
 
-#include <cstdio>
-#include <string>
-
-using namespace std;
-
-int main(int argc, char *argv[])
+namespace mbedtls {
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+string md5::hash(string const& in)
 {
-  uint8_t digest[16];
-  auto str = "Hello, world!"s;
+  string result(0, 16);
 
-  mbedtls_md5((uint8_t *)str.c_str(), 13, digest);
+  ::mbedtls_md5((uint8_t *)in.c_str(), 13, 
+      (uint8_t*)result.data());
 
-  for (int i=0; i<16; ++i) 
-    printf("%02x", digest[i]);
-  
-  return 0;
+  return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 }
