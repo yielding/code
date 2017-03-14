@@ -497,7 +497,7 @@ auto ByteBuffer2::get_varint() const -> int64_t
   int size = 0; return get_varint_with_size(&size);
 }
 
-auto ByteBuffer2::get_varint2() const -> std::pair<int64_t, int>
+auto ByteBuffer2::get_varint2() const -> pair<int64_t, int>
 {
   int size = 0; 
   auto res = get_varint_with_size(&size);
