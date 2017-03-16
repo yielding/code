@@ -1,0 +1,19 @@
+# -*- ruby -*-
+
+APP       = "cv"
+SRCS      = %W{ ~/code/develop/src/byte_buffer2.cpp 
+               ./main.cpp
+              }
+
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LDFLAGS   = "/usr/local/opt/opencv3/lib -rpath /usr/local/opt/opencv3/lib"
+LIBS      = "opencv_core opencv_highgui opencv_imgcodecs"
+INCS      = "/usr/local/opt/opencv3/include"
+
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
