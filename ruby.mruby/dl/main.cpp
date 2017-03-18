@@ -9,9 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/* Include the mruby header */
-#include <mruby.h>
-#include <mruby/proc.h>
+/* Include the mruby header */ #include <mruby.h> #include <mruby/proc.h>
 #include <mruby/class.h>
 #include <mruby/data.h>
 #include <mruby/compile.h>
@@ -44,9 +42,9 @@ mrb_value test_run(mrb_state* mrb, mrb_value exec)
   for (int i=0; i<10; i++)
     printf("Test is running: %d\n", i);
   
-  int* value = (int*)malloc(sizeof(int));
-  *value = 10;
-  return mrb_obj_value(Data_Wrap_Struct(mrb, TestClass, &test_type, (void*)value));
+  // int* value = (int*)malloc(sizeof(int));
+  static int value = 1;
+  return mrb_obj_value(Data_Wrap_Struct(mrb, TestClass, &test_type, (void*)&value));
 }
 
 void init_TestClass(mrb_state* mrb)
@@ -62,7 +60,9 @@ int main()
   auto mrb = mrb_open();
   init_TestClass(mrb);
   
-  char code[] = "$t = Test.new; res = $t.run; p res";
+  // char code[] = "$t = Test.new; res = $t.run; p res";
+  char code[] = {"puts 'Hello'; puts 1+2+3"};
+    
   printf("Executing Ruby code from C!\n");
   
   auto c = mrbc_context_new(mrb);
