@@ -11,3 +11,5 @@ LIBS      = ""
 DIR = File.dirname __FILE__
 
 load '~/code/build/app2.rake'
+
+task :default => [:osx]
