@@ -7,7 +7,6 @@ INCS      = ":mvm"
 CXX       = "xcrun"       # xcrun c++0x, clang++, blank
 CXXFLAGS  = ":Os"          # :d, :O0 :O3 :w = -Wall
 LIBS      = "mruby"
-#LDFLAGS   = ":mvm"
 
 load "~/code/build/app2.rake"
 
