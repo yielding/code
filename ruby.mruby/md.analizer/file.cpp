@@ -11,54 +11,54 @@ using namespace boost;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-File::File(std::string const& p)
+CFile::CFile(string const& p)
   : _path(p)
 {
   _name = fs::path(_path).filename().string();
   _size = 1234;
 }
 
-File::~File()
+CFile::~CFile()
 {
 }
 
-auto File::name() -> string
+auto CFile::name() -> string
 {
   return _name;
 }
 
-auto File::path() -> string
+auto CFile::path() -> string
 {
   return _path;
 }
 
-auto File::size() -> int64_t
+auto CFile::size() -> int64_t
 {
   return _size;
 }
 
-auto File::parent() -> string
+auto CFile::parent() -> string
 {
   return fs::path(_path).parent_path().string();
 }
 
-auto File::deleted() -> bool
+auto CFile::deleted() -> bool
 {
   return false;
 }
 
-auto File::seek(int pos) -> void
+auto CFile::seek(int pos) -> void
 {
 }
 
-auto File::save_to(std::string const& res) -> bool
+auto CFile::save_to(string const& res) -> bool
 {
   cout << "save_to: " << res << endl;
 
   return true;
 }
 
-auto File::read(uint32_t size) -> std::vector<uint8_t>
+auto CFile::read(uint32_t size) -> vector<uint8_t>
 {
   vector<uint8_t> v;
 

@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -10,11 +10,11 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class File
+class CFile
 {
 public:
-  File(std::string const& path);
-  ~File();
+  CFile(std::string const& path);
+  ~CFile();
 
 public: // query
   auto name() -> std::string;
