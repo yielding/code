@@ -7,7 +7,7 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class File;
+class CFile;
 
 // mrb_value fi_wrap(mrb_state* mrb, File* fs);
 auto init_file(mrb_state* mrb) -> RClass*;
