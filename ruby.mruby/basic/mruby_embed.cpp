@@ -55,7 +55,7 @@ int main()
 {
   using namespace std;
 
-  cout << "Executing Ruby code from C++!\n";
+  // cout << "Executing Ruby code from C++!\n";
 
   ifstream ifs("mytest.rb");
   if (!ifs.is_open())
@@ -67,7 +67,7 @@ int main()
   stringstream buffer; 
   buffer << ifs.rdbuf();
   auto code = buffer.str();
-  cout << code;
+  // cout << code;
 
   auto mrb = mrb_open();
 
