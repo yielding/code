@@ -114,11 +114,16 @@ int main()
 
   // 2
   // add the method to the WikiManager class
-  mrb_define_method(mrb, cls, "_connected_with_int", we_connected_with_int, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls, "_connected_with_ruby_str", we_connected_with_ruby_str, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls, "_connected_with_c_str", we_connected_with_c_str, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls, "_connected_with_c_str_len", we_connected_with_c_str_len, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls, "_connected_with_ruby_str_arr", we_connected_with_ruby_str_arr, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls, "_connected_with_int", 
+      we_connected_with_int, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls, "_connected_with_ruby_str", 
+      we_connected_with_ruby_str, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls, "_connected_with_c_str", 
+      we_connected_with_c_str, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls, "_connected_with_c_str_len", 
+      we_connected_with_c_str_len, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls, "_connected_with_ruby_str_arr", 
+      we_connected_with_ruby_str_arr, MRB_ARGS_REQ(1));
 
   // call the connect method on WikiManager
   auto r1 = mrb_funcall(mrb, c0, "connect", 0);
