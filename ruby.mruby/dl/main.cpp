@@ -9,7 +9,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/* Include the mruby header */ #include <mruby.h> #include <mruby/proc.h>
+/* Include the mruby header */ 
+#include <mruby.h> 
+#include <mruby/proc.h>
 #include <mruby/class.h>
 #include <mruby/data.h>
 #include <mruby/compile.h>
