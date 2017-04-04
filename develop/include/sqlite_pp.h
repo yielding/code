@@ -342,9 +342,7 @@ public:
     auto int32(unsigned i) const -> int32_t 
     {
       return sqlite3_column_int(_stmt, i);
-    }
-
-    auto int64(unsigned i) const -> int64_t 
+    } auto int64(unsigned i) const -> int64_t 
     {
       return sqlite3_column_int64(_stmt, i);
     }
@@ -381,5 +379,3 @@ private:
 }
 
 #endif
-
-
