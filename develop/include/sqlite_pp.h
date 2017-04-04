@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <cstdint>
 #include <string>
+#include <vector>
+#include <map>
 
 namespace io { namespace sqlite {
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +76,7 @@ public:
     impl::check(sqlite3_open(filename.c_str(), &_db));
   }
 
-  explicit db(const char *filename)
+  explicit db(char const* filename)
   {
     impl::check(sqlite3_open(filename, &_db));
   }
@@ -106,18 +108,18 @@ public:
     return *this;
   }
 
-  ::sqlite3 *get()
+  auto get() -> ::sqlite3*
   {
     return _db;
   }
 
-  const ::sqlite3 *get() const
+  auto get() const -> ::sqlite3 const*
   {
     return _db;
   }
 
   // Number of changes due to the most recent statement.
-  unsigned changes() const
+  auto changes() const -> unsigned
   {
     return sqlite3_changes(_db);
   }
@@ -132,6 +134,35 @@ public:
   {
     impl::check(sqlite3_exec(_db, text, nullptr, nullptr, nullptr));
   }
+  
+  /*
+  auto schema_info(char const* table) const -> std::vector<int>
+  {
+    std::vector<int> result;
+    
+    if (_db == nullptr)
+      return result;
+    
+    auto sql = std::string("pragma table_info(") + table + ")";
+    ::sqlite3_stmt *stmt;
+    auto r0 = ::sqlite3_prepare_v2(_db, sql.c_str(), -1, &stmt, nullptr);
+    if (r0 != SQLITE_OK)
+      return result;
+    
+    while (::sqlite3_step(stmt) == SQLITE_ROW)
+    {
+      auto row  = s.row();
+      auto id   = row.int32(0);
+      auto name = row.text(1);
+      auto type = row.text(2);
+      auto nn   = row.text(3);
+      auto defv = row.text(4);
+      auto ispk = row.text(5);
+    }
+    
+    return result;
+  }
+  */
 
 private:
   ::sqlite3* _db;
@@ -178,7 +209,7 @@ public:
     return *this;
   }
 
-  auto get() -> ::sqlite3_stmt *
+  auto get() -> ::sqlite3_stmt*
   {
     return _stmt;
   }
@@ -197,20 +228,21 @@ public:
   {
   public:
     explicit binder(stmt& s) : _stmt(s._stmt) { }
+    explicit binder(::sqlite3_stmt* stmt) : _stmt(stmt) { }
 
     auto blob(unsigned i, const void *data, size_t len) -> binder& 
     {
       auto copy = new uint8_t[len];
 
       memcpy(copy, data, len);
-      impl::check(sqlite3_bind_blob(_stmt, i, copy, len, impl::destroy_blob));
+      impl::check(sqlite3_bind_blob(_stmt, i, copy, (int)len, impl::destroy_blob));
 
       return *this;
     }
 
     auto blob_ref(unsigned i, const void *data, size_t len) -> binder& 
     {
-      impl::check(sqlite3_bind_blob(_stmt, i, data, len, nullptr));
+      impl::check(sqlite3_bind_blob(_stmt, i, data, (int)len, nullptr));
 
       return *this;
     }
@@ -249,7 +281,7 @@ public:
       auto copy = new char[len];
 
       ::memcpy(copy, orig, len);
-      impl::check(sqlite3_bind_text(_stmt, i, copy, len, impl::destroy_text));
+      impl::check(sqlite3_bind_text(_stmt, i, copy, (int)len, impl::destroy_text));
 
       return *this;
     }
@@ -261,14 +293,14 @@ public:
       auto copy = new char[len];
 
       ::memcpy(copy, orig, len);
-      impl::check(sqlite3_bind_text(_stmt, i, copy, len, impl::destroy_text));
+      impl::check(sqlite3_bind_text(_stmt, i, copy, (int)len, impl::destroy_text));
 
       return *this;
     }
 
     auto text_ref(unsigned i, const std::string& value) -> binder& 
     {
-      impl::check(sqlite3_bind_text(_stmt, i, value.c_str(), value.size(), nullptr));
+      impl::check(sqlite3_bind_text(_stmt, i, value.c_str(), (int)value.size(), nullptr));
 
       return *this;
     }
@@ -342,7 +374,9 @@ public:
     auto int32(unsigned i) const -> int32_t 
     {
       return sqlite3_column_int(_stmt, i);
-    } auto int64(unsigned i) const -> int64_t 
+    }
+    
+    auto int64(unsigned i) const -> int64_t
     {
       return sqlite3_column_int64(_stmt, i);
     }

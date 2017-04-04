@@ -51,7 +51,7 @@ auto table_info(db& conn) -> vector<string>
     auto id   = row.int32(0);
     auto name = row.text(1);
 
-    cout << "id: " << id << " " << "name: [" << name << "]" << endl;
+    cout << "id: " << id << ", " << "name: [" << name << "]" << endl;
   }
 
   return vector<string>();
@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
   maptile.exec("CREATE TABLE images(zoom int, x int, y int, flags int, length int, data blob)");
   auto sql = schema(maptile, "images");
   cout << sql << endl;
+  // table_info(maptile);
 
   maptile.exec("drop TABLE images");
   auto tables = table_list(maptile);
@@ -75,7 +76,6 @@ int main(int argc, char *argv[])
 
   /*
   db maptile("/Users/yielding/work/swift/data/maptile.db");
-
   auto sql = schema(maptile, "images");
   cout << sql << endl;
 
