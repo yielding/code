@@ -182,6 +182,11 @@ public:
   {
     impl::check(sqlite3_prepare_v2(db.get(), sql, -1, &_stmt, nullptr));
   }
+  
+  stmt(db& db, const std::string& sql)
+  {
+    impl::check(sqlite3_prepare_v2(db.get(), sql.c_str(), -1, &_stmt, nullptr));
+  }
 
  ~stmt()
   {
