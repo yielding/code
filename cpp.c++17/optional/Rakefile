@@ -4,7 +4,7 @@ APP       = "optional"
 APP_TEST  = "test_#{APP}"
 SRCS      = %W{ ./optional.cpp }
 TEST_SRCS = %W{  } + SRCS
-CXX       = "clang++"
+CXX       = "xcrun"
 CXXFLAGS  = ":Os"
 
 DIR = File.dirname __FILE__
