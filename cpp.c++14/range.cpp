@@ -63,7 +63,6 @@ auto range(T const start, T const stop) -> range_impl<T>
 
 int main(int argc, char *argv[])
 {
-
   for (auto i : range(1, 10))
     cout << i << endl;
   
