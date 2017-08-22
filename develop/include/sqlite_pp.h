@@ -8,15 +8,18 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <iostream>
 #include <map>
 
-namespace io { namespace sqlite {
+namespace io::sqlite {
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class error: public std::exception 
+using namespace std;
+  
+class error: public std::exception
 {
 public:
   explicit error(int c) : _code(c) { }
@@ -135,35 +138,6 @@ public:
     impl::check(sqlite3_exec(_db, text, nullptr, nullptr, nullptr));
   }
   
-  /*
-  auto schema_info(char const* table) const -> std::vector<int>
-  {
-    std::vector<int> result;
-    
-    if (_db == nullptr)
-      return result;
-    
-    auto sql = std::string("pragma table_info(") + table + ")";
-    ::sqlite3_stmt *stmt;
-    auto r0 = ::sqlite3_prepare_v2(_db, sql.c_str(), -1, &stmt, nullptr);
-    if (r0 != SQLITE_OK)
-      return result;
-    
-    while (::sqlite3_step(stmt) == SQLITE_ROW)
-    {
-      auto row  = s.row();
-      auto id   = row.int32(0);
-      auto name = row.text(1);
-      auto type = row.text(2);
-      auto nn   = row.text(3);
-      auto defv = row.text(4);
-      auto ispk = row.text(5);
-    }
-    
-    return result;
-  }
-  */
-
 private:
   ::sqlite3* _db;
 };
@@ -414,7 +388,52 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-}
+class schema
+{
+public:
+  static auto column_defs(string const& tname, string const& sql) -> vector<map<string, string>>
+  {
+    vector<map<string, string>> result;
+    
+    try
+    {
+      db _db(":memory:");
+      _db.exec(sql);
+      
+      auto sql = string("pragma table_info(") + tname + ")";
+      stmt _stmt(_db, sql);
+      
+      for (int index=0; _stmt.step(); index++)
+      {
+        map<string, string> item;
+        auto row  = _stmt.row();
+        auto id   = row.int32(0); item["id"]   = to_string(id);
+        auto name = row.text(1);  item["name"] = name;
+        auto type = row.text(2);  item["type"] = type;
+        auto nn   = row.text(3);  item["nn"]   = nn;
+        auto defv = row.text(4);  item["defv"] = defv;
+        auto ispk = row.text(5);  item["pk"]   = ispk;
+        
+        result.push_back(item);
+      }
+      
+      _db.exec(string("drop table ") + tname);
+    }
+    catch (error& e)
+    {
+      cout << e.what() << endl;
+    }
+      
+    return result;
+  }
+};
+      
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+
 }
 
 #endif
