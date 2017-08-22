@@ -72,7 +72,8 @@ int main(int argc, char *argv[])
 
   maptile.exec("drop TABLE images");
   auto tables = table_list(maptile);
-  for (auto table: tables) cout << table << endl;
+  for (auto table: tables) 
+    cout << table << endl;
 
   /*
   db maptile("/Users/yielding/work/swift/data/maptile.db");
