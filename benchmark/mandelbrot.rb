@@ -13,7 +13,7 @@ class Iterator
         if (i == 0)
           putc '*'
         else
-           putc ' '
+          putc ' '
         end
 			end
 		end
