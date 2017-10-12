@@ -4,7 +4,7 @@ require 'pp'
 
 class Array
   def sum
-    inject(nil) {|s, e| s ? s + e : e }
+    inject(nil) { |s, e| s ? s + e : e }
   end
 end
 
