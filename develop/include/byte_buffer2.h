@@ -75,7 +75,7 @@ public:
 
   auto get_varint()    const -> int64_t;
   auto get_varint2()   const -> std::pair<int64_t, int>;
-  auto get_varint_with_size(int*) const -> int64_t;
+  auto get_varint_with_size() const -> std::pair<int64_t, int>;
 
   auto has_remaining() const -> bool;
   auto remained_size() const -> int;

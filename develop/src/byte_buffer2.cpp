@@ -494,18 +494,16 @@ auto ByteBuffer2::get_hex_string(int size, int at) -> const string
 
 auto ByteBuffer2::get_varint() const -> int64_t
 {
-  int size = 0; return get_varint_with_size(&size);
+  auto [res, size] = get_varint_with_size();
+  return size;
 }
 
 auto ByteBuffer2::get_varint2() const -> pair<int64_t, int>
 {
-  int size = 0; 
-  auto res = get_varint_with_size(&size);
-
-  return make_pair(res, size);
+  return get_varint_with_size();
 }
 
-auto ByteBuffer2::get_varint_with_size(int* size) const -> int64_t
+auto ByteBuffer2::get_varint_with_size() const -> pair<int64_t, int>
 {
   auto complete = false;
   auto value_size = 0;
@@ -536,9 +534,8 @@ auto ByteBuffer2::get_varint_with_size(int* size) const -> int64_t
     throw logic_error("invalid varint");
 
   m_offset += value_size;
-  *size = value_size;
 
-  return value;
+  return make_pair(value, value_size);
 }
 
 auto ByteBuffer2::has_remaining() const -> bool
