@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby1.9
+#!/usr/bin/env ruby
 
 def pr(grid)
   grid.each { |r| 

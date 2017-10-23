@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.6
+#!/usr/bin/env python
 
 def fib(n):
   if n == 0 or n == 1:
