@@ -6,6 +6,7 @@ SRCS      = %w{ ./mruby_embed.cpp }
 INCS      = ":mvm"
 CXX       = "xcrun"       # xcrun c++0x, clang++, blank
 CXXFLAGS  = ":Os"          # :d, :O0 :O3 :w = -Wall
+LDFLAGS   = ":mvm"
 LIBS      = "mruby"
 
 load "~/code/build/app2.rake"
