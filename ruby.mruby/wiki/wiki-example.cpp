@@ -47,10 +47,11 @@ auto we_connected_with_c_str(mrb_state* mrb, mrb_value self) -> mrb_value
 auto we_connected_with_c_str_len(mrb_state* mrb, mrb_value self) -> mrb_value 
 {
   char* result;
-  int len;
+  mrb_int len;
   mrb_get_args(mrb, "s", &result, &len);
 
   cout << "result_with_c_str_len: \n";
+  cout << "len: " << len << endl;
   cout << string(result, len);
   cout << endl;
 
@@ -110,20 +111,15 @@ int main()
   auto r0 = mrb_funcall(mrb, c0, "get_version", 0);
 
   // Convert the result (a fixed number wrapped in a mrb_value)
-  printf("result: %i\n", mrb_fixnum(r0));
+  printf("result: %lli\n", mrb_fixnum(r0));
 
   // 2
   // add the method to the WikiManager class
-  mrb_define_method(mrb, cls, "_connected_with_int", 
-      we_connected_with_int, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls, "_connected_with_ruby_str", 
-      we_connected_with_ruby_str, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls, "_connected_with_c_str", 
-      we_connected_with_c_str, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls, "_connected_with_c_str_len", 
-      we_connected_with_c_str_len, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls, "_connected_with_ruby_str_arr", 
-      we_connected_with_ruby_str_arr, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls, "_connected_with_int",          we_connected_with_int,          MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls, "_connected_with_ruby_str",     we_connected_with_ruby_str,     MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls, "_connected_with_c_str",        we_connected_with_c_str,        MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls, "_connected_with_c_str_len",    we_connected_with_c_str_len,    MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls, "_connected_with_ruby_str_arr", we_connected_with_ruby_str_arr, MRB_ARGS_REQ(1));
 
   // call the connect method on WikiManager
   auto r1 = mrb_funcall(mrb, c0, "connect", 0);

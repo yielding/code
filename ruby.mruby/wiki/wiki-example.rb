@@ -2,7 +2,7 @@ module WikiExample
   class WikiManager
     attr_accessor :active
 
-    def initialize()
+    def initialize
      @active = false 
     end
 
