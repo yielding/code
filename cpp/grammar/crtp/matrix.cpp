@@ -70,7 +70,7 @@ int main()
   sum(a);
   sum(b);
   sum(c);
-//  sum(d); : compile error
+  //  sum(d); : compile error
 
   std::cout << "\n";
 
