@@ -1,0 +1,37 @@
+#ifndef STATEMENT_HANDLE_H
+#define STATEMENT_HANDLE_H
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+#include "handle.h"
+
+#include <sqlite3.h>
+#include <cassert>
+
+struct statement_handle_traits
+{
+  using pointer = sqlite3_stmt *;
+
+  static auto invalid() noexcept
+  {
+    return nullptr;
+  }
+  
+  static auto close(pointer value) noexcept
+  {
+    assert(::sqlite3_finalize(value) == SQLITE_OK);
+  }
+};
+
+using statement_handle  
+  = handle::utility::unique_handle<statement_handle_traits>;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+#endif

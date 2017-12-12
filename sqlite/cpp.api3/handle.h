@@ -28,7 +28,7 @@ public:
   {
   }
 
-  auto operator=(unique_handle && other) noexcept -> unique_handle&
+  auto operator = (unique_handle && other) noexcept -> unique_handle&
   {
     if (this != &other)
       reset(other.release());

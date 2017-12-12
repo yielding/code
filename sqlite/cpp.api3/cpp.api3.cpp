@@ -1,30 +1,28 @@
-#include "handle.h"
+#include "cpp.api3.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-struct my_trait
-{
-  using pointer = int*;
-
-  static auto invalid() noexcept
-  {
-    return nullptr;
-  }
-
-  static auto close(pointer value) noexcept
-  {
-  }
-};
-
 int main(int argc, char *argv[])
 {
-  using my_handle = handle::utility::unique_handle<my_trait>;
+  connection c;
+  c.open("aaa.db");
+  c.execute("create table hens(id int primary key, name text)");
 
-  my_handle handle;
+  statement s;
+  s.prepare(c, "insert into hens(id, name) values(?, ?)");
 
+  s.bind(1, 101);
+  s.bind(2, "henrietta");
+  s.step();
+  s.reset();
+
+
+  s.bind(1, 102);
+  s.bind(2, "duck");
+  s.step();
 
   return 0;
 }
