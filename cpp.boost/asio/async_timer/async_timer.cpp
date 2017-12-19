@@ -91,7 +91,7 @@ public:
 
     do_timer();
     
-    thread t(bind(&HTMLParser::parse0, this));
+    boost::thread t(bind(&HTMLParser::parse0, this));
 
     // REMARK 
     //   below run() is waiting for timer
