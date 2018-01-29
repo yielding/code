@@ -1,0 +1,19 @@
+# -*- ruby -*-
+
+APP       = "orc"
+APP_TEST  = "test_#{APP}"
+SRCS      = %W{ ~/code/develop/src/byte_buffer2.cpp 
+                ./sample_binary.cpp
+              }
+TEST_SRCS = %W{ ~/code/develop/test/test_byte_buffer2.cpp 
+
+              } + SRCS
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = ""
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
