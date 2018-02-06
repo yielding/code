@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-APP        = "transform_data"
+APP        = "compute"
 APP_TEST   = "test_#{APP}"
 SRCS       = %W{ ./#{APP}.cpp }
 TEST_SRCS  = %W{ ./test_#{APP}.cpp } + SRCS
