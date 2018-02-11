@@ -16,6 +16,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
   auto device = compute::system::default_device();
+
   compute::context context(device);
   compute::command_queue queue(context, device, 
       compute::command_queue::enable_profiling);
