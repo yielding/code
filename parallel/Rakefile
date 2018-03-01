@@ -1,0 +1,14 @@
+# -*- ruby -*-
+
+APP       = "mandelbrot"
+SRCS      = %W{ ./mandelbrotcl.cpp }
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = ""
+FRAMEWORKS = "OpenCL"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
