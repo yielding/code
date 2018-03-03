@@ -9,7 +9,7 @@ conn   = sqlite3.connect('gmail.db')
 cursor = conn.cursor()
 cursor.execute("select _id, fromAddress, subject, bodyCompressed from messages")
 rows   = cursor.fetchall()
-
+ 
 for row in rows:
     fname = (str(row[0]) + row[1] + row[2])[:48]
     fname = ''.join([c for c in fname if c in good_chars])
