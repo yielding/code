@@ -10,3 +10,6 @@ a.out
 tags
 *.lock
 *.class
+/CMakeCache.txt
+/cmake_install.cmake
+/CMakeFiles/
