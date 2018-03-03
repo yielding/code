@@ -5,7 +5,7 @@ require 'numo/narray'
 require 'numo/gnuplot'
 
 # データの作成
-x = Numo::DFloat.new(60).seq(0, 0.1) # 0から6まで0.1刻みで生成
+x  = Numo::DFloat.new(60).seq(0, 0.1) # 0から6まで0.1刻みで生成
 y1 = Numo::DFloat::Math.sin(x)
 y2 = Numo::DFloat::Math.cos(x)
 
