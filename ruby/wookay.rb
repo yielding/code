@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
-
+ 
 # wookay_ext
 # 2006  wookay
 
