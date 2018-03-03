@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'gnuplot'
 
 Gnuplot::SPlot.new do |plot|
