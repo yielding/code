@@ -1,0 +1,14 @@
+# -*- ruby -*-
+
+APP       = "range"
+SRCS      = %W{ range.cpp }
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = ""
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+CLOBBER.include("*.o")
+
+task :default => [:osx]
