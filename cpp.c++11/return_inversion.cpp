@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -12,6 +13,8 @@ int main(int argc, char const* argv[])
 {
   int x = 10;
   int y = 20;
+
+  string s;
 
   auto r = [&](int a) { x += a; y += a + 10; };
 
