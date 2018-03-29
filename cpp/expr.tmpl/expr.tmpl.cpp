@@ -5,8 +5,7 @@
 using namespace std;
 
 template <typename E>
-class VecExpression 
-{
+class VecExpression {
 public:
   double operator[](size_t i) const { return static_cast<E const&>(*this)[i]; }
   size_t size() const               { return static_cast<E const&>(*this).size(); }
@@ -17,16 +16,15 @@ public:
   operator const E&() const { return static_cast<const E&>(*this); }
 };
 
-class Vec: public VecExpression<Vec>
-{
- public:
-  double operator[](size_t i) const { return elems[i]; }
-  double &operator[](size_t i)      { return elems[i]; }
-  size_t size() const               { return elems.size(); }
+class Vec: public VecExpression<Vec> {
+public:
+  double  operator[](size_t i) const { return elems[i]; }
+  double& operator[](size_t i)       { return elems[i]; }
+  size_t size() const                { return elems.size(); }
 
-  Vec (size_t n): elems(n) {}
+  Vec(size_t n): elems(n) {}
 
-  Vec (initializer_list<double>init)
+  Vec(initializer_list<double>init)
   {
     for (auto i: init) elems.push_back(i);
   }
@@ -35,7 +33,7 @@ class Vec: public VecExpression<Vec>
   template <typename E>
   Vec(VecExpression<E> const& vec): elems(vec.size()) 
   {
-    for (size_t i = 0; i != vec.size(); ++i)
+    for (size_t i=0; i != vec.size(); ++i)
       elems[i] = vec[i];
   }
 
@@ -75,11 +73,11 @@ int main(int argc, char *argv[])
 
   // Following assignment will call the ctor of Vec which accept type of 
   // `VecExpression<E> const&`. Then expand the loop body to 
-  // a.elems[i] + b.elems[i] + c.elems[i]
-  Vec sum_of_vec_type = v0+v1+v2+v3;
+  // a.elems[i] + b.elems[i] + c.elems[i] + d.elems[i]
+  auto sum_of_vec_type = v0 + v1 + v2 + v3;
 
-  for (auto t: sum_of_vec_type) 
-    cout << t << endl;
+  for (auto i=0; i<sum_of_vec_type.size(); ++i)
+    cout << sum_of_vec_type[i] << endl;
 
   return 0;
 }
