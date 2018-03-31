@@ -28,13 +28,13 @@ func anyCommonElements<T, U
          T.Generator.Element == U.Generator.Element>
          (lhs: T, _ rhs: U) -> Bool 
 {
-    for lhsItem in lhs {
-        for rhsItem in rhs {
-            if lhsItem == rhsItem { return true }
-        }
+  for lhsItem in lhs {
+    for rhsItem in rhs {
+      if lhsItem == rhsItem { return true }
     }
+  }
 
-    return false
+  return false
 }
 
 print(anyCommonElements([1, 2, 3], [3]))

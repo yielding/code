@@ -3,7 +3,7 @@
 struct Point {
   var x = 0.0, y = 0.0
 
-  mutating func moveByX(deltaX: Double, y deltaY: Double) {
+  mutating func moveByX(_ deltaX: Double, y deltaY: Double) {
     x += deltaX
     y += deltaY
   }
