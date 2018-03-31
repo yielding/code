@@ -2,13 +2,14 @@
 
 class Bank {
   static var coinsInBank = 10_100
-  static func vendCoins(var noOfCoinsToVend: Int) -> Int {
-    noOfCoinsToVend = min(noOfCoinsToVend, coinsInBank)
+
+  static func vendCoins(_ noOfCoinsToVend: Int) -> Int {
+    let noOfCoinsToVend = min(noOfCoinsToVend, coinsInBank)
     coinsInBank -= noOfCoinsToVend
     return noOfCoinsToVend
   }
 
-  static func receiveCoins(coins: Int) {
+  static func receiveCoins(_ coins: Int) {
     coinsInBank += coins
   }
 }
@@ -19,7 +20,7 @@ class Player {
     coinsInPurse = Bank.vendCoins(coins)
   }
 
-  func winCoins(coins: Int) {
+  func winCoins(_ coins: Int) {
     coinsInPurse += Bank.vendCoins(coins)
   }
 

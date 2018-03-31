@@ -19,4 +19,3 @@ class City {
 }
 
 var country = Country(name: "Canada", capitalName: "Ottawa")
-

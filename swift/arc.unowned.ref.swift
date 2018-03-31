@@ -1,24 +1,24 @@
 #!/usr/bin/env swift
 
 class Customer {
-    let name: String
-    var card: CreditCard?
-    init (name: String) {
-        self.name = name
-    }
+  let name: String
+  var card: CreditCard?
+  init (name: String) {
+    self.name = name
+  }
 
-    deinit { print("\(name) is being deinitialized") }
+  deinit { print("\(name) is being deinitialized") }
 }
 
 class CreditCard {
-    let number: UInt64
-    unowned let customer: Customer
-    init (number: UInt64, customer: Customer) {
-        self.number   = number
-        self.customer = customer
-    }
+  let number: UInt64
+  unowned let customer: Customer
+  init (number: UInt64, customer: Customer) {
+    self.number   = number
+    self.customer = customer
+  }
 
-    deinit { print("Card #\(number) is being deinitialized") }
+  deinit { print("Card #\(number) is being deinitialized") }
 }
 
 var john: Customer?

@@ -20,8 +20,6 @@ queue.async {
 
 sleep(10000)
 
-
-//
 // let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 // dispatch_async(queue, { () -> () in
 //   var result = 0
@@ -31,4 +29,3 @@ sleep(10000)
 //
 //   println("Result = \(result)")
 // })
-

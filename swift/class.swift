@@ -3,7 +3,7 @@
 struct Point {
   var x = 0.0, y = 0.0
 
-  mutating func moveByX(deltaX: Double, y deltaY: Double) {
+  mutating func moveByX(_ deltaX: Double, y deltaY: Double) {
     self = Point(x: x + deltaX, y: y + deltaY)
   }
 }
@@ -16,9 +16,9 @@ enum TriStateSwitch {
 
   mutating func next() {
     switch self {
-      case Off : self = Low
-      case Low : self = High
-      case High: self = Off
+      case .Off : self = .Low
+      case .Low : self = .High
+      case .High: self = .Off
     }
   }
 }

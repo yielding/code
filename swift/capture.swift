@@ -3,14 +3,14 @@
 /// 
 /// the variable 'runningTotal' is captured
 ///
-func makeIncrementer(forIncment amount: Int) -> Void -> Int {
-    var runningTotal = 0
-    func incrementer() -> Int {
-        runningTotal += amount
-        return runningTotal
-    }
+func makeIncrementer(forIncment amount: Int) -> () -> Int {
+  var runningTotal = 0
+  func incrementer() -> Int {
+    runningTotal += amount
+    return runningTotal
+  }
 
-    return incrementer
+  return incrementer
 }
 
 let incByTen = makeIncrementer(forIncment: 7)

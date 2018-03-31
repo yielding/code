@@ -1,11 +1,11 @@
 #!/usr/bin/env swift
 
 class Person {
-    let name: String
-    var apartment: Apartment?
+  let name: String
+  var apartment: Apartment?
 
-    init(name: String) { self.name = name }
-    deinit { print("\(name) is being deinited") }
+  init(name: String) { self.name = name }
+  deinit { print("\(name) is being deinited") }
 }
 
 // Note
@@ -13,12 +13,12 @@ class Person {
 //  weak ref를 쓴다. unowned는 Optional이 허용되지 않는 경우 
 //
 class Apartment {
-    let unit: String
-    weak var tenant: Person?
+  let unit: String
+  weak var tenant: Person?
 
-    init(unit: String) { self.unit = unit }
-    
-    deinit { print("Apartment \(unit) is being deinited") }
+  init(unit: String) { self.unit = unit }
+
+  deinit { print("Apartment \(unit) is being deinited") }
 }
 
 var john: Person?
