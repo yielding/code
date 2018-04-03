@@ -6,23 +6,23 @@
 //   넘긴다. 그러기 위해서 한시적으로 null일 수 있는 IUO property를 사용
 //
 class Country {
-    let name: String
-    var capitalCity: City!  // '!' means implicitly unwrapped optional 
-                            // property
+  let name: String
+  var capitalCity: City!  // '!' means implicitly unwrapped optional 
+  // property
 
-    init (name: String, capitalName: String) {
-        self.name = name
-        self.capitalCity = City(name: capitalName, country: self)
-    }
+  init (name: String, capitalName: String) {
+    self.name = name
+    self.capitalCity = City(name: capitalName, country: self)
+  }
 }
 
 class City {
-    let name: String
-    unowned let country: Country
-    init (name: String, country: Country) {
-        self.name = name
-        self.country = country
-    }
+  let name: String
+  unowned let country: Country
+  init (name: String, country: Country) {
+    self.name = name
+    self.country = country
+  }
 }
 
 var country = Country(name: "Canada", capitalName: "Ottawa")

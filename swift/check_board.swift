@@ -18,7 +18,7 @@ struct CheckerBoard {
     return tempBoard
   } ()
 
-  func squareIsBlackAtRow(row: Int, column: Int) -> Bool {
+  func squareIsBlackAtRow(_ row: Int, column: Int) -> Bool {
     return boardColors[(row * 10) + column]
   }
 }

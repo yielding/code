@@ -39,7 +39,7 @@ extension Int {
 3.times { print("hello") }
 _ = 5.times { print("\($0)") }
 _ = [1.1, 2.1, 3.1].each { print("\($0)") }
-_ = [1:"kamin", 2:"gunhee", 3:"me"].each { print("\($0.0) => \($0.1)") }
+_ = [1:"kamin", 2:"gunhee", 3:"me"].each { print("\($0) => \($1)") }
  
 var arr = [UInt16](2..<10)
 _ = arr.each { print("\($0)") }
