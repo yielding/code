@@ -87,6 +87,7 @@ $LIBS = ""
 if defined? LIBS
   LIBS.split.each do |e|  
     $LIBS += case e
+             when /:c/; BOOST[:c]
              when /:t/; BOOST[:t]
              when /:s/; BOOST[:s]
              when /:f/; BOOST[:f]

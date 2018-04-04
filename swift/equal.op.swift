@@ -8,9 +8,9 @@ class Point {
     self.y = y
   }
 
-  func swap(inout oth: Point) { 
-    swapper(&self.x, b: &oth.x)
-    swapper(&self.y, b: &oth.y)
+  func swap(_ oth: inout Point) { 
+    swapper(a: &self.x, b: &oth.x)
+    swapper(a: &self.y, b: &oth.y)
   }
 
   var description: String {
@@ -22,7 +22,7 @@ func == (l: Point, r: Point) -> Bool {
   return l.x == r.x && l.y == r.y
 }
 
-func swapper<T>(inout a: T , inout b: T) {
+func swapper<T>(a: inout T , b: inout T) {
   let tmp = a; a = b; b = tmp
 }
 
