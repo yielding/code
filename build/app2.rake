@@ -78,9 +78,13 @@ end
 
 BOOST = {
   :c => " -lboost_chrono-mt",
-  :t => " -lboost_thread-mt",     :s => " -lboost_system-mt",
-  :f => " -lboost_filesystem-mt", :d => " -lboost_date_time-mt",
-  :r => " -lboost_regex-mt"
+  :d => " -lboost_date_time-mt",
+  :f => " -lboost_filesystem-mt",
+  :m => " -lboost_timer-mt",
+  :o => " -lboost_program_options-mt",
+  :r => " -lboost_regex-mt",
+  :s => " -lboost_system-mt",
+  :t => " -lboost_thread-mt"
 }
 
 $LIBS = ""
@@ -88,11 +92,13 @@ if defined? LIBS
   LIBS.split.each do |e|  
     $LIBS += case e
              when /:c/; BOOST[:c]
-             when /:t/; BOOST[:t]
-             when /:s/; BOOST[:s]
-             when /:f/; BOOST[:f]
              when /:d/; BOOST[:d]
+             when /:f/; BOOST[:f]
+             when /:m/; BOOST[:m]
+             when /:o/; BOOST[:o]
              when /:r/; BOOST[:r]
+             when /:s/; BOOST[:s]
+             when /:t/; BOOST[:t]
              else
                " -l#{e}"
              end
