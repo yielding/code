@@ -1,0 +1,15 @@
+# -*- ruby -*-
+
+APP        = "monte_carlo"
+APP_TEST   = "test_#{APP}"
+SRCS       = %W{ ./#{APP}.cpp }
+TEST_SRCS  = %W{ ./test_#{APP}.cpp } + SRCS
+CXX        = "xcrun"
+CXXFLAGS   = ":Os BOOST_COMPUTE_USE_OFFLINE_CACHE"
+LIBS       = ":c :f"
+FRAMEWORKS = "OpenCL"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+task :default => [:osx]

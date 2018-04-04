@@ -1,0 +1,17 @@
+# -*- ruby -*-
+
+APP        = "k_means"
+APP_TEST   = "test_#{APP}"
+SRCS       = %W{ ./#{APP}.cpp }
+TEST_SRCS  = %W{ ./test_#{APP}.cpp } + SRCS
+INCS       = "/usr/local/opt/opencv@2/include"
+LDFLAGS    = "/usr/local/opt/opencv@2/lib"
+CXX        = "xcrun"
+CXXFLAGS   = ":Os"
+FRAMEWORKS = "OpenCL"
+LIBS       = "gmock opencv_core opencv_imgproc opencv_highgui"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+task :default => [:osx]
