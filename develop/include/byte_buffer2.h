@@ -106,7 +106,7 @@ public:
 
 public:
   auto operator[](uint32_t index) -> uint8_t&;
-  auto operator[](uint32_t index) const -> uint8_t const;
+  auto operator[](uint32_t index) const -> uint8_t;
 
 public:
   static auto from_hexcode(std::string const& s, bool is_be=false) -> ByteBuffer2;

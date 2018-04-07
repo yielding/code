@@ -101,7 +101,7 @@ auto ByteBuffer2::operator[](uint32_t index) -> uint8_t&
   return m_data[m_begin + index];
 }
 
-auto ByteBuffer2::operator[](uint32_t index) const -> uint8_t const
+auto ByteBuffer2::operator[](uint32_t index) const -> uint8_t
 {
   check_offset(index);
 
@@ -613,7 +613,7 @@ auto ByteBuffer2::last(int amount) const -> ByteBuffer2
 
 auto ByteBuffer2::starts_with(string const& str) const -> bool
 {
-  if (str.length() > m_count)
+  if ((int)str.length() > m_count)
     throw out_of_range("array out of index");
     
   auto len = str.length();
