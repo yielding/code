@@ -1,0 +1,231 @@
+namespace com.facebook.contacts.omnistore.flatbuffer;
+
+enum SubscribeStatus : byte {
+  INVALID,
+  CANNOT_SUBSCRIBE,
+  IS_SUBSCRIBED,
+  CAN_SUBSCRIBE
+}
+
+enum FriendshipStatus : byte {
+  INVALID,
+  CANNOT_REQUEST,
+  ARE_FRIENDS,
+  INCOMING_REQUEST,
+  OUTGOING_REQUEST,
+  CAN_REQUEST
+}
+
+enum StructuredNamePart : byte {
+  invalid,
+  first,
+  middle,
+  last
+}
+
+struct Vect2 {
+  x:float;
+  y:float;
+}
+
+enum ContactConnectionStatus : byte {
+  INVALID,
+  CONNECTED,
+  NO_CONNECTION,
+  CANNOT_ADD_AS_CONTACT
+}
+
+enum ContactAddSource : byte {
+  INVALID,
+  MESSENGER,
+  PHONE_NUMBER,
+  CONTACT_SUGGESTION,
+  SEARCH_ADD_CONTACT_FLOW,
+  NORMAL_ACCOUNT_ADD_CONTACTS_FLOW,
+  AUTO_ADD_FOR_MESSENGER_ONLY,
+  AUTO_ADD_INSTAGRAM_MATCH_FLOW,
+  MESSENGER_FROM_USER_TO_USER_MIGRATION,
+  MESSAGE_REQUEST,
+  MESSAGE_SEND,
+  PEOPLE_TAB,
+  INVITE_CONVERSION,
+  FACEBOOK_FRIENDSHIP,
+  DELAYED_PHONE_NUMBER_MATCH,
+  ALOHA_AUTO_ADD,
+  SINGLE_PHONE_NUMBER,
+  ADDRESS_BOOK_SYNC,
+  TEST,
+  PARENT_APPROVAL,
+  MENTORSHIP_MATCH,
+}
+
+table SquareImage {
+ uri:string;
+ width:int;
+}
+
+table Image {
+  uri:string;
+  width:int;
+  height:int;
+}
+
+table Photo {
+  imageLowRes:Image;
+  imageMidRes:Image;
+  imageHighRes:Image;
+}
+
+table CoverPhoto {
+  focus:Vect2;
+  photo:Photo;
+}
+
+table PhoneNumber {
+  display_number:string;
+  universal_number:string;
+}
+
+table TextWithEntities {
+  text:string;
+}
+
+table ContactField {
+  id:string;
+  label:string;
+  value:TextWithEntities;
+  phone:PhoneNumber;
+}
+
+table ContactEntry {
+  is_verified:bool;
+  primary_field:ContactField;
+}
+
+table NamePart {
+  part:StructuredNamePart;
+  offset:int;
+  length:int;
+}
+
+table Name {
+  parts:[NamePart];
+  text:string;
+}
+
+table Date {
+  day:int;
+  month:int;
+}
+
+table City {
+  name:string;
+}
+
+table ProfileType {
+  name:string;
+}
+
+table InstagramUserV2 {
+  instagram_user_id:string;
+  username:string;
+}
+
+table AlohaProxyUserOwner {
+  id:string;
+  aloha_user_structured_name:Name;
+}
+
+table AlohaProxyUserOwnerEdge {
+  node: AlohaProxyUserOwner;
+}
+
+table AlohaProxyUserOwnersConnection {
+  edges:[AlohaProxyUserOwnerEdge];
+}
+
+table School {
+  name:string;
+}
+
+table Employer {
+  name:string;
+}
+
+table UserWorkExperience {
+  employer:Employer;
+  is_current:bool;
+}
+
+table UserWorkExperiencesConnection {
+  nodes:[UserWorkExperience];
+}
+
+table FamilyMember {
+  id:string;
+}
+
+table UserFamilyRelationship {
+  user:FamilyMember;
+}
+
+table UserFamilyRelationshipsConnection {
+  nodes:[UserFamilyRelationship];
+}
+
+table Actor {
+  id:string;
+  profile_type:ProfileType;
+  birthdate:Date;
+  current_city:City;
+  communicationRank:float;
+  withTaggingRank:float;
+  can_viewer_message:bool;
+  is_mobile_pushable:bool;
+  is_messenger_user:bool;
+  messenger_install_time:long;
+  is_memorialized:bool;
+  subscribe_status:SubscribeStatus;
+  friendship_status:FriendshipStatus;
+  cover_photo:CoverPhoto;
+  name_search_tokens:[string];
+  is_partial:bool;
+  phatRank:float;
+  username:string;
+  is_broadcast_recipient_holdout:bool;
+  messenger_connected_instagram_account:InstagramUserV2;
+  is_aloha_proxy_confirmed:bool;
+  aloha_proxy_user_owners:AlohaProxyUserOwnersConnection;
+  messenger_invite_priority:float;
+  is_message_blocked_by_viewer:bool;
+  montage_thread_fbid:string;
+  can_see_viewer_montage_thread:bool;
+  messenger_broadcast_flow_eligible:bool;
+  is_message_ignored_by_viewer:bool;
+  favorite_color:string;
+  current_education:School;
+  work_experiences:UserWorkExperiencesConnection;
+  family_relationships:UserFamilyRelationshipsConnection;
+  is_viewer_managing_parent:bool;
+}
+
+table Contact {
+  id:string;
+  graph_api_write_id:string;
+  represented_profile:Actor;
+  structured_name:Name;
+  phonetic_name:Name;
+  imported_phone_entries:[ContactEntry];
+  is_on_viewer_contact_list:bool;
+  name_entries:[ContactEntry];
+  added_time:long;
+  smallPictureUrl:SquareImage;
+  bigPictureUrl:SquareImage;
+  hugePictureUrl:SquareImage;
+  can_viewer_send_money:bool;
+  is_memorialized:bool;
+  viewer_connection_status:ContactConnectionStatus;
+  add_source:ContactAddSource;
+}
+
+root_type Contact;
