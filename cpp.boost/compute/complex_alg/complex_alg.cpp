@@ -52,7 +52,7 @@ int main()
 					compute::plus<float>(),
 					queue);
 
-      auto end = chrono::high_resolution_clock::now() 
+      auto end = chrono::high_resolution_clock::now();
 			auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
 			cout << "ans: "  << ans << endl;
 			cout << "time: " << duration.count() << " ms" << endl;

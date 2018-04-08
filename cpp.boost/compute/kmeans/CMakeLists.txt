@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.11)
 
 set(CMAKE_CXX_STANDARD 17)
 
-INCLUDE_DIRECTORIES(/usr/local/opt/opencv@2/include /usr/local/include)
+INCLUDE_DIRECTORIES(/usr/local/opt/opencv@3/include /usr/local/include)
 
-LINK_DIRECTORIES(/usr/local/opt/opencv@2/lib )
+LINK_DIRECTORIES(/usr/local/opt/opencv@3/lib )
 
 FIND_LIBRARY(OPENCL OpenCL)
 

@@ -45,8 +45,7 @@ end
 MVM     = "/Users/yielding/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
-$INCS  = " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
-$INCS += " -I/Users/yielding/code/develop/vendor/include"
+$INCS = " -I/Users/yielding/code/develop/vendor/include"
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
@@ -59,7 +58,9 @@ if defined? INCS
   end
 end
 
-$LDFLAGS = " -L. -L/usr/local/lib -L/Users/yielding/code/develop/lib -L/Users/yielding/code/develop/vendor/lib"
+$INCS += " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
+
+$LDFLAGS = ""
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
     sdk_path = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
@@ -75,6 +76,8 @@ if defined? LDFLAGS
     $LDFLAGS += flag
   end
 end
+
+$LDFLAGS += " -L. -L/usr/local/lib -L/Users/yielding/code/develop/lib -L/Users/yielding/code/develop/vendor/lib"
 
 BOOST = {
   :c => " -lboost_chrono-mt",
