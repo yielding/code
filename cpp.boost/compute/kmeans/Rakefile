@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-APP        = "k_means"
+APP        = "kmeans"
 APP_TEST   = "test_#{APP}"
 SRCS       = %W{ ./#{APP}.cpp }
 TEST_SRCS  = %W{ ./test_#{APP}.cpp } + SRCS

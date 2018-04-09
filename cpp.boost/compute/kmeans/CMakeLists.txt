@@ -10,4 +10,4 @@ FIND_LIBRARY(OPENCL OpenCL)
 
 LINK_LIBRARIES(opencv_core opencv_imgproc opencv_highgui ${OPENCL})
 
-ADD_EXECUTABLE(k_means k_means.cpp)
+ADD_EXECUTABLE(kmeans kmeans.cpp)
