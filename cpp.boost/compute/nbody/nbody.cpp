@@ -226,8 +226,11 @@ int main(int argc, char** argv)
     return 0;
   }
 
-  const uint_ particles = vm["particles"].as<uint_>();
-  const float dt = vm["dt"].as<float>();
+  // const uint_ particles = vm["particles"].as<uint_>();
+  // const float dt = vm["dt"].as<float>();
+
+  const uint_ particles = 1500;
+  const float dt = 0.0005f;
 
   QApplication app(argc, argv);
   NBodyWidget nbody(particles, dt);
