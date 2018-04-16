@@ -3,8 +3,8 @@
 #include <boost/compute/core.hpp>
 #include <boost/compute/utility/source.hpp>
 
-namespace compute = boost::compute;
 using namespace std;
+      namespace compute = boost::compute;
 
 int main(int argc, char *argv[])
 {
@@ -50,7 +50,6 @@ int main(int argc, char *argv[])
                   << c[1] << ", "
                   << c[2] << ", "
                   << c[3] << "] " << endl;
-                  
 
   return 0;
 }
