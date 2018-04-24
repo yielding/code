@@ -1,19 +1,19 @@
 #include <istream>
 #include <cstdint>
 
-namespace util {
+namespace util::file {
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-bool file_exists(std::string const& path);
-auto file_exists(char const* path) -> bool;
+bool exists(std::string const& path);
+auto exists(char const* path) -> bool;
 
-auto file_size(const char* filename) -> long;
-auto file_size(std::ifstream& in) -> long;
+auto size(const char* filename) -> long;
+auto size(std::ifstream& in) -> long;
 
-auto file_read(std::istream& in, long offset, int size) -> std::uint8_t*;
+auto read(std::istream& in, long offset, int size) -> std::uint8_t*;
 
 ////////////////////////////////////////////////////////////////////////////////
 //

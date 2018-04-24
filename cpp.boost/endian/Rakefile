@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "endian"
+SRC       = "endian2"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"

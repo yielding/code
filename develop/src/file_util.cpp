@@ -1,31 +1,32 @@
+#include <boost/endian/buffers.hpp>
 #include <fstream>
 
 using namespace std;
 
-namespace util {
+namespace util::file {
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-bool file_exists(string const& path)
+bool exists(string const& path)
 {
   return ifstream{path}.good();
 }
 
-bool file_exists(char const* path)
+bool exists(char const* path)
 {
   return ifstream{path}.good();
 }
 
-auto file_size(const char* filename) -> long
+auto size(const char* filename) -> long
 {
   ifstream ifs(filename, ios::ate | ios::binary);
 
   return long(ifs.tellg());
 }
 
-auto file_size(ifstream& ifs) -> long
+auto size(ifstream& ifs) -> long
 {
   if (!ifs.good())
     return 0;
@@ -39,13 +40,22 @@ auto file_size(ifstream& ifs) -> long
   return long(result);
 }
 
-auto file_read(std::istream& in, long offset, int size) -> uint8_t*
+auto read(std::istream& in, long offset, int size) -> uint8_t*
 {
   in.seekg(offset);
   auto buffer = new uint8_t[size];
   in.read((char*)buffer, size);
 
   return buffer;
+}
+
+auto uint4_be(std::istream& in, long offset) -> uint32_t
+{
+  in.seekg(offset);
+  uint32_t result;
+  in.read(reinterpret_cast<char*>(&result), sizeof(uint32_t));
+  
+  return boost::endian::endian_reverse(uint32_t(result));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
