@@ -49,12 +49,19 @@ auto read(std::istream& in, long offset, int size) -> uint8_t*
   return buffer;
 }
 
+auto read_uint4_le(std::istream& in, long offset) -> uint32_t
+{
+  uint32_t result;
+  
+  in.seekg(offset);
+  in.read(reinterpret_cast<char*>(&result), sizeof(uint32_t));
+  return result;
+}
+  
 auto read_uint4_be(std::istream& in, long offset) -> uint32_t
 {
-  in.seekg(offset);
-  uint32_t result;
-  in.read(reinterpret_cast<char*>(&result), sizeof(uint32_t));
-  
+  auto result = read_uint4_le(in, offset);
+
   return boost::endian::endian_reverse(uint32_t(result));
 }
 
