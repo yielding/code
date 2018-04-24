@@ -49,7 +49,7 @@ auto read(std::istream& in, long offset, int size) -> uint8_t*
   return buffer;
 }
 
-auto uint4_be(std::istream& in, long offset) -> uint32_t
+auto read_uint4_be(std::istream& in, long offset) -> uint32_t
 {
   in.seekg(offset);
   uint32_t result;
