@@ -55,6 +55,7 @@ auto read_uint4_le(std::istream& in, long offset) -> uint32_t
   
   in.seekg(offset);
   in.read(reinterpret_cast<char*>(&result), sizeof(uint32_t));
+  
   return result;
 }
   
