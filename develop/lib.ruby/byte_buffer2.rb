@@ -29,8 +29,11 @@
 =end
 
 class Numeric
-  def get_varint
+  def to_hex
+    "0x#{self.to_s(16)}"
+  end
 
+  def get_varint
     val = self
     res, buf = [0] * 10, [0] * 10
     #
@@ -89,7 +92,7 @@ class ByteBuffer2
   end
 
   def size
-    @buffer.size 
+   buffer.size 
   end
 
   def remained_size
@@ -155,7 +158,7 @@ class ByteBuffer2
   def get_string_length(delim)
     for index in @pos...@limit
       return index - @pos if @buffer[index] == delim
-    end
+		end
 
     -1
   end
