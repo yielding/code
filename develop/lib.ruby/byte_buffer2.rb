@@ -247,7 +247,7 @@ class ByteBuffer2
   end
 
   def get_uint4_be(at: -1)
-    rbhere = advance(at, 4)
+    here = advance(at, 4)
     arr = @buffer[here..here+3]
     arr.pack("C*").unpack("N")[0]
   end
