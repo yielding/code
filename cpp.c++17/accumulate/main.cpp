@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
 
   auto product = accumulate(v.begin(), v.end(), 1, multiplies<int>());
 
+  // clusure의 인자를 잘 봐야한다.
+  // http://en.cppreference.com/w/cpp/algorithm/accumulate
   auto s = accumulate(next(v.begin()), v.end(), 
       to_string(v[0]),
       [](string a, int b) { return a + '-' + to_string(b); }
