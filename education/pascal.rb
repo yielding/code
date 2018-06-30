@@ -17,13 +17,15 @@ class Pascal
   end
   
   def line_of(row)
-    res = ""; 1.upto(row) {|col| res += sprintf("%6d", value_of(row, col)) }
+    res = ""; 1.upto(row) { |col| res += sprintf("%6d", value_of(row, col)) }
     res
   end
   
   def lines_upto(row)
     res = ""; 1.upto(row) { |r| res += " " * (row-r)*3 + line_of(r) + "\n" }
     res
+  end
+
   end
 end
 

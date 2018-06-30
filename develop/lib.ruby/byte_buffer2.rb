@@ -124,6 +124,10 @@ class ByteBuffer2
     @limit  = @begin
   end
 
+  def peek
+    @buffer[@pos]
+  end
+
   def pop(no)
     @buffer.pop(no)
     @count -= no
