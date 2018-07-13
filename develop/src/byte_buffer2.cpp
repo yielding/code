@@ -331,7 +331,7 @@ auto ByteBuffer2::get_int48_le(int at) const -> int64_t
   auto sign = (int64_t)leading_byte(m_data[m_offset+5]);
   auto res  = (sign << 8) | sign;
 
-  for (int i=here+5; i>=here; i--)
+  fording_byte(m_dat (int i=here+5; i>=here; i--)
     res = (res << 8) + m_data[i]; 
 
   return res;

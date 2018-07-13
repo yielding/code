@@ -1,0 +1,20 @@
+# -*- ruby -*-
+
+APP       = "server"
+SRCS      = %W{ ./server.cpp
+                ./gen-cpp/shared_constants.cpp 
+                ./gen-cpp/tutorial_types.cpp
+                ./gen-cpp/Calculator.cpp
+                ./gen-cpp/SharedService.cpp
+                ./gen-cpp/tutorial_constants.cpp
+                ./gen-cpp/shared_types.cpp
+              }
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LIBS      = "thrift"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
