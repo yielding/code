@@ -43,8 +43,7 @@ void init_TestClass(mrb_state* mrb)
   TestClass = mrb_define_class(mrb, "Test", mrb->object_class);
   MRB_SET_INSTANCE_TT(TestClass, MRB_TT_CLASS);
   mrb_define_method(mrb, TestClass, "initialize", test_init, MRB_ARGS_NONE());
-  mrb_define_method(mrb, TestClass, "run", test_run, MRB_ARGS_NONE());
-}
+  mrb_define_method(mrb, TestClass, "run", test_run, MRB_ARGS_NONE()); }
 
 static void
 p(mrb_state *mrb, mrb_value obj, int prompt)
