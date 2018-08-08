@@ -9,7 +9,7 @@ struct vector_printer
     : boost::static_visitor<std::string>
 {
     template <typename T>
-    std::string operator()(const std::vector<T>& vec) const
+    auto operator()(const std::vector<T>& vec) const -> std::string 
     {
         std::ostringstream ost;
 
@@ -17,7 +17,7 @@ struct vector_printer
 
         typename std::vector<T>::const_iterator it = vec.begin();
         for (; it != vec.end(); ++it)
-            ost << boost::apply_visitor( vector_printer(), *it );
+            ost << boost::apply_visitor(vector_printer(), *it);
 
         ost << ") ";
 
@@ -25,7 +25,7 @@ struct vector_printer
     }
 
     template <typename T>
-    std::string operator()(const T& operand) const
+    auto operator()(const T& operand) const -> std::string
     {
         std::ostringstream ost;
         ost << operand << ' ';
