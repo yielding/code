@@ -20,10 +20,12 @@ struct add_f
     return a + b;
   }
 };
- 
+
 int main(int argc, char *argv[])
 {
-  auto result = ApplyAndSum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, add_f());
+  auto sub_f  = [](int a, int b) { return a - b; };
+
+  auto result = ApplyAndSum(1, 2, add_f(), sub_f);
 
   std::cout << result << std::endl;
 

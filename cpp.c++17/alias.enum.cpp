@@ -20,7 +20,8 @@ toUType(E enumerator) noexcept {
   return static_cast<underlying_type_t<E>>(enumerator);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) 
+{
   user_info i{"lee", "lee@gmail.com", 12};
 
   auto val = get<toUType(user_info_fields::uiEmail)>(i);
