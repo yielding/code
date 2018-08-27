@@ -22,6 +22,4 @@ int main()
   // optional-returning factory functions are usable as conditions of while and if
   if (auto str = create(true))
     cout << "create(true) returned " << *str << '\n';
-
-  return 0;
 }
