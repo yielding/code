@@ -82,7 +82,9 @@ class Sum < Expression
 end
 
 class Bank
-  def initialize @rates = Hash.new("currency rate") end
+  def initialize 
+    @rates = Hash.new("currency rate") 
+  end
 
   def reduce(source, to)
     source.reduce(self, to)
@@ -93,8 +95,7 @@ class Bank
   end
 
   def rate(from, to)
-    return 1 if from == to
-
+    return 1 if from == to 
     rate = @rates[Pair.new(from, to)]
     rate.to_i
   end

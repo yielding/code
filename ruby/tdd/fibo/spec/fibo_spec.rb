@@ -16,8 +16,6 @@ describe Fibo do
     expect(@book.title).to eq("The RSpec Book")
   end
 
-  # silver bullet
-  
   it "spec_name" do
     die = double("die")
     allow(die).to receive(:roll).and_return(1,2,3)
