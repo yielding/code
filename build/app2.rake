@@ -69,6 +69,7 @@ if defined? LDFLAGS
            when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
            when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
            when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby"
+           when /:smvm/  ;" -L#{MVM}/build/host/lib -l:mruby.dylib"
            else
              " -L#{e}"
            end
@@ -106,6 +107,11 @@ if defined? LIBS
                " -l#{e}"
              end
   end
+end
+
+$SLIBS = ""
+if defined? SLIBS
+  SLIBS.split.each { |e| $SLIBS += " #{e}" }
 end
 
 $FRAMEWORKS = ""
@@ -198,7 +204,7 @@ class Builder
     if should_link? app, objs
       case os
       when :osx
-        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS}"
+        sh "#{$CXX} -o #{app} #{objs_os_o} #{$LDFLAGS} #{$FRAMEWORKS} #{$LIBS} #{$SLIBS}"
       end
     end
   end
