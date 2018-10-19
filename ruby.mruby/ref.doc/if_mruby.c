@@ -70,7 +70,7 @@ mruby_end()
     mrb = NULL;
   }
 }
-
+//
 static mrb_value
 eval_string(const char *str)
 {
