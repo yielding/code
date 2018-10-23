@@ -1,5 +1,5 @@
 # REMARK
-  - The items "DONE" are all the elements that will be used for script embedding.
+  - The items "DONE" are all the elements that will be used for script embedding.\
     completed well.
 
 # TODO

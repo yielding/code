@@ -9,3 +9,5 @@ CXX       = "xcrun"           # c++0x, clang++, blank
 CXXFLAGS  = ":v"              # :d , :O0 :O3
 
 load '~/code/build/app2.rake'
+
+task :default => [:osx]
