@@ -4,7 +4,7 @@
 #include <QtWidgets>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QWidget(parent)
+  : QWidget(parent)
 {
   renderArea = new RenderArea(this);
 
@@ -15,8 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
   penWidthLabel = new QLabel(tr("펜 굵기"));
   penWidthLabel->setBuddy(penWidthSpinBox);
 
-  resetButton = new QPushButton(tr("&Reset"));
-  darwButton  = new QPushButton(tr("&Draw"));
+  resetButton = new QPushButton(tr("초기화"));
+  darwButton  = new QPushButton(tr("그리기"));
 
   // connect
   connect(penWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(penChanged()));
