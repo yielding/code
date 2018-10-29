@@ -29,8 +29,7 @@ QMAKE_CXXFLAGS_WARN_ON -= Wno-unused-parameter
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    renderarea.cpp \
-    jarvis_march.cpp
+    renderarea.cpp
 
 HEADERS += \
         mainwindow.h \

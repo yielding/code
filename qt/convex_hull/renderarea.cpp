@@ -138,14 +138,15 @@ void RenderArea::mouseReleaseEvent(QMouseEvent*)
 void RenderArea::mouseMoveEvent(QMouseEvent* event)
 {
   // REMARK
-  // 아래 codeㅇ에서 오류가 나는 경우가 있었다. access violation error
+
   if (selected != points.end())
   {
     auto index = distance(points.begin(), selected);
-    if (index < points.size())
+    if (index >=0 && index < (int)points.size())
     {
-      points[index].x = event->x();
-      points[index].y = event->y();
+      points[index].x = int(event->x());
+      points[index].y = int(event->y());
+
       update();
     }
   }
