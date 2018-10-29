@@ -104,8 +104,8 @@ struct ColorPoint
   {
     using namespace std;
 
-    return "x: "s + to_string(x) + ", " +
-           "y: "  + to_string(y);
+    return string("x: ") + to_string(x) + ", " +
+                  "y: "  + to_string(y);
   }
 
   int x;

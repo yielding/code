@@ -63,13 +63,19 @@ void RenderArea::findHull()
 
 void RenderArea::paintEvent(QPaintEvent*)
 {
-  QPainter painter(this);
-
-  if (poly_mode)
+  try
+  {
+    QPainter painter(this);
+    
+    if (poly_mode)
       drawHull(painter);
-
-  for (auto& point: points)
-    drawPoint(painter, point);
+    
+    for (auto& point: points)
+      drawPoint(painter, point);
+  }
+  catch (...)
+  {
+  }
 }
 
 void RenderArea::drawHull(QPainter& painter)
@@ -124,20 +130,24 @@ void RenderArea::mousePressEvent(QMouseEvent* event)
   update();
 }
 
-void RenderArea::mouseReleaseEvent(QMouseEvent* event)
+void RenderArea::mouseReleaseEvent(QMouseEvent*)
 {
-  if (event->button() == Qt::LeftButton)
-    selected = points.end();
+  selected = points.end();
 }
 
 void RenderArea::mouseMoveEvent(QMouseEvent* event)
 {
+  // REMARK
+  // 아래 codeㅇ에서 오류가 나는 경우가 있었다. access violation error
   if (selected != points.end())
   {
-     auto index = distance(points.begin(), selected);
-     points[index].x = event->x();
-     points[index].y = event->y();
-     update();
+    auto index = distance(points.begin(), selected);
+    if (index < points.size())
+    {
+      points[index].x = event->x();
+      points[index].y = event->y();
+      update();
+    }
   }
 }
 
