@@ -52,13 +52,13 @@ void RenderArea::clearArea()
 
 void RenderArea::findHull()
 {
-    if (points.size() > 0)
-    {
-      poly_mode = true;
-      hull.compute_hull(points);
-      points.swap(hull.points);
-      update();
-    }
+  if (points.size() > 0)
+  {
+    poly_mode = true;
+    hull.compute_hull(points);
+    points.swap(hull.points);
+    update();
+  }
 }
 
 void RenderArea::paintEvent(QPaintEvent*)
