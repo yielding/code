@@ -29,6 +29,7 @@ public:
 
   auto minimumSizeHint() const -> QSize override;
   auto sizeHint() const -> QSize override;
+  auto numberOfPoint(int count) -> void;
 
 public slots:
   void setPen(const QPen& pen);
@@ -44,6 +45,7 @@ protected:
 
 private:
   auto randomColor() -> QColor;
+  auto randomPoint() -> ColorPoint<QColor>;
   void drawPoint(QPainter& paitnter, const Point& point);
   void drawHull(QPainter& paitnter);
 
@@ -55,6 +57,7 @@ private:
   std::vector<Point>::iterator selected;
   JarvisMarch<QColor> hull;
   bool poly_mode = false;
+  int  count {1};
 };
 
 #endif // RENDERAREA_H

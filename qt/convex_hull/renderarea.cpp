@@ -31,6 +31,11 @@ auto RenderArea::sizeHint() const -> QSize
   return QSize(600, 1000);
 }
 
+void RenderArea::numberOfPoint(int count)
+{
+  this->count = count;
+}
+
 void RenderArea::setPen(const QPen& pen)
 {
   this->pen = pen;
@@ -125,7 +130,15 @@ void RenderArea::mousePressEvent(QMouseEvent* event)
                      [&](auto& p) { return p.located_near(x, y, SZ); });
 
   if (selected == points.end())
+  {
     points.emplace_back(x, y, randomColor());
+
+    for (int i=0; i<count-1; i++)
+    {
+      auto point = randomPoint();
+      points.emplace_back(point.x, point.y, point.color);
+    }
+  }
 
   update();
 }
@@ -147,9 +160,18 @@ void RenderArea::mouseMoveEvent(QMouseEvent* event)
       points[index].x = int(event->x());
       points[index].y = int(event->y());
 
-      update();
+
     }
   }
+}
+
+auto RenderArea::randomPoint() -> ColorPoint<QColor>
+{
+  auto c = randomColor();
+  auto x = rand() % (this->width()  - 20) + 10;
+  auto y = rand() % (this->height() - 20) + 10;
+
+  return ColorPoint<QColor>(x, y, c);
 }
 
 auto RenderArea::randomColor() -> QColor

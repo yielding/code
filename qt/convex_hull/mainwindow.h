@@ -18,6 +18,7 @@ public:
   ~MainWindow();
 
 private slots:
+  void numberChanged();
   void penChanged();
   void brushChanged();
   void resetClicked();

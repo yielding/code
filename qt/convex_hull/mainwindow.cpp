@@ -9,17 +9,17 @@ MainWindow::MainWindow(QWidget *parent)
   renderArea = new RenderArea(this);
 
   penWidthSpinBox = new QSpinBox;
-  penWidthSpinBox->setRange(0, 20);
-  penWidthSpinBox->setSpecialValueText(tr("0 (cosmetic pen)"));
+  penWidthSpinBox->setRange(1, 20);
+  // penWidthSpinBox->setSpecialValueText(tr("0 (cosmetic pen)"));
 
-  penWidthLabel = new QLabel(tr("펜 굵기"));
+  penWidthLabel = new QLabel(tr("점 개수"));
   penWidthLabel->setBuddy(penWidthSpinBox);
 
   resetButton = new QPushButton(tr("초기화"));
   darwButton  = new QPushButton(tr("그리기"));
 
   // connect
-  connect(penWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(penChanged()));
+  connect(penWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(numberChanged()));
   connect(resetButton,     SIGNAL(clicked()), this, SLOT(resetClicked()));
   connect(darwButton,      SIGNAL(clicked()), this, SLOT(drawClicked()));
 
@@ -38,6 +38,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::numberChanged()
+{
+  auto count = penWidthSpinBox->value();
+  renderArea->numberOfPoint(count);
 }
 
 void MainWindow::penChanged()
