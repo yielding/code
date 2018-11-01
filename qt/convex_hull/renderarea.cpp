@@ -160,7 +160,7 @@ void RenderArea::mouseMoveEvent(QMouseEvent* event)
       points[index].x = int(event->x());
       points[index].y = int(event->y());
 
-
+      update();
     }
   }
 }
