@@ -9,10 +9,10 @@
 #include <QBrush>
 
 #include <vector>
-
 class QPen;
 class QBrush;
 class QPainterPath;
+class QAction;
 
 // TODO
 // find graceful way
@@ -37,17 +37,25 @@ public slots:
   void clearArea();
   void findHull();
 
+private slots:
+  void selectBgColor(const QPoint&);
+  void changeBgColor(QColor color);
+
 protected:
   auto paintEvent(QPaintEvent* event) -> void override;
   auto mousePressEvent(QMouseEvent* event) -> void override;
   auto mouseReleaseEvent(QMouseEvent* event) -> void override;
   auto mouseMoveEvent(QMouseEvent* event) -> void override;
+  // auto contextMenuEvent(QContextMenuEvent* event) -> void override;
 
 private:
   auto randomColor() -> QColor;
   auto randomPoint() -> ColorPoint<QColor>;
   void drawPoint(QPainter& paitnter, const Point& point);
   void drawHull(QPainter& paitnter);
+
+private:
+  QAction *bgColorAction;
 
 private:
   QPen pen;

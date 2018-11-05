@@ -3,7 +3,10 @@
 
 #include <QPainter>
 #include <QPainterPath>
+#include <QColorDialog>
 #include <QMouseEvent>
+#include <QMenu>
+#include <QAction>
 
 #include <ctime>
 #include <cstdlib>
@@ -18,7 +21,13 @@ RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
   setAutoFillBackground(true);
 
   selected = points.end();
-  srand(time(nullptr));
+  srand(static_cast<unsigned>(time(nullptr)));
+
+  bgColorAction = new QAction("&bgColor", this);
+
+  this->setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
+          this, SLOT(selectBgColor(const QPoint&)));
 }
 
 auto RenderArea::minimumSizeHint() const -> QSize
@@ -64,6 +73,29 @@ void RenderArea::findHull()
     points.swap(hull.points);
     update();
   }
+}
+
+void RenderArea::selectBgColor(const QPoint& pos)
+{
+  QMenu contextMenu(tr("바탕색"), this);
+
+  QAction a1("파랑색", this);
+  connect(&a1, &QAction::triggered, this, [this] { changeBgColor(Qt::blue); });
+  contextMenu.addAction(&a1);
+
+  QAction a2("흰색", this);
+  connect(&a2, &QAction::triggered, this, [this] { changeBgColor(Qt::white); });
+  contextMenu.addAction(&a2);
+
+  contextMenu.exec(mapToGlobal(pos));
+}
+
+void RenderArea::changeBgColor(QColor color)
+{
+  auto pal = palette();
+  pal.setColor(QPalette::Background, color);
+  setPalette(pal);
+  setAutoFillBackground(true);
 }
 
 void RenderArea::paintEvent(QPaintEvent*)
@@ -127,7 +159,7 @@ void RenderArea::mousePressEvent(QMouseEvent* event)
   auto y = event->y();
 
   selected = find_if (points.begin(), points.end(),
-                     [&](auto& p) { return p.located_near(x, y, SZ); });
+                      [&](auto& p) { return p.located_near(x, y, SZ); });
 
   if (selected == points.end())
   {
@@ -150,8 +182,6 @@ void RenderArea::mouseReleaseEvent(QMouseEvent*)
 
 void RenderArea::mouseMoveEvent(QMouseEvent* event)
 {
-  // REMARK
-
   if (selected != points.end())
   {
     auto index = distance(points.begin(), selected);
@@ -164,6 +194,10 @@ void RenderArea::mouseMoveEvent(QMouseEvent* event)
     }
   }
 }
+
+//void RenderArea::contextMenuEvent(QContextMenuEvent *event)
+//{
+//}
 
 auto RenderArea::randomPoint() -> ColorPoint<QColor>
 {
