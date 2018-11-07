@@ -23,8 +23,6 @@ RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
   selected = points.end();
   srand(static_cast<unsigned>(time(nullptr)));
 
-  bgColorAction = new QAction("&bgColor", this);
-
   this->setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
           this, SLOT(selectBgColor(const QPoint&)));
@@ -194,10 +192,6 @@ void RenderArea::mouseMoveEvent(QMouseEvent* event)
     }
   }
 }
-
-//void RenderArea::contextMenuEvent(QContextMenuEvent *event)
-//{
-//}
 
 auto RenderArea::randomPoint() -> ColorPoint<QColor>
 {

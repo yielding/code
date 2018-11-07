@@ -55,9 +55,6 @@ private:
   void drawHull(QPainter& paitnter);
 
 private:
-  QAction *bgColorAction;
-
-private:
   QPen pen;
   QBrush brush;
 
