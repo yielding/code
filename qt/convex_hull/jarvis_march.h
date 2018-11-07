@@ -74,7 +74,7 @@ private:
 
 public:
   std::vector<Point> points;
-  int count;
+  typename std::vector<Point>::size_type count;
 };
 
 #endif // JARVIS_MARCH_H

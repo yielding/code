@@ -117,11 +117,10 @@ void RenderArea::drawHull(QPainter& painter)
 {
   painter.setPen(QPen(Qt::blue, 2));
   QPainterPath path;
-  auto& ps = points;
-  for (auto i=0; i<hull.count; i++)
+  for (auto i=0ul; i<hull.count; i++)
   {
-    i == 0 ? path.moveTo(ps[i].x, ps[i].y)
-           : path.lineTo(ps[i].x, ps[i].y);
+    i == 0 ? path.moveTo(points[i].x, points[i].y)
+           : path.lineTo(points[i].x, points[i].y);
   }
 
   path.closeSubpath();
@@ -182,8 +181,8 @@ void RenderArea::mouseMoveEvent(QMouseEvent* event)
 {
   if (selected != points.end())
   {
-    auto index = distance(points.begin(), selected);
-    if (index >=0 && index < (int)points.size())
+    auto index = static_cast<unsigned long>(distance(points.begin(), selected));
+    if (index < points.size())
     {
       points[index].x = int(event->x());
       points[index].y = int(event->y());
