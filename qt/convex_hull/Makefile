@@ -14,7 +14,7 @@ CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefau
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.10 -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -stdlib=libc++ -O2 -std=c++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.10 -Wall -W -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -stdlib=libc++ -O2 -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.10 -Wall -W -fPIC $(DEFINES)
 INCPATH       = -I. -I../../../Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers -I../../../Qt/5.10.1/clang_64/lib/QtGui.framework/Headers -I../../../Qt/5.10.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AGL.framework/Headers -I../../../Qt/5.10.1/clang_64/mkspecs/macx-clang -F/Users/yielding/Qt/5.10.1/clang_64/lib
 QMAKE         = /Users/yielding/Qt/5.10.1/clang_64/bin/qmake
 DEL_FILE      = rm -f
@@ -52,13 +52,11 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		mainwindow.cpp \
-		renderarea.cpp \
-		jarvis_march.cpp moc_mainwindow.cpp \
+		renderarea.cpp moc_mainwindow.cpp \
 		moc_renderarea.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		renderarea.o \
-		jarvis_march.o \
 		moc_mainwindow.o \
 		moc_renderarea.o
 DIST          = ../../../Qt/5.10.1/clang_64/mkspecs/features/spec_pre.prf \
@@ -219,6 +217,7 @@ DIST          = ../../../Qt/5.10.1/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.10.1/clang_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.10.1/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../../Qt/5.10.1/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.10.1/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.10.1/clang_64/mkspecs/features/mac/sdk.prf \
 		../../../Qt/5.10.1/clang_64/mkspecs/features/toolchain.prf \
@@ -250,8 +249,7 @@ DIST          = ../../../Qt/5.10.1/clang_64/mkspecs/features/spec_pre.prf \
 		jarvis_march.h \
 		color_point.h main.cpp \
 		mainwindow.cpp \
-		renderarea.cpp \
-		jarvis_march.cpp
+		renderarea.cpp
 QMAKE_TARGET  = convex_hull
 DESTDIR       = 
 TARGET        = convex_hull.app/Contents/MacOS/convex_hull
@@ -427,6 +425,7 @@ Makefile: convex_hull.pro ../../../Qt/5.10.1/clang_64/mkspecs/macx-clang/qmake.c
 		../../../Qt/5.10.1/clang_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.10.1/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../../Qt/5.10.1/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.10.1/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.10.1/clang_64/mkspecs/features/mac/sdk.prf \
 		../../../Qt/5.10.1/clang_64/mkspecs/features/toolchain.prf \
@@ -616,6 +615,7 @@ Makefile: convex_hull.pro ../../../Qt/5.10.1/clang_64/mkspecs/macx-clang/qmake.c
 ../../../Qt/5.10.1/clang_64/mkspecs/features/qt_config.prf:
 ../../../Qt/5.10.1/clang_64/mkspecs/macx-clang/qmake.conf:
 ../../../Qt/5.10.1/clang_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../Qt/5.10.1/clang_64/mkspecs/features/exclusive_builds.prf:
 ../../../Qt/5.10.1/clang_64/mkspecs/features/mac/sdk.prf:
 ../../../Qt/5.10.1/clang_64/mkspecs/features/toolchain.prf:
@@ -677,7 +677,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.10.1/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.h renderarea.h jarvis_march.h color_point.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp renderarea.cpp jarvis_march.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp renderarea.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -687,6 +687,7 @@ clean: compiler_clean
 
 distclean: clean 
 	-$(DEL_FILE) -r convex_hull.app
+	-$(DEL_FILE) .qmake.stash
 	-$(DEL_FILE) Makefile
 
 
@@ -706,7 +707,7 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: ../../../Qt/5.10.1/clang_64/mkspecs/features/data/dummy.cpp
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -O2 -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.10 -Wall -W -dM -E -o moc_predefs.h ../../../Qt/5.10.1/clang_64/mkspecs/features/data/dummy.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -O2 -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.10 -Wall -W -dM -E -o moc_predefs.h ../../../Qt/5.10.1/clang_64/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_renderarea.cpp
 compiler_moc_header_clean:
@@ -909,13 +910,15 @@ renderarea.o: renderarea.cpp renderarea.h \
 		../../../Qt/5.10.1/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../../../Qt/5.10.1/clang_64/lib/QtGui.framework/Headers/QPainterPath \
 		../../../Qt/5.10.1/clang_64/lib/QtGui.framework/Headers/qpainterpath.h \
+		../../../Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QColorDialog \
+		../../../Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qcolordialog.h \
 		../../../Qt/5.10.1/clang_64/lib/QtGui.framework/Headers/QMouseEvent \
-		../../../Qt/5.10.1/clang_64/lib/QtGui.framework/Headers/qevent.h
+		../../../Qt/5.10.1/clang_64/lib/QtGui.framework/Headers/qevent.h \
+		../../../Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QMenu \
+		../../../Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qmenu.h \
+		../../../Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QAction \
+		../../../Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qaction.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o renderarea.o renderarea.cpp
-
-jarvis_march.o: jarvis_march.cpp jarvis_march.h \
-		color_point.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o jarvis_march.o jarvis_march.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

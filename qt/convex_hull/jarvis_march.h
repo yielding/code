@@ -28,6 +28,7 @@ private:
   {
     count = 0;
     auto i = index_of_lowest_point();
+
     do
     {
        exchange(count, i);
@@ -42,7 +43,7 @@ private:
   auto index_of_right_most_point_from(Point const& q) -> int
   {
     int i = 0;
-    for (int j=1; j<points.size(); j++)
+    for (size_t j=1; j<points.size(); j++)
     {
       if (points[j].relative_to(q).is_less(points[i].relative_to(q)))
           i = j;
@@ -57,7 +58,7 @@ private:
 
     auto& ps = points;
 
-    for (int i=1; i<points.size(); i++)
+    for (size_t i=1; i<points.size(); i++)
     {
       if (ps[min].y > ps[i].y or
          (ps[min].y == ps[i].y && ps[min].x < ps[i].x))

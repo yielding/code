@@ -9,13 +9,17 @@
 #include <QBrush>
 
 #include <vector>
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 class QPen;
 class QBrush;
 class QPainterPath;
 class QAction;
 
 // TODO
-// find graceful way
 const int SZ = 7;
 
 typedef ColorPoint<QColor> Point;
@@ -46,7 +50,6 @@ protected:
   auto mousePressEvent(QMouseEvent* event) -> void override;
   auto mouseReleaseEvent(QMouseEvent* event) -> void override;
   auto mouseMoveEvent(QMouseEvent* event) -> void override;
-  // auto contextMenuEvent(QContextMenuEvent* event) -> void override;
 
 private:
   auto randomColor() -> QColor;
@@ -61,7 +64,7 @@ private:
   std::vector<Point> points;
   std::vector<Point>::iterator selected;
   JarvisMarch<QColor> hull;
-  bool poly_mode = false;
+  bool poly_mode {false};
   int  count {1};
 };
 

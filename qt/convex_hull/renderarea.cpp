@@ -57,9 +57,7 @@ void RenderArea::setBrush(const QBrush& brush)
 
 void RenderArea::clearArea()
 {
-  points.clear();
-  poly_mode = false;
-  update();
+  points.clear(); poly_mode = false; update();
 }
 
 void RenderArea::findHull()
@@ -117,7 +115,7 @@ void RenderArea::drawHull(QPainter& painter)
 {
   painter.setPen(QPen(Qt::blue, 2));
   QPainterPath path;
-  for (auto i=0ul; i<hull.count; i++)
+  for (size_t i=0ul; i<hull.count; i++)
   {
     i == 0 ? path.moveTo(points[i].x, points[i].y)
            : path.lineTo(points[i].x, points[i].y);
