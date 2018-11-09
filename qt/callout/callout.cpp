@@ -2,13 +2,13 @@
 
 #include <QtGui/QPainter>
 #include <QtGui/QFontMetrics>
-#include <QtWidgets/QGraphicsSceneMouseEvent>
 #include <QtGui/QMouseEvent>
+#include <QtWidgets/QGraphicsSceneMouseEvent>
 #include <QtCharts/QChart>
 
-Callout::Callout(QChart *crt) :
-  QGraphicsItem(crt),
-  chart(crt)
+Callout::Callout(QChart *crt) 
+  : QGraphicsItem(crt)
+  , chart(crt)
 {
 }
 

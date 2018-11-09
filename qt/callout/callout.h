@@ -14,7 +14,7 @@ QT_CHARTS_USE_NAMESPACE
 class Callout : public QGraphicsItem
 {
 public:
-  explicit Callout(QChart *parent = nullptr);
+  explicit Callout(QChart* parent = nullptr);
 
 public:
   void setText(const QString& text);
@@ -26,14 +26,13 @@ public:
 
 protected:
   void mousePressEvent(QGraphicsSceneMouseEvent* event);
-  void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+  void mouseMoveEvent (QGraphicsSceneMouseEvent* event);
 
 private:
   QString text;
-  QRectF textRect;
-  QRectF rect;
+  QRectF  rect, textRect;
   QPointF anchor;
-  QFont font;
+  QFont   font;
   QChart* chart;
 };
 

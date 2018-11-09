@@ -1,6 +1,5 @@
 #include "view.h"
-#include "callout.h"
-
+#include "callout.h" 
 #include <QtGui/QResizeEvent>
 #include <QtGui/QMouseEvent>
 #include <QtWidgets/QGraphicsScene>
@@ -29,7 +28,7 @@ View::View(QWidget *parent)
   series->append(1, 3);
   series->append(4, 5);
   series->append(5, 4.5);
-  series->append(7, 1);
+  series->append( 7, 1);
   series->append(11, 2);
   chart->addSeries(series);
 
@@ -37,7 +36,7 @@ View::View(QWidget *parent)
   series2->append(1.6, 1.4);
   series2->append(2.4, 3.5);
   series2->append(3.7, 2.5);
-  series2->append(7, 4);
+  series2->append( 7, 4);
   series2->append(10, 2);
   chart->addSeries(series2);
 
@@ -85,7 +84,6 @@ void View::mouseMoveEvent(QMouseEvent* event)
   coordY->setText(QString("Y: %1").arg(chart->mapToValue(event->pos()).y()));
   QGraphicsView::mouseMoveEvent(event);
 }
-
 
 void View::keepCallout()
 {
