@@ -15,6 +15,7 @@ View::View(QWidget *parent)
   , chart(nullptr)
   , tooltip_(nullptr)
 {
+
   setDragMode(QGraphicsView::NoDrag);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -28,7 +29,7 @@ View::View(QWidget *parent)
   series->append(1, 3);
   series->append(4, 5);
   series->append(5, 4.5);
-  series->append( 7, 1);
+  series->append(7,  1);
   series->append(11, 2);
   chart->addSeries(series);
 
