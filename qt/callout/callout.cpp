@@ -2,13 +2,13 @@
 
 #include <QtGui/QPainter>
 #include <QtGui/QFontMetrics>
-#include <QtGui/QMouseEvent>
 #include <QtWidgets/QGraphicsSceneMouseEvent>
+#include <QtGui/QMouseEvent>
 #include <QtCharts/QChart>
 
-Callout::Callout(QChart *crt) 
-  : QGraphicsItem(crt)
-  , chart(crt)
+Callout::Callout(QChart *crt) :
+  QGraphicsItem(crt),
+  chart(crt)
 {
 }
 
@@ -17,12 +17,12 @@ auto Callout::boundingRect() const -> QRectF
   auto anchor = mapFromParent(chart->mapToPosition(this->anchor));
   QRectF r;
 
-  r.setLeft  (qMin(rect.left(),   anchor.x()));
-  r.setRight (qMax(rect.right(),  anchor.x()));
-  r.setTop   (qMin(rect.top(),    anchor.y()));
+  r.setLeft(qMin(rect.left(), anchor.x()));
+  r.setRight(qMax(rect.right(), anchor.x()));
+  r.setTop(qMin(rect.top(), anchor.y()));
   r.setBottom(qMax(rect.bottom(), anchor.y()));
 
-  return rect;
+  return r;
 }
 
 void Callout::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* w)

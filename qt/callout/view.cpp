@@ -1,5 +1,6 @@
 #include "view.h"
 #include "callout.h" 
+
 #include <QtGui/QResizeEvent>
 #include <QtGui/QMouseEvent>
 #include <QtWidgets/QGraphicsScene>
@@ -15,7 +16,6 @@ View::View(QWidget *parent)
   , chart(nullptr)
   , tooltip_(nullptr)
 {
-
   setDragMode(QGraphicsView::NoDrag);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
