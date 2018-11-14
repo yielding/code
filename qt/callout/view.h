@@ -24,7 +24,6 @@ class View : public QGraphicsView
 
 public:
   View(QWidget *parent = 0);
-  virtual ~View() = default;
 
 public slots:
   void keepCallout();
