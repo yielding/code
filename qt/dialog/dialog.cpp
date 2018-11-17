@@ -156,7 +156,7 @@ void Dialog::setInteger()
 
 void Dialog::setDouble()
 {
-  bool ok;
+  auto ok = false;
   auto result = QInputDialog::getDouble(this, 
       "QInputDialog::getDouble()",
       tr("Percentage:"), 37.56, -1000, 1000, 2, &ok);
@@ -210,4 +210,3 @@ void Dialog::setColor()
     colorLabel->setAutoFillBackground(true);
   }
 }
-

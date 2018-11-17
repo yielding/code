@@ -32,10 +32,7 @@ public:
     int request_nbr = 0;
     try 
     {
-      while (true) 
-      {
-        for (int i = 0; i < 100; ++i) 
-        {
+      while (true) { for (int i = 0; i < 100; ++i) {
           // 10 milliseconds
           zmqpp::poll(items, 1, 10);
           if (items[0].revents & ZMQ_POLLIN) 
