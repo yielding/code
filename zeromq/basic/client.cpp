@@ -7,7 +7,6 @@ using namespace std;
 int main(int argc, char *argv[]) 
 {
   const string endpoint = "tcp://localhost:4242";
-
   // initialize the 0MQ context
   zmqpp::context context;
 
