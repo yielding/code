@@ -25,13 +25,20 @@ private slots:
   void setMultilineText();
 
   void setColor();
+  void setFont();
 
 private:
-  QLabel *integerLabel, *doubleLabel, *itemLabel, *textLabel,
-         *mlTextLabel,
-         *colorLabel;
+  QLabel 
+    *integerLabel, *doubleLabel, *itemLabel, *textLabel,
+    *mlTextLabel,
+    *colorLabel,
+    *fontLabel
+    ;
 
-  DialogOptionsWidget* colorDlgOptions;
+  DialogOptionsWidget 
+    *colorDlgOptions,
+    *fontDlgOptions
+  ;
 };
 
 #endif // DIALOG_H

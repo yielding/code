@@ -131,6 +131,25 @@ Dialog::Dialog(QWidget *parent)
   toolbox->addItem(page, "Color Dialog");
 
   // font dialog page
+  page = new QWidget;
+  layout = new QGridLayout(page);
+  fontLabel = new QLabel;
+  fontLabel->setFrameStyle(frameStyle);
+  auto fontButton = new QPushButton("QFontDialog::getFont()");
+
+  connect(fontButton, &QAbstractButton::clicked, this, &Dialog::setFont);
+  layout->setColumnStretch(1, 1);
+  layout->addWidget(fontButton, 0, 0);
+  layout->addWidget(fontLabel,  0, 1);
+  fontDlgOptions = new DialogOptionsWidget;
+  fontDlgOptions->addCheckBox("Do not use native dialog", QFontDialog::DontUseNativeDialog);
+  fontDlgOptions->addCheckBox("Show scalable fonts", QFontDialog::ScalableFonts);
+  fontDlgOptions->addCheckBox("Show monospaced fonts", QFontDialog::MonospacedFonts);
+  fontDlgOptions->addCheckBox("Show proportional fonts", QFontDialog::ProportionalFonts);
+  fontDlgOptions->addCheckBox("No buttons", QFontDialog::NoButtons);
+  layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 1, 0);
+  layout->addWidget(fontDlgOptions, 2, 0, 1, 2);
+  toolbox->addItem(page, "Font Dialog");
 
   // file dialog page
   
@@ -208,5 +227,17 @@ void Dialog::setColor()
     colorLabel->setText(color.name());
     colorLabel->setPalette(QPalette(color));
     colorLabel->setAutoFillBackground(true);
+  }
+}
+
+void Dialog::setFont()
+{
+  auto options = QFlag(fontDlgOptions->value());
+  bool ok;
+  auto font = QFontDialog::getFont(&ok, QFont(fontLabel->text()), this, "Select Font", options);
+  if (ok)
+  {
+    fontLabel->setText(font.key());
+    fontLabel->setFont(font);
   }
 }
