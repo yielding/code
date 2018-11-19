@@ -26,19 +26,17 @@ private slots:
 
   void setColor();
   void setFont();
+  void setOpenFileName();
+  void setExistingDirectory();
 
 private:
   QLabel 
     *integerLabel, *doubleLabel, *itemLabel, *textLabel,
-    *mlTextLabel,
-    *colorLabel,
-    *fontLabel
-    ;
+    *mlTextLabel, *colorLabel, *fontLabel, *openFileNameLabel,
+    *directoryLabel;
 
   DialogOptionsWidget 
-    *colorDlgOptions,
-    *fontDlgOptions
-  ;
+    *colorDlgOptions, *fontDlgOptions, *fileDlgOptions ;
 };
 
 #endif // DIALOG_H

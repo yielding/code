@@ -138,6 +138,7 @@ Dialog::Dialog(QWidget *parent)
   auto fontButton = new QPushButton("QFontDialog::getFont()");
 
   connect(fontButton, &QAbstractButton::clicked, this, &Dialog::setFont);
+
   layout->setColumnStretch(1, 1);
   layout->addWidget(fontButton, 0, 0);
   layout->addWidget(fontLabel,  0, 1);
@@ -152,6 +153,36 @@ Dialog::Dialog(QWidget *parent)
   toolbox->addItem(page, "Font Dialog");
 
   // file dialog page
+  page = new QWidget;
+  layout = new QGridLayout(page);
+  openFileNameLabel = new QLabel;
+  openFileNameLabel->setFrameStyle(frameStyle);
+  auto openFileButton = new QPushButton("QFileDialog::getOpenFileName()");
+
+  directoryLabel = new QLabel;
+  directoryLabel->setFrameStyle(frameStyle);
+  auto directoryButton = new QPushButton("QFileDialog::getExistingDirectory()");
+
+  connect(directoryButton, &QAbstractButton::clicked, this, &Dialog::setExistingDirectory);
+  connect(openFileButton, &QAbstractButton::clicked, this, &Dialog::setOpenFileName);
+
+  layout->setColumnStretch(1, 1);
+  layout->addWidget(directoryButton, 0, 0);
+  layout->addWidget(directoryLabel, 0, 1);
+  layout->addWidget(openFileButton, 1, 0);
+  layout->addWidget(openFileNameLabel, 1, 1);
+  fileDlgOptions = new DialogOptionsWidget;
+  fileDlgOptions->addCheckBox("Do not use native dialog", QFileDialog::DontUseNativeDialog);
+  fileDlgOptions->addCheckBox(("Show directories only"), QFileDialog::ShowDirsOnly);
+  fileDlgOptions->addCheckBox(("Do not resolve symlinks"), QFileDialog::DontResolveSymlinks);
+  fileDlgOptions->addCheckBox(("Do not confirm overwrite"), QFileDialog::DontConfirmOverwrite);
+  fileDlgOptions->addCheckBox(("Do not use sheet"), QFileDialog::DontUseSheet);
+  fileDlgOptions->addCheckBox(("Readonly"), QFileDialog::ReadOnly);
+  fileDlgOptions->addCheckBox(("Hide name filter details"), QFileDialog::HideNameFilterDetails);
+  fileDlgOptions->addCheckBox(("Do not use custom directory icons (Windows)"), QFileDialog::DontUseCustomDirectoryIcons);
+  layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 4, 0);
+  layout->addWidget(fileDlgOptions, 2, 0, 1 ,2);
+  toolbox->addItem(page, tr("File Dialogs"));
   
   // messageBoxes
   
@@ -240,4 +271,12 @@ void Dialog::setFont()
     fontLabel->setText(font.key());
     fontLabel->setFont(font);
   }
+}
+
+void Dialog::setOpenFileName()
+{
+}
+
+void Dialog::setExistingDirectory()
+{
 }
