@@ -2,6 +2,15 @@
 
 #include <QtWidgets>
 
+#define MESSAGE \
+    Dialog::tr("<p>Message boxes have a caption, a text, " \
+               "and any number of buttons, each with standard or custom texts." \
+               "<p>Click a button to close the message box. Pressing the Esc button " \
+               "will activate the detected escape button (if any).")
+#define MESSAGE_DETAILS \
+    Dialog::tr("If a message box has detailed text, the user can reveal it " \
+               "by pressing the Show Details... button.")
+
 // REMARK
 // 항상 표시해야하는 3개의 widget을 보여주는 코드의 중복을 제거하기 위해서 사용
 class DialogOptionsWidget: public QGroupBox
@@ -155,22 +164,38 @@ Dialog::Dialog(QWidget *parent)
   // file dialog page
   page = new QWidget;
   layout = new QGridLayout(page);
-  openFileNameLabel = new QLabel;
-  openFileNameLabel->setFrameStyle(frameStyle);
-  auto openFileButton = new QPushButton("QFileDialog::getOpenFileName()");
 
   directoryLabel = new QLabel;
   directoryLabel->setFrameStyle(frameStyle);
   auto directoryButton = new QPushButton("QFileDialog::getExistingDirectory()");
 
+  openFileNameLabel = new QLabel;
+  openFileNameLabel->setFrameStyle(frameStyle);
+  auto openFileButton = new QPushButton("QFileDialog::getOpenFileName()");
+
+  openFileNamesLabel = new QLabel;
+  openFileNamesLabel->setFrameStyle(frameStyle);
+  auto openFileNamesButton = new QPushButton("QFileDialog::getOpenFileNames()");
+
+  saveFileNameLabel = new QLabel;
+  saveFileNameLabel->setFrameStyle(frameStyle);
+  auto saveFileNameButton = new QPushButton("QFileDialog::getSaveFileName()");
+
   connect(directoryButton, &QAbstractButton::clicked, this, &Dialog::setExistingDirectory);
   connect(openFileButton, &QAbstractButton::clicked, this, &Dialog::setOpenFileName);
+  connect(openFileNamesButton, &QAbstractButton::clicked, this, &Dialog::setOpenFileNames);
+  connect(saveFileNameButton, &QAbstractButton::clicked, this, &Dialog::setSaveFileName);
 
   layout->setColumnStretch(1, 1);
   layout->addWidget(directoryButton, 0, 0);
   layout->addWidget(directoryLabel, 0, 1);
   layout->addWidget(openFileButton, 1, 0);
   layout->addWidget(openFileNameLabel, 1, 1);
+  layout->addWidget(openFileNamesButton, 2, 0);
+  layout->addWidget(openFileNamesLabel, 2, 1);
+  layout->addWidget(saveFileNameButton, 3, 0);
+  layout->addWidget(saveFileNameLabel, 3, 1);
+
   fileDlgOptions = new DialogOptionsWidget;
   fileDlgOptions->addCheckBox("Do not use native dialog", QFileDialog::DontUseNativeDialog);
   fileDlgOptions->addCheckBox(("Show directories only"), QFileDialog::ShowDirsOnly);
@@ -181,11 +206,32 @@ Dialog::Dialog(QWidget *parent)
   fileDlgOptions->addCheckBox(("Hide name filter details"), QFileDialog::HideNameFilterDetails);
   fileDlgOptions->addCheckBox(("Do not use custom directory icons (Windows)"), QFileDialog::DontUseCustomDirectoryIcons);
   layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 4, 0);
-  layout->addWidget(fileDlgOptions, 2, 0, 1 ,2);
+  layout->addWidget(fileDlgOptions, 5, 0, 1 ,2);
   toolbox->addItem(page, tr("File Dialogs"));
   
   // messageBoxes
-  
+  page = new QWidget;
+  layout = new QGridLayout(page);
+
+  criticalLabel = new QLabel;
+  criticalLabel->setFrameStyle(frameStyle);
+  auto criticalButton = new QPushButton("QMessageBox::critical()");
+
+  informationLabel = new QLabel;
+  informationLabel->setFrameStyle(frameStyle);
+  auto informationButton = new QPushButton("QMessageBox::critical()");
+
+  connect(criticalButton, &QAbstractButton::clicked, this, &Dialog::criticalMessage);
+  connect(informationButton, &QAbstractButton::clicked, this, &Dialog::informationMessage);
+
+  layout->setColumnStretch(1, 1);
+  layout->addWidget(criticalButton, 0, 0);
+  layout->addWidget(criticalLabel, 0, 1);
+  layout->addWidget(informationButton, 1, 0);
+  layout->addWidget(informationLabel, 1, 1);
+  layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 2, 0);
+  toolbox->addItem(page, "Message Dialog");
+
   this->setWindowTitle(QGuiApplication::applicationDisplayName());
 }
 
@@ -275,8 +321,77 @@ void Dialog::setFont()
 
 void Dialog::setOpenFileName()
 {
+  auto options = QFlag(fileDlgOptions->value());
+  QString selectedFilter;
+  auto fileName = QFileDialog::getOpenFileName(this, 
+      "QFileDialog::getOpenFileName()",
+      openFileNameLabel->text(),
+      "All Files (*);; Text Files (*.txt)",
+      &selectedFilter,
+      options);
+
+  if (!fileName.isEmpty())
+    openFileNameLabel->setText(fileName);
+}
+
+void Dialog::setOpenFileNames()
+{
+  auto options = QFlag(fileDlgOptions->value());
+  QString selectedFilter;
+  auto files = QFileDialog::getOpenFileNames(this,
+      "QFileDialog::getOpenFileNames()",
+      openFilePath,
+      "All Files (*);;Text Files (*.txt)",
+      &selectedFilter,
+      options);
+
+  if (files.count() != 0)
+  {
+    openFilePath = files[0];
+    openFileNamesLabel->setText(QString("[%1").arg(files.join(", ")));
+  }
 }
 
 void Dialog::setExistingDirectory()
+{
+  QFileDialog::Options options = QFlag(fileDlgOptions->value());
+  options |= QFileDialog::DontResolveSymlinks | QFileDialog::ShowDirsOnly;
+
+  auto directory = QFileDialog::getExistingDirectory(this,
+      "QFileDialog::getExistingDirectory()",
+      directoryLabel->text(),
+      options);
+
+  if (!directory.isEmpty())
+    directoryLabel->setText(directory);
+}
+
+void Dialog::setSaveFileName()
+{
+  auto options = QFlag(fileDlgOptions->value());
+  QString selectedFilter;
+  auto fileName = QFileDialog::getSaveFileName(this,
+      "QFileDialog::getSaveFileName()",
+      saveFileNameLabel->text(),
+      "All Files(*);;Text Files (*.txt)",
+      &selectedFilter,
+      options);
+
+  if (!fileName.isEmpty())
+    saveFileNameLabel->setText(fileName);
+}
+
+void Dialog::criticalMessage()
+{
+  auto reply = QMessageBox::critical(this, "QMessageBox::critical()",
+      MESSAGE,
+      QMessageBox::Abort | QMessageBox::Retry | QMessageBox::Ignore);
+
+  if (reply == QMessageBox::Abort) criticalLabel->setText("Abort");
+  if (reply == QMessageBox::Retry) criticalLabel->setText("Retry");
+  if (reply == QMessageBox::Ignore) criticalLabel->setText("Ignore");
+}
+
+void Dialog::informationMessage()
 {
 }

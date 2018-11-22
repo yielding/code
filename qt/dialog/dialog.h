@@ -27,16 +27,23 @@ private slots:
   void setColor();
   void setFont();
   void setOpenFileName();
+  void setOpenFileNames();
   void setExistingDirectory();
+  void setSaveFileName();
+  void criticalMessage();
+  void informationMessage();
 
 private:
   QLabel 
     *integerLabel, *doubleLabel, *itemLabel, *textLabel,
     *mlTextLabel, *colorLabel, *fontLabel, *openFileNameLabel,
-    *directoryLabel;
+    *directoryLabel, *openFileNamesLabel, *saveFileNameLabel,
+    *criticalLabel, *informationLabel, *questionLabel, *warningLabel, *errorLabel;
 
   DialogOptionsWidget 
     *colorDlgOptions, *fontDlgOptions, *fileDlgOptions ;
+
+  QString openFilePath;
 };
 
 #endif // DIALOG_H
