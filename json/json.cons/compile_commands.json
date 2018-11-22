@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/Users/yielding/code/json/json.cons",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/Users/yielding/code/json/json.cons -I/Users/yielding/code/develop/include -I/Users/yielding/code/develop/vendor/include    -std=gnu++1z -o CMakeFiles/books.dir/books.cpp.o -c /Users/yielding/code/json/json.cons/books.cpp",
+  "file": "/Users/yielding/code/json/json.cons/books.cpp"
+}
+]

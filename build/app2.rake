@@ -59,6 +59,7 @@ if defined? INCS
 end
 
 $INCS += " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
+$INCS += " -I/Users/yielding/code/develop/vendor/include"
 
 $LDFLAGS = ""
 if defined? LDFLAGS
