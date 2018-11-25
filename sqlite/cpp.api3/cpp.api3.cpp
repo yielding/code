@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
   s.step();
   s.reset();
 
-
   s.bind(1, 102);
   s.bind(2, "duck");
   s.step();
