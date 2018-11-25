@@ -5,6 +5,7 @@
 
 QT_BEGIN_NAMESPACE
 class QLabel;
+class QErrorMessage;
 QT_END_NAMESPACE
 
 class DialogOptionsWidget;
@@ -32,6 +33,9 @@ private slots:
   void setSaveFileName();
   void criticalMessage();
   void informationMessage();
+  void questionMessage();
+  void warningMessage();
+  void errorMessage();
 
 private:
   QLabel 
@@ -39,6 +43,9 @@ private:
     *mlTextLabel, *colorLabel, *fontLabel, *openFileNameLabel,
     *directoryLabel, *openFileNamesLabel, *saveFileNameLabel,
     *criticalLabel, *informationLabel, *questionLabel, *warningLabel, *errorLabel;
+
+  QErrorMessage 
+    *errorMessageDlg;
 
   DialogOptionsWidget 
     *colorDlgOptions, *fontDlgOptions, *fileDlgOptions ;

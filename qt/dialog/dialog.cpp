@@ -74,6 +74,8 @@ Dialog::Dialog(QWidget *parent)
   auto toolbox = new QToolBox;
   vLayout->addWidget(toolbox);
 
+  errorMessageDlg = new QErrorMessage(this);
+
   auto frameStyle = QFrame::Sunken | QFrame::Panel;
 
   integerLabel = new QLabel;
@@ -219,16 +221,37 @@ Dialog::Dialog(QWidget *parent)
 
   informationLabel = new QLabel;
   informationLabel->setFrameStyle(frameStyle);
-  auto informationButton = new QPushButton("QMessageBox::critical()");
+  auto informationButton = new QPushButton("QMessageBox::information()");
+
+  questionLabel = new QLabel;
+  questionLabel->setFrameStyle(frameStyle);
+  auto questionButton = new QPushButton("QMessageBox::question");
+
+  warningLabel = new QLabel;
+  warningLabel->setFrameStyle(frameStyle);
+  auto warningButton = new QPushButton(tr("QMessageBox::&warning()"));
+
+  errorLabel = new QLabel;
+  errorLabel->setFrameStyle(frameStyle);
+  auto errorButton = new QPushButton(tr("QErrorMessage::showM&essage()"));
 
   connect(criticalButton, &QAbstractButton::clicked, this, &Dialog::criticalMessage);
   connect(informationButton, &QAbstractButton::clicked, this, &Dialog::informationMessage);
+  connect(questionButton, &QAbstractButton::clicked, this, &Dialog::questionMessage);
+  connect(warningButton, &QAbstractButton::clicked, this, &Dialog::warningMessage);
+  connect(errorButton, &QAbstractButton::clicked, this, &Dialog::errorMessage);
 
   layout->setColumnStretch(1, 1);
   layout->addWidget(criticalButton, 0, 0);
-  layout->addWidget(criticalLabel, 0, 1);
+  layout->addWidget(criticalLabel,  0, 1);
   layout->addWidget(informationButton, 1, 0);
-  layout->addWidget(informationLabel, 1, 1);
+  layout->addWidget(informationLabel,  1, 1);
+  layout->addWidget(questionButton, 2, 0);
+  layout->addWidget(questionLabel,  2, 1);
+  layout->addWidget(warningButton, 3, 0);
+  layout->addWidget(warningLabel,  3, 1);
+  layout->addWidget(errorButton, 4, 0);
+  layout->addWidget(errorLabel,  4, 1);
   layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding), 2, 0);
   toolbox->addItem(page, "Message Dialog");
 
@@ -394,4 +417,50 @@ void Dialog::criticalMessage()
 
 void Dialog::informationMessage()
 {
+  auto reply = QMessageBox::information(this, "QMessageBox::information()", MESSAGE);
+
+  auto msg = reply == QMessageBox::Ok ? "OK" : "Escape";
+  informationLabel->setText(msg);
+}
+
+void Dialog::questionMessage()
+{
+  auto reply = QMessageBox::question(this, "QMessageBox::question()", 
+      MESSAGE,
+      QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+
+  if (reply == QMessageBox::Yes)
+    questionLabel->setText("Yes");
+
+  if (reply == QMessageBox::No)
+    questionLabel->setText("No");
+
+  if (reply == QMessageBox::Cancel)
+    questionLabel->setText("Cancel");
+}
+
+void Dialog::warningMessage()
+{
+  QMessageBox msgBox(QMessageBox::Warning, tr("QMessageBox::warning()"), MESSAGE, nullptr, this);
+  msgBox.setDetailedText(MESSAGE_DETAILS);
+  msgBox.addButton(tr("Save &Again"), QMessageBox::AcceptRole);
+  msgBox.addButton(tr("&Continue"), QMessageBox::RejectRole);
+
+  if (msgBox.exec() == QMessageBox::AcceptRole)
+    warningLabel->setText(tr("Save Again"));
+  else
+    warningLabel->setText(tr("Continue"));
+}
+
+void Dialog::errorMessage()
+{
+  errorMessageDlg->showMessage(
+      tr("This dialog shows and remembers error messages. "
+        "If the checkbox is checked (as it is by default), "
+        "the shown message will be shown again, "
+        "but if the user unchecks the box the message "
+        "will not appear again if QErrorMessage::showMessage() "
+        "is called with the same message."));
+  errorLabel->setText(tr("If the box is unchecked, the message "
+        "won't appear again."));
 }
