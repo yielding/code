@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/Users/yielding/code/qt/tab_dialog",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  -DQT_CHARTS_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/Users/yielding/code/qt/callout -iframework /Users/yielding/Qt/5.10.1/clang_64/lib -isystem /Users/yielding/Qt/5.10.1/clang_64/lib/QtCore.framework/Headers -isystem /Users/yielding/Qt/5.10.1/clang_64/./mkspecs/macx-clang -isystem /Users/yielding/Qt/5.10.1/clang_64/lib/QtCharts.framework/Headers -isystem /Users/yielding/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers -isystem /Users/yielding/Qt/5.10.1/clang_64/lib/QtGui.framework/Headers -isystem /System/Library/Frameworks/OpenGL.framework/Headers    -fPIC -std=gnu++1z -o CMakeFiles/callout.dir/main.cpp.o -c /Users/yielding/code/qt/callout/main.cpp",
+  "file": "/Users/yielding/code/qt/tab_dialog/main.cpp"
+},
+{
+  "directory": "/Users/yielding/code/qt/tab_dialog",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  -DQT_CHARTS_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/Users/yielding/code/qt/callout -iframework /Users/yielding/Qt/5.10.1/clang_64/lib -isystem /Users/yielding/Qt/5.10.1/clang_64/lib/QtCore.framework/Headers -isystem /Users/yielding/Qt/5.10.1/clang_64/./mkspecs/macx-clang -isystem /Users/yielding/Qt/5.10.1/clang_64/lib/QtCharts.framework/Headers -isystem /Users/yielding/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers -isystem /Users/yielding/Qt/5.10.1/clang_64/lib/QtGui.framework/Headers -isystem /System/Library/Frameworks/OpenGL.framework/Headers    -fPIC -std=gnu++1z -o CMakeFiles/callout.dir/callout.cpp.o -c /Users/yielding/code/qt/callout/callout.cpp",
+  "file": "/Users/yielding/code/qt/tab_dialog/tabdialog.cpp"
+}
+]
