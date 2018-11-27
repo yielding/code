@@ -25,6 +25,14 @@ public:
     PermissionTab(const QFileInfo& fileInfo, QWidget* parent = nullptr);
 };
 
+class ApplicationTab: public QWidget
+{
+  Q_OBJECT
+
+public:
+    ApplicationTab(const QFileInfo& fileInfo, QWidget* parent = nullptr);
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,6 +44,9 @@ public:
   TabDialog(const QString& fileName, QWidget *parent = 0);
   ~TabDialog();
   
+public:
+  void handleOk();
+
 private:
   QDialogButtonBox
     *buttonBox;
