@@ -38,9 +38,7 @@ kakao = KakaoClient.new("192.168.0.129")
 ciphered = "m+oavcl6PVEo1RBcCFlKSQ=="
 salt     = "23303370"
 100.times {
-  10.times { |i|
-    printf "%d, %s\n", i, kakao.decrypt(ciphered, salt)
-  }
+  10.times { |i| printf "%d, %s\n", i, kakao.decrypt(ciphered, salt) }
   sleep(1)
 }
 
