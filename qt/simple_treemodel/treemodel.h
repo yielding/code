@@ -27,7 +27,7 @@ public:
   auto columnCount(const QModelIndex& parent = QModelIndex()) const -> int override;
 
 private:
-  void setupModelData(const QStringList& lines, TreeItem* parent);
+  auto setupModelData(const QStringList& lines, TreeItem* parent) -> void;
 
 private:
   TreeItem* rootItem;

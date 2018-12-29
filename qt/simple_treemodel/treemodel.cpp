@@ -1,4 +1,3 @@
-
 #include "treeitem.h"
 #include "treemodel.h"
 
@@ -27,30 +26,26 @@ auto TreeModel::columnCount(const QModelIndex& parent) const -> int
 
 auto TreeModel::data(const QModelIndex& index, int role) const -> QVariant
 {
-  if (!index.isValid())
-    return QVariant();
-
-  if (role != Qt::DisplayRole)
+  if (!index.isValid() || role != Qt::DisplayRole)
     return QVariant();
 
   auto item = static_cast<TreeItem*>(index.internalPointer());
+
   return item->data(index.column());
 }
 
 auto TreeModel::flags(const QModelIndex& index) const -> Qt::ItemFlags
 {
-  if (!index.isValid())
-    return Qt::ItemFlag::NoItemFlags;
-
-  return QAbstractItemModel::flags(index);
+  return index.isValid()
+    ? QAbstractItemModel::flags(index)
+    : Qt::ItemFlag::NoItemFlags;
 }
 
 auto TreeModel::headerData(int section, Qt::Orientation orientation, int role) const -> QVariant
 {
-  if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-    return rootItem->data(section);
-
-  return QVariant();
+  return (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+    ? rootItem->data(section)
+    : QVariant();
 }
 
 auto TreeModel::index(int row, int column, const QModelIndex& parent ) const -> QModelIndex
@@ -94,37 +89,30 @@ auto TreeModel::rowCount(const QModelIndex& parent) const -> int
   return parentItem->childCount();
 }
 
-void TreeModel::setupModelData(const QStringList& lines, TreeItem* parent)
+auto TreeModel::setupModelData(const QStringList& lines, TreeItem* parent) -> void
 {
-  QList<TreeItem*> parents;
-  QList<int> indentations;
+  QList<TreeItem*> parents { parent };
+  QList<int> indentations { 0 };
 
-  parents << parent;
-  indentations << 0;
-
-  int number = 0;
-  while (number < lines.count())
+  for (auto const& line: lines)
   {
     int position = 0;
-    while (position < lines[number].length())
-    {
-      if (lines[number].at(position) != ' ') break;
-      position++;
-    }
+    for (; position < line.length(); ++position)
+      if (line.at(position) != ' ') break;
 
-    auto lineData = lines[number].mid(position).trimmed();
+    auto lineData = line.mid(position).trimmed();
     if (!lineData.isEmpty())
     {
       auto columnStrings = lineData.split("\t", QString::KeepEmptyParts);
       QList<QVariant> columnData;
-      for (int column = 0; column < columnStrings.count(); ++column) 
-        columnData << columnStrings[column];
+      for (auto col: columnStrings) columnData << col;
 
       if (position > indentations.last())
       {
         if (parents.last()->childCount() > 0) 
         {
-          parents << parents.last()->child(parents.last()->childCount() - 1); indentations << position;
+          parents << parents.last()->child(parents.last()->childCount() - 1); 
+          indentations << position;
         }
       }
       else
@@ -138,7 +126,5 @@ void TreeModel::setupModelData(const QStringList& lines, TreeItem* parent)
 
       parents.last()->appendChild(new TreeItem(columnData, parents.last()));
     }
-
-    ++number;
   }
 }

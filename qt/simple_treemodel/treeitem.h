@@ -11,7 +11,7 @@ public:
   ~TreeItem();
 
 public:
-  void appendChild(TreeItem* child);
+  auto appendChild(TreeItem* child) -> void;
   auto child(int row) -> TreeItem*;
   auto childCount()  const -> int;
   auto columnCount() const -> int;

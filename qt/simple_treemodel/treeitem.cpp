@@ -13,7 +13,7 @@ TreeItem::~TreeItem()
   qDeleteAll(m_childItems);
 }
 
-void TreeItem::appendChild(TreeItem* item)
+auto TreeItem::appendChild(TreeItem* item) -> void
 {
   m_childItems.append(item);
 }
