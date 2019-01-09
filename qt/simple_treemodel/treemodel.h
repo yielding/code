@@ -23,7 +23,7 @@ public:
 
   auto index(int row, int col, const QModelIndex& parent = QModelIndex()) const -> QModelIndex override;
   auto parent(const QModelIndex& index) const -> QModelIndex override;
-  auto rowCount(const QModelIndex& parent = QModelIndex()) const -> int override;
+  auto rowCount(const QModelIndex& parent = QModelIndex())    const -> int override;
   auto columnCount(const QModelIndex& parent = QModelIndex()) const -> int override;
 
 private:

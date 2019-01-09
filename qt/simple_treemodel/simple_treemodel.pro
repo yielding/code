@@ -4,11 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       = core gui widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = simple_treemodel
+TARGET   = simple_treemodel
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -24,15 +24,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++17
 
-HEADERS = treeitem.h \
-          treeitem.h \
-    treemodel.h
+HEADERS   = treeitem.h treemodel.h
 
 RESOURCES = simple_treemodel.qrc
 
-SOURCES = main.cpp \
-          treeitem.cpp \
-          treemodel.cpp
+SOURCES   = main.cpp \
+            treeitem.cpp \
+            treemodel.cpp
 
 
 # Default rules for deployment.
