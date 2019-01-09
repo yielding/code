@@ -9,7 +9,7 @@
 namespace asio = boost::asio;
 namespace ip   = boost::asio::ip;
 
-const short multicast_port    = 30001;
+const short multicast_port  = 30001;
 int const max_message_count = 10000000;
 int const INTERVAL = 1;
 

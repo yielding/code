@@ -54,6 +54,7 @@ public:
         holder::error,
         holder::bytes_transferred));
   }
+
 private:
   ip::udp::socket socket_;
   ip::udp::endpoint sender_endpoint_;
