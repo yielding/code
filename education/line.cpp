@@ -25,6 +25,5 @@ int main(int argc, const char *argv[])
     cout << buf;
     ofs  << buf;
   }
-  
   return 0;
 }
