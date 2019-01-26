@@ -14,14 +14,14 @@ string hex_(char v)
 }
 
 template <typename ForwardIterator>
-string to_hex(ForwardIterator beg, ForwardIterator end, 
+string to_hex(ForwardIterator beg_, ForwardIterator end_, 
               string b="[ ", string e="]")
 {
   using namespace boost::lambda;
 
   stringstream ss;
   ss << b; 
-  for_each(beg, end, ss << bind(&hex_, _1)); 
+  for_each(beg_, end_, ss << boost::lambda::bind(&hex_, _1)); 
   ss << e;
 
   return ss.str();
