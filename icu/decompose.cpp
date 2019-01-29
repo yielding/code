@@ -16,8 +16,8 @@ int decompose(const char* text, wchar_t* wcs_buf, uint buf_size)
     auto str = UnicodeString::fromUTF8(StringPiece(text));
  
     // UCS4 to NFD
+    auto status = U_ZERO_ERROR;
     UnicodeString result;
-    UErrorCode status = U_ZERO_ERROR;
     Normalizer::normalize(str, UNORM_NFD, 0, result, status);
     if (U_FAILURE(status)) 
     {
@@ -35,14 +35,15 @@ int decompose(const char* text, wchar_t* wcs_buf, uint buf_size)
 int compose(wchar_t* wcs, uint wcs_len, char* buf, uint buf_size)
 {
     // UCS4 to NFC
-    auto str = UnicodeString::fromUTF32((UChar32*) wcs, wcs_len);
- 
+    auto str    = UnicodeString::fromUTF32((UChar32*) wcs, wcs_len);
+    auto status = U_ZERO_ERROR;
     UnicodeString result;
-    UErrorCode status = U_ZERO_ERROR;
     Normalizer::normalize(str, UNORM_NFC, 0, result, status);
-    if (U_FAILURE(status)) {
+    if (U_FAILURE(status)) 
+    {
         cerr << "can't compose a UTF8 string, "
              << status << ": " << u_errorName(status) << endl;
+
         return -1;
     }
  
@@ -60,7 +61,7 @@ int main()
     const char* text = "위";
 
     wchar_t wcs_buf[1024];
-    char new_text[1024];
+    char    new_text[1024];
 
     decompose(text, wcs_buf, sizeof (wcs_buf));
     for (uint i = 0; wcs_buf[i] != 0; ++i)
