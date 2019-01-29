@@ -8,19 +8,22 @@
 #include "unicode/unorm.h"
 
 using namespace std;
+using namespace icu_63;
  
 int decompose(const char* text, wchar_t* wcs_buf, uint buf_size)
 {
     // UTF-8 to UCS4
-    UnicodeString str = UnicodeString::fromUTF8(StringPiece(text));
+    auto str = UnicodeString::fromUTF8(StringPiece(text));
  
     // UCS4 to NFD
     UnicodeString result;
     UErrorCode status = U_ZERO_ERROR;
     Normalizer::normalize(str, UNORM_NFD, 0, result, status);
-    if (U_FAILURE(status)) {
+    if (U_FAILURE(status)) 
+    {
         cerr << "can't decompose a UTF8 string, "
              << status << ": " << u_errorName(status) << endl;
+
         return -1;
     }
  
@@ -32,7 +35,7 @@ int decompose(const char* text, wchar_t* wcs_buf, uint buf_size)
 int compose(wchar_t* wcs, uint wcs_len, char* buf, uint buf_size)
 {
     // UCS4 to NFC
-    UnicodeString str = UnicodeString::fromUTF32((UChar32*) wcs, wcs_len);
+    auto str = UnicodeString::fromUTF32((UChar32*) wcs, wcs_len);
  
     UnicodeString result;
     UErrorCode status = U_ZERO_ERROR;
@@ -60,9 +63,9 @@ int main()
     char new_text[1024];
 
     decompose(text, wcs_buf, sizeof (wcs_buf));
-    for (uint i = 0; wcs_buf[i] != 0; ++i) {
+    for (uint i = 0; wcs_buf[i] != 0; ++i)
         cout << "wcs_buf[" << i << "]=0x" << hex << (int) wcs_buf[i] << endl;
-    }
+    
     cout << endl;
  
     int wcs_len = wcslen(wcs_buf);

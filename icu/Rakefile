@@ -2,10 +2,13 @@
 
 SRCS     = %w{decompose.cpp}
 APP      = "decompose"
-CXX      = "xcrun"    # c++0x, clang++, blank
-jXXFLAGS = ":v :d :w"         # :d , :w=-Wall :O0 :O3
-LDFLAGS  = ""
+CXX      = "xcrun"            # c++0x, clang++, blank
+CXXFLAGS = ":v :d :w"         # :d , :w=-Wall :O0 :O3
+LDFLAGS  = "/usr/local/opt/icu4c/lib"
+INCS     = "/usr/local/opt/icu4c/include"
 LIBS     = "icuuc icudata" 
 
 load '~/code/build/app2.rake'
 # CLOBBER.include("a.out")
+
+ task :default => [:osx]
