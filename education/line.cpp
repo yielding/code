@@ -18,12 +18,13 @@ int main(int argc, const char *argv[])
   ofstream ofs(in_file + ".line");
 
   string line;
-  for (int no=0; getline(ifs, line); ++ no)
+  for (int no=0; getline(ifs, line); ++no)
   {
     char buf[1024] = { 0 };
     sprintf(buf, "%5d: %s\n", no, line.c_str());
     cout << buf;
     ofs  << buf;
   }
+
   return 0;
 }
