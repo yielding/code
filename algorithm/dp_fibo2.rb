@@ -12,6 +12,12 @@ class Fibo
   end
 end
 
+=begin rdoc
+  def fibo(n)
+      n.times.each_with_object([0, 1]) { |no, obj| obj << obj[-2] + obj[-1] }
+  end
+=end
+
 f = Fibo.new
 p (1..10000).reduce { |s, n| s + f.fibo(n) }
             .to_s.scan(/./)
