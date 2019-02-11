@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby
 
 # This module encapsulates functionality related to the
 # generation of Fibonacci sequences.

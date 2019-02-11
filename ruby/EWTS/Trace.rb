@@ -1,4 +1,4 @@
-#!/opt/local/bin/ruby19 -wKU
+#!/opt/local/bin/ruby -wKU
 # encoding: utf-8
 
 require "test/unit"

@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby
 
 # 
 # fine abc where (1) a + b + c = 1000

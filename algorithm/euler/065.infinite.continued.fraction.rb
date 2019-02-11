@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby
 
 =begin rdoc
   Term  Numerator  Multiplier  Formula

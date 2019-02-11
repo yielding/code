@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env rub
 
 require_relative "numeric_ext"
 

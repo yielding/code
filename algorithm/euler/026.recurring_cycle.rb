@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby
 
 def cyclic_no no, deno
   value, remainders = [], []

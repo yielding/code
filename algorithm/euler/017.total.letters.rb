@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby
 
 a0 = [:one, :two, :three, :four, :five, :six, :seven, :eight, :nine]
 

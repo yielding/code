@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby19
+#!/usr/bin/env ruby
 
 def eratosthenes_sieve upper_limit
   sieve_bound = (upper_limit - 1 ) / 2
