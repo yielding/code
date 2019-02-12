@@ -2,6 +2,8 @@
 #include <string> 
 #include <sstream>
 
+#include "catch2/catch.hpp"
+
 using namespace std;
 
 string insert_separator(string s, char separator = ',', int width=3) 
@@ -33,6 +35,18 @@ string toString(const T& t)
   return s.str();
 }
 
+TEST_CASE("Insert comma") {
+  auto s = "123412345"s;
+  auto r = insert_separator(s); 
+
+  REQUIRE (r == "123,412,345");
+  REQUIRE (r == "123,412,345");
+  REQUIRE (r == "123,412,345");
+  REQUIRE (r == "123,412,345");
+  REQUIRE (r == "123,412,345");
+}
+
+/*
 int main(int argc, char* argv[]) 
 { 
   string s("123412345"); 
@@ -40,3 +54,4 @@ int main(int argc, char* argv[])
   std::cout << "r : " << r << std::endl; 
   return 0;
 }
+*/
