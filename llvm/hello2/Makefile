@@ -1,8 +1,8 @@
 EXECUTABLE=hello
 
 all: hello.ll
-	llvm-as hello.ll
-	llc hello.bc
+	/usr/local/opt/llvm/bin/llvm-as hello.ll
+	/usr/local/opt/llvm/bin/llc hello.bc
 	xcrun clang -o $(EXECUTABLE) hello.s
 	./$(EXECUTABLE)
 
