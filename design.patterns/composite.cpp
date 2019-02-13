@@ -20,7 +20,8 @@ public:
 class composite_graphic: public graphic
 {
 public:
-  virtual void print() {
+  void print() override
+  {
     auto pr = [](graphic* g) { g->print(); };
     for_each(m_children.begin(), m_children.end(), pr);
   }
@@ -44,7 +45,8 @@ class ellipse: public graphic
 public:
   ellipse(int id): m_id(id) {}
 
-  virtual void print() {
+  void print() override 
+  {
     cout << "ellipse: " << m_id << "\n";
   }
 

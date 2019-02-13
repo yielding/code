@@ -258,7 +258,7 @@ void RotateNegativeValues(RandomIterator begin, RandomIterator end)
   /* Walk forward until we find a negative value.  If we find one, do a
    * rotate to rectify the elements.
    */
-  for (RandomIterator itr = begin; itr != end; ++itr) {
+  for (auto itr = begin; itr != end; ++itr) {
     /* If the value is negative, do a rotate starting here. */
     if (*itr < T(0)) {
       std::rotate(begin, itr, end);

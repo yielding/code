@@ -19,6 +19,8 @@ using namespace boost::lambda;
    void OnUpdateOf(Subject*) = 0;
    };
    가 더이상 필요 없기 때문
+
+   => type erasure
    */
 
 class Subject 
@@ -52,7 +54,8 @@ public:
 
 // Observer가 있어도 그만 없어도 그만인 것을 보여주려함: 상속하는 경우
 //
-class DigitalClock: public Observer { // still works
+class DigitalClock: public Observer // still works
+{ 
 public:
   DigitalClock( ClockTimer* t ) : timer_(t)
   { 
@@ -72,21 +75,30 @@ private:
 };
 
 // 상속 안하는 경우
-class Clock2 {
+class Clock2 
+{
 public:
   Clock2(ClockTimer* t ) : timer_(t)
-  { timer_->Attach( bind1st( mem_fun( &Clock2::Ticker ), this ) ); }
+  { 
+    timer_->Attach( bind1st( mem_fun( &Clock2::Ticker ), this ) ); 
+  }
 
   ~Clock2()
-  { timer_->Detach( bind1st( mem_fun( &Clock2::Ticker ), this ) ); }
-  void Ticker( Subject* timer ) { 
+  { 
+    timer_->Detach( bind1st( mem_fun( &Clock2::Ticker ), this ) ); 
+  }
+
+  void Ticker( Subject* timer ) 
+  { 
     cout << "Clock2::Ticker is called" << endl;
   }
+
 private:
   ClockTimer* timer_;
 };
 
-class Tock {
+class Tock 
+{
 public:
   void operator()( ClockTimer* timer ) // note, not exact match!
   { 
@@ -94,7 +106,8 @@ public:
   }
 };
 
-void TickMe( Subject* timer ) { 
+void TickMe( Subject* timer ) {
+
   cout << " TickMe Function" << endl;
 }
 
