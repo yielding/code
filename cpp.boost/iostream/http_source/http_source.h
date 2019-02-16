@@ -15,10 +15,10 @@ class HTTPSource: public boost::iostreams::source
 public:
   HTTPSource();
   HTTPSource(std::string const& url, int timeout=60);
- ~HTTPSource() = default;
+ ~HTTPSource();
 
-  auto handshake();
-  auto handshake(std::string const& url, int timeout=60);
+  auto handshake() -> bool;
+  auto handshake(std::string const& url, int timeout=60) -> bool;
 
 public:
   auto read(char* s, std::streamsize n) -> std::streamsize;
@@ -31,7 +31,7 @@ public:
 
 private:
   struct Impl;
-  std::shared_ptr<Impl> m_impl;
+  std::unique_ptr<Impl> m_impl;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

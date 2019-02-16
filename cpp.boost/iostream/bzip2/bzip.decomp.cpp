@@ -19,5 +19,4 @@ int main(int argc, char const* argv[])
   io::copy(in, cout);
 
   return 0;
-}
-
+} 

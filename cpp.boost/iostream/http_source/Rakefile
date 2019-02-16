@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-APP       = "develop"
+APP       = "http.source"
 SRCS      = %W{ ./http_source.cpp ./main.cpp }
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"

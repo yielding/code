@@ -85,14 +85,9 @@ HTTPSource::HTTPSource()
   : m_impl(new Impl("", 60))
 {}
 
-auto HTTPSource::handshake()
-{
-  return m_impl->m_url.empty() 
-    ? false 
-    : m_impl->handshake(m_impl->m_url, m_impl->m_timeout);
-}
+HTTPSource::~HTTPSource() = default;
 
-auto HTTPSource::handshake(string const& url, int timeout)
+auto HTTPSource::handshake(string const& url, int timeout) -> bool
 {
   return m_impl->handshake(url, timeout);
 }
