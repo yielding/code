@@ -4,7 +4,7 @@ APP       = "traverse"
 SRCS      = %W{ ./traverse.cpp }
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
-LIBS      = ""
+LIBS      = ":f :s"
 
 DIR = File.dirname __FILE__
 
