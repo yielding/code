@@ -7,7 +7,7 @@
 #include <boost/iostreams/categories.hpp>
 #include <boost/iostreams/detail/ios.hpp>  // failure.
 
-namespace boost { namespace iostreams { namespace example {
+namespace boost::iostreams::example {
 
 //
 // Model of Source which reads from an STL-compatible sequence
@@ -162,7 +162,5 @@ private:
 };
 
 } 
-} 
-} // End namespaces example, iostreams, boost.
 
 #endif
