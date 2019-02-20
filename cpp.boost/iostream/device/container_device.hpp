@@ -9,6 +9,7 @@
 
 namespace boost::iostreams::example {
 
+using namespace std;
 //
 // Model of Source which reads from an STL-compatible sequence
 // whose iterators are random-access iterators.
@@ -19,25 +20,23 @@ class container_source
 public:
   typedef typename Container::value_type  char_type;
   typedef source_tag                      category;
+
   container_source(Container& container)
     : container_(container), pos_(0)
   { }
 
-  std::streamsize read(char_type* s, std::streamsize n)
+  auto read(char_type* s, streamsize n) -> streamsize 
   {
-    using namespace std;
-    std::streamsize amt = 
-      static_cast<std::streamsize>(container_.size() - pos_);
-    std::streamsize result = (min)(n, amt);
-    if (result != 0) {
-      std::copy( container_.begin() + pos_,
-          container_.begin() + pos_ + result,
-          s );
+    auto amt    = static_cast<streamsize>(container_.size() - pos_);
+    auto result = (min)(n, amt);
+    if (result != 0) 
+    {
+      copy(container_.begin() + pos_, container_.begin() + pos_ + result, s);
       pos_ += result;
       return result;
-    } else {
-      return -1; // EOF
-    }
+    } 
+
+    return -1; // EOF
   }
 
   Container& container() { return container_; }
@@ -58,8 +57,11 @@ class container_sink
 public:
   typedef typename Container::value_type  char_type;
   typedef sink_tag                        category;
-  container_sink(Container& container) : container_(container) { }
-  std::streamsize write(const char_type* s, std::streamsize n)
+
+  container_sink(Container& container) 
+    : container_(container) { }
+
+  auto write(const char_type* s, streamsize n) -> streamsize 
   {
     container_.insert(container_.end(), s, s + n);
     return n;
@@ -82,39 +84,34 @@ class container_device
 public:
   typedef typename Container::value_type  char_type;
   typedef seekable_device_tag             category;
+
   container_device(Container& container)
     : container_(container), pos_(0)
   { }
 
-  std::streamsize read(char_type* s, std::streamsize n)
+  auto read(char_type* s, streamsize n) -> streamsize 
   {
-    using namespace std;
-
-    auto amt = static_cast<std::streamsize>(container_.size() - pos_);
+    auto amt    = static_cast<streamsize>(container_.size() - pos_);
     auto result = (min)(n, amt);
-    if (result != 0) {
-      std::copy( container_.begin() + pos_,
-          container_.begin() + pos_ + result,
-          s );
+    if (result != 0) 
+    {
+      copy( container_.begin() + pos_, container_.begin() + pos_ + result, s );
       pos_ += result;
       return result;
-    } else {
-      return -1; // EOF
-    }
+    } 
+
+    return -1; // EOF
   }
 
-  std::streamsize write(const char_type* s, std::streamsize n)
+  auto write(const char_type* s, streamsize n) -> streamsize 
   {
-    using namespace std;
-
-    std::streamsize result = 0;
+    streamsize result = 0;
 
     if (pos_ != container_.size()) 
     {
-      std::streamsize amt =
-        static_cast<std::streamsize>(container_.size() - pos_);
+      auto amt = static_cast<streamsize>(container_.size() - pos_);
       result = (min)(n, amt);
-      std::copy(s, s + result, container_.begin() + pos_);
+      copy(s, s + result, container_.begin() + pos_);
       pos_ += result;
     }
 
@@ -129,8 +126,6 @@ public:
 
   stream_offset seek(stream_offset off, BOOST_IOS::seekdir way)
   {
-    using namespace std;
-
     // Determine new value of pos_
     stream_offset next;
     if (way == BOOST_IOS::beg) {
