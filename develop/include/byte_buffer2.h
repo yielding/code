@@ -1,5 +1,5 @@
-#ifndef BYTE_BUFFER_H
-#define BYTE_BUFFER_H
+#ifndef BYTE_BUFFER2_H
+#define BYTE_BUFFER2_H
 
 #include <cstdint>
 #include <string>
