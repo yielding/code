@@ -15,15 +15,8 @@ public:
 protected:
   virtual void SetUp() 
   {
-    arr = new uint8_t[10] {
-      0x01, 0x02, 0x03, 0x04, 0x05, 
-      0x06, 0x07, 0x08, 0x09, 0x0a
-    };
-
-    minus = new uint8_t[10] { 
-      0xff, 0xff, 0xff, 0xff, 0xff, 
-      0xff, 0xff, 0xff, 0xff, 0 
-    };
+    arr = new uint8_t[10] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a };
+    minus = new uint8_t[10] { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0 };
 
     src = new uint8_t[5] { 'l', 'e', 'e', 'c', 'h' };
   }
@@ -58,7 +51,6 @@ TEST_F(ByteBuffer2Test, CtorWithInit)
 TEST_F(ByteBuffer2Test, ConstructBeginEnd)
 {
   ByteBuffer2 b(src, 5);
-
   EXPECT_EQ(b.to_s(), "leech");
 }
 
@@ -74,7 +66,7 @@ TEST_F(ByteBuffer2Test, GetInt8)
 
 TEST_F(ByteBuffer2Test, ToS)
 {
-  ByteBuffer2 b("leech");
+  ByteBuffer2 b(string("leech"));
 
   EXPECT_EQ(b.to_s(), "leech");
   EXPECT_EQ(b.offset(), 0);
@@ -244,53 +236,50 @@ TEST_F(ByteBuffer2Test, GetInt64BE)
 
 TEST_F(ByteBuffer2Test, VarInt)
 {
-  int size = 0;
-  int64_t r0 = 0;
-
   ByteBuffer2 b0 = { 0x81, 0x7f };
 
-  r0 = b0.get_varint_with_size(&size);
-  EXPECT_EQ(2,  size);
+  auto [r0, s0] = b0.get_varint_with_size();
+  EXPECT_EQ(2,  s0);
   EXPECT_EQ(0xff, r0);
 
   b0.reset({ 0x83, 0xff, 0x7f });
-  r0 = b0.get_varint_with_size(&size);
-  EXPECT_EQ(3,  size);
-  EXPECT_EQ(0xffff, r0);
+  auto [r1, s1] = b0.get_varint_with_size();
+  EXPECT_EQ(3,  s1);
+  EXPECT_EQ(0xffff, r1);
 
   b0.reset({ 0x87, 0xff, 0xff, 0x7f });
-  r0 = b0.get_varint_with_size(&size);
-  EXPECT_EQ(4,  size);
-  EXPECT_EQ(0xffffff, r0);
+  auto [r2, s2] = b0.get_varint_with_size();
+  EXPECT_EQ(4,  s2);
+  EXPECT_EQ(0xffffff, r2);
 
   b0.reset({ 0x8f, 0xff, 0xff, 0xff, 0x7f });
-  r0 = b0.get_varint_with_size(&size);
-  EXPECT_EQ(5,  size);
-  EXPECT_EQ(0xffffffff, r0);
+  auto [r3, s3] = b0.get_varint_with_size();
+  EXPECT_EQ(5,  s3);
+  EXPECT_EQ(0xffffffff, r3);
 
   b0.reset({ 0x9f, 0xff, 0xff, 0xff, 0xff, 0x7f });
-  r0 = b0.get_varint_with_size(&size);
-  EXPECT_EQ(6,  size);
-  EXPECT_EQ(0xffffffffff, r0);
+  auto [r4, s4] = b0.get_varint_with_size();
+  EXPECT_EQ(6,  s4);
+  EXPECT_EQ(0xffffffffff, r4);
 
   b0.reset({ 0xbf, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f });
-  r0 = b0.get_varint_with_size(&size);
-  EXPECT_EQ(7,  size);
-  EXPECT_EQ(0xffffffffffff, r0);
+  auto [r5, s5] = b0.get_varint_with_size();
+  EXPECT_EQ(7,  s5);
+  EXPECT_EQ(0xffffffffffff, r5);
 
   b0.reset({ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f });
-  r0 = b0.get_varint_with_size(&size);
-  EXPECT_EQ(8,  size);
-  EXPECT_EQ(0xffffffffffffff, r0);
+  auto [r6, s6] = b0.get_varint_with_size();
+  EXPECT_EQ(8,  s6);
+  EXPECT_EQ(0xffffffffffffff, r6);
 
   b0.reset({ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff });
-  r0 = b0.get_varint_with_size(&size);
-  EXPECT_EQ(9,  size);
-  EXPECT_EQ(0xffffffffffffffff, r0);
+  auto [r7, s7] = b0.get_varint_with_size();
+  EXPECT_EQ(9,  s7);
+  EXPECT_EQ(0xffffffffffffffff, r7);
 
-  b0.reset();
-  r0 = b0.get_varint();
-  EXPECT_EQ(0xffffffffffffffff, r0);
+  b0.reset({ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff });
+  auto r8 = b0.get_varint();
+  EXPECT_EQ(0xffffffffffffffff, r8);
 }
 
 TEST_F(ByteBuffer2Test, Skip)

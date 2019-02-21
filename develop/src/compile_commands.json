@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/Users/yielding/code/develop/src",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/Users/yielding/code/develop/include -std=c++1z -o CMakeFiles/byte_buffer2.cpp.o -c /Users/yielding/code/develop/src/byte_buffer2.cpp",
+  "file": "/Users/yielding/code/develop/src/byte_buffer2.cpp"
+},
+{
+  "directory": "/Users/yielding/code/develop/src",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/Users/yielding/code/develop/include -std=c++1z -o CMakeFiles/file_util.cpp.o -c /Users/yielding/code/develop/src/file_util.cpp",
+  "file": "/Users/yielding/code/develop/src/file_util.cpp"
+},
+{
+  "directory": "/Users/yielding/code/develop/src",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/Users/yielding/code/develop/include -std=c++1z -o CMakeFiles/PListParser.cpp.o -c /Users/yielding/code/develop/src/PListParser.cpp",
+  "file": "/Users/yielding/code/develop/src/PListParser.cpp"
+},
+{
+  "directory": "/Users/yielding/code/develop/src",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/Users/yielding/code/develop/include -std=c++1z -o CMakeFiles/Base64.cpp.o -c /Users/yielding/code/develop/src/Base64.cpp",
+  "file": "/Users/yielding/code/develop/src/Base64.cpp"
+}
+]

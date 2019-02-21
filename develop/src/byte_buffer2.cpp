@@ -33,9 +33,20 @@ ByteBuffer2::ByteBuffer2()
   : ByteBuffer2(nullptr, 0, 0)
 {}
 
-ByteBuffer2::ByteBuffer2(string && src)
-  : ByteBuffer2((uint8_t*)src.data(), 0, (int)src.length())
-{}
+ByteBuffer2::ByteBuffer2(string&& src)
+{
+  auto len = src.length();
+  //m_data = new uint8_t[len + 1];
+  m_data = new uint8_t[len];
+  for (int i=0; i<len; i++) m_data[i] = src[i];
+
+  m_begin  = 0;
+  m_offset = 0;
+  m_count  = len;
+  m_limit  = m_begin + len;
+  // m_data[m_limit] = 0;
+  m_owner  = true;
+}
 
 ByteBuffer2::ByteBuffer2(initializer_list<uint8_t> l)
 {
@@ -495,7 +506,7 @@ auto ByteBuffer2::get_hex_string(int size, int at) -> const string
 auto ByteBuffer2::get_varint() const -> int64_t
 {
   auto [res, size] = get_varint_with_size();
-  return size;
+  return res;
 }
 
 auto ByteBuffer2::get_varint2() const -> pair<int64_t, int>
@@ -638,6 +649,25 @@ auto ByteBuffer2::reset(initializer_list<uint8_t> l) -> void
   m_limit  = m_count;
   m_owner  = false;
 }
+
+/*
+string GetAscii(int size, int at = -1)
+{
+  if (this.Offset + size > this.data.Length)
+    throw();
+
+  var here = advance(at, size);
+  return Encoding.ASCII.GetString(this.data, here, size);
+}
+
+auto ByteBuffer2::get_ascii(int size) const -> string
+{
+  if (m_offset + size > m_limit)
+  {
+  }
+  
+}
+*/
 
 auto ByteBuffer2::get_ascii() const -> string
 {
