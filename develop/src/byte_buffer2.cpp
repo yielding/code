@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <sstream>
 #include <exception>
+#include <iostream>
 
 using namespace std;
 
@@ -33,19 +34,20 @@ ByteBuffer2::ByteBuffer2()
   : ByteBuffer2(nullptr, 0, 0)
 {}
 
-ByteBuffer2::ByteBuffer2(string&& src)
+ByteBuffer2::ByteBuffer2(string && src)
 {
   auto len = src.length();
-  //m_data = new uint8_t[len + 1];
-  m_data = new uint8_t[len];
-  for (int i=0; i<len; i++) m_data[i] = src[i];
+  if (len > 0) 
+  {
+    m_data = new uint8_t[len];
+    for (int i=0; i<len; i++) m_data[i] = src[i];
 
-  m_begin  = 0;
-  m_offset = 0;
-  m_count  = len;
-  m_limit  = m_begin + len;
-  // m_data[m_limit] = 0;
-  m_owner  = true;
+    m_begin  = 0;
+    m_offset = 0;
+    m_count  = len;
+    m_limit  = m_begin + len;
+    m_owner  = true;
+  }
 }
 
 ByteBuffer2::ByteBuffer2(initializer_list<uint8_t> l)
@@ -625,7 +627,7 @@ auto ByteBuffer2::last(int amount) const -> ByteBuffer2
 auto ByteBuffer2::starts_with(string const& str) const -> bool
 {
   if ((int)str.length() > m_count)
-    throw out_of_range("array out of index");
+    throw out_of_range("starts_with: array out of index");
     
   auto len = str.length();
   string s((char*)&m_data[0], len);
@@ -660,14 +662,21 @@ string GetAscii(int size, int at = -1)
   return Encoding.ASCII.GetString(this.data, here, size);
 }
 
+*/
+
 auto ByteBuffer2::get_ascii(int size) const -> string
 {
+cout << "limit: " << m_limit << " " << m_offset << " " << size << endl;
+
   if (m_offset + size > m_limit)
-  {
-  }
+    throw out_of_range("get_ascii: out of range");
   
+  string res((char*)&m_data[m_offset], size);
+
+  m_offset += size;
+
+  return res;
 }
-*/
 
 auto ByteBuffer2::get_ascii() const -> string
 {
@@ -722,8 +731,9 @@ auto ByteBuffer2::to_s(int from, int to) const -> std::string
 
 auto ByteBuffer2::check_offset(int count) const -> void
 {
+  debug_it();
   if (m_offset + count > m_limit) 
-    throw out_of_range("array out of index");
+    throw out_of_range("check_offset: array out of index");
 }
 
 auto ByteBuffer2::leading_byte(uint8_t b) const -> uint8_t 
@@ -738,6 +748,16 @@ auto ByteBuffer2::advance(int at, int dist) const -> int
     m_offset += dist;
 
   return here;
+}
+
+void ByteBuffer2::debug_it() const
+{
+  cout << "=================="   << endl;
+  cout << "offset: " << m_offset << endl;
+  cout << "begin:  " << m_begin  << endl;
+  cout << "count:  " << m_count  << endl;
+  cout << "limit:  " << m_limit  << endl;
+  cout << "=================="   << endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

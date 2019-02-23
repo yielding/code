@@ -28,6 +28,7 @@ public:
   auto append(uint8_t* buffer, int offset, int count) -> int;
   
   auto get_ascii() const -> std::string;
+  auto get_ascii(int size) const -> std::string;
   auto to_s(int from=-1, int to=-1) const -> std::string;
 
   auto get_int8(int at=-1)  const -> int8_t;
@@ -110,6 +111,8 @@ public:
 
 public:
   static auto from_hexcode(std::string const& s, bool is_be=false) -> ByteBuffer2;
+
+  void debug_it() const;
 
 private:
   auto check_offset(int) const -> void;
