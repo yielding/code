@@ -44,8 +44,8 @@ ByteBuffer2::ByteBuffer2(string && src)
 
     m_begin  = 0;
     m_offset = 0;
-    m_count  = len;
-    m_limit  = m_begin + len;
+    m_count  = int(len);
+    m_limit  = int(m_begin + len);
     m_owner  = true;
   }
 }
@@ -107,7 +107,6 @@ auto ByteBuffer2::append(uint8_t* buffer, int offset, int count) -> int
   
   return new_size;
 }
-
 auto ByteBuffer2::operator[](uint32_t index) -> uint8_t&
 {
   check_offset(index);
@@ -731,8 +730,7 @@ auto ByteBuffer2::to_s(int from, int to) const -> std::string
 
 auto ByteBuffer2::check_offset(int count) const -> void
 {
-  debug_it();
-  if (m_offset + count > m_limit) 
+  if (m_offset + count > m_limit)
     throw out_of_range("check_offset: array out of index");
 }
 
