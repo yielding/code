@@ -434,7 +434,7 @@ auto ByteBuffer2::get_int64_be(int at) const -> int64_t
   check_offset(8);
 
   auto here = advance(at, 8);
-  auto res  = *(int64_t*)(uint8_t*)&m_data[here];
+  auto res  = *(int64_t *)(uint8_t *)&m_data[here];
 
   return endian_swap_bytes<HOST_ENDIAN_ORDER, BIG_ENDIAN_ORDER>(res);
 }
@@ -444,7 +444,7 @@ auto ByteBuffer2::get_int64_le(int at) const -> int64_t
   check_offset(8);
 
   auto here = advance(at, 8);
-  auto res  = *(int64_t*)(uint8_t*)&m_data[here];
+  auto res  = *(int64_t *)(uint8_t *)&m_data[here];
 
   return res;
 }
@@ -651,22 +651,8 @@ auto ByteBuffer2::reset(initializer_list<uint8_t> l) -> void
   m_owner  = false;
 }
 
-/*
-string GetAscii(int size, int at = -1)
-{
-  if (this.Offset + size > this.data.Length)
-    throw();
-
-  var here = advance(at, size);
-  return Encoding.ASCII.GetString(this.data, here, size);
-}
-
-*/
-
 auto ByteBuffer2::get_ascii(int size) const -> string
 {
-cout << "limit: " << m_limit << " " << m_offset << " " << size << endl;
-
   if (m_offset + size > m_limit)
     throw out_of_range("get_ascii: out of range");
   
