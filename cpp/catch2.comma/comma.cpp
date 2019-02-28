@@ -40,10 +40,6 @@ TEST_CASE("Insert comma") {
   auto r = insert_separator(s); 
 
   REQUIRE (r == "123,412,345");
-  REQUIRE (r == "123,412,345");
-  REQUIRE (r == "123,412,345");
-  REQUIRE (r == "123,412,345");
-  REQUIRE (r == "123,412,345");
 }
 
 /*

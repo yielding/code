@@ -8,3 +8,5 @@ CXXFLAGS = ":v :w"            # :d , :w=-Wall :O0 :O3
 LIBS     = "tbb"
 
 load '~/code/build/app2.rake'
+
+task :default => [:osx]

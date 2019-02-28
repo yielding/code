@@ -9,3 +9,5 @@ DIR = File.dirname __FILE__
 
 load '~/code/build/app2.rake'
 CLOBBER.add(["a.out", "log.bin"])
+
+task :default => [:osx]

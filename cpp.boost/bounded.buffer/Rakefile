@@ -8,3 +8,5 @@ OSX_LIBS = "-lboost_thread-mt -lboost_system-mt"
 DIR = File.dirname __FILE__
 
 load '~/code/build/app.rake'
+
+task :default => [:osx]

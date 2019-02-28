@@ -8,3 +8,5 @@ LIBS     = "gmock gtest"
 
 load '~/code/build/app2.rake'
 # CLOBBER.include("a.out")
+
+task :default => [:osx]

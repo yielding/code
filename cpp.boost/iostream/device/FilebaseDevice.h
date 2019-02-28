@@ -4,7 +4,7 @@
 #include <boost/iostreams/categories.hpp>   // seekable_device_tag
 #include <iosfwd>                           // streamsize, seekdir
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
 
 ////////////////////////////////////////////////////////////////////////////////
 //

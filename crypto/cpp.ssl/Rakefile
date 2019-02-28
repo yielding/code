@@ -12,4 +12,4 @@ LIBS      = ":r :t :s :f ssl crypto"
 
 load "~/code/build/app2.rake"
 
-#task :default => [:test]
+task :default => [:test]

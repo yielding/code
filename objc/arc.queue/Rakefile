@@ -11,3 +11,5 @@ FRAMEWORKS= "Foundation"
 LIBS      = ":s :f"
 
 load '~/code/build/app2.rake'
+
+task :default => [:osx]

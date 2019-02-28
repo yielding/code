@@ -10,4 +10,5 @@ CXXFLAGS  = ":debug"       # :debug, :nodebug
 LIBS      = ""
 
 load '~/code/build/app2.rake'
+
 task :default => [:osx]
