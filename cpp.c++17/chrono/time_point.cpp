@@ -15,12 +15,17 @@ void print_time(system_clock::time_point t)
        << tmptr->tm_min  << ':' 
        << tmptr->tm_sec  << '.' 
        << (d - duration_cast<seconds>(d)).count();
+
 }
 
 int main(int argc, char const* argv[])
 {
-  auto t = system_clock::now();
-  print_time(t);
+  //auto t = system_clock::now();
+  //print_time(t);
+  auto unix_ts = chrono::seconds(time(nullptr)).count();
+  cout << unix_ts << endl;
+  cout << chrono::milliseconds(unix_ts).count() << endl;
+
 
   return 0;
 }

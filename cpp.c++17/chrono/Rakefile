@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "set_vector"
+SRC       = "time_point"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
