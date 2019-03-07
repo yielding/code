@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "normal"
+SRC       = "weibull"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
