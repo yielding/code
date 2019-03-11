@@ -18,8 +18,14 @@ int main(int argc, char const* argv[])
   auto ymd = year_month_day{dp};
   cout << ymd << endl;
 
-  auto time = make_time(tp-dp);
-  cout << time << endl;
+  // 3. hour-minutes-seconds
+  auto t0 = make_time(tp - dp);
+  cout << t0 << endl;
+
+  // 4. unix timestamp
+  time_t t1 = 1552287917;
+  auto sys_time = chrono::system_clock::from_time_t(t1);
+  cout << sys_time << endl;
 
   return 0;
 }
