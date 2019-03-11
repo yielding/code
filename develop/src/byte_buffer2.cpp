@@ -574,6 +574,13 @@ auto ByteBuffer2::skip(int count) -> ByteBuffer2&
   return *this;
 }
 
+auto ByteBuffer2::unget(int count) -> ByteBuffer2&
+{
+  m_offset -= count;
+
+  return *this;
+}
+  
 auto ByteBuffer2::take(int amount) const -> ByteBuffer2
 {
   ByteBuffer2 subrange(m_data, m_offset, amount);
@@ -593,6 +600,17 @@ auto ByteBuffer2::copy_slice(int from, int count) -> ByteBuffer2
   memcpy(data, m_data + from, count);
   
   return ByteBuffer2(data, count, true);
+}
+
+auto ByteBuffer2::compare_range(int from, int count, uint8_t value) -> bool
+{
+  if (from + count >= m_limit) return false;
+
+  for (int i=from; i<from+count; i++)
+    if (m_data[i] != value) 
+      return false;
+
+  return true;
 }
 
 auto ByteBuffer2::first() const -> uint8_t

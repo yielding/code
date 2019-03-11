@@ -86,11 +86,14 @@ public:
   auto size() const -> int   { return m_count;  }
 
   auto advance(int) -> ByteBuffer2&;
-  auto skip(int) -> ByteBuffer2&;
+  auto skip(int)  -> ByteBuffer2&;
+  auto unget(int) -> ByteBuffer2&;
   auto take(int) const -> ByteBuffer2;
 
   auto slice(int from, int count) -> ByteBuffer2;
   auto copy_slice(int from, int count) -> ByteBuffer2;
+
+  auto compare_range(int from, int count, uint8_t value) -> bool;
 
   auto first() const -> uint8_t;
   auto first(int) const -> ByteBuffer2;
