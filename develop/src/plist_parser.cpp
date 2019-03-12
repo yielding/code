@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "PListParser.h"
+#include "plist_parser.h"
 
 #if defined(USE_BPLIST)
 #include "BPlist.h"
