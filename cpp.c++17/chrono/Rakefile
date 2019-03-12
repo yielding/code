@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "tp_to_ymd2"
+SRC       = "ymd_to_tp"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
