@@ -8,9 +8,9 @@ using namespace std::chrono;
 int main()
 {
   typedef duration<int, ratio_multiply<hours::period, ratio<24> >::type> days;
-  system_clock::time_point now = system_clock::now();
-  system_clock::duration tp = now.time_since_epoch();
-  days d = duration_cast<days>(tp);
+  auto now = system_clock::now();
+  auto tp  = now.time_since_epoch();  // duration
+  auto d   = duration_cast<days>(tp); // day
   tp -= d;
   hours h = duration_cast<hours>(tp);
   tp -= h;

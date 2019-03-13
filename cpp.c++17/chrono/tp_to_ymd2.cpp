@@ -16,6 +16,7 @@ int main()
     using namespace date;
     cout << tp << '\n';
   }
+
   auto dp = D::floor<D::days>(tp);  // dp is a sys_days, which is a
   // type alias for a C::time_point
   auto ymd = D::year_month_day{dp};
