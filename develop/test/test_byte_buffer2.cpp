@@ -366,6 +366,12 @@ TEST_F(ByteBuffer2Test, GetAscii)
   EXPECT_FALSE(b.has_remaining());
 }
 
+TEST_F(ByteBuffer2Test, GetUnicode16Le)
+{
+  ByteBuffer2 b = { 0x53, 0x00, 0x79, 0x00, 0x73, 0x00 };
+  EXPECT_EQ(b.get_unicode16_le(3), string("Sys"));
+}
+
 TEST_F(ByteBuffer2Test, GetDouble)
 {
   ByteBuffer2 bb = { 0x3f, 0xf3, 0xae, 0x14, 0x7a, 0xe1, 0x47, 0xae };

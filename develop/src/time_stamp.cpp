@@ -63,16 +63,16 @@ namespace sys {
       m_year  = int(ymd.year());
       m_month = unsigned(ymd.month());
       m_day   = unsigned(ymd.day());
-      m_hour  = time.hours().count();
-      m_min   = time.minutes().count();
-      m_sec   = time.seconds().count();
-      m_ms    = time.subseconds().count();
+      m_hour  = int(time.hours().count());
+      m_min   = int(time.minutes().count());
+      m_sec   = int(time.seconds().count());
+      m_ms    = int(time.subseconds().count());
     }
 
   private:
     system_clock::time_point m_tp;
     int m_year, m_month, m_day;
-    int m_hour, m_min,   m_sec, m_ms;
+    int m_hour, m_min, m_sec, m_ms;
   };
 
   //////////////////////////////////////////////////////////////////////////////////
@@ -93,6 +93,27 @@ namespace sys {
   {
     m_impl.reset(impl);
   }
+      
+  TimeStamp::TimeStamp(TimeStamp && rhs)
+  {
+    m_impl.swap(rhs.m_impl);
+  }
+      
+  TimeStamp::TimeStamp(TimeStamp const& rhs)
+  {
+    if (this != &rhs)
+      *m_impl = *rhs.m_impl;
+  }
+      
+  TimeStamp& TimeStamp::operator=(const TimeStamp& rhs)
+  {
+    if (this != &rhs)
+    {
+      *m_impl = *rhs.m_impl;
+    }
+    
+    return *this;
+  }
 
   TimeStamp::~TimeStamp() = default;
 
@@ -107,6 +128,12 @@ namespace sys {
     return TimeStamp(impl);
   }
 
+  auto TimeStamp::min_value() -> TimeStamp
+  {
+    auto impl = new TimeStampImpl(1970, 1, 1, 0, 0, 0, 0);
+    return TimeStamp(impl);
+  }
+      
   auto TimeStamp::year() const -> int
   {
     return m_impl->year();

@@ -29,6 +29,9 @@ public:
   
   auto get_ascii() const -> std::string;
   auto get_ascii(int size) const -> std::string;
+
+  auto get_unicode16_le(int size) const -> std::string;
+
   auto to_s(int from=-1, int to=-1) const -> std::string;
 
   auto get_int8(int at=-1)  const -> int8_t;

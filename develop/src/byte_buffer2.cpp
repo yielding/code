@@ -8,6 +8,7 @@
 #include <sstream>
 #include <exception>
 #include <iostream>
+#include <codecvt>
 
 using namespace std;
 
@@ -697,9 +698,27 @@ auto ByteBuffer2::get_ascii() const -> string
   return res;
 }
 
+auto ByteBuffer2::get_unicode16_le(int size) const -> string
+{
+  if (m_offset + size*2 > m_limit)
+    throw out_of_range("get_unicode16_le(sz): out of range");
+
+  using converter = wstring_convert<
+    codecvt_utf8_utf16<char16_t, 0x10ffff, (codecvt_mode)1>,
+    char16_t>;
+
+  converter c;
+  auto beg = (char16_t *)&m_data[m_offset];
+  auto res = c.to_bytes(beg, beg + size);
+  m_offset += size*2;
+
+  return res;
+}
+
 auto ByteBuffer2::from_hexcode(string const& s, bool is_be) -> ByteBuffer2
 {
-  auto all_hex = all_of(s.cbegin(), s.cend(), [](int c) { return isxdigit(c) != 0; });
+  auto all_hex = all_of(s.cbegin(), s.cend(), 
+      [](int c) { return isxdigit(c) != 0; });
 
   if (s.length() % 2 == 0 && all_hex)
   {
