@@ -1,9 +1,3 @@
-// (C) Copyright Jeremy Siek 2000.
-// Distributed under the Boost Software License, Version 1.0. (See
-// accompanying file LICENSE_1_0.txt or copy at
-// http://www.boost.org/LICENSE_1_0.txt)
-
-// #include <boost/config.hpp>
 #include <list>
 #include <iostream>
 #include <iterator>
@@ -94,13 +88,9 @@ int main(int, char*[])
   cout << endl;
   cout << endl;
 
-//#ifndef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
-  // Example of using make_transform_iterator()
-  // to print out the names in the personnel list again.
   copy(make_transform_iterator<select_name>(personnel_list.begin()) , 
        make_transform_iterator<select_name>(personnel_list.end()) , 
        sout);
-//#endif
 
   return 0;
 }

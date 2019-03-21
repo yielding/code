@@ -33,9 +33,9 @@ table ContactEntry {
 table NamePart {
   part:StructuredNamePart;
   offset:int;
-  length:int;
-}
-
+  length:int; 
+}  
+  
 table Name {
   parts:[NamePart];
   text:string;

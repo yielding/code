@@ -14,7 +14,7 @@ ostream_iterator<node_base> out(cout, " ");
 
 int main()
 {
-  auto_ptr< node<int> > nodes(new node<int>(42));
+  unique_ptr< node<int> > nodes(new node<int>(42));
   nodes->append(new node<string>(" is greater than "));
   nodes->append(new node<int>(13));
 

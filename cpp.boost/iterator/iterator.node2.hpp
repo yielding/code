@@ -31,22 +31,9 @@ class node_iter
       : m_node(p) {}
 
     template <class OtherValue>
-    node_iter(
-        node_iter<OtherValue> const& other
-# ifndef BOOST_NO_SFINAE
-      , typename boost::enable_if<
-            boost::is_convertible<OtherValue*,Value*>
-          , enabler
-        >::type = enabler()
-# endif 
-    )
+    node_iter(node_iter<OtherValue> const& other)
       : m_node(other.m_node) {}
 
-
-# if !BOOST_WORKAROUND(__GNUC__, == 2)
- private: // GCC2 can't grant friendship to template member functions    
-    friend class boost::iterator_core_access;
-# endif 
 
     template <class OtherValue>
     bool equal(node_iter<OtherValue> const& other) const
@@ -58,12 +45,8 @@ class node_iter
 
     Value& dereference() const { return *m_node; }
 
-# ifdef BOOST_NO_MEMBER_TEMPLATE_FRIENDS
- public:
-# else
  private:
     template <class> friend class node_iter;
-# endif 
     Value* m_node;
 };
 
