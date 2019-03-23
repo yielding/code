@@ -21,10 +21,8 @@ public:
   static T* ptr()          { return  m_instance; }
 
 protected:
-  static T* m_instance;
+  inline static T* m_instance {0};
 };
-
-template<typename T> T* Singleton<T>::m_instance = 0;
 
 #endif /* end of include guard: SINGLETON_H_WNOO550Q */
 

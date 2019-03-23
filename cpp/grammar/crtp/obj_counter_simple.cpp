@@ -14,11 +14,9 @@ protected:
   ~object_counter()             { --m_count; }
 
 private:
-   static size_t m_count;
+   inline static size_t m_count{0};
 };
 
-template <typename T>
-size_t object_counter<T>::m_count = 0;
 
 class String: public object_counter<String>
 {};

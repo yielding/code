@@ -7,7 +7,7 @@
 //    ex) Comparable
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace utility { namespace debug {
+namespace utility::debug {
 
 template <typename CountedType>
 class object_counter
@@ -24,11 +24,7 @@ protected:
   ~object_counter()             { --self_t::m_count;      }
 
 private:
-   static size_t m_count;
+   inline static size_t m_count=0;
 };
 
-template <typename CountedType>
-size_t object_counter<CountedType>::m_count = 0;
-
-} // end of debug
-} // end of utility
+}
