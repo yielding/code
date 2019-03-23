@@ -59,7 +59,7 @@ struct ColorPoint
 
   auto area2(ColorPoint const& p0, ColorPoint const& p1) -> int
   {
-      return p0.relative_to(*this).cross_product(p1.relative_to(*this));
+    return p0.relative_to(*this).cross_product(p1.relative_to(*this));
   }
 
   auto inner_product(ColorPoint& p) const -> int
