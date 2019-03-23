@@ -6,70 +6,67 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
+
+using namespace std;
+using namespace std::chrono;
+
+namespace {
+
+  auto split_time(system_clock::time_point const & tp) 
+    -> tuple<int, unsigned, unsigned, int, int, int, int>
+  {
+    auto dp   = floor<date::days>(tp);
+    auto ymd  = date::year_month_day(dp);
+    auto time = date::make_time(duration_cast<milliseconds>(tp - dp));
+
+    auto year  = int(ymd.year());
+    auto month = unsigned(ymd.month());
+    auto day   = unsigned(ymd.day());
+    auto hour  = int(time.hours().count());
+    auto min_  = int(time.minutes().count());
+    auto sec   = int(time.seconds().count());
+    auto ms    = int(time.subseconds().count());
+
+    return make_tuple(year, month, day, hour, min_, sec, ms);
+  }
+
+}
+
 namespace sys {
 
-  using namespace std;
-  using namespace std::chrono;
-
-  class TimeStampImpl
+  class TimeStamp::impl
   {
-  public:
-    TimeStampImpl() : TimeStampImpl(0, 0, 0, 0, 0, 0, 0)
+    friend class TimeStamp;
+
+    impl() : impl(0, 0, 0, 0, 0, 0, 0)
     {}
 
-    TimeStampImpl(int y, int m, int d, int h, int mm, int s, int ms)
+    impl(int y, int m, int d, int h, int mm, int s, int ms)
     {
       m_tp = date::sys_days(date::year{y}/m/d) 
            + hours{h} + minutes{mm} + seconds{s} + microseconds{ms};
 
-      split_time(m_tp);
+      auto res = split_time(m_tp);
+      m_year  = get<0>(res); m_month = get<1>(res);
+      m_day   = get<2>(res); m_hour  = get<3>(res);
+      m_min   = get<4>(res); m_sec   = get<5>(res);
+      m_ms    = get<6>(res);
     }
 
-    TimeStampImpl(system_clock::time_point const& tp)
+    impl(system_clock::time_point const&& tp)
       : m_tp(tp)
     {
-      split_time(m_tp);
+      auto res = split_time(m_tp);
+      m_year  = get<0>(res); m_month = get<1>(res);
+      m_day   = get<2>(res); m_hour  = get<3>(res);
+      m_min   = get<4>(res); m_sec   = get<5>(res);
+      m_ms    = get<6>(res);
     }
 
-    TimeStampImpl(time_t t)
-      :m_tp{system_clock::from_time_t(t)}
-    {
-      split_time(m_tp);
-    }
+    impl(time_t t)
+      : impl(system_clock::from_time_t(t))
+    {}
 
-  public:
-    auto year()   const -> int { return m_year;  }
-    auto month()  const -> int { return m_month; }
-    auto day()    const -> int { return m_day;   }
-    auto hour()   const -> int { return m_hour;  }
-    auto minute() const -> int { return m_min;   }
-    auto second() const -> int { return m_sec;   }
-
-    auto to_s() const -> string
-    {
-      using namespace date;
-      stringstream s; s << m_tp;
-
-      return s.str();
-    }
-
-  private:
-    void split_time(system_clock::time_point& tp)
-    {
-      auto dp   = floor<date::days>(m_tp);
-      auto ymd  = date::year_month_day(dp);
-      auto time = date::make_time(duration_cast<milliseconds>(tp - dp));
-
-      m_year  = int(ymd.year());
-      m_month = unsigned(ymd.month());
-      m_day   = unsigned(ymd.day());
-      m_hour  = int(time.hours().count());
-      m_min   = int(time.minutes().count());
-      m_sec   = int(time.seconds().count());
-      m_ms    = int(time.subseconds().count());
-    }
-
-  private:
     system_clock::time_point m_tp;
     int m_year, m_month, m_day;
     int m_hour, m_min, m_sec, m_ms;
@@ -77,23 +74,26 @@ namespace sys {
 
   //////////////////////////////////////////////////////////////////////////////////
   
+  auto TimeStamp::now() -> TimeStamp
+  {
+    auto r = split_time(system_clock::now());
+
+    return TimeStamp(get<0>(r), get<1>(r), get<2>(r), get<3>(r), 
+                     get<4>(r), get<5>(r), get<6>(r));
+  }
+
   TimeStamp::TimeStamp()
-    : m_impl(new TimeStampImpl()) 
+    : TimeStamp(0, 0, 0, 0, 0, 0, 0)
   {}
 
   TimeStamp::TimeStamp(int y, int m, int d, int h, int mm, int s, int ms)
-    : m_impl(new TimeStampImpl(y, m, d, h, mm, s, ms)) 
+    : m_impl(new impl(y, m, d, h, mm, s, ms)) 
   {}
 
   TimeStamp::TimeStamp(time_t t)
-    : m_impl(new TimeStampImpl(t)) 
+    : m_impl(new impl(t)) 
   {}
 
-  TimeStamp::TimeStamp(TimeStampImpl* impl)
-  {
-    m_impl.reset(impl);
-  }
-      
   TimeStamp::TimeStamp(TimeStamp && rhs)
   {
     m_impl.swap(rhs.m_impl);
@@ -108,9 +108,7 @@ namespace sys {
   TimeStamp& TimeStamp::operator=(const TimeStamp& rhs)
   {
     if (this != &rhs)
-    {
       *m_impl = *rhs.m_impl;
-    }
     
     return *this;
   }
@@ -119,52 +117,48 @@ namespace sys {
 
   auto TimeStamp::to_s() const -> string
   {
-    return m_impl->to_s();
-  }
+    using namespace date;
+    stringstream s; s << impl_()->m_tp;
 
-  auto TimeStamp::now() -> TimeStamp
-  {
-    auto impl = new TimeStampImpl(system_clock::now());
-    return TimeStamp(impl);
+    return s.str();
   }
 
   auto TimeStamp::min_value() -> TimeStamp
   {
-    auto impl = new TimeStampImpl(1970, 1, 1, 0, 0, 0, 0);
-    return TimeStamp(impl);
+    return TimeStamp(1970, 1, 1, 0, 0, 0, 0);
   }
       
   auto TimeStamp::year() const -> int
   {
-    return m_impl->year();
+    return impl_()->m_year;
   }
 
   auto TimeStamp::month() const -> int
   {
-    return m_impl->month();
+    return impl_()->m_month;
   }
 
   auto TimeStamp::day() const -> int
   {
-    return m_impl->day();
+    return impl_()->m_day;
   }
 
   auto TimeStamp::hour() const -> int
   {
-    return m_impl->hour();
+    return impl_()->m_hour;
   }
 
   auto TimeStamp::minute() const -> int
   {
-    return m_impl->minute();
+    return impl_()->m_min;
   }
 
   auto TimeStamp::second() const -> int
   {
-    return m_impl->second();
+    return impl_()->m_sec;
   }
-
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //

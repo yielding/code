@@ -10,15 +10,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 namespace sys {
 
-  class TimeStampImpl;
-
   class TimeStamp
   {
   public:
     TimeStamp();
     TimeStamp(int y, int m, int d, int h, int mm, int s, int ms);
     TimeStamp(time_t t);
-    TimeStamp(TimeStampImpl* impl);
     TimeStamp(TimeStamp && rhs);
     TimeStamp(TimeStamp const& rhs);
    ~TimeStamp();
@@ -28,9 +25,9 @@ namespace sys {
   public:
     auto to_s() const -> std::string;
     
-    auto year() const -> int;
+    auto year()  const -> int;
     auto month() const -> int;
-    auto day() const -> int;
+    auto day()  const -> int;
     auto hour() const -> int;
     auto minute() const -> int;
     auto second() const -> int;
@@ -40,7 +37,9 @@ namespace sys {
     static auto min_value() -> TimeStamp;
 
   private:
-    std::unique_ptr<TimeStampImpl> m_impl;
+    class impl; std::unique_ptr<impl> m_impl;
+    impl* impl_()             { return m_impl.get(); }
+    const impl* impl_() const { return m_impl.get(); }
   };
 
 }
