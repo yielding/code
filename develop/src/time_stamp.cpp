@@ -36,6 +36,7 @@ namespace sys {
 
   class TimeStamp::impl
   {
+  private:
     friend class TimeStamp;
 
     impl() : impl(0, 0, 0, 0, 0, 0, 0)
@@ -128,32 +129,32 @@ namespace sys {
     return TimeStamp(1970, 1, 1, 0, 0, 0, 0);
   }
       
-  auto TimeStamp::year() const -> int
+  constexpr int TimeStamp::year()
   {
     return impl_()->m_year;
   }
 
-  auto TimeStamp::month() const -> int
+  constexpr int TimeStamp::month()
   {
     return impl_()->m_month;
   }
 
-  auto TimeStamp::day() const -> int
+  constexpr int TimeStamp::day()
   {
     return impl_()->m_day;
   }
 
-  auto TimeStamp::hour() const -> int
+  constexpr int TimeStamp::hour()
   {
     return impl_()->m_hour;
   }
 
-  auto TimeStamp::minute() const -> int
+  constexpr int TimeStamp::minute()
   {
     return impl_()->m_min;
   }
 
-  auto TimeStamp::second() const -> int
+  constexpr int TimeStamp::second()
   {
     return impl_()->m_sec;
   }

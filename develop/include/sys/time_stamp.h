@@ -25,12 +25,12 @@ namespace sys {
   public:
     auto to_s() const -> std::string;
     
-    auto year()  const -> int;
-    auto month() const -> int;
-    auto day()  const -> int;
-    auto hour() const -> int;
-    auto minute() const -> int;
-    auto second() const -> int;
+    constexpr int year();
+    constexpr int month();
+    constexpr int day();
+    constexpr int hour();
+    constexpr int minute();
+    constexpr int second();
 
   public:
     static auto now() -> TimeStamp;
