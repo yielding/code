@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
+
 using namespace std; 
+
 struct foo
 {
   int m_value;

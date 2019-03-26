@@ -18,7 +18,7 @@ if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+0x/
   $CXX = "g++-mp-4.7" if CXX =~ /c\+\+11/
-  $CXX = "ccache xcrun clang++ -std=c++1z -stdlib=libc++" if CXX =~ /xcrun/
+  $CXX = "ccache xcrun clang++ -std=c++17 -stdlib=libc++" if CXX =~ /xcrun/
 end
 
 $CXXFLAGS = " -DPOSIX"
@@ -49,8 +49,9 @@ $INCS = ""
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
-            when /:yvm/  ; " -I#{YVM_INC}/x86_64-darwin11 -I#{YVM_INC}"
-            when /:mvm/  ; " -I#{MVM_INC}"
+            when /:yvm/ ; " -I#{YVM_INC}/x86_64-darwin11 -I#{YVM_INC}"
+            when /:mvm/ ; " -I#{MVM_INC}"
+            when /:py/  ; " -I/usr/local/Frameworks/Python.framework/Headers"
             else
              " -I#{i}"
             end
