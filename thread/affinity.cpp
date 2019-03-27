@@ -34,9 +34,7 @@ int main(int argc, char *argv[])
         sizeof(cpu_set_t), &cpu_set);
 
     if (rc)
-    {
       cerr << "Error calling pthread_setaffinity_np: " << rc << endl;
-    }
   }
 
   for (auto& t: threads) t.join();
