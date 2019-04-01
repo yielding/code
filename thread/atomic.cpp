@@ -16,6 +16,9 @@ int main()
 {
   vector<thread> ths;
   atomic<int> accum = 0;
+  // TODO memorize
+  // regardless of ref or not, we have to protect shared variable 'accum'
+  // below is just using atomic
   for (int i = 1; i <= 20; i++)
     ths.push_back(thread(&square, i, ref(accum)));
 

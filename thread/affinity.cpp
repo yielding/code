@@ -37,7 +37,8 @@ int main(int argc, char *argv[])
       cerr << "Error calling pthread_setaffinity_np: " << rc << endl;
   }
 
-  for (auto& t: threads) t.join();
+  for (auto& t: threads) 
+    t.join();
 
   return 0;
 }
