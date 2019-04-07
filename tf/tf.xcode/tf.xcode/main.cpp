@@ -10,6 +10,7 @@ using namespace tensorflow::ops;
 
 int main()
 {
+#if 1
   auto root = Scope::NewRootScope();
 
   // Matrix A = [ 3 2]
@@ -28,7 +29,27 @@ int main()
   TF_CHECK_OK(session.Run({v}, &outputs));
   // Expect outputs[0] == [19; -3]
   //LOG(INFO) << outputs[0].matrix<float>();
-  cout << outputs[0].matrix<float>();
+  cout << outputs[0].matrix<float>() << endl;
+#endif
   
+#if 1
+  auto a0 = Placeholder(root, DT_FLOAT);
+  auto a1 = Placeholder(root, DT_FLOAT);
+  auto r0 = Multiply(root, a0, a1);
+  auto s  = session.Run({{a0, {2.f}},
+                         {a1, {3.f}}}, {r0}, &outputs);
+  if (s.ok())
+    cout << outputs[0].scalar<float>() << endl;
+#endif
+
+#if 0
+  auto a = Placeholder(root, DT_INT32);
+  auto c = Add(root, a, {41});
+  auto s = session.Run({ {a, {2}} }, {c}, &outputs);
+  if (s.ok())
+    cout << outputs[0].scalar<int>() << endl;
+  
+#endif
+
   return 0;
 }
