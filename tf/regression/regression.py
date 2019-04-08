@@ -26,7 +26,7 @@ init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 
-for step in range(8):
+for step in range(20):
     sess.run(train)
     print(step, sess.run(W), sess.run(b), sess.run(loss))
     plt.plot(x_data, y_data, 'ro')
