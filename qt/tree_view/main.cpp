@@ -48,6 +48,5 @@ int main(int argc, char *argv[])
   tree.setWindowTitle(QObject::tr("Dir View"));
   tree.show();
 
-
   return app.exec();
 }

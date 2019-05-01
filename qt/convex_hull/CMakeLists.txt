@@ -4,15 +4,18 @@ set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(Qt5Core REQUIRED)
-find_package(Qt5Charts REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 
 set (SOURCES
+  mainwindow.cpp
+  moc_mainwindow.cpp
+  renderarea.cpp
+  moc_renderarea.cpp
   main.cpp
-  callout.cpp
-  view.cpp
 )
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(callout ${SOURCES})
-qt5_use_modules(callout Core Charts)
+add_executable(main ${SOURCES})
+qt5_use_modules(main Core Gui Widgets)
