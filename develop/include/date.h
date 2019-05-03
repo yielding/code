@@ -3931,7 +3931,7 @@ private:
             os << tod.m_.count() << ':' << tod.s_;
 #if !ONLY_C_LOCALE
             std::tm tm{};
-            tm.tm_hour = tod.make_24(tod.mode_, tod.h_).count();
+            tm.tm_hour = (int)tod.make_24(tod.mode_, tod.h_).count();
             auto& facet = use_facet<time_put<charT>>(os.getloc());
             const charT f[] = {'%', 'p'};
             facet.put(os, os, os.fill(), &tm, f, f+2);

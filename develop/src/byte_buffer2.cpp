@@ -1,12 +1,10 @@
 #include "byte_buffer2.h"
 #include "endian_swap.h"
 
-#include <climits>
 #include <utility>
 #include <cctype>
 #include <algorithm>
 #include <sstream>
-#include <exception>
 #include <iostream>
 #include <codecvt>
 
@@ -142,7 +140,7 @@ auto ByteBuffer2::get_int16_be(int at) const -> int16_t
   check_offset(2);
 
   auto here = advance(at, 2);
-  auto res  = *(int16_t*)(uint8_t*)&m_data[here];
+  auto res  = *(int16_t *)(uint8_t *)&m_data[here];
 
   return endian_swap_bytes<HOST_ENDIAN_ORDER, BIG_ENDIAN_ORDER>(res);
 }
@@ -152,7 +150,7 @@ auto ByteBuffer2::get_int16_le(int at) const -> int16_t
   check_offset(2);
 
   auto here = advance(at, 2);
-  auto res  = *(int16_t*)(uint8_t*)&m_data[here];
+  auto res  = *(int16_t *)(uint8_t *)&m_data[here];
 
   return res;
 }
@@ -162,7 +160,7 @@ auto ByteBuffer2::get_uint16_be(int at) const -> uint16_t
   check_offset(2);
 
   auto here = advance(at, 2);
-  auto res  = *(uint16_t*)(uint8_t*)&m_data[here];
+  auto res  = *(uint16_t *)(uint8_t *)&m_data[here];
 
   return endian_swap_bytes<HOST_ENDIAN_ORDER, BIG_ENDIAN_ORDER>(res);
 }
@@ -172,7 +170,7 @@ auto ByteBuffer2::get_uint16_le(int at) const -> uint16_t
   check_offset(2);
 
   auto here = advance(at, 2);
-  auto res  = *(uint16_t*)(uint8_t*)&m_data[here];
+  auto res  = *(uint16_t *)(uint8_t *)&m_data[here];
 
   return res;
 }
@@ -244,7 +242,7 @@ auto ByteBuffer2::get_int32_le(int at) const -> int32_t
   check_offset(4);
 
   auto here = advance(at, 4);
-  auto res  = *(int32_t*)(uint8_t*)&m_data[here];
+  auto res  = *(int32_t *)(uint8_t *)&m_data[here];
 
   return res;
 }
@@ -264,7 +262,7 @@ auto ByteBuffer2::get_uint32_le(int at) const -> uint32_t
   check_offset(4);
 
   auto here = advance(at, 4);
-  auto res  = *(uint32_t*)(uint8_t*)&m_data[here];
+  auto res  = *(uint32_t *)(uint8_t *)&m_data[here];
 
   return res;
 }

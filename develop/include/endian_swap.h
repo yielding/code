@@ -1,8 +1,9 @@
 #pragma once
 
 #include <boost/type_traits.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/detail/endian.hpp>
+//#include <boost/detail/endian.hpp>
+#include <boost/predef/other/endian.h>
+#include <climits>
 #include <stdexcept>
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -13,9 +14,9 @@ enum EEndian
 {
     LITTLE_ENDIAN_ORDER,
     BIG_ENDIAN_ORDER,
-#if defined(BOOST_LITTLE_ENDIAN)
+#if defined(BOOST_ENDIAN_LITTLE_BYTE)
     HOST_ENDIAN_ORDER = LITTLE_ENDIAN_ORDER
-#elif defined(BOOST_BIG_ENDIAN)
+#elif defined(BOOST_ENDIAN_BIG_BYTE)
     HOST_ENDIAN_ORDER = BIG_ENDIAN_ORDER
 #else
 #error "Impossible to determine system endian"
@@ -57,8 +58,8 @@ inline T swap_bytes(T value)
 template<EEndian from, EEndian to, class T>
 inline T endian_swap_bytes(T value)
 {
-    BOOST_STATIC_ASSERT(sizeof(T) == 2 || sizeof(T) == 4 || sizeof(T) == 8);
-    BOOST_STATIC_ASSERT(boost::is_arithmetic<T>::value);
+    static_assert(sizeof(T) == 2 || sizeof(T) == 4 || sizeof(T) == 8);
+    static_assert(boost::is_arithmetic<T>::value);
 
     if (from == to)
         return value;
