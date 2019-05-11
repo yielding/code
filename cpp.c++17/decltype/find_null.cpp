@@ -21,6 +21,6 @@ int main(int argc, const char *argv[])
   auto it = find_null(v);
 
   cout << it - v.begin();
-  
+
   return 0;
 }

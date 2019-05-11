@@ -5,9 +5,7 @@ using namespace std;
 
 struct test
 {
-  void f()&  { cout << "lvalue obj\n"; }
-  void f()&& { cout << "rvalue obj\n"; }
-};
+  void f()&  { cout << "lvalue obj\n"; } void f()&& { cout << "rvalue obj\n"; } };
 
 struct test2
 {
