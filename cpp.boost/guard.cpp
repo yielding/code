@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <functional>
 #include <boost/shared_ptr.hpp>
 
 using namespace std;
@@ -13,9 +14,9 @@ void deleter(uint8_t* p)
 
 int main(int argc, char const* argv[])
 {
-  uint8_t* x = new uint8_t[10];
+  auto x = new uint8_t[10];
 
-  boost::shared_ptr<uint8_t> ptr(x, std::ptr_fun(deleter));
+  boost::shared_ptr<uint8_t> ptr(x, deleter);
   cout << "exiting ...\n";
   cout << addressof(x) << endl;
 
