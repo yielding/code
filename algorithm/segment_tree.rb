@@ -41,9 +41,7 @@ class SegmentTree
   end
 
   def query_lazy(i, j)
-    query_lazy_tree(0, 0, @size - 1, i, j)
-  end
-
+    query_lazy_tree(0, 0, @size - 1, i, j) end 
   def traverse
     arr = []
     traverse_tree(arr, 0, 0, @size - 1)

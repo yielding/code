@@ -3,11 +3,6 @@
 require "deep_clone"
 require "digest/sha1"
 
-#class Object
-#  def deep_copy
-#    Marshal.load(Marshal.dump(self))
-#  end
-#end
 
 class Passcode
   def initialize
