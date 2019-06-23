@@ -62,6 +62,11 @@ end
 $INCS += " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
 $INCS += " -I/Users/yielding/code/develop/vendor/include"
 
+# PyTorch
+$INCS += " -I/Users/yielding/code/develop/libtorch/include/torch/csrc/api/include"
+$INCS += " -I/Users/yielding/code/develop/libtorch/include"
+$INCS += " -I/Users/yielding/anaconda3/include/python3.7m"
+
 $LDFLAGS = ""
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
