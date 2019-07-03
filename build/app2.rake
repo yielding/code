@@ -49,7 +49,6 @@ $INCS = ""
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
-            when /:yvm/ ; " -I#{YVM_INC}/x86_64-darwin11 -I#{YVM_INC}"
             when /:mvm/ ; " -I#{MVM_INC}"
             when /:py/  ; " -I/usr/local/Frameworks/Python.framework/Headers"
             else
@@ -74,7 +73,6 @@ if defined? LDFLAGS
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
            when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
-           when /:yvm/  ; " -L#{YVM}/lib -ldl -lruby.1.9.1"
            when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby"
            when /:smvm/  ;" -L#{MVM}/build/host/lib -l:mruby.dylib"
            else
