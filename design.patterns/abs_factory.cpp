@@ -39,8 +39,6 @@ public:
 
 struct CoffeeFactory : HotDrinkFactory
 {
-  virtual ~CoffeeFactory() {}
-  
   auto make() const -> unique_ptr<HotDrink> override
   {
     return make_unique<Coffee>();
@@ -49,8 +47,6 @@ struct CoffeeFactory : HotDrinkFactory
 
 struct TeaFactory : HotDrinkFactory
 {
-  virtual ~TeaFactory(){}
-  
   auto make() const -> unique_ptr<HotDrink> override
   {
     return make_unique<Tea>();
