@@ -61,10 +61,14 @@ end
 $INCS += " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
 $INCS += " -I/Users/yielding/code/develop/vendor/include"
 
+USER="/Users/yielding"
+CODE="/Users/yielding/code"
+PYTORCH="#{USER}/anaconda3/envs/pytorch"
+PYTORCH_LIB="#{PYTORCH}/lib/python3.7/site-packages/torch"
+
 # PyTorch
-$INCS += " -I/Users/yielding/code/develop/libtorch/include/torch/csrc/api/include"
-$INCS += " -I/Users/yielding/code/develop/libtorch/include"
-$INCS += " -I/Users/yielding/anaconda3/include/python3.7m"
+$INCS += " -I#{PYTORCH_LIB}/include -I#{PYTORCH_LIB}/include/torch/csrc/api/include"
+$INCS += " -I#{PYTORCH}/include/python3.7m"
 
 $LDFLAGS = ""
 if defined? LDFLAGS
@@ -72,8 +76,9 @@ if defined? LDFLAGS
     sdk_path = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
-           when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,#{sdk_path}"
-           when /:mvm/  ; " -L#{MVM}/build/host/lib -lmruby"
+           when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,-undefined #{sdk_path}"
+           when /:pytorch/; " -Wl,-undefined,dynamic_lookup,-rpath,#{PYTORCH_LIB}/lib -L#{PYTORCH_LIB}/lib"
+           when /:mvm/   ; " -L#{MVM}/build/host/lib -lmruby"
            when /:smvm/  ;" -L#{MVM}/build/host/lib -l:mruby.dylib"
            else
              " -L#{e}"
@@ -84,7 +89,6 @@ if defined? LDFLAGS
 end
 
 $LDFLAGS += " -L. -L/usr/local/lib -L/Users/yielding/code/develop/lib -L/Users/yielding/code/develop/vendor/lib"
-
 BOOST = {
   :c => " -lboost_chrono-mt",
   :d => " -lboost_date_time-mt",

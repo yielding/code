@@ -1,0 +1,15 @@
+# -*- ruby -*-
+
+APP       = "tensor"
+SRCS      = %W{ ./tensor.cpp }
+
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+LDFLAGS   = ":pytorch"
+LIBS      = "torch caffe2 c10"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
