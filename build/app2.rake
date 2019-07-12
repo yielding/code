@@ -76,10 +76,10 @@ if defined? LDFLAGS
     sdk_path = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
     flag = case e
            when /:framework/; " -F/System/Library/PrivateFrameworks"
-           when /:dylib/; " -dynamiclib -arch x86_64 -Wl,-syslibroot,-undefined #{sdk_path}"
-           when /:pytorch/; " -Wl,-undefined,dynamic_lookup,-rpath,#{PYTORCH_LIB}/lib -L#{PYTORCH_LIB}/lib"
-           when /:mvm/   ; " -L#{MVM}/build/host/lib -lmruby"
-           when /:smvm/  ;" -L#{MVM}/build/host/lib -l:mruby.dylib"
+           when /:dylib/    ; " -dynamiclib -arch x86_64 -Wl,-syslibroot,-undefined #{sdk_path}"
+           when /:pytorch/  ; " -Wl,-undefined,dynamic_lookup,-rpath,#{PYTORCH_LIB}/lib -L#{PYTORCH_LIB}/lib"
+           when /:mvm/      ; " -L#{MVM}/build/host/lib -lmruby"
+           when /:smvm/     ;" -L#{MVM}/build/host/lib -l:mruby.dylib"
            else
              " -L#{e}"
            end
