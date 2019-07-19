@@ -21,6 +21,7 @@ template <typename T>
 struct Spec
 {
   virtual auto is_satisfied(T* item) -> bool = 0;
+  virtual ~Spec() {}
   
   auto operator && (Spec&& other) -> AndSpec<T>
   {
@@ -64,6 +65,7 @@ struct OrSpec : Spec<T>
 template <typename T>
 struct Filter
 {
+  virtual ~Filter() {}
   virtual auto filter(vector<T*> items, Spec<T>& spec) -> vector<T*> = 0;
 };
 
