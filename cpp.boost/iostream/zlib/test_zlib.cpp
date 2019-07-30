@@ -3,12 +3,16 @@
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <iostream>
 #include <sstream>
+#include <vector>
+
+using namespace std;
+      namespace io = boost::iostreams;
 
 template <class cha_type, class iterator_type>
 struct my_source 
 {
   typedef cha_type char_type;
-  typedef boost::iostreams::source_tag category;
+  typedef io::source_tag category;
 
   iterator_type& it;
   iterator_type end;
@@ -16,10 +20,10 @@ struct my_source
   my_source(iterator_type& it, iterator_type end = {}) : it(it), end(end) 
   {}
 
-  std::streamsize read(char* s, std::streamsize n)
+  auto read(char* s, streamsize n) -> streamsize
   {
-    std::streamsize result = 0;
-    while ((it!=end) && n--) 
+    streamsize result = 0;
+    while (it != end && n--) 
     {
       ++result;
       *s++ = *it++;
@@ -31,21 +35,34 @@ struct my_source
 
 int main() 
 {
-  std::string const rawdata {
+  string const rawdata {
     'x', '\234', '\313', 'H', '\315', '\311', 
     '\311', 'W', '(', '\317', '/', '\312', 'I', 
     '\341', '\002', '\0', '\036', 'r', '\004', 'g' };
 
-  std::istringstream iss(rawdata, std::ios::binary);
+  istringstream iss(rawdata, ios_base::binary);
 
-  auto start = std::istreambuf_iterator<char>(iss);
+  /*
+  // my_source는 사용자에게 더 많은 제어권을 준다
+  //
+  auto start = istreambuf_iterator<char>(iss);
   my_source<char, decltype(start)> data(start);
 
-  boost::iostreams::filtering_istreambuf def;
-  def.push(boost::iostreams::zlib_decompressor());
+  io::filtering_istreambuf def;
+  def.push(io::zlib_decompressor());
   def.push(data);
+  */
 
-  boost::iostreams::copy(def, std::cout);
+  io::filtering_streambuf<io::input> in;
+  in.push(io::zlib_decompressor());
+  in.push(iss);
+
+  // io::copy(in, cout);
+  
+  // vector<char>에는 char_type 내부적으로 없기 때문에 사용할 수 없다.
+  stringstream oss;
+  io::copy(in, oss);
+  cout << oss.str();
 
   return 0;
 }
