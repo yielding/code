@@ -45,7 +45,6 @@ private:
     m_recorded_func = m_func();
     m_subroutine = &fetch_subroutine;
 
-    return fetch_recording();
   }
 };
 
