@@ -1,5 +1,5 @@
-#include "byte_buffer2.h"
-#include "endian_swap.h"
+#include "byte_buffer2.hpp"
+#include "endian_swap.hpp"
 
 #include <utility>
 #include <cctype>
