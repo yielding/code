@@ -2,10 +2,10 @@
 #define CORE_DYLIB_H__
 
 #ifdef POSIX
-#include "detail/posix_dylib.h"
+#include "detail/posix_dylib.hpp"
 #define DYLIB_BACKEND sys::detail::posix::dylib
 #else
-#include "detail/win32_dylib.h"
+#include "detail/win32_dylib.hpp"
 #define DYLIB_BACKEND sys::detail::win32::dylib
 #endif
 
