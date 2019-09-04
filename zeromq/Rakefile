@@ -1,0 +1,14 @@
+# -*- ruby -*-
+
+APP       = "serv_cli"
+SRCS      = %W{ serv_cli.cpp }
+CXX       = "xcrun"
+CXXFLAGS  = ":Os"
+INCS      = "/usr/local/include/zmqpp"
+LIBS      = "zmq"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
