@@ -13,9 +13,7 @@ int main(int argc, char *argv[])
 
   // generate a pull socket
   zmqpp::socket_type type = zmqpp::socket_type::pull;
-  zmqpp::socket socket (context, type);
-
-  // bind to the socket
+  zmqpp::socket socket (context, type); // bind to the socket
   cout << "Binding to " << endpoint << "..." << endl;
   socket.bind(endpoint);
 

@@ -1,7 +1,7 @@
 # -*- ruby -*-
 
-APP       = "serv_cli"
-SRCS      = %W{ serv_cli.cpp }
+APP       = "pair_client"
+SRCS      = %W{ ./pair_client.cpp }
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
 LIBS      = "zmq"

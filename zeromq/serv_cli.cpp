@@ -179,10 +179,10 @@ int main (void)
   client_task ct3;
   server_task st;
 
-  thread t1(bind(&client_task::start, &ct1));
-  thread t2(bind(&client_task::start, &ct2));
-  thread t3(bind(&client_task::start, &ct3));
-  thread t4(bind(&server_task::run, &st));
+  thread t1 {&client_task::start, &ct1};
+  thread t2 {&client_task::start, &ct2};
+  thread t3 {&client_task::start, &ct3};
+  thread t4 {&server_task::run,   &st};
 
   t1.detach();
   t2.detach();
