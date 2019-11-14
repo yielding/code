@@ -1,0 +1,130 @@
+
+\chapter{문서 만들기} 
+본 장에서는 실제 문서를 작성하기 위해 필요한 다양한 명령어들을 소개합니다. 이렇게까지 친절할 필요가
+있을까하는 의문이 강하게 듭니다.
+
+\section{본문 내용 작성}
+\subsection{글꼴 바꾸기}
+\subsubsection{진하게}
+\begin{verbatim}
+    \textbf{진하게 표시할 글자}
+\end{verbatim}
+
+\subsubsection{나눔고딕체 사용}
+\begin{verbatim}
+    \textsf{나눔고딕체로 표시할 내용}
+\end{verbatim}
+
+\subsection{그대로 표시}
+표기방식에 설명된 파일/경로명, 사용자 입력 및 소스코드 등은 다음과 같이 작성합니다.
+\begin{verbatim}
+    \begin{verbatim}
+        내용 작성
+    \end{vertim}
+\end{verbatim}
+
+\subsection{주의 또는 참고사항}
+\begin{verbatim}
+    \begin{notice}
+        내용 작성
+    \end{notice}
+\end{verbatim}
+
+\section{이미지 넣기}
+문서에 그림을 넣는 작업의 간단한 예시입니다. 그림과 관련한 자세한 내용은 아래 링크의 그림넣기 장을
+참고하시기 바랍니다. \\
+
+http://willkwon.dothome.co.kr/wp-content/uploads/2018/01/lecture3.pdf
+
+\subsection{이미지 넣기 명령}
+\begin{verbatim}
+    \begin{figure}[h!]  % t! = top, h! = here, b! = bottom
+        \centering            % 이미지 정렬
+        \includegraphics[scale=2]{images/universe}
+        \caption{그림 아래에 표시될 캡션}
+        \label{fig:universe}   %이미지 참조를 위한 레이블
+    \end{figure}
+\end{verbatim}
+
+\begin{figure}[h!] 
+    \centering            % 이미지 정렬
+    \includegraphics[scale=2]{images/universe}
+    \caption{그림 아래에 표시될 캡션}
+    \label{fig:universe}   %이미지 참조를 위한 레이블
+\end{figure}
+
+\subsection{이미지 레이블 참조}
+문서에 넣은 이미지에 대한 레이블은 다음과 같이 참조할 수 있습니다. 이렇게 한 번 작성된 참조는
+실제 그림 번호가 바뀌더라도 수정할 필요가 없습니다. 개인적으로 \LaTeX의 최대 장점이라 생각합니다.
+
+\begin{verbatim}
+    관련된 내용은 그림 \ref{fig:universe}을 참고하시기 바랍니다. 
+\end{verbatim}
+
+관련된 내용은 그림 \ref{fig:universe}을 참고하시기 바랍니다.
+
+\section{표 만들기} 
+문서에 표를 작성하는 작업의 간단한 예시입니다. 표 작성과 관련한 자세한 내용은 아래 링크의 표 넣기
+장을 참고하시기 바랍니다. \\
+
+http://willkwon.dothome.co.kr/wp-content/uploads/2018/01/lecture3.pdf \\
+
+표를 만드는 작업은 상당히 \LaTeX에서 상당히 까다로운 작업으로 표를 생성해주는 서비스를 이용하는 것도
+좋은 방법입니다.
+
+https://www.tablesgenerator.com/
+
+\subsection{표 만들기 명령}
+\begin{verbatim}
+    \begin{table}
+        \begin{tabu}{X | X | X | X} \hline
+            \textbf{구분} & \textbf{항목} & \textbf{내용} & \textbf{비고} \\ \hline
+                구분1 & 항목1 & 내용1 & 비고1 \\ \hline
+                구분2 & 항목2 & 내용2 & 비고2 \\ \hline
+            \end{tabu}
+            \caption{표에 대한 설명}
+            \label{tab:table_01}
+    \end{table}
+\end{verbatim}
+
+\begin{table}[h!]
+    \begin{tabu}{X | X | X | X} \hline
+        \textbf{구분} & \textbf{항목} & \textbf{내용} & \textbf{비고} \\ \hline
+            구분1 & 항목1 & 내용1 & 비고1 \\ \hline
+            구분2 & 항목2 & 내용2 & 비고2 \\ \hline
+        \end{tabu}
+        \caption{표에 대한 설명}
+        \label{tab:table_01}
+\end{table}
+
+\subsection{표 레이블 참조}
+작성된 표에 대한 레이블도 그림과 동일한 방법으로 참조할 수 있습니다.
+
+\begin{verbatim}
+    관련된 내용은 표 \ref{tab:table_01}을 참고하시기 바랍니다. 
+\end{verbatim}
+관련된 내용은 표 \ref{tab:table_01}을 참고하시기 바랍니다. 
+
+\section{각주 넣기}
+문서 내의 특정한 단어 또는 문장에 대한 각주는 다음 명령어를 통해 작성할 수 있습니다.
+
+\begin{verbatim}
+    첫 번째 각주와 두 번째 각주입니다.
+\end{verbatim}
+
+첫 번째 각주\footnote{각주 안에서 참고나 인용된 문서 등은 기울임 글씨체로 표시합니다.}와
+두 번째 각주\footnote{\emph{MD-RED v4.0}을 기대해 주세요.}입니다.
+
+\section{나누어서 작업하기}
+하나의 문서를 여러 명이 나누어서 작업하는 경우, 각자 작업할 파일에 작성을 하고, 다음과 같이
+마치 C언어의 include처럼 현재 위치에 다른 파일을 불러오기 할 수 있습니다. 
+
+\begin{verbatim}
+    \input{sub1.tex}
+    \input{sub2.tex}
+    \input{sub3.tex}
+    \input{sub4.tex}
+\end{verbatim}
+
+파일을 분리하여 작업하는 경우, 본인이 작업한 파일만 Commit 할 수 있어 관리가 용이해 집니다.
+

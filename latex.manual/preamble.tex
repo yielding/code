@@ -1,0 +1,33 @@
+% This is a simple sample LaTeX file for MD-Series User's Manual (Ver 0.1 Nov 2019)
+%
+% Use this file as a model for making your own LaTeX input file.
+% Everything to the right of a % is a remark to you and is ignored by LaTeX.
+
+% The Local Guide tells how to run LaTeX.
+% WARNING! Do not type any of the following 10 characters except as directed:
+% & $ # % _ { } ^ ~ \
+
+\documentclass{book} % Your input file must contain these two lines
+% 한글글꼴 사용 설정
+\usepackage[utf8]{inputenc}
+% 나눔글꼴 사용 설정
+\usepackage[cjk,hangul,usecjkt1font]{kotex}
+\usepackage{natbib}
+\usepackage{graphicx}
+% 문서여백 설정
+\usepackage[left=2.5cm,right=2.5cm,top=3cm,bottom=3cm,a4paper]{geometry}
+\usepackage{tabu}
+
+% 주의 또는 참고사항 작성을 위한 텍스트 박스 스타일 정의
+\newenvironment{notice}
+{
+    \begin{center}
+    \begin{tabular}{|p{0.95\textwidth}|}
+    \hline
+}
+{
+    \\ \hline
+    \end{tabular}
+    \end{center}
+}
+

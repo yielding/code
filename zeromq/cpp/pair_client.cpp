@@ -2,11 +2,11 @@
 #include <string>
 #include <iostream>
 
-int main ()
+int main()
 {
   //  Prepare our context and socket
-  zmq::context_t context (1);
-  zmq::socket_t socket (context, ZMQ_PAIR);
+  zmq::context_t context(1);
+  zmq::socket_t  socket(context, ZMQ_PAIR);
 
   std::cout << "Connecting to hello world server..." << std::endl;
   socket.connect ("tcp://localhost:5555");

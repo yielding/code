@@ -11,7 +11,7 @@ int main(int argc, char const* argv[])
   if (!io.is_open())
     return 1;
 
-  uint8_t buffer[] = { 'l', 'e', 'e', 'c', 'h' };
+  auto buffer[] = { 'l', 'e', 'e', 'c', 'h' };
 
   io.write((char*)buffer, 5);
   io.seekp(0, ios_base::beg);

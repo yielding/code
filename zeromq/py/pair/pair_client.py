@@ -6,15 +6,13 @@ import random
 import sys
 import time
 
-port = "5556"
+port = "5555"
 context = zmq.Context()
-socket = context.socket(zmq.PAIR)
+socket = context.socket(zmq.REQ)
 socket.connect("tcp://localhost:%s" % port)
 
 while True:
     socket.send("Server message to client3")
     msg = socket.recv()
     print(msg)
-    socket.send("client message to server1")
-    socket.send("client message to server2")
     time.sleep(1)

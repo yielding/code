@@ -1,0 +1,69 @@
+\input {preamble.tex}
+
+% 문서의 시작
+\begin{document} % plus the \end{document} command at the end.
+%\title{MD-LIVE User's Manual}
+%\author{HancomGMD}
+%\maketitle
+
+\input{cover.tex}
+
+% 저작권 표시
+\begin{table}[b!]
+%\sffamily
+\centering
+\begin{tabular}{|l|} \hline
+\\
+본 문서의 저작권은 (주)한컴지엠디에 있으며, 본 문서에서 사용된 제조사명, 상표 및 브랜드에 \\대한 권리는
+각 제조사에 있습니다. \\
+\\
+제품 개선을 위해 본 문서에 기재된 모든 내용 및 화면 디자인 등은 사전예고 없이 변경될 수 \\있습니다. \\
+\\
+\LARGE\textbf{(주)한컴지엠디} {\large www.hancomgmd.com} \\
+\\
+(13493) 경기도 성남시 분당구 대왕판교로 644번길 49 한컴타워 5층\\
+대표전화 031--622--6111 기술지원 031--622--6152 -- 5 팩스 031--622--6143 \\ \\ \hline
+\end{tabular}
+\end{table}
+% 페이지 강제 넘김
+\clearpage
+
+%\sffamily
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+
+% 번호를 매기지 않는 제목을 만드려면 *를 붙인다.
+\section*{표기방식}
+본 매뉴얼은 다음과 같은 표기방식을 따릅니다.
+
+\subsection*{진하게}
+특별히 강조해야 하는 부분은 다음과 같이 진하게 표기합니다. \\
+\textbf{이 부분은 매우 중요한 부분입니다.}
+
+\subsection*{파일명, 경로명}
+특정 파일의 이름 또는 파일의 경로를 나타낼 때는 다음과 같이 표기합니다.
+\begin{verbatim}/data/data/kakao.talk/message.db \end{verbatim} 
+
+\subsection*{소스코드, 사용자입력}
+소스코드나 사용자가 직접 입력해야 하는 내용은 다음과 같이 표기합니다.
+\begin{verbatim}
+    for i in range(0, 100):
+        print i
+\end{verbatim}
+
+\subsection*{주의 또는 참고사항}
+주의사항이나 참고사항은 다음과 같이 텍스트박스를 통해 구분하여 표기합니다.
+% 상단에서 설정한 notice 텍스트 박스 활용
+\begin{notice}
+본 작업을 수행할 때는 다음과 같은 사항을 특별히 주의하시기 바랍니다.
+\end{notice}
+\clearpage
+
+\input{sub1.tex}
+\input{sub2.tex}
+\input{sub3.tex}
+\input{sub4.tex}
+
+\end{document} % The input file ends with this command.
