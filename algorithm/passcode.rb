@@ -3,7 +3,6 @@
 require "deep_clone"
 require "digest/sha1"
 
-
 class Passcode
   def initialize
     @sha1 = Digest::SHA1.new
