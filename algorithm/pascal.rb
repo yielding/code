@@ -2,6 +2,7 @@
 
 require 'test/unit'
 
+
 class Pascal
   def initialize
     @map = Hash.new { |h, k| h[k] = Hash.new(-1) }
@@ -15,6 +16,7 @@ class Pascal
     @map[x-1][y  ] = value_of(x-1, y  ) if @map[x-1][y  ] == -1
 
     @map[x-1][y-1] + @map[x-1][y]
+  end
 
   def value_of(x, y)
     return 0 if x < 1 or y < 1 or y > x

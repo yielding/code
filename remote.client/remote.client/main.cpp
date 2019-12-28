@@ -13,27 +13,96 @@
 #include <zmq.hpp>
 
 using namespace std;
+using namespace zmq;
+
+// 다음에 적당한 상속 구조를 생각해볼 수 있겠다.
+//
+class command
+{
+public:
+  command(uint32_t c, uint32_t l): m_cmd{c}, m_length{l}
+  {
+  }
+  
+  virtual auto message() -> message_t = 0;
+  
+  virtual auto header() -> message_t
+  {
+    message_t header(8);
+    auto start = (char *)header.data();
+    memcpy(start + 0, &m_cmd, 4);
+    memcpy(start + 4, &m_length, 4);
+    
+    return header;
+  }
+
+protected:
+  uint32_t m_cmd;
+  uint32_t m_length;
+};
+
+class list_command: public command
+{
+public:
+  list_command(string const& path): command(0, (uint32_t)path.length())
+  {
+    m_path = path;
+  }
+  
+  auto message() -> message_t override
+  {
+    return message_t(m_path.data(), m_length);
+  }
+
+private:
+  string m_path;
+};
+
+void split(const string& in, char delim, vector<string>& elems)
+{
+  stringstream ss(in);
+  string item;
+  while (getline(ss, item, delim))
+    elems.push_back(item);
+}
 
 int main(int argc, const char * argv[])
 {
-  zmq::context_t ctx(1);
-  zmq::socket_t socket(ctx, ZMQ_REQ);
+  context_t ctx(1);
+  socket_t  socket(ctx, ZMQ_REQ);
   socket.connect("tcp://localhost:5555");
   
-  string_view data = "foo";
-  char buf[3] = { 0 };
+  string path_to_read = "/Users/yielding/code/cpp.boost";
+  list_command cmd(path_to_read);
   
-  for (auto i=0; i<10; i++)
+  auto header = cmd.header();
+  socket.send(header, send_flags::sndmore);
+  
+  auto message = cmd.message();
+  socket.send(message, send_flags::none);
+  
+  message_t result;
+  if (auto size = socket.recv(result))
   {
-    const auto& d = zmq::buffer(data);
-    socket.send(d, zmq::send_flags::none);
-    sleep(1);
-    
-    // zmq::mutable_buffer b(buf, 3);
-    // socket.recv(b);
+    vector<string> elems;
+    split(string((char*)result.data(), *size), ';', elems);
+    for (auto& elem: elems)
+      cout << elem << endl;
   }
-  
+
   socket.close();
   
   return 0;
 }
+
+/*
+ message_t m1(5);
+ memcpy(m1.data(), "/Users/yielding/code/cpp.boost", 5);
+ socket.send(m1, send_flags::sndmore);
+ 
+ message_t m2(5);
+ memcpy(m2.data(), "world", 5);
+ socket.send(m2, send_flags::none);
+ 
+ if (auto size = socket.recv(m2))
+ */

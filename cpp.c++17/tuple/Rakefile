@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "tie"
+SRC       = "tuple_cat"
 SRCS      = %W{ #{SRC}.cpp }
 TEST_SRCS = %W{ test_#{SRC}.cpp }
 APP       = "#{SRC}"

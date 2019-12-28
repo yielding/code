@@ -10,7 +10,7 @@ struct TuplePrinter
   static void print(Tuple const& t)
   {
     TuplePrinter<Tuple, N-1>::print(t);
-    cout << ", " << get<N-1>(t);
+    cout << ", " << get<N-1>(t); 
   }
 };
 
