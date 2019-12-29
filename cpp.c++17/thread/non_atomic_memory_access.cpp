@@ -28,6 +28,12 @@ void thread_y()
   }
 } 
 
+//
+// REMARKS
+// 이 예제는 아래의 설명에 나오는 그림이 없으면 정말 이해하기 힘들겠다.
+//
+// https://popcorntree.tistory.com/15?category=813523
+//
 int main() 
 { 
   int count = 0; 
@@ -37,7 +43,7 @@ int main()
   t1.join(); 
   t2.join(); 
 
-  //연속된 숫자가 있나 없나 검사 
+  // 연속된 숫자가 있나 없나 검사 
   for (int i = 0; i < (MAX - 1); ++i) 
   { 
     if (trace_x[i] != trace_x[i + 1]) 
