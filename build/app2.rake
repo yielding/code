@@ -16,9 +16,8 @@ end
 $CXX = "g++"
 if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
-  $CXX = "g++-mp-4.7" if CXX =~ /c\+\+0x/
-  $CXX = "g++-mp-4.7" if CXX =~ /c\+\+11/
-  $CXX = "ccache xcrun clang++ -std=c++17 -stdlib=libc++" if CXX =~ /xcrun/
+  $CXX = "ccache g++-9 -std=c++2a -ltbb" if CXX =~ /g\+\+/
+  $CXX = "ccache xcrun clang++ -std=c++17 -stdlib=libstdc++ " if CXX =~ /xcrun/
 end
 
 $CXXFLAGS = " -DPOSIX"
