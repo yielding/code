@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "ByteBuffer.h"
-#include "EndianSwap.h"
+#include "endian_swap.hpp"
 #include <boost/algorithm/string.hpp>
 
 #include <cstdlib>

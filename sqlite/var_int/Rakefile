@@ -11,7 +11,7 @@ TEST_SRCS = %w{ /Users/yielding/code/develop/src/ByteBuffer.cpp
               }
 
 INCS      = "/Users/yielding/code/develop/include"
-CXX       = "clang++"         # c++0x, clang++, blank
+CXX       = "xcrun"         # c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
 LIBS      = ""
 
