@@ -15,6 +15,6 @@ int main(int argc, const char *argv[])
   cout << "Message from main." << endl;
 
   result.get();
-  
+
   return 0;
 }
