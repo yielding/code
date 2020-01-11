@@ -1,6 +1,5 @@
 #include <iostream>
 #include <set>
-#include <utility>
 #include <string>
 
 using namespace std;
@@ -18,12 +17,12 @@ struct cache_item
   long   size;
 };
 
-typedef std::set<cache_item> cache;
+typedef set<cache_item> cache;
 
 void pr(cache& s)
 {
   cout << "contents of set:\n";
-  for (auto e: s) cout << e.path << " ";
+  for (auto& e: s) cout << e.path << " ";
   cout << endl;
 }
 
@@ -38,9 +37,7 @@ int main(int argc, const char *argv[])
 
   auto it = s.find(cache_item("kamin", 200));
   if (it != s.end())
-  {
     cout << "found: " << it->path;
-  }
 
   return 0;
 }
