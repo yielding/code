@@ -1,8 +1,10 @@
 #include <iostream>
 
+using namespace std;
+
 void tprintf(const char* format) // base function
 {
-  std::cout << format;
+  cout << format;
 }
 
 template<typename T, typename... Targs>
@@ -12,12 +14,12 @@ void tprintf(const char* format, T value, Targs... Fargs) // recursive variadic 
   {
     if (*format == '%') 
     {
-      std::cout << value;
+      cout << value;
       tprintf(format+1, Fargs...); // recursive call
       return;
     }
 
-    std::cout << *format;
+    cout << *format;
   }
 }
 

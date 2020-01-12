@@ -1,14 +1,16 @@
 #include <iostream>
 
+using namespace std;
+
 template <class... Args>
-std::size_t f()
+size_t f()
 {
   return sizeof...(Args);
 }
 
 int main()
 {
-  std::cout << f<>() << '\n'
-            << f<int>() << '\n'
-            << f<char, int, double>() << '\n';
+  cout << f<>() << '\n'
+       << f<int>() << '\n'
+       << f<char, int, double>() << '\n';
 }
