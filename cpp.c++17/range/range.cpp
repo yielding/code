@@ -44,7 +44,7 @@ public:
 
   auto begin() const -> range_iterator<T>
   {
-    return range_iterator<T> {start_};
+    return range_iterator<T> { start_ };
   }
 
   auto end() const -> range_iterator<T>
@@ -63,9 +63,9 @@ private:
 //
 ////////////////////////////////////////////////////////////////////////////////
 template <typename T>
-range_impl<T> range(const T start, const T stop)
+auto range(const T start, const T stop) -> range_impl<T>
 {
-  return range_impl<T>{start, stop};
+  return range_impl<T> {start, stop};
 }
 
 ////////////////////////////////////////////////////////////////////////////////
