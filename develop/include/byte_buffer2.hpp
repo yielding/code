@@ -1,5 +1,4 @@
-#ifndef BYTE_BUFFER2_H
-#define BYTE_BUFFER2_H
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -141,5 +140,3 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-#endif
-

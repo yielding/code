@@ -4,7 +4,6 @@
 #include <utility>
 #include <cctype>
 #include <cstring>
-#include <algorithm>
 #include <iostream>
 #include <codecvt>
 #include <locale>
@@ -197,7 +196,7 @@ auto ByteBuffer2::get_int24_le(int at) const -> int32_t
   
   auto first = m_data[here+2];
   auto l = (int32_t) leading_byte(first);
-  auto r = (l << 8) | first; r <<= 8;
+  auto r = l << 8 | first; r <<= 8;
   r |= m_data[here + 1]; r <<= 8;
   r |= m_data[here + 0];
   
@@ -526,16 +525,16 @@ auto ByteBuffer2::get_varint_with_size() const -> pair<int64_t, int>
     auto val = int64_t(m_data[m_offset + value_size]);
     if ((val & 0b10000000) == 0b10000000 && value_size < 8)
     {
-      value = (value << 7) | (val & 0b01111111);
+      value = value << 7 | (val & 0b01111111);
     } 
     else if ((val & 0b10000000) == 0b10000000 && value_size == 8)
     {
-      value = (value << 8) | val;
+      value = value << 8 | val;
       complete = true;
     } 
     else 
     {
-      value = (value << 7) | (val & 0b01111111);
+      value = value << 7 | (val & 0b01111111);
       complete = true;
     }   
 

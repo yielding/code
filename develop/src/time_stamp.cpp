@@ -59,7 +59,7 @@ namespace sys {
       m_ms    = get<6>(res);
     }
 
-    impl(system_clock::time_point const&& tp)
+    explicit impl(system_clock::time_point const&& tp)
       : m_tp(tp)
     {
       auto res = split_time(m_tp);
@@ -69,7 +69,7 @@ namespace sys {
       m_ms    = get<6>(res);
     }
 
-    impl(time_t t)
+    explicit impl(time_t t)
       : impl(system_clock::from_time_t(t))
     {}
 
