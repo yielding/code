@@ -94,15 +94,3 @@ int main(int argc, const char * argv[])
   
   return 0;
 }
-
-/*
- message_t m1(5);
- memcpy(m1.data(), "/Users/yielding/code/cpp.boost", 5);
- socket.send(m1, send_flags::sndmore);
- 
- message_t m2(5);
- memcpy(m2.data(), "world", 5);
- socket.send(m2, send_flags::none);
- 
- if (auto size = socket.recv(m2))
- */

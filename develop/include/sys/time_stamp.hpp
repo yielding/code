@@ -1,5 +1,4 @@
-#ifndef TIME_STAMP_H_
-#define TIME_STAMP_H_
+#pragma once
 
 #include <memory>
 #include <string>
@@ -25,12 +24,12 @@ namespace sys {
   public:
     auto to_s() const -> std::string;
     
-    constexpr int year();
-    constexpr int month();
-    constexpr int day();
-    constexpr int hour();
-    constexpr int minute();
-    constexpr int second();
+    int year();
+    int month();
+    int day();
+    int hour();
+    int minute();
+    int second();
 
   public:
     static auto now() -> TimeStamp;
@@ -49,4 +48,3 @@ namespace sys {
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-#endif

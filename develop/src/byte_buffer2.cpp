@@ -3,10 +3,11 @@
 
 #include <utility>
 #include <cctype>
+#include <cstring>
 #include <algorithm>
-#include <sstream>
 #include <iostream>
 #include <codecvt>
+#include <locale>
 
 using namespace std;
 

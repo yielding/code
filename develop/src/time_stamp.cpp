@@ -12,7 +12,7 @@ using namespace std::chrono;
 
 namespace {
 
-  auto split_time(system_clock::time_point const & tp) 
+  auto split_time(system_clock::time_point const & tp)
     -> tuple<int, unsigned, unsigned, int, int, int, int>
   {
     auto dp   = floor<date::days>(tp);
@@ -49,8 +49,8 @@ namespace sys {
 
     impl(int y, int m, int d, int h, int mm, int s, int ms)
     {
-      m_tp = date::sys_days(date::year{y}/m/d) 
-           + hours{h} + minutes{mm} + seconds{s} + microseconds{ms};
+      m_tp = date::sys_days(date::year{y}/m/d)
+             + hours{h} + minutes{mm} + seconds{s} + microseconds{ms};
 
       auto res = split_time(m_tp);
       m_year  = get<0>(res); m_month = get<1>(res);
@@ -79,13 +79,13 @@ namespace sys {
   };
 
   //////////////////////////////////////////////////////////////////////////////////
-  
+
   auto TimeStamp::now() -> TimeStamp
   {
     auto r = split_time(system_clock::now());
 
-    return TimeStamp(get<0>(r), get<1>(r), get<2>(r), get<3>(r), 
-                     get<4>(r), get<5>(r), get<6>(r));
+    return TimeStamp(get<0>(r), get<1>(r), get<2>(r), get<3>(r),
+      get<4>(r), get<5>(r), get<6>(r));
   }
 
   TimeStamp::TimeStamp()
@@ -93,29 +93,29 @@ namespace sys {
   {}
 
   TimeStamp::TimeStamp(int y, int m, int d, int h, int mm, int s, int ms)
-    : m_impl(new impl(y, m, d, h, mm, s, ms)) 
+    : m_impl(new impl(y, m, d, h, mm, s, ms))
   {}
 
   TimeStamp::TimeStamp(time_t t)
-    : m_impl(new impl(t)) 
+    : m_impl(new impl(t))
   {}
 
   TimeStamp::TimeStamp(TimeStamp && rhs)
   {
     m_impl.swap(rhs.m_impl);
   }
-      
+
   TimeStamp::TimeStamp(TimeStamp const& rhs)
   {
     if (this != &rhs)
       *m_impl = *rhs.m_impl;
   }
-      
+
   TimeStamp& TimeStamp::operator=(const TimeStamp& rhs)
   {
     if (this != &rhs)
       *m_impl = *rhs.m_impl;
-    
+
     return *this;
   }
 
@@ -133,33 +133,33 @@ namespace sys {
   {
     return TimeStamp(1970, 1, 1, 0, 0, 0, 0);
   }
-      
-  constexpr int TimeStamp::year()
+
+  int TimeStamp::year()
   {
     return impl_()->m_year;
   }
 
-  constexpr int TimeStamp::month()
+  int TimeStamp::month()
   {
     return impl_()->m_month;
   }
 
-  constexpr int TimeStamp::day()
+  int TimeStamp::day()
   {
     return impl_()->m_day;
   }
 
-  constexpr int TimeStamp::hour()
+  int TimeStamp::hour()
   {
     return impl_()->m_hour;
   }
 
-  constexpr int TimeStamp::minute()
+  int TimeStamp::minute()
   {
     return impl_()->m_min;
   }
 
-  constexpr int TimeStamp::second()
+  int TimeStamp::second()
   {
     return impl_()->m_sec;
   }
