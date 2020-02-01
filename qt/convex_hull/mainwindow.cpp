@@ -70,5 +70,6 @@ void MainWindow::resetClicked()
 
 void MainWindow::drawClicked()
 {
+
   renderArea->findHull();
 }

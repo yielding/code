@@ -1,13 +1,16 @@
-cmake_minimum_required (VERSION 3.12)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
 
-set (CMAKE_CXX_STANDARD 17)
-set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+PROJECT (convex_hull)
 
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Widgets REQUIRED)
+SET (CMAKE_CXX_STANDARD 17)
+SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set (SOURCES
+
+FIND_PACKAGE(Qt5Core REQUIRED)
+FIND_PACKAGE(Qt5Gui REQUIRED)
+FIND_PACKAGE(Qt5Widgets REQUIRED)
+
+SET (SOURCES
   mainwindow.cpp
   moc_mainwindow.cpp
   renderarea.cpp
@@ -15,7 +18,8 @@ set (SOURCES
   main.cpp
 )
 
-include_directories (${CMAKE_CURRENT_SOURCE_DIR})
+INCLUDE_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(main ${SOURCES})
-qt5_use_modules(main Core Gui Widgets)
+ADD_EXECUTABLE(convex_hull ${SOURCES})
+
+QT5_USE_MODULES(convex_hull Core Gui Widgets)

@@ -1,6 +1,10 @@
-#ifndef COLORPOINT_H
-#define COLORPOINT_H
+#pragma once
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 #include <string>
 #include <cmath>
 
@@ -12,7 +16,7 @@ struct ColorPoint
     this->x = x;
     this->y = y;
 
-    color   = c;
+    color = c;
   }
 
   auto operator == (ColorPoint const& rhs) const -> bool
@@ -108,9 +112,7 @@ struct ColorPoint
                   "y: "  + to_string(y);
   }
 
-  int x;
-  int y;
+  int x{};
+  int y{};
   Color color;
 };
-
-#endif // COLORPOINT_H
