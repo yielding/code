@@ -17,7 +17,7 @@ $CXX = "g++"
 if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
   $CXX = "ccache g++-9 -std=c++2a -ltbb" if CXX =~ /g\+\+/
-  $CXX = "ccache xcrun clang++ -std=c++17 -stdlib=libstdc++ " if CXX =~ /xcrun/
+  $CXX = "ccache xcrun clang++ -std=c++17 -stdlib=libc++ " if CXX =~ /xcrun/
 end
 
 $CXXFLAGS = " -DPOSIX"
@@ -87,7 +87,7 @@ if defined? LDFLAGS
   end
 end
 
-$LDFLAGS += " -L. -L/usr/local/lib -L/Users/yielding/code/develop/lib -L/Users/yielding/code/develop/vendor/lib"
+$LDFLAGS += " -L. -L/usr/local/lib -L/Users/yielding/develop/lib -L/Users/yielding/develop/vendor/lib"
 BOOST = {
   :c => " -lboost_chrono-mt",
   :d => " -lboost_date_time-mt",
