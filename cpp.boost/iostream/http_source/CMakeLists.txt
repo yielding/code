@@ -1,0 +1,22 @@
+CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+
+PROJECT (http_source)
+
+SET (CMAKE_CXX_STANDARD 20)
+SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+SET (SOURCES
+  http_source.cpp
+  main.cpp
+)
+
+INCLUDE_DIRECTORIES (
+  /usr/local/include 
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+LINK_DIRECTORIES (/usr/local/lib)
+
+LINK_LIBRARIES (tbb)
+
+ADD_EXECUTABLE (http_source ${SOURCES})

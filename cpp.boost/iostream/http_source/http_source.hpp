@@ -1,5 +1,4 @@
-#ifndef HTTP_SOURCE_H_KCO69NC1
-#define HTTP_SOURCE_H_KCO69NC1
+#pragma once
 
 #include <boost/iostreams/concepts.hpp>
 #include <memory>
@@ -39,4 +38,3 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-#endif
