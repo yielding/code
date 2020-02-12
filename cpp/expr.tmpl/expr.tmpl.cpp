@@ -5,7 +5,8 @@
 using namespace std;
 
 template <typename E>
-class VecExpression {
+class VecExpression 
+{
 public:
   double operator[](size_t i) const { return static_cast<E const&>(*this)[i]; }
   size_t size() const               { return static_cast<E const&>(*this).size(); }
@@ -16,7 +17,8 @@ public:
   operator const E&() const { return static_cast<const E&>(*this); }
 };
 
-class Vec: public VecExpression<Vec> {
+class Vec: public VecExpression<Vec> 
+{
 public:
   double  operator[](size_t i) const { return elems[i]; }
   double& operator[](size_t i)       { return elems[i]; }
