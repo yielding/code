@@ -24,7 +24,8 @@ public:
     // cout << "destructor of clonable_base\n";
   }
 
-private: virtual clonable_base* do_clone() const = 0;
+private: 
+  virtual clonable_base* do_clone() const = 0;
 };
 
 template<typename Derived, typename Base = clonable_base>
