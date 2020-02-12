@@ -6,9 +6,7 @@
 using namespace std;
 
 //
-// DON'T use singleton
-// It's really nightmare. Dependencies etc.
-//
+// DON'T use singleton // It's really nightmare. Dependencies etc.  //
 class Database
 {
 public:

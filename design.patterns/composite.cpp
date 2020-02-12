@@ -5,8 +5,7 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
-//
-// Graphic = ellipse | GraphicList
+// // Graphic = ellipse | GraphicList
 //
 // GraphicList = empty | Graphic GraphicList
 //

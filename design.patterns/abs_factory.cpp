@@ -5,8 +5,7 @@
 
 using namespace std;
 
-class HotDrink
-{
+class HotDrink {
 public:
   virtual ~HotDrink() {}
   
