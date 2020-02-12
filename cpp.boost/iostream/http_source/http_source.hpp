@@ -13,10 +13,9 @@ class HTTPSource: public boost::iostreams::source
 {
 public:
   HTTPSource();
-  HTTPSource(std::string const& url, int timeout=60);
+  explicit HTTPSource(std::string const& url, int timeout=60);
  ~HTTPSource();
 
-  auto handshake() -> bool;
   auto handshake(std::string const& url, int timeout=60) -> bool;
 
 public:

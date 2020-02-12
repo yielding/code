@@ -11,10 +11,10 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 struct HTTPSource::Impl
 {
-  Impl(string const& url, int timeout=60): m_url(url) , m_timeout(timeout)
+  explicit Impl(string const& url, int timeout=60): m_url(url) , m_timeout(timeout)
   {}
 
- ~Impl() {}
+ ~Impl() = default;
 
   auto handshake(string const& url, int timeout) -> bool
   {
