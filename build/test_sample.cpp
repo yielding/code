@@ -1,24 +1,9 @@
-#include <gtest/gtest.h>
-#include <string>
-#include <iostream>
+#include "catch2/catch.hpp"
 
-using namespace std;
-
-class SampleTest: public testing::Test 
-{
-public:
-  SampleTest()
-  {}
-
-protected:
-  virtual void SetUp() {
+TEST_CASE("make things comiples") {
+  SECTION("name") {
+    REQUIRE(1 == 1);
+    REQUIRE_FALSE(1 == 2);
+    REQUIRE_THROW_AS(true, logic_error);
   }
-
-  virtual void TearDown() {
-  }
-};
-
-TEST(SampleTest, AlwaysTrue)
-{
-  EXPECT_EQ(1, 1);
 }

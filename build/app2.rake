@@ -16,7 +16,7 @@ end
 $CXX = "g++"
 if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
-  $CXX = "ccache g++-9 -std=c++2a -ltbb" if CXX =~ /g\+\+/
+  $CXX = "ccache g++-9 -std=c++2a " if CXX =~ /g\+\+/
   $CXX = "ccache xcrun clang++ -std=c++17 -stdlib=libc++ " if CXX =~ /xcrun/
 end
 
