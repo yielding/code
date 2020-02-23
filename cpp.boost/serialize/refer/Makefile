@@ -1,4 +1,4 @@
-CC = g++ -std=c++11 -pthread
+CC = g++ -std=c++2a -pthread
 CFLAGS = -g -Wall
 OPENCV = `pkg-config opencv4 --cflags --libs`
 LIBS = $(OPENCV)

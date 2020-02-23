@@ -162,7 +162,7 @@ void *send_data(void *ptr)
 void* recv_data(void *ptr)
 {
   int socket = *(int *)ptr;
-  char *buffer;
+  char *buffer = nullptr;
   int bytes;
 
   while(1)
