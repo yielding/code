@@ -1,5 +1,4 @@
-#ifndef BOXDATAREADER_H
-#define BOXDATAREADER_H
+#pragma once
 
 #include <QtCore/QTextStream>
 #include <QtCharts/QBoxSet>
@@ -21,4 +20,3 @@ private:
   QList<qreal> sortedList;
 };
 
-#endif 
