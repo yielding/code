@@ -57,8 +57,8 @@ if defined? INCS
   end
 end
 
-$INCS += " -I. -I/usr/local/include -I/Users/yielding/code/develop/include"
-$INCS += " -I/Users/yielding/code/develop/vendor/include"
+$INCS += " -I. -I/usr/local/include -I/Users/yielding/develop/include"
+$INCS += " -I/Users/yielding/develop/vendor/include"
 
 USER="/Users/yielding"
 CODE="/Users/yielding/code"
