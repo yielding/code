@@ -77,7 +77,7 @@ int main1(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-  auto img = imread("/Users/yielding/Desktop/IMG_0369.jpeg");
+  auto img = imread("/Users/yielding/Desktop/IMG_0447.jpeg");
   size_t sizeInBytes = img.total() * img.elemSize();
   cout << sizeInBytes << endl;
 
