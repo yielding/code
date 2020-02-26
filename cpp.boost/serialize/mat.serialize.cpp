@@ -48,7 +48,7 @@ namespace boost::serialization {
       for (int i = 0; i < rows; i++)
       {
         boost::serialization::binary_object row_data(mat.ptr(i), row_size);
-        std::string row_name("mat_data_row_" + std::to_string(i));
+        string row_name("mat_data_row_" + to_string(i));
         ar & make_nvp(row_name.c_str(), row_data);
       }
     }
