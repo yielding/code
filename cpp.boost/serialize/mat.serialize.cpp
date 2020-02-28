@@ -4,10 +4,13 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/iostreams/filter/zlib.hpp>
+#include <boost/iostreams/stream.hpp>
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <sstream>
+
+#include "container_device.hpp"
 
 using namespace std;
 using namespace cv;
@@ -57,14 +60,12 @@ namespace boost::serialization {
   /**/
 }
 
-cv::Mat deserialize(string compressed, string const& path)
+auto deserialize(string& compressed, string const& path) -> cv::Mat
 {
-  //cout << "compress size: " << compressed.length() << endl;
-
   Mat img;
 
-  stringstream iss(compressed);
-  ifstream ifs(path, ios::binary);
+  stringstream iss(compressed, ios_base::in | ios_base::out | ios_base::binary);
+  // ifstream ifs(path, ios::binary);
   io::filtering_streambuf<io::input> in;
   in.push(io::zlib_decompressor());
   in.push(iss);  // stream
@@ -72,34 +73,32 @@ cv::Mat deserialize(string compressed, string const& path)
   boost::archive::binary_iarchive ia(in);
   ia >> img;
 
+  iss.flush();
+
   if (img.empty())
     throw logic_error("deserialize error");
 
   return img;
 }
 
-string serialize(cv::Mat& img, string const& path)
+auto serialize(cv::Mat& img, string const& path) -> string
 {
-  size_t sizeInBytes = img.total() * img.elemSize();
-  cout << "original size: " << sizeInBytes << endl;
-
   if (img.empty())
     return "";
 
   stringstream oss;
-  ofstream ofs(path, ios::binary);
-  io::filtering_streambuf<io::output> out;
-  out.push(io::zlib_compressor());
-  out.push(ofs);  // stream
+  {
+    // ofstream ofs(path, ios::binary);
+    io::filtering_streambuf<io::output> out;
+    out.push(io::zlib_compressor(io::zlib::best_speed));
+    out.push(oss);  // stream
 
-  boost::archive::binary_oarchive oa(out);
-  oa << img;
+    boost::archive::binary_oarchive oa(out);
+    oa << img;
+  }
+  oss.flush();
 
-  auto res = oss.str();
-  cout << "string stream size: " << res.length() << endl;
-  ofstream tmp("/Users/yielding/Desktop/matrices.tmp", ios::binary);
-  tmp.write((char *)res.c_str(), res.length());
-  return res;
+  return oss.str();
 }
 
 int main(int argc, char* argv[])
