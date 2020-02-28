@@ -7,19 +7,20 @@
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace cv;
-namespace io = boost::iostreams;
+      namespace io = boost::iostreams;
 
 namespace boost::serialization {
 
+  /**/
   template <typename Archive>
-  void serialize(Archive& ar, cv::Mat& mat, const unsigned int /*version*/)
+  void serialize(Archive& ar, cv::Mat& mat, const unsigned int version)
   {
     int rows, cols, type;
     bool continuous;
-
     if (Archive::is_saving::value)
     {
       rows = mat.rows;
@@ -52,51 +53,71 @@ namespace boost::serialization {
         ar & make_nvp(row_name.c_str(), row_data);
       }
     }
-  };
-
+  }
+  /**/
 }
 
-int main1(int argc, char *argv[])
+cv::Mat deserialize(string compressed, string const& path)
 {
+  //cout << "compress size: " << compressed.length() << endl;
+
   Mat img;
 
-  ifstream ofs("/Users/yielding/Desktop/matrices.bin", ios::binary);
-  boost::archive::binary_iarchive oa(ofs);
-  oa >> img;
+  stringstream iss(compressed);
+  ifstream ifs(path, ios::binary);
+  io::filtering_streambuf<io::input> in;
+  in.push(io::zlib_decompressor());
+  in.push(iss);  // stream
+
+  boost::archive::binary_iarchive ia(in);
+  ia >> img;
 
   if (img.empty())
-    return -1;
+    throw logic_error("deserialize error");
 
-  imshow("Ex1", img);
-  waitKey(0);
-
-  destroyWindow("Ex1");
-
-  return 0;
+  return img;
 }
 
-int main(int argc, char *argv[])
+string serialize(cv::Mat& img, string const& path)
 {
-  auto img = imread("/Users/yielding/Desktop/IMG_0447.jpeg");
   size_t sizeInBytes = img.total() * img.elemSize();
-  cout << sizeInBytes << endl;
+  cout << "original size: " << sizeInBytes << endl;
 
   if (img.empty())
-    return -1;
+    return "";
 
-  imshow("Ex1", img);
-  waitKey(0);
+  stringstream oss;
+  ofstream ofs(path, ios::binary);
+  io::filtering_streambuf<io::output> out;
+  out.push(io::zlib_compressor());
+  out.push(ofs);  // stream
 
+  boost::archive::binary_oarchive oa(out);
+  oa << img;
+
+  auto res = oss.str();
+  cout << "string stream size: " << res.length() << endl;
+  ofstream tmp("/Users/yielding/Desktop/matrices.tmp", ios::binary);
+  tmp.write((char *)res.c_str(), res.length());
+  return res;
+}
+
+int main(int argc, char* argv[])
+{
+  auto img  = imread("/Users/yielding/Desktop/IMG_0447.jpeg");
+  auto path = string("/Users/yielding/Desktop/matrices.bin");
+  auto compressed = serialize(img, path);
+
+  try
   {
-    ofstream ofs("/Users/yielding/Desktop/matrices.bin", ios::binary);
-    io::filtering_streambuf<io::output> out;
-    out.push(io::zlib_compressor(io::zlib::best_speed));
-    out.push(ofs);
-    boost::archive::binary_oarchive oa(out);
-    oa << img;
+    auto img2 = deserialize(compressed, path);
+    imshow("Ex1", img2);
+    waitKey(0);
   }
-
-  destroyWindow("Ex1");
+  catch (exception& e)
+  {
+    cout << e.what() << endl;
+  }
 
   return 0;
 }

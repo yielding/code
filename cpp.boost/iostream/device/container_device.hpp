@@ -1,5 +1,4 @@
-#ifndef BOOST_IOSTREAMS_CONTAINTER_DEVICE_HPP_INCLUDED
-#define BOOST_IOSTREAMS_CONTAINTER_DEVICE_HPP_INCLUDED
+#pragma once
 
 #include <algorithm>         // copy, min.
 #include <cassert>
@@ -95,7 +94,7 @@ namespace boost::iostreams::example {
       auto result = (min)(n, amt);
       if (result != 0) 
       {
-        copy( container_.begin() + pos_, container_.begin() + pos_ + result, s );
+        copy(container_.begin() + pos_, container_.begin() + pos_ + result, s);
         pos_ += result;
         return result;
       } 
@@ -157,5 +156,3 @@ namespace boost::iostreams::example {
   };
 
 } 
-
-#endif
