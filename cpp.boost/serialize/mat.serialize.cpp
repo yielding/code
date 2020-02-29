@@ -1,16 +1,13 @@
 #include <boost/serialization/binary_object.hpp>
-
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/iostreams/filter/zlib.hpp>
-#include <boost/iostreams/stream.hpp>
 
 #include <opencv2/opencv.hpp>
+
 #include <iostream>
 #include <sstream>
-
-#include "container_device.hpp"
 
 using namespace std;
 using namespace cv;
@@ -18,7 +15,6 @@ using namespace cv;
 
 namespace boost::serialization {
 
-  /**/
   template <typename Archive>
   void serialize(Archive& ar, cv::Mat& mat, const unsigned int version)
   {
@@ -57,59 +53,53 @@ namespace boost::serialization {
       }
     }
   }
-  /**/
 }
 
-auto deserialize(string& compressed, string const& path) -> cv::Mat
+auto deserialize(string& compressed) -> cv::Mat
 {
-  Mat img;
+  cv::Mat result;
 
-  stringstream iss(compressed, ios_base::in | ios_base::out | ios_base::binary);
-  // ifstream ifs(path, ios::binary);
-  io::filtering_streambuf<io::input> in;
-  in.push(io::zlib_decompressor());
-  in.push(iss);  // stream
-
-  boost::archive::binary_iarchive ia(in);
-  ia >> img;
-
-  iss.flush();
-
-  if (img.empty())
-    throw logic_error("deserialize error");
-
-  return img;
-}
-
-auto serialize(cv::Mat& img, string const& path) -> string
-{
-  if (img.empty())
-    return "";
-
-  stringstream oss;
+  if (!compressed.empty())
   {
-    // ofstream ofs(path, ios::binary);
+    auto mode = ios_base::in | ios_base::out | ios_base::binary;
+    stringstream iss(compressed, mode);
+    io::filtering_streambuf<io::input> in;
+    in.push(io::zlib_decompressor());
+    in.push(iss);
+
+    boost::archive::binary_iarchive ia(in);
+    ia >> result;
+  }
+
+  return result;
+}
+
+auto serialize(cv::Mat& img) -> string
+{
+  stringstream result;
+
+  if (!img.empty())
+  {
     io::filtering_streambuf<io::output> out;
     out.push(io::zlib_compressor(io::zlib::best_speed));
-    out.push(oss);  // stream
+    out.push(result);
 
     boost::archive::binary_oarchive oa(out);
     oa << img;
   }
-  oss.flush();
 
-  return oss.str();
+  return result.str();
 }
 
 int main(int argc, char* argv[])
 {
   auto img  = imread("/Users/yielding/Desktop/IMG_0447.jpeg");
   auto path = string("/Users/yielding/Desktop/matrices.bin");
-  auto compressed = serialize(img, path);
+  auto compressed = serialize(img);
 
   try
   {
-    auto img2 = deserialize(compressed, path);
+    auto img2 = deserialize(compressed);
     imshow("Ex1", img2);
     waitKey(0);
   }
