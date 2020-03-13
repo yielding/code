@@ -10,7 +10,7 @@ using namespace std;
 int main()
 {
   // Open disk
-  uint32_t dev = open("/dev/disk0", O_RDONLY);
+  uint32_t dev = open("/dev/rdisk0", O_RDONLY);
 
   if (dev == -1) 
   {
