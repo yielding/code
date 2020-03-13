@@ -165,10 +165,8 @@ void fifo_test(Buffer* buffer)
   for (int i=0; i<100; i++) buffer->push_front(i);
 
   // 2. prepare producers
-  vector<thread> pool;
-  for (int i=0; i<10; i++)
-    pool.emplace_back(Producer<Buffer>(buffer, i*100));
   
+  vector<thread> pool;
   Consumer<Buffer> consumer(buffer);
   thread consume(consumer);
   for (int i=0; i<10; i++)
