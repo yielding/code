@@ -1,12 +1,13 @@
 # -*- ruby -*-
 # 
 
-SRCS     = %w{bounded.buffer.cpp}
-APP      = "bounded.buffer"
-OSX_LIBS = "-lboost_thread-mt -lboost_system-mt"
+CXX   = "xcrun"
+SRCS  = %w{bounded.buffer.cpp}
+APP   = "bounded.buffer"
+LIBS  = ":t :s"
 
 DIR = File.dirname __FILE__
 
-load '~/code/build/app.rake'
+load '~/code/build/app2.rake'
 
 task :default => [:osx]
