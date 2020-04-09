@@ -7,15 +7,21 @@ SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 SET (SOURCES
   thread.pool.cpp
+  /Users/yielding/develop/src/file_util.cpp
 )
 
 INCLUDE_DIRECTORIES (
   /usr/local/include 
   ${CMAKE_CURRENT_SOURCE_DIR}
+  /Users/yielding/develop/include
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
+LINK_DIRECTORIES (
+  /usr/local/lib
+)
 
-LINK_LIBRARIES (zmq)
+LINK_LIBRARIES (
+  zmq
+)
 
 ADD_EXECUTABLE (thread.pool ${SOURCES})
