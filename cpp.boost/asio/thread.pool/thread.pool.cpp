@@ -21,7 +21,7 @@ struct work_context
   zmq::context_t* ctx;
   string path;
   string url;
-  int64_t     chunk_count;
+  int64_t chunk_count;
 };
 
 void client_thread0(work_context& wc)
@@ -168,40 +168,6 @@ void server_thread(work_context& wc)
   cout << "server: done..." << endl;
 }
 
-int main_copy(int argc, char *argv[])
-{
-  auto src  = "/Users/yielding/Desktop/a.mkv";
-  auto dst  = "/Users/yielding/Desktop/copy.mkv";
-  auto size = util::file::size(src);
-  if (size == 0)
-    exit(EXIT_FAILURE);
-
-  context_t context(2);
-  int cs = CHUNK_SIZE, 
-      cc = (size + cs - 1) / cs;
-
-  work_context server_ctx = { 
-    .ctx  = &context, 
-    .path = src,
-    .url  = "tcp://*:6001",
-    .chunk_count = cc
-  };
-
-  work_context client_ctx = { 
-    .ctx  = &context, 
-    .path = dst,
-    .url  = "tcp://127.0.0.1:6001",
-    .chunk_count = cc
-  };
-
-  asio::thread_pool pool(4);
-  asio::post(pool, [&] { server_thread (server_ctx); });
-  asio::post(pool, [&] { client_thread1(client_ctx); });
-
-  pool.join();
-  return 0;
-}
-
 int main(int argc, char *argv[])
 {
   auto base = "/Users/yielding/Desktop/"s;
@@ -219,10 +185,10 @@ int main(int argc, char *argv[])
   for (int i=0; i<connection_count; i++)
   {
     work_context server_ctx = { 
-      .ctx  = &context, 
-      .path = base + files[i],
-      .url  = "tcp://*:600"s + to_string(i + 1),
-      .chunk_count = 0
+      &context, 
+      base + files[i],
+      "tcp://*:600"s + to_string(i + 1),
+      0
     };
 
     sctx.push_back(server_ctx);
@@ -236,10 +202,10 @@ int main(int argc, char *argv[])
   for (int i=0; i<connection_count; i++)
   {
     work_context client_ctx = { 
-      .ctx  = &context, 
-      .path = base + files2[i],
-      .url  = "tcp://127.0.0.1:600" + to_string(i + 1),
-      .chunk_count = 0
+      &context, 
+      base + files2[i],
+      "tcp://127.0.0.1:600" + to_string(i + 1),
+      0
     };
 
     cctx.push_back(client_ctx);
