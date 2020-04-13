@@ -1,0 +1,207 @@
+namespace ContactSync;
+
+enum StructuredNamePart : byte {
+  invalid,
+  first,
+  middle,
+  last
+}
+
+table SquareImage {
+ ///@CdnContent{"expiryTimeout":"1296000"}
+ uri:string;
+ width:int;
+}
+
+table PhoneNumber {
+  country_code:string;
+  display_number:string;
+  national_number:string;
+  universal_number:string;
+}
+
+table ContactField {
+  label:string;
+  phone:PhoneNumber;
+}
+
+table ContactEntry {
+  is_verified:bool;
+  primary_field:ContactField;
+}
+
+table NamePart {
+  part:StructuredNamePart;
+  offset:int;
+  length:int;
+}
+
+table Name {
+  parts:[NamePart];
+  text:string;
+}
+
+table AlohaProxyUser {
+  id:string;
+  aloha_user_name:string;
+  aloha_user_structured_name:Name;
+}
+
+table AlohaProxyUserNode {
+  node: AlohaProxyUser;
+}
+
+table AlohaProxyUserConnection {
+  edges:[AlohaProxyUserNode];
+}
+
+table AlohaUser {
+  id:string;
+  aloha_user_structured_name:Name;
+}
+
+table AlohaUserNode {
+  node: AlohaUser;
+}
+
+table AlohaUserConnection {
+  edges:[AlohaUserNode];
+}
+
+table WorkCommunity {
+  name:string;
+}
+
+table WorkInfo {
+  work_community:WorkCommunity;
+  job_title:string;
+}
+
+table School {
+  name:string;
+  id:string;
+}
+
+table Employer {
+  name:string;
+  id:string;
+}
+
+table UserWorkExperience {
+  employer:Employer;
+  is_current:bool;
+}
+
+table UserWorkExperiencesConnection {
+  nodes:[UserWorkExperience];
+}
+
+table FamilyMember {
+  id:string;
+}
+
+table UserFamilyRelationship {
+  user:FamilyMember;
+}
+
+table UserFamilyRelationshipsConnection {
+  nodes:[UserFamilyRelationship];
+}
+
+enum WorkForeignEntityInfoType : byte {
+  UNKNOWN = 0,
+  NOT_FOREIGN = 1,
+  FOREIGN = 2,
+}
+
+table WorkForeignEntityInfo {
+  type:WorkForeignEntityInfoType;
+}
+
+table Actor {
+  id:string;
+  is_messenger_user:bool;
+  is_viewer_friend:bool;
+  name_search_tokens:[string];
+  is_memorialized:bool;
+  is_partial:bool;
+  can_viewer_message:bool;
+  ///@Ignore{"realtimeOnly":"true"}
+  rank:float;
+  is_message_blocked_by_viewer:bool;
+  is_mobile_pushable:bool;
+  ///@Ignore{"realtimeOnly":"true"}
+  messenger_invite_priority:float;
+  accepts_messages_from_viewer:bool;
+  ///@Ignore{"realtimeOnly":"true"}
+  phat_rank:float;
+  username:string;
+  can_see_viewer_montage:bool;
+  montage_thread_fbid:string;
+  profile_picture_is_silhouette:bool;
+  unused_do_not_remove:string;
+  active_now_rank:float;
+  messenger_broadcast_flow_eligible:bool;
+  favorite_color:string;
+  is_aloha_proxy_confirmed:bool;
+  owned_aloha_proxy_users:[AlohaProxyUser];
+  deprecated_aloha_proxy_users_owned:AlohaProxyUserConnection;
+  deprecated_aloha_proxy_user_owners:AlohaUserConnection;
+  deprecated_is_neo_approved_user:bool;
+  aloha_proxy_users_owned:AlohaProxyUserConnection;
+  aloha_proxy_user_owners:AlohaUserConnection;
+  is_neo_approved_user:bool;
+  is_message_ignored_by_viewer:bool;
+  maximum_messenger_version:string;
+  is_viewer_coworker:bool; // You may want to use `work_foreign_entity_info` instead.
+  work_info:WorkInfo;
+  is_work_user:bool;
+  short_name:string;
+  is_viewer_managed_neo_approved_user:bool;
+  is_viewer_managing_parent:bool;
+  current_education:School;
+  work_experiences:UserWorkExperiencesConnection;
+  family_relationships:UserFamilyRelationshipsConnection;
+  messenger_call_log_third_party_id:string;
+  work_foreign_entity_info:WorkForeignEntityInfo;
+  is_managing_parent_approved_user:bool;
+  aloha_proxy_users:AlohaUserConnection;
+}
+
+enum ViewerConnectionStatus : byte {
+  INVALID,
+  CONNECTED,
+  NO_CONNECTION,
+  CANNOT_ADD_AS_CONTACT
+}
+
+enum UnifiedStoriesConnectionStatus : byte {
+  UNKNOWN,
+  FRIENDS,
+  FOLLOWER,
+  CONNECTION
+}
+
+table MontageUserAudienceMetadata {
+  is_blocked_participant:bool;
+  is_custom_participant:bool;
+  is_muted_author:bool;
+}
+
+table Contact {
+  id:string;
+  graph_api_write_id:string;
+  imported_phone_entries:[ContactEntry];
+  structured_name:Name;
+  phonetic_name:Name;
+  small_profile_picture:SquareImage;
+  large_profile_picture:SquareImage;
+  represented_profile:Actor;
+  added_time:int;
+  viewer_connection_status:ViewerConnectionStatus;
+  add_source:string;
+  unified_stories_connection_status:UnifiedStoriesConnectionStatus;
+  montage_user_audience_metadata:MontageUserAudienceMetadata;
+}
+
+root_type Contact;
