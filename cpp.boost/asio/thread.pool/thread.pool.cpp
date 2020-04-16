@@ -72,6 +72,15 @@ void client_thread1(work_context& wc)
   size_t chunks = 0; // total chunks received
   size_t offset = 0; // offset of next chunk request
 
+  // 1. dealer에게 파일의 정보를 얻어온다.
+  message_t info; 
+  dealer.send(buffer("info"s), send_flags::none);
+  if (auto size = dealer.recv(info))
+  {
+    cout << string((char *)info.data(), *size) << endl;
+  }
+
+  // 2.
   ofstream out(wc.path.c_str(), ios_base::binary);
   while (true)
   {
@@ -135,28 +144,36 @@ void server_thread(work_context& wc)
       if (auto size = router.recv(message))
         command = string((char *)message.data(), *size);
 
-      size_t offset = 0;
-      if (auto size = router.recv(message))
-        offset = stoi(string((char *)message.data(), *size));
-
-      size_t chunk_sz = 0;
-      if (auto size = router.recv(message))
+      if (command == "info")
       {
-        chunk_sz = stoi(string((char *)message.data(), *size));
-        if (chunk_sz == 0)
+        router.send(identity, send_flags::sndmore);
+        router.send(const_buffer("use.default", 11), send_flags::none);
+      }
+      else
+      {
+        size_t offset = 0;
+        if (auto size = router.recv(message))
+          offset = stoi(string((char *)message.data(), *size));
+
+        size_t chunk_sz = 0;
+        if (auto size = router.recv(message))
+        {
+          chunk_sz = stoi(string((char *)message.data(), *size));
+          if (chunk_sz == 0)
+            break;
+        }
+
+        in.seekg(offset, ios_base::beg);
+        in.read (buffer, chunk_sz);
+        auto actual_read = in.gcount();
+
+        auto to_send = std::min((int)actual_read, (int)chunk_sz);
+        router.send(identity, send_flags::sndmore);
+        router.send(const_buffer(buffer, to_send), send_flags::none);
+
+        if (actual_read < CHUNK_SIZE)
           break;
       }
-
-      in.seekg(offset, ios_base::beg);
-      in.read (buffer, chunk_sz);
-      auto actual_read = in.gcount();
-
-      auto to_send = std::min((int)actual_read, (int)chunk_sz);
-      router.send(identity, send_flags::sndmore);
-      router.send(const_buffer(buffer, to_send), send_flags::none);
-
-      if (actual_read < CHUNK_SIZE)
-        break;
     }
   }
   catch(error_t e)
@@ -177,7 +194,7 @@ int main(int argc, char *argv[])
   asio::thread_pool server_pool(4);
   asio::thread_pool client_pool(4);
 
-  vector<string> files = { "1.mkv", "2.mkv", "3.mkv" };
+  vector<string> files = { "1.mp4", "2.mp4", "3.mp4" };
   vector<work_context> sctx;
 
   int connection_count = 3;
@@ -197,7 +214,7 @@ int main(int argc, char *argv[])
   for (auto& ctx: sctx) 
     asio::post(server_pool, [&] { server_thread (ctx); });
 
-  vector<string> files2 = { "a.mkv", "b.mkv", "c.mkv" };
+  vector<string> files2 = { "a.mp4", "b.mp4", "c.mp4" };
   vector<work_context> cctx;
   for (int i=0; i<connection_count; i++)
   {
