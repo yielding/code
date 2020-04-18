@@ -80,11 +80,10 @@ void client_thread1(work_context& wc)
     cout << string((char *)info.data(), *size) << endl;
   }
 
-  // 2.
+  // 2. actual file contents transfer
   ofstream out(wc.path.c_str(), ios_base::binary);
   while (true)
   {
-    //while (credit && wc.chunk_count > 0)
     while (credit)
     {
       dealer.send(buffer("fetch"s), send_flags::sndmore);
@@ -92,7 +91,6 @@ void client_thread1(work_context& wc)
       dealer.send(buffer(to_string(CHUNK_SIZE)));
       offset += CHUNK_SIZE;
       credit--;
-      //wc.chunk_count--;
     }
 
     message_t chunk;
@@ -149,7 +147,7 @@ void server_thread(work_context& wc)
         router.send(identity, send_flags::sndmore);
         router.send(const_buffer("use.default", 11), send_flags::none);
       }
-      else
+      else if (command == "fetch")
       {
         size_t offset = 0;
         if (auto size = router.recv(message))
@@ -173,6 +171,10 @@ void server_thread(work_context& wc)
 
         if (actual_read < CHUNK_SIZE)
           break;
+      }
+      else
+      {
+        break;
       }
     }
   }
