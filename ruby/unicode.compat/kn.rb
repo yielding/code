@@ -10,7 +10,9 @@ class Numeric
 end
 
 class Array
-  def to_hex; "[" + self.map { |e| e.to_hex }.join(", ") + "]" end
+  def to_hex 
+    "[" + self.map { |e| e.to_hex }.join(", ") + "]" 
+  end
 end
 
 class Korean
@@ -26,25 +28,29 @@ class Korean
     res = ""
     i = 0
     while i < s.length
-      ch = 0
-      if @first.include?(s[i])
-        use_count = 2
-        first  = s[i] - @first.first
-        second = s[i + 1] - @center.first
-        thrid  = 0
-        if i + 2 < s.length and @last.include?(s[i+2])
-          thrid = s[i+2] - @last.first + 1
-          use_count += 1
+      ch = s[i]
+      begin
+        if @first.include?(s[i])
+          use_count = 2
+          first  = s[i+0] - @first.first
+          second = s[i+1] - @center.first
+          thrid  = 0
+          if i + 2 < s.length and @last.include?(s[i+2])
+            thrid = s[i+2] - @last.first + 1
+            use_count += 1
+          end
+
+          ch = (first * 21 + second) * 28 + thrid + 0xac00
+          i += use_count
+        else
+          ch = s[i]
+          i += 1
         end
-
-        ch = (first * 21 + second) * 28 + thrid + 0xac00
-        i += use_count
-      else
-        ch = s[i]
-        i += 1
+      rescue
+        #
+      ensure
+        res += [ch].pack("U")
       end
-
-      res += [ch].pack("U")
     end
 
     res
@@ -52,7 +58,7 @@ class Korean
 
   def transcode_compat(codepoints)
     f0 = @phoneme.compact_vowels(codepoints)
-    f1 = @phoneme.compact_cons(f0)
+    f1 = @phoneme.compact_consonant(f0)
     default_jamo = @phoneme.to_jamo(f1)
 
     return self.transcode(default_jamo)
@@ -60,12 +66,13 @@ class Korean
 end
 
 # ok
-f = File.open("keyboard.dat", "r:utf-8:utf-16le")
-f.pos = 0x18
+#f = File.open("keyboard.dat", "r:utf-8:utf-16le")
+#f.pos = 0x18
+#data = f.read()
+#sentences = data.split "\u0000".encode("utf-16le")
 
-# ok
-data = f.read()
-sentences = data.split "\u0000".encode("utf-16le")
+f = File.open("unicode.dat", "r:utf-8:utf-16le")
+sentences = f.readlines()
 
 kor = Korean.new
 sentences.each { |s|

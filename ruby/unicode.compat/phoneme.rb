@@ -41,7 +41,7 @@ class Phoneme
   end
 
   # 3개 연속 자음이 나오는 경우
-  def compact_cons(codes)
+  def compact_consonant(codes)
     i, result = 0, []
 
     while i < codes.length - 2
@@ -122,27 +122,35 @@ class Phoneme
 
   def to_jamo(compat_jamo)
     res = compat_jamo.each_cons(2).map do |e|
-      pos = (e[0].consonant? and e[1].consonant?) ? 1 : 0
+      pos = index_of(e[0], e[1])
       translate(e[0], pos)
     end
 
-    last = compat_jamo.last
-    pos  = last.consonant? ? 1 : 0
-    res.push(translate(last, pos))
-
+    # special treat for the last char
+    pos = index_of(compat_jamo.last, res.last)
+    res.push(translate(compat_jamo.last, pos))
     return res
   end
 
   def translate(code, pos=0)
-    return 0 if (0x3131..0x314e).include?(code) and pos > 1
+    return code if (0x3131..0x314e).include?(code) and pos > 1
 
     case code
     when 0x3131..0x314e then @consonant[code][pos]
     when 0x314f..0x3163 then code - 8174
     else
-      0
+      code
     end
   end
+
+private
+  def index_of(c1, c2)
+    return 100 if c1 == c2
+    return 100 if c1.consonant? and (not c2.consonant? and not c2.vowel?)
+    return 1   if c1.consonant? and c2.consonant?
+    0
+  end
+
 end
 
 =begin rdoc

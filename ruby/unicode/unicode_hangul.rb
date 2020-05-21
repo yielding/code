@@ -75,4 +75,10 @@ class TestKoreanString < Test::Unit::TestCase
     kor  = "내보내기 할 파일의 경로가 너무 깁니다"
     assert_equal(kor, line.extract_kor)
   end
+
+  def test_ok
+    a = "ㅇㅇㅇ"
+    puts a.korean?
+
+  end
 end
