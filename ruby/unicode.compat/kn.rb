@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
-
 require_relative "phoneme"
 require "pp"
 
@@ -27,10 +26,12 @@ class Korean
   def transcode(s)
     res = ""
     i = 0
+    first_appeard = false
     while i < s.length
       ch = s[i]
       begin
         if @first.include?(s[i])
+          first_appeard = true
           use_count = 2
           first  = s[i+0] - @first.first
           second = s[i+1] - @center.first
@@ -53,7 +54,8 @@ class Korean
       end
     end
 
-    res
+    return s.reduce(:+) unless first_appeard
+    return res
   end
 
   def transcode_compat(codepoints)

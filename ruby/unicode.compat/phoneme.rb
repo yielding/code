@@ -121,15 +121,18 @@ class Phoneme
   end
 
   def to_jamo(compat_jamo)
-    res = compat_jamo.each_cons(2).map do |e|
-      pos = index_of(e[0], e[1])
-      translate(e[0], pos)
+    c0 = compat_jamo[0]
+    res = []
+    compat_jamo.each_cons(2).map do |e|
+      c1 = e[0]
+      c2 = e[1]
+      pos = index_of(c0, c1, c2)
+      res.push(translate(c1, pos))
+      c0 = c1
     end
 
-    # special treat for the last char
-    pos = index_of(compat_jamo.last, res.last)
-    res.push(translate(compat_jamo.last, pos))
-    return res
+    res.push(translate(compat_jamo.last, 1))
+    res
   end
 
   def translate(code, pos=0)
@@ -144,11 +147,12 @@ class Phoneme
   end
 
 private
-  def index_of(c1, c2)
-    return 100 if c1 == c2
-    return 100 if c1.consonant? and (not c2.consonant? and not c2.vowel?)
+  def index_of(c0, c1, c2)
     return 1   if c1.consonant? and c2.consonant?
-    0
+    return 0   if c1.consonant? and c2.vowel?
+    return 1   if c0.vowel?     and c1.consonant? and (not c2.consonant? and not c2.vowel?)
+    return 100 if c0.consonant? and c1.consonant? and (not c2.consonant? and not c2.vowel?)
+    100
   end
 
 end
