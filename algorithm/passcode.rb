@@ -46,9 +46,7 @@ private
     process(arr) && return if arr.length == depth
   
     @candidates_hash[beg].each do |c| 
-      unless arr.include?(c)
-        backtrack(DeepClone.clone(arr).push(c), c, depth)
-      end
+      backtrack(DeepClone.clone(arr).push(c), c, depth) unless arr.include?(c)
     end 
   end
 end
