@@ -45,9 +45,7 @@ class SegmentTree
   def traverse
     arr = []
     traverse_tree(arr, 0, 0, @size - 1)
-    arr
-  end
-
+    arr end
 private
   def traverse_tree(res, ti, lo, hi, &block)
     if lo == hi

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-string add(string const& a, string const& b) 
+auto add(string const& a, string const& b) -> string
 {
   stringstream res;
 
