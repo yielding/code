@@ -8,16 +8,16 @@ namespace handle::utility {
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-template <typename Trailts>
+template <typename Traits>
 class unique_handle
 {
-  using pointer = typename Trailts::pointer;
+  using pointer = typename Traits::pointer;
 
 public:
   unique_handle(unique_handle const&) = delete;
   auto operator=(unique_handle const&) -> unique_handle& = delete; 
 
-  explicit unique_handle(pointer value = Trailts::invalid()) noexcept
+  explicit unique_handle(pointer value = Traits::invalid()) noexcept
     : m_value{value}
   {
   }
@@ -42,7 +42,7 @@ public:
   
   explicit operator bool() const noexcept
   {
-    return m_value != Trailts::invalid();
+    return m_value != Traits::invalid();
   }
 
   auto get() const noexcept -> pointer
@@ -58,12 +58,12 @@ public:
   auto release() noexcept -> pointer
   {
     auto value = m_value;
-    m_value = Trailts::invalid();
+    m_value = Traits::invalid();
 
     return value;
   }
 
-  auto reset(pointer value = Trailts::invalid()) noexcept -> bool
+  auto reset(pointer value = Traits::invalid()) noexcept -> bool
   {
     if (m_value != value)
     {
@@ -74,7 +74,7 @@ public:
     return static_cast<bool>(*this);
   }
 
-  auto swap(unique_handle<Trailts>& other) noexcept -> void
+  auto swap(unique_handle<Traits>& other) noexcept -> void
   {
     std::swap(m_value, other.m_value);
   }
@@ -85,7 +85,7 @@ private:
   auto close() noexcept -> void
   {
     if (*this)
-      Trailts::close(m_value);
+      Traits::close(m_value);
   }
 };
 
@@ -95,52 +95,52 @@ private:
 //
 ////////////////////////////////////////////////////////////////////////////////
 template <typename Traits>
-auto swap(unique_handle<Traits> & left,
-          unique_handle<Traits> & right) noexcept -> void
+auto swap(unique_handle<Traits>& lhs,
+          unique_handle<Traits>& rhs) noexcept -> void
 {
-  left.swap(right);
+  lhs.swap(rhs);
 }
 
 template <typename Traits>
-auto operator==(unique_handle<Traits> const & left,
-                unique_handle<Traits> const & right) noexcept -> bool
+auto operator==(unique_handle<Traits> const& lhs,
+                unique_handle<Traits> const& rhs) noexcept -> bool
 {
-  return left.get() == right.get();
+  return lhs.get() == rhs.get();
 }
 
 template <typename Traits>
-auto operator!=(unique_handle<Traits> const & left,
-                unique_handle<Traits> const & right) noexcept -> bool
+auto operator!=(unique_handle<Traits> const& lhs,
+                unique_handle<Traits> const& rhs) noexcept -> bool
 {
-  return left.get() != right.get();
+  return lhs.get() != rhs.get();
 }
 
 template <typename Traits>
-auto operator<(unique_handle<Traits> const & left,
-                unique_handle<Traits> const & right) noexcept -> bool
+auto operator<(unique_handle<Traits> const& lhs,
+               unique_handle<Traits> const& rhs) noexcept -> bool
 {
-  return left.get() < right.get();
+  return lhs.get() < rhs.get();
 }
 
 template <typename Traits>
-auto operator>=(unique_handle<Traits> const & left,
-                unique_handle<Traits> const & right) noexcept -> bool
+auto operator>=(unique_handle<Traits> const& lhs,
+                unique_handle<Traits> const& rhs) noexcept -> bool
 {
-  return left.get() >= right.get();
+  return lhs.get() >= rhs.get();
 }
 
 template <typename Traits>
-auto operator>(unique_handle<Traits> const & left,
-                unique_handle<Traits> const & right) noexcept -> bool
+auto operator>(unique_handle<Traits> const& lhs,
+               unique_handle<Traits> const& rhs) noexcept -> bool
 {
-  return left.get() > right.get();
+  return lhs.get() > rhs.get();
 }
 
 template <typename Traits>
-auto operator<=(unique_handle<Traits> const & left,
-                unique_handle<Traits> const & right) noexcept -> bool
+auto operator<=(unique_handle<Traits> const & lhs,
+                unique_handle<Traits> const & rhs) noexcept -> bool
 {
-  return left.get() <= right.get();
+  return lhs.get() <= rhs.get();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -148,7 +148,7 @@ auto operator<=(unique_handle<Traits> const & left,
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-struct null_handle_traits
+struct NullHandleTraits
 {
   using pointer = int;
 
@@ -163,7 +163,7 @@ struct null_handle_traits
   }
 };
 
-struct invalid_handle_traits
+struct InvalidHandleTraits
 {
   using pointer = int;
 
@@ -178,8 +178,8 @@ struct invalid_handle_traits
   }
 };
 
-using null_handle    = unique_handle<null_handle_traits>;
-using invalid_handle = unique_handle<invalid_handle_traits>;
+using null_handle = unique_handle<NullHandleTraits>;
+using invalid_handle = unique_handle<InvalidHandleTraits>;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
