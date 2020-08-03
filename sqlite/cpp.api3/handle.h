@@ -1,5 +1,4 @@
-#ifndef HANDLE_H
-#define HANDLE_H
+#pragma once
 
 #include <utility>
 
@@ -188,5 +187,3 @@ using invalid_handle = unique_handle<invalid_handle_traits>;
 //
 ////////////////////////////////////////////////////////////////////////////////
 }
-
-#endif

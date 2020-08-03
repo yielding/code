@@ -1,9 +1,6 @@
-#ifndef EXCEPTION_H
-#define EXCEPTION_H
+#pragma once
 
 #include <string>
-
-using namespace std;
 
 struct sqlite_exception
 {
@@ -13,7 +10,5 @@ struct sqlite_exception
   {}
 
   int code;
-  string message;
+  std::string message;
 }
-
-#endif

@@ -1,7 +1,4 @@
-#ifndef CPP_API3_H
-#define CPP_API3_H
+#pragma once
 
 #include "connection.h"
 #include "statement.h"
-
-#endif

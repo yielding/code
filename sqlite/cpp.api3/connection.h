@@ -1,5 +1,4 @@
-#ifndef CONNECTION_H_LEDDHNXH
-#define CONNECTION_H_LEDDHNXH
+#pragma once
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -14,7 +13,7 @@ struct connection
 
   auto open(char const* filename = ":memory:") -> bool
   {
-    auto local  = connection_handle {};
+    auto local = connection_handle {};
     auto result = ::sqlite3_open(filename, local.get_address_of());
     if (result != SQLITE_OK)
       return false;
@@ -26,7 +25,7 @@ struct connection
 
   auto create_memory() -> bool
   {
-    auto local  = connection_handle{};
+    auto local = connection_handle{};
     auto result = ::sqlite3_open(":memory:", local.get_address_of());
 
     handle_ = std::move(local);
@@ -56,4 +55,3 @@ struct connection
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-#endif

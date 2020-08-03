@@ -15,6 +15,7 @@ int main(int argc, const char *argv[])
 
   auto beg = distance(n.begin(), i),
        pos = distance(i, j.base());
+
   cout << n.substr(beg, pos);
 
   return 0;
