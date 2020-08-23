@@ -14,4 +14,3 @@ config = load_from_file("config.json")
 
 for app in config: 
     pprint.pprint(app)
-

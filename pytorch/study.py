@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import torch
-from   torch.autograd import Variable
+from torch.autograd import Variable
+import xml
 
 x = torch.randn(3)
 x = Variable(x, requires_grad=True)
