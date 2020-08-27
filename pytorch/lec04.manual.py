@@ -20,16 +20,19 @@ def loss(x, y):
 def gradient(x, y):
     return 2 * x * (x * w - y)
 
+def main():
+    print("predict (before training)", 4, forward(4))
 
-print("predict (before training)", 4, forward(4))
+    for epoch in range(100):
+        for x,  y in zip(x_data, y_data):
+            grad = gradient(x, y)
+            w = w - 0.01  * grad
+            print("\tgrad: ", x, y, grad)
+            l = loss(x, y)
 
-for epoch in range(100):
-    for x,  y in zip(x_data, y_data):
-        grad = gradient(x, y)
-        w = w - 0.01  * grad
-        print("\tgrad: ", x, y, grad)
-        l = loss(x, y)
+        print("progress", epoch, "w=", w, "loss=", l)
 
-    print("progress", epoch, "w=", w, "loss=", l)
+    print("predict (after training)", "5 hours", forward(4))
 
-print("predict (after training)", "5 hours", forward(4))
+if __name__ == "__main__":
+    main()
