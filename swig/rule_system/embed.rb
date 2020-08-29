@@ -4,7 +4,7 @@ include OpenEye
 
 #puts $:
 
-# C++¿Í ·çºñ¿¡¼­ µ¿½Ã¿¡ Á¢±Ù °¡´ÉÇÑ ÀÚ·á±¸Á¶ »ı¼º
+# C++ì™€ ë£¨ë¹„ì—ì„œ ë™ì‹œì— ì ‘ê·¼ ê°€ëŠ¥í•œ ìë£Œêµ¬ì¡° ìƒì„±
 OpenEye::use_alias("rfid")
 
 #RFSignal.find_by_tid(1).each do |s| 
@@ -26,7 +26,7 @@ end
 #Parent.find_all.each   do |p| puts "#{p.name} #{p.email} #{p.phone_number}" end
 #Student.find_all.each do |s| puts "#{s.pid} #{s.name}" end
 
-#puts "Á¡½É ¸ÔÀº »ç¶÷"; had_lunch = []
+#puts "ì ì‹¬ ë¨¹ì€ ì‚¬ëŒ"; had_lunch = []
 #RFSignal.find_all.each do |signal|
 #  student = signal.student
 #  had_lunch << student.id if student.have_lunch
