@@ -3,17 +3,17 @@
 
 using namespace std;
 
-struct test
+struct Test
 {
-  ~test()
+  ~Test()
   {
-    cout <<"test::dtor" <<endl;
+    cout <<"Test::dtor" <<endl;
   }
 };
 
 int main(int argc, char *argv[])
 {
-  unique_ptr<test[]> array(new test[3]);
+  unique_ptr<Test[]> array(new Test[3]);
   
   return 0;
 }

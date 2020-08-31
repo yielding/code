@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+APP       = "sp.for.arr"
+SRCS      = %W{ ./unique_ptr.cpp }
+CXX       = "g++"
+CXXFLAGS  = ":Os"
+LIBS      = ""
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
