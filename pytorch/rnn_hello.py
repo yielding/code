@@ -21,7 +21,6 @@ x_one_hot = [one_hot_lookup[x] for x in x_data]
 # As we have one batch of samples, we will change them to variables only once
 inputs = Variable(torch.Tensor(x_one_hot))
 labels = Variable(torch.LongTensor(y_data))
-
 num_classes = 5
 input_size  = 5  # one-hot size
 hidden_size = 5  # output from the RNN. 5 to directly predict one-hot
