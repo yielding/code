@@ -1,9 +1,9 @@
 # -*- ruby -*-
 
-APP       = "right"
-SRCS      = %W{ ./right.cpp }
+APP       = "fold_left"
+SRCS      = %W{ ./fold_left.cpp }
 
-CXX       = "xcrun"
+CXX       = "g++"
 CXXFLAGS  = ":Os"
 LIBS      = ""
 
