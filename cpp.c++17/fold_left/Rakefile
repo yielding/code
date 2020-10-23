@@ -1,0 +1,14 @@
+# -*- ruby -*-
+
+APP       = "fold_left"
+SRCS      = %W{ ./fold_left.cpp }
+
+CXX       = "g++"
+CXXFLAGS  = ":Os"
+LIBS      = ""
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
