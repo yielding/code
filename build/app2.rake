@@ -91,14 +91,14 @@ end
 
 $LDFLAGS += " -L. -L/usr/local/lib -L#{$HOME}/develop/lib -L#{$HOME}/develop/vendor/lib"
 BOOST = {
-  :c => " -lboost_chrono-mt",
-  :d => " -lboost_date_time-mt",
-  :f => " -lboost_filesystem-mt",
-  :m => " -lboost_timer-mt",
-  :o => " -lboost_program_options-mt",
-  :r => " -lboost_regex-mt",
-  :s => " -lboost_system-mt",
-  :t => " -lboost_thread-mt"
+  :c => " -lboost_chrono",
+  :d => " -lboost_date_time",
+  :f => " -lboost_filesystem",
+  :m => " -lboost_timer",
+  :o => " -lboost_program_options",
+  :r => " -lboost_regex",
+  :s => " -lboost_system",
+  :t => " -lboost_thread"
 }
 
 $LIBS = ""
