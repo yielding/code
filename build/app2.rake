@@ -13,12 +13,14 @@ if not defined? SRCS
   exit
 end
 
-$CXX = "g++"
+$CXX = "g++-10 -std=c++2a"
 if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
   $CXX = "ccache g++-10 -std=c++2a " if CXX =~ /g\+\+/
   $CXX = "ccache xcrun clang++ -std=c++17 -stdlib=libc++ " if CXX =~ /xcrun/
 end
+
+$HOME = ENV["HOME"]
 
 $CXXFLAGS = " -DPOSIX"
 if defined? CXXFLAGS
@@ -41,7 +43,7 @@ if defined? CXXFLAGS
 end
 
 # YRV : YARV 
-MVM     = "/Users/yielding/opensource/mruby"
+MVM     = "#{$HOME}/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
 $INCS = ""
@@ -57,17 +59,17 @@ if defined? INCS
   end
 end
 
-$INCS += " -I. -I/usr/local/include -I/Users/yielding/develop/include"
-$INCS += " -I/Users/yielding/develop/vendor/include"
+$INCS += " -I. -I/usr/local/include -I#{$HOME}/develop/include"
+$INCS += " -I#{$HOME}/develop/vendor/include"
 
-USER="/Users/yielding"
-CODE="/Users/yielding/code"
+USER="#{$HOME}"
+CODE="#{$HOME}/code"
 PYTORCH="#{USER}/anaconda3/envs/pytorch"
-PYTORCH_LIB="#{PYTORCH}/lib/python3.7/site-packages/torch"
+PYTORCH_LIB="#{PYTORCH}/lib/python3.8/site-packages/torch"
 
 # PyTorch
 $INCS += " -I#{PYTORCH_LIB}/include -I#{PYTORCH_LIB}/include/torch/csrc/api/include"
-$INCS += " -I#{PYTORCH}/include/python3.7m"
+$INCS += " -I#{PYTORCH}/include/python3.8"
 
 $LDFLAGS = ""
 if defined? LDFLAGS
@@ -78,7 +80,7 @@ if defined? LDFLAGS
            when /:dylib/    ; " -dynamiclib -arch x86_64 -Wl,-syslibroot,-undefined #{sdk_path}"
            when /:pytorch/  ; " -Wl,-undefined,dynamic_lookup,-rpath,#{PYTORCH_LIB}/lib -L#{PYTORCH_LIB}/lib"
            when /:mvm/      ; " -L#{MVM}/build/host/lib -lmruby"
-           when /:smvm/     ;" -L#{MVM}/build/host/lib -l:mruby.dylib"
+           when /:smvm/     ; " -L#{MVM}/build/host/lib -l:mruby.dylib"
            else
              " -L#{e}"
            end
@@ -87,7 +89,7 @@ if defined? LDFLAGS
   end
 end
 
-$LDFLAGS += " -L. -L/usr/local/lib -L/Users/yielding/develop/lib -L/Users/yielding/develop/vendor/lib"
+$LDFLAGS += " -L. -L/usr/local/lib -L#{$HOME}/develop/lib -L#{$HOME}/develop/vendor/lib"
 BOOST = {
   :c => " -lboost_chrono-mt",
   :d => " -lboost_date_time-mt",
@@ -176,10 +178,10 @@ class Builder
 
   def should_compile? src
     src = File.expand_path(src)
-    obj = out_path_of os_o(src)
+    obj = out_path_of(os_o(src))
     if File.exist? obj
-      src_time = File.mtime src.cpp
-      obj_time = File.mtime obj
+      src_time = File.mtime(src.cpp)
+      obj_time = File.mtime(obj)
       src_time > obj_time
     else
       true

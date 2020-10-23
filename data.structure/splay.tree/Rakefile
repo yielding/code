@@ -3,13 +3,8 @@
 HOME      = "#{ENV['HOME']}/code/data.structure/splay.tree"
 DEV       = "#{ENV['HOME']}/code/develop"
 APP       = "main"
-APP_TEST  = "test_#{APP}"
 SRCS      = %W{ 
                 #{HOME}/main.cpp 
-              }
-
-TEST_SRCS = %W{ 
-                #{HOME}/test_main.cpp
               }
 
 INCS      = "#{HOME} #{DEV}/include"
@@ -20,4 +15,4 @@ LIBS      = ":s :f"
 
 load "~/code/build/app2.rake"
 
-task :default => [:test]
+task :default => [:osx]
