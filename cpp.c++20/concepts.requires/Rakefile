@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "requires"
+SRC       = "requires2"
 SRCS      = %W{ ./#{SRC}.cpp }
 APP       = "#{SRC}"
 CXX       = "g++"
