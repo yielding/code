@@ -65,6 +65,6 @@ loss.backward()
 print('conv1.bias...grad after backward')
 print(net.conv1.bias.grad)
 
-optimizer = optim.SGD(net.parameters, lr=0.01)
+#optimizer = optim.SGD(net.parameters, lr=0.01)
 
 
