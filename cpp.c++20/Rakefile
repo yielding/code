@@ -1,0 +1,13 @@
+# -*- ruby -*-
+
+SRC       = "erase_if"
+SRCS      = %W{ ./#{SRC}.cpp }
+APP       = "#{SRC}"
+CXX       = "g++"
+CXXFLAGS  = ":Os"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]
