@@ -1,7 +1,9 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <format>
+#include <iostream>
+// #include <format>
+#include <boost/format.hpp>
 
 using namespace std;
 
@@ -12,7 +14,9 @@ struct user
 
   auto to_s() const -> string 
   {
-    return format("name: {}, age, {}", name, age);
+    // return format("name: {}, age, {}", name, age);
+    using namespace boost;
+    return str(format("name: %s, age: %d") % name % age);
   }
 };
 
@@ -24,7 +28,7 @@ int main(int argc, char *argv[])
   };
 
   ranges::sort(users, sort_by_name);
-  for (auto& u: user)
+  for (auto& u: users)
     cout << u.to_s() << endl;
   
   return 0;
