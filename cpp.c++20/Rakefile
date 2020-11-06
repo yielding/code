@@ -1,10 +1,6 @@
 # -*- ruby -*-
 
-<<<<<<< HEAD
 SRC       = "erase_if"
-=======
-SRC       = "jthread"
->>>>>>> efbe55bdd68aeab768c42ec8328bce0c571dcb5c
 SRCS      = %W{ ./#{SRC}.cpp }
 APP       = "#{SRC}"
 CXX       = "g++"
