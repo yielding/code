@@ -2,7 +2,8 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
-#include <functional> // #include <format>
+#include <functional> 
+// #include <format>
 #include <ranges>
 #include <boost/format.hpp>
 
@@ -32,7 +33,7 @@ int main(int argc, char *argv[])
 
   
   // ranges::copy(result, ostream_iterator<int>(cout, "\n"));
-  cout << std::views::all(result);
+  cout << std::ranges::views::all(result);
   
   return 0;
 }
