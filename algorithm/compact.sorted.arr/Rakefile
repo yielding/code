@@ -1,0 +1,12 @@
+# -*- ruby -*-
+
+APP       = "compact.sorted.arr"
+SRCS      = %W{ ./compact.sorted.arr.cpp }
+CXX       = "g++"
+CXXFLAGS  = ":Os"
+
+DIR = File.dirname __FILE__
+
+load '~/code/build/app2.rake'
+
+task :default => [:osx]

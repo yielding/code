@@ -16,4 +16,4 @@ DIR = File.dirname __FILE__
 
 load '~/code/build/app2.rake'
 
-tas :default => [:osx]
+task :default => [:osx]
