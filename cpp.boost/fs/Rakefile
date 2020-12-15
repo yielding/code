@@ -1,10 +1,8 @@
 # -*- ruby -*-
 
-SRCS      = %w{ ./fs.basic.cpp }
-TEST_SRCS = %w{ test_fs.basic.cpp }
-APP       = "tut4"
-APP_TEST  = "test_tut4"
-CXX       = "xcrun"
+SRCS      = %w{ ./fs.copy_file.cpp }
+APP       = "fs.copy_file"
+CXX       = "g++"
 CXXFLAGS  = ":v :d :w"   # :d , :w=-Wall :O0 :O3
 LDFLAGS   = ""
 LIBS      = ":s :f"
