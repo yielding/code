@@ -1,0 +1,21 @@
+CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+
+PROJECT (fs.copy_file)
+
+SET (CMAKE_CXX_STANDARD 20)
+SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+SET (SOURCES
+  ./fs.copy_file2.cpp
+)
+
+INCLUDE_DIRECTORIES (
+  /usr/local/include 
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+LINK_DIRECTORIES (/usr/local/lib)
+
+LINK_LIBRARIES (boost_filesystem)
+
+ADD_EXECUTABLE (fs.copy_file ${SOURCES})
