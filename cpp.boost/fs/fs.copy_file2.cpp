@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <filesystem>
 #include <fstream>
+#include <string>
 
 using namespace std;
       namespace fs = std::filesystem;
