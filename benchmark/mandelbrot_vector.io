@@ -1,4 +1,4 @@
-#!/opt/local/bin/osxvm
+#!/usr/local/bin/Io
 
 # Vectorized by Steve Dekorte
 
