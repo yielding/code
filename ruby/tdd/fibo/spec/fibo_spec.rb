@@ -10,6 +10,8 @@ describe Fibo do
     expect(Fibo.fibo(0)).to eq(0)
     expect(Fibo.fibo(1)).to eq(1)
     expect(Fibo.fibo(2)).to eq(1)
+    expect(Fibo.fibo(2)).to eq(1)
+    expect(Fibo.add(2, 2)).to eq(4)
   end
 
   it "should have the book" do

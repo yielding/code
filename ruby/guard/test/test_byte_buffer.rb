@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 
 require "test_helper"
-
-class TestByteBuffer < MiniTest::Test
-  def setup
+class TestByteBuffer < MiniTest::Test def setup
     @b = ByteBuffer.new
   end
 
