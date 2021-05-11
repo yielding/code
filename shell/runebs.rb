@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-RADIO_ADDR = "rtmp://ebsandroid.nefficient.com/fmradiofamilypc/familypc1m"
+RADIO_ADDR = "rtmp://ebsandroid.ebs.co.kr:1935/fmradiofamilypc/familypc1m"
 RADIO_NAME = "ebs_radio"
 
 PROGRAM_NAME  = ARGV[0].chomp
@@ -19,7 +19,7 @@ ID3_YEAR      = `date +%Y`.chomp
 
 DEBUG = false
 
-dump = "/opt/local/bin/rtmpdump -r #{RADIO_ADDR} -o #{TEMP_ASX.chomp}"
+dump = "/usr/local/bin/rtmpdump -r #{RADIO_ADDR} -o #{TEMP_ASX.chomp}"
 puts dump if DEBUG
 
 #pid = fork { `#{dump}` }
@@ -32,11 +32,11 @@ Process.waitall
 puts""
 puts "after wait and kill"
 
-wave = "/opt/local/bin/ffmpeg -i #{TEMP_ASX.chomp} -acodec pcm_s16le -ac 2 -ab 128k -vn -y #{TEMP_WAV.chomp}"
+wave = "/usr/local/bin/ffmpeg -i #{TEMP_ASX.chomp} -acodec pcm_s16le -ac 2 -ab 128k -vn -y #{TEMP_WAV.chomp}"
 puts wave if DEBUG
 `#{wave}`
 
-mp3 = "/opt/local/bin/lame --preset voice --tt #{ID3_TITLE} --ta #{ID3_ARTIST} --tl #{ID3_ALBUM} --ty #{ID3_YEAR} #{TEMP_WAV} #{MP3_FILE_NAME} &> /dev/null 2>&1"
+mp3 = "/usr/local/bin/lame --preset voice --tt #{ID3_TITLE} --ta #{ID3_ARTIST} --tl #{ID3_ALBUM} --ty #{ID3_YEAR} #{TEMP_WAV} #{MP3_FILE_NAME} &> /dev/null 2>&1"
 puts mp3 if DEBUG
 `#{mp3}`
 
