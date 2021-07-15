@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     return l.age < r.age;
   };
 
-  std::ranges::sort(users, sort_by_name);
+  ranges::sort(users, sort_by_name);
   for (auto& u: users)
     cout << u.to_s() << endl;
   
