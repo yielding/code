@@ -1,0 +1,17 @@
+CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+
+PROJECT (sort)
+
+SET (CMAKE_CXX_STANDARD 20)
+
+SET (SOURCES
+  sort.ranges.cpp
+)
+
+INCLUDE_DIRECTORIES (
+  /usr/local/include 
+)
+
+LINK_DIRECTORIES (/usr/local/lib)
+
+ADD_EXECUTABLE (sort ${SOURCES})
