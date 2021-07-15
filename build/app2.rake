@@ -13,10 +13,10 @@ if not defined? SRCS
   exit
 end
 
-$CXX = "g++-11 -std=c++20"
+$CXX = "ccache g++-11 -std=c++2a"
 if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
-  $CXX = "ccache g++-11 -std=c++20 " if CXX =~ /g\+\+/
+  $CXX = "ccache g++-11 -std=c++2a " if CXX =~ /g\+\+/
   $CXX = "ccache xcrun clang++ -std=c++17 -stdlib=libc++ " if CXX =~ /xcrun/
 end
 
@@ -93,12 +93,12 @@ $LDFLAGS += " -L. -L/usr/local/lib -L#{$HOME}/develop/lib -L#{$HOME}/develop/ven
 BOOST = {
   :c => " -lboost_chrono",
   :d => " -lboost_date_time",
-  :f => " -lboost_filesystem",
+  :f => " -lboost_filesystem-mt",
   :m => " -lboost_timer",
   :o => " -lboost_program_options",
-  :r => " -lboost_regex",
-  :s => " -lboost_system",
-  :t => " -lboost_thread"
+  :r => " -lboost_regex-mt",
+  :s => " -lboost_system-mt",
+  :t => " -lboost_thread-mt"
 }
 
 $LIBS = ""
