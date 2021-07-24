@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
   
   // ranges::copy(result, ostream_iterator<int>(cout, "\n"));
-  cout << std::ranges::views::all(result);
+  cout << ranges::views::all(result);
   
   return 0;
 }
