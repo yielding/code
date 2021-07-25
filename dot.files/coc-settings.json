@@ -1,0 +1,28 @@
+{
+  "diagnostic.enable":true,
+  "diagnostic.enableSign":false,
+  "codeLens.enable": false,
+
+  "python.pythonPath":"/home/yielding/anaconda3/envs/pytorch/bin/python",
+  "python.linting.pylintEnabled": true,
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": [ "c", "cpp"],
+      "rootPatterns": [
+        ".ccls",
+        "compile_commands.json",
+        ".vim/",
+        ".git/"
+      ],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls"
+        },
+        "client" : {
+          "snippetSupport": true
+        }
+      }
+    }
+  }
+}
