@@ -16,7 +16,6 @@ struct user
 
   auto to_s() const -> string 
   {
-    // return format("name: {}, age, {}", name, age);
     using namespace boost;
     return str(format("name: %s, age: %d") % name % age);
   }
@@ -33,7 +32,7 @@ int main(int argc, char *argv[])
 
   
   // ranges::copy(result, ostream_iterator<int>(cout, "\n"));
-  cout << std::ranges::views::all(result);
+  cout << ranges::views::all(result);
   
   return 0;
 }

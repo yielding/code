@@ -22,12 +22,12 @@ struct user
 
 int main(int argc, char *argv[])
 {
-  vector<user> users = { {"leech", 49}, {"kamin", 47} };
+  auto users = { {"leech", 49}, {"kamin", 47} };
   auto sort_by_name = [](auto& l, auto& r) {
     return l.age < r.age;
   };
 
-  std::ranges::sort(users, sort_by_name);
+  ranges::sort(users, sort_by_name);
   for (auto& u: users)
     cout << u.to_s() << endl;
   
