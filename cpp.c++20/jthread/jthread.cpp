@@ -17,7 +17,6 @@ int main() {
         return;
       }
 
-      // Sleep so this doesn't go too quickly
       std::this_thread::sleep_for(seconds(1));
     }
   });
