@@ -7,7 +7,6 @@
 #include <boost/format.hpp>
 
 using namespace std;
-using namespace boost;
 
 struct user
 {
@@ -16,7 +15,7 @@ struct user
 
   auto to_s() const -> string 
   {
-    // return format("name: {}, age, {}", name, age);
+    using namespace boost;
     return str(format("name: %s, age: %d") % name % age);
   }
 };
