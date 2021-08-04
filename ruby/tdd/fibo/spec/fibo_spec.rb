@@ -25,6 +25,5 @@ describe Fibo do
     expect(die.roll).to eq(2) # => 2
     expect(die.roll).to eq(3) # => 3
     expect(die.roll).to eq(3) # => 3
-    expect(die.roll).to eq(3) # => 3
   end
 end

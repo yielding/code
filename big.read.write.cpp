@@ -7,7 +7,7 @@
 using namespace std;
 
 // NOTICE
-// intel cpy는 기본적으로 little endian
+// intel cpu는 기본적으로 little endian
 // 1) little을 big으로 바꾸고 저장
 // 2) big을 읽어 little로 바꾸어 화면에 출력
 int toggle_endian(int num)

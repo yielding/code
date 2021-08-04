@@ -1,10 +1,7 @@
-#notification :terminal-notifier-guard,
-#  timeout: 10
-
 group :test, :development do
   source 'https://rubygems.org'
   gem 'guard'
   gem 'guard-rspec'
-  gem 'terminal-notifier-guard', '~> 1.6.1'
+  gem 'terminal-notifier-guard', '~> 1.7.0'
   gem 'terminal-notifier'
 end
