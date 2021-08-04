@@ -1,12 +1,11 @@
 # -*- ruby -*-
 
-SRCS     = %w{main.cpp}
+SRCS     = %w{ ./main.cpp }
 APP      = "tp"
-APP_TEST = "test_tp"
 CXX      = "clang++"
 CXXFLAGS = ":O3"
 LIBS     = ":t :s"
 
-load '~/code/build/app2.rake'
+load "~/code/build/app2.rake"
 
 task :default => [:osx]
