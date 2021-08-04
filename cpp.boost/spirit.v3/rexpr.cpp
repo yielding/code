@@ -18,7 +18,7 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace client { namespace ast
+namespace client::ast
 {
   namespace fusion = boost::fusion;
   namespace x3     = boost::spirit::x3;
@@ -39,7 +39,6 @@ namespace client { namespace ast
     rexpr_map entries;
   };
 }
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -55,7 +54,7 @@ BOOST_FUSION_ADAPT_STRUCT(client::ast::rexpr,
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace client { namespace ast
+namespace client::ast
 {
   int const tabsize = 4;
 
@@ -92,9 +91,8 @@ namespace client { namespace ast
     int indent;
   };
 }
-}
 
-namespace client { namespace parser
+namespace client::parser
 {
   namespace x3 = boost::spirit::x3;
   namespace ascii = boost::spirit::x3::ascii;
@@ -127,7 +125,6 @@ namespace client { namespace parser
     '{' >> *rexpr_key_value >> '}';
 
   BOOST_SPIRIT_DEFINE(rexpr_value, rexpr, rexpr_key_value);
-}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

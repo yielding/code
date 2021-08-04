@@ -1,3 +1,4 @@
+
 class Fibo
   def Fibo.fibo(n)
     return 0 if n <= 0
@@ -6,6 +7,10 @@ class Fibo
   end                        
 
   def Fibo.add(a, b)
-    4
+    return a + b
+  end
+
+  def Fibo.mul(a, b)
+    6
   end
 end

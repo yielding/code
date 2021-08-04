@@ -2,7 +2,7 @@
 
 require "streamio-ffmpeg"
 
-movie = FFMPEG::Movie.new("/Users/yielding/Desktop/IMG_4164.mov")
+movie = FFMPEG::Movie.new("/Users/yielding/Downloads/ch1_20210722_1217_0005.mp4")
 
 p movie.duration      # 7.5 (duration of the movie in seconds)
 p movie.bitrate       # 481 (bitrate in kb/s)
