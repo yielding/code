@@ -1,8 +1,0 @@
-group :test, :development do
-  source 'https://rubygems.org'
-  gem 'rake'
-  gem 'guard-minitest'
-  gem 'guard-shell'
-  gem 'ruby_gntp'
-  gem 'rb-fsevent', '~> 0.9.6'
-end
