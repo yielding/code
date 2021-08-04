@@ -3,6 +3,7 @@
 SRCS     = %w{ ./main.cpp }
 APP      = "tp"
 CXX      = "clang++"
+INCS     = "~/develop/include"
 CXXFLAGS = ":O3"
 LIBS     = ":t :s"
 
