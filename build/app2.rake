@@ -13,10 +13,10 @@ if not defined? SRCS
   exit
 end
 
-$CXX = "ccache g++-11 -std=c++2a"
+$CXX = "ccache g++-11 -std=c++23"
 if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
-  $CXX = "ccache g++-11 -std=c++2a " if CXX =~ /g\+\+/
+  $CXX = "ccache g++-11 -std=c++23 " if CXX =~ /g\+\+/
   $CXX = "ccache xcrun clang++ -std=c++17 -stdlib=libc++ " if CXX =~ /xcrun/
 end
 
@@ -46,7 +46,7 @@ end
 MVM     = "#{$HOME}/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
-$INCS = ""
+$INCS = " #{ENV['CPLUS_INCLUDE_PATH']}"
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
@@ -59,17 +59,17 @@ if defined? INCS
   end
 end
 
-$INCS += " -I. -I/usr/local/include -I#{$HOME}/develop/include"
+$INCS += " -I. -I/usr/local/include -I#{$HOME}/develop/include "
 $INCS += " -I#{$HOME}/develop/vendor/include"
 
 USER="#{$HOME}"
 CODE="#{$HOME}/code"
 PYTORCH="#{USER}/anaconda3/envs/pytorch"
-PYTORCH_LIB="#{PYTORCH}/lib/python3.8/site-packages/torch"
+PYTORCH_LIB="#{PYTORCH}/lib/python3.9/site-packages/torch"
 
 # PyTorch
 $INCS += " -I#{PYTORCH_LIB}/include -I#{PYTORCH_LIB}/include/torch/csrc/api/include"
-$INCS += " -I#{PYTORCH}/include/python3.8"
+$INCS += " -I#{PYTORCH}/include/python3.9"
 
 $LDFLAGS = ""
 if defined? LDFLAGS
