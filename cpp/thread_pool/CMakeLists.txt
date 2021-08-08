@@ -1,0 +1,24 @@
+CMAKE_MINIMUM_REQUIRED (VERSION 3.21)
+
+PROJECT (thread.pool)
+
+SET (CMAKE_CXX_STANDARD 23)
+SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+SET (SOURCES
+  main.cpp
+)
+
+INCLUDE_DIRECTORIES (
+  ~/develop/include
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+LINK_DIRECTORIES (/usr/lib)
+
+LINK_LIBRARIES (
+  pthread
+  boost_thread
+  )
+
+ADD_EXECUTABLE (thread.pool ${SOURCES})

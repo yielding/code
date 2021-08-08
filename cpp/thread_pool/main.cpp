@@ -1,23 +1,25 @@
 #include <iostream>
-#include <boost/thread/mutex.hpp>
-#include <boost/timer.hpp>
+#include <mutex>
+#include <thread>
 
-#include "asio_threadpool.h"
+#include <sys/asio_threadpool.hpp>
 
+using namespace std::chrono_literals;
 using namespace std;
-using namespace boost;
 
-mutex io_mutex;
+std::mutex io_mutex;
 
 void hello(int value)
 {
-  { mutex::scoped_lock l(io_mutex);
+  { 
+    unique_lock<mutex> l(io_mutex);
     cout << "thead id: " << this_thread::get_id() << " ";
     cout << "hello value : " << value << "\n";
     cout.flush();
-    // this_thread::sleep(posix_time::milliseconds(10));
+    this_thread::sleep_for(10ms);
   }
 }
+
 
 int main(int argc, char const* argv[])
 {
@@ -28,9 +30,9 @@ int main(int argc, char const* argv[])
   for (int i=0; i<data_count; i++) 
     pool.post(bind(hello, i));
 
-  cout << "made " << data_count << "\n";
+  std::cout << "made " << data_count << "\n";
 
-  sleep(5);
+  std::this_thread::sleep_for(1000ms);
 
   return 0;
 }
