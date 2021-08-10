@@ -71,7 +71,7 @@ PYTORCH_LIB="#{PYTORCH}/lib/python3.9/site-packages/torch"
 $INCS += " -I#{PYTORCH_LIB}/include -I#{PYTORCH_LIB}/include/torch/csrc/api/include"
 $INCS += " -I#{PYTORCH}/include/python3.9"
 
-$LDFLAGS = ""
+$LDFLAGS = " #{ENV['LDFLAGS']}"
 if defined? LDFLAGS
   LDFLAGS.split.each do |e|
     sdk_path = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"

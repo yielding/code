@@ -52,7 +52,7 @@ struct CDJukeBox
 
   ~CDJukeBox() 
   { 
-    // cout << "c: CDJukeBox destructed\n";  
+    cout << "c: CDJukeBox destructed\n";  
     cout.flush();
   }
 
@@ -401,7 +401,7 @@ int main(int argc, const char *argv[])
   // mrb_parser_parse(p, c);
 
   auto proc = mrb_generate_code(mrb, p);
-  mrb_run(mrb, proc, mrb_top_self(mrb));
+  mrb_vm_run(mrb, proc, mrb_top_self(mrb), 0);
   if (mrb->exc)
   {
     mrb_p(mrb, mrb_obj_value(mrb->exc));
