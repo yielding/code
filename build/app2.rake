@@ -46,7 +46,7 @@ end
 MVM     = "#{$HOME}/opensource/mruby"
 MVM_INC = "#{MVM}/include"
 
-$INCS = " #{ENV['CPLUS_INCLUDE_PATH']}"
+$INCS = " -I#{ENV['CPLUS_INCLUDE_PATH']}"
 if defined? INCS
   INCS.split.each do |i|
      flag = case i
