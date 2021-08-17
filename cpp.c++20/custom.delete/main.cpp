@@ -1,5 +1,8 @@
 #include <iostream>
+#include "add.h"
 // sized class-specific deallocation functions
+
+using namespace std;
 
 struct X {
   static void operator delete(void* ptr, std::size_t sz)
@@ -20,6 +23,8 @@ int main()
   delete p1;
   X* p2 = new X[10];
   delete[] p2;
+
+  cout << add(1, 2) << endl;
 
   return 0;
 }
