@@ -2,6 +2,7 @@ a.out
 *.[oa]
 .DS_Store
 *.bundle
+*.class
 *.log
 *.swp
 *.dmg

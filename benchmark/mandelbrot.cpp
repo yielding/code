@@ -1,5 +1,6 @@
 #include <sys/time.h>
 #include <stdio.h>
+#include <iostream>
 
 #define BAILOUT 16
 #define MAX_ITERATIONS 1000
@@ -36,16 +37,16 @@ int main (int argc, const char * argv[])
 
   for (int y=-39; y<39; y++)
   {
-    printf("\n");
+    std::cout << "\n";
     for (int x = -39; x < 39; x++)
     {
       int i = mandelbrot(x/40.0, y/40.0);
       char const* ch = (i == 0) ? "*" : " ";
-      printf(ch);
+      std::cout << ch;
     } 
   }
 
-  printf("\n");
+  std::cout << "\n";
 
   gettimeofday(&aTv,NULL);
   double query_time = (aTv.tv_sec - init_time) + (double)(aTv.tv_usec - init_usec)/1000000.0; 
