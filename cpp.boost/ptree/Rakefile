@@ -1,17 +1,23 @@
 # -*- ruby -*-
 
-SRCS      = %w{ PTreeParser.cpp ~/develop/src/BPList.cpp ~/develop/src/BPListRepr.cpp 
-                ~/develop/src/ByteBuffer.cpp ~/develop/src/Base64.cpp
+SRCS      = %w{ PTreeParser.cpp 
+                ~/develop/src/BPList.cpp
+                ~/develop/src/BPListRepr.cpp 
+                ~/develop/src/ByteBuffer.cpp
+                ~/develop/src/Base64.cpp
                 main.cpp
               }
 TEST_SRCS = %w{ TestPtreeParser.cpp }
 APP       = "main"
 APP_TEST  = "test.main"
 INCS      = "/Users/yielding/develop/include"
-CXX       = "scrun"        # c++0x, clang++, blank
+CXX       = "xcrun"        # c++0x, clang++, blank
 CXXFLAGS  = ":debug"       # :debug, :nodebug
 LIBS      = ":f :s"
 
 load '~/code/build/app2.rake'
 
 task :default => [:osx]
+#
+# EDSL (embedded DSL)
+#
