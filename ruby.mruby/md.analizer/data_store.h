@@ -1,7 +1,5 @@
-#ifndef DATA_STORE_H
-#define DATA_STORE_H
+#pragma once
 
-#include <boost/utility.hpp>
 #include <vector>
 #include <string>
 ////////////////////////////////////////////////////////////////////////////////
@@ -11,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 class FileSystem;
 
-class DataStore: private boost::noncopyable
+class DataStore
 {
 public:
   static DataStore& instance()
@@ -19,6 +17,8 @@ public:
     static DataStore singleton;
     return singleton;
   }
+
+  DataStore(const DataStore&) = delete;
 
   ~DataStore();
 
@@ -38,4 +38,3 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-#endif
