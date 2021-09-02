@@ -1,5 +1,5 @@
 /usr/local/bin/g++-11
--std=c++23
+-std=c++2a
 -stdlib=libc++
 -fPIC
 

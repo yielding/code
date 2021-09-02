@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
-export EDITOR=nvim export HOME=/Users/yielding
+export EDITOR=nvim 
+export HOME=/Users/yielding
 export PATH=$HOME/bin:/opt/homebrew/bin:$PATH
 # ruby
 export RUBY_HOME=$HOME/.rubies/ruby-3.0.2
