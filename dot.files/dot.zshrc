@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
-export EDITOR=nvim export HOME=/Users/yielding
+export EDITOR=nvim 
+export HOME=/Users/yielding
 export PATH=$HOME/bin:/opt/homebrew/bin:$PATH
 # ruby
 export RUBY_HOME=$HOME/.rubies/ruby-3.0.2
@@ -7,8 +8,9 @@ export PATH=$RUBY_HOME/bin:$PATH
 export PATH=$RUBY_HOME/lib/ruby/gems/3.0.0/bin:$PATH
 export BOOST_HOME=/opt/homebrew/include
 export LDFLAGS="-L$RUBY_HOME/lib -L/opt/homebrew/lib -lpthread"
-export CPLUS_INCLUDE_PATH="-I$RUBY_HOME/include -I$BOOST_HOME"
+export CPLUS_INCLUDE_PATH=$RUBY_HOME/include:$BOOST_HOME:$HOME/develop/include:$HOME/develop/vendor/include:$CPLUS_INCLUDE_PATH
 export CPPFLAGS=" -std=c++23"
+#export LDFLAGS=" -lpthread"
 
 export TERM=xterm-256color
 
