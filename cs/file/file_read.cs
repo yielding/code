@@ -8,10 +8,16 @@ class CSharpApp
   {
     try
     {
-      byte[] buffer = new byte[0x2000];
+      var buffer = new byte[0x2000];
+      // Garbage collector (python, ruby, java, c#, rust, go) <-> c/c++
+      // C, LISP
+      // managed / unmanaged
+      // endian
+      // signed index
       using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
       {
         int r = fs.Read(buffer, 0, 0x2000);
+
         Console.WriteLine("buffer size: {0}, file size: {1}", buffer.Length, r);
       }
     }
