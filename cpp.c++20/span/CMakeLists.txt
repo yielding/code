@@ -1,0 +1,18 @@
+CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+
+PROJECT (span.test)
+
+SET (CMAKE_CXX_STANDARD 23)
+
+SET (SOURCES
+  span.test.cpp
+)
+
+INCLUDE_DIRECTORIES (
+  /usr/local/include 
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+LINK_DIRECTORIES (/usr/local/lib)
+
+ADD_EXECUTABLE (span.test ${SOURCES})
