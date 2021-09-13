@@ -22,10 +22,8 @@ struct user
 
 int main(int argc, char *argv[])
 {
-  auto users = { {"leech", 49}, {"kamin", 47} };
-  auto sort_by_name = [](auto& l, auto& r) {
-    return l.age < r.age;
-  };
+  vector<user> users { {"leech", 49}, {"kamin", 47} };
+  auto sort_by_name = [](auto& l, auto& r) { return l.age < r.age; };
 
   ranges::sort(users, sort_by_name);
   for (auto& u: users)
