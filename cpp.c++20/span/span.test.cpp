@@ -13,7 +13,6 @@ auto print(span<int> container) -> void
   cout << "\n\n";
 }
 
-
 int main(int argc, char *argv[])
 {
   vector v{1, 2, 3, 4, 5, 6};
@@ -31,7 +30,6 @@ int main(int argc, char *argv[])
 
   print(s2);
   print(v);
-
 
   return 0;
 }
