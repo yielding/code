@@ -28,6 +28,8 @@ bool read_and_test()
 {
   ifstream ifs;
   ifs.open(file.c_str(), ios::in);
+
+  return false;
 }
 
 int main(int argc, char const* argv[])
