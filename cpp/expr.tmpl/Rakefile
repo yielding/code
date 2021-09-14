@@ -1,13 +1,9 @@
 # -*- ruby -*-
 
 APP       = "expr.tmpl"
-APP_TEST  = "test_#{APP}"
 SRCS      = %W{ ./expr.tmpl.cpp }
 
-TEST_SRCS = %W{ } + SRCS
-CXX       = "xcrun"
-CXXFLAGS  = ":Os"
-LIBS      = ""
+CXX       = "g++"
 
 DIR = File.dirname __FILE__
 
