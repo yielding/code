@@ -1,21 +1,21 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.21)
+cmake_minimum_required (VERSION 3.21)
 
-PROJECT (__PROJECT__)
+project (__PROJECT__)
 
-SET (CMAKE_CXX_STANDARD 23)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (SOURCES
+set (SOURCES
   __SOURCE__.cpp
 )
 
-INCLUDE_DIRECTORIES (
+include_directories (
   /usr/local/include 
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
+link_directories (/usr/local/lib)
 
-LINK_LIBRARIES ()
+target_link_libraries ()
 
-ADD_EXECUTABLE (__PROJECT__ ${SOURCES})
+add_executable (__PROJECT__ ${SOURCES})
