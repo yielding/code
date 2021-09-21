@@ -6,7 +6,6 @@ set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  add.cpp
   main.cpp
 )
 
@@ -16,7 +15,5 @@ include_directories (
 )
 
 link_directories (/usr/local/lib)
-
-target_link_libraries (tbb)
 
 add_executable (custom.delete ${SOURCES})
