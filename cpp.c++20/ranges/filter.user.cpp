@@ -1,15 +1,11 @@
 #include <iostream>
 #include <algorithm>
 #include <functional> 
-<<<<<<< HEAD
-#include <ranges>
-=======
 #include <string>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>
 #include <range/v3/algorithm/copy.hpp>
 
->>>>>>> c3fddd45e5e4d1aef6f96167950761bb542f17b8
 #include <boost/format.hpp>
 
 using namespace ranges;
@@ -40,13 +36,8 @@ int main(int argc, char *argv[])
     | views::filter(std::not_fn(underage))
     | views::transform([] (const auto& u) { return u.age; });
 
-<<<<<<< HEAD
   ranges::copy(result, ostream_iterator<int>(cout, "\n"));
-  // cout << ranges::views::all(result);
-=======
-  copy(result, ostream_iterator<int>(cout, "\n"));
   cout << views::all(result);
->>>>>>> c3fddd45e5e4d1aef6f96167950761bb542f17b8
   
   return 0;
 }
