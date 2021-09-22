@@ -7,6 +7,7 @@
 #include <boost/format.hpp>
 
 using namespace std;
+      namespace rng = std::ranges;
 
 struct user
 {
@@ -25,7 +26,7 @@ int main(int argc, char *argv[])
   vector<user> users { {"leech", 49}, {"kamin", 47} };
   auto sort_by_name = [](auto& l, auto& r) { return l.age < r.age; };
 
-  ranges::sort(users, sort_by_name);
+  rng::sort(users, sort_by_name);
   for (auto& u: users)
     cout << u.to_s() << endl;
   

@@ -1,17 +1,17 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.21)
+cmake_minimum_required (VERSION 3.21)
 
-PROJECT (sort)
+project (sort)
 
-SET (CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_STANDARD 23)
 
-SET (SOURCES
+set (SOURCES
   sort.ranges.cpp
 )
 
-INCLUDE_DIRECTORIES (
+include_directories (
   /usr/local/include 
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
+link_directories (/usr/local/lib)
 
-ADD_EXECUTABLE (sort ${SOURCES})
+add_executable (sort ${SOURCES})

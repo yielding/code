@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <iostream>
 #include <functional> 
-// #include <format>
 #include <ranges>
 #include <boost/format.hpp>
 
@@ -30,9 +29,8 @@ int main(int argc, char *argv[])
     | views::filter(not_fn(underage))
     | views::transform([] (const auto& u) { return u.age; });
 
-  
-  // ranges::copy(result, ostream_iterator<int>(cout, "\n"));
-  cout << ranges::views::all(result);
+  ranges::copy(result, ostream_iterator<int>(cout, "\n"));
+  // cout << ranges::views::all(result);
   
   return 0;
 }
