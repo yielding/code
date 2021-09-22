@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ranges>
+#include <string>
 #include <string_view>
 
 using namespace std;
