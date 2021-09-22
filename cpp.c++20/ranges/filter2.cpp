@@ -1,8 +1,10 @@
 #include <vector>
-#include <ranges>
 #include <iostream>
 
-using namespace std;
+#include <range/v3/view/filter.hpp>
+#include <range/v3/view/transform.hpp>
+
+using namespace ranges;
 
 int main()
 {
@@ -12,8 +14,7 @@ int main()
   auto square = [] (int i) { return i * i; };
 
   for (int i: ints | views::filter(even) | views::transform(square)) 
-    cout << i << ' ';
+    std::cout << i << ' ';
 
   return 0;
 }
-
