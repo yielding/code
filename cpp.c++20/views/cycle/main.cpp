@@ -5,13 +5,18 @@
 
 using namespace ranges;
 
+template <typename F>
+void repeat(size_t n, F f)
+{
+  while(n--) f();
+}
+
 int main(int argc, char *argv[])
 {
   auto v = {1, 3, 9};
 
   auto rng = v | views::cycle;
-
-  std::cout << views::all(rng);
+  repeat(10, [&] { std::cout << rng << " "; });
   
   return 0;
 }
