@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.21)
 
-project (intersperse)
+project (cycle)
 
 set (CMAKE_CXX_STANDARD 23)
 
@@ -13,4 +13,4 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable (intersperse ${SOURCES})
+add_executable (cycle ${SOURCES})
