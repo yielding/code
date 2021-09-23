@@ -11,7 +11,12 @@ int main(int argc, char *argv[])
 
   auto rng = v | views::cycle;
 
-  std::cout << views::all(rng);
+  int c=0;
+  for (auto i: rng) 
+  {
+    std::cout << i;
+    if (c++ == 10) break;
+  }
   
   return 0;
 }
