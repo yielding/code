@@ -15,7 +15,8 @@ private:
   int y_;
 };
 
-constexpr Vector add_vector(const Vector& v1, const Vector& v2)
+constexpr 
+auto add_vector(const Vector& v1, const Vector& v2) -> Vector
 {
   return {v1.x() + v2.x(), v1.y() + v2.y()};
 }
