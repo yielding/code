@@ -1,19 +1,20 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15.3)
+cmake_minimum_required (VERSION 3.15.3)
 
-PROJECT (t1)
+project (t1)
 
-SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (SOURCES main.cpp)
+set (SOURCES main.cpp)
 
-FIND_PACKAGE(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED)
 
-INCLUDE_DIRECTORIES (
+include_directories (
 /usr/local/include
+/home/yielding/anaconda3/envs/opencv/include/opencv4
 ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-ADD_EXECUTABLE (t1 ${SOURCES})
+add_executable (t1 ${SOURCES})
 
-TARGET_LINK_LIBRARIES (t1 ${OpenCV_LIBS})
+target_link_libraries (t1 ${OpenCV_LIBS})
