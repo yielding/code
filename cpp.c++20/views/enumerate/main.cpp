@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
   using namespace std;
 
-  auto v = vector<string> {"apple", "banana", "kiwi" };
+  auto v = vector<string> { "apple", "banana", "kiwi" };
   for (auto&& [f, s] : v | view::enumerate) 
     cout << f + 1 << ", " << s << endl;
   
