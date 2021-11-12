@@ -1,26 +1,21 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenClosedPrinciple
 {
-    public class Filter<T>
+    public class Filter_<T>
     {
-        public virtual List<T> filter(List<T> items, Specification<T> spec)
+        public virtual List<T> Filter(List<T> items, Spec<T> spec)
         {
             return new List<T>();
         }
     }
 
-    public class BetterFilter : Filter<Product>
+    public class BetterFilter : Filter_<Product>
     {
-        public override List<Product> filter(List<Product> items, Specification<Product> spec)
+        public override List<Product> Filter(List<Product> items, Spec<Product> spec)
         {
-            var result = new List<Product>();
-
-            foreach (var p in items)
-                if (spec.IsSatisfied(p))
-                    result.Add(p);
-
-            return result;
+            return items.FindAll(item => spec.IsSatisfied(item));
         }
     }
 }

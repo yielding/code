@@ -8,10 +8,10 @@ namespace OpenClosedPrinciple
         static void Main(string[] args)
         {
             var all = new List<Product> { 
-                new Product("Apple", Color.Green, Size.Small),
-                new Product("Tree", Color.Green, Size.Large),
-                new Product("House", Color.Blue, Size.Large),
-                new Product("Strawberry", Color.Red, Size.Small)
+                new Product("Apple",      Color.Green, Size.Small),
+                new Product("Tree" ,      Color.Green, Size.Large),
+                new Product("House",      Color.Blue,  Size.Large),
+                new Product("Strawberry", Color.Red,   Size.Small)
             };
 
             example1(all);
@@ -24,51 +24,38 @@ namespace OpenClosedPrinciple
             var bf = new BetterFilter();
 
             var greenAndLarge = new ColorSpec(Color.Green) & new SizeSpec(Size.Large);
-            var redOrLarge = new ColorSpec(Color.Red) | new SizeSpec(Size.Large);
+            var redOrLarge    = new ColorSpec(Color.Red)   | new SizeSpec(Size.Large);
 
-            var bigGreenThings = bf.filter(all, greenAndLarge);
-            var bigRedThings = bf.filter(all, redOrLarge);
+            bf.Filter(all, greenAndLarge)
+              .ForEach(gl => print(gl));
 
-            Console.WriteLine("big green things");
-            foreach (var bigGreenThing in bigGreenThings)
-                Console.WriteLine(bigGreenThing.name + " / " + bigGreenThing.color + " / " + bigGreenThing.size);
-
-            Console.WriteLine();
-            Console.WriteLine("red or big things");
-            foreach (var bigRedThing in bigRedThings)
-                Console.WriteLine(bigRedThing.name + " / " + bigRedThing.color + " / " + bigRedThing.size);
+            bf.Filter(all, redOrLarge)
+              .ForEach(rl => print(rl));
         }
 
         private static void example2(List<Product> all)
         {
             var bf = new BetterFilter();
 
-            var large = new SizeSpec(Size.Large);
-            var green = new ColorSpec(Color.Green);
-            var greenAndLarge = new AndSpec<Product>(large, green);
+            var greenAndLarge = new AndSpec<Product>(
+                new SizeSpec(Size.Large),
+                new ColorSpec(Color.Green));
 
-            var bigGreenThings = bf.filter(all, greenAndLarge);
-
-            Console.WriteLine("big green things");
-            foreach (var bigGreenThing in bigGreenThings)
-                Console.WriteLine(bigGreenThing.name + " / " + bigGreenThing.color + " / " + bigGreenThing.size);
-
-            Console.WriteLine();
+            bf.Filter(all, greenAndLarge)
+              .ForEach(bg => print(bg));
         }
 
         private static void example1(List<Product> all)
         {
             var bf = new BetterFilter();
 
-            var green = new ColorSpec(Color.Green);
+            bf.Filter(all, new ColorSpec(Color.Green))
+              .ForEach(g => print(g));
+        }
 
-            var greenThings = bf.filter(all, green);
-
-            Console.WriteLine("green things");
-            foreach (var greenThing in greenThings)
-                Console.WriteLine(greenThing.name + " / " + greenThing.color);
-
-            Console.WriteLine();
+        private static void print(Product s)
+        {
+            Console.WriteLine(s);
         }
     }
 }

@@ -4,12 +4,12 @@ namespace OpenClosedPrinciple
     {
         public virtual bool IsSatisfied(T item) { return false; }
 
-        public static AndSpec<T> operator &(Spec<T> o1, Spec<T> o2)
+        public static AndSpec<T> operator & (Spec<T> o1, Spec<T> o2)
         {
             return new AndSpec<T>(o1, o2);
         }
 
-        public static OrSpec<T> operator |(Spec<T> o1, Spec<T> o2)
+        public static OrSpec<T> operator | (Spec<T> o1, Spec<T> o2)
         {
             return new OrSpec<T>(o1, o2);
         }
@@ -60,7 +60,7 @@ namespace OpenClosedPrinciple
 
         public override bool IsSatisfied(Product item)
         {
-            return item.color == this.color;
+            return item.color == color;
         }
     }
 
@@ -75,7 +75,7 @@ namespace OpenClosedPrinciple
 
         public override bool IsSatisfied(Product item)
         {
-            return item.size == this.size;
+            return item.size == size;
         }
     }
 }
