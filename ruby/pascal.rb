@@ -1,17 +1,15 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
+#encoding: utf-8
 
 require 'test/unit'
-
 
 class Pascal
   def value_of(x, y)
     return 0 if x < 1 or y < 1 or y > x
     return 1 if x == 1 
-    return value_of(x-1, y-1) + value_of(x-1, y)
+    value_of(x-1, y-1) + value_of(x-1, y)
   end
 
-  
   def values_of(row)
     return [] if row == 0
     res = []
@@ -20,7 +18,7 @@ class Pascal
   end
   
   def line_of(row)
-    res = ""; 1.upto(row) {|col| res += sprintf("%6d", value_of(row, col)) }
+    res = ""; 1.upto(row) { |col| res += sprintf("%6d", value_of(row, col)) }
     res
   end
   
