@@ -1,5 +1,4 @@
 # -*- ruby -*-
-
 APP       = "jukebox"
 SRCS      = %w{ ./jukebox.cpp }
 

@@ -2,8 +2,6 @@
 
 require 'rake/clean'
 
-TARGET = 'embed.basic'
-
 task :default => [TARGET]
 
 CLEAN.include("*.o")
