@@ -2,7 +2,7 @@
 
 APP       = "range"
 SRCS      = %W{ range.cpp }
-CXX       = "xcrun"
+CXX       = "g++"
 CXXFLAGS  = ":Os"
 LIBS      = ""
 

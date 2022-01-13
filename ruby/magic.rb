@@ -7,7 +7,7 @@ class MagicSquare
     @mat = Array.new(dim) { Array.new(dim) { 0 } }
     @num = 1
     @x = @dim / 2
-    @y = 0
+    @y = 0 
   end
   
   def n(v); (v + 1       ) % @dim end

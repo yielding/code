@@ -16,5 +16,6 @@ tags
 /cmake_install.cmake
 /CMakeFiles/
 .idea/
+.cache/
 cmake-build-debug/
 cmake-build-release/
