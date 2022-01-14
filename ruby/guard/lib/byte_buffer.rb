@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 class ByteBuffer
   BEG, CUR, LST = 0, 1, 2
 
