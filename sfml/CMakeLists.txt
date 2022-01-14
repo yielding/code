@@ -6,7 +6,7 @@ set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  main2.cpp
+  tetris_sample.cpp
 )
 
 include_directories (
