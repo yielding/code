@@ -2,9 +2,7 @@
 
 require "test_helper"
 
-class TestByteBuffer < MiniTest::Test 
-  def setup
-    @b = ByteBuffer.new
+class TestByteBuffer < MiniTest::Test def setup @b = ByteBuffer.new
   end
 
   def test_int2
