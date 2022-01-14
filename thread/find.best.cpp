@@ -4,6 +4,8 @@
 #include <random>
 #include <array>
 
+using namespace std;
+
 void update_cur_best(atomic<int>& best, int a, int b) 
 {
   if (a < b) 
@@ -37,4 +39,6 @@ int main()
     t.join();
 
   cout << "best = " << best << endl;
+
+  return 0;
 }
