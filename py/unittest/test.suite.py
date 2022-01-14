@@ -10,10 +10,10 @@ class ArithmaticTest(unittest.TestCase):
 
 class ArithmaticTest2(unittest.TestCase):
     def setUp(self):
-        print "setUp called"
+        print("setUp called")
 
     def tearDown(self):
-        print "tearDown called"
+        print("tearDown called")
 
     def testTrue(self):
         self.assertEqual(1, 1)
