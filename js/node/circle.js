@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var PI = Math.PI;
 
 exports.area = function(r) {
