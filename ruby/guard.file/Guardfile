@@ -1,0 +1,18 @@
+# Guardfile
+require 'terminal-notifier-guard'
+
+#notification :file, path: '.guard_result'
+notification :terminal_notifier
+
+guard :shell do
+  watch '.guard_result' do
+    if File.read('.guard_result').lines.first.strip == 'failed'
+      TerminalNotifier::Guard.failed('This did not go well.')
+    end
+    if File.read('.guard_result').lines.first.strip == 'success'
+      TerminalNotifier::Guard.success('Good')
+    else
+      TerminalNotifier::Guard.pending('This needs some work still')
+    end
+  end
+end
