@@ -3,6 +3,7 @@ group :test, :development do
   gem 'guard'
   gem 'guard-minitest'
   gem 'ruby_gntp'
-  gem 'rb-fsevent', '~> 0.9.4'
+  gem 'rb-fsevent'
   gem 'minitest'
+  gem 'terminal-notifier-guard'
 end
