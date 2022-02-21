@@ -6,7 +6,7 @@ require 'enumerator'
 module Enumerable
   def cons
     ary = []
-    each_cons(2) {|a, b| ary << yield(a, b) }
+    each_cons(2) { |a, b| ary << yield(a, b) }
     ary
   end
 
