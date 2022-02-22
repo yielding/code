@@ -4,7 +4,7 @@ SRC       = "max"
 SRCS      = %W{ #{SRC}.cpp }
 TEST_SRCS = %W{ test_#{SRC}.cpp }
 APP       = "#{SRC}"
-CXX       = "xcrun"
+CXX       = "g++"
 #CXXFLAGS  = ":d"
 
 DIR = File.dirname __FILE__

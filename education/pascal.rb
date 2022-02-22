@@ -26,7 +26,6 @@ class Pascal
     res
   end
 
-  end
 end
 
 class TestPascal < Test::Unit::TestCase
