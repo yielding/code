@@ -1,5 +1,5 @@
-#ifndef _CODING_H_
-#define _CODING_H_
+#pragma once
+#include <cstdint>
 
 class coding_exception {};
 

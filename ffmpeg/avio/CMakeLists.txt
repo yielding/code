@@ -1,30 +1,29 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.15)
 
-PROJECT (avio.read)
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+project (avio.read)
 
-SET (SOURCES
+set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set (SOURCES
   avio.reading.cpp
 )
 
-FIND_PACKAGE(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED)
 
-INCLUDE_DIRECTORIES (
+include_directories (
   /usr/local/include 
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
+link_directories (/usr/local/lib)
 
-LINK_LIBRARIES (
-  avformat
-  avcodec
-  avutil
-  avdevice
-  swscale
-  swresample
+add_executable (avio.read ${SOURCES})
+
+target_link_libraries (avio.read
+  avformat avcodec avutil avdevice swscale swresample
 )
 
-ADD_EXECUTABLE (avio.read ${SOURCES})

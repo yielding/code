@@ -1,6 +1,3 @@
-#ifndef __CLONE_HPP__
-#define __CLONE_HPP__
-
 #include <memory>
 #include <iostream>
 
