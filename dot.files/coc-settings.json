@@ -1,10 +1,15 @@
 {
-  "diagnostic.enable":true,
-  "diagnostic.enableSign":false,
+  "diagnostic.errorSign": "✖",
+  "diagnostic.warningSign": "⚠",
+  "diagnostic.infoSign": "ℹ",
+  "diagnostic.hintSign": "➤",
+  "diagnostic.enable": true,
+  "diagnostic.enableSign": false,
   "codeLens.enable": false,
 
-  "python.pythonPath":"/home/yielding/anaconda3/envs/pytorch/bin/python",
-  "python.linting.pylintEnabled": true,
+  "python.pythonPath":"/Users/yielding/miniforge/envs/pytorch/bin/python",
+  "python.linting.pylintEnabled": false,
+
   "languageserver": {
     "ccls": {
       "command": "ccls",
@@ -21,6 +26,12 @@
         },
         "client" : {
           "snippetSupport": true
+        },
+        "index": {
+          "onChange": true
+        },
+        "highlight": {
+          "lsRanges": true
         }
       }
     }

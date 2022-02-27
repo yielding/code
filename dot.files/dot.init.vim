@@ -42,6 +42,9 @@ set clipboard ^=unnamed,unnamedplus
 
 set signcolumn=no
 
+set mouse=a
+
+set clipboard+=unnamedplus
 "--------------------------------------------------------------------------------
 "
 " Text, Tab and Indent
@@ -65,81 +68,93 @@ set cindent
 
 set cino=t0,g0
 
-
 let _vimrc="~/.config/nvim/init.vim"
+let _plugs="~/.config/nvim/vim-plug/plugins.vim"
 let _zshrc="~/.zshrc"
 let _test="~/tmp/"
-let _snippet="~/.config/nvim/plugged/vim-snippets/UltiSnips/"
+let _snippet="~/.config/nvim/autoload/plugged/vim-snippets/snippets/"
+let _mysnippet="~/.config/nvim/UltiSnips/"
 
-set path=./usr/include,/usr/local/include,/usr/include/c++/11,~/develop/include,~/opensource/mruby/include
+set path=~/develop/include,~/opensource/mruby/include
+
+let mapleader = ","
+"--------------------------------------------------------------------------------
+"
+" check macvim
+"
+"--------------------------------------------------------------------------------
+let g:is_nvim = has('nvim')
+let g:is_vim8 = v:version >= 800 ? 1 : 0
+
+if !g:is_nvim && g:is_vim8
+  set guioptions=
+  set guifont=agaveNerdFontCompleteM-r:h19
+  set runtimepath+=~/.config/nvim/colors
+  let &packpath = &runtimepath
+  autocmd! GUIEnter * set vb t_vb=
+else
+  set termguicolors
+  set t_Co=256
+  color jellybeans
+endif
+
+color Tomorrow-Night-Blue
+color Tomorrow-Night-Eighties
+color xoria256
+
+"--------------------------------------------------------------------------------
+"
+" Terminal
+"
+"--------------------------------------------------------------------------------
+if has('nvim')
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <M-[> <Esc>
+  tnoremap <C-v><Esc> <Esc>
+endif
+
 "--------------------------------------------------------------------------------
 "
 " Persistent undo
 "
 "--------------------------------------------------------------------------------
-" Let's save undo info!
-if !isdirectory($HOME."/.vim")
-    call mkdir($HOME."/.vim", "", 0770)
+let tmp_dir = $HOME."/tmp"
+if !isdirectory(tmp_dir)
+  call mkdir(tmp_dir, "", 0770)
 endif
-if !isdirectory($HOME."/.vim/undo-dir")
-    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+
+let tmp_dir .= g:is_nvim ? "/undo_nvim" : "/undo_mvim"
+
+if !isdirectory(tmp_dir)
+  call mkdir(tmp_dir, "", 0700)
 endif
-set undodir=~/.vim/undo-dir
+
+let &undodir= tmp_dir
 set undofile
 
-let g:python_host_prog="/home/yielding/anaconda3/envs/pytorch/bin/python"
+"--------------------------------------------------------------------------------
+"
+" python & ruby
+"
+"--------------------------------------------------------------------------------
+let g:python3_host_prog = "/Users/yielding/miniforge/envs/pytorch/bin/python"
+let g:coc_global_extensions = ['coc-ccls', 'coc-html', 'coc-git', 'coc-pyright']
+
+"let g:ruby_host_prog="/opt/homebrew/opt/ruby/bin/ruby""
+let g:ruby_host_prog="/Users/yielding/.rubies/ruby-3.1.0/bin/ruby"
 
 "--------------------------------------------------------------------------------
 "
-" Plugins
+" plugins
 "
 "--------------------------------------------------------------------------------
-call plug#begin('~/.config/nvim/plugged')
+source $HOME/.config/nvim/vim-plug/plugins.vim
 
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'dbakker/vim-projectroot'
-Plug 'itchyny/lightline.vim'
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-fugitive'
-
-Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install -all' }
-Plug 'junegunn/fzf.vim'
-Plug 'vim-scripts/L9'
-Plug 'scrooloose/nerdtree'
-Plug 'vim-scripts/ack.vim'
-
-Plug 'vim-scripts/FuzzyFinder'
-Plug 'vim-scripts/ScrollColors'
-Plug 'vim-scripts/ShowMarks7'
-Plug 'vim-scripts/TagBar'
-Plug 'vim-scripts/a.vim'
-
-Plug 'vim-scripts/closetag.vim'
-Plug 'fholgado/minibufexpl.vim'
-Plug 'vim-scripts/matchit.zip'
-
-Plug 'morhetz/gruvbox'
-Plug 'git://git.wincent.com/command-t.git'
-Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
-Plug 'bling/vim-airline'
-Plug 'tpope/vim-abolish'
-Plug 'Lokaltog/vim-easymotion'
-Plug 'ronakg/quickr-cscope.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-
-"Plug 'relastle/vim-nayvy'
-
-Plug 'vim-scripts/wordlist.vim'
-Plug 'gmarik/ingretu'
-Plug 'vim-scripts/gitv'
-
-call plug#end()
-
-filetype plugin indent on
-
+"--------------------------------------------------------------------------------
+"
+" 
+"
+"--------------------------------------------------------------------------------
 let g:lightline = { 'colorscheme' : 'wombat' }
 
 "--------------------------------------------------------------------------------
@@ -165,36 +180,43 @@ set ffs=unix
 
 "--------------------------------------------------------------------------------
 "
-" Shortcuts
+" shortcuts
 "
 "--------------------------------------------------------------------------------
 map ,f  [I
 map ,l  :set list!<CR>
 map ,n  :set nu!<CR>
+map ,p  :edit <C-R>=_plugs<CR><CR>
 map ,u  :source <C-R>=_vimrc<CR><CR>
-map ,v  :edit   <C-R>=_vimrc<CR><CR>
+map ,v  :edit <C-R>=_vimrc<CR><CR>
 map ,w  :w <CR>
 map ,q  :edit   :q <CR>
 map ,z  :edit   <C-R>=_zshrc<CR><CR>
+map ,ee :CocCommand explorer<CR><CR>
 
-map ,ec :edit   <C-R>= _snippet . 'cpp.snippets'<CR><CR>
+map ,eb :edit   <C-R>= _snippet . 'c.snippets'<CR><CR>
+map ,ec :edit   <C-R>= _mysnippet . 'cpp.snippets'<CR><CR>
 map ,ep :edit   <C-R>= _snippet . 'python.snippets'<CR><CR>
 map ,er :edit   <C-R>= _snippet . 'ruby.snippets'<CR><CR>
+map ,es :edit   <C-R>= _mysnippet . 'cs.snippets'<CR><CR>
+map ,em :edit   <C-R>= _mysnippet . 'cmake.snippets'<CR><CR>
 map ,tc :edit   <C-R>= _test . 'test.cpp'<CR><CR>
+map ,tm :edit   <C-R>= _test . 'test.md'<CR><CR>
 map ,tr :edit   <C-R>= _test . 'test.rb'<CR><CR>
 map ,tp :edit   <C-R>= _test . 'test.py'<CR><CR>
 
 imap  _*        <Esc>bi*<Esc>ea*<Space>
 
-map <F2>  :set makeprg=g++-11\ -std=c++2a\ %\ -o\ %<<CR>
+map <F2>  :set makeprg=g++-11\ -std=c++2b\ %\ -o\ %<<CR>
+"map <F2>  :set makeprg=clang++\ -std=c++2a\ %\ -o\ %<<CR>
 map <F3>  :set makeprg=rake<CR>
 map <F4>  :set makeprg=make<CR>
 map <F6>  :make<CR>
 
-map <F7>  :!./%<<CR>
+map <F7>  :!%<<CR>
 map <F9>  :TagbarToggle<CR>
 map <F10> :FufFile<CR>
-map <F11> :FufBuffer<CR>
+map <F11> :FufBuffer<CR>>
 
 "-----------------------------------------------------------------------------
 "
@@ -254,23 +276,22 @@ endfunction
 
 command! -nargs=0 OUTLINE call <SID>OutlineToggle() 
 
-if has("gui_running")
-  color Tomorrow-Night
-else
-  color jellybeans
-endif
-
-
+"if has("gui_running")
+"  color Tomorrow-Night-Blue
+"else
+"  color jellybeans
+"endif
 "--------------------------------------------------------------------------------
 "
-" Ruby
+" ruby
 "
 "--------------------------------------------------------------------------------
 function! Ruby_eval_split() range
   let src = tempname()
   let dst = "Ruby Output"
   silent execute ": " . a:firstline . "," . a:lastline . "w " . src
-  silent execute ":below pedit! " . dst
+  "silent execute ":below pedit! " . dst
+  silent execute ":vert belowright pedit! " . dst
   wincmd P
   setlocal buftype=nofile
   setlocal noswapfile
@@ -284,7 +305,18 @@ au FileType ruby filetype plugin indent on
 au FileType ruby noremap ,r :%call Ruby_eval_split()<CR>
 au FileType ruby noremap ,tag :!ripper-tags -R.<CR>
 
+filetype off
+let &runtimepath .=',~/.config/nvim/autoload/plugged/neoterm'
+filetype plugin on
+
+"--------------------------------------------------------------------------------
+"
+" python
+"
+"--------------------------------------------------------------------------------
 au FileType python noremap ,r :!python %<CR>
+au FileType js noremap ,r :!node %<CR>
+au FileType cs noremap ,r :!dotnet run<CR>
 
 "--------------------------------------------------------------------------------
 "
@@ -309,6 +341,7 @@ function! SwitchHlSearch(flag)
   endif
 endfunction
 map ,s :let flagHlsearch = SwitchHlSearch(flagHlsearch)<CR>
+
 
 "--------------------------------------------------------------------------------
 "
@@ -336,6 +369,13 @@ map ,S :let flagSyntax = SwitchSyntax(flagSyntax)<CR>
 
 "--------------------------------------------------------------------------------
 "
+" cd to the buffer
+"
+"--------------------------------------------------------------------------------
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+
+"--------------------------------------------------------------------------------
+"
 " mini buffer explorer
 "
 "--------------------------------------------------------------------------------
@@ -344,6 +384,11 @@ noremap <C-K> <C-W>k
 noremap <C-H> <C-W>h
 noremap <C-L> <C-W>l
 
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#fnamemod = ':t'
+"let g:airline#extensions#tabline#buffer_nr_show = 1
+"let g:airline#extensions#tabline#buffer_nr_format = '%s:'
+"let g:airline#extensions#tabline#formatter = 'default'
 "--------------------------------------------------------------------------------
 "
 " coc
@@ -354,6 +399,7 @@ noremap <C-L> <C-W>l
 "sign define coc_err numhl=coc_err_hi
 "sign place 1 line=2 name=coc_err
 
+let g:coc_global_extensions = ['coc-solargraph']
 "set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 "
 nmap <silent> gd <Plug>(coc-definition)
@@ -375,12 +421,24 @@ function! s:show_documentation()
   endif
 endfunction
 
-"-------------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 "
-" ruby
+" c++ syntax highlight
 "
 "--------------------------------------------------------------------------------
-au FileType ruby filetype plugin indent on
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+
+"--------------------------------------------------------------------------------
+"
+" typescript
+"
+"--------------------------------------------------------------------------------
+let g:typescript_compiler_binary = 'tsc'
+let g:typescript_compiler_options = ''
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
 
 "--------------------------------------------------------------------------------
 "
@@ -391,10 +449,37 @@ let loaded_matchparan=0
 
 "--------------------------------------------------------------------------------
 "
+" cmake
+"
+"--------------------------------------------------------------------------------
+augroup vim-cmake-group
+autocmd! User CMakeBuildSucceeded CMakeClose
+augroup END
+
+let g:cmake_native_build_options=["-j10"]
+nmap <leader>cg <Plug>(CMakeGenerate)
+nmap <leader>cb <Plug>(CMakeBuild)
+nmap <leader>ci <Plug>(CMakeInstall)
+nmap <leader>cs <Plug>(CMakeSwitch)
+nmap <leader>cq <Plug>(CMakeClose)
+
+"--------------------------------------------------------------------------------
+"
+" Ultisnips
+"
+"--------------------------------------------------------------------------------
+let g:UltiSnipsExpandTrigger="<Tab>"
+"let g:UltiSnipsJumpForwardTrigger="<Tab>"
+"let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+let g:UltiSnipsEditSplit="vertical"
+set runtimepath ^=~/vim/UltiSnips
+let g:UltiSnipsSnippetDirectories = ["UltiSnips", '~/.vim/UltiSnips']
+"--------------------------------------------------------------------------------
+"
 " run
 "
 "--------------------------------------------------------------------------------
 au BufEnter * :syntax sync fromstart
-au BufNewFile,BufReadPost *.rb set ts=2 sw=2 foldmethod=expr
+au BufNewFile,BufReadPost *.rb set foldmethod=expr
+au BufNewFile,BufReadPost *.py set ts=2 sts=2 sw=2 tw=0
 au BufNewFile,BufReadPost *.py compiler pyunit
-
