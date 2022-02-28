@@ -1,11 +1,12 @@
 # If you come from bash you might have to change your $PATH.
 export EDITOR=nvim 
 export HOME=/Users/yielding
-export PATH=$HOME/bin:/opt/homebrew/bin:$PATH
-# ruby
-export RUBY_HOME=$HOME/.rubies/ruby-3.0.2
+
+export RUBY_HOME=$HOME/.rubies/ruby-3.1.0
 export PATH=$RUBY_HOME/bin:$PATH
-export PATH=$RUBY_HOME/lib/ruby/gems/3.0.0/bin:$PATH
+export PATH=$RUBY_HOME/lib/ruby/gems/3.1.0/bin:$PATH
+export PATH=$HOME/bin:/opt/homebrew/bin:$PATH
+export PATH=/opt/homebrew/Cellar/llvm/13.0.0_2/bin:$PATH
 export BOOST_HOME=/opt/homebrew/include
 export LDFLAGS="-L$RUBY_HOME/lib -L/opt/homebrew/lib -lpthread"
 export CPLUS_INCLUDE_PATH=$RUBY_HOME/include:$BOOST_HOME:$HOME/develop/include:$HOME/develop/vendor/include:$CPLUS_INCLUDE_PATH
@@ -17,11 +18,14 @@ export TERM=xterm-256color
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/yielding/.oh-my-zsh"
 
+export GIT_TERMINAL_PROMPT=false
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="refined"
+ZSH_THEME="dst"
+ZSH_THEME="miloshadzic"
 ZSH_THEME="steeef"
 
 # Set list of themes to pick from when loading at random
@@ -78,20 +82,20 @@ ZSH_THEME="steeef"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
+# Which plugins would you like to load? Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git
   history
-  osx
+  macos
   ruby
   python
   vi-mode
   docker
   fasd
   fzf
+  ripgrep
   zsh-syntax-highlighting
   zsh-autosuggestions
 )

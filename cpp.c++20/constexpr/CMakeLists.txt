@@ -1,21 +1,21 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.22.2)
 
-PROJECT (constexpr)
+project (constexpr)
 
-SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (SOURCES
+set (SOURCES
   const.vector.cpp
 )
 
-INCLUDE_DIRECTORIES (
+include_directories (
   /usr/local/include 
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
+link_directories (/usr/local/lib)
 
-LINK_LIBRARIES (tbb)
 
-ADD_EXECUTABLE (constexpr ${SOURCES})
+add_executable (constexpr ${SOURCES})
+target_link_libraries (constexpr tbb)

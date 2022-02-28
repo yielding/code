@@ -1,17 +1,17 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.15)
 
-PROJECT (arith)
+project (arith)
 
-SET (CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_STANDARD 20)
 
-SET (SOURCES
+set (SOURCES
   add.cpp
   sub.cpp
   main.cpp
 )
 
-INCLUDE_DIRECTORIES (
+include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-ADD_EXECUTABLE (arith ${SOURCES})
+add_executable (arith ${SOURCES})

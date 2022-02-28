@@ -17,7 +17,7 @@ struct cell
   }
 
 private:
-  spiral_array m_parent;
+  spiral_array* m_parent;
 };
 
 struct spiral_array

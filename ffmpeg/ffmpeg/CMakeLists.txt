@@ -1,11 +1,11 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.22.2)
 
-PROJECT (ffmpeg_debug)
+project (ffmpeg_debug)
 
-SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (SOURCES
+set (SOURCES
   ffmpeg.c
   ffmpeg_opt.c
   ffmpeg_hw.c
@@ -14,17 +14,19 @@ SET (SOURCES
   cmdutils.c
 )
 
-FIND_PACKAGE(OpenCV REQUIRED)
+find_package (OpenCV REQUIRED)
 
-INCLUDE_DIRECTORIES (
+include_directories (
   /Users/yielding/opensource/ffmpeg
   /usr/local/include 
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
+link_directories (/usr/local/lib)
 
-LINK_LIBRARIES (
+add_executable (ffmpeg_debug ${SOURCES})
+
+target_link_libraries (ffmpeg_debug
   avformat
   avcodec
   avutil
@@ -33,5 +35,3 @@ LINK_LIBRARIES (
   swresample
   avfilter
 )
-
-ADD_EXECUTABLE (ffmpeg_debug ${SOURCES})

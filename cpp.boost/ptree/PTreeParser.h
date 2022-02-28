@@ -1,5 +1,4 @@
-#ifndef PTREEPARSER_H_PPDMXE3I
-#define PTREEPARSER_H_PPDMXE3I
+#pragma once
 
 #include "BPlist.h"
 
@@ -11,53 +10,52 @@
 
 using namespace boost::property_tree;
 
-namespace utility { namespace parser {
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
-////////////////////////////////////////////////////////////////////////////////
-class PTreeParser
-{
-public:
-  typedef std::vector<std::pair<std::string, std::string>> Leaves; 
-  typedef std::pair<ptree::iterator, ptree::iterator> Range;
+//////////////////////////////////////////////////////////////////////////////// namespace utility::parser {
 
-public:
-  PTreeParser(std::string const& path, std::string const& ignore="...");
-  bool init();
+  class PTreeParser
+  {
+  public:
+    typedef std::vector<std::pair<std::string, std::string>> Leaves; 
+    typedef std::pair<ptree::iterator, ptree::iterator> Range;
 
-public:
-  auto enumerate(std::string const& path, int index, std::string const& filt)
-    -> PTreeParser&;
-  auto filter(std::string const& key) -> PTreeParser&;
-  auto clear() -> PTreeParser&;
-  auto reduce_to(std::vector<std::string>& res) -> void;
-  auto pairs() -> Leaves;
-  auto strings() -> std::vector<std::string>;
+  public:
+    PTreeParser(std::string const& path, std::string const& ignore="...");
+    bool init();
 
-private:
-  auto map(Leaves const& r, std::string const& filter) 
-    -> Leaves;
+  public:
+    auto enumerate(std::string const& path, int index, std::string const& filt)
+      -> PTreeParser&;
+    auto filter(std::string const& key) -> PTreeParser&;
+    auto clear() -> PTreeParser&;
+    auto reduce_to(std::vector<std::string>& res) -> void;
+    auto pairs() -> Leaves;
+    auto strings() -> std::vector<std::string>;
 
-  // TODO exchange with lambda
-  auto is_bool(std::string const& s) -> bool;
-  auto find_range(std::string const& path, int position) -> Range;
+  private:
+    auto map(Leaves const& r, std::string const& filter) 
+      -> Leaves;
 
-private:
-  std::string m_path;
-  std::string m_ignore;
-  Leaves m_pairs;
-  std::vector<std::string> m_strs;
-  ptree m_pt;
-  utility::parser::PropertyList m_bplist;
-};
+    // TODO exchange with lambda
+    auto is_bool(std::string const& s) -> bool;
+    auto find_range(std::string const& path, int position) -> Range;
 
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
+  private:
+    std::string m_path;
+    std::string m_ignore;
+    Leaves m_pairs;
+    std::vector<std::string> m_strs;
+    ptree m_pt;
+    utility::parser::PropertyList m_bplist;
+  };
+
 }
-}
-#endif
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
