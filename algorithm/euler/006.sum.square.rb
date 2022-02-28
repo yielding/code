@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby2.0
+#!/usr/bin/env ruby
 
 a1 = (1..100).map { |e| e ** 2 }.reduce(:+)
 a2 = (1..100).reduce(:+) ** 2
