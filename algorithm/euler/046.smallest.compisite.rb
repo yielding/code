@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative "sieve"
+require "sieve"
 
 class Numeric
   def twice_square?

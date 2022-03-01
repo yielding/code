@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
 from functools import partial
+from functools import reduce
 from operator  import mul
-
-import operator
 
 data = """
 73167176531330624919225119674426574742355349194934
@@ -40,8 +39,8 @@ each_cons = partial(each_cons_iter, n=5)
 
 # 1
 reduce_mul = lambda x: reduce(lambda a,b:a*b, x)
-print max(map(reduce_mul, each_cons(data)))
+print(max(map(reduce_mul, each_cons(data))))
 
 # 2
-print max(map(lambda x: reduce(mul, x), each_cons(data)))
+print(max(map(lambda x: reduce(mul, x), each_cons(data))))
 

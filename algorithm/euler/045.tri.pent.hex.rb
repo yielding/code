@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 require "pp"
 
 tris = (1..10).map { |n| n * (  n + 1) / 2 }

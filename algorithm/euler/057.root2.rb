@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative "numeric_ext"
+require "numeric_ext"
 =begin rdoc
 # [1; (2)]
 

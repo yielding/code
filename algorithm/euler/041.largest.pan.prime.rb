@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative "numeric_ext"
+require "numeric_ext"
 require_relative "sieve"
 
 res = eratosthenes_sieve(7654321)

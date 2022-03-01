@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative "numeric_ext"
+require "numeric_ext"
 
 sum = 0
 (0..9).to_a.permutation(10) { |e| 

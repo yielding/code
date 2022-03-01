@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative "numeric_ext"
+require "numeric_ext"
 
 p (9183..9999).select { |e| e.concat(2 * e).pandigital? }
               .map    { |e| e.concat(2 * e) }

@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby20
+#!/usr/bin/env ruby
 
 class Numeric
   def is_palindrome

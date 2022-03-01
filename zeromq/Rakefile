@@ -2,7 +2,7 @@
 
 APP       = "serv_cli"
 SRCS      = %W{ serv_cli.cpp }
-CXX       = "xcrun"
+CXX       = "g++"
 CXXFLAGS  = ":Os"
 LIBS      = "zmq"
 

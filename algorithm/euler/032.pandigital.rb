@@ -1,6 +1,6 @@
-#!/usr/bin/env rub
+#!/usr/bin/env ruby
 
-require_relative "numeric_ext"
+require "numeric_ext"
 
 class Numeric
   def digits

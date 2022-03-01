@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby -wKU
 
-require_relative "numeric_ext"
+require "numeric_ext"
 
 def nth_prime? n
   i = 0

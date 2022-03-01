@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require "set"
-require_relative "numeric_ext"
+require "numeric_ext"
 
 class Numeric
   def digit_count

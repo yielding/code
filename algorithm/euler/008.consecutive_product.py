@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
 from functools import partial
+from functools import reduce
 from operator  import mul
-
-import operator
 
 data = [
   7,3,1,6,7,1,7,6,5,3,1,3,3,0,6,2,4,9,1,9,2,2,5,1,1,9,6,7,4,4,2,6,5,7,4,7,4,2,3,5,5,3,4,9,1,9,4,9,3,4,
@@ -37,7 +36,7 @@ each_cons = partial(each_cons_iter, n=5)
 
 # 1
 reduce_mul = lambda x: reduce(lambda a,b:a*b, x)
-print max(map(reduce_mul, each_cons(data)))
+print(max(map(reduce_mul, each_cons(data))))
 
 # 2
-print max(map(lambda x: reduce(mul, x), each_cons(data)))
+print(max(map(lambda x: reduce(mul, x), each_cons(data))))
