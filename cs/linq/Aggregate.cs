@@ -7,13 +7,13 @@ class CSharpApp
 {
   static void Main(string[] args)
   {
-    var names = new List<string>() { 
+    var names = new List<string>() 
+    {
       "leech", "kamin", "gunhee", "gunhee2"
     };
 
-    var nameList 
-      = names.Where(name => name.StartsWith("g"))
-             .Aggregate("", (all, next) => all + ", " + next);
+    var nameList = names.Where(name => name.StartsWith("g"))
+                        .Aggregate("", (all, next) => all + ", " + next);
 
     Console.WriteLine(nameList);
   }
