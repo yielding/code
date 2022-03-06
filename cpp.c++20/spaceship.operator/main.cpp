@@ -16,6 +16,8 @@ struct Human {
   auto operator==(const Human& rhs) const {
     // 객체의 ordering 과 equality는 다르게 생각해야 한다.
     // 간단히는 아래와 같이도 생각할 수 있으나, 사용자 마음인 것
+    // i.e, 두 string을 비교한다면 먼저 길이로 비교하는 것이 각 
+    // 원소를 각각 비교하는 것보다 간명하다. 여기서는 
     return (*this <=> rhs) == 0;
   }
 
