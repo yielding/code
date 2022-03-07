@@ -6,11 +6,11 @@ using namespace std;
 
 struct Human {
   Human(int age, const char* name)
-    : _age(age), _name(name)
+    : m_age(age), m_name(name)
   {}
 
   auto operator<=>(const Human& rhs) const {
-    return _age <=> rhs._age;
+    return m_age <=> rhs.m_age;
   }
 
   auto operator==(const Human& rhs) const {
@@ -21,8 +21,8 @@ struct Human {
     return (*this <=> rhs) == 0;
   }
 
-  string _name;
-  int _age;
+  string m_name;
+  int m_age;
 };
 
 int main(int argc, char *argv[])
