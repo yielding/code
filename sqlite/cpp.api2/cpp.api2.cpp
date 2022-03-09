@@ -1,4 +1,4 @@
-#include "sqlite_pp.h"
+#include "sqlite_pp.hpp"
 
 #include <boost/format.hpp>
 
