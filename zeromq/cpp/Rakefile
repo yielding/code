@@ -2,7 +2,7 @@
 
 APP       = "pair_client"
 SRCS      = %W{ ./pair_client.cpp }
-CXX       = "xcrun"
+CXX       = "g++"
 CXXFLAGS  = ":Os"
 LIBS      = "zmq"
 

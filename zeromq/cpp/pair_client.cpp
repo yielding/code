@@ -2,8 +2,16 @@
 #include <string>
 #include <iostream>
 
+// add two integers
+int add(int a, int b)
+{
+  return a + b;
+}
+
 int main()
 {
+  auto c = add(1, 2);
+
   //  Prepare our context and socket
   zmq::context_t context(1);
   zmq::socket_t  socket(context, ZMQ_PAIR);
@@ -24,5 +32,6 @@ int main()
     socket.recv (&reply);
     std::cout << "Received World " << request_nbr << std::endl;
   }
+
   return 0;
 }
