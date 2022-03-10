@@ -28,4 +28,6 @@ int main(int argc, char *argv[])
 
   cout << "Received text:\"" << text << "\" and a number: " << number << endl;
   cout << "Finished." << endl;
+
+  return 0;
 }

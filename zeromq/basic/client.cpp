@@ -27,4 +27,6 @@ int main(int argc, char *argv[])
 
   cout << "Sent message." << endl;
   cout << "Finished." << endl;
+
+  return 0;
 }
