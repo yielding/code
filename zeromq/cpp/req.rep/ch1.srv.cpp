@@ -13,11 +13,12 @@ int main(int argc, char *argv[])
   while (true) 
   {
     zmq::message_t in;
-    sock.recv(in);
+    auto recved = sock.recv(in);
 
     auto x = stoi(in.to_string());
     auto out = to_string(x*x);
     zmq::message_t zout(out);
+    cout << "sending back: " << out << endl;
     sock.send(zout, zmq::send_flags::none);
   }
   

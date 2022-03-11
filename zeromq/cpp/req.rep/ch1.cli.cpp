@@ -9,7 +9,7 @@ using namespace chrono_literals;
 
 static zmq::context_t ctx;
 
-int main(int argc, char *argv[])
+auto thread_func =[](string thread_id)
 {
   zmq::socket_t sock(ctx, zmq::socket_type::req);
   sock.connect("tcp://127.0.0.1:5555");
@@ -25,13 +25,24 @@ int main(int argc, char *argv[])
     cout << "\nsending" << out.to_string_view();
     sock.send(out, zmq::send_flags::none);
     zmq::message_t in;
-    sock.recv(in);
+    auto recved = sock.recv(in);
 
-    cout << "\nsending: " << out
-         << " received: " << in.to_string_view();
+    cout 
+      << "\nthread id: " << thread_id
+      << "sending: " << msg_out << " "
+      << "received: " << in.to_string_view();
 
-    this_thread::sleep_for(10ms);
+    this_thread::sleep_for(500ms);
   }
+};
+
+int main(int argc, char *argv[])
+{
+  thread t0(thread_func, "threadd_0");
+  thread t1(thread_func, "threadd_1");
+
+  t0.join();
+  t1.join();
 
   return 0;
 }
