@@ -4,8 +4,8 @@
 #include <zmq_addon.hpp>
 
 using namespace std;
-using namespace zmq;
 using namespace chrono_literals;
+using namespace zmq;
 
 static context_t ctx;
 
@@ -27,8 +27,8 @@ int main()
   {
     this_thread::sleep_for(500ms);
     //message_t topic;
-    message_t payload;
     //auto r0 = sock.recv(topic);
+    message_t payload;
     auto r1 = sock.recv(payload);
 
     cout << '\n' 

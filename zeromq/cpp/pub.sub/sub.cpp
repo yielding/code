@@ -14,10 +14,7 @@ int main()
 
   vector<string> topics{"intc", "amd"};
   for (auto&& topic: topics)
-  {
     sock.set(sockopt::subscribe, topic);
-    //sock.setsockopt(ZMQ_SUBSCRIBE, topic.data(), topic.size());
-  }
 
   while (true) 
   {

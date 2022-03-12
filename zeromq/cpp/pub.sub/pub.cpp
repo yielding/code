@@ -27,17 +27,15 @@ int main()
   while (true) 
   {
     this_thread::sleep_for(200ms);
-    auto select = udist(mt);
-    auto name = company[select];
+
+    auto name = company[udist(mt)];
     nlohmann::json msg;
     msg[name] = normdist(mt);
 
     cout << '\n' << msg.dump();
     
-    message_t topic(name);
-    sock.send(topic, send_flags::sndmore);
-    message_t payload(msg.dump());
-    sock.send(payload, send_flags::none);
+    message_t topic(name);         sock.send(topic,   send_flags::sndmore);
+    message_t payload(msg.dump()); sock.send(payload, send_flags::none);
   }
 
   return 0;
