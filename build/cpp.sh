@@ -1,5 +1,5 @@
 #!/bin/sh
-xcrun clang++ -o out $1
+g++-11 -std=c++2a -o out $1
 ./out
 rm out
 
