@@ -12,13 +12,12 @@ class BTree
      raise "Wrong btree header" unless btnode.kind == KBTHeaderNode
 
      sz = btnode.num_bytes
-     @header    = BTHeaderRec.read(block0[sz, block0.size - sz])
+     @header = BTHeaderRec.read(block0[sz, block0.size - sz])
      @node_size = @header.nodeSize
-     @nodes_in_block  = @file.block_size / @header.nodeSize
+     @nodes_in_block = @file.block_size / @header.nodeSize
      @blocks_per_node = @header.nodeSize / @file.block_size
-     @last_record_no  = 0
-     # TODO here
-     type, (hdr, maprec) = self.read_btree_node 0
+     @last_record_no = 0
+     # TODO here type, (hdr, maprec) = self.read_btree_node 0
      @maprec = maprec
   end
 
@@ -157,7 +156,7 @@ class BTree
         end
       end
 
-      node_no   = @last_btnode.fLink
+      node_no = @last_btnode.fLink
       record_no = 0
     end
   end
