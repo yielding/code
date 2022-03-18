@@ -6,9 +6,9 @@ unless ARGV.length == 2
 end
 
 dir = case ARGV[0].downcase
-      when /r.+/; "Release"
-      when /d.+/; "Debug"
-      else /b.+/; "Build"
+      when /r.*/; "Release"
+      when /d.*/; "Debug"
+      else /b.*/; "Build"
       end
 
 puts dir
