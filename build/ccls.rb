@@ -2,6 +2,12 @@
 
 require "open3"
 
+#
+# g++는 shell 환경변수에 있는 include를 참조한다는 사실이 중요
+# ex) opencv를 자동으로 넣고 싶으면 
+#     export OPENCV_HOME=/opt/homebrew/opt/opencv
+#     export CPLUS_INCLUDE_PATH=OPENCV_HOME/include/opencv4
+#
 File.open(".ccls", "w") { |file| 
   file.puts "g++-11"
   file.puts "-std=c++2a"
