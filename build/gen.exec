@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-unless ARGV.length == 2
-  puts "usage: gen.exec [Debug|Release|Build] exe.name"
+unless ARGV.length == 3
+  puts "usage: gen.exec [Debug|Release|Build] [clang++|g++] exe.name"
   return
 end
 
@@ -10,11 +10,18 @@ dir = case ARGV[0].downcase
       when /d.*/; "Debug"
       else "Build"
       end
-
 puts dir
+
+complier = case ARGV[1].downcase
+           when /c.*/; "clang++"
+           when /g.*/; "g++"
+           else "g++-11"
+           end
+puts complier
 
 File.open(".run.sh", "w") { |file| 
   file.puts "#!/bin/sh"
+  file.puts path ="export CXX=" + `which #{complier}`
   file.puts "#{dir}/#{ARGV[1]}"
   puts "#{dir}/#{ARGV[1]}"
 }
