@@ -22,8 +22,8 @@ puts complier
 File.open(".run.sh", "w") { |file| 
   file.puts "#!/bin/sh"
   file.puts path ="export CXX=" + `which #{complier}`
-  file.puts "#{dir}/#{ARGV[1]}"
-  puts "#{dir}/#{ARGV[1]}"
+  file.puts "#{dir}/#{ARGV[2]}"
+  puts "#{dir}/#{ARGV[2]}"
 }
 
 `chmod 700 ./.run.sh`
