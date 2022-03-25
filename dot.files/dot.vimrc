@@ -40,11 +40,12 @@ set shortmess+=c
 
 set clipboard ^=unnamed,unnamedplus
 
-set signcolumn=no
-
 set mouse=a
 
 set clipboard+=unnamedplus
+
+set nofixendofline
+
 "--------------------------------------------------------------------------------
 "
 " Text, Tab and Indent
@@ -68,6 +69,13 @@ set cindent
 
 set cino=t0,g0
 
+set fillchars+=vert:\ 
+
+"--------------------------------------------------------------------------------
+"
+" globar variables
+"
+"--------------------------------------------------------------------------------
 let _vimrc="~/.config/nvim/init.vim"
 let _plugs="~/.config/nvim/vim-plug/plugins.vim"
 let _zshrc="~/.zshrc"
@@ -138,11 +146,8 @@ set undofile
 "
 "--------------------------------------------------------------------------------
 let g:python3_host_prog = "/Users/yielding/miniforge/envs/pytorch/bin/python"
-let g:coc_global_extensions = ['coc-ccls', 'coc-html', 'coc-git', 'coc-pyright']
-
 "let g:ruby_host_prog="/opt/homebrew/opt/ruby/bin/ruby""
-let g:ruby_host_prog="/Users/yielding/.rubies/ruby-3.1.0/bin/ruby"
-
+let g:ruby_host_prog="/opt/homebrew/opt/ruby/bin/ruby"
 "--------------------------------------------------------------------------------
 "
 " plugins
@@ -197,23 +202,23 @@ map ,ee :CocCommand explorer<CR><CR>
 map ,eb :edit   <C-R>= _snippet . 'c.snippets'<CR><CR>
 map ,ec :edit   <C-R>= _mysnippet . 'cpp.snippets'<CR><CR>
 map ,ep :edit   <C-R>= _snippet . 'python.snippets'<CR><CR>
-map ,er :edit   <C-R>= _snippet . 'ruby.snippets'<CR><CR>
+map ,er :edit   <C-R>= _mysnippet . 'ruby.snippets'<CR><CR>
 map ,es :edit   <C-R>= _mysnippet . 'cs.snippets'<CR><CR>
 map ,em :edit   <C-R>= _mysnippet . 'cmake.snippets'<CR><CR>
 map ,tc :edit   <C-R>= _test . 'test.cpp'<CR><CR>
 map ,tm :edit   <C-R>= _test . 'test.md'<CR><CR>
 map ,tr :edit   <C-R>= _test . 'test.rb'<CR><CR>
 map ,tp :edit   <C-R>= _test . 'test.py'<CR><CR>
+map ,tj :edit   <C-R>= _test . 'test.java'<CR><CR>
 
 imap  _*        <Esc>bi*<Esc>ea*<Space>
 
-map <F2>  :set makeprg=g++-11\ -std=c++2b\ %\ -o\ %<<CR>
-"map <F2>  :set makeprg=clang++\ -std=c++2a\ %\ -o\ %<<CR>
-map <F3>  :set makeprg=rake<CR>
-map <F4>  :set makeprg=make<CR>
-map <F6>  :make<CR>
+map <F2>  :set makeprg=g++-11\ -std=c++20\ %\ -o\ %<<CR>
+map <F3>  :set makeprg=make<CR>
+map <F4>  :CMakeBuild<CR>
+map <F5>  :!./.run.sh<CR>
 
-map <F7>  :!%<<CR>
+"map <F7>  :!%<<CR>
 map <F9>  :TagbarToggle<CR>
 map <F10> :FufFile<CR>
 map <F11> :FufBuffer<CR>>
@@ -290,8 +295,8 @@ function! Ruby_eval_split() range
   let src = tempname()
   let dst = "Ruby Output"
   silent execute ": " . a:firstline . "," . a:lastline . "w " . src
-  "silent execute ":below pedit! " . dst
-  silent execute ":vert belowright pedit! " . dst
+  silent execute ":below pedit! " . dst
+  "silent execute ":vert belowright pedit! " . dst
   wincmd P
   setlocal buftype=nofile
   setlocal noswapfile
@@ -394,12 +399,23 @@ noremap <C-L> <C-W>l
 " coc
 "
 "--------------------------------------------------------------------------------
-"set signcolumn=no
-"hi coc_err_hi ctermfg=1 ctermbg=15
-"sign define coc_err numhl=coc_err_hi
-"sign place 1 line=2 name=coc_err
+set signcolumn=number
+hi coc_err_hi ctermfg=1 ctermbg=15
+sign define coc_err numhl=coc_err_hi
+sign place 1 line=2 name=coc_err
 
-let g:coc_global_extensions = ['coc-solargraph']
+let g:coc_global_extensions = [
+ \ 'coc-ccls', 
+ \ 'coc-pairs', 
+ \ 'coc-tsserver', 
+ \ 'coc-html', 
+ \ 'coc-prettier', 
+ \ 'coc-pyright',
+ \ 'coc-json',
+ \ 'coc-ultisnips',
+ \ 'coc-solargraph',
+ \ ]
+
 "set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 "
 nmap <silent> gd <Plug>(coc-definition)
@@ -456,6 +472,15 @@ augroup vim-cmake-group
 autocmd! User CMakeBuildSucceeded CMakeClose
 augroup END
 
+function! GetGenOption(compiler)
+  let path = system('which '. a:compiler)[:-2]
+  echo path
+  let g:cmake_generate_options=["-DCMAKE_CXX_COMPILER=" . path]
+endfunction
+
+command! -nargs=* Use call GetGenOption(<f-args>) 
+
+let g:cmake_generate_options=[]
 let g:cmake_native_build_options=["-j10"]
 nmap <leader>cg <Plug>(CMakeGenerate)
 nmap <leader>cb <Plug>(CMakeBuild)
@@ -474,6 +499,7 @@ let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsEditSplit="vertical"
 set runtimepath ^=~/vim/UltiSnips
 let g:UltiSnipsSnippetDirectories = ["UltiSnips", '~/.vim/UltiSnips']
+
 "--------------------------------------------------------------------------------
 "
 " run
