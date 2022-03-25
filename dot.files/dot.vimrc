@@ -217,6 +217,7 @@ map <F2>  :set makeprg=g++-11\ -std=c++20\ %\ -o\ %<<CR>
 map <F3>  :set makeprg=make<CR>
 map <F4>  :CMakeBuild<CR>
 map <F5>  :!./.run.sh<CR>
+map <F6>  :silent exec "!(./.run.sh) &"<CR>
 
 "map <F7>  :!%<<CR>
 map <F9>  :TagbarToggle<CR>
@@ -320,6 +321,7 @@ filetype plugin on
 "
 "--------------------------------------------------------------------------------
 au FileType python noremap ,r :!python %<CR>
+au FileType python noremap ,rr :silent exec "!(python %) &"<CR>
 au FileType js noremap ,r :!node %<CR>
 au FileType cs noremap ,r :!dotnet run<CR>
 
