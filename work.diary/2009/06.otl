@@ -79,7 +79,7 @@
 	| 초기화되지 않은객체에 대한 정형적인 처리를 지원하게 되었다.
 	|
 	| boost::optional은 boost::variant에서 영감을 얻긴 하였으나 container라는
-	| 개념을 도입 T or noting의 분명한 상태를 제공함으로써 boost::variant보다 
+	| 개념을 도입 T or nothing의 분명한 상태를 제공함으로써 boost::variant보다 
 	| 더 깔끔한 개념을 정립하였다.
 	|
 2009년 06월 12일 금요일
