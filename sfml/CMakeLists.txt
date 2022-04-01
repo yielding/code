@@ -16,13 +16,12 @@ include_directories (
 
 link_directories (/usr/local/lib)
 
-link_libraries (
+add_executable (sfml-app ${SOURCES})
+target_link_libraries (sfml-app
   sfml-graphics
   sfml-window
   sfml-system
 )
-
-add_executable (sfml-app ${SOURCES})
 # or library
 # add_library (__PROJECT__ STATIC ${SOURCES})
 # add_library (__PROJECT__ SHARED ${SOURCES})
