@@ -3,7 +3,7 @@ APP       = "jukebox"
 SRCS      = %w{ ./jukebox.cpp }
 
 INCS      = ":mvm"
-CXX       = "xcrun"            # c++0x, clang++, blank
+CXX       = "g++"              # c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"           # :d, :O0 :O3 :w = -Wall
 LDFLAGS   = ":mvm"
 LIBS      = "mruby"
