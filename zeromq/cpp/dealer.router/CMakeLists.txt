@@ -15,5 +15,4 @@ add_executable(dealer dealer.cpp)
 add_executable(router router.cpp)
 
 target_link_libraries(dealer zmq)
-target_link_libraries(router zmq)
-
+target_link_libraries(srv zmq)
