@@ -5,7 +5,8 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
-// // Graphic = ellipse | GraphicList
+//
+// Graphic = ellipse | GraphicList
 //
 // GraphicList = empty | Graphic GraphicList
 //
@@ -26,12 +27,12 @@ public:
   }
 
 public:
-  void add(graphic* shape) 
+  void add(graphic* shape)
   {
     m_children.push_back(shape);
   }
 
-  void remove(graphic* shape) 
+  void remove(graphic* shape)
   {
     m_children.remove(shape);
   }
@@ -44,7 +45,7 @@ class ellipse: public graphic
 public:
   ellipse(int id): m_id(id) {}
 
-  void print() override 
+  void print() override
   {
     cout << "ellipse: " << m_id << "\n";
   }
@@ -55,7 +56,7 @@ private:
 
 int main(int argc, const char *argv[])
 {
-  ellipse           e1(10), e2(20), e3(30);
+  ellipse e1(10), e2(20), e3(30);
   composite_graphic cp1, cp2, all;
 
   cp1.add(&e1); cp1.add(&e2); cp1.add(&e3);

@@ -34,7 +34,6 @@ class InkJetPrinter: Printer
 
 class Application
 {
-
   public static int Main(string[] args)
   {
     var p0 = new InkJetPrinter();
