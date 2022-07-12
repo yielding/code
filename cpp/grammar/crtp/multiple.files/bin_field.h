@@ -1,5 +1,4 @@
-#ifndef BIN_FIELD_H_GBFYBAP0
-#define BIN_FIELD_H_GBFYBAP0
+#pragma once
 
 #include "crtp2.h"
 
@@ -13,5 +12,3 @@ public:
   char* m_name;
   char* m_value;
 };
-
-#endif

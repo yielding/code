@@ -13,10 +13,10 @@ if not defined? SRCS
   exit
 end
 
-$CXX = "ccache g++-11 -std=c++23"
+$CXX = "ccache g++-12 -std=c++23"
 if defined? CXX
   $CXX = "clang++"    if CXX =~ /clang\+\+/
-  $CXX = "ccache g++-11 -std=c++23 " if CXX =~ /g\+\+/
+  $CXX = "ccache g++-12 -std=c++23 " if CXX =~ /g\+\+/
   $CXX = "ccache xcrun clang++ -std=c++17 -stdlib=libc++ " if CXX =~ /xcrun/
 end
 

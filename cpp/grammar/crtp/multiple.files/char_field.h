@@ -1,5 +1,4 @@
-#ifndef CHAR_FIELD_H_SLHU2W8A
-#define CHAR_FIELD_H_SLHU2W8A
+#pragma once
 
 #include "crtp2.h"
 
@@ -13,5 +12,3 @@ public:
   char* m_name;
   char* m_value;
 };
-
-#endif
