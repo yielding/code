@@ -22,8 +22,8 @@ class composite_graphic: public graphic
 public:
   void print() override
   {
-    auto pr = [](graphic* g) { g->print(); };
-    for_each(m_children.begin(), m_children.end(), pr);
+    for (auto& child; m_children)
+      child->print();
   }
 
 public:

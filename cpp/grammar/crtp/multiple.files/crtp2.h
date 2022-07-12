@@ -1,5 +1,4 @@
-#ifndef CRTP2_H_NSZ7808K
-#define CRTP2_H_NSZ7808K
+#pragma once
 
 #include <cstring>
 
@@ -9,25 +8,18 @@ template <typename OnType>
 class streamer
 {
 public:
-  int byte_count();
+  auto byte_count() -> int
+  {
+    auto const &s = self();
+
+    return strlen(s.m_name) + strlen(s.m_value) + 2;
+  }
 
 private:
-  OnType const& self();
+  auto self() -> OnType const&
+  {
+    auto const& self = static_cast<OnType const&>(*this);
+
+    return self;
+  }
 };
-
-template <typename OnType>
-int streamer<OnType>::byte_count()
-{
-  OnType const &s = self();
-  return strlen(s.m_name) + strlen(s.m_value) + 2;
-}
-
-template <typename OnType>
-OnType const& streamer<OnType>::self()
-{
-  OnType const& self = static_cast<OnType const&>(*this);
-
-  return self;
-} 
-
-#endif /* end of include guard: CRTP2_H_NSZ7808K */

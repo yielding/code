@@ -14,7 +14,7 @@ TEST_SRCS = %w{
                 ./main.cpp
               }
 
-CXX       = "c++11"          # c++0x, clang++, blank
+CXX       = "g++"          # c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
 LIBS      = ":f :s"
 
