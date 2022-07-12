@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 #
 # https://www.toptal.com/javascript/option-maybe-either-future-monads-js
 #

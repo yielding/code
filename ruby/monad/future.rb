@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require_relative './monad'
 require_relative './either'
 require_relative './option'
