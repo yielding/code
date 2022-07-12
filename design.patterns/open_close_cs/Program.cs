@@ -6,8 +6,8 @@ namespace OpenClosedPrinciple
     class Program
     {
         static void Main(string[] args)
-        {
-            var all = new List<Product> { 
+        { 
+            var all = new List<Product> {
                 new Product("Apple",      Color.Green, Size.Small),
                 new Product("Tree" ,      Color.Green, Size.Large),
                 new Product("House",      Color.Blue,  Size.Large),
