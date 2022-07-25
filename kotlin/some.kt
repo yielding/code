@@ -9,12 +9,8 @@ fun <T> operator(a: T, op: (T, T) -> T): (T) -> T {
 
 fun b(value: Result<Int>): Result<Int> {
   return when (value) {
-    is Result.Success -> {
-      Result.Success(value = value.value * 10)
-    }
-    is Result.Fail -> {
-      value
-    }
+    is Result.Success -> Result.Success(value = value.value * 10)
+    is Result.Fail -> value
   }
 }
 
