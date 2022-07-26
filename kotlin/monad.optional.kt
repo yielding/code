@@ -14,7 +14,6 @@ infix fun <T, R> Optional<T>.flatMap(functor: (value: T) -> Optional<R>): Option
   return when (this) {
     is Optional.Some -> functor(this.value)
     is Optional.None -> Optional.None()
-
   }
 }
 
