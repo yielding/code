@@ -10,6 +10,7 @@ sealed class Result<T> {
   }
 }
 
+// flatMap에 pure (= Reuslt.Success) 적용해서 flatMap을 부르는 것
 infix fun <T, R> Result<T>.map(functor: (value: T) -> R) : Result<R> {
   return this.flatMap { value ->
     Result.Success(functor(value))
