@@ -10,15 +10,15 @@ public:
   optional() : _isValid(false) {} // Nothing
   optional(T x) : _isValid(true) , _v(x) {} // Just
 
-  bool isValid() const { return _isValid; }
-  T val() const { return _v; }
+  auto isValid() const { return _isValid; }
+  auto val()     const { return _v; }
 
   template <typename R>
   auto fmap(function<R(T)>& f) -> optional<R>
   {
-      return this->isValid()
-        ? optional<R> { f(_v) }
-        : optional<R> {};
+    return isValid()
+      ? optional<R> { f(_v) }
+      : optional<R> {};
   }
 
 private:

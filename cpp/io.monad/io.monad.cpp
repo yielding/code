@@ -17,7 +17,7 @@ public:
   T run() { return _act(); }
 
   template<typename F>
-  auto bind(F f) //-> decltype(f(_act()))
+  auto bind(F f)
   {
     auto act = _act;
     return IO<decltype(f(_act()).run())>(
@@ -28,7 +28,7 @@ public:
   }
 
   template<typename F>
-  auto fmap(F f) //-> decltype(f(_act()))
+  auto fmap(F f)
   {
     auto act = _act;
     return IO<decltype(f(_act()))>(
