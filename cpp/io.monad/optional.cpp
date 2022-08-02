@@ -3,8 +3,8 @@
 
 using namespace std;
 
-template<class T> 
-class optional 
+template<class T>
+class optional
 {
 public:
   optional() : _isValid(false) {} // Nothing
@@ -23,7 +23,7 @@ public:
 
 private:
   bool _isValid; // the tag
-  T _v; 
+  T _v;
 };
 
 template <typename A, typename B>
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
   optional<int> a(2);
   optional<int> b(4);
 
-  function<int(int)> f = 
+  function<int(int)> f =
     [](int i) -> int { return i*i; };
 
   auto c = a.fmap(f);

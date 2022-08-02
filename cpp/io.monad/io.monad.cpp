@@ -102,6 +102,6 @@ IO<bool> ask(int i)
 int main(int argc, char *argv[])
 {
   test().run();
-  
+
   return 0;
 }
