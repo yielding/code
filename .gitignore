@@ -7,6 +7,7 @@ a.out
 *.swp
 *.dmg
 *.pbk
+.run.sh
 *.efs2
 tags
 *.lock

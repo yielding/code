@@ -5,6 +5,7 @@ sealed class Optional<T> {
   data class Some<T> (val value: T): Optional<T>()
 }
 
+// 아래 Optional.Some이 pure(f(x))
 infix fun <T, R> Optional<T>.map(functor: (value: T) -> R): Optional<R> {
   return this.flatMap { value -> Optional.Some(functor(value)) }
 }
