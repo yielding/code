@@ -77,11 +77,10 @@ object SchedulerMain: Scheduler {
 }
 
 // ------------------------------------------------------------------
-
 class Future<Err, V>(private var scheduler: Scheduler = SchedulerIO) {
-  var subscribers: MutableList<Callback<Err, V>> = mutableListOf()
+  private var subscribers: MutableList<Callback<Err, V>> = mutableListOf()
   private var cache: Optional<Either<Err, V>> = Optional.None()
-  var semaphore = Semaphore(1)
+  private var semaphore = Semaphore(1)
 
   private var callback: Callback<Err, V> = { value ->
     semaphore.acquire()
@@ -165,18 +164,17 @@ fun testFuture(): Future<Throwable, Int> {
 
 // ------------------------------------------------------------------
 fun main() {
-  val disposable = testFuture()
-  .subscribe {
+  val disposable = testFuture().subscribe {
     when (it) {
-      is Either.Left -> print(it.value)
+      is Either.Left  -> print(it.value)
       is Either.Right -> print(it.value)
     }
   }
+
   Thread.sleep(5000L)
   disposable.dispose()
 
-  val disposable2 = testFuture()
-  .subscribe {
+  val disposable2 = testFuture().subscribe {
     when (it) {
       is Either.Left -> print(it.value)
       is Either.Right -> print(it.value)
