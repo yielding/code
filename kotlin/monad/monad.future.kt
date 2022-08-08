@@ -68,16 +68,15 @@ object SchedulerIO: Scheduler {
   }
 }
 
-object SchedulerMain: Scheduler {
-  override fun execute(command: () -> Unit) {
-    Thread(command).run()
-  }
-
-  override fun shutdown() = Unit
-}
+// object SchedulerMain: Scheduler {
+//   override fun execute(command: () -> Unit) {
+//     Thread(command).run()
+//   }
+// 
+//   override fun shutdown() = Unit
+// }
 
 // ------------------------------------------------------------------
-
 class Future<Err, V>(private var scheduler: Scheduler = SchedulerIO) {
   var subscribers: MutableList<Callback<Err, V>> = mutableListOf()
   private var cache: Optional<Either<Err, V>> = Optional.None()
@@ -89,17 +88,13 @@ class Future<Err, V>(private var scheduler: Scheduler = SchedulerIO) {
     while (subscribers.size > 0) {
       val subscriber = subscribers.last()
       subscribers = subscribers.dropLast(1).toMutableList()
-      scheduler.execute {
-        subscriber.invoke(value)
-      }
+      scheduler.execute { subscriber.invoke(value) }
     }
     semaphore.release()
   }
 
   fun create(f: (Callback<Err, V>) -> Unit): Future<Err, V> {
-    scheduler.execute {
-      f(callback)
-    }
+    scheduler.execute { f(callback) }
 
     return this
   }

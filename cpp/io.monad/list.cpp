@@ -20,6 +20,8 @@ int main(int argc, char* argv[])
 
   function<int(int)> f =[](int i) { return i*i; };
   auto w = fmap(f, v);
+  for (auto& e: w)
+    cout << e << " ";
 
   return 0;
 }

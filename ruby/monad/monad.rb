@@ -20,6 +20,9 @@ class Monad
 
   # map :: # M a -> (a -> b) -> M b
   def map(f)
-    flat_map(-> (x) { pure(f.call(x)) })
+    # type of f is a -> b
+    # type of f.call(x) is b
+    # type of pure(b) is M b
+    flat_map(-> (x) { pure(f.call(x)) }) 
   end
 end

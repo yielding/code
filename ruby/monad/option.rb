@@ -17,6 +17,7 @@ class Option < Monad
   end
   
   # flat_map :: # Option a -> (a -> Option b) -> Option b
+  # f: a -> Option b
   def flat_map(f)
     if defined
       f.call(value)
