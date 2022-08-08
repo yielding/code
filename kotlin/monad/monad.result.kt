@@ -52,19 +52,6 @@ fun value(value: Result<Int>): Int {
 }
 
 fun main() {
-  val r1 = div(10, 2)
-  val r2 = div(10, 0)
-
-  when (r1) {
-    is Result.Success -> { println(r1.value) }
-    is Result.Fail    -> { println("r1 is failed") }
-  }
-
-  when (r2) {
-    is Result.Success -> { println(r2.value) }
-    is Result.Fail    -> { println("r2 is failed") }
-  }
-
   val flow1 = a(10) map ::d flatMap ::a map { "SUCCESS: $it" }
   flow1.value (
     onSuccess = { println(it) },
