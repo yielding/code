@@ -82,14 +82,20 @@ class Future<Err, V>(private var scheduler: Scheduler = SchedulerIO) {
   private var cache: Optional<Either<Err, V>> = Optional.None()
   private var semaphore = Semaphore(1)
 
+  // value는 아래 코드를 보면, callback이다. 
+  // ex) f(callback)
+  // 무지 헤깔린다.
   private var callback: Callback<Err, V> = { value ->
     semaphore.acquire()
     cache = Optional.Some(value)
-    while (subscribers.size > 0) {
+
+    // 모두 소비하고 나온다.
+    while (subscribers.size > 0) { 
       val subscriber = subscribers.last()
       subscribers = subscribers.dropLast(1).toMutableList()
       scheduler.execute { subscriber.invoke(value) }
     }
+
     semaphore.release()
   }
 
@@ -112,6 +118,7 @@ class Future<Err, V>(private var scheduler: Scheduler = SchedulerIO) {
         cb.invoke(c.value)
       }
     }
+
     return Disposable()
   }
 
