@@ -26,19 +26,19 @@ auto fmap_(function <B(A)> f, F<A> v) -> F<B>
 }
 
 template <template <typename...> class F, typename A, typename B>
-auto operator%(function <B(A)> f, F<A> v) -> F<B> 
+auto operator % (function <B(A)> f, F<A> v) -> F<B> 
 {
   return Functor<F>::fmap(f)(v);
 }
 
-/* Monad */
+// Monad 
 template <template <typename...> class F>
 struct Monad 
 {
   template <typename A>
   static F<A> return_(A);
 
-  template <typename A, typename B>
+  template <typename A, typename B> 
   static F<B> bind(F<A>, function<F<B>(A)>);
 };
 
@@ -68,7 +68,7 @@ auto operator >> (F<A> a, F<B> b) -> F<B>
   return a >= f;
 }
 
-/* Maybe */
+// Maybe 
 template <typename T>
 class Maybe 
 {
@@ -82,12 +82,12 @@ public:
 
   auto from_just() const -> T
   {
-    if (isJust()) return _value;
+    if (is_just()) return _value;
 
     throw "Cannot get value from Nothing";
   }
 
-  auto isJust() const { return !_empty; }
+  auto is_just() const { return !_empty; }
   auto is_nothing() const { return _empty; }
 
 private:
@@ -96,16 +96,14 @@ private:
 };
 
 template <typename T>
-ostream& operator<<(ostream& s, const Maybe<T> m)
+auto operator<<(ostream& s, const Maybe<T> m) -> ostream& 
 {
-  if (m.isJust()) {
-    return s << "Just " << m.from_just();
-  } else {
-    return s << "Nothing";
-  }
+  return m.is_just() 
+    ? s << "Just " << m.from_just()
+    : s << "Nothing";
 }
 
-/* Functor Maybe */
+// Functor Maybe
 template <>
 struct Functor<Maybe> 
 {
@@ -135,7 +133,7 @@ struct Monad<Maybe>
   }
 };
 
-/* Functor vector */
+// Functor vector
 template <>
 struct Functor<vector> 
 {
@@ -150,7 +148,7 @@ struct Functor<vector>
   }
 };
 
-/* Monad vector */
+// Monad vector
 template <>
 struct Monad<vector> 
 {
@@ -183,13 +181,13 @@ auto compose(function<B(A)> f1, function<C(B)> f2) -> function<C(A)>
 
 int main(int argc, char *argv[])
 {
-  /* Returns the length of a string. */
+  // Returns the length of a string.
   function<int(string)> length = [](string s) { return s.size(); };
 
-  /* Squares an integer arugment. */
+  // Squares an integer arugment.
   function<int(int)> square = [](int i) { return i*i; };
 
-  /* Tests function composition. */
+  // Tests function composition.
   cout << "Square of length of \"testing 1234\": " <<
     compose(length, square)("testing 1234") << endl;
 
@@ -204,10 +202,12 @@ int main(int argc, char *argv[])
   cout << "\t" << length % just << endl;
   cout << "\t" << length % nothing << endl;
 
-  /* A function to test monadic bind on Maybe.
-   * Returns Just x if x > 5 otherwise Nothing.
-   */
-  function<Maybe<int>(int)> fm = [](int v){ return v > 5 ? Maybe<int>(v) : Maybe<int>(); };
+  //
+  // A function to test monadic bind on Maybe.
+  // Returns Just x if x > 5 otherwise Nothing.
+  //
+  function<Maybe<int>(int)> fm 
+    = [](int v){ return v > 5 ? Maybe<int>(v) : Maybe<int>(); };
 
   auto good = return_<Maybe>(6);
   auto bad  = return_<Maybe>(4);
@@ -220,13 +220,14 @@ int main(int argc, char *argv[])
   cout << "\t" << (good >= fm) << endl;
   cout << "\t" << (bad >= fm) << endl;
 
-  function<vector<int>(int)> fv = [](int v){ return vector<int>{v,v*v};};
+  function<vector<int>(int)> fv 
+    = [](int v){ return vector<int>{v,v*v};};
   cout << "Monadic bind on vector \\v -> [v,v*v]:" << endl;
   vector<int> v{1,2,3,4,5};
   vector<int> vr = v >= fv;
   vector<int> vrr = v >= fv >= fv;
   cout << "\t";
-  copy(v.begin(), v.end(), ostream_iterator<int>(cout, " "));
+  for (auto& e: v) cout << e << " ";
   cout << endl << "\t";
   copy(vr.begin(), vr.end(), ostream_iterator<int>(cout, " "));
   cout << endl << "\t";
