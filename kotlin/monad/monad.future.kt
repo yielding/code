@@ -42,7 +42,6 @@ infix fun <T, R> Optional<T>.flatMap(functor: (value: T) -> Optional<R>): Option
 }
 
 // ------------------------------------------------------------------
-
 typealias Callback<Err, T> = (Either<Err, T>) -> Unit
 
 interface Scheduler {
@@ -54,17 +53,15 @@ object SchedulerIO: Scheduler {
   private var executorService = Executors.newFixedThreadPool(1)
 
   override fun execute(command: () -> Unit) {
-    if (executorService.isShutdown) {
+    if (executorService.isShutdown)
       executorService = Executors.newFixedThreadPool(1)
-    }
 
     executorService.execute(command)
   }
 
   override fun shutdown() {
-    if (!executorService.isShutdown) {
+    if (!executorService.isShutdown)
       executorService.shutdown()
-    }
   }
 }
 
@@ -83,8 +80,8 @@ class Future<Err, V>(private var scheduler: Scheduler = SchedulerIO) {
   private var semaphore = Semaphore(1)
 
   //
-  // value는 아래 코드를 보면, callback이다. 
-  // ex) f(callback) 무지 헤깔린다.
+  // async computation이 끝나면 value와 함께 아래처럼 callback이 호출된다.
+  // ex) f(callback) 
   //     넘어오는 값은 1 -> 5로 증가하는 숫자 
   //
   private var callback: Callback<Err, V> = { value ->
@@ -103,9 +100,16 @@ class Future<Err, V>(private var scheduler: Scheduler = SchedulerIO) {
     semaphore.release()
   }
 
+  // NOTICE
+  // create는 
+  // 1. monad의 pure function
+  // 2. 넘겨진 callback f는 async computation을 실행하고 future.callback을 
+  //    호출하는 또다른 callback
+  // 3. Scheduler == Thread, thread가 2의 callback을 실행
+  // 4. callback은 이 결과를 기다리고 있는 모든 각 구독자에게(다른 callback) 값을 전달한다.
+  //
   fun create(f: (Callback<Err, V>) -> Unit): Future<Err, V> {
     scheduler.execute { f(callback) }
-
     return this
   }
 
@@ -128,18 +132,18 @@ class Future<Err, V>(private var scheduler: Scheduler = SchedulerIO) {
 
   fun <P> map(functor: (value: V) -> P): Future<Err, P> {
     return this.flatMap { value ->
-      Future<Err, P>().create { callback ->
-        callback(Either.Right(functor(value)))
+      Future<Err, P>().create { cb ->
+        cb(Either.Right(functor(value)))
       }
     }
   }
 
   fun <Q> flatMap(functor: (value: V) -> Future<Err, Q>): Future<Err, Q> {
-    return Future<Err, Q>().create { callback ->
+    return Future<Err, Q>().create { cb ->
       this.subscribe { value ->
         when (value) {
-          is Either.Left  -> { callback(Either.Left(value = value.value)) }
-          is Either.Right -> { functor(value.value).subscribe(callback) }
+          is Either.Left  -> { cb(Either.Left(value = value.value)) }
+          is Either.Right -> { functor(value.value).subscribe(cb) }
         }
       }
     }
@@ -151,9 +155,9 @@ class Future<Err, V>(private var scheduler: Scheduler = SchedulerIO) {
 }
 
 fun count(n: Int): Future<Throwable, Int> {
-  return Future<Throwable, Int>().create { callback ->
+  return Future<Throwable, Int>().create { cb ->
     Thread.sleep(1000)
-    callback.invoke(Either.Right(n + 1))
+    cb.invoke(Either.Right(n + 1))
   }
 }
 
@@ -168,17 +172,21 @@ fun testFuture(): Future<Throwable, Int> {
     // 위 주석된 코드처럼 아래의 코드는 Future.callback에 Right(1)을 넘긴다.
     // 즉 cb == Future.callback
     .create { cb ->                    
-      Thread.sleep(1000)
+      // simulate async operation that needs time to be completed
+      Thread.sleep(1000)          
       cb.invoke(Either.Right(1))
     }
     .flatMap(::count)
-    .map { it + 1 }
+    .map { it + 1 }            // 정확하게는 이해 안된다.
     .flatMap(::count)
     .flatMap(::count)
 }
 
+//
 // ------------------------------------------------------------------
+//
 fun main() {
+
   val disposable = testFuture().subscribe {
     when (it) {
       is Either.Left  -> print(it.value)
@@ -191,7 +199,7 @@ fun main() {
 
   val disposable2 = testFuture().subscribe {
     when (it) {
-      is Either.Left -> print(it.value)
+      is Either.Left  -> print(it.value)
       is Either.Right -> print(it.value)
     }
   }
