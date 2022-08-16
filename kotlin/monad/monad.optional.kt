@@ -19,6 +19,10 @@ infix fun <T, R> Optional<T>.flatMap(functor: (value: T) -> Optional<R>): Option
 
 fun testOptional() {
 
+  // NOTICE
+  //  openFile and readFile have side-effects, why?
+  //  They do external i/o
+  //
   fun openFile(fileName: String): Optional<File> {
     return try {
       Optional.Some(File(fileName))
