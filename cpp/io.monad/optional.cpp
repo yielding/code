@@ -52,9 +52,9 @@ int main(int argc, char *argv[])
   function<int(int)> f =
     [](int i) -> int { return i*i; };
 
-  auto c = a.fmap(f);
+  auto b = a.fmap(f);
 
-  cout << c.val();
+  cout << b.val();
 
   return 0;
 }

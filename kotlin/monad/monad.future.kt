@@ -12,7 +12,7 @@ sealed class Either<out L, out R> {
 
 infix fun <L, R, P> Either<L, R>.map(functor: (value: R) -> P): Either<L, P> {
   return this.flatMap { value ->
-    Either.Right(functor(value))
+    Either.Right(functor(value))  // pure: from Q to Either<L, Q>
   }
 }
 
@@ -102,7 +102,7 @@ class Future<Err, V>(private var scheduler: Scheduler = SchedulerIO) {
 
   // NOTICE
   // create는 
-  // 1. monad의 pure function
+  // 1. Future monad의 pure function
   // 2. 넘겨진 callback f는 async computation을 실행하고 future.callback을 
   //    호출하는 또다른 callback
   // 3. Scheduler == Thread, thread가 2의 callback을 실행
