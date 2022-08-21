@@ -1,5 +1,5 @@
 factorial n = go n 1
   where
-  go n res
-    | n > 1     = go (n - 1)(res * n)
-    | otherwise = res
+    go n res
+      | n > 1     = go (n - 1) (res * n)
+      | otherwise = res
