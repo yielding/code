@@ -19,8 +19,8 @@ tags
 .idea/
 .cache/
 ./build/
-./Debug/
-./Release/
+Debug/
+Release/
 ./.vscode/
 cmake-build-debug/
 cmake-build-release/
