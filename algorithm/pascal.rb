@@ -37,7 +37,7 @@ class Pascal
   end
 end
 
-class TestPascal < Test::Unit::TestCas
+class TestPascal < Test::Unit::TestCase
   def setup
     @p = Pascal.new
   end
