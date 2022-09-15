@@ -18,6 +18,7 @@ cmake_install.cmake
 CMakeFiles/
 .idea/
 .cache/
+.undodir/
 build/
 Debug/
 Release/
