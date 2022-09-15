@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.22.2)
+cmake_minimum_required(VERSION 3.20.0)
 
-project(io.monad)
+project(generic.monad)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -11,4 +11,4 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(io.monad io.monad.cpp)
+add_executable(generic.monad generic.monad.cpp)
