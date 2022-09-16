@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <fstream>
 
-#include <boost/uuid/sha1.hpp>
+#include <boost/uuid/detail/sha1.hpp>
 #include <boost/format.hpp>
 #include <boost/filesystem.hpp>
 

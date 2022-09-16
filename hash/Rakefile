@@ -2,7 +2,7 @@
 
 APP       = "page"
 SRCS      = %W{ ./page.cpp }
-CXX       = "xcrun"
+CXX       = "g++"
 CXXFLAGS  = ":Os"
 LIBS      = ":f :s"
 
