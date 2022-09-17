@@ -42,20 +42,16 @@ shift n c   | isLower  c = int2let((let2int c + n) `mod` 26)
 encode      :: Int -> String -> String
 encode n xs = [shift n x | x <- xs]
 
-
 doubleList  :: [Integer] -> [Integer]
 doubleList [] = []
 doubleList (n:ns) = (2 * n) : doubleList ns
 
-
 tripleList  :: [Int] -> [Int]
 tripleList xs = [3*x | x <- xs]
 
-
 takeInt     :: Int -> [a] -> [a]
 takeInt 0 (x:xs) = []
-takeInt n (x:xs)
-             = x : takeInt (n-1) xs
+takeInt n (x:xs) = x : takeInt (n-1) xs
 
 dropInt     :: Int -> [a] -> [a]
 dropInt _ []     = []
@@ -70,10 +66,8 @@ applyToInts f (n:ns) = (f n) : applyToInts f ns
 heads :: [[a]] -> [a]
 heads = map head
                                
-f x = 
-    case x of
-      0 -> 18
-      1 -> 15
-      2 -> 12
-      _ -> 12 - x
-
+f x = case x of
+        0 -> 18
+        1 -> 15
+        2 -> 12
+        _ -> 12 - x
