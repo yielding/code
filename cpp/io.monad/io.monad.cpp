@@ -96,7 +96,7 @@ IO<int> guess(int a, int b)
 IO<bool> ask(int i)
 {
   return putStr("Is it less than ")
-    .bind([i](U) { return }
+    .bind([i](U) { return });
 }
 
 int main(int argc, char *argv[])
