@@ -1,6 +1,10 @@
-module Stack ( StkType, push, pop, top, empty ) where
+--
+-- Shows us an ADT
+-- only interfaces are fixed and implementations are not complete, open to the actual user.
+--
+module Stack (Stack, push, pop, top, empty) where
 
-data StkType a = EmptyStk | Stk a (StkType a) 
+data Stack a = EmptyStk | Stk a (Stack a) 
   deriving (Show)
 
 push x s  = Stk x s
@@ -8,14 +12,14 @@ pop (Stk _ s) = s
 top (Stk x _) = x
 empty = EmptyStk
 
--- module Stack ( StkType, push, pop, top, empty ) where
+-- module Stack ( Stack, push, pop, top, empty ) where
 -- 
--- newtype StkType a = Stk [a] deriving (Show)
+-- newtype Stack a = StackImpl [a] deriving (Show)
 -- 
--- push x (Stk xs)   = Stk (x:xs)
--- pop (Stk (_:xs))  = Stk xs
--- top (Stk (x:_))   = x
--- empty             = Stk []
+-- push x (StackImpl xs)  = StackImpl (x:xs)
+-- pop (StackImpl (_:xs)) = StackImpl xs
+-- top (StackImpl (x:_))  = x
+-- empty                  = StackImpl []
 
 main = do
   let myStk = push 3 . push 4 . push 2 $ empty
