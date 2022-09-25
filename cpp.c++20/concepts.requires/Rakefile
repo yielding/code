@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "equal"
+SRC       = "list"
 SRCS      = %W{ ./#{SRC}.cpp }
 APP       = "#{SRC}"
 CXX       = "g++"
