@@ -2,11 +2,12 @@
 
 f = open("readlines.py", "r")
 
-lines = f.readlines()
+lines: list[str] = f.readlines()
 
-line_no = 1
+line_no: int = 1
+
 for line in lines:
     if line.startswith("for"):
         print("%d: %s" % (line_no, line))
 
-    line_no = line_no + 1
+    line_no += 1
