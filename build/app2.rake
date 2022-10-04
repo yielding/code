@@ -89,7 +89,7 @@ if defined? LDFLAGS
   end
 end
 
-$LDFLAGS += " -L. -L/usr/local/lib -L#{$HOME}/develop/lib -L#{$HOME}/develop/vendor/lib"
+$LDFLAGS += " -L. -L/usr/local/lib -L#{$HOME}/develop/vendor/lib"
 BOOST = {
   :c => " -lboost_chrono",
   :d => " -lboost_date_time",
