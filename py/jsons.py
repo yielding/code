@@ -31,4 +31,4 @@ while pos < end:
     pos += 1
 
 for json in jsons:
-    print json
+    print(json)

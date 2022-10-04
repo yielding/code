@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
-def quicksort(arr):
+def quicksort(arr) -> [int]:
     if len(arr) <= 1:
         return arr
 

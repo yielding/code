@@ -9,5 +9,5 @@ def power(x, y):
 square = partial(power, y = 2)
 
 # or 
-print sum(map(square, 
-              filter(lambda x:x%2==1, range(10))))
+print(sum(map(square, 
+              filter(lambda x:x%2==1, range(10)))))

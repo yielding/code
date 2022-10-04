@@ -6,7 +6,7 @@ def extract_vars(expression):
     return sorted(set(c for c in expression if c.isupper())) 
 
 def truth_table(expression): 
-    vnames = extract_vars(expression) 
+    vnames = extract_vars(expression)
     print ' '.join(vnames), expression 
     for vs in itertools.product([True,False], repeat=len(vnames)): 
         context = dict(zip(vnames, vs)) 

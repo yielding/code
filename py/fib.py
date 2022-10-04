@@ -2,10 +2,10 @@
 
 import pdb
 
-def fibonacci(max):
+def fibonacci(max) -> Generator[int, None, None]:
     """docstring for fibonacci"""
-    s = 1
-    t = 1
+    s: int = 1
+    t: int = 1
     while s < max:
         yield s
         w = s + t
@@ -13,4 +13,4 @@ def fibonacci(max):
         t = w
 
 for n in fibonacci(10000):
-  print n
+  print(n)

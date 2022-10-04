@@ -8,11 +8,11 @@ for i in range(10):
     if i < 5:
         total += i * i
 
-print total
+print(total)
 
 # case 2
-print sum(map(lambda x:x*x, 
-              filter(lambda x:x<5, range(10))))
+print(sum(map(lambda x:x*x,
+              filter(lambda x:x<5, range(10)))))
 
 # case 3
 def power(x, y):
@@ -24,5 +24,5 @@ square = partial(power, y=2)
 cube   = partial(power, y=3)
 lt_5   = lambda x: x < 5
 
-print sum(map(square, filter(lt_5, xrange(10))))
-print sum(map(cube,   filter(lt_5, xrange(10))))
+print(sum(map(square, filter(lt_5, range(10)))))
+print(sum(map(cube,   filter(lt_5, range(10)))))

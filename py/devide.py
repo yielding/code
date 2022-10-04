@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-def devide(a, b):
-  q = a // b
-  r = a - q*b
+def devide(a: int, b: int) -> tuple[int, int]:
+  q: int = a // b
+  r: int = a - q*b
+
   return (q, r)
 
-print devide(10, 3)
+print(devide(10, 3))

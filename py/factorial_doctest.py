@@ -1,4 +1,4 @@
-def factorial(n):
+def factorial(n) -> int:
     """Return the factorial of n, an exact integer >= 0.
 
     If the result is small enough to fit in an int, return an int.
@@ -39,8 +39,8 @@ def factorial(n):
         raise ValueError("n must be exact integer")
     if n+1 == n:  # catch a value like 1e300
         raise OverflowError("n too large")
-    result = 1
-    factor = 2
+    result: int = 1
+    factor: int = 2
     while factor <= n:
         result *= factor
         factor += 1
