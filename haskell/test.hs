@@ -16,7 +16,7 @@ primes      :: Int -> [Int]
 primes n    = [x | x <- [2..n], prime x]
 
 find        :: Eq a => a -> [(a, b)] -> [b]
-find k t    = [v | (k', v) <- t, k==k']
+find k t    = [v | (k', v) <- t, k == k']
 
 pairs       :: [a] -> [(a, a)]
 pairs xs    = zip xs (tail xs)
