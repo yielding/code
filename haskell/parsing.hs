@@ -1,4 +1,4 @@
-module Parsing2 (module Parsing2, module Control.Applicative) where
+module Parsing (module Parsing, module Control.Applicative) where
 
 import Control.Applicative
 import Data.Char
