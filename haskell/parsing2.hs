@@ -121,11 +121,11 @@ ppp = do symbol "["
          symbol "]"
          return (n:ns)
 
-firsts = map fst
 main = do 
   let r0 = parse ppp "   [1, 2, 3]"
   let r1 = fst (head r0)
   let r2 = head $ fst (head r0)
+
   print(r0)
   print(r1)
   print(r2)
