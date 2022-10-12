@@ -13,4 +13,4 @@ filter3 :: (a -> Bool) -> [a] -> [a]
 filter3 p xs = [x | x <- xs, p x]
 
 main = do
-  print(filter1 (>5)[1..10])
+  print $ filter1 (>5) [1..10]
