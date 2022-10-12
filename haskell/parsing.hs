@@ -121,4 +121,13 @@ integer = token int
 symbol :: String -> Parser String
 symbol xs = token (string xs)
 
-main = do putStrLn("hi")
+p :: Parser [Int]
+p = do symboj "["
+       n <- natural
+       ns <- many (do symbol ","
+                      natural)
+       return (n:ns)
+
+main = do
+    let res = parse p "[1, 2, 3]"
+    print(res)
