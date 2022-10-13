@@ -18,5 +18,4 @@ data Foo2 = Foo2 { xx :: Integer, ss :: String }
 -- 한 마디로 말하면 생성자(constructor), 즉 대수 자료형(algebraic data type)의 값을 
 -- 구축하는 데 쓰이는 함수들만이 가능하다. 임시로 만든 다음 예시를 보자.
 
-main = do
-  print("hi")
+main = do print "hi"

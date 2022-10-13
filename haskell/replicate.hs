@@ -4,4 +4,3 @@ replicate2 n ch = go n []
     go n res 
       | n > 0 = go (n-1) (ch:res)
       | otherwise = res
-

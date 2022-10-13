@@ -8,4 +8,4 @@ reverse2 xs = foldr snoc [] xs
     snoc x xs = xs ++ [x]
 
 main = do
-  print(reverse2 [1..10])
+  print $ reverse2 [1..10]

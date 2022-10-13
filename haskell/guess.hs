@@ -8,6 +8,3 @@ doGuessing num = do
           then do putStrLn "Too high"
              doGuessing num
           else putStrLn "You Win!"
-
-      
-     
