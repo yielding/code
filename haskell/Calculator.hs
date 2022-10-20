@@ -57,16 +57,19 @@ op_term n t1 =
        t2 <- term n
        o  <- op_term n (Add t1 t2)
        return o
-    +++ do symbol "-"
-           t2 <- term n
-           o  <- op_term n (Sub t1 t2)
-           return o
-    +++ return t1
+    +++ 
+    do symbol "-"
+       t2 <- term n
+       o  <- op_term n (Sub t1 t2)
+       return o
+    +++ 
+    return t1
 
 term :: Int -> Parser Expr
-term n = do f <- factor n
-            o <- op_factor n f
-            return o
+term n = 
+    do f <- factor n
+       o <- op_factor n f
+       return o
 
 op_factor :: Int -> Expr -> Parser Expr
 op_factor n f1 = 
@@ -108,8 +111,9 @@ factor n =
        return (Val num)
 
 cat :: Parser Int
-cat = do xs <- many1 alphanum
-         return (hexToDec xs)
+cat = 
+    do xs <- many1 alphanum
+       return (hexToDec xs)
 
 type Pos = (Int, Int)
 
@@ -134,10 +138,11 @@ cls = putStr "\ESC[2J"
 
 -- Read a single character from keyboard, without echoing to the screen.
 getCh :: IO Char
-getCh  = do hSetEcho stdin False
-            c <- getChar
-            hSetEcho stdin True
-            return c
+getCh = 
+    do hSetEcho stdin False
+       c <- getChar
+       hSetEcho stdin True
+       return c
 
 box :: [String]
 box = ["+-DEC-----------+",
@@ -169,21 +174,24 @@ buttons = "+-*/%=()QCD" ++ map chr ([48..57] ++ [97..122])
 showBox :: IO ()
 showBox = seqn [writeAt (y, 1) xs | (y, xs) <- zip [1..boxHeight] box]
 
-main = do cls
-          showBox
-          calc 0 ""
+main = 
+    do cls
+       -- showBox
+       -- calc 0 ""
 
 calc :: Int -> String -> IO ()
-calc n xs = do displayExpr xs
-               c <- getCh
-               process n c xs
+calc n xs = 
+    do displayExpr xs
+       c <- getCh
+       process n c xs
 
 -- Problem 3 Part I: TODO
 displayExpr :: String -> IO ()
-displayExpr xs = do writeAt (2,2) "               "
-                    if length xs < boxWidth - 2
-                       then writeAt (2,2) $ replicate (boxWidth - length xs - 2) ' ' ++ xs
-                       else writeAt (2,2) $ ">" ++ drop (length xs - boxWidth + 3) xs
+displayExpr xs = 
+    do writeAt (2,2) "               "
+       if length xs < boxWidth - 2
+          then writeAt (2,2) $ replicate (boxWidth - length xs - 2) ' ' ++ xs
+          else writeAt (2,2) $ ">" ++ drop (length xs - boxWidth + 3) xs
 
 -- Problem 3 Part II: TODO
 process :: Int -> Char -> String -> IO ()
@@ -199,7 +207,7 @@ process n c xs
 
 -- Problem 3 Part III: TODO
 eval :: Int -> String -> IO ()
-eval n xs =  case parse (expr n) xs of
+eval n xs = case parse (expr n) xs of
            [(e,"")] -> case evalExpr e of 
                         (Just a) -> if n == 0 then displayAns n xs (show a) else displayAns n xs (decToHex a)
                         Nothing -> displayAns n xs "NaN"
@@ -213,14 +221,17 @@ displayAns n pxs xs = do writeAt (3,2) "               "
                          c <- getCh
                          process n c pxs
 
-
 decToHex :: Int -> String
 decToHex 0 = []
-decToHex n = if (n >= 0 ) then decToHex (n `div` 16) ++ [hexChar $ n `mod` 16] else '-' : decToHex (-n)
+decToHex n = if (n >= 0)
+               then decToHex (n `div` 16) ++ [hexChar $ n `mod` 16] 
+               else '-' : decToHex (-n)
 
 hexToDec :: String -> Int
 hexToDec [] = 0
-hexToDec (x:xs) =  if (x == '-' ) then -hexToDec xs else 16 ^ length xs * hexInt x + hexToDec xs
+hexToDec (x:xs) = if (x == '-')
+                    then -hexToDec xs 
+                    else 16 ^ length xs * hexInt x + hexToDec xs
 
 hexChar :: Int -> Char
 hexChar 1 = '1'
@@ -239,7 +250,6 @@ hexChar 13 = 'd'
 hexChar 14 = 'e'
 hexChar 15 = 'f'
 hexChar _ = '0'
-
 
 hexInt :: Char -> Int
 hexInt '1' = 1

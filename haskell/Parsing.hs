@@ -25,7 +25,7 @@ instance Applicative Parser where
                             [(g, out)] -> parse (fmap g px) out) 
 
 instance Monad Parser where
-  return v = P (\inp -> [(v, inp)])
+  -- return v = P (\inp -> [(v, inp)])
   -- (>>=) :: Parser a -> (a -> Parser b) -> Parser b
   p >>= f = P(\inp -> case parse p inp of 
                           [] -> []
