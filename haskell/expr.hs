@@ -5,7 +5,7 @@ expr = do t <- term
           do symbol "+"
              e <- expr
              return (t + e)
-            <|> return t
+           <|> return t
           
 
 term :: Parser Int
