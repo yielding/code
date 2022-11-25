@@ -28,10 +28,10 @@ public class Fibonacci
         return Calculate(n - 1) + Calculate(n - 2);
     }
 
-    public int N { get { return _n; } }
+    public int N { get => _n; }
     private int _n;
 
-    public int FibOfN { get { return _fibOfN; } }
+    public int FibOfN { get => _fibOfN; }
     private int _fibOfN;
 
     private ManualResetEvent _doneEvent;

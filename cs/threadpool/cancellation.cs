@@ -5,47 +5,47 @@ using System.Threading;
 
 public class Application
 {
-    public class TPCancellation
+  public class TPCancellation
+  {
+    private int count;
+
+    public TPCancellation(int count)
     {
-        private int count;
-
-        public TPCancellation(int count)
-        {
-            this.count = count;
-        }
-
-        public void Run()
-        {
-            var cts = new CancellationTokenSource();
-
-            for (int i=0; i<10; i++)
-            {
-                WaitCallback wc = (s) => {
-                    var token = (CancellationTokenSource)s;
-                    for (int j=0; j<50; j++)
-                    {
-                        if (token.IsCancellationRequested)
-                            return;
-
-                        Console.WriteLine("Output");
-                        token.WaitHandle.WaitOne(1000);
-                    }
-                };
-
-                ThreadPool.QueueUserWorkItem(wc, cts.Token);
-
-                cts.Cancel();
-            }
-        }
+      this.count = count;
     }
 
-    public static int Main(string[] args)
+    public void Run()
     {
-        var t = new TPCancellation(10);
-        t.Run();
+      var cts = new CancellationTokenSource();
 
-        Thread.Sleep(1000 * 2);
+      for (int i=0; i<10; i++)
+      {
+        WaitCallback wc = (s) => {
+          var token = (CancellationTokenSource)s;
+          for (int j=0; j<50; j++)
+          {
+            if (token.IsCancellationRequested)
+              return;
 
-        return 0;
+            Console.WriteLine("Output");
+            token.WaitHandle.WaitOne(1000);
+          }
+        };
+
+        ThreadPool.QueueUserWorkItem(wc, cts.Token);
+
+        cts.Cancel();
+      }
     }
+  }
+
+  public static int Main(string[] args)
+  {
+    var t = new TPCancellation(10);
+    t.Run();
+
+    Thread.Sleep(1000 * 2);
+
+    return 0;
+  }
 }
