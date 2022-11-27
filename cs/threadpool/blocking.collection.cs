@@ -50,13 +50,9 @@ class ProgramWithCancellation
       try
       {
         if (!bc.TryTake(out nextItem, 0, ct))
-        {
           Console.WriteLine(" Take Blocked");
-        }
         else
-        {
           Console.WriteLine(" Take:{0}", nextItem);
-        }
       }
       catch (OperationCanceledException)
       {
