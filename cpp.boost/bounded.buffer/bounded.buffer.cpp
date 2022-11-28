@@ -65,6 +65,7 @@ public:
       return false;
 
     *pItem = m_container[--m_unread];
+
     lock.unlock();
     m_while_full.notify_all();
 
