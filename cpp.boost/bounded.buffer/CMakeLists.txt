@@ -16,6 +16,4 @@ INCLUDE_DIRECTORIES (
 
 LINK_DIRECTORIES (/usr/local/lib)
 
-LINK_LIBRARIES (tbb)
-
 ADD_EXECUTABLE (bounded.buffer ${SOURCES})
