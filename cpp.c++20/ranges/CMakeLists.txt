@@ -10,6 +10,7 @@ set (SOURCES
 
 include_directories (
   /usr/local/include 
+  /opt/homebrew/include
 )
 
 link_directories (/usr/local/lib)
