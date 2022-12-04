@@ -59,7 +59,7 @@ if defined? INCS
   end
 end
 
-$INCS += " -I. -I/usr/local/include -I#{$HOME}/develop/include "
+$INCS += " -I. -I/usr/local/include -I#{$HOME}/develop/include -I/opt/homebrew/include"
 $INCS += " -I#{$HOME}/develop/vendor/include"
 
 USER="#{$HOME}"
