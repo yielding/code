@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22.2)
 
-project(image.overlay)
+project(homography)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -27,4 +27,6 @@ target_link_libraries(homography
   opencv_imgcodecs
   opencv_highgui
   opencv_imgproc
+  opencv_calib3d
+  opencv_features2d
 )
