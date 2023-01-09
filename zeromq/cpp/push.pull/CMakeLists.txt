@@ -11,9 +11,12 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+link_directories(
+  /opt/homebrew/lib
+)
+
 add_executable(push push.cpp)
 add_executable(pull pull.cpp)
 
 target_link_libraries(push zmq)
 target_link_libraries(pull zmq)
-

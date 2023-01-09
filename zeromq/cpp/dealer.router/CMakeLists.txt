@@ -11,6 +11,10 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+link_directories(
+  /opt/homebrew/lib
+)
+
 add_executable(dealer dealer.cpp)
 add_executable(router router.cpp)
 

@@ -11,6 +11,10 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+link_directories(
+  /opt/homebrew/lib
+)
+
 add_executable(pull pollin.pull.cpp)
 add_executable(push pollin.push.cpp)
 

@@ -11,6 +11,10 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+link_directories(
+  /opt/homebrew/lib
+)
+
 add_executable(req ch1.cli.cpp)
 add_executable(rep ch1.srv.cpp)
 
