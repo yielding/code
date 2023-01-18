@@ -16,11 +16,7 @@ auto sort_lines_with_selection_sort(strings lines) -> strings
     for (auto j=i+1; j<lines.size(); j++)
     {
       if (lines[i].length() > lines[j].length())
-      {
-        auto temp = lines[j];
-        lines[j] = lines[i];
-        lines[i] = temp;
-      }
+        lines[j].swap(lines[i]);
     }
   }
 

@@ -26,5 +26,5 @@ int main(int argc, const char *argv[])
     ofs  << buf;
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
