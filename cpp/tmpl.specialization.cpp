@@ -1,7 +1,3 @@
-#ifdef WIN32
-#include "stdafx.h"
-#endif
-
 #include <iostream>
 
 using namespace std;
@@ -43,14 +39,10 @@ struct FImpl<char>
   static void f(char t) { cout << "full spefull specialized for char: "<< t << endl; };
 };
 
-
-#ifdef WIN32
-int _tmain(int argc, _TCHAR* argv[])
-#else
 int main(int argc, char* argv[])
-#endif
 {
   int a = 10;
+
   f( 1   );
   f( 'a' );
   f( 1.1 );
