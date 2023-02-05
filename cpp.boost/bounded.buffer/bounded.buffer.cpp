@@ -88,7 +88,7 @@ private:
   condition_variable m_while_full;
 };
 
-template<class Buffer>
+template <typename Buffer>
 class Consumer
 {
 public:
@@ -108,6 +108,7 @@ public:
       }
 
       {
+        // RAII idom: Resource Acquisition Is Initialization  idiom
         unique_lock<mutex> l(io_mutex);
         cout << "consumer: " << m_item << " count: " << m_container->count() << "\n";
       }

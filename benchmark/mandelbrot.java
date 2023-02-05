@@ -40,6 +40,7 @@ class Mandelbrot {
 
     Date d2 = new Date();
     long diff = d2.getTime() - d1.getTime();
+
     System.out.println("\nJava Elapsed: " + diff/1000.0f);
   }
 }
