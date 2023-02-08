@@ -17,12 +17,12 @@ public:
   virtual void print() = 0;
 };
 
-class composite_graphic: public graphic
+class canvas: public graphic
 {
 public:
   void print() override
   {
-    for (auto& child; m_children)
+    for (auto& child: m_children)
       child->print();
   }
 
@@ -57,7 +57,7 @@ private:
 int main(int argc, const char *argv[])
 {
   ellipse e1(10), e2(20), e3(30);
-  composite_graphic cp1, cp2, all;
+  canvas cp1, cp2, all;
 
   cp1.add(&e1); cp1.add(&e2); cp1.add(&e3);
   cp2.add(&e1); cp2.add(&e2); cp2.add(&e3);
