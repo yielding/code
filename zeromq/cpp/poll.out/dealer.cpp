@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
   size_t iter = 0;
   while (true) 
   {
-    // -1: infinitive
+    // -1: infinite
     //  0: immediate
     //+ve: block ms
     auto rc = poll(items, 1, 0ms);

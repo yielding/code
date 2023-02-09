@@ -1,13 +1,13 @@
 #include <iostream>
-#include <zmq_addon.hpp>
 #include <random>
 #include <chrono>
 #include <thread>
+#include <zmq_addon.hpp>
 #include <nlohmann/json.hpp>
 
-using namespace std;
 using namespace zmq;
-using namespace std::chrono_literals;
+using namespace std;
+using namespace chrono_literals;
 
 static context_t ctx;
 
@@ -42,8 +42,8 @@ auto clean = []() {
   sock1.connect("tcp://127.0.0.1:5556");
 
   pollitem_t items[] = {
-    {sock0, 0, ZMQ_POLLIN, 0},
-    {sock1, 0, ZMQ_POLLIN, 0}
+    { sock0, 0, ZMQ_POLLIN, 0 },
+    { sock1, 0, ZMQ_POLLIN, 0 }
   };
 
   while (true) 

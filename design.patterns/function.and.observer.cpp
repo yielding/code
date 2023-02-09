@@ -64,12 +64,15 @@ public:
   }
 
   ~DigitalClock()
-  { timer_->Detach( bind1st( mem_fun( &DigitalClock::OnUpdateOf ), this ) ); }
+  { 
+    timer_->Detach(bind1st(mem_fun(&DigitalClock::OnUpdateOf), this)); 
+  }
 
   void OnUpdateOf( Subject* timer ) 
   { 
     cout << "DigitalClock::OnUpdateOf is called" << endl;
   }
+
 private:
   ClockTimer* timer_;
 };
