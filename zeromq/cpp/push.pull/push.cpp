@@ -14,6 +14,8 @@ int main()
   socket_t sock(ctx, socket_type::push);
   sock.bind("tcp://127.0.0.1:5555");
 
+  cout << "connected\n";
+
   size_t iter = 0;
   while (true) 
   {
