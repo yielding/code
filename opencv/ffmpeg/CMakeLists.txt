@@ -1,30 +1,41 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.22.2)
 
-SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+project(ffmpeg.opencv)
 
-PROJECT (ffmpeg.opencv)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_COMPILER "g++")
 
-SET (SOURCES
+set(SOURCES
   ffmpeg.opencv.cpp
 )
 
-FIND_PACKAGE(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED)
 
-INCLUDE_DIRECTORIES (
+# ffmpeg
+find_path(SWSCALE_INCLUDE_DIR libswscale/swscale.h)
+find_library(SWSCALE_LIBRARY swscale)
+find_path(AVFORMAT_INCLUDE_DIR libavformat/avformat.h)
+find_library(AVFORMAT_LIBRARY avformat)
+find_path(AVCODEC_INCLUDE_DIR libavcodec/avcodec.h)
+find_library(AVCODEC_LIBRARY avcodec)
+find_path(AVUTIL_INCLUDE_DIR libavutil/avutil.h)
+find_library(AVUTIL_LIBRARY avutil)
+
+include_directories(
   /usr/local/include 
   ${CMAKE_CURRENT_SOURCE_DIR}
+  )
+
+add_executable(ffmpeg.opencv
+  ${SOURCES}
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
-
-LINK_LIBRARIES (
+target_link_libraries (ffmpeg.opencv
   ${OpenCV_LIBS}
-  avutil
-  avformat
-  avcodec
-  avutil
-  swscale
+  ${SWSCALE_LIBRARY} 
+  ${AVFORMAT_LIBRARY}
+  ${AVCODEC_LIBRARY}
+  ${AVUTIL_LIBRARY}
+  z
 )
-
-ADD_EXECUTABLE (ffmpeg.opencv ${SOURCES})

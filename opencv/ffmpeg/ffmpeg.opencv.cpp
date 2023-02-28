@@ -25,7 +25,7 @@ auto main() -> int
   if (avformat_find_stream_info(in_fmt_ctx, nullptr) < 0)
     return -2;
 
-  AVCodec* codec;
+  const AVCodec* codec;
   auto vsi = av_find_best_stream(in_fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0);
   if (vsi < 0)
     return -3;

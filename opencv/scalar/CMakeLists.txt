@@ -1,31 +1,28 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.22.2)
 
-PROJECT (scalar)
+project (scalar)
 
-SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (SOURCES
+set (SOURCES
   main.cpp
 )
 
-FIND_PACKAGE (OpenCV REQUIRED)
-FIND_PACKAGE (Boost 1.72 REQUIRED)
+find_package (OpenCV REQUIRED)
 
-INCLUDE_DIRECTORIES (
+include_directories (
   /usr/local/include
-  ${Boost_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES(
+link_directories (
   /usr/local/lib
-  ${Boost_LIBRARY_DIR}
 )
 
-ADD_EXECUTABLE (scalar ${SOURCES})
+add_executable (scalar ${SOURCES})
 
-TARGET_LINK_LIBRARIES (scalar
+target_link_libraries (scalar
   ${OpenCV_LIBS}
   boost_serialization
   boost_iostreams
