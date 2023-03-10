@@ -17,5 +17,6 @@ module MyAdapter
 end
 
 Backport.run do
-  Backport.prepare_tcp_server(host: 'localhost', port: 8000, adapter: MyAdapter)
+  # Backport.prepare_tcp_server(host: 'localhost', port: 8000, adapter: MyAdapter)
+  Backport.prepare_stdio_server(adapter: MyAdapter)
 end
