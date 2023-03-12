@@ -3,7 +3,7 @@
 
 require "test/unit"
 
-class Fixnum
+class Numeric
   def to_money(width:3, sep:",")
     res = self.to_s
     pos = res.length - width
