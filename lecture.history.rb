@@ -1,6 +1,17 @@
 #!/usr/bin/env ruby -wKU
 
-arr = [
+arr2 = [
+  24,   # 한동대
+  42,   # 홍콩 HKPF
+  8,    # UAE
+  28,   # 싱가폴
+  28,   # 싱가폴
+  28,   # 싱가폴
+]
+
+p arr2.reduce(:+)
+
+arr1 = [
   16,      # 1:21-22, 한동대 코딩캠프
   8,       # 3:2, interpol
   24,      # 5:18-20, 대검심화
@@ -27,4 +38,4 @@ arr = [
   1        # 12:27, 형사국
 ]
 
-p arr.reduce(:+)
+p arr1.reduce(:+)
