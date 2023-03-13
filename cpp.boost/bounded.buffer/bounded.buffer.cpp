@@ -94,7 +94,8 @@ class Consumer
 public:
   Consumer(Buffer* buffer) 
     : m_container(buffer) 
-  {}
+  {
+  }
 
   void operator()()
   {
@@ -107,8 +108,7 @@ public:
         break;
       }
 
-      {
-        // RAII idom: Resource Acquisition Is Initialization  idiom
+      { // RAII idom: Resource Acquisition Is Initialization  idiom
         unique_lock<mutex> l(io_mutex);
         cout << "consumer: " << m_item << " count: " << m_container->count() << "\n";
       }
