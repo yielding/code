@@ -1,19 +1,19 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.22.2)
 
-PROJECT (bounded.buffer)
+project (bounded.buffer)
 
-SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (SOURCES
+set (SOURCES
   bounded.buffer.cpp
 )
 
-INCLUDE_DIRECTORIES (
+include_directories (
   /usr/local/include 
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
+link_directories (/usr/local/lib)
 
-ADD_EXECUTABLE (bounded.buffer ${SOURCES})
+add_executable (bounded.buffer ${SOURCES})
