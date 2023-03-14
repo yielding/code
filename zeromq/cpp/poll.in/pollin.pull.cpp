@@ -11,6 +11,9 @@ using namespace chrono_literals;
 
 static context_t ctx;
 
+// NOTICE
+// connecting two sockets without polling
+// a 'dirty' way
 auto dirty = []() {
   socket_t sock0(ctx, socket_type::pull);
   socket_t sock1(ctx, socket_type::pull);
@@ -23,17 +26,20 @@ auto dirty = []() {
     message_t in0;
     auto r0 = sock0.recv(in0);
     if (r0.has_value())
-      cout << "\n" << in0.to_string_view();
+      cout << "\ndirty: " << in0.to_string_view();
 
     message_t in1;
     auto r1 = sock1.recv(in1);
     if (r1.has_value())
-      cout << "\n" << in1.to_string_view();
+      cout << "\ndirty: " << in1.to_string_view();
 
     this_thread::sleep_for(1ms);
   }
 };
 
+// NOTICE
+// using poll in is 'cleaner' way
+//
 auto clean = []() {
   socket_t sock0(ctx, socket_type::pull);
   socket_t sock1(ctx, socket_type::pull);
@@ -54,13 +60,13 @@ auto clean = []() {
     if (items[0].revents)
     {
       auto r0 = sock0.recv(in);
-      cout << "\n" << in.to_string_view();
+      cout << "\nclean: " << in.to_string_view();
     }
 
-    if (items[0].revents)
+    if (items[1].revents)
     {
       auto r1 = sock1.recv(in);
-      cout << "\n" << in.to_string_view();
+      cout << "\nclean: " << in.to_string_view();
     }
   }
 };
