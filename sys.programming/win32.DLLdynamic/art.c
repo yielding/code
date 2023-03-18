@@ -1,20 +1,16 @@
-// art.c
-// A simple program that uses LoadLibrary and 
-// GetProcAddress to access FindArtist function from ART.DLL. 
 #include <stdio.h> 
 #include <windows.h> 
 
 //Define the function prototype
 typedef short (CALLBACK* FindArtistType)(char*);
 
-void main(void) 
+int main() 
 { 
 	BOOL freeResult, runTimeLinkSuccess = FALSE; 
 	HINSTANCE dllHandle = NULL;              
 	FindArtistType FindArtistPtr = NULL;
 
-	//Load the dll and keep the handle to it
-	dllHandle = LoadLibrary("art.dll");
+	//Load the dll and keep the handle to it dllHandle = LoadLibrary("art.dll");
 
 	// If the handle is valid, try to get the function address. 
 	if (NULL != dllHandle) 
@@ -35,6 +31,8 @@ void main(void)
 	}
 
 	//If unable to call the DLL function, use an alternative. 
-	if(!runTimeLinkSuccess)
+	if (!runTimeLinkSuccess)
 		printf("message via alternative method\n"); 
+
+  return 0;
 }
