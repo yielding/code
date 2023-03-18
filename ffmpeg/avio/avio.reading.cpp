@@ -128,7 +128,8 @@ int main(int argc, char *argv[])
   av_file_unmap(buffer, buffer_size);
 
   if (ret < 0) {
-    fprintf(stderr, "Error occurred: %s\n", av_err2str(ret));
+    //fprintf(stderr, "Error occurred: %s\n", av_err2str(ret));
+    fprintf(stderr, "Error occurred:");
     return 1;
   }
 

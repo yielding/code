@@ -1,12 +1,9 @@
-cmake_minimum_required (VERSION 3.15)
+cmake_minimum_required (VERSION 3.22)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project (avio.read)
-
-set (CMAKE_CXX_STANDARD 20)
-set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
   avio.reading.cpp
@@ -19,7 +16,10 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-link_directories (/usr/local/lib)
+link_directories (
+  /usr/local/lib
+  /opt/homebrew/lib
+)
 
 add_executable (avio.read ${SOURCES})
 
