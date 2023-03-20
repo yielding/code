@@ -1,0 +1,34 @@
+{
+  "configurations": {
+    "run - simple": {
+      "adapter": "CodeLLDB",
+      "configuration": {
+        "name": "Cpp: Launch current file",
+        "type": "lldb",
+        "request": "launch",
+        "externalConsole": false,
+        "logging": {
+          "engineLogging": true
+        },
+        "stopOnEntry": true,
+        "stopAtEntry": true,
+        "debugOptions": [],
+        "MIMode": "lldb",
+        "cwd": "${cwd}",
+        "program": "${fileDirname}/${fileBasenameNoExtension}"
+      }
+    },
+    "run - test mode": {
+      "extends": "run - simple",
+      "configuration": {
+        "args" : ["-mode", "test"]
+      }
+    },
+    "run - verbose mode": {
+      "extends": "run - test mode",
+      "configuration": {
+        "args" : ["-mode", "test"]
+      }
+    }
+  }
+}
