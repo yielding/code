@@ -1,6 +1,6 @@
-cmake_minimum_required (VERSION 3.22.2)
+cmake_minimum_required (VERSION 3.26)
 
-project (optional2)
+project (optional)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -17,7 +17,7 @@ include_directories (
 
 link_directories (/usr/local/lib)
 
-add_executable (optional2 ${SOURCES})
+add_executable (optional ${SOURCES})
 # or library
 # add_library (__PROJECT__ STATIC ${SOURCES})
 # add_library (__PROJECT__ SHARED ${SOURCES})
