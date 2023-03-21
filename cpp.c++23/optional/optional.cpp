@@ -37,3 +37,4 @@ int main(int argc, char* argv[])
     cout << *x << '\n';
 
   return 0;
+}
