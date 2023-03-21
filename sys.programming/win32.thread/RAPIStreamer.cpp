@@ -23,27 +23,6 @@ struct CThreadContext {
   HANDLE       hThreadExitEvent;
 };
 
-LPWSTR A2U(LPSTR lpData)
-{
-  int len = ::MultiByteToWideChar(CP_ACP, 0, (LPSTR)lpData, -1, NULL, 0);    
-  LPWSTR ReturnData = new TCHAR[sizeof(TCHAR) * (len+1)]; 
-  memset(ReturnData, 0x00, len);
-  ::MultiByteToWideChar(CP_ACP, 0, lpData, -1, ReturnData, len);
-  ReturnData[len] = _T('\0');
-  return ReturnData;
-}
-
-void p (TCHAR* msg, TCHAR* title=L"title")
-{
-  ::MessageBox(NULL, msg, title, MB_OK);
-}
-
-void p(char* msg, TCHAR* title=L"title")
-{
-  TCHAR *b = A2U(msg);
-  ::MessageBox(NULL, b, L"title", MB_OK);
-  delete b;
-}
 
 BOOL AttachExistingFileMapping()
 {                       
@@ -129,6 +108,7 @@ bool shouldOut(char *buffer)
 {
   int end = strlen(buffer);
   if (end != 3) false;
+
   return (buffer[1] == char(7));
 }
 
@@ -146,6 +126,7 @@ int ReadString(IRAPIStream* pStream, char *buffer)
     if (byte_ == em1 || byte_ == em2) 
       break;
   }
+
   return pos;
 }
 
@@ -215,6 +196,7 @@ APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 
       if (AttachExistingFileMapping())
         return InitEvents();
+
       ::MessageBox(NULL, L"먼저 응용프로그램을 실행 하세요", L"title", MB_OK);
       return FALSE;
 
