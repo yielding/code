@@ -20,9 +20,13 @@ link_directories (
   /opt/homebrew/lib
 )
 
-target_link_libraries ()
-
 add_executable (__PROJECT__ ${SOURCES})
+
+target_link_libraries (__PROJECT__
+  # lib name 1
+  # lib name 2
+)
+
 # or library
 # add_library (__PROJECT__ STATIC ${SOURCES})
 # add_library (__PROJECT__ SHARED ${SOURCES})
