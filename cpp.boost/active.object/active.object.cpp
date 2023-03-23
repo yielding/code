@@ -15,6 +15,7 @@ int main(int argc, char* argv[])
 
   o.post([] { cout << "hello world first " << endl; });
   cout << "in between 1 ...\n";
+  this_thread::sleep_for(1ms);
   cout << "in between 2 ...\n";
   cout << "in between 3 ...\n";
   o.post([] { cout << "hello world second" << endl; });
