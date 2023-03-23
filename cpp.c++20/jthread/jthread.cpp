@@ -26,7 +26,7 @@ int main()
   });
 
   // Pause the main thread before cancelling the jthread
-  this_thread::sleep_for(5s);
+  this_thread::sleep_for(3s);
 
   // request for our jthread to stop
   jt0.request_stop();
