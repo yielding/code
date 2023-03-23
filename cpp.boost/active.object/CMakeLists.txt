@@ -21,8 +21,4 @@ link_directories (
   /opt/homebrew/lib
 )
 
-target_link_libraries (
-  Boost::thread
-  )
-
 add_executable (active.object ${SOURCES})
