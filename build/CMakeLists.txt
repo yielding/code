@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.22.2)
+cmake_minimum_required (VERSION 3.26)
 
 project (__PROJECT__)
 
@@ -15,7 +15,10 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-link_directories (/usr/local/lib)
+link_directories (
+  /usr/local/lib
+  /opt/homebrew/lib
+)
 
 target_link_libraries ()
 
