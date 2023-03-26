@@ -11,4 +11,4 @@ log = Syslog.open("test")   # "test" is the app name
 # log.err("You haven't responded after %d milliseconds", 7)
 # log.alert("I'm telling your mother...")
 # log.emerg("I'm feeling totally crushed")
-log.crit("yielding....")
+log.info("yielding....")

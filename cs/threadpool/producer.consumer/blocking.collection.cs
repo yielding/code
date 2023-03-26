@@ -10,42 +10,30 @@ class ProgramWithCancellation
 
   static void Main()
   {
-    // The token source for issuing the cancelation request.
-    var cts = new CancellationTokenSource();
+    var ct = new CancellationTokenSource();
 
     // A blocking collection that can hold no more than 100 items at a time.
-    var numberCollection = new BlockingCollection<int>(100);
+    var numbers = new BlockingCollection<int>(100);
 
-    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-      int width  = Math.Max(Console.BufferWidth, 80);
-      int height = Math.Max(Console.BufferHeight, 8000);
-
-      // Preserve all the display output for Adds and Takes
-      Console.SetBufferSize(width, height);
-    }
-
-    // The simplest UI thread ever invented.
     Task.Run(() => {
-      if (Console.ReadKey(true).KeyChar == 'c')
-        cts.Cancel();
+      if (Console.ReadKey(true).KeyChar == 'c') ct.Cancel();
     });
 
-    // Start one producer and one consumer.
-    Task t1 = Task.Run(() => NonBlockingConsumer(numberCollection, cts.Token));
-    Task t2 = Task.Run(() => NonBlockingProducer(numberCollection, cts.Token));
-
     // Wait for the tasks to complete execution
-    Task.WaitAll(t1, t2);
+    Task.WaitAll(Task.Run(() => NonBlockingConsumer(numbers, ct.Token)),
+                 Task.Run(() => NonBlockingProducer(numbers, ct.Token)));
 
-    cts.Dispose();
+    ct.Dispose();
     Console.WriteLine("Press the Enter key to exit.");
     Console.ReadLine();
   }
 
   static void NonBlockingConsumer(BlockingCollection<int> bc, CancellationToken ct)
   {
+    // TODO REMARK
     // IsCompleted == (IsAddingCompleted && Count == 0)
-    while (!bc.IsCompleted) {
+    while (!bc.IsCompleted)
+    {
       int nextItem = 0;
       try
       {
