@@ -1,3 +1,5 @@
+#!/usr/bin/env perl
+
 use Acme::EyeDrops qw(sightly);
 
 print sightly( { Shape      => 'camel',
