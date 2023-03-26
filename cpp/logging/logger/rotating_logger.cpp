@@ -18,6 +18,7 @@ namespace src     = boost::log::sources;
 namespace sinks   = boost::log::sinks;
 namespace fmt     = boost::log::formatters;
 
+using namespace std;
 using boost::shared_ptr;
 
 enum 
@@ -30,12 +31,12 @@ int main(int argc, char* argv[])
   try
   {
     // Open a rotating text file
-    shared_ptr<std::ostream> 
+    shared_ptr<ostream> 
       strm(new logging::rotating_ofstream("test_%Y%m%d.log", 
-            logging::keywords::open_mode=std::ios_base::trunc));
+            logging::keywords::open_mode=ios_base::trunc));
 
     if (!strm->good())
-      throw std::runtime_error("Failed to open a text log file");
+      throw runtime_error("Failed to open a text log file");
 
     // Create a text file sink
     shared_ptr<sinks::synchronous_sink<sinks::text_ostream_backend> > 
@@ -70,9 +71,9 @@ int main(int argc, char* argv[])
 
     return 0;
   }
-  catch (std::exception& e)
+  catch (exception& e)
   {
-    std::cout << "FAILURE: " << e.what() << std::endl;
+    cout << "FAILURE: " << e.what() << endl;
     return 1;
   }
 }

@@ -1,11 +1,15 @@
 # -*- ruby -*-
 
-SRCS     = %w{rotating_logger.cpp}
-APP      = "rotating_logger"
-OSX_LIBS = "-lboost_log-mt -lboost_system-mt -lboost_thread-mt"
+APP       = "develop"
+SRCS      = %W{ ./rotating_logger.cpp
+
+              }
+CXX       = "g++"
+CXXFLAGS  = ":Os"
+LIBS      = ""
 
 DIR = File.dirname __FILE__
 
-load '~/code/build/app.rake'
+load '~/code/build/app2.rake'
 
 task :default => [:osx]
