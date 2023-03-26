@@ -23,20 +23,20 @@ func loop() -> Void {
 func mandel(x: Double, y: Double) -> Int {
 	let cr = y - 0.5
 	let ci = x
-    var zi = 0.0
-    var zr = 0.0
+  var zi = 0.0
+  var zr = 0.0
 
-    var i = 0
-    while true {
-        i += 1
-        let temp = zr * zi
-        let zr2  = zr * zr
-        let zi2  = zi * zi
-        zr = zr2 - zi2 + cr
-        zi = temp + temp + ci
-        if Int(zi2 + zr2) > BAILOUT { return i } 
-        if i > MAX_ITERATIONS  { return 0 }
-    }
+  var i = 0
+  while true {
+    i += 1
+    let temp = zr * zi
+    let zr2  = zr * zr
+    let zi2  = zi * zi
+    zr = zr2 - zi2 + cr
+    zi = temp + temp + ci
+    if Int(zi2 + zr2) > BAILOUT { return i } 
+    if i > MAX_ITERATIONS  { return 0 }
+  }
 }
 
 var start = NSDate()

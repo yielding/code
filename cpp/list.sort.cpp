@@ -16,7 +16,7 @@ struct student
   }
 }; 
 
-typedef std::list<student> student_list; 
+typedef list<student> student_list; 
 
 int main()
 { 

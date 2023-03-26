@@ -38,7 +38,7 @@ struct move
     : m_tid(tid), m_rid(rid), m_rssi(rssi)
   {}
 
-  friend std::ostream& operator<<(std::ostream& os, move const& e)
+  friend ostream& operator<<(ostream& os, move const& e)
   {
     os << e.m_rid << " " << e.m_tid << " " << e.m_rssi << "\n";
 
@@ -55,7 +55,7 @@ struct move
   int m_rssi;
 };
 
-typedef std::vector<move> move_list;
+typedef vector<move> move_list;
 
 struct tid{};
 struct rid{};
