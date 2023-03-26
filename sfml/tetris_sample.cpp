@@ -72,9 +72,12 @@ int main()
 
       if (e.type == Event::KeyPressed)
       {
-        if (e.key.code==Keyboard::Up) rotate=true;
-        else if (e.key.code==Keyboard::Left) dx=-1;
-        else if (e.key.code==Keyboard::Right) dx=1;
+        if (e.key.code==Keyboard::Up) 
+          rotate = true;
+        else if (e.key.code == Keyboard::Left) 
+          dx =-1;
+        else if (e.key.code == Keyboard::Right) 
+          dx = 1;
       }
     }
 
@@ -83,7 +86,9 @@ int main()
 
     //// <- Move -> ///
     for (int i=0;i<4;i++)  { b[i]=a[i]; a[i].x+=dx; }
-    if (!check()) for (int i=0;i<4;i++) a[i]=b[i];
+    if (!check()) 
+      for (int i=0;i<4;i++) 
+        a[i]=b[i];
 
     //////Rotate//////
     if (rotate)
@@ -98,7 +103,7 @@ int main()
       }
 
       if (!check()) 
-        for (int i=0;i<4;i++) a[i]=b[i];
+        for (int i=0;i<4;i++) a[i] = b[i];
     }
 
     ///////Tick//////

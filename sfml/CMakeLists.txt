@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.21)
+cmake_minimum_required (VERSION 3.26)
 
 project (sfml-app)
 
@@ -11,10 +11,14 @@ set (SOURCES
 
 include_directories (
   /usr/local/include 
+  /opt/homebrew/include 
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-link_directories (/usr/local/lib)
+link_directories (
+  /usr/local/lib
+  /opt/homebrew/lib
+)
 
 add_executable (sfml-app ${SOURCES})
 target_link_libraries (sfml-app
