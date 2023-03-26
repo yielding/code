@@ -1,4 +1,5 @@
-#include "cpp.api3.h"
+#include "sqlite3/conn.hpp"
+#include "sqlite3/stmt.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -7,11 +8,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
-  connection c;
+  using namespace api::sqlite3;
+
+  conn c;
   c.open("aaa.db");
   c.execute("create table hens(id int primary key, name text)");
 
-  statement s;
+  stmt s;
   s.prepare(c, "insert into hens(id, name) values(?, ?)");
 
   s.bind(1, 101);
