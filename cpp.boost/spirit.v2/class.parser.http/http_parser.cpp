@@ -50,7 +50,7 @@ namespace http
     string m_query;
     string m_host;
     string m_post_data;
-    header_map  m_headers;
+    header_map m_headers;
   };
 }
 

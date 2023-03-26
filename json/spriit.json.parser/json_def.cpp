@@ -23,7 +23,7 @@ struct json_grammar
       array = "[" >> value >> *("," >> value) >> "]"; 
     } 
 
-    const boost::spirit::rule<Scanner> &start() 
+    auto start() -> const boost::spirit::rule<Scanner>&
     { 
       return object; 
     } 
