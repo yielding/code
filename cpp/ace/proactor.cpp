@@ -14,9 +14,8 @@ public:
     this->proactor(&proactor);  
     this->remote_addr_.set(remote_addr);  
     if (connect_.open(*this, ACE_INVALID_HANDLE, 0, this->proactor()) < 0)  
-    {   
       return -1;  
-    }  
+
     return connect_.connect(ACE_INVALID_HANDLE, remote_addr_, ACE_Addr::sap_any, 1); 
   }
 
@@ -37,6 +36,7 @@ public:
       //Got a RST  
     } 
   }
+
 private: 
   ACE_INET_Addr remote_addr_; 
   ACE_Asynch_Connect connect_;
@@ -67,5 +67,6 @@ int ACE_TMAIN(int /*argc*/, ACE_TCHAR** /*argv*/)
   ACE_Time_Value timeout(30); 
   proactor.proactor_run_event_loop(timeout); 
   delete[] portscanners; 
+
   return 0;
 }

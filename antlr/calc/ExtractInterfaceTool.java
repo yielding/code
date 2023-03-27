@@ -8,22 +8,24 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 public class ExtractInterfaceTool {
-    public static void main (String [] args) throws Exception {
-        String inputFile = null;
-        if (args.length > 0) inputFile = args[0];
 
-        InputStream is = System.in;
-        if (inputFile != null) is = new FileInputStream(inputFile);
+  public static void main (String [] args) throws Exception {
+    String inputFile = null;
+    if (args.length > 0) 
+      inputFile = args[0];
 
-        ANTLRInputStream input = new ANTLRInputStream(is);
+    InputStream is = System.in;
+    if (inputFile != null) is = new FileInputStream(inputFile);
 
-        JavaLexer lexer = new JavaLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        JavaParser parser = new JavaParser(tokens);
-        ParseTree tree = parser.compilationUnit();
+    ANTLRInputStream input = new ANTLRInputStream(is);
 
-        ParseTreeWalker walker = new ParseTreeWalker();
-        ExtractInterfaceListener extractor = new ExtractInterfaceListener(parser);
-        walker.walk(extractor, tree);
-    }
+    JavaLexer lexer = new JavaLexer(input);
+    CommonTokenStream tokens = new CommonTokenStream(lexer);
+    JavaParser parser = new JavaParser(tokens);
+    ParseTree tree = parser.compilationUnit();
+
+    ParseTreeWalker walker = new ParseTreeWalker();
+    ExtractInterfaceListener extractor = new ExtractInterfaceListener(parser);
+    walker.walk(extractor, tree);
+  }
 }
