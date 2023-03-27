@@ -15,8 +15,9 @@ public class CSharpApp
     Array.Copy(a, 1, b, 0, 3);
 
     for (int i=0; i<b.Length; i++) 
-        Console.WriteLine(b[i]);
+      Console.WriteLine(b[i]);
 
-    foreach (var i in b) Console.WriteLine(i);
+    foreach (var i in b) 
+      Console.WriteLine(i);
   }
 }

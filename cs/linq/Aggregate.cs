@@ -7,8 +7,7 @@ class CSharpApp
 {
   static void Main(string[] args)
   {
-    var names = new List<string>() 
-    {
+    var names = new List<string>() {
       "leech", "kamin", "gunhee", "gunhee2"
     };
 

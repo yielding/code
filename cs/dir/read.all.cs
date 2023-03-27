@@ -10,11 +10,11 @@ class Application
     var paths = Directory.GetFiles(@"/Users/yielding/code", "*",
         SearchOption.AllDirectories);
 
-     foreach (var path in paths)
-     {
-       Console.WriteLine(path);
-     }
-    
+    foreach (var path in paths)
+    {
+      Console.WriteLine(path);
+    }
+
     return 0;
   }
 }

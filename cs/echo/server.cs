@@ -9,66 +9,65 @@ using System.Collections.Generic;
 
 namespace Echo
 {
-    class Server
+  class Server
+  {
+    public static int Main(string[] args)
     {
-        public static int Main(string[] args)
+      if (args.Length < 1)
+      {
+        Console.WriteLine("Usage: {0} <Bind IP>)", Process.GetCurrentProcess().ProcessName);
+        return -1;
+      }
+
+      string bindIp = args[0];
+      const int port = 5425;
+      TcpListener server = null;
+      try 
+      {
+        var localAddr = new IPEndPoint(IPAddress.Parse(bindIp), port);
+        server = new TcpListener(localAddr);
+        server.Start();
+
+        Console.WriteLine("Echo server start");
+
+        while (true)
         {
-            if (args.Length < 1)
-            {
-                Console.WriteLine("Usage: {0} <Bind IP>)",
-                        Process.GetCurrentProcess().ProcessName);
-                return -1;
-            }
+          TcpClient client = server.AcceptTcpClient();
+          Console.WriteLine("client connected: {0}", 
+              ((IPEndPoint)client.Client.RemoteEndPoint).ToString());
 
-            string bindIp = args[0];
-            const int port = 5425;
-            TcpListener server = null;
-            try 
-            {
-                var localAddr = new IPEndPoint(IPAddress.Parse(bindIp), port);
-                server = new TcpListener(localAddr);
-                server.Start();
+          var stream = client.GetStream();
 
-                Console.WriteLine("Echo server start");
+          int length;
+          string data = null;
+          byte[] bytes = new byte[256];
 
-                while (true)
-                {
-                    TcpClient client = server.AcceptTcpClient();
-                    Console.WriteLine("client connected: {0}", 
-                            ((IPEndPoint)client.Client.RemoteEndPoint).ToString());
+          while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
+          {
+            data = Encoding.Default.GetString(bytes, 0, length);
+            Console.WriteLine(String.Format("수신: {0}", data));
 
-                    var stream = client.GetStream();
+            var msg = Encoding.Default.GetBytes(data);
+            stream.Write(msg, 0, msg.Length);
+            Console.WriteLine(String.Format("송신: {0}", data));
+          }
 
-                    int length;
-                    string data = null;
-                    byte[] bytes = new byte[256];
-
-                    while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
-                    {
-                        data = Encoding.Default.GetString(bytes, 0, length);
-                        Console.WriteLine(String.Format("수신: {0}", data));
-
-                        var msg = Encoding.Default.GetBytes(data);
-                        stream.Write(msg, 0, msg.Length);
-                        Console.WriteLine(String.Format("송신: {0}", data));
-                    }
-
-                    stream.Close();
-                    client.Close();
-                }
-            }
-            catch(SocketException e)
-            {
-                Console.WriteLine(e);
-            }
-            finally
-            {
-                server.Stop();
-            }
-
-            Console.WriteLine("서버를 종료합니다");
-
-            return 0;
+          stream.Close();
+          client.Close();
         }
+      }
+      catch(SocketException e)
+      {
+        Console.WriteLine(e);
+      }
+      finally
+      {
+        server.Stop();
+      }
+
+      Console.WriteLine("서버를 종료합니다");
+
+      return 0;
     }
+  }
 }

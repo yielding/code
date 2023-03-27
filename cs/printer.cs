@@ -21,7 +21,6 @@ class LaserPrinter: Printer
   {
     Console.WriteLine("I'm LaserPrinter");
   }
-
 }
 
 class InkJetPrinter: Printer

@@ -16,7 +16,8 @@ class ProgramWithCancellation
     var numbers = new BlockingCollection<int>(100);
 
     Task.Run(() => {
-      if (Console.ReadKey(true).KeyChar == 'c') ct.Cancel();
+      if (Console.ReadKey(true).KeyChar == 'c') 
+        ct.Cancel();
     });
 
     // Wait for the tasks to complete execution

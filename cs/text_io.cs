@@ -12,8 +12,7 @@ class CSharpApp
       fs0.Seek(0, SeekOrigin.End);
       using (var bw = new StreamWriter(fs0))
       {
-
-        string line = "algebra babo-----------------------------------------------------------";
+        string line = "babo-----------------------------------------------------------";
         Console.WriteLine(line);
 
         bw.WriteLine(line);

@@ -44,7 +44,6 @@ class Application
   {
     var s = MyStack.Instance;
 
-
     return 0;
   }
 }

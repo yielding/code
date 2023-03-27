@@ -23,7 +23,7 @@ class Application
         });
 
     task.ContinueWith(t => Console.WriteLine(t.Result)) 
-      .ContinueWith(t => Console.WriteLine("We're done"));
+        .ContinueWith(t => Console.WriteLine("We're done"));
   }
 
   public static void T3()
