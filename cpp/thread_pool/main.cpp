@@ -4,10 +4,10 @@
 
 #include <sys/asio_threadpool.hpp>
 
-using namespace std::chrono_literals;
 using namespace std;
+using namespace chrono_literals;
 
-std::mutex io_mutex;
+mutex io_mutex;
 
 void hello(int value)
 {
@@ -30,9 +30,9 @@ int main(int argc, char const* argv[])
   for (int i=0; i<data_count; i++) 
     pool.post(bind(hello, i));
 
-  std::cout << "made " << data_count << "\n";
+  cout << "made " << data_count << "\n";
 
-  std::this_thread::sleep_for(1000ms);
+  this_thread::sleep_for(1000ms);
 
   return 0;
 }

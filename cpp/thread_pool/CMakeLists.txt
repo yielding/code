@@ -1,24 +1,27 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.21)
+cmake_minimum_required (VERSION 3.26)
 
-PROJECT (thread.pool)
+project (thread.pool)
 
-SET (CMAKE_CXX_STANDARD 23)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (SOURCES
+set (SOURCES
   main.cpp
 )
 
-INCLUDE_DIRECTORIES (
+include_directories (
+  /opt/homebrew/include
   ~/develop/include
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES (/usr/lib)
-
-LINK_LIBRARIES (
-  pthread
-  boost_thread
-  )
+link_directories (
+  /usr/local/lib
+  /opt/homebrew/lib
+)
 
 ADD_EXECUTABLE (thread.pool ${SOURCES})
+target_link_libraries (thread.pool
+  boost_thread-mt
+  boost_system-mt
+)
