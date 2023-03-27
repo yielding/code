@@ -20,14 +20,12 @@ class CSharpApp
         // the first byte of string is its "length"
         //
         // format: length, utf8
-        string s = "l";  
+        var s = "l";  
         var res = "";
 
-        for(int i=0; i<2000; i++)
+        for (int i=0; i<2000; i++)
           res += s;
 
-
-        // bw.Write(one); bw.Write(dl_one); 
         bw.Write(res);
 
         /*

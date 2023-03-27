@@ -5,7 +5,7 @@
 using namespace std;
 
 enum class Color { Red, Green, Blue };
-enum class Size  { Small, Medium, Large };
+enum class Size { Small, Medium, Large };
 
 struct Product
 {
