@@ -10,6 +10,7 @@ set (SOURCES
 )
 
 include_directories (
+  /usr/local/include
   /opt/homebrew/include
   ~/develop/include
   ${CMAKE_CURRENT_SOURCE_DIR}
@@ -20,7 +21,8 @@ link_directories (
   /opt/homebrew/lib
 )
 
-ADD_EXECUTABLE (thread.pool ${SOURCES})
+add_executable (thread.pool ${SOURCES})
+
 target_link_libraries (thread.pool
   boost_thread-mt
   boost_system-mt
