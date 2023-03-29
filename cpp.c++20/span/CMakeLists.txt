@@ -1,18 +1,23 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.26)
 
-PROJECT (span.test)
+project (span.test)
 
-SET (CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (SOURCES
+set (SOURCES
   span.test.cpp
 )
 
-INCLUDE_DIRECTORIES (
+include_directories (
   /usr/local/include 
+  /opt/homebrew/include
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
+link_directories (
+  /usr/local/lib 
+  /opt/homebrew/lib
+)
 
-ADD_EXECUTABLE (span.test ${SOURCES})
+add_executable (span.test ${SOURCES})

@@ -1,16 +1,18 @@
 #include <iostream>
+#include <iomanip>
 #include <set>
 #include <string>
 #include <compare>
 
 using namespace std;
 
-struct Human {
+struct Human 
+{
   Human(int age, string name)
-    : m_age(age), m_name(move(name))
-  {}
+    : m_age(age), m_name(move(name)) {}
 
-  auto operator<=>(const Human& rhs) const {
+  constexpr auto operator<=>(const Human& rhs) const 
+  {
     return m_age <=> rhs.m_age;
   }
 
@@ -18,23 +20,20 @@ struct Human {
   int m_age;
 };
 
-using namespace std;
-
 int main()
 {
   Human a(20, "leech");
   Human b(10, "kamin");
   Human c(1, "gunhee");
-  Human d(1, "gunhee2"); // <-
+  Human d(1, "gunhee2");
 
-  set<Human> people{a, b, c};
+  set <Human> people{a, b, c, d};
 
   auto [_, res] = people.insert(d);
 
-  cout << res << endl;
+  cout << boolalpha << res << endl;
 
-  for (auto v: people)
-    cout << v.m_name << endl;
-  
+  for (auto v: people) cout << v.m_name << endl;
+
   return 0;
 }

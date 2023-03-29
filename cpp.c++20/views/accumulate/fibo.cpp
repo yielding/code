@@ -5,7 +5,7 @@ using namespace ranges;
 
 using std::cout, std::endl;
 
-int main(int argc, char*[] argv)
+int main(int argc, char** argv)
 {   
   auto rng = views::generate(
     [p=std::pair{0, 1}]() mutable {

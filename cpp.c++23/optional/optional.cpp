@@ -24,10 +24,11 @@ int main(int argc, char* argv[])
   vector_opt<string> v= { "1234", "15 foo", "bar", "42", "5000", " 5" };
 
   auto filter = [](auto&& o) {
-    return o.and_then(to_int) // flatmap from str to int
-            .transform([](int n) { return n + 1; })
-            .transform([](int n) { return to_string(n); })
-            .or_else  ([]        { return optional("null"s); });
+    return 
+      o.and_then(to_int) // flatmap from str to int
+       .transform([](int n) { return n + 1; })
+       .transform([](int n) { return to_string(n); })
+       .or_else  ([]        { return optional("null"s); });
   };
 
   for (auto&& x : v | views::transform(filter)) 

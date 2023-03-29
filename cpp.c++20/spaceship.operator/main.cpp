@@ -1,6 +1,8 @@
 #include <iostream>
 #include <compare>
 #include <string>
+#include <tuple>
+#include <set>
 
 using namespace std;
 
@@ -9,7 +11,7 @@ struct Human {
     : m_age(age), m_name(name)
   {}
 
-  auto operator<=>(const Human& rhs) const {
+  auto operator<=>(const Human& rhs) const { // auto == strong_ordering
     return m_age <=> rhs.m_age;
   }
 
@@ -30,13 +32,22 @@ int main(int argc, char *argv[])
   Human a(10, "leech");
   Human b(10, "kamin");
 
+  set<Human> humans;
+  humans.insert(a);
+  humans.insert(b);
+
+  for (auto const& e: humans)
+    cout << e.m_name << endl;
+
+
+  /*
   auto res = a == b;
 
   cout << (a < b) << endl;
   cout << (a > b) << endl;
   cout << (a <=> b == 0) << endl;
   cout << (a == b) << endl;
+  */
 
   return 0;
 }
-

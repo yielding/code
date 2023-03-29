@@ -1,3 +1,4 @@
+#pragma once
 /****************************************************************************
  * File: SplayTree.hh
  * Author: Keith Schwarz (htiek@cs.stanford.edu)
@@ -84,8 +85,6 @@
  * through them in ascending order.  This allows the iterators to scan over the
  * nodes without having to compute successors or resplay the tree.
  */
-#ifndef SplayTree_Included
-#define SplayTree_Included
 
 #include <algorithm>   // For lexicographical_compare, equal, max
 #include <functional>  // For less
@@ -1414,5 +1413,3 @@ bool operator>  (const SplayTree<Key, Value, Comparator>& lhs,
   /* x > y iff y < x */
   return rhs < lhs;
 }
-
-#endif

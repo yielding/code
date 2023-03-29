@@ -5,8 +5,10 @@
 #include <range/v3/view/take.hpp>
 #include <range/v3/view/istream.hpp>
 
-using namespace std;
-      namespace view = ranges::views;
+namespace view = ranges::views;
+using std::string, 
+      std::stringstream, 
+      std::cout;
 
 int main(int argc, char *argv[])
 {
