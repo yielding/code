@@ -16,6 +16,4 @@ include_directories (
 
 link_directories (/usr/local/lib)
 
-
 add_executable (constexpr ${SOURCES})
-target_link_libraries (constexpr tbb)

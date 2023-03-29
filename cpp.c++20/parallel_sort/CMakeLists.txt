@@ -1,21 +1,26 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.26)
 
-PROJECT (parallel_sort)
+project (parallel_sort)
 
-SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (SOURCES
+set (SOURCES
   parallel_sort.cpp
 )
 
-INCLUDE_DIRECTORIES (
+include_directories (
   /usr/local/include 
+  /opt/homebrew/include
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
+link_directories (
+  /usr/local/lib
+  /opt/homebrew/lib
+)
 
-LINK_LIBRARIES (tbb)
+add_executable (parallel_sort ${SOURCES})
 
-ADD_EXECUTABLE (parallel_sort ${SOURCES})
+target_link_libraries (parallel_sort 
+  tbb)

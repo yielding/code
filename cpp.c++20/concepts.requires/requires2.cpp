@@ -21,7 +21,6 @@ bool is_power_of_2(T x)
 template <typename T>
 concept arithmetic = integral<T> || floating_point<T>;
 
-
 int main(int argc, char *argv[])
 {
   cout << is_power_of_2(8) << endl;
