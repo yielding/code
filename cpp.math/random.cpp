@@ -20,8 +20,9 @@ public:
   typedef typename Gen::result_type result_type;
 
 public:
-  explicit random_number_iterator(Gen& gen, int cnt=0): 
-    m_gen(gen), m_count(cnt)
+  explicit random_number_iterator(Gen& gen, int cnt=0)
+    : m_gen(gen)
+    , m_count(cnt)
   {
     if (cnt != 0)
       m_value = m_gen();

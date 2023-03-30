@@ -2,7 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <string>
-#include <iostream>
+#include <iostream> 
 #include <iomanip>
 
 using namespace std;
@@ -39,7 +39,8 @@ void plot_histogram(vector<int> const& slots, int samples, double from, double t
 // I am not sure whether these two should be in the library as well
 // maintain sum of NumberGenerator results
 //
-template<class NumberGenerator, class Sum = typename NumberGenerator::result_type>
+template<class NumberGenerator, 
+         class Sum = typename NumberGenerator::result_type>
 class sum_result 
 {
 public:
@@ -51,14 +52,15 @@ public:
   base_type & base()       { return gen;  }
   Sum sum() const          { return _sum; }
   void reset()             { _sum = 0;    }
+
 private:
   base_type gen;
   Sum _sum;
 };
 
-
 // maintain square sum of NumberGenerator results
-template <class NumberGenerator, class Sum = typename NumberGenerator::result_type>
+template <class NumberGenerator, 
+          class Sum = typename NumberGenerator::result_type>
 class squaresum_result
 {
 public:
@@ -69,6 +71,7 @@ public:
   base_type & base() { return gen; }
   Sum squaresum() const { return _sum; }
   void reset() { _sum = 0; }
+
 private:
   base_type gen;
   Sum _sum;
@@ -90,18 +93,18 @@ void histogram(RNG base, int samples, double from, double to, const string & nam
     if (slot < 0 || slot > (int)slots.size()) continue;
     slots[slot]++;
   }
+
   cout << name << endl;
   plot_histogram(slots, samples, from, to);
   double mean = gen.base().sum() / samples;
   cout << "mean: " << mean
-    << " sigma: "  << sqrt(gen.squaresum()/samples-mean*mean)
-    << "\n"        << endl;
+       << " sigma: "  << sqrt(gen.squaresum()/samples-mean*mean)
+       << "\n"        << endl;
 }
 
 
 template<class PRNG, class Dist>
-inline 
-boost::variate_generator<PRNG&, Dist> 
+inline boost::variate_generator<PRNG&, Dist> 
 make_gen(PRNG & rng, Dist d)
 {
   return boost::variate_generator<PRNG&, Dist>(rng, d);
