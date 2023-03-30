@@ -3,7 +3,7 @@ using System.Threading;
 
 public class Example { 
 
-  private static Semaphore _pool; 
+  private static Semaphore _pool = null; 
 
   public static void Main() 
   { 
@@ -11,7 +11,14 @@ public class Example {
 
     try 
     { 
-      _pool = new Semaphore(initialCount: 2, maximumCount: 2, "MD-VIDEO"); 
+      try
+      {
+        _pool = Semaphore.OpenExisting("MD-VIDEO"); 
+      }
+      catch(Exception e)
+      {
+        _pool = new Semaphore(initialCount: 2, maximumCount: 2, "MD-VIDEO"); 
+      }
 
       if (_pool.WaitOne(1000) == false) 
       { 
@@ -20,11 +27,13 @@ public class Example {
         return; 
       } 
 
-      for (int i=0; i<1000; i++) // MD-VIDEO main 
+      Console.WriteLine("MD-Video Starts");
+      for (int i=0; i<100; i++)
       {
         Thread.Sleep(1000); 
         Console.WriteLine($"running {i} / 100");
       } 
+      Console.ReadKey();
     } 
     finally 
     {
