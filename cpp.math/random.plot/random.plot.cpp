@@ -19,10 +19,10 @@ void plot_histogram(vector<int> const& slots, int samples, double from, double t
   {
     double y = ((nRows - r) * double(m))/(nRows * samples);
     cout << setw(10) << y << "  ";
-    for (unsigned int col=0; col<slots.size(); col++) 
+    for (auto col=0; col<slots.size(); col++) 
     {
       char out = ' ';
-      if (slots[col]/double(samples) >= y)
+      if (slots[col] / double(samples) >= y)
         out = 'x';
 
       cout << out;
@@ -39,19 +39,26 @@ void plot_histogram(vector<int> const& slots, int samples, double from, double t
 // I am not sure whether these two should be in the library as well
 // maintain sum of NumberGenerator results
 //
-template<class NumberGenerator, 
-         class Sum = typename NumberGenerator::result_type>
+template <class NumberGenerator, 
+          class Sum = typename NumberGenerator::result_type>
 class sum_result 
 {
 public:
-  typedef NumberGenerator base_type;
-  typedef typename base_type::result_type result_type;
+  using base_type   = NumberGenerator;
+  using result_type = base_type::result_type;
+
   explicit sum_result(const base_type & g) : gen(g), _sum(0) { }
 
-  result_type operator()() { result_type r = gen(); _sum += r; return r; }
-  base_type & base()       { return gen;  }
-  Sum sum() const          { return _sum; }
-  void reset()             { _sum = 0;    }
+  auto operator()() -> result_type 
+  { 
+    auto r = gen(); 
+    _sum += r; 
+    return r; 
+  }
+
+  auto base() { return gen;  }
+  auto sum() const { return _sum; }
+  auto reset() { _sum = 0; }
 
 private:
   base_type gen;
@@ -64,13 +71,21 @@ template <class NumberGenerator,
 class squaresum_result
 {
 public:
-  typedef NumberGenerator base_type;
-  typedef typename base_type::result_type result_type;
+  using base_type   = NumberGenerator;
+  using result_type = base_type::result_type;
+
   explicit squaresum_result(const base_type & g) : gen(g), _sum(0) { }
-  result_type operator()() { result_type r = gen(); _sum += r*r; return r; }
-  base_type & base() { return gen; }
-  Sum squaresum() const { return _sum; }
-  void reset() { _sum = 0; }
+
+  auto operator()() -> result_type 
+  { 
+    auto r = gen(); 
+    _sum += r*r; 
+    return r; 
+  }
+
+  auto base() { return gen; }
+  auto squaresum() const { return _sum; }
+  auto reset() { _sum = 0; }
 
 private:
   base_type gen;

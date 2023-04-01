@@ -4,20 +4,19 @@
 #include <boost/iterator/iterator_categories.hpp>
 #include <iostream>
 #include <algorithm>
-#include <iterator>
 #include <vector>
 
 using namespace std;
 using namespace boost;
 
-template<typename Gen>
+template <typename Gen>
 class random_number_iterator: 
   public iterator_facade<random_number_iterator<Gen>, 
          typename Gen::result_type const, 
          forward_traversal_tag>
 {
 public:
-  typedef typename Gen::result_type result_type;
+  using result_type = Gen::result_type;
 
 public:
   explicit random_number_iterator(Gen& gen, int cnt=0)
@@ -28,7 +27,6 @@ public:
       m_value = m_gen();
   }
 
-private:
   friend class iterator_core_access;
 
   void increment()
@@ -37,21 +35,20 @@ private:
     m_value = m_gen();
   }
 
-  bool equal(random_number_iterator const& other) const
-  {
-    return m_count == other.m_count;
-  }
+  auto equal(random_number_iterator const& other) const
+  { return m_count == other.m_count; }
 
-  result_type const& dereference() const { return m_value; }
+  auto dereference() const -> result_type const& 
+  { return m_value; }
 
 private:
   Gen& m_gen;
-  int  m_count;
+  int m_count;
   result_type m_value;
 };
 
-template<class Gen> random_number_iterator<Gen> 
-make_random_number_iterator(Gen& gen, int cnt=0)
+template<class Gen> 
+auto make_random_number_iterator(Gen& gen, int cnt=0) -> random_number_iterator<Gen> 
 {
   return random_number_iterator<Gen>(gen, cnt);
 }
@@ -67,5 +64,7 @@ int main()
        make_random_number_iterator(die),
        back_inserter(vi));
 
-  copy(vi.begin(), vi.end(), ostream_iterator<int>(cout, " "));
+  for (auto& v : vi) cout << v << " ";
+
+  return 0;
 }
