@@ -1,12 +1,12 @@
 cmake_minimum_required (VERSION 3.26)
 
-project (accumulate)
+project (istream.view)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  fibo.cpp
+  main.cpp
 )
 
 include_directories (
@@ -20,6 +20,4 @@ link_directories (
   /opt/homebrew/lib
 )
 
-link_directories (/usr/local/lib)
-
-add_executable (accumulate ${SOURCES})
+add_executable (istream.view ${SOURCES})

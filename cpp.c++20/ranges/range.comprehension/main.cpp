@@ -6,17 +6,15 @@
 #include <range/v3/view/iota.hpp>
 #include <range/v3/view/repeat_n.hpp>
 
+using namespace ranges::views;
 using namespace ranges;
-using namespace std;
 
 int main()
 {
-  auto vi = views::for_each(views::ints(1, 6), 
-                            [](int i) { return yield_from(views::repeat_n(i, i)); }) 
-              | to<vector>();
+  auto fn = [](int i) { return yield_from(repeat_n(i, i)); };
+  auto vi = for_each(ints(1, 6), fn) | to<std::vector>();
 
-  cout << views::all(vi) << '\n';
-  // prints: [1,2,2,3,3,3,4,4,4,4,5,5,5,5,5]
+  std::cout << all(vi) << '\n';
 
   return 0;
 }

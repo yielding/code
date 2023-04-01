@@ -28,12 +28,14 @@ int main(int argc, char *argv[])
   auto by_name = [](auto& l, auto& r) { return l.name < r.name; };
   auto by_age  = [](auto& l, auto& r) { return l.age < r.age; };
 
-  ranges::sort(users, by_name);
+  auto sort = ranges::sort;
+
+  sort(users, by_name);
   for (auto& u: users) cout << u.to_s() << endl;
 
   cout << endl;
   
-  ranges::sort(users, by_age);
+  sort(users, by_age);
   for (auto& u: users) cout << u.to_s() << endl;
 
   return 0;

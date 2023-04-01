@@ -3,10 +3,11 @@
 
 #include <range/v3/action/sort.hpp>
 #include <range/v3/action/unique.hpp>
+#include <range/v3/action/take.hpp>
 #include <range/v3/view/all.hpp>
 
-using namespace ranges;
 using namespace std;
+using namespace ::ranges;
 
 int main()
 {
@@ -16,7 +17,7 @@ int main()
     4, 3, 1, 8, 4, 0, 7, 8, 8, 2, 6, 5, 3, 4, 5
   };
 
-  vi |= actions::sort | actions::unique;
+  vi |= action::sort | action::unique | action::take(4);
 
   cout << views::all(vi) << '\n';
 

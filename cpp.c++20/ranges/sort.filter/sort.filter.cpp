@@ -7,8 +7,9 @@
 
 #include <boost/format.hpp>
 
-namespace view = ranges::views;
 using namespace std;
+using namespace boost;
+      namespace view = ::ranges::views;
 
 struct user
 {
@@ -17,14 +18,15 @@ struct user
 
   auto to_s() const -> string 
   {
-    using namespace boost;
     return str(format("name: %s, age: %d") % name % age);
   }
 };
 
 int main(int argc, char *argv[])
 {
-  vector<user> users = { {"leech", 49}, {"kamin", 47}, {"gunhee", 17} };
+  vector<user> users 
+    = { {"leech", 49}, {"kamin", 47}, {"gunhee", 17} };
+
   auto result = users
     | view::filter   ([](auto& u) { return u.age > 18; })
     | view::transform([](auto& u) { return u.age; });

@@ -1,12 +1,12 @@
 cmake_minimum_required (VERSION 3.26)
 
-project (istream)
+project (action.join)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  main.cpp
+  action.join.cpp
 )
 
 include_directories (
@@ -20,4 +20,6 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable (istream ${SOURCES})
+link_directories (/usr/local/lib)
+
+add_executable (action.join ${SOURCES})
