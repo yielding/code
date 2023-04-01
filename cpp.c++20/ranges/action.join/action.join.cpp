@@ -1,30 +1,27 @@
 #include <iostream>
+#include <ranges>
+#include <string_view>
 #include <vector>
-#include <string>
 
-#include <range/v3/algorithm/copy.hpp>
-#include <range/v3/action/join.hpp>
-#include <range/v3/view/all.hpp>
-
-using namespace ::ranges;
-using std::vector, 
-      std::string,
-      std::cout, std::endl;
+using namespace std;
+using namespace literals;
 
 int main()
 {
-  vector<string> strs = {"show","me","the","money"};
+  auto bits = { "https:"sv, "//"sv, "cppreference"sv, "."sv, "com"sv };
 
-  auto flatCopy = strs | copy | action::join;
+  for (auto c : bits | views::join) 
+    cout << c << " ";
 
-  std::cout << views::all(flatCopy) << "\n";
+  cout << '\n';
 
-  vector<vector<int>> v = { {1, 2, 3, 4, 5}, {6, 7, 8, 9, 0} } ;
+  vector<vector<int>> v{ {1,2}, {3,4,5}, {6}, {7,8,9} };
+  auto jv = ranges::join_view(v);
 
-  auto flatCopy2 = v | copy | action::join;
-    
-  cout << view::all(flatCopy2) << endl;
+  for (int const e : jv) 
+    cout << e << ' ';
 
+  cout << '\n';
 
   return 0;
 }

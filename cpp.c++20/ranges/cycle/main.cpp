@@ -1,31 +1,22 @@
 #include <iostream>
 #include <vector>
-#include <string>
-#include <range/v3/view/cycle.hpp>
+#include <range/v3/all.hpp>
 
-using namespace ranges;
 using namespace std;
 
-template <typename F>
-void repeat(size_t n, F f)
+int main() 
 {
-  while (n--) f();
-}
+  // Create a vector of numbers from 1 to 5
+  vector<int> vec = {1, 2, 3, 4, 5};
 
-int main(int argc, char *argv[])
-{
-  auto v = {1, 3, 9};
+  // Create a cycle view of the vector
+  auto cycle_view = vec | ::ranges::views::cycle;
 
-  auto rng = v | views::cycle;
+  // Print the first 10 elements of the cycle view
+  for (int i = 0; i < 10; i++)
+    cout << cycle_view[i] << ' ';
 
-  int c=0;
-  for (auto i: rng) 
-  {
-    cout << i;
-    if (c++ == 10) break;
-  }
+  cout << endl;
 
-  repeat(10, [&] { cout << rng << " "; });
-  
   return 0;
 }

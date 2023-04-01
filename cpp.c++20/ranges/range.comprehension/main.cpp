@@ -12,7 +12,8 @@ using namespace ranges;
 int main()
 {
   auto fn = [](int i) { return yield_from(repeat_n(i, i)); };
-  auto vi = for_each(ints(1, 6), fn) | to<std::vector>();
+  auto vi = for_each(ints(1, 6), fn) 
+              | to<std::vector>();
 
   std::cout << all(vi) << '\n';
 
