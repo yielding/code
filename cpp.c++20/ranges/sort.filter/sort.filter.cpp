@@ -1,6 +1,5 @@
 #include <iostream>
 #include <algorithm>
-#include <functional> 
 #include <string>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>
@@ -8,36 +7,29 @@
 
 #include <boost/format.hpp>
 
-using namespace ranges;
-
-using std::cout;
-using std::vector;
-using std::ostream_iterator;
-using std::not_fn;
+namespace view = ranges::views;
+using namespace std;
 
 struct user
 {
-  std::string name;
+  string name;
   int age;
 
-  auto to_s() const -> std::string 
+  auto to_s() const -> string 
   {
     using namespace boost;
     return str(format("name: %s, age: %d") % name % age);
   }
 };
 
-bool underage(const user& u) { return u.age < 18; }
-
 int main(int argc, char *argv[])
 {
   vector<user> users = { {"leech", 49}, {"kamin", 47}, {"gunhee", 17} };
   auto result = users
-    | views::filter(std::not_fn(underage))
-    | views::transform([] (const auto& u) { return u.age; });
+    | view::filter   ([](auto& u) { return u.age > 18; })
+    | view::transform([](auto& u) { return u.age; });
 
-  ranges::copy(result, ostream_iterator<int>(cout, "\n"));
-  cout << views::all(result);
+  cout << view::all(result);
   
   return 0;
 }

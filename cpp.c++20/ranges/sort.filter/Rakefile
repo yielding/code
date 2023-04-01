@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "filter2"
+SRC       = "sort.filter.cpp"
 SRCS      = %W{ ./#{SRC}.cpp }
 APP       = "#{SRC}"
 CXX       = "g++"

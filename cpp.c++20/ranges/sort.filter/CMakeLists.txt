@@ -1,11 +1,11 @@
-cmake_minimum_required (VERSION 3.21)
+cmake_minimum_required (VERSION 3.26)
 
-project (sort)
+project (sort.filter)
 
 set (CMAKE_CXX_STANDARD 23)
 
 set (SOURCES
-  sort.ranges.cpp
+  sort.filter.cpp
 )
 
 include_directories (
@@ -15,4 +15,4 @@ include_directories (
 
 link_directories (/usr/local/lib)
 
-add_executable (sort ${SOURCES})
+add_executable (sort.filter ${SOURCES})
