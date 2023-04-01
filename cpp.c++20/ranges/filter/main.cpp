@@ -1,18 +1,18 @@
 #include <iostream>
-#include <vector>
-#include <string>
-#include <range/v3/view/filter.hpp>
+#include <ranges>
 
-namespace view = ranges::views;
+using namespace std;
+using namespace views;
 
-int main(int argc, char *argv[])
+int main()
 {
-  using namespace std;
+  auto even   = [](int i) { return 0 == i % 2; };
+  auto square = [](int i) { return i * i; };
 
-  auto v = { 7, 4, 2, 6, 9 };
-  auto rng = v | view::filter([](int x) { return x > 6; }) ;
-
-  cout << view::all(rng);
+  auto rng = iota(0, 6) | filter(even) | transform(square);
   
+  for (int i : rng)
+    cout << i << ' ';
+
   return 0;
 }
