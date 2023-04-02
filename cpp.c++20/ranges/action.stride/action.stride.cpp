@@ -17,10 +17,10 @@ int main(int argc, char *argv[])
   cout << views::all(v2) << endl; // {0, 10, 20, 30, ..., 90}
 
   v2 |= actions::stride(4);
-  cout << views::all(v2) << endl; // {0, 40, 80}
+  cout << views::all(v2) << endl;
 
   v2 |= actions::stride(2);
-  cout << views::all(v2) << endl; // {0, 80}
+  cout << views::all(v2) << endl;
 
   v2 |= actions::stride(10);
   cout << views::all(v2) << endl;
