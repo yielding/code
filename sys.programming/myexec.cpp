@@ -23,24 +23,24 @@ int main(int argc, const char *argv[])
 
 int main(int argc, const char *argv[])
 {
-    int pid = fork();
+  int pid = fork();
 
-    if (pid == 0)
-    {
-        execl("/bin/ls", "ls", "-l", nullptr);
-        exit(0);
-    }
-    else
-    {
-        sleep(1);
-        for (int i=0; i<10; i++)
-            cout << "I'm parent." << getpid() << endl;
+  if (pid == 0)
+  {
+    execl("/bin/ls", "ls", "-l", nullptr);
+    exit(0);
+  }
+  else
+  {
+    sleep(1);
+    for (int i=0; i<10; i++)
+      cout << "I'm parent." << getpid() << endl;
 
-        int status;
-        waitpid(-1, &status, WNOHANG);
-    }
+    int status;
+    waitpid(-1, &status, WNOHANG);
+  }
 
-    return 0;
+  return 0;
 }
 
 /*

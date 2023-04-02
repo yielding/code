@@ -15,14 +15,11 @@ string get_process_name(pid_t pid)
   return string(process_name);
 }
 
-#include <iostream>
-
-using namespace std;
-
 int main(int argc, char* argv[])
 {
   // Get the PID of the process to get the name of
-  // pid_t pid = getpid(); // Replace with the PID of the process you want to get the name of
+  // pid_t pid = getpid(); 
+  // Replace with the PID of the process you want to get the name of
 
   if (argc != 2)
   {
@@ -34,7 +31,8 @@ int main(int argc, char* argv[])
   // Get the name of the process
   auto process_name = get_process_name(pid);
 
-  cout << "Process " << pid << " is named " << process_name << std::endl;
+  cout << " Process " << pid 
+       << " is named " << process_name << endl;
 
   return 0;
 }
