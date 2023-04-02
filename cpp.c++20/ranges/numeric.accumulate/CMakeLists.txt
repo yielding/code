@@ -1,12 +1,12 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required (VERSION 3.26)
 
-project(action.stride)
+project (numeric.accumulate)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  action.stride.cpp
+  numeric.accumulate.cpp
 )
 
 include_directories (
@@ -20,6 +20,4 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable(action.stride 
-  ${SOURCES}
-)
+add_executable (numeric.accumulate ${SOURCES})

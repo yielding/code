@@ -1,12 +1,12 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required (VERSION 3.26)
 
-project (filter.trans)
+project (view.intersperse)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  filter.trans.cpp
+  view.intersperse.cpp
 )
 
 include_directories (
@@ -20,4 +20,4 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable (filter.trans ${SOURCES})
+add_executable (view.intersperse ${SOURCES})

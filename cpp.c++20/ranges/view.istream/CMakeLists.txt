@@ -1,12 +1,12 @@
 cmake_minimum_required (VERSION 3.26)
 
-project (intersperse)
+project (view.istream)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  main.cpp
+  view.istream.cpp
 )
 
 include_directories (
@@ -20,4 +20,4 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable (intersperse ${SOURCES})
+add_executable (view.istream ${SOURCES})

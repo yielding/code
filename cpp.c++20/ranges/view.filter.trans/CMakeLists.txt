@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.26)
 
-project (cycle)
+project (view.filter.trans)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  main.cpp
+  view.filter.trans.cpp
 )
 
 include_directories (
@@ -20,4 +20,4 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable (cycle ${SOURCES})
+add_executable (view.filter.trans ${SOURCES})

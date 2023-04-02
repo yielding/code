@@ -20,6 +20,4 @@ link_directories (
   /opt/homebrew/lib
 )
 
-link_directories (/usr/local/lib)
-
 add_executable (action.shuffle ${SOURCES})

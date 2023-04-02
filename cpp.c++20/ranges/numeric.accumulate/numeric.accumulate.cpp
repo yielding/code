@@ -1,8 +1,10 @@
 #include <iostream>
+#include <range/v3/numeric/accumulate.hpp>
 #include <range/v3/all.hpp>
 
-using namespace std;
-      namespace view = ::ranges::views;
+namespace view = ranges::views;
+
+using std::cout, std::pair;
 
 int main(int argc, char** argv)
 {   
@@ -15,12 +17,12 @@ int main(int argc, char** argv)
   ); 
 
   auto fib10 = rng | view::take(10);
-  cout << fib10 << endl;
+  cout << fib10 << "\n";
 
   auto rng2 = view::ints(1, 10) | 
               view::transform([](int i) { return i*i; });
 
-  cout << ::ranges::accumulate(rng2 , 0);
+  cout << ranges::accumulate(rng2 , 0);
 
   return 0;
 }

@@ -31,6 +31,5 @@ int main(int argc, char *argv[])
   v0 |= action::take(0);
   assert(v0.size() == 0u);
   
-  
   return 0;
 }

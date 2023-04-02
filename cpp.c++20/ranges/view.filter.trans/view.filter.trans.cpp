@@ -5,6 +5,7 @@
 #include <range/v3/view/transform.hpp>
 
 namespace view = ranges::views;
+
 using namespace std;
 
 int main()

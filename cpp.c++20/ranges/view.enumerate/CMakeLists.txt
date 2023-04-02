@@ -1,12 +1,12 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required (VERSION 3.26)
 
-project (filter)
+project (view.enumerate)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  main.cpp
+  view.enumerate.cpp
 )
 
 include_directories (
@@ -20,4 +20,4 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable (filter ${SOURCES})
+add_executable (view.enumerate ${SOURCES})
