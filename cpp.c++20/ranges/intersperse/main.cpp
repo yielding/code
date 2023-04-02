@@ -1,9 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <range/v3/core.hpp>
-#include <range/v3/view/intersperse.hpp>
-#include <range/v3/range/conversion.hpp>
+#include <range/v3/all.hpp>
 
 using namespace ranges;
 using namespace std;
