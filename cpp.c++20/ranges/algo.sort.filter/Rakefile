@@ -1,6 +1,6 @@
 # -*- ruby -*-
 
-SRC       = "sort.filter.cpp"
+SRC       = "algo.sort.filter"
 SRCS      = %W{ ./#{SRC}.cpp }
 APP       = "#{SRC}"
 CXX       = "g++"
