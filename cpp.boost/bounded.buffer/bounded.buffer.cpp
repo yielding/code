@@ -30,10 +30,7 @@ public:
 
   BoundedBuffer(const BoundedBuffer&) = delete;
 
-  int count()
-  {
-    return m_unread;
-  }
+  auto count() const { return m_unread; }
 
   auto push_front(const value_type& item) -> bool
   {
@@ -167,7 +164,6 @@ void fifo_test(Buffer* buffer)
   for (int i=0; i<100; i++) buffer->push_front(i);
 
   // 2. prepare producers
-  
   vector<thread> pool;
   Consumer<Buffer> consumer(buffer);
   thread consume(consumer);
@@ -181,7 +177,9 @@ void fifo_test(Buffer* buffer)
   buffer->shutdown();
   
   // x. Joint the threads
-  for (auto& t : pool) if (t.joinable()) t.join();
+  for (auto& t : pool) 
+    if (t.joinable()) t.join();
+
   consume.join();
 }
 
