@@ -49,6 +49,8 @@ class ProgramWithCancellation
         break;
       }
 
+      // REAMRK
+      // : consumers work here!
       // Slow down consumer just a little to cause
       // collection to fill up faster, and lead to "AddBlocked"
       Thread.SpinWait(500000);
