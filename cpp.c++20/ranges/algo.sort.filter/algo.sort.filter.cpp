@@ -7,9 +7,9 @@
 
 #include <boost/format.hpp>
 
+using namespace ranges::v3;
 using namespace std;
 using namespace boost;
-      namespace view = ::ranges::views;
 
 struct user
 {

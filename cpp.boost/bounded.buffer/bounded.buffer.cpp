@@ -1,7 +1,7 @@
 #include <boost/circular_buffer.hpp>
+#include <condition_variable>
 #include <thread>
 #include <mutex>
-#include <condition_variable>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -80,7 +80,7 @@ private:
   bool m_shutdown {false};
   size_type m_unread;
   container_type m_container;
-  mutex     m_mutex;
+  mutex m_mutex;
   condition_variable m_while_empty;
   condition_variable m_while_full;
 };

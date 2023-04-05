@@ -6,8 +6,7 @@
 #include <range/v3/view/transform.hpp>
 #include <range/v3/range/conversion.hpp>
 
-namespace view = ranges::views;
-using namespace ranges;
+using namespace ranges::v3;
 using namespace std;
 
 auto count_file_lines(ifstream in) -> int;
@@ -21,7 +20,6 @@ auto original_count_lines_in_files(const vector<string>& files) -> vector<int>
   transform(files.cbegin(), files.cend(), 
             results.begin(), 
             count_lines);
-
   return results;
 }
 

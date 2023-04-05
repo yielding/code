@@ -3,6 +3,9 @@
 #include <string_view>
 #include <vector>
 
+//
+// NOTICE pure c++20 (without range-v3 github)
+//
 using namespace std;
 using namespace literals;
 

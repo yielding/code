@@ -4,6 +4,7 @@
 #include <random>
 #include <range/v3/all.hpp>
 
+using namespace ranges::v3;
 using namespace std;
 
 void print(const auto& a) 
@@ -22,7 +23,7 @@ int main()
 
   for (int i{}; i != 3; ++i) 
   {
-    ::ranges::action::shuffle(a, gen);
+    action::shuffle(a, gen);
     print(a);
   }
 

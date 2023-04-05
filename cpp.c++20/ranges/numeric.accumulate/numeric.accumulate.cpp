@@ -1,10 +1,13 @@
 #include <iostream>
+#include <range/v3/view/take.hpp>
+#include <range/v3/view/iota.hpp>
+#include <range/v3/view/transform.hpp>
+#include <range/v3/view/generate.hpp>
 #include <range/v3/numeric/accumulate.hpp>
-#include <range/v3/all.hpp>
+//#include <range/v3/all.hpp>
 
-namespace view = ranges::views;
-
-using std::cout, std::pair;
+using namespace ranges::v3;
+using namespace std;
 
 int main(int argc, char** argv)
 {   
@@ -17,12 +20,12 @@ int main(int argc, char** argv)
   ); 
 
   auto fib10 = rng | view::take(10);
-  cout << fib10 << "\n";
+  cout << fib10 << endl;
 
   auto rng2 = view::ints(1, 10) | 
               view::transform([](int i) { return i*i; });
 
-  cout << ranges::accumulate(rng2 , 0);
+  cout << accumulate(rng2 , 0);
 
   return 0;
 }

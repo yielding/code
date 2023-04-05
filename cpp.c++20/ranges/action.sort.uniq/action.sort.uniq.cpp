@@ -6,8 +6,8 @@
 #include <range/v3/action/take.hpp>
 #include <range/v3/view/all.hpp>
 
+using namespace ranges::v3;
 using namespace std;
-using namespace ::ranges;
 
 int main()
 {
