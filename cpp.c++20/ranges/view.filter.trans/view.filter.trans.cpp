@@ -4,20 +4,18 @@
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>
 
-namespace view = ranges::views;
-
-using namespace std;
+using namespace ranges::v3::view;
 
 int main()
 {
   auto ints = { 0, 1, 2, 3, 4, 5 };
   auto even   = [] (int i) { return 0 == i % 2; };
   auto square = [] (int i) { return i * i; };
-  auto rng    = ints | view::filter(even) | view::transform(square);
+  auto rng    = ints | filter(even) | transform(square);
 
-  for (auto i: rng) cout << i << ' ' << endl;
+  for (auto i: rng) std::cout << i << ' ' << std::endl;
 
-  cout << view::all(rng);
+  std::cout << all(rng);
 
   return 0;
 }

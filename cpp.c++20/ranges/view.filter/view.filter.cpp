@@ -1,8 +1,7 @@
 #include <iostream>
-#include <ranges>
+#include <range/v3/all.hpp>
 
-using namespace std;
-using namespace views;
+using namespace ranges::v3::views;
 
 int main()
 {
@@ -12,7 +11,7 @@ int main()
   auto rng = iota(0, 6) | filter(even) | transform(square);
   
   for (int i : rng)
-    cout << i << ' ';
+    std::cout << i << ' ';
 
   return 0;
 }

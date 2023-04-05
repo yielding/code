@@ -2,6 +2,7 @@
 #include <vector>
 #include <range/v3/all.hpp>
 
+using namespace ranges::v3::views;
 using namespace std;
 
 int main() 
@@ -10,13 +11,11 @@ int main()
   vector<int> vec = {1, 2, 3, 4, 5};
 
   // Create a cycle view of the vector
-  auto cycle_view = vec | ::ranges::views::cycle;
+  auto cycle_view = vec | cycle;
 
   // Print the first 10 elements of the cycle view
   for (int i = 0; i < 10; i++)
     cout << cycle_view[i] << ' ';
-
-  cout << endl;
 
   return 0;
 }

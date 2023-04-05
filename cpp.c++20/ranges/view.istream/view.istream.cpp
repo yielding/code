@@ -5,15 +5,15 @@
 #include <range/v3/view/take.hpp>
 #include <range/v3/view/istream.hpp>
 
-using namespace std;
-using namespace ::ranges::views;
+using namespace ranges::v3::view;
+using namespace ranges::v3;
 
 int main(int argc, char *argv[])
 {
-  auto ss = stringstream{"a b c"s};
-  auto rs = ::ranges::istream<char>(ss) | take(2);
+  auto ss = std::stringstream{"a b c"};
+  auto rs = istream<char>(ss) | take(2);
 
-  cout << all(rs);
+  std::cout << all(rs);
 
   return 0;
 }
