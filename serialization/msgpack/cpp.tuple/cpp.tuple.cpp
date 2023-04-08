@@ -33,6 +33,7 @@ int main()
   // if the type is mismatched, it throws type_error exception.
   type::tuple<int, bool, string> dst;
   deserialized.convert(dst);
+  cout << "[" << get<0>(dst) << ", " << get<1>(dst) << ", " << get<2>(dst) << endl;
 
   // or create the new instance
   auto dst2 = deserialized.as<type::tuple<int, bool, string>>();

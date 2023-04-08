@@ -1,8 +1,7 @@
 #include <iostream>
 #include <forward_list>
 #include <string>
-#include <range/v3/view/split.hpp>
-#include <range/v3/core.hpp>
+#include <range/v3/all.hpp>
 
 using namespace ranges::views;
 using namespace ranges;
@@ -15,10 +14,10 @@ int main(int argc, char *argv[])
   auto s = "hello world"s;
   auto r = s | split(' ') | to<strings>;
 
-  for (auto it=r.begin(); it !=r.end(); ++it)
-    cout << *it << endl;
+  cout << all(r) << endl;
 
-  cout << all(r);
+  auto ss = r | join(',') | to<string>;
+  cout << ss << endl;
   
   return 0;
 }
