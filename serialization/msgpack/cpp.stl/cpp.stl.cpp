@@ -14,7 +14,6 @@
 #include <msgpack.hpp>
 
 using namespace std;
-using namespace boost;
 using namespace msgpack;
 
 template <typename T>
@@ -25,12 +24,12 @@ void serialize_test(string const& str, T& t, size_t& offset)
   cout << obj << endl;
   assert(obj.as<T>() == t);
 
-  cout << format("offset: %s\n") % offset;
+  cout << boost::format("offset: %s\n") % offset;
 }
 
 int main(int argc, char* argv[])
 {
-  std::array<int, 5>         a { { 1, 2, 3, 4, 5 } };
+  array<int, 5>              a { { 1, 2, 3, 4, 5 } };
   tuple<bool, string, int>   t { true, "ABC", 42 };
   unordered_map<string, int> m { {"ABC", 1}, {"DEF", 3} };
   unordered_set<string>      s { "ABC", "DEF" };
