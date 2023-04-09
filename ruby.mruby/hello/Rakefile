@@ -11,5 +11,6 @@ CXXFLAGS  = ":v"          # :d, :O0 :O3 :w = -Wall
 LDFLAGS   = ":mvm"
 
 load "~/code/build/app2.rake"
+# ~/code/build/app2.rake
 
 task :default => [:osx]

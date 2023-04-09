@@ -2,9 +2,9 @@
  [step3] call ruby method from C.
 */
 
-#include "mruby.h"
-#include "mruby/proc.h"
-#include <stdio.h>
+#include <mruby.h>
+#include <mruby/proc.h>
+#include <cstdio>
 
 void _error(const char* s)
 {
@@ -14,9 +14,7 @@ void _error(const char* s)
 
 void plus(mrb_state *mrb, mrb_value a, mrb_value b)
 {
-  mrb_value v;
-
-  v = mrb_funcall(mrb, mrb_top_self(mrb), "plus", 2, a, b);
+  auto v = mrb_funcall(mrb, mrb_top_self(mrb), "plus", 2, a, b);
 
   printf("mrb_type(v)=%d\n", mrb_type(v));
   mrb_funcall(mrb, mrb_top_self(mrb), "p", 1, v);
@@ -32,9 +30,8 @@ int main()
   if (f == NULL) 
     _error("file not found."); 
 
-  int n = mrb_load_file(mrb, f);
+  auto n = mrb_load_file(mrb, f);
   fclose(f);
-  mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[n]), mrb_nil_value());
 
   mrb_funcall(mrb, mrb_top_self(mrb), "hello3", 0);
 

@@ -9,46 +9,42 @@
 #include <mruby/class.h>
 #include <mruby/data.h>
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 namespace {
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
-auto t_init(mrb_state* mrb, mrb_value self) -> mrb_value 
-{
-  auto arr = mrb_ary_new(mrb);
-  mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@arr"), arr);
 
-  return self;
-}
+  auto t_init(mrb_state* mrb, mrb_value self) -> mrb_value 
+  {
+    auto arr = mrb_ary_new(mrb);
+    mrb_iv_set(mrb, self, mrb_intern_lit(mrb, "@arr"), arr);
 
-auto t_add(mrb_state* mrb, mrb_value self) -> mrb_value 
-{
-  auto arr = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@arr"));
-  mrb_value obj;
-  mrb_get_args(mrb, "o", &obj);
-  mrb_funcall(mrb, arr, "push", 1, obj);
+    return self;
+  }
 
-  return arr;
-}
+  auto t_add(mrb_state* mrb, mrb_value self) -> mrb_value 
+  {
+    auto arr = mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@arr"));
+    mrb_value obj;
+    mrb_get_args(mrb, "o", &obj);
+    mrb_funcall(mrb, arr, "push", 1, obj);
 
-//static struct RClass* cTest;
-auto init_by_test(mrb_state* mrb) -> RClass* 
-{
-  auto cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
+    return arr;
+  }
 
-  mrb_define_method(mrb, cTest, "initialize", t_init, MRB_ARGS_NONE());
-  mrb_define_method(mrb, cTest, "add"       , t_add , MRB_ARGS_REQ(1));
+  //static struct RClass* cTest;
+  auto init_by_test(mrb_state* mrb) -> RClass* 
+  {
+    auto cTest = mrb_define_class(mrb, "MyTest", mrb->object_class);
 
-  return cTest;
-}
+    mrb_define_method(mrb, cTest, "initialize", t_init, MRB_ARGS_NONE());
+    mrb_define_method(mrb, cTest, "add"       , t_add , MRB_ARGS_REQ(1));
 
-////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////
+    return cTest;
+  }
+
 } 
 
 int main()
