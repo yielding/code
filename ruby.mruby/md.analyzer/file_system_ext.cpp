@@ -37,10 +37,12 @@ auto fs_initialize(mrb_state* mrb, mrb_value self) -> mrb_value
   if (fs != nullptr)
     fs_free(mrb, fs);
 
-  if (mrb->c->ci->argc == 0)
+  int argc = mrb_get_argc(mrb);
+  if (argc == 0)
     return mrb_nil_value();
 
-  mrb_value name; mrb_get_args(mrb, "S", &name);
+  auto name = mrb_get_arg1(mrb);
+  //mrb_value name; mrb_get_args(mrb, "S", &name);
   DATA_PTR(self)  = new FileSystem(RSTRING_PTR(name));
   DATA_TYPE(self) = &fs_type;
 

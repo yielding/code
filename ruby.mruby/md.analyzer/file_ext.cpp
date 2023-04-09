@@ -29,16 +29,15 @@ static mrb_value fi_initialize(mrb_state* mrb, mrb_value self)
   if (fi != nullptr)
     fi_free(mrb, fi);
 
-  /*
-  if (mrb->c->ci->argc == 0)
+  int argc = mrb_get_argc(mrb);
+  if (argc == 0)
     return mrb_nil_value();
-  */
+
+  auto path_ = mrb_get_arg1(mrb); 
 
   DATA_TYPE(self) = NULL;
-
-  mrb_value path; mrb_get_args(mrb, "S", &path);
+  DATA_PTR(self)  = new CFile(RSTRING_PTR(path_));
   DATA_TYPE(self) = &fi_type;
-  DATA_PTR(self)  = new CFile(RSTRING_PTR(path));
 
   return self;
 }

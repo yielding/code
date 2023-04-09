@@ -1,11 +1,10 @@
 #include "file.h"
 
-#include <boost/filesystem.hpp>
 #include <iostream>
+#include <filesystem>
 
 using namespace std;
-using namespace boost;
-      namespace fs = boost::filesystem;
+      namespace fs = filesystem;
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -14,7 +13,9 @@ using namespace boost;
 CFile::CFile(string const& p)
   : _path(p)
 {
-  _name = fs::path(_path).filename().string();
+  auto ph = std::filesystem::path(_path);
+
+  _name = ph.filename().string();
   _size = 1234;
 }
 

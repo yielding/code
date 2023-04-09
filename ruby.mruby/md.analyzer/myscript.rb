@@ -10,7 +10,7 @@ fs = $ds.file_systems["hfs"]
 p fs.name
  
 puts "create new file"
-f = CFile.new("/opt/local/include/iostream")
+f = CFile.new("/opt/homebrew/include/H5IdComponent.h")
 
 puts "inspect some properties"
 puts "name  : #{f.name}"
