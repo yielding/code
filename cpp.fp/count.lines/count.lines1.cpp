@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
   };
 
   auto res = count_lines_in_files(files);
+
   for (auto r : res)
     cout << r << " ";
 
