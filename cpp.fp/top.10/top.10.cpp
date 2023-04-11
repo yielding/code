@@ -10,9 +10,6 @@
 using namespace ranges::v3;
 using namespace std; 
 
-template <typename T>
-class err;
-
 template <typename Range>
 void write_top_10(const Range& xs)
 {

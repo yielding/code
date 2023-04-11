@@ -2,7 +2,7 @@
 
 require "streamio-ffmpeg"
 
-movie = FFMPEG::Movie.new("res.mp4")
+movie = FFMPEG::Movie.new(ARGV[0])
 
 p movie.duration      # 7.5 (duration of the movie in seconds)
 p movie.bitrate       # 481 (bitrate in kb/s)

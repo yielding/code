@@ -8,9 +8,6 @@
 using namespace std;
 using namespace literals;
 
-template <typename T>
-using vector_opt = vector<optional<T>>;
-
 auto to_int(string_view s) -> optional<int> 
 {
   if (int r; from_chars(s.data(), s.data()+s.size(), r).ec == errc{})
@@ -21,14 +18,13 @@ auto to_int(string_view s) -> optional<int>
 
 int main(int argc, char* argv[])
 {
-  vector_opt<string> v= { "1234", "15 foo", "bar", "42", "5000", " 5" };
+  vector<optional<string>> v= { "1234", "15 foo", "bar", "42", "5000", " 5" };
 
   auto filter = [](auto&& o) {
-    return 
-      o.and_then(to_int) // flatmap from str to int
-       .transform([](int n) { return n + 1; })
-       .transform([](int n) { return to_string(n); })
-       .or_else  ([]        { return optional("null"s); });
+    return o.and_then(to_int) // flatmap from str to int
+            .transform([](int n) { return n + 1; })
+            .transform([](int n) { return to_string(n); })
+            .or_else  ([]        { return optional("null"s); });
   };
 
   for (auto&& x : v | views::transform(filter)) 

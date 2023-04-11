@@ -36,7 +36,12 @@ extern "C" {
 #include <libavutil/file.h>
 }
 
-struct buffer_data {
+// REMARK
+// buffer_data->ptr can be anything
+// istream(ifstream), FILE, char*, network_stream
+//
+struct buffer_data 
+{
   uint8_t *ptr;
   size_t size; ///< size left in the buffer
 };
@@ -73,7 +78,8 @@ int main(int argc, char *argv[])
 
   auto input_filename = argv[1];
 
-  /* slurp file content into buffer */
+  // NOTICE: 간단하게 파일로 예제를 보여주는 것임.
+  // slurp file content into buffer
   uint8_t *buffer = nullptr;
   int ret = av_file_map(input_filename, &buffer, &buffer_size, 0, NULL);
   if (ret < 0)
@@ -83,20 +89,23 @@ int main(int argc, char *argv[])
   buffer_data bd = { .ptr = buffer, .size = buffer_size };
 
   AVFormatContext *fmt_ctx = nullptr;
-  if (!(fmt_ctx = avformat_alloc_context())) {
+  if (!(fmt_ctx = avformat_alloc_context())) 
+  {
     ret = AVERROR(ENOMEM);
     return 1;
   }
 
   auto avio_ctx_buffer = (uint8_t*) av_malloc(avio_ctx_buffer_size);
-  if (!avio_ctx_buffer) {
+  if (!avio_ctx_buffer) 
+  {
     ret = AVERROR(ENOMEM);
     return 1;
   }
 
   AVIOContext *avio_ctx = avio_alloc_context(avio_ctx_buffer, avio_ctx_buffer_size,
       0, &bd, &read_packet, NULL, NULL);
-  if (!avio_ctx) {
+  if (!avio_ctx) 
+  {
     ret = AVERROR(ENOMEM);
     return 1;
   }
@@ -104,13 +113,15 @@ int main(int argc, char *argv[])
   fmt_ctx->pb = avio_ctx;
 
   ret = avformat_open_input(&fmt_ctx, NULL, NULL, NULL);
-  if (ret < 0) {
+  if (ret < 0) 
+  {
     fprintf(stderr, "Could not open input\n");
     return 1;
   }
 
   ret = avformat_find_stream_info(fmt_ctx, NULL);
-  if (ret < 0) {
+  if (ret < 0) 
+  {
     fprintf(stderr, "Could not find stream information\n");
     return 1;
   }
@@ -127,7 +138,8 @@ int main(int argc, char *argv[])
 
   av_file_unmap(buffer, buffer_size);
 
-  if (ret < 0) {
+  if (ret < 0) 
+  {
     //fprintf(stderr, "Error occurred: %s\n", av_err2str(ret));
     fprintf(stderr, "Error occurred:");
     return 1;
