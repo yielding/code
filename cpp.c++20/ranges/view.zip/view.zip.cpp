@@ -21,28 +21,35 @@ void write_top_k(const Range& xs, int count)
 }
 
 template <typename Range>
-void write_top_k2(const Range& xs, int count)
+auto top_k(const Range& xs, int count) -> vector<pair<long,string>>
 {
-  auto results = 
-    xs | view::chunk_by(std::equal_to<>())
-       | view::transform([](const auto& group) {
-           auto b = std::begin(group);
-           auto e = std::end(group);
-           return make_pair(std::distance(b, e), *b);
-         })
-       | to_vector | action::sort;
+  auto& copy = ::ranges::copy;
 
-  for (auto value: results | view::reverse | view::take(count))
-    cout << value.first << " " << value.second << endl;
+  auto r0 = xs | copy | actions::sort;
+  auto r1 = r0 
+    | view::chunk_by(std::equal_to<>())
+    | view::transform([](const auto& group) {
+        auto b = std::begin(group);
+        auto e = std::end(group);
+        return make_pair(std::distance(b, e), *b);
+      })
+    | to_vector | action::sort;
+
+  return r1 
+    | view::reverse | view::take(count)
+    | to<vector>();
 }
 
 int main(int argc, char* argv[])
 {
-  vector<string> vs { "f", "f", "kk", "kk", "g", "h", "a", "b", "1", "2", "3", "5", "ll", "kk", "f"};
+  vector<string> vs { 
+    "f", "f", "kk", "kk", "g", "h", "a", "b", "1", 
+    "2", "3", "5", "ll", "kk", "f"
+  };
 
-  vs |= action::sort;
-  //write_top_k(vs, 5);
-  write_top_k2(vs, 5);
+  auto&& r = top_k(vs, 3);
+  for (auto const& value: r)
+    cout << value.first << " " << value.second << endl;
 
   return 0;
 }
