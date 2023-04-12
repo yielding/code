@@ -9,27 +9,21 @@
 using namespace ranges::v3;
 using namespace std;
 
-auto count_lines(const string& filename) -> int
-{ 
-  ifstream in(filename);
-
-  if (!in.good())
-    return 0;
-
-  return count(
-    istreambuf_iterator<char>(in), 
-    istreambuf_iterator<char>(), 
-    '\n'
-  );
-}
-
 auto count_lines_in_files(const vector<string>& files) -> vector<int> 
 { 
   vector<int> results(files.size());
 
-  transform(files.cbegin(), files.cend(), 
-            results.begin(), 
-            count_lines);
+  for (auto& file : files)
+  {
+    ifstream in(file);
+    auto c = in.good() 
+      ? count(istreambuf_iterator<char>(in), 
+              istreambuf_iterator<char>(), 
+              '\n') 
+      : 0;
+
+    results.push_back(c);
+  }
 
   return results;
 }
