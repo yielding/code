@@ -11,7 +11,7 @@ class LineCounter
   def initialize(path)
     @path = path
     @total = 0
-    unless File.exists?(@path)
+    unless File.exist?(@path)
       puts "wrong file path"
       exit
     end

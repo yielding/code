@@ -19,6 +19,7 @@ class Hash
   def getKey name
     keys.all?{|x|x.class==Symbol} ? name.to_sym : name
   end
+
   def method_missing(m, *args)
     name = m.to_s
     if name[-1] == ?=

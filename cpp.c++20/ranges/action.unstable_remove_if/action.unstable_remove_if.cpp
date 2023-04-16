@@ -9,9 +9,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  const auto make_vector = []() -> vector<int> {
-    return {1, 2, 3, 4, 5};
-  };
+  auto make_vector = []() -> vector<int> { return {1, 2, 3, 4, 5}; };
 
   vector<int> v0;
   v0 |= actions::unstable_remove_if([](int) { return true; });
