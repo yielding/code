@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     [](double d) { cout << d << endl; });
 
   f(10); // int 
-  f('a'); // int 
+  f('a'); // char 
   f(9.99); // double
 
   return 0;
