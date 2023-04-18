@@ -4,6 +4,8 @@
 import sys, time
 stdout = sys.stdout
 
+sys.dont_write_bytecode = True
+
 BAILOUT = 16
 MAX_ITERATIONS = 1000
 

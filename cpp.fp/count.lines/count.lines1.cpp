@@ -3,10 +3,6 @@
 #include <string>
 #include <fstream>
 
-#include <range/v3/view/transform.hpp>
-#include <range/v3/range/conversion.hpp>
-
-using namespace ranges::v3;
 using namespace std;
 
 auto count_lines_in_files(const vector<string>& files) -> vector<int> 
