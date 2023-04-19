@@ -13,26 +13,18 @@ auto count_lines(const string& filename) -> int
 { 
   ifstream in(filename);
 
-  if (!in.good())
-    return 0;
-
-  return count(
-    istreambuf_iterator<char>(in), 
-    istreambuf_iterator<char>(), 
-    '\n'
-  );
+  return in.good() 
+    ? count(istreambuf_iterator<char>(in), 
+            istreambuf_iterator<char>(), '\n')
+    : 0;
 }
 
-//
-// What a monad!
-//
 auto count_lines_in_files(vector<string>& files) -> vector<int> 
 { 
   return files 
     | view::transform(count_lines) 
     | to<vector>();
 }
-
 
 int main(int argc, char* argv[])
 {

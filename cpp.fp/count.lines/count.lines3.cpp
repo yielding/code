@@ -9,28 +9,20 @@
 using namespace ranges::v3;
 using namespace std;
 
-auto count_file_lines(ifstream in) -> int
-{ 
-  return count(
-    istreambuf_iterator<char>(in), 
-    istreambuf_iterator<char>(), 
-    '\n'
-  );
-}
-
 auto open_file(string const& filename) -> ifstream 
 {
-  try
-  {
-    return ifstream{filename};
-  }
-  catch(...)
-  {}
+  try { return ifstream{filename}; } catch(...) {}
 
   return ifstream{};
 }
 
-auto count_lines_in_files(vector<string>& files) -> vector<int> 
+auto count_file_lines(ifstream in) -> int
+{ 
+  return count(istreambuf_iterator<char>(in), 
+               istreambuf_iterator<char>(), '\n');
+}
+
+auto count_lines_in_files2(vector<string>& files) -> vector<int> 
 { 
   return files 
     | view::transform(open_file) 
