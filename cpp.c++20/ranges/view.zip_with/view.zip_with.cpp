@@ -14,16 +14,18 @@ int main(int argc, char* argv[])
   auto fizzes = fiz | view::cycle;
   auto buzzes = buz | view::cycle;
 
-  auto fiz_buz = views::zip_with(std::plus{},
-      fizzes, buzzes);
+  auto fiz_buz 
+    = view::zip_with(std::plus{}, fizzes, buzzes);
 
-  auto ints = views::iota(1) 
-            | views::transform([](int x) { return to_string(x); });
+  auto ints 
+    = view::iota(1) 
+    | view::transform([](int x) { return to_string(x); });
 
   auto rng = views::zip_with(
-      [](auto a, auto b) { return std::max(a, b); }, fiz_buz, ints);
+    [](auto a, auto b) { return std::max(a, b); }, 
+    fiz_buz, ints);
 
-  cout << views::all(rng);
+  cout << view::all(rng | view::take(20));
 
   return 0;
 }
