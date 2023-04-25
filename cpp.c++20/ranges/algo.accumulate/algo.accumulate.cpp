@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 #include <cassert>
 
 #include <range/v3/all.hpp>
@@ -18,7 +17,11 @@ struct product
 //
 int main(int argc, char* argv[])
 {
-  auto data  = vector<product> { { "apple", 1.48 }, { "bread", 3.5 }, { "milk", 1.69} };
+  auto data = vector<product> { 
+    { "apple", 1.48 }, { "bread", 3.5 }, { "milk", 1.69} 
+  };
+
+  // NOTICE default operation {} == plus
   auto value = ranges::accumulate(data , 0.0, {}, &product::price);
   assert(value == 6.67);
 
