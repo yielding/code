@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
                auto s_x = std::to_string(x);
                auto s_sq = std::to_string(x_sq);
                auto s_num = s_x + s_sq;
-               return yield_if (
+               return yield_if(
                    !contains_char(s_num, '0') && contains_all_digits(s_num),
                     std::make_pair(x, s_sq));
            });

@@ -4,6 +4,7 @@
 
 #include <range/v3/all.hpp>
 
+using namespace ranges;
 using std::string, std::vector, std::cout;
 
 struct product
@@ -22,7 +23,7 @@ int main(int argc, char* argv[])
   };
 
   // NOTICE default operation {} == plus
-  auto value = ranges::accumulate(data , 0.0, {}, &product::price);
+  auto value = accumulate(data , 0.0, plus{}, &product::price);
   assert(value == 6.67);
 
   return 0;
