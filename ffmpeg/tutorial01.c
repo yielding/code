@@ -93,24 +93,28 @@ int main(int argc, char *argv[])
 	// Find the first video stream
 	videoStream=-1;
 	for (i=0; i<pFormatCtx->nb_streams; i++)
-		if (pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+		if (pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) 
+    {
 			videoStream=i;
 			break;
 		}
-	if (videoStream==-1)
+
+	if (videoStream == -1)
 		return -1; // Didn't find a video stream
 
 	// Get a pointer to the codec context for the video stream
 	pCodecCtxOrig=pFormatCtx->streams[videoStream]->codec;
 	// Find the decoder for the video stream
-	pCodec=avcodec_find_decoder(pCodecCtxOrig->codec_id);
+	pCodec = avcodec_find_decoder(pCodecCtxOrig->codec_id);
 	if (pCodec == NULL) {
 		fprintf(stderr, "Unsupported codec!\n");
 		return -1; // Codec not found
 	}
+
 	// Copy context
 	pCodecCtx = avcodec_alloc_context3(pCodec);
-	if (avcodec_copy_context(pCodecCtx, pCodecCtxOrig) != 0) {
+	if (avcodec_copy_context(pCodecCtx, pCodecCtxOrig) != 0) 
+  {
 		fprintf(stderr, "Couldn't copy codec context");
 		return -1; // Error copying codec context
 	}
