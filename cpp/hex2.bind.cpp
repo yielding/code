@@ -2,6 +2,7 @@
 #include <boost/lambda/bind.hpp>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -21,7 +22,7 @@ string to_hex(ForwardIterator beg_, ForwardIterator end_,
 
   stringstream ss;
   ss << b; 
-  for_each(beg_, end_, ss << boost::lambda::bind(&hex_, _1)); 
+  for_each(beg_, end_, ss << bind(&hex_, _1)); 
   ss << e;
 
   return ss.str();
