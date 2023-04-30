@@ -17,7 +17,7 @@ void worker_thread()
 {
   unique_lock<mutex> lk(m);
 
-  cv.wait(lk, []{return ready;});
+  cv.wait(lk, []{ return ready; });
 
   cout << "Worker thread is processing data\n";
 

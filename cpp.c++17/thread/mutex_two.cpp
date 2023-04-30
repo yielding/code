@@ -39,6 +39,5 @@ int main(int argc, char *argv[])
 
   cout << acc1.num_things;
 
-  
   return 0;
 }
