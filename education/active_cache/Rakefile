@@ -1,0 +1,29 @@
+#-*- ruby -*-   
+
+require 'rake/clean'
+
+TARGET = 'active_cache'
+
+task :default => [:run]
+
+CLEAN.include("*.o").include("*.cxx").include("Makefile").include("*.log")
+CLOBBER.include(TARGET).include("*.bun*")
+
+RICE_PATH = "/Users/yielding/.rvm/gems/ruby-1.9.2-p136/gems/rice-1.4.2/ruby/lib"
+LDFLAGS   = "-L/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/lib -L#{RICE_PATH}/lib "
+LIBS      = "-lruby.1.9.1 -lobjc -ldl -lrice -lboost_thread-mt -lboost_system-mt"
+CXXFLAGS  = "-I/Users/yielding/.rvm/rubies/ruby-1.9.2-p136/include/ruby-1.9.1/x86_64-darwin10.5.0 -I#{RICE_PATH}/include"
+SRC       = FileList['*.cpp']
+OBJ       = SRC.ext('o')
+
+rule '.o' => '.cpp' do |t|
+  sh "g++-4.2 -c -O7 -o #{t.name} #{t.source} #{CXXFLAGS}"
+end
+
+file TARGET => OBJ do
+  sh "g++-4.2 -o #{TARGET} #{OBJ} #{LDFLAGS} #{LIBS}"
+end
+
+task :run => [TARGET] do
+  sh "./#{TARGET}"
+end
