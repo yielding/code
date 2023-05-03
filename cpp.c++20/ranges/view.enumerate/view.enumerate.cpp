@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <range/v3/view/enumerate.hpp>
+#include <ranges>
+//#include <range/v3/view/enumerate.hpp>
 
-using namespace ranges::v3::views;
 using namespace std;
+using namespace ranges::views;
 
 int main(int argc, char *argv[])
 {

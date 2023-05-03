@@ -2,7 +2,7 @@
 #include <vector>
 #include <range/v3/all.hpp>
 
-using namespace ranges::v3::views;
+using namespace ranges::view;
 using namespace std;
 
 int main() 
@@ -16,6 +16,8 @@ int main()
   // Print the first 10 elements of the cycle view
   for (int i = 0; i < 10; i++)
     cout << cycle_view[i] << ' ';
+
+  cout << endl;
 
   return 0;
 }

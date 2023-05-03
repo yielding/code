@@ -1,10 +1,12 @@
 #include <iostream>
 #include <string>
 #include <array>
-#include <range/v3/all.hpp>
+#include <algorithm>
+//#include <range/v3/all.hpp>
+#include <ranges>
 
-using namespace ranges::v3;
-using namespace std;
+using namespace ranges;
+//using namespace std;
 
 int main(int argc, char* argv[])
 {
@@ -20,12 +22,11 @@ int main(int argc, char* argv[])
   auto ints 
     = view::iota(1) 
     | view::transform([](int x) { return to_string(x); });
-
   auto rng = views::zip_with(
     [](auto a, auto b) { return std::max(a, b); }, 
     fiz_buz, ints);
 
-  cout << view::all(rng | view::take(20));
+  std::cout << view::all(rng | view::take(20));
 
   return 0;
 }
