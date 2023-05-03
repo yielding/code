@@ -1,5 +1,4 @@
-#ifndef COMMON_H
-#define COMMON_H
+#pragma once
 
 #include <vector>
 #include <list>
@@ -12,5 +11,3 @@
 
 using namespace std;
 using namespace testing;
-
-#endif
