@@ -1,9 +1,0 @@
-source "https://rubygems.org"
-
-gem 'iruby'
-gem 'gnuplot'
-gem 'pry'
-gem 'nyaplot'
-gem 'rbczmq' # or 'ffi-rzmq'
-gem 'rubyvis'
-gem 'googlecharts'
