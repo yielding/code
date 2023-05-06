@@ -33,6 +33,7 @@ int main()
 
   cout << boolalpha << res << endl;
 
+
   for (auto v: people) cout << v.m_name << endl;
 
   return 0;
