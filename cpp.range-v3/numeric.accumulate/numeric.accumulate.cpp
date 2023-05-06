@@ -25,7 +25,7 @@ int main(int argc, char** argv)
   auto rng2 = view::ints(1, 10) | 
               view::transform([](int i) { return i*i; });
 
-  cout << acc/Users/yielding/Documents/cs/cs.os/os.multiplexing/kqueue-echo.c umulate(rng2 , 0);
+  cout << accumulate(rng2 , 0);
 
   return 0;
 }
