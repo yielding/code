@@ -142,7 +142,6 @@ auto enumerate(initializer_list<T> list, size_t start = 0)
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-
 void test1()
 {
   // 1. Forward iterator를 얻을 수 있는 STL 컨테이너

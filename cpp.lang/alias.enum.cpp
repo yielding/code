@@ -1,22 +1,22 @@
-//
-// Copyright
-//
 #include <iostream>
 #include <string>
 #include <vector>
 #include <tuple>
 
+using namespace std;
+
 enum class user_info_fields {
   uiName, uiEmail, uiRepu
 };
 
-using user_info = std::tuple<std::string,     // name
-                             std::string,     // email
-                             std::size_t>;    // reputation
+using user_info = tuple<string,  // name
+                        string,  // email
+                        size_t>; // reputation
 
 template <typename E>
 constexpr auto
-toUType(E enumerator) noexcept {
+toUType(E enumerator) noexcept 
+{
   return static_cast<underlying_type_t<E>>(enumerator);
 }
 
