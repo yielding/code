@@ -33,8 +33,8 @@ auto count_lines_in_files2(vector<string>& files) -> vector<int>
 int main(int argc, char* argv[])
 {
   vector<string> files{
-    "/Users/yielding/code/big.read.write.cpp",
-    "/Users/yielding/code/big.read.write.cpp"
+    "/Users/yielding/code/cpp.fp/count.lines/count.lines3.cpp",
+    "/Users/yielding/code/cpp.fp/count.lines/count.lines3.cpp"
   };
 
   auto res = count_lines_in_files2(files);

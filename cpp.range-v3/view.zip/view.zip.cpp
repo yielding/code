@@ -4,7 +4,10 @@
 
 #include <range/v3/all.hpp>
 
-using namespace ranges::v3;
+namespace rg = ranges;
+namespace rv = ranges::views;
+namespace as = ranges::actions;
+
 using namespace std;
 
 template <typename Range>
@@ -12,32 +15,30 @@ void write_top_k(const Range& xs, int count)
 {
   auto print = [](const auto& p) { return to_string(p.second) + " " + p.first; };
 
-  auto items = view::zip(xs, view::ints(1))
-             | view::transform(print)
-             | view::take(5);
+  auto items = rv::zip(xs, rv::ints(1))
+             | rv::transform(print)
+             | rv::take(5);
 
-  for (auto const& item: items)
-    cout << item << "\n";
+  cout << rv::all(items);
 }
 
 template <typename Range>
 auto top_k(const Range& xs, int count) -> vector<pair<long,string>>
 {
-  auto& copy = ::ranges::copy;
+  using rg::copy, as::sort, rg::to;
 
-  auto r0 = xs | copy | actions::sort;
+  auto r0 = xs | copy | sort;
   auto r1 = r0 
-    | view::chunk_by(std::equal_to<>())
-    | view::transform([](const auto& group) {
-        auto b = std::begin(group);
-        auto e = std::end(group);
-        return make_pair(std::distance(b, e), *b);
+    | rv::chunk_by(equal_to<>())
+    | rv::transform([](const auto& g) {
+        auto b = begin(g);
+        auto e = end(g);
+        return make_pair(distance(b, e), *b);
       })
-    | to_vector | action::sort;
+    | to<vector> | sort;
 
   return r1 
-    | view::reverse | view::take(count)
-    | to<vector>();
+    | rv::reverse | rv::take(count) | to<vector>;
 }
 
 int main(int argc, char* argv[])
