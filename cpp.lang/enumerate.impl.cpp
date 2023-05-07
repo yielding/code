@@ -165,7 +165,8 @@ void test1()
     cout << p.first << ": " << p.second << '\n';
 }
 
-void test2() {
+void test2() 
+{
   // 2. 일반 배열 예
   cout << "[TEST 2] array\n";
   string C[] = {"foo", "bar", "baz"};
@@ -177,7 +178,8 @@ void test2() {
     cout << p.first << ": " << p.second << '\n';
 }
 
-void test3() {
+void test3() 
+{
   // 3. const 예제
   cout << "[TEST 3] const\n";
   const string E[] = {"foo", "bar", "baz"};
@@ -187,7 +189,8 @@ void test3() {
     cout << (p.first += 1) << ": " << p.second << '\n';
 }
 
-void test4() {
+void test4() 
+{
   // 4. 앞서 구현한 range 사용 예
   cout << "[TEST 4] range\n";
   auto&& D = range(100, 103);
@@ -196,7 +199,8 @@ void test4() {
     cout << p.first << ": " << p.second << '\n';
 }
 
-void test5() {
+void test5() 
+{
   // 5. 변수를 거치지 않고 직접 사용
   cout << "[TEST 5] in-place through rvalue reference\n";
   for (auto&& p : enumerate(range(100, 103)))
@@ -213,7 +217,8 @@ void test5() {
     cout << p.first << ": " << p.second << '\n';
 }
 
-void test6() {
+void test6() 
+{
   // 6. 초기화 리스트
   cout << "[TEST 6] initializer list\n";
   for (auto&& p : enumerate({"foo", "bar", "baz"}))
