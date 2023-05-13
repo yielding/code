@@ -1,6 +1,6 @@
 {
   "configurations": {
-    "C - Launch": {
+    "run - simple": {
       "adapter": "CodeLLDB",
       "configuration": {
         "name": "Cpp: Launch current file",
@@ -16,6 +16,18 @@
         "MIMode": "lldb",
         "cwd": "${cwd}",
         "program": "${fileDirname}/Debug/${fileBasenameNoExtension}"
+      }
+    },
+    "run - test mode": {
+      "extends": "run - simple",
+      "configuration": {
+        "args" : ["-mode", "test"]
+      }
+    },
+    "run - verbose mode": {
+      "extends": "run - test mode",
+      "configuration": {
+        "args" : ["-mode", "test"]
       }
     }
   }
