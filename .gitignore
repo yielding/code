@@ -1,6 +1,7 @@
 a.out
 *.[oa]
 .DS_Store
+.vimspector.json
 *.bundle
 *.class
 *.log

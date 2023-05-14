@@ -15,7 +15,7 @@
         "debugOptions": [],
         "MIMode": "lldb",
         "cwd": "${cwd}",
-        "program": "${fileDirname}/build/${fileBasenameNoExtension}"
+        "program": "${fileDirname}/Debug/${fileBasenameNoExtension}"
       }
     },
     "run - test mode": {

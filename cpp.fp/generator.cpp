@@ -141,7 +141,6 @@ int main(int argc, char *argv[])
   cout << upper_gen.generate();
 
   auto uppergen = make_range_gen<char>('A', 'Z' + 1);
-
   auto lowergen = make_range_gen<char>('a', 'z' + 1);
   auto pairgen  = uppergen.zip2(lowergen, 
       [](char up, char low) { return make_pair(up, low); });
