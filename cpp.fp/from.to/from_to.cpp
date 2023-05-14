@@ -4,23 +4,24 @@
 
 using namespace std;
 
-auto fromto = [](auto start, auto finish) 
+auto from_to = [](auto start, auto finish) 
 {
-  return [=]() mutable {
+  return [=]() mutable 
+  {
     if (start < finish)
       return start++;
-    else
-      throw::runtime_error("complete");
+
+    throw runtime_error("complete");
   };
 };
 
 int main(int argc, char *argv[])
 {
-  auto range = fromto(0, 10);
+  auto range = from_to(0, 10);
+
   cout << range() << endl;
   cout << range() << endl;
   cout << range() << endl;
 
   return 0;
 }
-
