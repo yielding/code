@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require "set"
-require "pp"
 
 class Numeric
   def digits

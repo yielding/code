@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
     = rv::concat(v, v | rv::take(1))  // closed
     | rv::sliding(2)                  // adjacent_vertices
     | rv::transform(product);
+    ;
 
   auto area = 0.5 * abs(rg::accumulate(areas, 0));
   assert(area == 19.5);
