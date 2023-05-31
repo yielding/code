@@ -35,8 +35,7 @@ int main(int argc, char *argv[])
   string a = "123";
   string b = "12345";
   string c = add(a, b);
-
   cout << c;
-  
+
   return 0;
 }

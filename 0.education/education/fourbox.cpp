@@ -44,9 +44,10 @@ public:
   uint32_t area()
   {
     set<coord> area;
+
     for (auto it=_rects.begin(); it!=_rects.end(); ++it)
     {
-      int x1, y1, x2, y2; tie(x1, y1, x2, y2) = *it;
+      auto [x1, y1, x2, y2] = *it; 
 
       for (auto x=x1; x<x2; ++x)
         for (auto y=y1; y<y2; ++y) 
