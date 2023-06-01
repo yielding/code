@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <ctime>
-#include <stdlib.h> // defines putenv in POSIX
+#include <cstdlib> // defines putenv in POSIX
 
 using namespace std;
 
