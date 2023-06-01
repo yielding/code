@@ -1,22 +1,18 @@
 #include <iostream>
 #include <vector>
+#include <range/v3/all.hpp>
 
-#include <range/v3/range/conversion.hpp>
-#include <range/v3/view/for_each.hpp>
-#include <range/v3/view/iota.hpp>
-#include <range/v3/view/repeat_n.hpp>
-
-using namespace ranges::v3::views;
-using namespace ranges::v3;
-
-using std::vector, std::cout;
+namespace g = ranges;
+namespace v = ranges::views;
+using namespace std;
 
 int main()
 {
-  auto fn = [](int i) { return yield_from(repeat_n(i, i)); };
-  auto vi = for_each(ints(1, 6), fn) | to<vector>();
+  auto rng = v::ints(1, 10)
+    | v::for_each([](int i) { return g::yield_from(v::repeat_n(i, i)); })
+    ;
 
-  cout << all(vi) << '\n';
+  cout << v::all(rng) << '\n';
 
   return 0;
 }

@@ -1,6 +1,6 @@
-cmake_minimum_required (VERSION 3.26)
+cmake_minimum_required(VERSION 3.26)
 
-project (range.comprehension)
+project(main)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -20,6 +20,6 @@ link_directories (
   /opt/homebrew/lib
 )
 
-link_directories (/usr/local/lib)
-
-add_executable (main ${SOURCES})
+add_executable (main 
+  ${SOURCES}
+)
