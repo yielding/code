@@ -65,8 +65,7 @@ auto get_min_max_3(Container const& c) -> optional<tuple<int, int>>
 
 int main(int argc, char* argv[])
 {
-  auto v0 = vector<int>();
-  auto r0 = get_min_max_3(v0);
+  auto r0 = get_min_max_3(vector<int>());
   if (!r0.has_value())
   {
     cout << "container is empty" << endl;

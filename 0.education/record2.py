@@ -26,9 +26,8 @@ def MakingBasicRecord(f, recNo, nextRec, string):
 		f.write("\0")
 
 def SetUpTable(recCount):
-	
 	for i in range(recCount):
-		recNo = i 
+		recNo = i
 		nextRecNo = i + 1
 		if i == recCount-1:
 			nextRecNo = i
