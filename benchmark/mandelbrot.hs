@@ -1,5 +1,5 @@
 -- Revised Version by Evan Martin (original version by Vincent Burns)
-import Time
+import Data.Time
 
 bailout :: Double
 bailout = 16
@@ -29,7 +29,8 @@ renderMandelbrot =
 main :: IO ()
 main = do
   putStrLn "Rendering..."
-  start <- getClockTime
+  start <- getCurrentTime
   renderMandelbrot
-  end <- getClockTime
-  print (end `diffClockTimes` start)
+  end <- getCurrentTime
+  let diff = diffUTCTime end start
+  print (diff)
