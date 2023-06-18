@@ -21,7 +21,7 @@ auto to_int(string_view s) -> optional<int>
 
 int main(int argc, char* argv[])
 {
-  vector_opt<string> v= { "1234", "15 foo", "bar", "42", "5000", " 5" };
+  vector_opt<string> v = { "1234", "15 foo", "bar", "42", "5000", " 5" };
 
   auto filter = [](auto&& o) {
     return o.and_then(to_int) // flatmap from str to int
