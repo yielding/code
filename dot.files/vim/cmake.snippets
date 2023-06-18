@@ -1,0 +1,39 @@
+priority 1
+
+snippet init
+cmake_minimum_required(VERSION ${1:3.26})
+
+project(${2:ProjectName})
+
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set (SOURCES
+	$2.cpp
+	${3}
+)
+
+find_package(${4:library})
+
+include_directories (
+	/usr/local/include
+	/opt/homebrew/include
+	${CMAKE_CURRENT_SOURCE_DIR}
+	${$4_INCLUDE_DIRS}
+)
+
+link_directories (
+	/usr/local/lib
+	/opt/homebrew/lib
+)
+
+add_executable ($2
+	${SOURCES}
+)
+
+target_link_libraries ($2
+# lib name 1
+	${$4_LIBRARIES}
+)
+
+endsnippet

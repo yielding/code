@@ -1,0 +1,163 @@
+{
+  "suggest.noselect": false,
+  "diagnostic.errorSign": "✖",
+  "diagnostic.warningSign": "⚠",
+  "diagnostic.showUnused": false,
+  "diagnostic.infoSign": "ℹ",
+  "diagnostic.hintSign": "➤",
+  "diagnostic.enable": false,
+  "diagnostic.enableSign": false,
+  "codeLens.enable": false,
+  "python.pythonPath":"/Users/yielding/miniforge/envs/pytorch/bin/python",
+  "python.linting.pylintEnabled": true,
+  "suggest.noselect":true,
+  "omnisharp.debug.server": true,
+  "omnisharp.trace.server": "information",
+
+  "java.home":"/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home",
+
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": [ "c", "cpp"],
+      "rootPatterns": [
+        ".ccls",
+        "compile_commands.json",
+        ".vim/",
+        ".git/"
+      ],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls"
+        },
+        "client" : {
+          "snippetSupport": true
+        },
+        "index": {
+          "onChange": true
+        },
+        "highlight": {
+          "lsRanges": true
+        }
+      }
+    },
+    "csharp-ls": {
+      "command": "csharp-ls",
+      "filetypes": ["cs"],
+      "rootPatterns": ["*.csproj", ".vim/", ".git/", ".hg/"]
+    },
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": [
+        "--lsp"
+      ],
+      "rootPatterns": [
+        ".stack.yaml",
+        ".hie-bios",
+        "BUILD.bazel",
+        "cabal.config",
+        "package.yaml"
+      ],
+      "filetypes": [
+        "hs",
+        "lhs",
+        "haskell"
+      ],
+      "initializationOptions": {
+        "haskell": {
+          "checkParents": "CheckOnSave",
+          "formatOnImportOn": true,
+          "hlintOn": true,
+          "diagnosticsOnChange": true,
+          "checkProject": true,
+          "liquidOn": false,
+          "maxCompletions": 40,
+          "formattingProvider": "stylish-haskell",
+          "plugin": {
+            "haddockComments": {
+              "globalOn": true
+            },
+            "retrie": {
+              "globalOn": true
+            },
+            "importLens": {
+              "codeActionsOn": true,
+              "codeLensOn": true
+            },
+            "ghcide-completions": {
+              "globalOn": true,
+              "config": {
+                "autoExtendOn": true,
+                "snippetsOn": true
+              }
+            },
+            "ghcide-type-lenses": {
+              "globalOn": true,
+              "config": {
+                "mode": "always"
+              }
+            },
+            "ghcide-code-actions-imports-exports": {
+              "globalOn": true
+            },
+            "ghcide-hover-and-symbols": {
+              "symbolsOn": true,
+              "hoverOn": true
+            },
+            "eval": {
+              "globalOn": true
+            },
+            "class": {
+              "globalOn": true
+            },
+            "pragmas": {
+              "completionOn": true,
+              "codeActionsOn": true
+            },
+            "splice": {
+              "globalOn": true
+            },
+            "tactics": {
+              "hoverOn": true,
+              "config": {
+                "auto_gas": 4,
+                "max_use_ctor_actions": 5,
+                "proofstate_styling": true,
+                "hole_severity": null,
+                "timeout_duration": 2
+              },
+              "codeActionsOn": true,
+              "codeLensOn": true
+            },
+            "callHierarchy": {
+              "globalOn": true
+            },
+            "refineImports": {
+              "codeActionsOn": true,
+              "codeLensOn": true
+            },
+            "hlint": {
+              "diagnosticsOn": true,
+              "config": {
+                "flags": []
+              },
+              "codeActionsOn": true
+            },
+            "ghcide-code-actions-type-signatures": {
+              "globalOn": true
+            },
+            "ghcide-code-actions-bindings": {
+              "globalOn": true
+            },
+            "moduleName": {
+              "globalOn": true
+            },
+            "ghcide-code-actions-fill-holes": {
+              "globalOn": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

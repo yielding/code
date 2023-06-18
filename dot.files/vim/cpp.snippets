@@ -1,0 +1,245 @@
+priority 1
+
+snippet array
+array<${1:T}, ${2:N}> ${3};
+endsnippet 
+
+snippet deque
+deque<${1:T}> ${2};
+endsnippet
+
+snippet flist
+forward_list<${1:T}> ${2};
+endsnippet
+
+snippet list
+list<${1:T}> ${2};
+endsnippet
+
+snippet set
+set<${1:T}> ${2};
+endsnippet
+
+snippet map "std::map (map)"
+map<${1:key}, ${2:value}> ${3};
+endsnippet
+
+snippet vector "std::vector (v)"
+vector<${1:char}> ${2};
+endsnippet
+
+snippet mset
+multiset<${1:T}> ${2};
+endsnippet
+
+snippet mmap
+multimap<${1:Key}, ${2:T}> ${3};
+endsnippet
+
+snippet uset
+unordered_set<${1:T}> ${2};
+endsnippet
+
+snippet umap
+unordered_map<${1:Key}, ${2:T}> ${3};
+endsnippet
+
+snippet umset
+unordered_multiset<${1:T}> ${2};
+endsnippet
+
+snippet ummap
+unordered_multimap<${1:Key}, ${2:T}> ${3};
+endsnippet
+
+snippet stack
+stack<${1:T}> ${2};
+endsnippet
+
+snippet queue
+queue<${1:T}> ${2};
+endsnippet
+
+snippet pqueue
+priority_queue<${1:T}> ${2};
+endsnippet
+
+snippet msp
+shared_ptr<${1:T}> ${2} = make_shared<$1>(${3});
+endsnippet
+
+snippet amsp
+auto ${1} = make_shared<${2:T}>(${3});
+endsnippet
+
+snippet mup
+unique_ptr<${1:T}> ${2} = make_unique<$1>(${3});
+endsnippet
+
+snippet amup
+auto ${1} = make_unique<${2:T}>(${3});
+endsnippet
+
+snippet cout
+cout << ${1} << endl;
+endsnippet
+
+snippet cin
+cin >> ${1};
+endsnippet
+
+snippet el "else(else block)"
+else 
+{
+	${VISUAL}$0
+} 
+endsnippet
+
+snippet fori "for int loop (fori)"
+for (${4:int} ${2:i} = 0; $2<${1:count}; ${3:++$2}) 
+{
+	${VISUAL}$0
+}
+endsnippet
+
+snippet for "for-loop" b
+for (${1:var}; ${2:condition}; `!p
+if len(t[1]) > 0:
+	snip.rv = t[1].split('=')[0].split()[-1]
+`++) 
+{
+	$0
+}
+endsnippet
+
+snippet fora "auto for" b
+for (auto ${1:var}: ${2:condition})
+{
+	$0
+}
+endsnippet
+
+snippet wh
+while (${1:/* condition */}) 
+{
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet try "try-catch" b
+try
+{
+	$0
+}
+catch (${1})
+{
+}
+endsnippet
+
+snippet ns "namespace .. (namespace)"
+namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`} {
+
+	${VISUAL}$0
+
+}
+endsnippet
+
+# lamda (one line)
+snippet ld
+[${1}](${2}) {${3}};
+endsnippet
+
+# lambda (multi-line)
+snippet lld
+[${1}](${2}) {
+	${3}
+};
+endsnippet
+
+snippet st "struct"
+struct ${1:`!p snip.rv = (snip.basename or "name")`} 
+{
+	${0:// data }
+};
+
+endsnippet
+snippet mainn "skeleton main" b
+#include <iostream>
+
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+	$0
+
+	return 0;
+}
+endsnippet
+
+snippet i8 "int8_t" b
+int8_t${0}
+endsnippet
+
+snippet u8 "uint8_t" b
+uint8_t${0}
+endsnippet
+
+snippet i16 "int16_t" b
+int16_t${0}
+endsnippet
+
+snippet u16 "uint16_t" b
+uint16_t${0}
+endsnippet
+
+snippet i32 "int32_t" b
+int32_t${0}
+endsnippet
+
+snippet u32 "uint32_t" b
+uint32_t${0}
+endsnippet
+
+snippet i64 "int64_t" b
+int64_t${0}
+endsnippet
+
+snippet u64 "uint64_t" b
+uint64_t${0}
+endsnippet
+
+snippet nsrg "namespace g = ranges;" b
+namespace g = ranges;${0}
+endsnippet
+
+snippet nsrv "namespace v = ranges::views;" b
+namespace v = ranges::views;${0}
+endsnippet
+
+snippet nsas "namespace as = ranges::actions;" b
+namespace as = ranges::actions;${0}
+endsnippet
+
+snippet nsstd "using namespace std;" b
+using namespace std;${0}
+endsnippet
+
+snippet nschrono "using namespace std::chrono_literals" b
+using namespace std::chrono_literals;${0}
+endsnippet
+
+snippet nsboost "using namespace boost;" b
+using namespace boost;${0}
+endsnippet
+
+snippet nscv "using namespace cv;" b
+using namespace cv;${0}
+endsnippet
+
+snippet nszmq "using namespace zmq;" b
+using namespace zmq;${0}
+endsnippet
+
+snippet once "Include header once only guard"
+#pragma once${0}
+endsnippet

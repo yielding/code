@@ -1,19 +1,21 @@
 # If you come from bash you might have to change your $PATH.
-export EDITOR=nvim 
-export HOME=/Users/yielding
-
-export RUBY_HOME=$HOME/.rubies/ruby-3.1.0
-export PATH=$RUBY_HOME/bin:$PATH
-export PATH=$RUBY_HOME/lib/ruby/gems/3.1.0/bin:$PATH
+export HOME=/Users/yielding 
+export RUBY_HOME=/opt/homebrew/opt/ruby
+export PATH=$RUBY_HOME/bin:/opt/homebrew/lib/ruby/gems/3.2.0/bin:$PATH
 export PATH=$HOME/bin:/opt/homebrew/bin:$PATH
-export PATH=/opt/homebrew/Cellar/llvm/13.0.0_2/bin:$PATH
-export BOOST_HOME=/opt/homebrew/include
+export PATH=/opt/homebrew/Cellar/llvm/14.0.6_1/bin:$PATH
+export PATH=/opt/homebrew/Cellar/mingw-w64/10.0.0_4/bin/path/to/mingw/bin:$PATH
+export PATH=$PATH:$HOME/.dotnet/tools
+export BOOST_HOME=/usr/local/include
+export OPENCV_HOME=/opt/homebrew/Cellar/opencv/4.7.0_1
 export LDFLAGS="-L$RUBY_HOME/lib -L/opt/homebrew/lib -lpthread"
-export CPLUS_INCLUDE_PATH=$RUBY_HOME/include:$BOOST_HOME:$HOME/develop/include:$HOME/develop/vendor/include:$CPLUS_INCLUDE_PATH
+export CPLUS_INCLUDE_PATH=/opt/homebrew/include:$RUBY_HOME/include:$BOOST_HOME:$OPENCV_HOME/include/opencv4:$HOME/develop/include:$HOME/develop/vendor/include:$CPLUS_INCLUDE_PATH
 export CPPFLAGS=" -std=c++23"
-#export LDFLAGS=" -lpthread"
+export CXX="/opt/homebrew/bin/g++-13"
 
 export TERM=xterm-256color
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home
+export JDK_HOME=$JAVA_HOME
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/yielding/.oh-my-zsh"
@@ -23,9 +25,9 @@ export GIT_TERMINAL_PROMPT=false
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="refined"
-ZSH_THEME="dst"
-ZSH_THEME="miloshadzic"
+#ZSH_THEME="miloshadzic"
+#ZSH_THEME="refined"
+#ZSH_THEME="dst"
 ZSH_THEME="steeef"
 
 # Set list of themes to pick from when loading at random
@@ -35,7 +37,7 @@ ZSH_THEME="steeef"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
@@ -113,7 +115,9 @@ bindkey -v
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+export LANG=ko_KR.UTF-8
 
+export EDITOR=nvim 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
@@ -123,7 +127,6 @@ bindkey -v
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -152,3 +155,6 @@ unset __conda_setup
 compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 
 test -e /Users/yielding/.iterm2_shell_integration.zsh && source /Users/yielding/.iterm2_shell_integration.zsh || true
+
+[ -f "/Users/yielding/.ghcup/env" ] && source "/Users/yielding/.ghcup/env" # ghcup-env
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

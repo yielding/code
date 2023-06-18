@@ -1,7 +1,5 @@
 "--------------------------------------------------------------------------------
-"
 " General
-"
 "--------------------------------------------------------------------------------
 set lsp=4
 
@@ -46,10 +44,10 @@ set clipboard+=unnamedplus
 
 set nofixendofline
 
+"set completefunc=emoji#complete
+
 "--------------------------------------------------------------------------------
-"
 " Text, Tab and Indent
-"
 "--------------------------------------------------------------------------------
 set ai
 
@@ -61,6 +59,7 @@ set ve=block
 
 set et
 
+"set ts=4 sts=4 sw=4 tw=0
 set ts=2 sts=2 sw=2 tw=0
 
 set smarttab
@@ -71,12 +70,12 @@ set cino=t0,g0
 
 set fillchars+=vert:\ 
 
+set splitbelow
 "--------------------------------------------------------------------------------
-"
 " globar variables
-"
 "--------------------------------------------------------------------------------
 let _vimrc="~/.config/nvim/init.vim"
+let _words="~/.config/nvim/autoload/plugged/wordlist.vim/plugin/wordlist.vim"
 let _plugs="~/.config/nvim/vim-plug/plugins.vim"
 let _zshrc="~/.zshrc"
 let _test="~/tmp/"
@@ -86,10 +85,9 @@ let _mysnippet="~/.config/nvim/UltiSnips/"
 set path=~/develop/include,~/opensource/mruby/include
 
 let mapleader = ","
+
 "--------------------------------------------------------------------------------
-"
 " check macvim
-"
 "--------------------------------------------------------------------------------
 let g:is_nvim = has('nvim')
 let g:is_vim8 = v:version >= 800 ? 1 : 0
@@ -106,14 +104,14 @@ else
   color jellybeans
 endif
 
-color Tomorrow-Night-Blue
-color Tomorrow-Night-Eighties
-color xoria256
+"color Tomorrow-Night-Eighties
+"color seoul256
+"color xoria256
+color desertedoceanburnt
+color fu
 
 "--------------------------------------------------------------------------------
-"
 " Terminal
-"
 "--------------------------------------------------------------------------------
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
@@ -122,9 +120,7 @@ if has('nvim')
 endif
 
 "--------------------------------------------------------------------------------
-"
 " Persistent undo
-"
 "--------------------------------------------------------------------------------
 let tmp_dir = $HOME."/tmp"
 if !isdirectory(tmp_dir)
@@ -141,31 +137,32 @@ let &undodir= tmp_dir
 set undofile
 
 "--------------------------------------------------------------------------------
-"
 " python & ruby
-"
 "--------------------------------------------------------------------------------
 let g:python3_host_prog = "/Users/yielding/miniforge/envs/pytorch/bin/python"
-"let g:ruby_host_prog="/opt/homebrew/opt/ruby/bin/ruby""
-let g:ruby_host_prog="/opt/homebrew/opt/ruby/bin/ruby"
+"let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/ruby"
+let g:ruby_host_prog = "/opt/homebrew/lib/ruby/gems/3.2.0/bin/neovim-ruby-host"
+let g:loaded_perl_provider = 0
+
+set rtp+=/opt/homebrew/opt/fzf
 "--------------------------------------------------------------------------------
-"
 " plugins
-"
 "--------------------------------------------------------------------------------
 source $HOME/.config/nvim/vim-plug/plugins.vim
 
 "--------------------------------------------------------------------------------
-"
-" 
+" spell
+"--------------------------------------------------------------------------------
+set spelllang=en
+set spellfile=$HOME/Dropbox/vim/spell/en.utf-8.add
+
+"--------------------------------------------------------------------------------
 "
 "--------------------------------------------------------------------------------
 let g:lightline = { 'colorscheme' : 'wombat' }
 
 "--------------------------------------------------------------------------------
-"
 " Showmakrs
-"
 "--------------------------------------------------------------------------------
 let showmarks_enable = 0
 let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -174,60 +171,86 @@ let showmarks_hlline_lower = 1
 let showmarks_hlline_upper = 1
 
 "--------------------------------------------------------------------------------
-"
 " Encodings
-"
 "--------------------------------------------------------------------------------
 set fencs=utf-8,ucs-bom,euc-kr,cp949
 
 set encoding=utf-8 nobomb
-set ffs=unix
+set ffs=unix,dos
 
 "--------------------------------------------------------------------------------
-"
 " shortcuts
-"
 "--------------------------------------------------------------------------------
 map ,f  [I
 map ,l  :set list!<CR>
 map ,n  :set nu!<CR>
 map ,p  :edit <C-R>=_plugs<CR><CR>
 map ,u  :source <C-R>=_vimrc<CR><CR>
+map ,o  :edit <C-R>=_words<CR><CR>
 map ,v  :edit <C-R>=_vimrc<CR><CR>
 map ,w  :w <CR>
-map ,q  :edit   :q <CR>
-map ,z  :edit   <C-R>=_zshrc<CR><CR>
-map ,ee :CocCommand explorer<CR><CR>
+map ,q  :q <CR>
+map ,z  :edit <C-R>=_zshrc<CR><CR>
+map ,ee :CocCommand explorer<CR>
+map ,kk :%s/<C-V><CR>//ge<CR>:w<CR>
 
-map ,eb :edit   <C-R>= _snippet . 'c.snippets'<CR><CR>
-map ,ec :edit   <C-R>= _mysnippet . 'cpp.snippets'<CR><CR>
-map ,ep :edit   <C-R>= _snippet . 'python.snippets'<CR><CR>
-map ,er :edit   <C-R>= _mysnippet . 'ruby.snippets'<CR><CR>
-map ,es :edit   <C-R>= _mysnippet . 'cs.snippets'<CR><CR>
-map ,em :edit   <C-R>= _mysnippet . 'cmake.snippets'<CR><CR>
-map ,tc :edit   <C-R>= _test . 'test.cpp'<CR><CR>
-map ,tm :edit   <C-R>= _test . 'test.md'<CR><CR>
-map ,tr :edit   <C-R>= _test . 'test.rb'<CR><CR>
-map ,tp :edit   <C-R>= _test . 'test.py'<CR><CR>
-map ,tj :edit   <C-R>= _test . 'test.java'<CR><CR>
+"nnoremap ,ee :NERDTreeToggle<CR>
 
-imap  _*        <Esc>bi*<Esc>ea*<Space>
+" jk | Escaping! 
+inoremap jk <esc>
+cnoremap jk <C-c>
+" below makes vim slow
+"xnoremap jk <esc>
 
-map <F2>  :set makeprg=g++-11\ -std=c++20\ %\ -o\ %<<CR>
-map <F3>  :set makeprg=make<CR>
-map <F4>  :CMakeBuild<CR>
-map <F5>  :!./.run.sh<CR>
-map <F6>  :silent exec "!(./.run.sh) &"<CR>
+" Movement in insert mode
+inoremap <a-h> <c-o>h
+inoremap <a-l> <c-o>a
+inoremap <a-j> <c-o>j
+inoremap <a-k> <c-o>k
 
-"map <F7>  :!%<<CR>
-map <F9>  :TagbarToggle<CR>
-map <F10> :FufFile<CR>
-map <F11> :FufBuffer<CR>>
+" qq to rerod, Q to replay
+nnoremap Q @q
+
+map ,eb :edit <C-R>= _snippet . 'c.snippets'<CR><CR>
+map ,ec :edit <C-R>= _mysnippet . 'cpp.snippets'<CR><CR>
+map ,ep :edit <C-R>= _snippet . 'python.snippets'<CR><CR>
+map ,er :edit <C-R>= _mysnippet . 'ruby.snippets'<CR><CR>
+map ,es :edit <C-R>= _mysnippet . 'cs.snippets'<CR><CR>
+map ,em :edit <C-R>= _mysnippet . 'cmake.snippets'<CR><CR>
+map ,tc :edit <C-R>= _test . 'test.cpp'<CR><CR>
+map ,th :edit <C-R>= _test . 'test.hs'<CR><CR>
+map ,tm :edit <C-R>= _test . 'test.md'<CR><CR>
+map ,tr :edit <C-R>= _test . 'test.rb'<CR><CR>
+map ,tp :edit <C-R>= _test . 'test.py'<CR><CR>
+map ,tj :edit <C-R>= _test . 'test.java'<CR><CR>
+
+imap  _*      <Esc>bi*<Esc>ea*<Space>
+
+map ,2  :set makeprg=g++-13\ -g\ -std=c++23\ %\ -o\ %<<CR>
+map ,3  :set makeprg=g++-13\ -g\ -std=c++23\ %\ -o\ %<<CR>
+map ,4  :execute '!' . expand('%:r')<CR>
+
+"nmap <leader>rr :execute '!./' . expand('%:p:h')<CR>
+"
+map ,9  :TagbarToggle<CR>
+map ,10 :FufFile<CR>
+map ,11 :FufBuffer<CR>
 
 "-----------------------------------------------------------------------------
-"
+" workspace : visual select를 느리게 만든다.
+"-----------------------------------------------------------------------------
+let g:workspace_autocreate = 1
+
+"이미 속한 workspace가 있으면 해당 웍스 열기
+let g:workspace_create_new_tabs = 1
+let g:workspace_session_directory = $HOME . '/.vim/sessions/'
+let g:workspace_session_disable_on_args = 1
+nnoremap <leader>c : ToggleWorkspace<CR>
+
+nnoremap <leader>gc :Ggrep! -q <cword><CR>
+
+"-----------------------------------------------------------------------------
 " toggle folder
-"
 "-----------------------------------------------------------------------------
 function! ToggleFold()
   if foldlevel('.') == 0
@@ -245,9 +268,7 @@ endfun
 noremap <space> :call ToggleFold()<CR>
 
 "--------------------------------------------------------------------------------
-"
 " outline toggle
-"
 "--------------------------------------------------------------------------------
 function! <SID>OutlineToggle() 
   let OldLine = line(".") 
@@ -259,7 +280,7 @@ function! <SID>OutlineToggle()
 
   if (b:outline_mode == 0) 
     let b:outline_mode = 1 
-    set foldmethod=marker 
+    set foldmethod=marker
     set foldmarker={,} 
     silent! exec "%s/{<</{<</" 
     silent! exec "%s/{<</{<</" 
@@ -282,11 +303,6 @@ endfunction
 
 command! -nargs=0 OUTLINE call <SID>OutlineToggle() 
 
-"if has("gui_running")
-"  color Tomorrow-Night-Blue
-"else
-"  color jellybeans
-"endif
 "--------------------------------------------------------------------------------
 "
 " ruby
@@ -303,7 +319,7 @@ function! Ruby_eval_split() range
   setlocal noswapfile
   setlocal syntax=none
   setlocal bufhidden=delete
-  silent execute ":%! ruby " . src . " 2>&1 "
+  silent execute ":%! ruby --jit " . src . " 2>&1 "
   wincmd p
 endfunction
 
@@ -315,20 +331,9 @@ filetype off
 let &runtimepath .=',~/.config/nvim/autoload/plugged/neoterm'
 filetype plugin on
 
-"--------------------------------------------------------------------------------
-"
-" python
-"
-"--------------------------------------------------------------------------------
-au FileType python noremap ,r :!python %<CR>
-au FileType python noremap ,rr :silent exec "!(python %) &"<CR>
-au FileType js noremap ,r :!node %<CR>
-au FileType cs noremap ,r :!dotnet run<CR>
 
 "--------------------------------------------------------------------------------
-"
 " switch highlight search
-"
 "--------------------------------------------------------------------------------
 set nohlsearch
 let flagHlsearch = 0
@@ -349,11 +354,8 @@ function! SwitchHlSearch(flag)
 endfunction
 map ,s :let flagHlsearch = SwitchHlSearch(flagHlsearch)<CR>
 
-
 "--------------------------------------------------------------------------------
-"
 " switch syntax search
-"
 "--------------------------------------------------------------------------------
 let flagSyntax = 1
 function! SwitchSyntax(flag)
@@ -375,31 +377,31 @@ endfunction
 map ,S :let flagSyntax = SwitchSyntax(flagSyntax)<CR>
 
 "--------------------------------------------------------------------------------
-"
-" cd to the buffer
-"
+" Buffers
 "--------------------------------------------------------------------------------
+nnoremap ]b :bnext<CR>
+nnoremap [b :bprev<CR>
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 "--------------------------------------------------------------------------------
-"
-" mini buffer explorer
-"
+" Tabs
 "--------------------------------------------------------------------------------
-noremap <C-J> <C-W>j
-noremap <C-K> <C-W>k
-noremap <C-H> <C-W>h
-noremap <C-L> <C-W>l
+nnoremap ]t :tabn<CR>
+nnoremap [t :tabp<CR>
 
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#fnamemod = ':t'
-"let g:airline#extensions#tabline#buffer_nr_show = 1
-"let g:airline#extensions#tabline#buffer_nr_format = '%s:'
-"let g:airline#extensions#tabline#formatter = 'default'
 "--------------------------------------------------------------------------------
-"
+" Circular window navigation
+"--------------------------------------------------------------------------------
+nnoremap <tab>   <c-w>w
+nnoremap <s-tab> <c-w>W
+
+nnoremap <c-h>   <c-w>h
+nnoremap <c-j>   <c-w>j
+nnoremap <c-k>   <c-w>k
+nnoremap <c-l>   <c-w>l
+
+"--------------------------------------------------------------------------------
 " coc
-"
 "--------------------------------------------------------------------------------
 set signcolumn=number
 hi coc_err_hi ctermfg=1 ctermbg=15
@@ -407,19 +409,18 @@ sign define coc_err numhl=coc_err_hi
 sign place 1 line=2 name=coc_err
 
 let g:coc_global_extensions = [
- \ 'coc-ccls', 
- \ 'coc-pairs', 
- \ 'coc-tsserver', 
- \ 'coc-html', 
- \ 'coc-prettier', 
+ \ 'coc-ccls',
+ \ 'coc-pairs',
+ \ 'coc-tsserver',
+ \ 'coc-html',
+ \ 'coc-prettier',
  \ 'coc-pyright',
- \ 'coc-json',
+ \ 'coc-json', 
  \ 'coc-ultisnips',
  \ 'coc-solargraph',
- \ ]
-
-"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-"
+ \ 'coc-omnisharp',
+ \ ]           
+               
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -439,38 +440,27 @@ function! s:show_documentation()
   endif
 endfunction
 
-"--------------------------------------------------------------------------------
-"
-" c++ syntax highlight
-"
-"--------------------------------------------------------------------------------
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
+"This expression seems to be responsible for coc formatting on enter
+inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<TAB>"
+
+""--------------------------------------------------------------------------------
+"" typescript
+""--------------------------------------------------------------------------------
+"let g:typescript_compiler_binary = 'tsc'
+"let g:typescript_compiler_options = ''
+"autocmd QuickFixCmdPost [^l]* nested cwindow
+"autocmd QuickFixCmdPost    l* nested lwindow
 
 "--------------------------------------------------------------------------------
-"
-" typescript
-"
-"--------------------------------------------------------------------------------
-let g:typescript_compiler_binary = 'tsc'
-let g:typescript_compiler_options = ''
-autocmd QuickFixCmdPost [^l]* nested cwindow
-autocmd QuickFixCmdPost    l* nested lwindow
-
-"--------------------------------------------------------------------------------
-"
 " 괄호 자동 매칭
-"
 "--------------------------------------------------------------------------------
 let loaded_matchparan=0
 
 "--------------------------------------------------------------------------------
-"
 " cmake
-"
 "--------------------------------------------------------------------------------
 augroup vim-cmake-group
+"autocmd! User CMakeBuildSucceeded CMakeOpen
 autocmd! User CMakeBuildSucceeded CMakeClose
 augroup END
 
@@ -482,32 +472,54 @@ endfunction
 
 command! -nargs=* Use call GetGenOption(<f-args>) 
 
-let g:cmake_generate_options=[]
+let g:cmake_root_markers=[]
+"let g:cmake_root_markers=['.git', '.svn']
 let g:cmake_native_build_options=["-j10"]
-nmap <leader>cg <Plug>(CMakeGenerate)
-nmap <leader>cb <Plug>(CMakeBuild)
+
+nmap <leader>gg <Plug>(CMakeGenerate)
+nmap <leader>bb <Plug>(CMakeBuild)
+"nmap <leader>rr :execute '!./Debug/' . expand('%:p:h:t')<CR>
+nmap <leader>rr :execute '!./Debug/' . expand('%:r')<CR>
 nmap <leader>ci <Plug>(CMakeInstall)
 nmap <leader>cs <Plug>(CMakeSwitch)
+nmap <leader>oo <Plug>(CMakeOpen)
 nmap <leader>cq <Plug>(CMakeClose)
 
 "--------------------------------------------------------------------------------
-"
 " Ultisnips
-"
 "--------------------------------------------------------------------------------
-let g:UltiSnipsExpandTrigger="<Tab>"
+let g:UltiSnipsExpandTrigger="<tab>"
 "let g:UltiSnipsJumpForwardTrigger="<Tab>"
 "let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 let g:UltiSnipsEditSplit="vertical"
-set runtimepath ^=~/vim/UltiSnips
-let g:UltiSnipsSnippetDirectories = ["UltiSnips", '~/.vim/UltiSnips']
+set runtimepath ^=~/.config/nvim/UltiSnips
+let g:UltiSnipsSnippetDirectories = ["UltiSnips", '~/.config/nvim/UltiSnips']
 
 "--------------------------------------------------------------------------------
-"
+" vimspector
+"--------------------------------------------------------------------------------
+" terminal does not support shift+F key
+let g:vimspector_enable_mappings = "HUMAN"
+" for normal mode - the word under the cursor
+nmap ,di <Plug>VimspectorBalloonEval
+
+" for visual mode, the visually selected text
+xmap ,di <Plug>VimspectorBalloonEval
+
+nmap ,df :VimspectorReset<CR>
+
+let g:CommandTPreferredImplementation='ruby'
+
+"--------------------------------------------------------------------------------
 " run
-"
 "--------------------------------------------------------------------------------
 au BufEnter * :syntax sync fromstart
 au BufNewFile,BufReadPost *.rb set foldmethod=expr
 au BufNewFile,BufReadPost *.py set ts=2 sts=2 sw=2 tw=0
 au BufNewFile,BufReadPost *.py compiler pyunit
+"au BufNewFile,BufReadPost *.cpp source $MYVIMRC
+
+au FileType python  noremap ,r :!python %<CR>
+au FileType cs      noremap ,r :!dotnet run<CR>
+au FileType haskell noremap ,r :!runhaskell %<CR>
+au FileType js      noremap ,r :!node %<CR>
