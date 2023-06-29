@@ -4,12 +4,9 @@
 #include <vector>
 #include <cassert>
 
-#include <boost/format.hpp>
-#include <boost/lambda2.hpp>
 #include <msgpack.hpp>  
 
 using namespace msgpack;
-using namespace boost;
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -29,7 +26,7 @@ int main(int argc, char* argv[])
   pack(ss, v2);
 
   string res(ss.str()); 
-  cout << format("size: %d") % res.size() << endl;
+  cout << format("size: {}\n", res.size());
 
   size_t off = 0;
   auto o1 = unpack(res.data(), res.size(), off).get();

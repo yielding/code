@@ -1,7 +1,7 @@
 # -*- ruby -*-
 
-APP       = "serialize"
-SRCS      = %W{ ./serialize.cpp }
+APP       = "cpp.tuple"
+SRCS      = %W{ ./cpp.tuple.cpp }
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
 LIBS      = ""
