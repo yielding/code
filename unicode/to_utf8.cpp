@@ -1,3 +1,7 @@
+// REMARK
+// Things to remember:
+// codecvt가 표준에서 deprecated되었지만 replacement가 없기 때문에 계속 사용된다.
+//
 #include <codecvt>
 #include <locale>
 #include <string>
@@ -17,7 +21,6 @@ int main(int argc, char *argv[])
   uint8_t u8[] = { 0xec, 0x9d, 0xb4, 0xec, 0xb0, 0xbd, 0xed, 0x95, 0x98 };
   string x(u8, u8+9);
   cout << x << endl;  // 이창하
-
 
   // uint8_t u16[] = { 0xff, 0xfe, 0x74, 0xc7, 0x3d, 0xcc, 0x58, 0xd5 };
   uint8_t u16[] =  { 0x74, 0xc7, 0x3d, 0xcc, 0x58, 0xd5 }; // utf16-le data
