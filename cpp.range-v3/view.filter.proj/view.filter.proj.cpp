@@ -3,10 +3,8 @@
 #include <vector>
 #include <range/v3/all.hpp>
 
-namespace rv = ranges::views;
-
-using std::string, std::vector, std::ostream,
-      std::cout, std::endl;
+namespace v = ranges::views;
+using namespace std;
 
 struct mountain
 {
@@ -22,17 +20,17 @@ struct mountain
 
 int main(int argc, char* argv[])
 {
-  auto const& v = vector<mountain> {
+  auto const& mountains = vector<mountain> {
     {"aconcagua",  6961.}, 
     {"parinacota", 6342.},
     {"licancabur", 5920.}, 
     {"guallatiri", 6071.}
   };
 
-  auto rng = v | rv::filter([](double h) { return h > 6200.0; }, 
-                            &mountain::height);
+  auto rng = mountains 
+           | v::filter([](double h) { return h > 6200.0; }, &mountain::height);
 
-  cout << rv::all(rng);
+  cout << v::all(rng);
 
   return 0;
 }

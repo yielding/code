@@ -1,17 +1,16 @@
 #include <iostream>
-#include <vector>
-#include <string>
-#include <ranges>
-//#include <range/v3/view/enumerate.hpp>
+#include <range/v3/all.hpp>
+
+namespace v = ranges::views;
 
 using namespace std;
-using namespace ranges::views;
 
 int main(int argc, char *argv[])
 {
-  auto v = { "apple"s, "banana"s, "kiwi"s };
-  for (auto&& [f, s] : v | enumerate) 
-    cout << f + 1 << ", " << s << endl;
+  auto fruits = { "apple"s, "banana"s, "kiwi"s };
+
+  for (auto&& [seq, fruit] : fruits | v::enumerate) 
+    cout << seq + 1 << ", " << fruit << endl;
   
   return 0;
 }
