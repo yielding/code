@@ -1,0 +1,15 @@
+{
+  "configurations": {
+    "ruby_command": {
+      "adapter": "cust_vscode-ruby",
+      "default": true,
+      "configuration": {
+          "name": "Debug command",
+          "type": "Ruby",
+          "request": "launch",
+          "cwd": "${workspaceRoot}",
+          "program": "${workspaceRoot}/test.rb"
+      }
+    }
+  }
+}
