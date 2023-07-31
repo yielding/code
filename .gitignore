@@ -21,6 +21,7 @@ CMakeFiles/
 .cache/
 .undodir/
 build/
+tmp/
 Debug/
 Release/
 .vscode/
