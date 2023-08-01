@@ -15,7 +15,7 @@ TEST_SRCS = %w{
               }
 
 CXX       = "g++"          # c++0x, clang++, blank
-CXXFLAGS  = ":v :O3"          # :d, :O0 :O3 :w = -Wall
+CXXFLAGS  = ":v :O3"       # :d, :O0 :O3 :w = -Wall
 LIBS      = ":f :s"
 
 load "~/code/build/app2.rake"

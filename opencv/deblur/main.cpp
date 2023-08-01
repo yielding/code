@@ -20,6 +20,7 @@ const String keys =
 "{THETA          |0            | angle of a motion in degrees   }"
 "{SNR            |700          | signal to noise ratio          }"
 ;
+
 int main(int argc, char *argv[])
 {
     help();
@@ -34,7 +35,7 @@ int main(int argc, char *argv[])
     int LEN = 10;
     double THETA = 10;
     int snr = 10;
-    string strInFileName = "";
+    string strInFileName = "/Users/yielding/Desktop/IMG_1078.JPG";
 
     Mat imgIn;
     imgIn = imread(strInFileName, IMREAD_GRAYSCALE);
@@ -61,12 +62,14 @@ int main(int argc, char *argv[])
     imwrite("result.jpg", imgOut);
     return 0;
 }
+
 void help()
 {
     cout << "2018-08-14" << endl;
     cout << "Motion_deblur_v2" << endl;
     cout << "You will learn how to recover an image with motion blur distortion using a Wiener filter" << endl;
 }
+
 void calcPSF(Mat& outputImg, Size filterSize, int len, double theta)
 {
     Mat h(filterSize, CV_32F, Scalar(0));
@@ -75,6 +78,7 @@ void calcPSF(Mat& outputImg, Size filterSize, int len, double theta)
     Scalar summa = sum(h);
     outputImg = h / summa[0];
 }
+
 void fftshift(const Mat& inputImg, Mat& outputImg)
 {
     outputImg = inputImg.clone();
@@ -92,6 +96,7 @@ void fftshift(const Mat& inputImg, Mat& outputImg)
     q2.copyTo(q1);
     tmp.copyTo(q2);
 }
+
 void filter2DFreq(const Mat& inputImg, Mat& outputImg, const Mat& H)
 {
     Mat planes[2] = { Mat_<float>(inputImg.clone()), Mat::zeros(inputImg.size(), CV_32F) };
@@ -107,6 +112,7 @@ void filter2DFreq(const Mat& inputImg, Mat& outputImg, const Mat& H)
     split(complexIH, planes);
     outputImg = planes[0];
 }
+
 void calcWnrFilter(const Mat& input_h_PSF, Mat& output_G, double nsr)
 {
     Mat h_PSF_shifted;
@@ -121,6 +127,7 @@ void calcWnrFilter(const Mat& input_h_PSF, Mat& output_G, double nsr)
     denom += nsr;
     divide(planes[0], denom, output_G);
 }
+
 void edgetaper(const Mat& inputImg, Mat& outputImg, double gamma, double beta)
 {
     int Nx = inputImg.cols;
