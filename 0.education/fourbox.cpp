@@ -45,9 +45,9 @@ public:
   {
     set<coord> area;
 
-    for (auto it=_rects.begin(); it!=_rects.end(); ++it)
+    for (auto const& r : _rects)
     {
-      auto [x1, y1, x2, y2] = *it; 
+      auto [x1, y1, x2, y2] = r;
 
       for (auto x=x1; x<x2; ++x)
         for (auto y=y1; y<y2; ++y) 
