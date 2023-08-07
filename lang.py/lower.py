@@ -5,7 +5,7 @@ import glob
 import re
 import string
 import sys
-   
+
 p = re.compile('(.*)[.](.*)$')
 
 path = '*'

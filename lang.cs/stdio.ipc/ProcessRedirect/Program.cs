@@ -48,14 +48,13 @@ namespace StdioRedirect
           return p.ExitCode != 1;
         }
       }
-      catch(Exception e)
+      catch (Exception e)
       {
         Console.WriteLine(e.Message);
       }
 
       return false;
     }
-
   }
 
   public class Example
