@@ -21,11 +21,11 @@ int main(int argc, char *argv[])
     vector<flatbuffers::Offset<Weapon>> weapons_vector;
     weapons_vector.push_back(sword);
     weapons_vector.push_back(axe);
+    auto weapons  = builder.CreateVector(weapons_vector);
 
-    auto weapons  = builderlder.Finish(orc);.CreateVector(weapons_vector);
     auto position = Vec3(1.0f, 2.0f, 3.0f);
-    auto name     = builder.CreateString("MyMonster");
 
+    auto name     = builder.CreateString("MyMonster");
     unsigned char inv_data[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     auto inventory = builder.CreateVector(inv_data, 10);
 
