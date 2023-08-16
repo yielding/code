@@ -1,0 +1,15 @@
+INT=1
+NL=2
+WS=3
+PLUS=4
+MINUS=5
+MULT=6
+DIV=7
+POPEN=8
+PCLOSE=9
+'+'=4
+'-'=5
+'*'=6
+'/'=7
+'('=8
+')'=9
