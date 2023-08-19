@@ -12,7 +12,6 @@ set (SOURCES
   ./LabeledExprParser.cpp
   ./LabeledExprVisitor.cpp
   ./LabeledExprBaseVisitor.cpp
-  ./LabeledExprBaseListener.cpp
 )
 
 include_directories (
