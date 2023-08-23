@@ -11,7 +11,7 @@ namespace client
   namespace ascii = boost::spirit::ascii;
 
   template <typename It> 
-  bool parse_numbers(It first, It last, std::vector<double>& v)
+  bool parse_numbers(It first, It last, vector<double>& v)
   {
     using qi::double_;
     using qi::phrase_parse;
