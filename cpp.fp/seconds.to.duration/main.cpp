@@ -3,15 +3,15 @@
 #include <string>
 #include <range/v3/all.hpp>
 
-namespace rv = ranges::views;
-namespace rg = ranges;
+namespace v = ranges::views;
+namespace g = ranges;
 using namespace std;
 
 //
 // TODO
 // 1. review exclusive_scan(0) of {1, 2, 3}
 //    = {0, 0+1, 0+1+2, 0+1+2+3}
-// 2. why separate rv::reverse in line 35
+// 2. why separate v::reverse in line 35
 //
 int main(int argc, char* argv[])
 {
@@ -20,23 +20,23 @@ int main(int argc, char* argv[])
   auto const names = vector<string> { "s", "min", "h", "d" };
 
   auto div_pos = times
-    | rv::exclusive_scan(sec, divides{})
-    | rv::take_while([](int x) { return x > 0; });
+    | v::exclusive_scan(sec, divides{})
+    | v::take_while([](int x) { return x > 0; });
 
-  auto mods = rv::zip_with(
+  auto mods = v::zip_with(
       [](int a, int b) { return a % b; },  // 여기서 % 연산이 빛난다.
       div_pos, times);
 
-  auto pairs = rv::zip_with(
+  auto pairs = v::zip_with(
       [](int a, auto const& s) { return to_string(a) + s; },
       mods, names)
-    | rg::to<vector<string>>;
+    | g::to<vector<string>>;
 
-  cout << rv::all(pairs) << endl;
+  cout << v::all(pairs) << endl;
 
-  auto res = pairs | rv::reverse;
+  auto res = pairs | v::reverse;
 
-  cout << rv::all(res);
+  cout << v::all(res);
 
   return 0;
 }

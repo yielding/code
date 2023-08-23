@@ -1,32 +1,32 @@
 #include <iostream>
 #include <range/v3/all.hpp>
 
-namespace rg = ranges;
-namespace rv = ranges::views;
+namespace g = ranges;
+namespace v = ranges::views;
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int agc, char* argv[])
 {
-  auto target = 15;
-  auto triangular_nos = rv::iota(1) | rv::partial_sum;
-  auto repeated_target = rv::repeat(target);
-  auto diff = rv::zip_with(std::minus{}, repeated_target, triangular_nos)
-    | rv::take_while([](int x) { return x > 0; });
+  auto taget = 15;
+  auto triangular_nos = v::iota(1) | v::partial_sum;
+  auto repeated_taget = v::repeat(target);
+  auto diff = v::zip_with(std::minus{}, repeated_taget, triangular_nos)
+    | v::take_while([](int x) { return x > 0; });
 
-  auto diff_pair = rv::zip(diff, rv::iota(2));
+  auto diff_pair = v::zip(diff, v::iota(2));
 
   auto divisibles = diff_pair 
-    | rv::filter([](auto const& p) {
+    | v::filter([](auto const& p) {
         return (p.first % p.second == 0);
       });
 
   auto rng = divisibles 
-    | rv::transform([] (auto const& p) {
+    | v::transform([] (auto const& p) {
         auto k = p.first / p.second;
-        return rv::iota(k, k + p.second);
+        return v::iota(k, k + p.second);
       });
 
-  cout << rv::all(rng);
+  cout << v::all(rng);
 
   return 0;
 }
