@@ -1,13 +1,11 @@
 #include "sqlite_pp.hpp"
 
-#include <boost/format.hpp>
-
 #include <iostream>
 #include <vector>
 #include <string>
+#include <format>
 
 using namespace io::sqlite;
-using namespace boost;
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,8 +29,7 @@ auto table_list(db& conn) -> vector<string>
 
 auto schema(db& conn, char const* of_table) -> string
 {
-  auto sql = str(format("select sql from sqlite_master where name='%s';") 
-      % of_table);
+  auto sql = format("select sql from sqlite_master where name='{}';", of_table); 
 
   stmt s(conn, sql.c_str());
 
@@ -51,7 +48,7 @@ auto table_info(db& conn) -> vector<string>
     auto id   = row.int32(0);
     auto name = row.text(1);
 
-    cout << "id: " << id << ", " << "name: [" << name << "]" << endl;
+    cout << format("id: {}, name: [{}]\n", id, name);
   }
 
   return vector<string>();

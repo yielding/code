@@ -2,9 +2,9 @@
 
 APP       = "cpp.api2"
 SRCS      = %W{ ./cpp.api2.cpp }
-CXX       = "xcrun"
+CXX       = "g++"
 CXXFLAGS  = ":Os"
-LIBS      = "gmock sqlite3"
+LIBS      = "sqlite3"
 
 DIR = File.dirname __FILE__
 

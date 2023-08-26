@@ -4,7 +4,7 @@ APP       = "cpp.api3"
 SRCS      = %W{ ./cpp.api3.cpp }
 CXX       = "g++"
 CXXFLAGS  = ":Os"
-LIBS      = "gmock sqlite3"
+LIBS      = "sqlite3"
 
 DIR = File.dirname __FILE__
 
