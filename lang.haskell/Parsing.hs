@@ -4,7 +4,6 @@ import Data.Char
 import Control.Monad
 import Control.Applicative hiding (many)
 
-
 -- Sequencing parsers 
 
 instance Functor Parser where
