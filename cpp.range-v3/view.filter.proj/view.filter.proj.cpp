@@ -21,10 +21,10 @@ struct mountain
 int main(int argc, char* argv[])
 {
   auto const& mountains = vector<mountain> {
-    {"aconcagua",  6961.}, 
-    {"parinacota", 6342.},
-    {"licancabur", 5920.}, 
-    {"guallatiri", 6071.}
+    { "aconcagua",  6961. }, 
+    { "parinacota", 6342. },
+    { "licancabur", 5920. }, 
+    { "guallatiri", 6071. }
   };
 
   auto rng = mountains 

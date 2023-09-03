@@ -5,7 +5,7 @@ using namespace ranges::v3::views;
 
 int main()
 {
-  auto even   = [](int i) { return 0 == i % 2; };
+  auto even   = [](int i) { return i % 2 == 0; };
   auto square = [](int i) { return i * i; };
 
   auto rng = iota(0, 6) | filter(even) | transform(square);
