@@ -35,7 +35,10 @@ auto parse_number(string_view str) -> expected<double, parse_error>
 auto print_error(parse_error e) -> expected<double, string>
 {
   if (e == parse_error::invalid_input)
+  {
+    logger.()
     return unexpected("error : invalid input");
+  }
 
   if (e == parse_error::overflow)
     return unexpected("error : overflow");

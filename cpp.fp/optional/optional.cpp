@@ -23,8 +23,11 @@ int main(int argc, char* argv[])
 {
   vector_opt<string> v = { "1234", "15 foo", "bar", "42", "5000", " 5" };
 
+  // NOTICE
+  // an operation which changes stored variable -> transform
+  // an operation which could itself fail -> and_then
   auto filter = [](auto&& o) {
-    return o.and_then(to_int) // flatmap from str to int
+    return o.and_then(to_int)   // flatmap from str to int
             .transform([](int n) { return n + 1; })
             .transform([](int n) { return to_string(n); })
             .or_else  ([]        { return optional("null"s); });
