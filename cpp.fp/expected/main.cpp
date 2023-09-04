@@ -34,16 +34,15 @@ auto parse_number(string_view str) -> expected<double, parse_error>
 
 auto print_error(parse_error e) -> expected<double, string>
 {
-  if (e == parse_error::invalid_input)
+  switch(e)
   {
-    logger.()
-    return unexpected("error : invalid input");
+    case parse_error::invalid_input:
+      return unexpected("error : invalid input");
+    case parse_error::overflow:
+      return unexpected("error : overflow");
+    default:
+      return unexpected("error");
   }
-
-  if (e == parse_error::overflow)
-    return unexpected("error : overflow");
-
-  return unexpected("error");
 }
 
 int main(int argc, char* argv[])
