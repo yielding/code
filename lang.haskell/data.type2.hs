@@ -22,4 +22,4 @@ deck::Deck
 deck = [Card val su | val <- [Two .. Ace], su <- [Club .. Spade]]
 
 main = do 
-  print(deck)
+  print deck
