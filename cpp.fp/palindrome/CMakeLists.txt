@@ -23,3 +23,7 @@ link_directories (
 add_executable(main 
   ${SOURCES}
 )
+
+target_link_libraries (main
+  d_classic
+)
