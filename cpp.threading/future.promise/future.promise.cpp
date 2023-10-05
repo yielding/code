@@ -6,11 +6,10 @@
 
 using namespace std;
 
-
 // NOTICE
 // from https://modoocode.com/284#page-heading-4
-// 이 예제는 promise / future를 thread의 동시 시작을 atomic하게 하기 위한 방법
-//
+// 이 예제는 promise / future를 이용하여 
+// atomic하게 여러 thread를 동시에 시작하게 하는 예제
 
 void runner(shared_future<void> start) 
 {
