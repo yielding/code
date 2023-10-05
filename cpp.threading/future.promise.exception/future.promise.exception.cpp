@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 
   try
   {
-    data.get();
+    cout << data.get();
   }
   catch (exception& e)
   {

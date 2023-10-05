@@ -23,3 +23,8 @@ link_directories (
 add_executable(future.promise.exception 
   ${SOURCES}
 )
+
+target_link_libraries (future.promise.exception 
+  d_classic
+)
+
