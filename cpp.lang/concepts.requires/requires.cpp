@@ -4,8 +4,8 @@
 
 using namespace std;
 
-template <typename T> requires integral<T>
-bool is_power_of_2(T i)
+template <typename T> 
+bool is_power_of_2(T i) requires integral<T>
 {
   return i > 0 && (i & (i - 1)) == 0;
 }
