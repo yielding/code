@@ -65,7 +65,6 @@ foldl f acc (x:xs) = foldl f (f acc x) xs
      empty list가 없다는 가정하에 마지막 남은 원소가 초기값.
   
    - foldl1
-
 -}
 
 addStr :: String -> Float -> Float
