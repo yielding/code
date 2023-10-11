@@ -14,16 +14,35 @@ data Configuration
                   }
   deriving (Show, Eq)
 
-
-changeDir :: Configuration -> String -> Configuration
-changeDir cfg newDir =
-  if doesDirNameExist newDir
-     then cfg{currentdir = newDir}         -- setter
-     else error "dir does not exist"
+changeDir :: Configuration -> String -> IO()
+changeDir cfg newDir 
+  = do ok <- doesDirectoryExist newDir
+       if ok
+          then print "ok"
+          else print "fail"
 
 postWorkingDir :: Configuration -> String
 postWorkingDir cfg = currentdir cfg        -- getter
+ 
+-- cfgFoo = Configuration { username = "Foo" }
+-- cfgBar = Configuration { username = "Bar", remotehost = "Baz" }
+-- cfgNon = Configuration { }
 
-cfgFoo = Configuration { username = "Foo" }
-cfgBar = Configuration { username = "Bar", remotehost = "Baz" }
-cfgNon = Configuration { }
+data Color
+  = Color { redC     :: Int
+          , greenC   :: Int
+          , blueC    :: Int
+          , opacityC :: Int
+          }
+  deriving (Show)
+
+red :: Color
+red = Color {redC = 255, opacityC = 255, blueC = 0, greenC = 0}
+
+greenComponent :: Color -> Int
+greenComponent Color {greenC = green} = green
+
+main = do 
+  -- print $ username cfgFoo
+  print $ red
+  print $ greenComponent red
