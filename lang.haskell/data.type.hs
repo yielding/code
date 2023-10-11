@@ -1,3 +1,21 @@
+-- 열거형
+-- 1. data 선언의 특수 형태
+-- 2. 생성자가 인자가 없는 형테
+data Month = January | February | March | December
+
+-- 아래는 생성자가 인자를 가지고 있는 형태, 열거형이 아님
+data Colour = Black | Red | Green | RGB Int Int Int
+
+-- Bool은 '우연히도' 열거형
+data Bool = False | True
+  deriving (Eq, Ord, Enum, Read, Show, Bounded)
+
+---------------------------------------------------------------
+--
+-- parameterized data type
+--
+---------------------------------------------------------------
+
 data Pair a b = Pair a b
 
 xx = Pair 1 2
@@ -10,7 +28,7 @@ apply :: (a -> a') -> (b -> b') -> Pair a b -> Pair a' b'
 apply f g (Pair x y) = Pair (f x) (g y)
 
 ---------------------------------------------------------------
---
+
 ---------------------------------------------------------------
 type Pos = (Int, Int)
 

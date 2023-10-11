@@ -1,3 +1,5 @@
+-- 기명 필드 (record 구문)
+--
 import System.Directory
 
 data Configuration
@@ -25,5 +27,3 @@ postWorkingDir cfg = currentdir cfg        -- getter
 cfgFoo = Configuration { username = "Foo" }
 cfgBar = Configuration { username = "Bar", remotehost = "Baz" }
 cfgNon = Configuration { }
-
-data Either2 a b = Left a | Right b
