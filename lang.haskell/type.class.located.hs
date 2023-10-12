@@ -1,3 +1,8 @@
+--
+-- 책에서는 실제로 type이 잘 모델링 되었는지를 생각하지 말라고 한다. 
+-- 문법으로는 이렇게 동작할 수 있다는 이야기..
+-- 초보인 나로서는 type class, instantiatoin 등을 공부하기 너무 좋은 예제
+--  
 class Located a where
   getLocation :: a -> (Int, Int)
 
