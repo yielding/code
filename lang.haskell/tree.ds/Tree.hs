@@ -1,5 +1,6 @@
 module Tree (
   Tree (Leaf, Branch)
+, Functor2(fmap2)
 , fringe
 , treeMap
 , treeFold
@@ -10,6 +11,13 @@ data Tree a
   = Leaf a 
   | Branch (Tree a) (Tree a) 
   deriving (Show)
+
+class Functor2 f where
+  fmap2    :: (a -> b) -> f a -> f b
+
+instance Functor2 Tree where
+  fmap2 f (Leaf x) = Leaf (f x)
+  fmap2 f (Branch left right) = Branch (fmap2 f left) (fmap2 f right)
 
 fringe :: Tree a -> [a] 
 fringe (Leaf x) = [x] 

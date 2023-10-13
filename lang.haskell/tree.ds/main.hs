@@ -1,7 +1,11 @@
 module Main (main) 
 where
 
-import Tree (Tree(Leaf, Branch), fringe, treeMap, treeFold)
+import Tree (Tree(..), 
+             Functor2(..), 
+             fringe, 
+             treeMap, 
+             treeFold)
 
 doubleTree = treeMap (*2)
 sumTree = treeFold (+) id
@@ -28,3 +32,5 @@ main = do
 
   print $ doubleTree tree2
   print $ fringeTree tree2
+
+  print $ fmap2 (*2) tree1

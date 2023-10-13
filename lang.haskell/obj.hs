@@ -1,4 +1,8 @@
-data Object = Object { a :: Int }
+data Object 
+  = Object { a :: Int }
 
 myObj = Object { a = 1 }
-main  = print (a myObj)
+
+main :: IO ()
+main = do 
+  print (a myObj)
