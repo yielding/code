@@ -76,4 +76,12 @@ interactiveContetenating2 = do
   sz <- (++) <$> getLine <*> (take 3 <$> getLine)
   putStrLn "Let's concatenate them:"
   putStrLn sz
-  
+
+main :: IO ()
+main = do
+  interactiveSumming2
+  -- case readMaybe "3" :: Maybe Integer of
+  --   Just x -> print x
+  --   _      -> print "error"
+
+
