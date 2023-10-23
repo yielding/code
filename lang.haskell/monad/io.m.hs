@@ -1,6 +1,7 @@
 module Main where
 
 import Control.Monad
+import System.Random
 
 main :: IO ()
 main = do
