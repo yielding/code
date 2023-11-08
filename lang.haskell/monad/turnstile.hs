@@ -38,8 +38,8 @@ mondayS = do
   a5 <- pushS
   return [a1, a2, a3, a4, a5]
 
--- mondayS2 :: State TurnstileState [TurnstileOutput]
--- mondayS2 = sequence [ coinS, pushS, pushS, coinS, pushS ]
+mondayS2 :: State TurnstileState [TurnstileOutput]
+mondayS2 = sequence [ coinS, pushS, pushS, coinS, pushS ]
 
 testTurnstile :: State TurnstileState Bool
 testTurnstile = do
@@ -54,7 +54,7 @@ main :: IO ()
 main = do 
   print "hi"
   print $ runState mondayS Locked
-  -- print $ runState mondayS2 Locked
+  print $ runState mondayS2 Locked
   print $ evalState mondayS Locked
   print $ execState mondayS Locked
   print $ runState testTurnstile Locked
