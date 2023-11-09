@@ -23,19 +23,19 @@ void write_image_to_stdout(vector<uchar> const& buffer)
     putchar_unlocked(ch);
 }
 
-cv::Mat read_mat_from_stdio(int color=0)
+auto read_mat_from_stdio(int color=0) -> cv::Mat 
 {
   return cv::imdecode(cv::Mat(read_image_from_stdin()), color);
 }
 
-cv::Mat read_mat_from_filename(string const& input)
+auto read_mat_from_filename(string const& input) -> cv::Mat 
 {
   return cv::imread(input.c_str(), 0);
 }
 
-cv::Mat analyze_input(string const&& input)
+auto analyze_input(string const&& input) -> cv::Mat 
 {
-  return (input == "-")
+  return input == "-"
     ? read_mat_from_stdio()
     : read_mat_from_filename(input);
 }
