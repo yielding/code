@@ -2,6 +2,16 @@ import Control.Monad
 import Control.Monad.Writer
 import Data.Maybe 
 
+{-
+   foldl :: (a -> b -> a) -> a -> [b] -> a
+
+   - (a -> b -> a) : 인자가 2개인 함수
+   - a   : 결과를 누적할 초기값
+   - [b] : fold를 수행할 리스트
+
+   foldM :: (Monad m) => (a -> b -> m a) -> a -> [b] -> m a
+-}
+
 binSmalls :: Int -> Int -> Maybe Int
 binSmalls acc x
   | x > 9 = Nothing

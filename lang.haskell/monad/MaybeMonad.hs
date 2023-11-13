@@ -1,7 +1,6 @@
 module MaybeMonad where
 
 import Prelude hiding((<$>), (<*>), (>>=))
-
 -- Mapping Maybe Values --
 mapMaybe :: (a -> b) -> Maybe a -> Maybe b
 mapMaybe f Nothing  = Nothing
