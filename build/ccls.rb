@@ -4,13 +4,13 @@ require "open3"
 require 'pathname'
 
 File.open(".ccls", "w") { |file| 
-  file.puts "g++-12"
-  file.puts "-std=c++2a"
+  file.puts "g++-13"
+  file.puts "-std=c++2b"
   file.puts "-stdlib=libc++"
   file.puts "-fPIC"
   file.puts ""
 
-  stdout, stderr, status = Open3.capture3("g++-12 -E -x c++ - -v < /dev/null")
+  stdout, stderr, status = Open3.capture3("g++-13 -E -x c++ - -v < /dev/null")
   lines = stderr.split("\n")
   start, count = false, 0
   lines.each_with_index { |line, index|
@@ -22,4 +22,9 @@ File.open(".ccls", "w") { |file|
     end
     count += 1 if start
   }
+  file.puts "-I./include" 
+  file.puts "-I./develop/include" 
+  file.puts "-I./develop/vendor/include" 
+  file.puts "-I/opt/homebrew/include/opencv4"
+  file.puts "-I/opt/homebrew/include/antlr4-runtime"
 }
