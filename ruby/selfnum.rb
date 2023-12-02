@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-class Fixnum
+class Numeric
   def digits
     self.to_s.scan(/./).map { |x| x.to_i }
   end
