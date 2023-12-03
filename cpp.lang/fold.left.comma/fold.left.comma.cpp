@@ -1,12 +1,10 @@
 #include <iostream>
 
-using namespace std;
-
 struct A
 {
   void do_operation(int x) const 
   {
-    cout << "do with " << x << endl;
+    std::cout << "do with " << x << std::endl;
   }
 };
 
