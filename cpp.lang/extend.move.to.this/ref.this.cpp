@@ -5,7 +5,9 @@ using namespace std;
 
 struct test
 {
-  void f()&  { cout << "lvalue obj\n"; } void f()&& { cout << "rvalue obj\n"; } };
+  void f()&  { cout << "lvalue obj\n"; } 
+  void f()&& { cout << "rvalue obj\n"; } 
+};
 
 struct test2
 {
@@ -16,10 +18,10 @@ struct test2
 
   operator unique_ptr<int[]>() const&
   {
+    cout << "heavy resource\n";
+
     unique_ptr<int[]> p(new int[0x400]);
     for (int i=0; i<0x400; ++i) p[i] = heavy_reource[i];
-
-    cout << "heavy resource\n";
 
     return p;
   }
@@ -28,17 +30,19 @@ struct test2
   {
     cout << "move resource\n";
 
-    return move(heavy_reource);
+    return std::move(heavy_reource);
   }
 };
 
 int main(int argc, char *argv[])
 {
-  // test t; t.f(); test().f();
+  test t; 
+  t.f(); 
+  test().f();
+
   test2 t2;
   auto cp = unique_ptr<int[]>(t2);
   auto mv = unique_ptr<int[]>(test2());
-
 
   return 0;
 }
