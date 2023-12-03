@@ -17,9 +17,7 @@ public:
   {
     cout << "copy ctor is called" << endl;
     if (this != &rhs)
-    {
       s = rhs.s;
-    }
   }
 
   str& operator=(str const& rhs)
@@ -42,14 +40,9 @@ public:
 class value 
 {
 public:
-  value(): s("leech")
-  {
-  }
+  value(): s("leech") { }
 
-  str&& get_value()
-  {
-    return move(s);
-  }
+  str&& get_value() { return move(s); }
 
 private:
   str s;

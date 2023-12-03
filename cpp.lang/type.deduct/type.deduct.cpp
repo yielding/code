@@ -8,7 +8,7 @@ struct SelfType
   typedef T type;
 };
 
-void augment(int& outNumber)
+void add(int& outNumber)
 {
   ++outNumber;
 }
@@ -22,6 +22,6 @@ R exec(R (*pfunc)(A1), typename SelfType<A1>::type arg1)
 int main()
 {
   int number = 10;
-  exec(augment, number);  // <-- compiler OK
+  exec(add, number);  // <-- compiler OK
   cout << number;
 }

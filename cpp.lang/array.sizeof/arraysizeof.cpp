@@ -2,6 +2,7 @@
 
 template <typename T, size_t N>
 char (&Helper(T (&array)[N]))[N];
+
 #define arraysizeof(array) (sizeof(Helper(array)))
 
 using namespace std;
