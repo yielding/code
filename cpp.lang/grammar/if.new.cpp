@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
   if (auto[it, succeeded] = return_pair(); succeeded)
   {
-    cout << "ok" << endl;
+    cout << "ok value = " << it << endl;
   }
   
   return 0;
