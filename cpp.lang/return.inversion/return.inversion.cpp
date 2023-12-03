@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 template <typename F> 
 void f(F f)
 {
@@ -14,12 +12,14 @@ int main(int argc, char const* argv[])
   int x = 10;
   int y = 20;
 
-  string s;
-
-  auto r = [&](int a) { x += a; y += a + 10; };
+  auto r = [&](int a) { 
+    x += a; 
+    y += a + 10; 
+  };
 
   f(r);
-  cout << x << " " << y << endl;
+
+  std::cout << x << " " << y << std::endl; // 20, 40
   
   return 0;
 }

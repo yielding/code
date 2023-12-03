@@ -79,8 +79,9 @@ class enumerate_iterator
   size_t m_index;
 
 public:
-  enumerate_iterator(IterType it, size_t index) :
-    m_it(it), m_index(index) {}
+  enumerate_iterator(IterType it, size_t index)
+    : m_it(it), m_index(index) 
+  {}
 
   enumerate_iterator& operator++()
   {
@@ -95,7 +96,8 @@ public:
     return m_it != rhs.m_it;
   }
 
-  PairType operator*() {
+  auto operator*() -> PairType 
+  {
     return { m_index, *m_it };
   }
 };
