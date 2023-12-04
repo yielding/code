@@ -2,8 +2,8 @@
 spawn telnet  bh.knu.ac.kr
 set timeout 20
 expect login:
-send "ikkim\r"
+send "xxx\r"
 expect assword:
-send "ikkim89\r"
+send "xxx\r"
 #sleep 1 
 interact

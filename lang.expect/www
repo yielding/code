@@ -1,9 +1,0 @@
-#!/usr/bin/expect
-spawn telnet 211.57.170.201
-set timeout 20
-expect login:
-send "www\r"
-expect assword:
-send "3wwwaa\r"
-#sleep 1 
-interact

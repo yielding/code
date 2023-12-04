@@ -1,9 +1,0 @@
-#!/usr/bin/expect
-spawn telnet stat.knu.ac.kr
-set timeout 20
-expect login:
-send "leech\r"
-expect assword:
-send "leech!\r"
-#sleep 1 
-interact
