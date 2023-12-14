@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
   // NOTICE
   // the functions inside and_then should an optional<T> as a result,
   // the transform re-box the output of function into an optional<T> 
-  auto filter = [](auto&& o) {
+  auto filter = [](auto&& o) {     // optinal<string>, 
     return o.and_then(to_int)      // flatmap from str to int
             .transform([](int n) { return n + 1; })
             .transform([](int n) { return to_string(n); })
