@@ -1,5 +1,6 @@
 #include <utility>
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -15,7 +16,7 @@ Color r { Color::Red };
 int main(int argc, char *argv[])
 {
   auto value2 = to_underlying(r);
-  cout << value2 << endl;
+  cout << hex << value2 << endl;
   
   return 0;
 }
