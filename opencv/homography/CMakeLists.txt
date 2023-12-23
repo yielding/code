@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.22.2)
+cmake_minimum_required (VERSION 3.22.2)
 
-project(homography)
+project (homography)
 
 set (CMAKE_CXX_STANDARD 20)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -18,9 +18,9 @@ link_directories(
   "$ENV{OPENCV_HOME}/lib"
 )
 
-add_executable(homography main.cpp)
+add_executable (homography main.cpp)
 
-target_link_libraries(homography
+target_link_libraries (homography
   opencv_core
   opencv_imgcodecs
   opencv_highgui

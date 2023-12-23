@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22.2)
 
-project(mat2json)
+project(main)
 
 set (CMAKE_CXX_STANDARD 20)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -18,8 +18,8 @@ link_directories(
   /opt/homebrew/lib
 )
 
-add_executable(mat2json main.cpp)
+add_executable(main main.cpp)
 
-target_link_libraries(mat2json
+target_link_libraries(main
   ${OpenCV_LIBS}
 )
