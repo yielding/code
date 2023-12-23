@@ -17,7 +17,7 @@ enum class parse_error {
 
 auto parse_number(string_view str) -> expected<double, parse_error>
 {
-  const char* beg = str.data();
+  auto beg = str.data();
   char* end;
   auto retval = strtod(beg, &end);
 
@@ -34,7 +34,7 @@ auto parse_number(string_view str) -> expected<double, parse_error>
 
 auto print_error(parse_error e) -> expected<double, string>
 {
-  switch(e)
+  switch (e)
   {
     case parse_error::invalid_input:
       return unexpected("error : invalid input");

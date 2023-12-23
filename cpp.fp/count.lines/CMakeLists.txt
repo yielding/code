@@ -1,12 +1,13 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.27.8)
 
-project(count.lines)
+project (count.lines3)
 
-set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_COMPILER g++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  count.lines.cpp
+  count.lines3.cpp
 )
 
 include_directories (
@@ -20,6 +21,6 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable(count.lines 
+add_executable(count.lines3
   ${SOURCES}
 )
