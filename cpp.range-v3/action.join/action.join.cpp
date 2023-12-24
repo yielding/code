@@ -6,11 +6,13 @@
 //
 // NOTICE pure c++20 (without range-v3 github)
 //
+
 using namespace std;
-using namespace literals;
 
 int main()
 {
+  using namespace literals;
+
   auto bits = { "https:"sv, "//"sv, "cppreference"sv, "."sv, "com"sv };
 
   for (auto c : bits | views::join) 
