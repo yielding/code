@@ -7,7 +7,8 @@
 
 using namespace std;
 
-class Test {
+class Test 
+{
 public:
   Test(int i);
 
@@ -16,8 +17,8 @@ public:
 
 Test::Test(int i)
 try
-: m_i(i)
 {
+  m_i = i;
   cout << "xxx" << endl;
 }
 catch(...) 
