@@ -37,7 +37,8 @@ add (x, y) = x + y
 add' :: Int -> Int -> Int
 add' = curry' add
 
-addAndDrop = const . (1 +)
+-- addAndDrop x y = x + 1
+addAndDrop = const . (1 +)      -- page 268
 
 reverseMkTuple = flip (,)
 
@@ -51,5 +52,5 @@ main = do
   print $ tensDigit' 234      -- 3
   print $ foldBool 1 2 True   -- 1
   print $ foldBool 1 2 False  -- 2
-  print $ g (+5) (1, 2)
-  print $ add' 1 2
+  print $ g (+5) (1, 2)       -- (6, 2)
+  print $ add' 1 2            -- 3

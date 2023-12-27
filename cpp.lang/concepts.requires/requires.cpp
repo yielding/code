@@ -10,8 +10,8 @@ bool is_power_of_2(T i) requires integral<T>
   return i > 0 && (i & (i - 1)) == 0;
 }
 
-template <typename T> requires floating_point<T>
-bool is_power_of_2(T x)
+template <typename T> 
+bool is_power_of_2(T x) requires floating_point<T>
 {
   int exponent;
   const T mantissa = frexp(x, &exponent);
