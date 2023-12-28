@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'test/unit'
-require 'dim'
+require_relative 'dim'
 require 'pp'
 
 class ConsoleAppender
