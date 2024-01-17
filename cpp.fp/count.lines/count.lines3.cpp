@@ -6,7 +6,7 @@
 #include <range/v3/view/transform.hpp>
 #include <range/v3/range/conversion.hpp>
 
-using namespace ranges::v3;
+using namespace ranges;
 using namespace std;
 
 auto open_file(string const& filename) -> ifstream 

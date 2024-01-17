@@ -6,7 +6,7 @@
 #include <range/v3/view/transform.hpp>
 #include <range/v3/range/conversion.hpp>
 
-using namespace ranges::v3;
+using namespace ranges;
 using namespace std;
 
 auto count_lines(const string& filename) -> int
@@ -22,7 +22,7 @@ auto count_lines(const string& filename) -> int
 auto count_lines_in_files(vector<string>& files) -> vector<int> 
 { 
   return files 
-    | view::transform(count_lines) 
+    | transform(count_lines)
     | to<vector>();
 }
 

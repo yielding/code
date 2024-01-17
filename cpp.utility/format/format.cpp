@@ -23,6 +23,4 @@ int main()
     cout << dyna_print(fmt, "alpha", 'Z', 3.14, "unused");
     cout << '\n';
   }
-
-  return 0;
 }
