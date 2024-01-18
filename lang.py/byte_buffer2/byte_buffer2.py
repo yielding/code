@@ -17,6 +17,9 @@ class ByteBuffer2:
     def offset(self):
         return self.m_offset
 
+    def offset(self, pos):
+        self.m_offset += pos
+
     def get_uint2_be(self):
         s = self.m_offset
         r = self.m_data[s:s+2]
@@ -30,6 +33,20 @@ class ByteBuffer2:
         self.m_offset += 2
 
         return unpack('<H', r)[0]
+
+    def get_uint4_le(self):
+        s = self.m_offset
+        r = self.m_data[s:s+4]
+        self.m_offset += 4
+
+        return unpack('<I', r)[0]
+
+    def get_uint4_be(self):
+        s = self.m_offset
+        r = self.m_data[s:s+4]
+        self.m_offset += 4
+
+        return unpack('>I', r)[0]
 
     def get_ascii(self):
         index = self.m_data.find(b'\x00', self.m_offset)
