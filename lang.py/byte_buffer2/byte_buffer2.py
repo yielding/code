@@ -14,24 +14,30 @@ class ByteBuffer2:
     def limit(self):
         return len(self.m_data)
 
+    @property
     def offset(self):
         return self.m_offset
 
+    @offset.setter
     def offset(self, pos):
-        self.m_offset += pos
+        self.m_offset = pos
+        return self
 
     def get_uint2_be(self):
         s = self.m_offset
         r = self.m_data[s:s+2]
         self.m_offset += 2
-
         return unpack('>H', r)[0]
+
+    def get_uint1(self):
+        r = self.m_data[self.m_offset]
+        self.m_offset += 1
+        return r
 
     def get_uint2_le(self):
         s = self.m_offset
         r = self.m_data[s:s+2]
         self.m_offset += 2
-
         return unpack('<H', r)[0]
 
     def get_uint4_le(self):
@@ -48,7 +54,19 @@ class ByteBuffer2:
 
         return unpack('>I', r)[0]
 
-    def get_ascii(self):
+    def get_ascii(self, *args):
+        if len (args) == 0: return self.__get_ascii0()
+        if len (args) == 1: return self.__get_ascii1(int(args[0]))
+        return None
+
+    def __get_ascii1(self, size):
+        s = self.m_offset
+        e = self.m_offset + size
+        res = self.m_data[s:e].decode('utf-8')
+        self.m_offset += size
+        return res
+
+    def __get_ascii0(self):
         index = self.m_data.find(b'\x00', self.m_offset)
         if index == -1:
             self.m_offset = self.m_limit

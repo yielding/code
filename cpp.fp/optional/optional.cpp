@@ -36,5 +36,6 @@ int main(int argc, char* argv[])
   for (auto&& x : v | views::transform(filter)) 
     cout << *x << '\n';
 
+  cout.setf
   return 0;
 }

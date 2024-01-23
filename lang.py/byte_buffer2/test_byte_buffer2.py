@@ -16,21 +16,27 @@ class TestByteBuffer2(unittest.TestCase):
 
     def test_uint2_be(self):
         self.assertEqual(self.bb.get_uint2_be(), 0x1122)
-        self.assertEqual(self.bb.offset(), 2)
+        self.assertEqual(self.bb.offset, 2)
 
     def test_uint2_le(self):
         self.assertEqual(self.bb.get_uint2_le(), 0x2211)
-        self.assertEqual(self.bb.offset(), 2)
+        self.assertEqual(self.bb.offset, 2)
 
     def test_ascii(self):
         bb = ByteBuffer2(self.d0)
         r0 = bb.get_ascii()
         self.assertEqual(r0, 'hello')
-        self.assertEqual(bb.offset(), 6)
+        self.assertEqual(bb.offset, 6)
 
         r1 = bb.get_ascii()
         self.assertEqual(r1, 'world')
-        self.assertEqual(bb.offset(), 12)
+        self.assertEqual(bb.offset, 12)
+
+    def test_ascii2(self):
+        bb = ByteBuffer2(self.d0)
+        r0 = bb.get_ascii(3)
+        self.assertEqual(r0, 'hel')
+        self.assertEqual(bb.offset, 3)
 
     def test_utf16le(self):
         bb = ByteBuffer2(self.d1)
