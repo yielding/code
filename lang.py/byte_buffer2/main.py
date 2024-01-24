@@ -100,10 +100,30 @@ class Fat32:
         leaf = DirectoryEntry(b0, self.fat0)
         print(leaf)
 
+    def make_node():
+        pass
+
+    def make_root_node():
+        pass
+
+    def read_root_dir():
+        res = []
+        bps = self.br.sector_size
+        next = self.br.root_cluster_no
+        while True:
+            offset = (next - 2) * bps + br.data_area
+            res.append((offset, self.br.cluster_size))
+            next = self.fat0.fat[next]
+            if next == 0xfffffff:
+                break
+            
+        return res
+
     def to_node(self, dentry):
         node = Node()
         node.size = dentry.size
         node.extents = to_extents(dentry.cluster_no)
+
         return node
 
     def to_extents(cluster_no):
