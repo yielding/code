@@ -43,12 +43,23 @@ class DirectoryEntry:
     def lfn(self):
         return self.is_lfn
 
+    def vol(self):
+        return self.is_vol
+
+    def deleted(self):
+        return self.is_deleted
+
+    def __get_attr(self, attr):
+        if (attr & 0x08) == 0x08: return 'v'
+        if (attr & 0x10) == 0x10: return 'd'
+        if (attr & 0x20) == 0x20: return 'f'
+
     def __str__(self) -> str:
-        attrs = { 0x08 : "v", 0x10 : "d", 0x20: "f" }
-        attr = attrs[self.attr]
-        sz = hex(self.size)
-        no = hex(self.cluster_no)
-        return f"attr: {attr}, name: {self.name}, cluster_no: {no}, size: {sz}"
+        a = self.__get_attr(self.attr)
+        c = hex(self.cluster_no)
+        s = hex(self.size)
+        n = self.name
+        return f"attr: {a}, name: {n}, cluster_no: {c}, size: {s}"
 
 if __name__ == "__main__":
     file = open("fat32.mdf", 'rb')

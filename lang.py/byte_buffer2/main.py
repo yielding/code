@@ -29,9 +29,14 @@ class Fat32:
         bb = ByteBuffer2(node.read_all())
         while bb.has_remaining(): 
             de = DirectoryEntry(bb)
-            if de.lfn(): continue
             if de.empty(): break
-            print(de)
+            if de.lfn() or de.vol() or de.deleted(): continue
+
+            if de.name not in ['.', '..']:
+                print(de)
+                n0 = self.make_node(de)
+                n0.parent = node
+                node.children.append(n0)
 
     def expand_all(self, node):
         pass
@@ -43,8 +48,7 @@ class Fat32:
         leaf = DirectoryEntry(b0)
         node = self.make_node(leaf)
         print(node)
-        for e in node.extents:
-            print(e)
+        #for e in node.extents: print(e)
 
     def make_root_node(self):
         stream = (self.file, self.read_root_exts())
@@ -90,7 +94,6 @@ if __name__ == "__main__":
     #fat32.build_leaf()
     root = fat32.make_root_node()
     fat32.expand(root)
-    
 
     #all_files = fat32.search_all()
     #leaf = fat32.get("/DIRT/LEAF.jpg")

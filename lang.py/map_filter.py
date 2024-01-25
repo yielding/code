@@ -26,3 +26,6 @@ lt_5   = lambda x: x < 5
 
 print(sum(map(square, filter(lt_5, range(10)))))
 print(sum(map(cube,   filter(lt_5, range(10)))))
+
+arr=[(100, 20), (200, 30)]
+print(sum(map(lambda ext: ext[1], arr)))
