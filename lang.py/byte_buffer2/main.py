@@ -1,39 +1,11 @@
 #!/usr/bin/env python
 
-from byte_buffer2 import *
 from br import *
 from fatarea import *
 from dentry import *
-from enum import Enum
+from node import *
+from extent import *
 
-class NodeType(Enum):
-    File = 1
-    Dir = 2
-    SymLink = 3
-    HardLink = 4
-
-class Node:
-    def __init__(self, name, stream, type=NodeType.File) -> None:
-        self.name = name
-        self.path = ""
-        self.size = -1
-        # stream
-        self.source, self.extents = stream 
-        self.parent = None
-        self.children = []
-        self.type = type
-
-    def export_to(self, path):
-        with open(path, 'wb') as file:
-            for extent in self.extents:
-                addr, size = extent
-                source.seek(addr)
-                b = source.read(size)
-                file.write(b)
-
-    def __str__(self) -> str:
-        return f"name: {self.name}"
-                        
 class Fat32:
     def __init__(self, path) -> None:
         self.br = self.fat0 = None
@@ -50,15 +22,29 @@ class Fat32:
         self.root = self.make_root_node()
         print(self.root)
 
+    def expand(self, node):
+        if node.is_file():
+            raise Exception(f"file is given in expand_all")
+
+        bb = ByteBuffer2(node.read_all())
+        while bb.has_remaining(): 
+            de = DirectoryEntry(bb)
+            if de.lfn(): continue
+            if de.empty(): break
+            print(de)
+
+    def expand_all(self, node):
+        pass
+
     def build_leaf(self):
         file_addr = 0x404040
         self.file.seek(file_addr); 
         b0 = self.file.read(0x20)
-        leaf = DirectoryEntry(b0, self.fat0)
-        print(leaf)
-
-    def make_node(self):
-        pass
+        leaf = DirectoryEntry(b0)
+        node = self.make_node(leaf)
+        print(node)
+        for e in node.extents:
+            print(e)
 
     def make_root_node(self):
         stream = (self.file, self.read_root_exts())
@@ -67,42 +53,43 @@ class Fat32:
     def read_root_exts(self):
         return self.read_extents(self.br.root_cluster_no)
 
-    # extent = (start_offset, size)
     def read_extents(self, cluster_no):
         res = []
         bps = self.br.sector_size
         next = self.br.root_cluster_no
         while True:
             offset = (next - 2) * bps + self.br.data_area
-            res.append((offset, self.br.cluster_size))
+            res.append(Extent(offset, self.br.cluster_size))
             next = self.fat0.fat[next]
             if next == 0xfffffff:
                 break
             
         return res
 
-    def to_node(self, dentry):
-        node = Node()
+    def make_node(self, dentry):
+        type = NodeType.File if dentry.is_file else NodeType.Dir
+        extents = self.to_extents(dentry.cluster_no)
+        node = Node(dentry.name, (self.file, extents), type)
         node.size = dentry.size
-        node.extents = to_extents(dentry.cluster_no)
-
         return node
 
-    def to_extents(cluster_no):
+    def to_extents(self, cluster_no):
         extents = []
         next = cluster_no
         while next != 0xfffffff:
-            #offset = br.data_area + (next-2)*br.cluster_size
-            offset = 0x400000 + (next-2)*self.br.cluster_size
-            size = self.br.cluster_size
-            extents.append((offset, size))
+            offset = self.br.data_area + (next-2)*self.br.cluster_size
+            size   = self.br.cluster_size
+            extents.append(Extent(offset, size))
             next = self.fat0.fat[next]
 
         return extents
 
 if __name__ == "__main__":
     fat32 = Fat32("fat32.mdf")
-    fat32.build_filesystem()
+    #fat32.build_filesystem()
+    #fat32.build_leaf()
+    root = fat32.make_root_node()
+    fat32.expand(root)
     
 
     #all_files = fat32.search_all()

@@ -43,5 +43,19 @@ class TestByteBuffer2(unittest.TestCase):
         r0 = bb.get_utf16_le(4)
         self.assertEqual(r0, ' Inf')
 
+    def test_has_remaining(self):
+        self.assertEqual(self.bb.get_uint2_be(), 0x1122)
+        self.assertEqual(self.bb.offset, 2)
+        self.assertEqual(self.bb.has_remaining(), True)
+        self.assertEqual(self.bb.get_uint2_be(), 0x3344)
+        self.assertEqual(self.bb.offset, 4)
+        self.assertEqual(self.bb.has_remaining(), False)
+
+    def test_compare_range(self):
+        b = [0 for i in range(0, 0x20)]
+        bb = ByteBuffer2(b)
+        self.assertEqual(bb.size(), 0x20)
+        self.assertEqual(bb.compare_range(0, 0x20, 0), True)
+
 if __name__ == "__main__":
     unittest.main()

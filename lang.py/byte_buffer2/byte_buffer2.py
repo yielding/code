@@ -8,6 +8,25 @@ class ByteBuffer2:
         self.m_offset = 0
         self.m_limit = len(bs)
 
+    def has_remaining(self):
+        return self.m_offset < self.m_limit 
+
+    def compare_range(self, offset, count, val):
+        if offset + count > self.m_limit:
+            return False
+
+        for i in range(offset, offset+count):
+            if self.m_data[i] != val:
+                return False
+
+        return True
+
+    def change_cur_to(self, ch):
+        b = bytearray(self.m_data)
+        b[self.m_offset] = ord(ch)
+        self.m_data = bytes(b)
+        return self
+
     def size(self):
         return len(self.m_data)
 
@@ -21,6 +40,14 @@ class ByteBuffer2:
     @offset.setter
     def offset(self, pos):
         self.m_offset = pos
+        return self
+
+    def unget(self, pos):
+        self.m_offset -= pos
+        return self
+
+    def skip(self, count):
+        self.m_offset += count
         return self
 
     def get_uint2_be(self):
