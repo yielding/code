@@ -23,13 +23,14 @@ class BootRecord:
         no_of_fat = bb.get_uint1()
         self.data_area = self.fat_area_addr + self.fat_area_size * no_of_fat
 
+    def __str__(self) -> str:
+        cs = hex(self.cluster_size)
+        da = hex(self.data_area) 
+
+        return f"cluster_size: {cs}, data_area: {da}"
+
 if __name__ == "__main__":
-    pass
-
-    #all_files = fat32.search_all()
-    #leaf = fat32.get("/DIRT/LEAF.jpg")
-    #leaf.export_to("path")
-
-    #leaf.export_to(file, "/Users/yielding/Desktop/leaf.jpg")
-    #bb.offset(0x70)
-    #print(hex(bb.get_uint4_be()))
+    file = open("fat32.mdf", 'rb')
+    b0 = file.read(0x200)
+    br = BootRecord(b0)
+    print(br)
