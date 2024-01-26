@@ -19,6 +19,13 @@ class FatArea:
 
         return clusters
 
+    def __str__(self):
+        pass
+
 
 if __name__ == "__main__":
-    pass
+    file = open("fat32.mdf", 'rb')
+    file.seek(0x215c00)
+    b0 = file.read(0x200)
+    fat0 = FatArea(b0)
+    print(br)

@@ -90,15 +90,7 @@ class Fat32:
 
 if __name__ == "__main__":
     fat32 = Fat32("fat32.mdf")
-    #fat32.build_filesystem()
-    #fat32.build_leaf()
-    root = fat32.make_root_node()
-    fat32.expand(root)
-
-    #all_files = fat32.search_all()
-    #leaf = fat32.get("/DIRT/LEAF.jpg")
-    #leaf.export_to("path")
-
-    #leaf.export_to(file, "/Users/yielding/Desktop/leaf.jpg")
-    #bb.offset(0x70)
-    #print(hex(bb.get_uint4_be()))
+    fat32.build_filesystem()
+    all_files = fat32.search_all()
+    leaf = fat32.get("/DIR1/LEAF.jpg")
+    leaf.export_to("path")
