@@ -1,19 +1,2 @@
-## TODO
+fat32공부를 원하시는 분은 제게 연락주시면 새로만든 repository 공유해 드리겠습니다.
 
-
-### fat32
-* expand
-* make_root
-* make_nodestream
-
-## DOING
-### fat32
-* make_node
-
-
-## DONE
-* byte_buffer2
-* boot record
-* fat area
-* data area
-* directory entry
