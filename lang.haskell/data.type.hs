@@ -46,8 +46,8 @@ type Age = Int
 name (Person n _ _) = n
 
 findPerson name (p@(Person n _ _):ps)
-  | name ==  n = p
-  | otherwise  = findPerson name ps
+  | name == n = p
+  | otherwise = findPerson name ps
 
 showPerson :: Person -> String
 showPerson p = show(name p) -- ++ show 
