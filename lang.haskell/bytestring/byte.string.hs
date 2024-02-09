@@ -3,8 +3,9 @@ import qualified Data.ByteString as S
 import qualified Data.ByteString.Lazy as L
 
 copyFile2 :: FilePath -> FilePath -> IO()
-  contents <- L.readFile source
-  L.writeFile dest contents
+copyFile2 source dest = do
+  contents <- S.readFile source
+  S.writeFile dest contents
 
 main :: IO ()
 main = do
