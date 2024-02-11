@@ -17,6 +17,8 @@ auto from_to = [](auto start, auto finish)
 
 int main(int argc, char *argv[])
 {
+  auto v = vector{1, 2, 3};
+
   auto range = from_to(0, 10);
 
   cout << range() << endl;
