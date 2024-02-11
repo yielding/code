@@ -1,4 +1,5 @@
 #include <iostream>
+#include <format>
 #include <range/v3/all.hpp>
 
 namespace v = ranges::views;
@@ -9,8 +10,7 @@ using namespace std;
 auto chunk_scan(vector<int> arr, int n, auto f) -> vector<int>
 {
   auto const scan = [&](auto&& r) {
-    return g::views::partial_sum(r, f)
-         | g::to<vector>;
+    return v::partial_sum(r, f);
   };
 
   return arr
@@ -22,11 +22,13 @@ auto chunk_scan(vector<int> arr, int n, auto f) -> vector<int>
 
 int main(int argc, char* argv[])
 {
-  auto vec = vector{1, 2, 3, 4, 5, 6};
-
+  auto vec = vector{ 1, 2, 3, 4, 5, 6 };
   auto res = chunk_scan(vec, 2, plus{});
 
   cout << v::all(res) << endl;
+  string buffer;
+
+  cout << buffer;
 
   return 0;
 }

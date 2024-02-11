@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int agc, char* argv[])
 {
-  auto taget = 15;
+  auto target = 15;
   auto triangular_nos = v::iota(1) | v::partial_sum;
   auto repeated_taget = v::repeat(target);
   auto diff = v::zip_with(std::minus{}, repeated_taget, triangular_nos)
