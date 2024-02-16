@@ -11,5 +11,7 @@ main = do
   print $ [(*2), (+3)] <*> [1..3]
 
   print $ Just (*5) <*> (Just 3)
-  print $ (*) <$> Just 5 <*> Just 3
-  print $ liftA2 (*) (Just 5) (Just 3)
+
+  print $ (+) <$> Just 5 <*> Just 3
+  print $ pure (+) <*> Just 5 <*> Just 3
+  print $ liftA2 (+) (Just 5) (Just 3)

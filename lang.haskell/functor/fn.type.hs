@@ -51,7 +51,7 @@ f <*> g = \x -> f x (g x)
 main :: IO ()
 main = do
   print $ fmap (*3) (+100) 1      -- 303
-  print $ (*3) `fmap ` (+100) $ 1 -- 303
+  print $ (*3) `fmap` (+100) $ 1 -- 303
   print $ (*3) . (+100) $ 1       -- 303
 
   print $ fmap (show . (*3)) (*100) 1

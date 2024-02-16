@@ -15,3 +15,4 @@ main :: IO ()
 main = do
   print $ myInits0 [1..5]
   print $ myInits1 [1..5]
+  print $ flip (:) [1, 2] 3
