@@ -1,3 +1,6 @@
+-- NOTICE: confer from
+-- https://www.slideshare.net/namhyeonuk90/haskell-study-13
+--
 import Control.Monad.Writer
 
 -- newtype Writer extra a = Writer { runWriter :: (a, extra) }

@@ -1,6 +1,7 @@
-cmake_minimum_required (VERSION 3.26)
+cmake_minimum_required (VERSION 3.27)
 
 set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_COMPILER g++-13)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project (api.test)
@@ -15,6 +16,8 @@ include_directories (
   /Users/yielding/develop/include
   /usr/local/include 
   /opt/homebrew/include
+  ~/develop/include
+  ~/develop/vendor/include
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 

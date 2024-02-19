@@ -25,7 +25,7 @@ int = Parser parseInt
 
 -- >>> parse int "123+456"
 -- Just ("+456", 123)
-parse :: Parser a -> String -> Maybe (String , a)
+parse :: Parser a -> String -> Maybe (String, a)
 parse (Parser p) = p
 
 is :: Char -> Parser Char
@@ -36,7 +36,6 @@ is c = Parser $
 
 instance Functor Parser where
   fmap f (Parser p) = Parser (((f <$>) <$>) <$> p)
-
 
 instance Applicative Parser where
   pure a = Parser (\b -> Just (b, a))
