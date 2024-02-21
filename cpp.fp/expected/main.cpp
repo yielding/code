@@ -38,8 +38,10 @@ auto print_error(parse_error e) -> expected<double, string>
   {
     case parse_error::invalid_input:
       return unexpected("error : invalid input");
+
     case parse_error::overflow:
       return unexpected("error : overflow");
+
     default:
       return unexpected("error");
   }
