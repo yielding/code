@@ -25,4 +25,5 @@ main :: IO ()
 main = do 
   print $ F.foldl (+) 0 testTree
   print $ F.foldl (*) 1 testTree
+  print $ F.foldr (:) [] testTree
   print $ F.foldMap (\x -> [x]) testTree
