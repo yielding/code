@@ -24,8 +24,8 @@ int main(int argc, char* argv[])
   vector_opt<string> v = { "1234", "15 foo", "bar", "42", "5000", " 5" };
 
   // NOTICE
-  // the functions inside and_then should an optional<T> as a result,
-  // the transform re-box the output of function into an optional<T> 
+  // transform == fmap (map)
+  // and_then  == bind (flatmap)
   auto filter = [](auto&& o) {     // optinal<string>, 
     return o.and_then(to_int)      // flatmap from str to int
             .transform([](int n) { return n + 1; })

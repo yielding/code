@@ -32,6 +32,11 @@ auto parse_number(string_view str) -> expected<double, parse_error>
   return retval;
 }
 
+auto times_10(double d) -> expected<double, parse_error>
+{
+  return d * 10;
+}
+
 auto print_error(parse_error e) -> expected<double, string>
 {
   switch (e)
@@ -53,6 +58,7 @@ int main(int argc, char* argv[])
   {
     auto res = parse_number(src)
                 .transform([](double d) { return d + 10; })
+                .and_then(times_10)
                 .or_else(print_error);
 
     if (res.has_value())

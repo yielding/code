@@ -47,7 +47,6 @@ instance Applicative Parser where
                                 Nothing       -> Nothing
             Nothing       -> Nothing
 
-
 main :: IO()
 main = do
   print $ parse (is '+') "+456"
