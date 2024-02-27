@@ -2,6 +2,10 @@
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using CSharpFunctionalExtensions;
+using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
+
+namespace FluentAssertions;
 
 public class Email
 {
@@ -123,7 +127,9 @@ internal class Program
 
         var customer = new Customer(name.Value, email.Value);
         var s = customer.Name;
-
         Console.WriteLine($"{s}");
+
+        var maybe = Maybe.From("");
+        maybe.Should().HaveSomeValue();
     }
 }
