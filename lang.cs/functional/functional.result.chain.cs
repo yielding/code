@@ -13,7 +13,7 @@ public class ExampleFromPluralsightCourse
             .Tap(customer    => gateway.SendMail(customer.Email))
             .Map(customer    => gateway.Verify(customer))
             .Bind(customer   => gateway.SendPromotionNotification(customer.Email))
-            .Finally(result  => writeLog(result));
+            .Finally(result  => result.IsSuccess ? "Ok" : result.Error);
     }
 
     public Maybe<Customer> GetById(long id)
@@ -64,7 +64,9 @@ public class ExampleFromPluralsightCourse
         private static void Main(string[] args)
         {
             var course = new ExampleFromPluralsightCourse();
-            course.Promote(10);
+            Console.WriteLine(course.Promote(10));
+
+            TestMaybe();
         }
     }
 }

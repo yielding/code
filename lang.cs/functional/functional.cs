@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using CSharpFunctionalExtensions;
@@ -113,11 +113,8 @@ public class Customer
 
 internal class Program
 {
-    private static void Main(string[] args)
+    private static void Main2(string[] args)
     {
-        string s = "hello world";
-        Maybe<string> s1 = Maybe.From(s);
-
         var name  = CustomerName.Create("yielding");
         var email = Email.Create("yielding@gmail.com");
 
