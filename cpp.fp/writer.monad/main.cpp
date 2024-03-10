@@ -6,8 +6,13 @@ using namespace std;
 
 // NOTE
 // 이 Writere Moand 예제는 kleisli compostion
-// (a -> M a) -> (b -> M b) -> (c -> M c)
+// (>=>) :: (a -> Writer a) -> (b -> Writer b) -> (c -> Writer c)
 //
+// m1 >=> m2 = \x ->
+//     let (y, s1) = m1 x
+//         (z, s2) = m2 y
+//     in (z, s1 ++ s2)
+
 template<typename A>
 using Writer = pair<A, string>;
 
