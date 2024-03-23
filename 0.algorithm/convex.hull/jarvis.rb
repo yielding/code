@@ -26,12 +26,12 @@ class Point
     Point.new(-@x, -@y)
   end
 
-  def is_lower(p)
-    return @y < p.y || @y == p.y && @x < p.x 
-  end
-
   def == rhs
     @x == rhs.x && @y == rhs.y
+  end
+
+  def is_lower(p)
+    return @y < p.y || @y == p.y && @x < p.x 
   end
 
   def mdist_
@@ -166,6 +166,14 @@ class TestPoint < Test::Unit::TestCase
     @p1 = Point.new(5, 2)
     @p2 = Point.new(3, 4)
     @p3 = Point.new(1, 2)
+  end
+
+  def test_area2_2
+    org = Point.new(0, 0)
+    p0 = Point.new(0, 1)
+    p1 = Point.new(1, 1)
+
+    assert_equal(org.area2(p1, p0), 1)
   end
 
   def test_area2
