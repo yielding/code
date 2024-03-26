@@ -1,4 +1,3 @@
-
 data Person
   = Person 
     { name :: String
@@ -6,8 +5,7 @@ data Person
     }
     deriving (Show)
 
-person = Person {  name = "yielding", age = 52 }
-
+person = Person { name = "yielding", age = 52 }
 
 main :: IO()
 main = print $ age person

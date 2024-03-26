@@ -32,7 +32,7 @@ auto get_animation_points(const Points& points, int cut) -> vector<pair<double,i
 
 int main(int agc, char* argv[])
 {
-  Points ps{ {0, 0}, {2, 2}, {4, 4}, {4, 9}, {7, 9} };
+  Points ps{ {0, 0}, {2, 2}, {4, 4}, {4, 9}, {7, 9}, {7, 2}};
 
   auto res = get_animation_points(ps, 100);
 
