@@ -32,9 +32,10 @@ auto add(string const& a, string const& b) -> string
 
 int main(int argc, char *argv[])
 {
-  string a = "123";
-  string b = "12345";
-  string c = add(a, b);
+  auto a = "123"s;
+  auto b = "12345"s;
+  auto c = add(a, b);
+
   cout << c;
 
   return 0;

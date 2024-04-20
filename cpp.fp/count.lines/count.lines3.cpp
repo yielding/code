@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <fstream>
-
 #include <range/v3/view/transform.hpp>
 #include <range/v3/range/conversion.hpp>
 
@@ -18,7 +17,7 @@ auto open_file(string const& filename) -> ifstream
 
 auto count_file_lines(ifstream in) -> int
 { 
-  return count(istreambuf_iterator<char>(in),
+  return (int)count(istreambuf_iterator<char>(in),
                istreambuf_iterator<char>(), '\n');
 }
 
@@ -30,7 +29,7 @@ auto count_lines_in_files2(vector<string>& files) -> vector<int>
     | to<vector>();
 }
 
-int main(int argc, char* argv[])
+int main()
 {
   vector<string> files {
     "/Users/yielding/code/cpp.fp/count.lines/count.lines3.cpp",

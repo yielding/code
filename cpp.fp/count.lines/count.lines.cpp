@@ -8,7 +8,6 @@
 
 using namespace ranges::v3;
 using namespace std;
-
 auto count_file_lines(ifstream in) -> int;
 auto count_lines(const string& filename) -> int;
 auto open_file(string const& filename) -> ifstream;

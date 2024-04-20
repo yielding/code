@@ -6,15 +6,15 @@
 
 namespace rng = ranges;
 
+using namespace std;
+
 int main(int argc, char* argv[])
 {
-  using namespace std;
-
-  vector<int> v{1, 2, 3, 4, 5, 6};
-  cout << boolalpha 
+  vector v{1, 2, 3, 4, 5, 6};
+  cout << boolalpha
        << "vector: " << rng::is_sorted(v) << endl;
 
-  array<int, 6> a{6, 2, 3, 4, 5, 6};
+  array a{6, 2, 3, 4, 5, 6};
   cout << "array: " << rng::is_sorted(a) << endl;
 
   return 0;
