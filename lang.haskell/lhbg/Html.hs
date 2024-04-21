@@ -14,6 +14,7 @@ module Html
   where
 
 -- * Types
+
 newtype Html 
   = Html String
 
@@ -43,6 +44,8 @@ h1_ = Structure . el "h1" . escape
 ul_ :: [Structure] -> Structure
 ul_ =
   Structure . concat . map (el "li" . getStructureString)
+
+-- concat :: [[a]] -> [a]
 
 ol_ :: [Structure] -> Structure
 ol_ =

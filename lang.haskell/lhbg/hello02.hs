@@ -1,4 +1,4 @@
-main :: IO()
+main :: IO ()
 main = putStrLn (render myhtml)
 
 myhtml :: Html
