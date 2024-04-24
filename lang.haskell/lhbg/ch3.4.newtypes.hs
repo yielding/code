@@ -21,7 +21,6 @@ render html =
   case html of 
     Html str -> str
 
-
 s = Structure "hello"
 
 main :: IO()
