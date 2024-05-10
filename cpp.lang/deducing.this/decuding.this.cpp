@@ -1,21 +1,34 @@
+#include <utility>
+
+using namespace std;
+
 struct X 
 {
-    void foo(this X const& self, int i)
-    {}
+  void foo(this X const& self, int i)
+  {}
 
-    template <typename Self>
-        void bar(this Self&& self)
-        {}
+  template <typename Self>
+  void bar(this Self&& self)
+  {}
 };
 
 struct D : X { };
 
 void ex(X& x, D const& d) 
 {
-    x.foo(42);      // 'self' is bound to 'x', 'i' is 42
-    x.bar();        // deduces Self as X&, calls X::bar<X&>
-    move(x).bar();  // deduces Self as X, calls X::bar<X>
+  x.foo(42);      // 'self' is bound to 'x', 'i' is 42
+  x.bar();        // deduces Self as X&, calls X::bar<X&>
+  move(x).bar();  // deduces Self as X, calls X::bar<X>
 
-    d.foo(17);      // 'self' is bound to 'd'
-    d.bar();        // deduces Self as D const&, calls X::bar<D const&>
+  d.foo(17);      // 'self' is bound to 'd'
+  d.bar();        // deduces Self as D const&, calls X::bar<D const&>
+}
+
+int main(int argc, char* argv[])
+{
+  X x;
+  D d;
+  ex(x, d);
+
+  return 0;
 }

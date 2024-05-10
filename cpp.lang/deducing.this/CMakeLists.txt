@@ -2,8 +2,9 @@ cmake_minimum_required (VERSION 3.27)
 
 project (decuding.this)
 
-set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_COMPILER "g++-14")
 
 set (SOURCES
   decuding.this.cpp
