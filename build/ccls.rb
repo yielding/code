@@ -4,13 +4,13 @@ require "open3"
 require 'pathname'
 
 File.open(".ccls", "w") { |file| 
-  file.puts "g++-13"
+  file.puts "g++-14"
   file.puts "-std=c++2b"
   file.puts "-stdlib=libc++"
   file.puts "-fPIC"
   file.puts ""
 
-  stdout, stderr, status = Open3.capture3("g++-13 -E -x c++ - -v < /dev/null")
+  stdout, stderr, status = Open3.capture3("g++-14 -E -x c++ - -v < /dev/null")
   lines = stderr.split("\n")
   start, count = false, 0
   lines.each_with_index { |line, index|

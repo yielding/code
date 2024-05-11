@@ -8,8 +8,8 @@ int main(int argc, char const* argv[])
   int b, c;
 
   (a == 1) 
-    ?  b = a+1, c = b*2 
-    :  b = 0, c = 0 ;
+    ? b = a+1, c = b*2 
+    : b = 0, c = 0 ;
 
   cout << b << c << endl;
 
