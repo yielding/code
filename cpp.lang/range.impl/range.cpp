@@ -32,7 +32,6 @@ public:
 private:
   T cur_;
   const T step_ = 1;
-
 };
 
 template <typename T>

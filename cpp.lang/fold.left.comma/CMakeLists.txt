@@ -23,3 +23,4 @@ link_directories (
 add_executable (fold.left.comma
   ${SOURCES}
 )
+
