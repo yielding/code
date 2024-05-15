@@ -1,0 +1,20 @@
+{
+  "configurations": {
+    "myconf - Launch": {
+      "adapter": "CodeLLDB",
+      "breakpoints": {
+        "exception": {
+          "cpp_throw": "Y",
+          "cpp_catch": "N" 
+        }
+      },
+      "configuration": {
+        "request": "launch",
+        "program": "${fileDirname}/Debug/${fileBasenameNoExtension}",
+        "args": [ "3" ],
+        "stopAtEntry": true,
+        "cwd": "${cwd}"
+      }
+    }
+  }
+}

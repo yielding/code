@@ -18,7 +18,7 @@ using namespace boost;
 void ds_free(mrb_state* mrb, void* p)
 {
   auto ds = (DataStore*)p;
-  cout << str(format("c: ds_free at %x\n") % p);
+  cout << str(boost::format("c: ds_free at %x\n") % p);
 }
 
 struct mrb_data_type ds_type = {
@@ -48,7 +48,7 @@ auto ds_get_description(mrb_state* mrb, mrb_value self) -> mrb_value
   auto ds   = DATA_CHECK_GET_PTR(mrb, self, &ds_type, class DataStore);
   auto fss  = ds->get_file_systems();
   auto sz   = fss.size();
-  auto desc = str(format("DataStore for %s (%d file systems (%d nodes), %d models)")
+  auto desc = str(boost::format("DataStore for %s (%d file systems (%d nodes), %d models)")
                   % ds->device_name() % sz % 1024 % 2048);
 
   return mrb_str_new_cstr(mrb, desc.c_str());

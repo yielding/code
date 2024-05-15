@@ -1,8 +1,9 @@
-cmake_minimum_required (VERSION 3.26)
+cmake_minimum_required (VERSION 3.28)
 
 project (span.test)
 
 set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_COMPILER g++-14)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
@@ -20,4 +21,5 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable (span.test ${SOURCES})
+add_executable (span.test 
+  ${SOURCES})

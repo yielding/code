@@ -15,7 +15,7 @@ puts dir
 complier = case ARGV[1].downcase
            when /c.*/; "clang++"
            when /g.*/; "g++"
-           else "g++-11"
+           else "g++-14"
            end
 puts complier
 
