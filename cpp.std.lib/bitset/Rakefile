@@ -1,10 +1,10 @@
 # -*- ruby -*-
 
-SRC       = "regex_sample2"
+SRC       = "reverse"
 SRCS      = %W{ ./#{SRC}.cpp }
 TEST_SRCS = %W{ ./test_#{SRC}.cpp }
 APP       = "#{SRC}"
-CXX       = "xcrun"
+CXX       = "g++"
 CXXFLAGS  = ":Os"
 
 DIR = File.dirname __FILE__
