@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.28)
 
-project(from_to)
+project (from_to)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_CXX_COMPILER g++-14)

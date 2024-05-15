@@ -1,20 +1,20 @@
 #include <iostream>
 #include <functional>
+#include <print>
 
-using namespace std;
 
-template<class T>
+template <typename T>
 class optional
 {
 public:
-  optional() : _isValid(false) {} // Nothing
-  optional(T x) : _isValid(true) , _v(x) {} // Just
+  optional() : _is_valid{false} {}          // Nothing
+  optional(T x) : _is_valid{true}, _v{x} {} // Just
 
-  auto isValid() const { return _isValid; }
+  auto isValid() const { return _is_valid; }
   auto val()     const { return _v; }
 
   template <typename R>
-  auto fmap(function<optional<R>(T)>& functor) -> optional<R>
+  auto fmap(std::function<optional<R>(T)>& functor) -> optional<R>
   {
     return isValid()
       ? functor(_v)
@@ -22,9 +22,9 @@ public:
   }
 
   template <typename R>
-  auto map(function<R(T)>& f) -> optional<R>
+  auto map(std::function<R(T)>& f) -> optional<R>
   {
-    function<optional<R>(T)> res = [f](T v) {
+    std::function<optional<R>(T)> res = [f](T v) {
       return optional<R>(f(v));
     };
 
@@ -32,7 +32,7 @@ public:
   }
 
 private:
-  bool _isValid; // the tag
+  bool _is_valid; // the tag
   T _v;
 };
 
@@ -59,7 +59,7 @@ auto fmap(function<B(A)> f, optional<A> opt) -> optional<B>
 */
 
 template <typename R, typename T>
-auto fmap(optional<T> opt, function<R(T)> f) -> optional<R>
+auto fmap(optional<T> opt, std::function<R(T)> f) -> optional<R>
 {
   return opt.isValid()
     ? optional<R> { f(opt.val()) }
@@ -76,25 +76,21 @@ int main(int argc, char *argv[])
   optional<int> a(2);
   optional<int> b(4);
 
-  function<int(int)> f =
-    [](int i) -> int { return i*i; };
+  std::function<int(int)> f = [](int i) -> int { return i*i; };
 
-  function<optional<double>(int)> cube2 =
-    [](int i) { return optional<double>(i*i*i); };
-
-  function<optional<double>(int)> xx = cube;
+  std::function<optional<double>(int)> cube2 = [](int i) { return optional<double>(i*i*i); };
+  std::function<optional<double>(int)> xx = cube;
 
   auto c = a.map(f).fmap(xx);
-  cout << c.isValid() << endl;
+  std::print("{}\n", c.isValid());
 
   auto d = fmap(b, f);
-  cout << d.val() << endl;
+  std::print("{}\n", d.val());
 
   optional<int> none;
   auto e = fmap(none, f);
-       e = fmap(e, f);
-  cout << e.isValid() << endl;
-
+  e = fmap(e, f);
+  std::print("{}\n", e.isValid());
 
   return 0;
 }

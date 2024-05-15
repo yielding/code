@@ -5,7 +5,8 @@
 
 using namespace std;
 
-enum class parse_error {
+enum class parse_error 
+{
   invalid_input,
   overflow
 };
