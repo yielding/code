@@ -2,7 +2,6 @@
 #include <iomanip>  // for quoted
 #include <expected>
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
@@ -15,7 +14,7 @@ auto parse_number(string_view str) -> expected<double, parse_error>
 {
   auto beg = str.data();
   char* end;
-  auto retval = strtod(beg, &end);
+  auto retval = strtod(beg, &end); // string to double
 
   if (beg == end)
     return unexpected(parse_error::invalid_input);
@@ -48,13 +47,19 @@ auto print_error(parse_error e) -> expected<double, string>
   }
 }
 
+// NOTE
+// 1) transform : fmap 
+//    E double -> (double -> double) -> E double      (a -> b) -> f a -> f b
+//
+// 2) and_then : bind
+//    E double -> (double -> E double) -> E double    m a -> (a -> m b) -> m b
 int main(int argc, char* argv[])
 {
   for (auto const& src: { "42", "43 abc ", "meow", "inf" })
   {
     auto res = parse_number(src)
-                .transform([](double d) { return d + 10; })
-                .and_then(times_10)
+                .transform([](double d) { return d + 10; }) // transform: fmap(functor)double -> double
+                .and_then(times_10)                         // and_then
                 .or_else(print_error);
 
     if (res.has_value())
