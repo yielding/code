@@ -18,7 +18,8 @@ struct S
 
 int main(int argc, char const* argv[])
 {
-  S<int> s = { 1, 2, 3, 4, 5 };
+  // S<int> s = { 1, 2, 3, 4, 5 };
+  S s = { 1, 2, 3, 4, 5 };
 
   for (auto n: s.v) 
     cout << n << " ";

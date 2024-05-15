@@ -8,7 +8,6 @@ class X
 public:
   template <typename U> 
   void search(U const& key);
-
 };
 
 template <typename T> template <typename U> 
