@@ -2,7 +2,7 @@
 
 SRCS      = %w{ ./main.cpp ./gzstream.cpp }
 APP       = "gz_unzip"
-CXX       = "clang++"
+CXX       = "g++"
 CXXFLAGS  = ":d :Os"
 #LIBS      = "z gzstream"
 LIBS      = "z"
@@ -10,3 +10,5 @@ LIBS      = "z"
 DIR = File.dirname __FILE__
 
 load '~/code/build/app2.rake'
+
+task :default => [:osx]

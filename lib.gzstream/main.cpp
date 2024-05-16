@@ -10,30 +10,30 @@ using namespace std;
 
 int main(int argc, char*argv[])
 {
-    assert(argc == 3);
+  assert(argc == 3);
 
-    igzstream in(argv[1]);
-    if (!in.good())
-    {
-        cerr << "ERROR: Opening file `" << argv[1] << "' failed.\n";
-        return EXIT_FAILURE;
-    }
+  igzstream in(argv[1]);
+  if (!in.good())
+  {
+    cerr << "ERROR: Opening file `" << argv[1] << "' failed.\n";
+    return EXIT_FAILURE;
+  }
 
-    ofstream out(argv[2]);
+  ofstream out(argv[2]);
 
-    int const BUF_SIZE  = 8*1024;
-    size_t sz = BUF_SIZE;
-    while (sz == BUF_SIZE)
-    {
-        char buffer[BUF_SIZE] = { 0 };
-        in.read(buffer, BUF_SIZE);
-        sz = in.gcount();
+  int const BUF_SIZE  = 8*1024;
+  size_t sz = BUF_SIZE;
+  while (sz == BUF_SIZE)
+  {
+    char buffer[BUF_SIZE] = { 0 };
+    in.read(buffer, BUF_SIZE);
+    sz = in.gcount();
 
-        out.write(buffer, sz);
-    }
+    out.write(buffer, sz);
+  }
 
-    in.close();
-    out.close();
+  in.close();
+  out.close();
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
