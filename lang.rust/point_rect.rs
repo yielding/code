@@ -1,3 +1,4 @@
+
 struct Point {
     x: f64,
     y: f64
@@ -53,6 +54,7 @@ impl Pair {
 }
 
 fn main() {
+
     let rectangle = Rectangle {
         // Associated functions are called using double colons
         p1: Point::origin(),

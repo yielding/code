@@ -62,4 +62,3 @@ fn main() {
     dolly.shear();
     dolly.talk();
 }
-
