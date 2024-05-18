@@ -3,6 +3,6 @@ fn main() {
   loop {
     x += x - 3;
     if x % 5 == 0 { break; }
-    println(int::to_str(x));
+    println!("{}", x.to_string());
   }
 }

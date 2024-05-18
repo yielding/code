@@ -13,11 +13,6 @@ fn is_four(x: i32) -> bool {
   return x == 4;
 }
 
-fn type_test() -> () {
-  let x = 4.0;
-  let y: i32 = x as i32;
-}
-
 fn match_test(no: i32) -> bool {
   match no {
     0     => println!("0"),
@@ -36,10 +31,13 @@ fn return_test(x: i32) -> i32 {
 }
 
 fn tuple_test() -> () {
-  let mt: (i32, i32, f64) = (10, 20, 30.0);
+  let _mt: (i32, i32, f64) = (10, 20, 30.0);
 }
 
 fn main() {
   if_test("m");
+  is_four(3);
+  return_test(10);
+  tuple_test();
   match_test(3);
 }
