@@ -1,4 +1,4 @@
-puts Time.now
+puts Time.local
 
 t = Time.new(2002, 10, 31, 2, 2, 2)
 p t
