@@ -74,7 +74,7 @@ fn main() {
 
     // Error! `rectangle` is immutable, but this method requires a mutable
     // object
-    //rectangle.translate(1.0, 0.0);
+    // rectangle.translate(1.0, 0.0);
     // TODO ^ Try uncommenting this line
 
     // Okay! Mutable objects can call mutable methods
