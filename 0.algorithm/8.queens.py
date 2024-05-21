@@ -4,7 +4,7 @@ from functools import partial
 from functools import reduce
 import operator
 
-def each_cons_iter(listin, n): 
+def each_cons_iter(listin, n):
     i = 0
     while (i<len(listin)-n+1):
         yield listin[i:i+n]
