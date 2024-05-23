@@ -2,7 +2,7 @@
 
 using namespace std;
 
-class Matrix 
+class Matrix : public 
 {
 public:
   template<typename Self>

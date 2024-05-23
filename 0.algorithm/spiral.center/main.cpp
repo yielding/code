@@ -1,19 +1,22 @@
-#include <iostream>
 #include <vector>
-#include <algorithm>
-#include <cstdio>
+#include <print>
 
 using namespace std;
+
+template<typename T, typename U>
+using pairs = vector<pair<T, U>>;
+
+template<typename T>
+using matrix = vector<vector<T>>;
 
 class Matrix
 {
 public:
-  explicit Matrix(int dim, int val) : _value {val}
+  explicit Matrix(int dim=5, int val=1) : _value {val}
   {
     for (int i=0; i<dim; i++) _board.emplace_back(dim);
 
-    int xy = dim / 2;
-    _board[xy][xy] = val;
+    _board[dim/2][dim/2] = val;
   }
 
   void go()
@@ -24,17 +27,17 @@ public:
     for (int step = 1; ; ++step)
     {
       cur = update_board(cur, next_dir(), step, val);
-      if (val >= dim*dim) return;
+      if (val >= dim * dim) return;
 
       cur = update_board(cur, next_dir(), step, val);
-      if (val >= dim*dim) return;
+      if (val >= dim * dim) return;
     }
   }
 
   auto next_dir() -> pair<int, int>
   {
     auto res = _dirs[0];
-    rotate(_dirs.begin(), _dirs.begin()+1, _dirs.end());
+    rotate(_dirs.begin(), _dirs.begin() + 1, _dirs.end());
 
     return res;
   }
@@ -44,40 +47,40 @@ public:
     auto [x, y] = cur;
     auto [dx, dy] = dir;
 
-    for (int i=0; i<step; i++)
+    for (auto i = 0; i < step; i++)
     {
       x += dx;
       y += dy;
+
       _board[y][x] = ++v;
     }
 
-    return make_pair(x, y);
+    return {x, y};
   }
 
-  void print()
+  void print_to_console()
   {
     for (auto& row: _board)
     {
-      for (auto cell: row) printf("%3d", cell);
-      cout << endl;
+      for (auto cell: row) print("{:5}", cell);
+      println("");
     }
 
-    cout << endl;
+    println("");
   }
 
 private:
-  vector<vector<int>> _board;
-  vector<pair<int,int>> _dirs { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
+  matrix<int> _board;
+  pairs<int, int> _dirs { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
   int _value;
 };
 
 int main(int argc, char* argv[])
 {
-  Matrix m(9, 1);
+  Matrix m{9};
 
-  m.print();
   m.go();
-  m.print();
+  m.print_to_console();
 
   return 0;
 }
