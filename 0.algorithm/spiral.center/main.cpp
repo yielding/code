@@ -9,16 +9,17 @@ using pairs = vector<pair<T, U>>;
 template<typename T>
 using matrix = vector<vector<T>>;
 
-class Matrix
+class SpiralArray
 {
 public:
-  explicit Matrix(int dim=5, int val=1) : _value {val}
+  explicit SpiralArray(int dim=5, int val=1) : _value {val}
   {
     for (int i=0; i<dim; i++) _board.emplace_back(dim);
 
     _board[dim/2][dim/2] = val;
   }
 
+public:
   void go()
   {
     auto dim = _board.size();
@@ -34,6 +35,18 @@ public:
     }
   }
 
+  void print_to_console()
+  {
+    for (auto& row: _board)
+    {
+      for (auto cell: row) print("{:5}", cell);
+      println("");
+    }
+
+    println("");
+  }
+
+private:
   auto next_dir() -> pair<int, int>
   {
     auto res = _dirs[0];
@@ -58,27 +71,17 @@ public:
     return {x, y};
   }
 
-  void print_to_console()
-  {
-    for (auto& row: _board)
-    {
-      for (auto cell: row) print("{:5}", cell);
-      println("");
-    }
-
-    println("");
-  }
 
 private:
   matrix<int> _board;
-  pairs<int, int> _dirs { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
+  // pairs<int, int> _dirs { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
+  pairs<int, int> _dirs { {-1, 0}, {0, 1}, {1, 0}, {0, -1} };
   int _value;
 };
 
 int main(int argc, char* argv[])
 {
-  Matrix m{9};
-
+  SpiralArray m{5};
   m.go();
   m.print_to_console();
 
