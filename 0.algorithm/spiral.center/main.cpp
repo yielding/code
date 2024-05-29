@@ -3,12 +3,31 @@
 
 using namespace std;
 
-template<typename T, typename U>
-using pairs = vector<pair<T, U>>;
+template<typename T> using dir = pair<T, T>;
+template<typename T> using dirs = vector<dir<T>>;
+template<typename T> using matrix = vector<vector<T>>;
 
-template<typename T>
-using matrix = vector<vector<T>>;
+struct RotateR 
+{
+  static auto next_dir() -> dir<int>
+  {
+    static dirs<int> _dirs { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
+    auto res = _dirs[0]; rotate(_dirs.begin(), _dirs.begin() + 1, _dirs.end());
+    return res;
+  }
+};
 
+struct RotateL 
+{
+  static auto next_dir() -> dir<int>
+  {
+    static dirs<int> _dirs { {-1, 0}, {0, 1}, {1, 0}, {0, -1} };
+    auto res = _dirs[0]; rotate(_dirs.begin(), _dirs.begin() + 1, _dirs.end());
+    return res;
+  }
+};
+
+template <typename RotatePolicy>
 class SpiralArray
 {
 public:
@@ -27,10 +46,10 @@ public:
     auto val = _value;
     for (int step = 1; ; ++step)
     {
-      cur = update_board(cur, next_dir(), step, val);
+      cur = update_board(cur, RotatePolicy::next_dir(), step, val);
       if (val >= dim * dim) return;
 
-      cur = update_board(cur, next_dir(), step, val);
+      cur = update_board(cur, RotatePolicy::next_dir(), step, val);
       if (val >= dim * dim) return;
     }
   }
@@ -47,43 +66,32 @@ public:
   }
 
 private:
-  auto next_dir() -> pair<int, int>
-  {
-    auto res = _dirs[0];
-    rotate(_dirs.begin(), _dirs.begin() + 1, _dirs.end());
-
-    return res;
-  }
-
   auto update_board(auto cur, auto dir, int step, int& v) -> pair<int, int>
   {
-    auto [x, y] = cur;
+    auto [x0, y0] = cur;
     auto [dx, dy] = dir;
 
     for (auto i = 0; i < step; i++)
-    {
-      x += dx;
-      y += dy;
+      _board[y0 += dy][x0 += dx] = ++v;
 
-      _board[y][x] = ++v;
-    }
-
-    return {x, y};
+    return {x0, y0};
   }
-
 
 private:
   matrix<int> _board;
-  // pairs<int, int> _dirs { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
-  pairs<int, int> _dirs { {-1, 0}, {0, 1}, {1, 0}, {0, -1} };
   int _value;
 };
 
 int main(int argc, char* argv[])
 {
-  SpiralArray m{5};
-  m.go();
-  m.print_to_console();
+  auto dim = 7;
+  SpiralArray<RotateL> m0{dim};
+  m0.go();
+  m0.print_to_console();
+
+  SpiralArray<RotateR> m1{dim};
+  m1.go();
+  m1.print_to_console();
 
   return 0;
 }
