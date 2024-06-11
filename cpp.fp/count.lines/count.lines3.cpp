@@ -31,9 +31,9 @@ auto count_lines_in_files2(vector<string>& files) -> vector<int>
 
 int main()
 {
-  vector<string> files {
-    "/Users/yielding/code/cpp.fp/count.lines/count.lines3.cpp",
-    "/Users/yielding/code/cpp.fp/count.lines/count.lines3.cpp"
+  vector files = {
+    "/Users/yielding/code/cpp.fp/count.lines/count.lines3.cpp"s,
+    "/Users/yielding/code/cpp.fp/count.lines/count.lines3.cpp"s
   };
 
   vector<int> v{1, 2};
