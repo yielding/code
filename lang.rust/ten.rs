@@ -5,5 +5,5 @@ fn ten_times<F>(f: F) where F: Fn(i32) {
 }
 
 fn main() {
-  ten_times(|k| println!("hello, {}", k) );
+  ten_times(|k| println!("hello, {}", k));
 }
