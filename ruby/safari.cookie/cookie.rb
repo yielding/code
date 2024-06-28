@@ -20,7 +20,6 @@ class Page
   def initialize(f, pos)
     f.seek(pos)
     @ok = f.read(4).get_int4_be == 256
-
   end
 
   def to_s
