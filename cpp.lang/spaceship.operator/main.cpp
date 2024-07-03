@@ -39,7 +39,6 @@ int main(int argc, char *argv[])
   for (auto const& e: humans)
     cout << e.m_name << endl;
 
-
   /*
   auto res = a == b;
 
