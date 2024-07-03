@@ -50,13 +50,11 @@ parseLines currentParagraph txts =
 
 trim :: String -> String
 trim = unwords . words
-   
 
 main = do
   if const (add 3 2) (decrement 3) == 5
      then putStrLn "Yes."
      else putStrLn "No."
 
-  print $ replicate 3 "Yes"
-  print $ odd 3
+  print $ lines "hello\nworld"
   print $ parse "hello\nworld"
