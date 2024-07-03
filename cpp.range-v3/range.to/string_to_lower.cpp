@@ -1,6 +1,6 @@
-#include <iostream>
 #include <string>
 #include <cctype>
+#include <print>
 
 #include <range/v3/all.hpp>
 
@@ -23,8 +23,8 @@ auto string_only_alnum(string const& s) -> string
 
 int main(int argc, char* argv[])
 {
-  cout << string_to_lower("HHH") << endl;
-  cout << string_only_alnum("H!H2H") << endl;
+  println("{}", string_to_lower("HHH"));
+  println("{}", string_only_alnum("H!H2H"));
 
   return 0;
 }

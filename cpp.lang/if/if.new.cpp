@@ -11,10 +11,8 @@ pair<int, bool> return_pair()
 
 int main(int argc, char *argv[])
 {
-  if (auto[it, succeeded] = return_pair(); succeeded)
-  {
+  if (auto [it, succeeded] = return_pair(); succeeded)
     cout << "ok value = " << it << endl;
-  }
   
   return 0;
 }
