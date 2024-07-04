@@ -39,18 +39,16 @@ T parallel_accumulate(It first, It last, T init)
         ref(results[i]));
   }
 
-  accumulate_block<It, T>() (
-    block_start, last, results[num_threads-1]);
+  accumulate_block<It, T>() (block_start, last, results[num_threads-1]);
 
-  for_each(threads.begin(),threads.end(), 
-      mem_fn(&thread::join));
+  for_each(threads.begin(),threads.end(), mem_fn(&thread::join));
 
   return accumulate(results.begin(), results.end(),init);
 }
 
 int main(int argc, char *argv[])
 {
-  vector<int> v{1, 2, 3, 4, 5};
+  vector v{1, 2, 3, 4, 5};
   accumulate_block<vector<int>::iterator, int> blk;
 
   int result = 0;
