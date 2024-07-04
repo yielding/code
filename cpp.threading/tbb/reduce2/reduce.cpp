@@ -38,4 +38,6 @@ int main()
     eval([&v]{ return pair{"reduce (seq, long)", reduce(execution::seq, v.cbegin(), v.cend())}; });
     eval([&v]{ return pair{"reduce (par, long)", reduce(execution::par, v.cbegin(), v.cend())}; });
   }
+
+  return 0;
 }
