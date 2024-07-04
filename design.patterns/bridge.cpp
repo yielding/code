@@ -1,9 +1,6 @@
-#include <iostream>
-
-#include <boost/format.hpp>
+#include <print>
 
 using namespace std;
-using namespace boost;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -29,7 +26,7 @@ class cocoa_api: public drawing_api
 public:
   virtual void draw_circle(double x, double y, double radius)
   {
-    cout << str(format("Cocoa.circle at (%f, %f, %f)\n") % x % y % radius);
+    println("Cocoa.circle at ({}, {}, {})", x, y, radius);
   }
 };
 
@@ -39,7 +36,7 @@ class carbon_api: public drawing_api
 public:
   virtual void draw_circle(double x, double y, double radius)
   {
-    cout << str(format("Carbon.circle at (%f, %f, %f)\n") % x % y % radius);
+    println("Carbon.circle at ({}, {}, {})", x, y, radius);
   }
 };
 
