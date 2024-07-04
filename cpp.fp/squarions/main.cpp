@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 
 
   for (auto const& [e1, e2] : rng | v::take(5))
-    cout << format("({}:{})", e1, e2) << " "
+    cout << format("({}:{})", e1, e2) << " ";
 
   return 0;
 }
