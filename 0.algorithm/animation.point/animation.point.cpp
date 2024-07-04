@@ -1,10 +1,11 @@
 #include "point.hpp"
 
-#include <iostream>
+#include <print>
 #include <range/v3/all.hpp>
 
 namespace v = ranges::views;
 namespace g = ranges;
+
 using namespace std;
 
 using Points = vector<Point>;
@@ -32,12 +33,12 @@ auto get_animation_points(const Points& points, int cut) -> vector<pair<double,i
 
 int main(int agc, char* argv[])
 {
-  Points ps{ {0, 0}, {2, 2}, {4, 4}, {4, 9}, {7, 9}, {7, 2}};
+  Points ps{ {0, 0}, {2, 2}, {4, 4}, {4, 9}, {7, 9}, {7, 2} };
 
   auto res = get_animation_points(ps, 100);
 
   for (auto&r : res) 
-    cout << format("{}: {}\n", r.second, r.first);
+    println("{}: {}", r.second, r.first);
 
   return 0;
 }

@@ -1,9 +1,8 @@
 # -*- ruby -*-
 
 SRCS     = %w{ reduce.cpp }
-TEST_SRCS= %w{ test_reduce.cpp }
 APP      = "reduce"
-CXX      = "clang++"          # c++0x, clang++, blank
+CXX      = "g++"          # c++0x, clang++, blank
 CXXFLAGS = ":v :d :w"         # :d , :w=-Wall :O0 :O3
 LIBS     = "tbb"
 

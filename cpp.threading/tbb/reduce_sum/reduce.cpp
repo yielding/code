@@ -1,4 +1,4 @@
-#include "tbb/task_scheduler_init.h"
+//#include "tbb/task_scheduler_init.h"
 #include "tbb/blocked_range.h"
 #include "tbb/parallel_reduce.h"
 #include "tbb/tick_count.h"
@@ -71,7 +71,7 @@ float ParallelSumFoo(float a[], size_t n)
 
 int main(int argc, char const* argv[])
 {
-  task_scheduler_init init;
+  //task_scheduler_init init;
   int const N = 10000;
   float a[N];
 
