@@ -11,7 +11,7 @@ def message_read(flags):
   """
   # second bit is the "was read" flag
   return (int(flags) & 0x02) >> 1
- 
+
 db = sqlite.connect('3d0d7e5fb2ce288813306e4d4636395e047a3d28')
 # register the user-defined function used by delete trigger
 db.create_function('read', 1, message_read)
