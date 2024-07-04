@@ -19,7 +19,7 @@ class fib_task: public task
 {
 public:
   fib_task(int64_t n, int64_t* sum)
-    :m_n(n), m_sum(sum)
+    : m_n(n), m_sum(sum)
   {}
 
   task* execute()
