@@ -1,15 +1,15 @@
-#include <iostream>
+#include <print>
+#include <format>
 #include <string>
 #include <cstdlib>
 #include <fstream>
+#include <numeric>
 
 #include <boost/uuid/detail/sha1.hpp>
-#include <boost/format.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 using namespace std; 
-using namespace boost;
-      namespace fs = boost::filesystem;
+      namespace fs = filesystem;
 
 int main(int argc, char *argv[])
 {
@@ -25,18 +25,18 @@ int main(int argc, char *argv[])
 
   in.read(buffer, size);
 
-  uuids::detail::sha1 sh;
+  boost::uuids::detail::sha1 sh;
   sh.process_bytes(buffer, size);
 
   unsigned int digest[5];
   sh.get_digest(digest);
 
   string r;
-  for (auto i : digest)
-    r += str(format("%08x") % i);
+  for (auto i : digest) r += format("{0:x}", i);
 
-  cout << r << endl;
+  println("{}", r);
+
+  delete [] buffer;
   
-
   return EXIT_SUCCESS;
 }
