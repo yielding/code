@@ -10,6 +10,7 @@ using namespace date;
 
 int main(int argc, char const* argv[])
 {
+  chrono::time_point(0)
   // 1. time_point
   auto tp = chrono::system_clock::now();
   cout << tp << endl;
