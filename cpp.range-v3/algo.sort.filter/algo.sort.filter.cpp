@@ -1,30 +1,25 @@
 #include <iostream>
-#include <algorithm>
-#include <string>
+#include <format>
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>
-#include <range/v3/algorithm/copy.hpp>
-
-#include <boost/format.hpp>
 
 using namespace ranges::v3;
 using namespace std;
-using namespace boost;
 
-struct user
+struct User
 {
   string name;
   int age;
 
-  auto to_s() const -> string 
+  auto to_s() const 
   {
-    return str(format("name: %s, age: %d") % name % age);
+    return format("name: {}, age: {}", name, age);
   }
 };
 
 int main(int argc, char *argv[])
 {
-  vector<user> users 
+  vector<User> users 
     = { {"leech", 49}, {"kamin", 47}, {"gunhee", 17} };
 
   auto result = users

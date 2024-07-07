@@ -1,10 +1,9 @@
-#include <iostream>
 #include <range/v3/view/take.hpp>
 #include <range/v3/view/iota.hpp>
 #include <range/v3/view/transform.hpp>
 #include <range/v3/view/generate.hpp>
 #include <range/v3/numeric/accumulate.hpp>
-//#include <range/v3/all.hpp>
+#include <iostream>
 
 using namespace ranges::v3;
 using namespace std;

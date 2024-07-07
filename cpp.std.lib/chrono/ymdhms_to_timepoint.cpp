@@ -1,8 +1,8 @@
 #include <iostream>
 #include <chrono>
 
-using namespace std::chrono;
 using namespace std;
+using namespace std::chrono;
 
 /*
 int main()
@@ -29,7 +29,7 @@ int main()
 }
 */
 
-int main(int argc, char *argv[])
+void test1()
 {
   int y = 2019;
   int m = 3;
@@ -40,7 +40,27 @@ int main(int argc, char *argv[])
   int us = 123456;
   auto t = sys_days(year{y}/m/d) + hours{h} + minutes{M} + seconds{s} + microseconds{us};
 
-  cout << t;
+  cout << t << endl;
+}
+
+void test2()
+{
+  int y = 2024;
+  int m = 7;
+  int d = 7;
+  int h = 1;
+  int M = 0;
+  int s = 0;
+  int us = 0;
+  auto t = sys_days(year{y}/m/d) + seconds{3600};
+
+  cout << t << endl;
+}
+
+int main(int argc, char *argv[])
+{
+  test1();
+  test2();
   
   return 0;
 }
