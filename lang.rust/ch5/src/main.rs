@@ -1,10 +1,29 @@
+#[derive(Debug)]
+struct Rectangle {
+    length: u32,
+    width: u32
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.length * self.width
+    }
+
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.length > other.length && self.width > other.width
+    }
+
+    fn square(size: u32) -> Rectangle {
+        Rectangle { length: size, width: size }
+    }
+}
 
 fn first_word(s: &String) -> &str {
     let bytes = s.as_bytes();
 
     for (i, &item) in bytes.iter().enumerate() {
         if item == b' ' {
-            return  &s[..i];
+            return &s[..i];
         }
     }
 
@@ -24,4 +43,8 @@ fn main() {
         println!("{}", item)
     }
 
+    let rect2 = Rectangle { length: 50, width: 30 };
+    println!("rect2 is {}", rect2.area());
+
+    println!("rect2 saure {}", Rectangle::square(3).area())
 }
