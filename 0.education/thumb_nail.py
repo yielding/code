@@ -28,7 +28,7 @@ def write_file(fname, buffer):
 try:
     beg_pattern, end_pattern = (b'\xFF\xD8\xFF', b'\xFF\xD9')
 
-    img = read_file("/Users/yielding/Desktop/1.jpg")
+    img = read_file("1.jpg")
     beg = search(img, beg_pattern, 1)
     end = search(img, end_pattern, 3)
 
@@ -36,8 +36,8 @@ try:
        thumbnail = img[beg:end + 2]
        write_file("/Users/yielding/Desktop/1_thumb2.jpg", thumbnail)
        print("Thumbnail is made.")
-
-    print("terminating")
+    else:
+       print("No thumbnail available.")
 
 except IOError:
     print >> sys.stderr, "cannot open file"
