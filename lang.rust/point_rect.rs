@@ -45,17 +45,16 @@ impl Rectangle {
 struct Pair(Box<i32>, Box<i32>);
 
 impl Pair {
-
   fn destroy (self) {
     let Pair(first, second) = self;
-    println!("Destroying Pair({}, P{})", first, second);
+    println!("Destroying Pair({}, {})", first, second);
   }
 }
 
 fn main() {
 
+  // Associated functions are called using double colons
   let rectangle = Rectangle {
-    // Associated functions are called using double colons
     p1: Point::origin(),
     p2: Point::new(3.0, 4.0),
   };
@@ -80,10 +79,5 @@ fn main() {
   square.translate(1.0, 1.0);
 
   let pair = Pair(Box::new(1), Box::new(2));
-
   pair.destroy();
-
-  // Error! Previous `destroy` call "consumed" `pair`
-  //pair.destroy();
-  // TODO ^ Try uncommenting this line
 }

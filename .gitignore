@@ -28,3 +28,4 @@ Release/
 .vscode/
 cmake-build-debug/
 cmake-build-release/
+target*/
