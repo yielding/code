@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+#encoding: utf-8
 
 import sys
 
@@ -6,7 +7,7 @@ def search(image, pattern, offset):
     if len(image) < len(pattern):
         return -1
 
-    for i in xrange(offset, len(image) - len(pattern)):
+    for i in range(offset, len(image) - len(pattern)):
         image_block = image[i: i + len(pattern)]
         if pattern == image_block:
             return i
@@ -25,16 +26,18 @@ def write_file(fname, buffer):
     f.close()
 
 try:
-    beg_pattern, end_pattern = ('\xFF\xD8\xFF', '\xFF\xD9')
+    beg_pattern, end_pattern = (b'\xFF\xD8\xFF', b'\xFF\xD9')
 
-    img = read_file("1.jpg")
+    img = read_file("/Users/yielding/Desktop/1.jpg")
     beg = search(img, beg_pattern, 1)
     end = search(img, end_pattern, 3)
 
     if beg != -1 and end != -1:
        thumbnail = img[beg:end + 2]
-       write_file("1_thumb2.jpg", thumbnail)
-       print "Thumbnail is made."
+       write_file("/Users/yielding/Desktop/1_thumb2.jpg", thumbnail)
+       print("Thumbnail is made.")
+
+    print("terminating")
 
 except IOError:
     print >> sys.stderr, "cannot open file"
