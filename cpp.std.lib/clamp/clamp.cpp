@@ -11,6 +11,6 @@ int main(int argc, char *argv[])
   cout << clamp( 12000, lo, hi) << endl;
   cout << clamp(-36000, lo, hi) << endl;
   cout << clamp( 40000, lo, hi) << endl;
-  
+
   return 0;
 }
