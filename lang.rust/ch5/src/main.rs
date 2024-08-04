@@ -1,4 +1,5 @@
 #[derive(Debug)]
+
 struct Rectangle {
     length: u32,
     width: u32
@@ -17,6 +18,7 @@ impl Rectangle {
         Rectangle { length: size, width: size }
     }
 }
+
 fn first_word(s: &String) -> &str {
     let bytes = s.as_bytes();
 

@@ -1,5 +1,5 @@
 [package]
-name = "ch12-minigrep"
+name = "minigrep"
 version = "0.1.0"
 edition = "2021"
 
