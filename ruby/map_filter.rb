@@ -9,4 +9,4 @@ end
 
 p (1..10).select { |e| e < 5 }
          .map    { |e| e * e }
-         .sum
+         .sum  

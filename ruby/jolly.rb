@@ -11,7 +11,7 @@ module Enumerable
   end
 
   def jolly?
-    cons { |a, b| (a-b).abs }.sort.cons{|a, b|(a-b)==-1}.all?
+    cons { |a, b| (a - b).abs }.sort.cons { |a, b| (a - b) == -1 }.all?
   end
 end
 

@@ -19,7 +19,7 @@ impl Inventory {
 
         for color in &self.shirts {
             match color {
-                ShirtColor::Red  => red_no += 1,
+                ShirtColor::Red  => red_no  += 1,
                 ShirtColor::Blue => blue_no += 1,
             }
         }
@@ -36,6 +36,7 @@ fn main() {
     let store = Inventory {
         shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
     };
+
 
     let user_pref1 = Some(ShirtColor::Red);
     let giveway1   = store.giveway(user_pref1);
