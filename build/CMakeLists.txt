@@ -6,7 +6,9 @@ set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  __SOURCE__.cpp
+  __SOURCE__1.cpp
+  __SOURCE__2.cpp
+  ...
 )
 
 include_directories (

@@ -12,7 +12,9 @@ struct RotateR
   static auto next_dir() -> dir<int>
   {
     static dirs<int> _dirs { {1, 0}, {0, 1}, {-1, 0}, {0, -1} };
-    auto res = _dirs[0]; rotate(_dirs.begin(), _dirs.begin() + 1, _dirs.end());
+    auto res = _dirs[0]; 
+    rotate(_dirs.begin(), _dirs.begin() + 1, _dirs.end());
+
     return res;
   }
 };
@@ -22,7 +24,9 @@ struct RotateL
   static auto next_dir() -> dir<int>
   {
     static dirs<int> _dirs { {-1, 0}, {0, 1}, {1, 0}, {0, -1} };
-    auto res = _dirs[0]; rotate(_dirs.begin(), _dirs.begin() + 1, _dirs.end());
+    auto res = _dirs[0]; 
+    rotate(_dirs.begin(), _dirs.begin() + 1, _dirs.end());
+
     return res;
   }
 };
@@ -85,6 +89,7 @@ private:
 int main(int argc, char* argv[])
 {
   auto dim = 7;
+
   SpiralArray<RotateL> m0{dim};
   m0.go();
   m0.print_to_console();

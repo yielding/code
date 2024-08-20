@@ -66,7 +66,7 @@ public class ExampleFromPluralsightCourse
             var course = new ExampleFromPluralsightCourse();
             Console.WriteLine(course.Promote(10));
 
-            TestMaybe();
+            //TestMaybe();
         }
     }
 }

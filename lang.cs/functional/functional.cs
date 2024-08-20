@@ -115,7 +115,7 @@ internal class Program
 {
     private static void Main2(string[] args)
     {
-        var name  = CustomerName.Create("yielding");
+        var name = CustomerName.Create("yielding");
         var email = Email.Create("yielding@gmail.com");
 
         var result = Result.Combine(name, email);
