@@ -37,7 +37,6 @@ fn main() {
         shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
     };
 
-
     let user_pref1 = Some(ShirtColor::Red);
     let giveway1   = store.giveway(user_pref1);
     println!("The user with preferene {:?} gets {:?}",
