@@ -1,6 +1,6 @@
 "--------------------------------------------------------------------------------
-" General
-"--------------------------------------------------------------------------------
+" General 
+" --------------------------------------------------------------------------------
 set lsp=4
 
 set ru
@@ -44,6 +44,9 @@ set clipboard+=unnamedplus
 
 set nofixendofline
 
+set notimeout
+set ttimeout
+
 "set completefunc=emoji#complete
 
 "--------------------------------------------------------------------------------
@@ -59,7 +62,7 @@ set ve=block
 
 set et
 
-"set ts=4 sts=4 sw=4 tw=0
+set ts=4 sts=4 sw=4 tw=0
 set ts=2 sts=2 sw=2 tw=0
 
 set smarttab
@@ -71,10 +74,12 @@ set cino=t0,g0
 set fillchars+=vert:\ 
 
 set splitbelow
+
 "--------------------------------------------------------------------------------
 " globar variables
 "--------------------------------------------------------------------------------
 let _vimrc="~/.config/nvim/init.vim"
+let _zedrun="~/.config/zed/custom_runfile.rb"
 let _words="~/.config/nvim/autoload/plugged/wordlist.vim/plugin/wordlist.vim"
 let _plugs="~/.config/nvim/vim-plug/plugins.vim"
 let _zshrc="~/.zshrc"
@@ -104,11 +109,12 @@ else
   color jellybeans
 endif
 
-"color Tomorrow-Night-Eighties
-"color seoul256
-"color xoria256
 color desertedoceanburnt
+color wintersday
+color xoria256
 color fu
+color Tomorrow-Night-Blue
+color jellybeans
 
 "--------------------------------------------------------------------------------
 " Terminal
@@ -139,9 +145,10 @@ set undofile
 "--------------------------------------------------------------------------------
 " python & ruby
 "--------------------------------------------------------------------------------
-let g:python3_host_prog = "/Users/yielding/miniforge/envs/pytorch/bin/python"
+"let g:python3_host_prog = "/opt/homebrew/bin/python3"
+let g:python3_host_prog = "/Users/yielding/miniforge/envs/etri/bin/python3"
 "let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/ruby"
-let g:ruby_host_prog = "/opt/homebrew/lib/ruby/gems/3.2.0/bin/neovim-ruby-host"
+let g:ruby_host_prog = "/opt/homebrew/lib/ruby/gems/3.3.0/bin/neovim-ruby-host"
 let g:loaded_perl_provider = 0
 
 set rtp+=/opt/homebrew/opt/fzf
@@ -188,6 +195,7 @@ map ,p  :edit <C-R>=_plugs<CR><CR>
 map ,u  :source <C-R>=_vimrc<CR><CR>
 map ,o  :edit <C-R>=_words<CR><CR>
 map ,v  :edit <C-R>=_vimrc<CR><CR>
+map ,d  :edit <C-R>=_zedrun<CR><CR>
 map ,w  :w <CR>
 map ,q  :q <CR>
 map ,z  :edit <C-R>=_zshrc<CR><CR>
@@ -199,8 +207,13 @@ map ,kk :%s/<C-V><CR>//ge<CR>:w<CR>
 " jk | Escaping! 
 inoremap jk <esc>
 cnoremap jk <C-c>
+nnoremap KJ :
+
 " below makes vim slow
 "xnoremap jk <esc>
+
+"visual enclose
+vnoremap ,ss c()<esc>P
 
 " Movement in insert mode
 inoremap <a-h> <c-o>h
@@ -208,45 +221,49 @@ inoremap <a-l> <c-o>a
 inoremap <a-j> <c-o>j
 inoremap <a-k> <c-o>k
 
-" qq to rerod, Q to replay
+" qq to record, Q to replay
 nnoremap Q @q
 
 map ,eb :edit <C-R>= _snippet . 'c.snippets'<CR><CR>
-map ,ec :edit <C-R>= _mysnippet . 'cpp.snippets'<CR><CR>
+map ,ec :edit <C-R>= _snippet . 'cpp.snippets'<CR><CR>
 map ,ep :edit <C-R>= _snippet . 'python.snippets'<CR><CR>
 map ,er :edit <C-R>= _mysnippet . 'ruby.snippets'<CR><CR>
 map ,es :edit <C-R>= _mysnippet . 'cs.snippets'<CR><CR>
 map ,em :edit <C-R>= _mysnippet . 'cmake.snippets'<CR><CR>
+map ,eh :edit <C-R>= _mysnippet . 'haskell.snippets'<CR><CR>
 map ,tc :edit <C-R>= _test . 'test.cpp'<CR><CR>
 map ,th :edit <C-R>= _test . 'test.hs'<CR><CR>
 map ,tm :edit <C-R>= _test . 'test.md'<CR><CR>
 map ,tr :edit <C-R>= _test . 'test.rb'<CR><CR>
+map ,ts :edit <C-R>= _test . 'test-rs'<CR><CR>
 map ,tp :edit <C-R>= _test . 'test.py'<CR><CR>
 map ,tj :edit <C-R>= _test . 'test.java'<CR><CR>
+map ,sp :edit <C-R>= '.vimspector.json'<CR><CR>
+map ,ls :edit <C-R>= '.ccls'<CR><CR>
 
-imap  _*      <Esc>bi*<Esc>ea*<Space>
+imap  _* <Esc>bi*<Esc>ea*<Space> 
 
-map ,2  :set makeprg=g++-13\ -g\ -std=c++23\ %\ -o\ %<<CR>
-map ,3  :set makeprg=g++-13\ -g\ -std=c++23\ %\ -o\ %<<CR>
-map ,4  :execute '!' . expand('%:r')<CR>
+map ,3  :set makeprg=g++-14\ -g\ -std=c++2b\ %\ -o\ %<<CR>
+map ,4  :execute '!' . './' . expand('%:r')<CR>
 
-"nmap <leader>rr :execute '!./' . expand('%:p:h')<CR>
-"
 map ,9  :TagbarToggle<CR>
-map ,10 :FufFile<CR>
+map ,22 :FufFile<CR>
 map ,11 :FufBuffer<CR>
 
-"-----------------------------------------------------------------------------
-" workspace : visual select를 느리게 만든다.
-"-----------------------------------------------------------------------------
-let g:workspace_autocreate = 1
+""-----------------------------------------------------------------------------
+"" workspace : visual select를 느리게 만든다.
+""-----------------------------------------------------------------------------
+"let g:workspace_autocreate = 1
+"
+""이미 속한 workspace가 있으면 해당 웍스 열기
+"let g:workspace_create_new_tabs = 1
+"let g:workspace_session_directory = $HOME . '/.vim/sessions/'
+"let g:workspace_session_disable_on_args = 1
+"nnoremap <leader>c : ToggleWorkspace<CR>
 
-"이미 속한 workspace가 있으면 해당 웍스 열기
-let g:workspace_create_new_tabs = 1
-let g:workspace_session_directory = $HOME . '/.vim/sessions/'
-let g:workspace_session_disable_on_args = 1
-nnoremap <leader>c : ToggleWorkspace<CR>
-
+"-----------------------------------------------------------------------------
+" grep in gitdir
+"-----------------------------------------------------------------------------
 nnoremap <leader>gc :Ggrep! -q <cword><CR>
 
 "-----------------------------------------------------------------------------
@@ -304,9 +321,7 @@ endfunction
 command! -nargs=0 OUTLINE call <SID>OutlineToggle() 
 
 "--------------------------------------------------------------------------------
-"
 " ruby
-"
 "--------------------------------------------------------------------------------
 function! Ruby_eval_split() range
   let src = tempname()
@@ -324,7 +339,8 @@ function! Ruby_eval_split() range
 endfunction
 
 au FileType ruby filetype plugin indent on
-au FileType ruby noremap ,r :%call Ruby_eval_split()<CR>
+au FileType ruby noremap <c-s-b> :%call Ruby_eval_split()<CR>
+au FileType ruby noremap <c-s-r> :%call Ruby_eval_split()<CR>
 au FileType ruby noremap ,tag :!ripper-tags -R.<CR>
 
 filetype off
@@ -392,8 +408,8 @@ nnoremap [t :tabp<CR>
 "--------------------------------------------------------------------------------
 " Circular window navigation
 "--------------------------------------------------------------------------------
-nnoremap <tab>   <c-w>w
-nnoremap <s-tab> <c-w>W
+"nnoremap <tab>   <c-w>w
+"nnoremap <s-tab> <c-w>W
 
 nnoremap <c-h>   <c-w>h
 nnoremap <c-j>   <c-w>j
@@ -408,17 +424,21 @@ hi coc_err_hi ctermfg=1 ctermbg=15
 sign define coc_err numhl=coc_err_hi
 sign place 1 line=2 name=coc_err
 
+" \ 'coc-pairs' # this has eror  i<<>
+" \ 'coc-ultisnips',
+" \ 'coc-omnisharp',
+
 let g:coc_global_extensions = [
  \ 'coc-ccls',
- \ 'coc-pairs',
  \ 'coc-tsserver',
- \ 'coc-html',
- \ 'coc-prettier',
  \ 'coc-pyright',
+ \ 'coc-prettier',
+ \ 'coc-html',
  \ 'coc-json', 
- \ 'coc-ultisnips',
  \ 'coc-solargraph',
- \ 'coc-omnisharp',
+ \ 'coc-cmake',
+ \ 'coc-cmake',
+ \ 'coc-git'
  \ ]           
                
 nmap <silent> gd <Plug>(coc-definition)
@@ -452,6 +472,11 @@ inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<
 "autocmd QuickFixCmdPost    l* nested lwindow
 
 "--------------------------------------------------------------------------------
+" c++
+"--------------------------------------------------------------------------------
+let g:cpp_concepts_highlight = 1
+
+"--------------------------------------------------------------------------------
 " 괄호 자동 매칭
 "--------------------------------------------------------------------------------
 let loaded_matchparan=0
@@ -478,12 +503,20 @@ let g:cmake_native_build_options=["-j10"]
 
 nmap <leader>gg <Plug>(CMakeGenerate)
 nmap <leader>bb <Plug>(CMakeBuild)
-"nmap <leader>rr :execute '!./Debug/' . expand('%:p:h:t')<CR>
-nmap <leader>rr :execute '!./Debug/' . expand('%:r')<CR>
+nmap <c-s-g>    <Plug>(CMakeGenerate)
+nmap <c-s-b>    <Plug>(CMakeBuild)
+nmap <c-s-r>    :execute '!./Debug/' . expand('%:t:r')<CR>
+nmap <leader>rr :execute '!./Debug/' . expand('%:t:r')<CR>
+
 nmap <leader>ci <Plug>(CMakeInstall)
 nmap <leader>cs <Plug>(CMakeSwitch)
-nmap <leader>oo <Plug>(CMakeOpen)
+nmap <leader>co <Plug>(CMakeOpen)
 nmap <leader>cq <Plug>(CMakeClose)
+
+"--------------------------------------------------------------------------------
+" Ultisnips
+"--------------------------------------------------------------------------------
+nmap <C-S-P> :split \| resize 10 \| terminal <CR>
 
 "--------------------------------------------------------------------------------
 " Ultisnips
@@ -492,14 +525,23 @@ let g:UltiSnipsExpandTrigger="<tab>"
 "let g:UltiSnipsJumpForwardTrigger="<Tab>"
 "let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 let g:UltiSnipsEditSplit="vertical"
+
+" To reduce so many duplicate, turn off belows
 set runtimepath ^=~/.config/nvim/UltiSnips
-let g:UltiSnipsSnippetDirectories = ["UltiSnips", '~/.config/nvim/UltiSnips']
+let g:UltiSnipsSnippetDirectories = ['UltiSnips', '~/.config/nvim/UltiSnips']
+
+"--------------------------------------------------------------------------------
+" rust
+"--------------------------------------------------------------------------------
+let g:rust_recommended_style = 0
 
 "--------------------------------------------------------------------------------
 " vimspector
 "--------------------------------------------------------------------------------
 " terminal does not support shift+F key
 let g:vimspector_enable_mappings = "HUMAN"
+let g:vimspector_base_dir=$HOME . '/.config/nvim/autoload/plugged/vimspector'
+
 " for normal mode - the word under the cursor
 nmap ,di <Plug>VimspectorBalloonEval
 
@@ -510,16 +552,25 @@ nmap ,df :VimspectorReset<CR>
 
 let g:CommandTPreferredImplementation='ruby'
 
-"--------------------------------------------------------------------------------
+let g:OmniSharp_server_use_net6 = 1
+
+""--------------------------------------------------------------------------------
 " run
 "--------------------------------------------------------------------------------
 au BufEnter * :syntax sync fromstart
 au BufNewFile,BufReadPost *.rb set foldmethod=expr
 au BufNewFile,BufReadPost *.py set ts=2 sts=2 sw=2 tw=0
 au BufNewFile,BufReadPost *.py compiler pyunit
-"au BufNewFile,BufReadPost *.cpp source $MYVIMRC
+au BufNewFile,BufReadPost *.g4 set ft=antlr
 
-au FileType python  noremap ,r :!python %<CR>
-au FileType cs      noremap ,r :!dotnet run<CR>
-au FileType haskell noremap ,r :!runhaskell %<CR>
-au FileType js      noremap ,r :!node %<CR>
+au FileType python  noremap <c-s-r> :!python %<CR>
+au FileType cs      noremap <c-s-b> :!dotnet build<CR>
+au FileType cs      noremap <c-s-r> :!dotnet run<CR>
+au FileType java    noremap <c-s-b> :!javac %<CR>
+au FileType java    noremap <c-s-r> :!java test<CR>
+au FileType haskell noremap <c-s-r> :!runhaskell %<CR>
+au FileType js      noremap <c-s-r> :!node %<CR>
+
+au FileType rust    noremap <c-s-b> :make b<CR>
+au FileType rust    noremap <c-s-r> :make r<CR>
+au FileType rust    noremap <c-s-t> :make t<CR>
