@@ -2,7 +2,6 @@
 
 #include "state.hpp"
 
-#include <string>
 #include <memory>
 
 class Post
