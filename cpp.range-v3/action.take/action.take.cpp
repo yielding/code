@@ -24,11 +24,11 @@ int main(int argc, char *argv[])
   assert(v0.size() == 11u);
   assert(v0.back() == 11);
 
-  v0 |= action::take(100);
+  v0 |= actions::take(100);
   assert(v0.size() == 11u);
   assert(v0.back() == 11);
 
-  v0 |= action::take(0);
+  v0 |= actions::take(0);
   assert(v0.size() == 0u);
   
   return 0;

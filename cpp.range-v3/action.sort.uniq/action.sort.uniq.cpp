@@ -13,7 +13,7 @@ int main()
     4, 3, 1, 8, 4, 0, 7, 8, 8, 2, 6, 5, 3, 4, 5
   };
 
-  vi |= action::sort | action::unique | action::take(4);
+  vi |= actions::sort | actions::unique | actions::take(4);
 
   std::cout << views::all(vi) << '\n';
 

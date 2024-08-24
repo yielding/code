@@ -23,7 +23,7 @@ int main()
 
   for (int i{}; i != 3; ++i) 
   {
-    action::shuffle(a, gen);
+    actions::shuffle(a, gen);
     print(a);
   }
 
