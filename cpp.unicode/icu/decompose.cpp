@@ -8,9 +8,9 @@
 #include "unicode/unorm.h"
 
 using namespace std;
-using namespace icu_63;
+using namespace icu_74;
  
-int decompose(const char* text, wchar_t* wcs_buf, uint buf_size)
+int decompose(const char* text, wchar_t* wcs_buf, uint32_t buf_size)
 {
     // UTF-8 to UCS4
     auto str = UnicodeString::fromUTF8(StringPiece(text));
@@ -32,7 +32,7 @@ int decompose(const char* text, wchar_t* wcs_buf, uint buf_size)
     return 0;
 }
  
-int compose(wchar_t* wcs, uint wcs_len, char* buf, uint buf_size)
+int compose(wchar_t* wcs, uint32_t wcs_len, char* buf, uint32_t buf_size)
 {
     // UCS4 to NFC
     auto str    = UnicodeString::fromUTF32((UChar32*) wcs, wcs_len);
@@ -64,7 +64,7 @@ int main()
     char    new_text[1024];
 
     decompose(text, wcs_buf, sizeof (wcs_buf));
-    for (uint i = 0; wcs_buf[i] != 0; ++i)
+    for (auto i = 0; wcs_buf[i] != 0; ++i)
         cout << "wcs_buf[" << i << "]=0x" << hex << (int) wcs_buf[i] << endl;
     
     cout << endl;
