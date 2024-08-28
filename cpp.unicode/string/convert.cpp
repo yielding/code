@@ -22,7 +22,6 @@ int main(int argc, const char *argv[])
 
 
   // 2. to ucs2
-
   wstring_convert<codecvt_utf8<char16_t>, char16_t> ucs2conv;
   try 
   {
@@ -35,7 +34,6 @@ int main(int argc, const char *argv[])
       << " characters:\n";
 
     for (char16_t c : ucs2) cout << hex << showbase << c << '\n';
-
   }
 
   return 0;
