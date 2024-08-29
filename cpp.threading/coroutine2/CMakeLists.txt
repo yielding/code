@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.30)
 
-project(main)
+project (main)
 
 set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_CXX_COMPILER g++-14)
@@ -24,8 +24,3 @@ link_directories (
 add_executable (main
   ${SOURCES}
 )
-
-target_link_libraries (main
-  d_classic
-)
-

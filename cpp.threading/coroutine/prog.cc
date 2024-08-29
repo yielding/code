@@ -1,22 +1,24 @@
 #include <iostream>
-#include <experimental/coroutine>
+#include <coroutine>
+
+using namespace std;
 
 struct generator 
 {
   struct promise_type;
-  using handle = std::experimental::coroutine_handle<promise_type>;
+  using handle = coroutine_handle<promise_type>;
   struct promise_type 
   {
     int current_value;
     auto get_return_object() { return generator{handle::from_promise(*this)}; }
-    auto initial_suspend()   { return std::experimental::suspend_always{}; }
-    auto final_suspend()     { return std::experimental::suspend_always{}; }
-    void unhandled_exception() { std::terminate(); }
+    auto initial_suspend()   { return suspend_always{}; }
+    auto final_suspend()     { return suspend_always{}; }
+    void unhandled_exception() { terminate(); }
     void return_void() {}
     auto yield_value(int value) 
     {
       current_value = value;
-      return std::experimental::suspend_always{};
+      return suspend_always{};
     }
   };
 
@@ -42,6 +44,6 @@ int main()
 {
   auto g = f();
   while (g.move_next()) 
-    std::cout << g.current_value() << std::endl;
+    cout << g.current_value() << endl;
 }
 
