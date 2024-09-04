@@ -18,6 +18,7 @@ void daemon_init(const char *pname, int facility)
 {
   if (pid_t pid; (pid = fork()) != 0) 
     exit(0);
+
   setsid();
   signal(SIGHUP, SIG_IGN);
 
