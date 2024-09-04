@@ -4,8 +4,7 @@
 
 using namespace std;
 
-// NOTE
-// 이 Writere Moand 예제는 kleisli compostion
+// NOTE 이 Writer Moand 예제는 kleisli compostion
 // (>=>) :: (a -> Writer a) -> (b -> Writer b) -> (c -> Writer c)
 //
 // m1 >=> m2 = \x ->
