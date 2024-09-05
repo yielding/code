@@ -36,7 +36,7 @@ int main()
     "/Users/yielding/code/cpp.fp/count.lines/count.lines3.cpp"s
   };
 
-  vector<int> v{1, 2};
+  vector v{1, 2};
 
   auto res = count_lines_in_files2(files);
   for (auto r : res)
