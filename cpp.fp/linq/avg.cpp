@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-  vector<int> v0 = { 1, 2, 3, 4, 5 };
+  auto v0 = vector{ 1, 2, 3, 4, 5 };
 
   auto res = from(v0) >> avg();
 

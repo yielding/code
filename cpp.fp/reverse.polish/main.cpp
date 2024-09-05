@@ -5,8 +5,8 @@
 #include <stack>
 #include <range/v3/all.hpp>
 
-namespace rg = ranges;
-namespace rv = ranges::views;
+namespace g = ranges;
+namespace v = ranges::views;
 
 using namespace std;
 
@@ -44,10 +44,10 @@ auto update(stack<int> sk, string const& s)
   return sk;
 }
 
-int main(int argc, char* argv[])
+int main(int agc, char* agv[])
 {
   auto ss = stringstream{"9 2 1 + 2 * -"};
-  auto st = rg::accumulate(rg::istream<string>(ss),
+  auto st = g::accumulate(g::istream<string>(ss),
       stack<int>{},
       update);
 

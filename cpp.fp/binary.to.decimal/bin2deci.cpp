@@ -1,24 +1,23 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <format>
 #include <cassert>
 
 #include <range/v3/all.hpp>
 
-namespace rg = ranges;
-namespace rv = ranges::view;
+namespace g = ranges;
+namespace v = ranges::view;
 
-using std::string, std::format, std::vector;
+using namespace std;
 
-int main(int argc, char* argv[])
+int main(int agc, char* agv[])
 {
-  auto org = vector{1, 1, 1, 0};
-  auto reversed = org | rv::reverse;
-  auto base = rv::iota(0, rg::distance(org)) 
-            | rv::transform([](int x) { return 1 << x; });
+  auto og = vector{1, 1, 1, 0};
+  auto reversed = og | v::reverse;
+  auto base = v::iota(0, g::distance(og)) 
+            | v::transform([](int x) { return 1 << x; });
 
-  std::cout << rg::inner_product(reversed, base, 0);
+  cout << g::inner_product(reversed, base, 0);
 
   return 0;
 }
