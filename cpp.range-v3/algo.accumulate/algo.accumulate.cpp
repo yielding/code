@@ -7,7 +7,7 @@
 namespace v = ranges::views;
 namespace g = ranges;
 
-using namespace std;
+using std::string, std::vector, std::cout;
 
 struct Product
 {
@@ -16,6 +16,7 @@ struct Product
 };
 
 // NOTICE
+// 함수형 언어이지만, 기존 객체의 일부 instance만 취해서 계산할 수 있다.
 //
 int main(int argc, char* argv[])
 {

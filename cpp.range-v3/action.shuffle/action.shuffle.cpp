@@ -1,22 +1,23 @@
 #include <algorithm>
 #include <array>
-#include <iostream>
 #include <random>
+#include <print>
 #include <range/v3/all.hpp>
 
 using namespace ranges::v3;
 using namespace std;
 
-void print(const auto& a) 
+void pr(const auto& a) 
 {
-  for (const auto e : a) { cout << e << ' '; }
-  cout << "\n";
+  for (const auto e : a) print("{} ", e);
+
+  println("");
 }
 
 int main()
 {
   array a{'A', 'B', 'C', 'D', 'E', 'F'};
-  print(a);
+  pr(a);
 
   random_device rd;
   mt19937 gen{rd()};
@@ -24,7 +25,7 @@ int main()
   for (int i{}; i != 3; ++i) 
   {
     actions::shuffle(a, gen);
-    print(a);
+    pr(a);
   }
 
   return 0;
