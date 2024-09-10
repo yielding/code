@@ -15,17 +15,22 @@ using namespace std;
 //
 int main(int argc, char* argv[])
 {
-  auto sec = 123456;
+  auto total_seconds = 123456;
   auto const times = vector{ 60, 60, 24, 7 };
-  auto const names = vector<string> { "s", "min", "h", "d" };
+  auto const names = vector{ "s", "min", "h", "d" };
 
   auto div_pos = times
-    | v::exclusive_scan(sec, divides{})
+    | v::exclusive_scan(total_seconds, divides{})
     | v::take_while([](int x) { return x > 0; });
 
+  cout << v::all(div_pos) << endl;
+  cout << v::all(times) << endl;
+
   auto mods = v::zip_with(
-      [](int a, int b) { return a % b; },  // 여기서 % 연산이 빛난다.
-      div_pos, times);
+    [](int a, int b) { return a % b; },  // 여기서 % 연산이 빛난다.
+    div_pos, times);
+
+  cout << v::all(mods) << endl;
 
   auto pairs = v::zip_with(
       [](int a, auto const& s) { return to_string(a) + s; },

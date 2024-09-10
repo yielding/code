@@ -3,24 +3,25 @@
 #include <cctype>
 #include <range/v3/all.hpp>
 
-namespace rg = ranges;
-namespace rv = ranges::views;
-namespace as = ranges::actions;
+namespace g = ranges;
+namespace v = ranges::views;
+
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int agc, char* agv[])
 {
   auto const& s = "A Man, A Plan, A Canal - Panama!"s;
 
   auto lowered = s 
-    | rv::transform([](auto ch) { return tolower(ch); })
-    | rv::filter([](char c) { return isalpha(c); })
+    | v::transform([](auto ch) { return tolower(ch); })
+    | v::filter   ([](auto ch) { return isalpha(ch); })
     ;
   
-  auto reversed = lowered | rv::reverse; 
+  auto reversed = lowered | v::reverse; 
+  cout << reversed << endl;
 
-  const int n = rg::distance(reversed) / 2;
-  cout << rg::equal(lowered | rv::take(n), reversed | rv::take(n));
+  const int n = g::distance(reversed) / 2;
+  cout << g::equal(lowered | v::take(n), reversed | v::take(n));
 
   return 0;
 }
