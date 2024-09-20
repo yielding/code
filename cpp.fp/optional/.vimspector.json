@@ -1,21 +1,19 @@
 {
   "configurations": {
-    "C - Launch": {
+    "myconf - Launch": {
       "adapter": "CodeLLDB",
+      "breakpoints": {
+        "exception": {
+          "cpp_throw": "Y",
+          "cpp_catch": "N" 
+        }
+      },
       "configuration": {
-        "name": "Cpp: Launch current file",
-        "type": "lldb",
         "request": "launch",
-        "externalConsole": false,
-        "logging": {
-          "engineLogging": true
-        },
-        "stopOnEntry": true,
+        "program": "${fileDirname}/Debug/${fileBasenameNoExtension}",
+        "args": [  ],
         "stopAtEntry": true,
-        "debugOptions": [],
-        "MIMode": "lldb",
-        "cwd": "${cwd}",
-        "program": "${fileDirname}/Debug/${fileBasenameNoExtension}"
+        "cwd": "${cwd}"
       }
     }
   }
