@@ -3,7 +3,7 @@
 
 #include <range/v3/all.hpp>
 
-using namespace ranges::v3;
+using namespace ranges;
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -16,3 +16,4 @@ int main(int argc, char* argv[])
   
   return 0;
 }
+
