@@ -1,16 +1,16 @@
-#include <range/v3/view/take.hpp>
-#include <range/v3/view/iota.hpp>
-#include <range/v3/view/transform.hpp>
-#include <range/v3/view/generate.hpp>
-#include <range/v3/numeric/accumulate.hpp>
 #include <iostream>
+#include <range/v3/all.hpp>
 
-using namespace ranges::v3;
+namespace v = ranges::views;
+namespace g = ranges;
+
 using namespace std;
 
 int main(int argc, char** argv)
 {   
-  auto rng = view::generate(
+  using v::take, v::ints, v::transform, g::accumulate;
+
+  auto rng = v::generate(
     [p=pair{1, 1}]() mutable {
       auto [a0, b0] = p; 
       p = {b0, a0 + b0};
@@ -18,11 +18,10 @@ int main(int argc, char** argv)
     }
   ); 
 
-  auto fib10 = rng | view::take(10);
+  auto fib10 = rng | take(10);
   cout << fib10 << endl;
 
-  auto rng2 = view::ints(1, 10) | 
-              view::transform([](int i) { return i*i; });
+  auto rng2 = ints(1, 10) | transform([](int i) { return i*i; });
 
   cout << accumulate(rng2 , 0);
 

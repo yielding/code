@@ -2,28 +2,24 @@
 #include <vector>
 #include <range/v3/all.hpp>
 
-namespace g = ranges;
 namespace v = ranges::views;
+namespace g = ranges;
 
 using namespace std;
 
-void accumulate_practice()
+int main(int argc, char* argv[])
 {
-  string const s = "we have been better days";
-  auto rng = s
-    | v::split(' ')
-    | v::transform([](auto && s) { return g::distance(s); })
-    ;
+  using v::split, v::transform, g::distance, g::accumulate;
 
-  auto avg = g::accumulate(rng, 0) / g::distance(rng);
+  auto s = "we have been better days"s;
+  auto rng = s
+    | split(' ')
+    | transform([](auto && s) { return distance(s); }) ;
+
+  auto avg = accumulate(rng, 0) / distance(rng);
   
   cout << v::all(rng) << endl;
   cout << avg << endl;
-}
-
-int main(int argc, char* argv[])
-{
-  accumulate_practice();
 
   return 0;
 }

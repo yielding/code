@@ -3,28 +3,29 @@
 
 #include <range/v3/all.hpp>
 
-namespace g = ranges;
 namespace v = ranges::view;
+namespace g = ranges;
 
 using namespace std;
 
-string luhn_algorithm(vector<int> card_nums)
+string luhn_algorithm(vector<int> card_nos)
 {
-  auto es = card_nums | v::stride(2);
-  auto os = card_nums | v::drop(1) | v::stride(2);
-  auto trans_es = es  | v::transform([](int x) {
+  using v::stride, v::drop, v::transform, v::concat, g::accumulate;
+
+  auto es = card_nos | stride(2);
+  auto os = card_nos | drop(1) | stride(2);
+  auto trans_es = es | transform([](int x) {
       auto y = x * 2;
       return y < 9 ? y : y - 9; });
 
-  auto concated = v::concat(os, trans_es);
-  auto sum = g::accumulate(concated, 0);
+  auto sum = accumulate(concat(os, trans_es),  0);
 
   return sum % 10 == 0 ? "ok" : "wrong";
 }
 
-int main(int argc, char* argv[])
+int main(int argc,  char* argv[])
 {
-  auto no = vector{4,5,3,9,1,4,8,8,0,3,4,3,6,4,6,7};
+  auto no = { 4, 5, 3, 9, 1, 4, 8, 8, 0, 3, 4, 3, 6, 4, 6, 7 };
   assert(luhn_algorithm(no) == "ok");
 
   return 0;

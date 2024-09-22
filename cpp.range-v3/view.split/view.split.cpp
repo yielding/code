@@ -1,6 +1,5 @@
 #include <iostream>
 #include <forward_list>
-#include <string>
 #include <range/v3/all.hpp>
 
 using namespace ranges::views;

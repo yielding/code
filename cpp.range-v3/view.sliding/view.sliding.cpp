@@ -1,20 +1,21 @@
 #include <iostream>
 #include <range/v3/all.hpp>
 
-namespace rv = ranges::views;
-namespace rg = ranges;
+namespace v = ranges::views;
 
-using std::cout, std::endl;
+using namespace std;
 
 int main(int argc, char* argv[])
 {
-  auto r1 = rv::closed_iota(1, 6);
-  auto r2 = r1 | rv::sliding(2);
-  auto c2 = r1 | rv::chunk(2);
+  using v::closed_iota, v::sliding, v::chunk, v::all;
 
-  cout << rv::all(r1) << endl;
-  cout << rv::all(r2) << endl;
-  cout << rv::all(c2) << endl;
+  auto r1 = closed_iota(1, 6);
+  auto r2 = r1 | sliding(2); // [[1,2],[2,3],[3,4],[4,5],[5,6]]
+  auto c2 = r1 | chunk(2);   // [[1,2],[3,4],[5,6]]
+
+  cout << all(r1) << endl;
+  cout << all(r2) << endl;
+  cout << all(c2) << endl;
 
   return 0;
 }

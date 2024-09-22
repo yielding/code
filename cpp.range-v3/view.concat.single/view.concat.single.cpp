@@ -9,15 +9,18 @@ using namespace std;
 
 int main(int agc, char* agv[])
 {
-  auto const v1 = vector{ 2,  3,  7};
-  auto const v2 = vector{11, 17, 21};
-  cout << v::concat(v1, v2) << endl;
+  using v::concat, v::single, v::join;
 
-  auto const v3 = v::concat(v::single(10), v2);
+  auto v1 = vector{ 2,  3,  7};
+  auto v2 = vector{11, 17, 21};
+  cout << concat(v1, v2) << endl;
+
+  // single: prefix a range with an element
+  auto v3 = concat(single(10), v2);
   cout << v3 << endl;
 
-  auto const v4 = vector<vector<int>> {{1, 2}, {7}, {3, 5}};
-  auto rng = v4 | v::join;
+  auto v4 = vector<vector<int>> {{1, 2}, {7}, {3, 5}};
+  auto rng = v4 | join;
   cout << rng << endl;
 
   return 0;

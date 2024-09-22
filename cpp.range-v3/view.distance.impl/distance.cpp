@@ -1,10 +1,10 @@
 #include <iostream>
-#include <vector>
+#include <string>
 #include <cassert>
 #include <range/v3/all.hpp>
 
-namespace g = ranges;
 namespace v = ranges::views;
+namespace g = ranges;
 
 using namespace std;
 

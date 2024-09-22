@@ -7,16 +7,16 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  auto rc  = v::iota(1, 10) | v::cycle;
-  auto rng = v::iota(1)
-    | v::transform([rc](int x) {
-        auto rd = rc | v::drop(x*(x-1)/2)
-                     | v::take(x);
-        return g::accumulate(rd, 0LL,
-                             [](auto a, auto b) { return a*10 + b; });
-        });
+  using v::iota, v::cycle, v::drop, v::take, v::transform, g::accumulate;
 
-  cout << v::all(rng | v::take(10)) << endl;
+  auto rc  = iota(1, 10) | cycle;
+  auto rng = iota(1)
+    | transform([rc](int x) {
+        auto rd = rc | drop(x*(x-1)/2) | take(x);
+        return accumulate(rd, 0LL, [](auto a, auto b) { return a*10 + b; });
+      });
+
+  cout << v::all(rng | take(10)) << endl;
 
   return 0;
 }

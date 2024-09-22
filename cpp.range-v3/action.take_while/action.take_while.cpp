@@ -4,14 +4,17 @@
 
 #include <range/v3/all.hpp>
 
-using namespace ranges;
+namespace v = ranges::views;
+namespace a = ranges::actions;
+namespace g = ranges;
+
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-  using namespace actions;
+  using g::to, v::ints, a::take_while;
   
-  auto v = views::ints(1, 21) | to<vector>();
+  auto v = ints(1, 21) | to<vector>();
   auto& v2 = take_while(v, [](int i) { return i < 18; });
 
   assert(v2.size() == 17);

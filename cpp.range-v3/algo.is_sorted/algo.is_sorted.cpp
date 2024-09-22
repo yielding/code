@@ -7,13 +7,15 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  vector v{1, 2, 3, 4, 5, 6};
+  using ranges::is_sorted;
 
-  cout << boolalpha
-       << "vector: " << ranges::is_sorted(v) << endl;
+  cout << boolalpha;
+
+  vector v{1, 2, 3, 4, 5, 6};
+  cout << "vector: " << is_sorted(v) << endl;
 
   array a{6, 2, 3, 4, 5, 6};
-  cout << "array: " << ranges::is_sorted(a) << endl;
+  cout << "array: " << is_sorted(a) << endl;
 
   return 0;
 }

@@ -8,7 +8,7 @@ using namespace std;
 int main() 
 {
   // Create a vector of numbers from 1 to 5
-  vector<int> vec = {1, 2, 3, 4, 5};
+  auto vec = vector{1, 2, 3, 4, 5};
 
   // Create a cycle view of the vector
   auto cycle_view = vec | cycle;

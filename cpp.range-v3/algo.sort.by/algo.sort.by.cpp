@@ -1,11 +1,8 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <iostream>
-#include <ranges>
-#include <compare>
-
-#include <boost/format.hpp>
+#include <format>
+#include <range/v3/all.hpp>
 
 using namespace std;
 
@@ -16,19 +13,18 @@ struct user
 
   auto to_s() const -> string 
   {
-    using namespace boost;
-    return str(format("name: %s, age: %d") % name % age);
+    return format("name: {}, age: {}", name, age);
   }
 };
 
 int main(int argc, char *argv[])
 {
-  vector<user> users { {"leech", 49}, {"kamin", 47}, {"gunhee", 17} };
+  using ::ranges::sort;
+
+  auto users = vector<user> { {"leech", 49}, {"kamin", 47}, {"gunhee", 17} };
 
   auto by_name = [](auto& l, auto& r) { return l.name < r.name; };
   auto by_age  = [](auto& l, auto& r) { return l.age < r.age; };
-
-  auto sort = ranges::sort;
 
   sort(users, by_name);
   for (auto& u: users) cout << u.to_s() << endl;

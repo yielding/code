@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cassert>
-
 #include <range/v3/all.hpp>
 
 namespace v = ranges::view;
@@ -9,9 +7,11 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  auto s0 = string{"A nice     day!"};
-  auto rx = regex{"[\\w]+"};
-  auto rg = s0 | v::tokenize(rx);
+  using v::tokenize, v::all;
 
-  cout << v::all(rg) << endl;
+  auto s0 = "A nice     day!"s;
+  auto rx = regex{"[\\w]+"};
+  auto rg = s0 | tokenize(rx);
+
+  cout << all(rg) << endl;
 }

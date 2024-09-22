@@ -1,7 +1,7 @@
 #include <iostream>
 #include <range/v3/all.hpp>
 
-using namespace ranges::v3::views;
+using namespace ranges::views;
 
 int main()
 {

@@ -1,16 +1,18 @@
-#include <iostream>
 #include <vector>
 #include <cassert>
 #include <range/v3/all.hpp>
 
-namespace g = ranges;
 namespace v = ranges::views;
+namespace g = ranges;
+
 using namespace std;
 
 int isbn_13(vector<int> const& isbn)
 {
-  auto f12  = isbn | v::take(12);
-  auto rcy  = v::linear_distribute(1, 3, 2) | v::cycle;
+  using v::linear_distribute, v::take, v::cycle;
+
+  auto f12  = isbn | take(12);
+  auto rcy  = linear_distribute(1, 3, 2) | cycle;
   auto conv = g::inner_product(f12, rcy, 0);
   auto rem = conv % 10;
 

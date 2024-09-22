@@ -3,10 +3,10 @@
 #include <range/v3/view/filter.hpp>
 #include <range/v3/view/transform.hpp>
 
-using namespace ranges::v3;
+namespace v = ranges::views;
 using namespace std;
 
-struct User
+struct user
 {
   string name;
   int age;
@@ -19,14 +19,16 @@ struct User
 
 int main(int argc, char *argv[])
 {
-  vector<User> users 
+  using v::filter, v::transform, v::all;
+
+  vector<user> users 
     = { {"leech", 49}, {"kamin", 47}, {"gunhee", 17} };
 
   auto result = users
-    | view::filter   ([](auto& u) { return u.age > 18; })
-    | view::transform([](auto& u) { return u.age; });
+    | filter   ([](auto& u) { return u.age > 18; })
+    | transform([](auto& u) { return u.age; });
 
-  cout << view::all(result);
+  cout << all(result);
   
   return 0;
 }

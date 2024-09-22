@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <range/v3/all.hpp>
 
 namespace g = ranges;
@@ -8,8 +7,10 @@ using namespace std;
 
 int main()
 {
-  auto rng = v::ints(1, 10)
-    | v::for_each([](int i) { return g::yield_from(v::repeat_n(i, i)); });
+  using v::ints, v::for_each, v::all, v::repeat_n, g::yield_from;
+
+  auto rng = ints(1, 10)
+           | for_each([](int i) { return yield_from(repeat_n(i, i)); });
 
   cout << v::all(rng) << endl;
 
