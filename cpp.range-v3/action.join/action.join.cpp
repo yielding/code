@@ -1,31 +1,23 @@
 #include <iostream>
-#include <ranges>
-#include <string_view>
 #include <vector>
+#include <range/v3/all.hpp>
 
-//
-// NOTICE pure c++20 (without range-v3 github)
-//
+namespace v = ranges::views;
 
 using namespace std;
 
 int main()
 {
-  using namespace literals;
+  using v::join;
 
   auto bits = { "https:"sv, "//"sv, "cppreference"sv, "."sv, "com"sv };
 
-  for (auto c : bits | views::join) 
-    cout << c << " ";
+  for (auto c : bits | join) cout << c << " ";
+  cout << endl;
 
-  cout << '\n';
+  auto v = vector<vector<int>> { {1,2}, {3,4,5}, {6}, {7,8,9} };
 
-  vector<vector<int>> v{ {1,2}, {3,4,5}, {6}, {7,8,9} };
-  auto jv = ranges::join_view(v);
-
-  for (int const e : jv) 
-    cout << e << ' ';
-
+  for (auto e : v | join) cout << e << ' ';
   cout << '\n';
 
   return 0;

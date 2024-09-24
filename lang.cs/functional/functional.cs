@@ -11,11 +11,8 @@ public class Email
 {
     private readonly string _value;
 
-    private Email(string value)
-    {
-        _value = value;
-    }
-
+    private Email(string value) {
+        _value = value; }
     public static Result<Email> Create(string email)
     {
         if (string.IsNullOrEmpty(email))

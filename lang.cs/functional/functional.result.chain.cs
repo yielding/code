@@ -29,6 +29,7 @@ public class ExampleFromPluralsightCourse
         public Customer(long id)
         {
             Id = id;
+            Email = "yielding@gmdsoft.com";
         }
 
         public bool CanBePromoted()
@@ -38,6 +39,7 @@ public class ExampleFromPluralsightCourse
 
         public void Promote()
         {
+            Console.WriteLine("Promote is called");
         }
     }
 
