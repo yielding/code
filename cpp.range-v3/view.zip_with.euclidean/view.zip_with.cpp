@@ -1,9 +1,6 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
 #include <cmath>
 #include <cassert>
-
 #include <range/v3/all.hpp>
 
 namespace v = ranges::views;

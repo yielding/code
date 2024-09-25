@@ -7,7 +7,7 @@ class Fibo
   end                        
 
   def Fibo.add(a, b)
-    return a + b
+    a + b
   end
 
   def Fibo.mul(a, b)

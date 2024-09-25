@@ -12,6 +12,7 @@ describe Fibo do
     expect(Fibo.fibo(2)).to eq(1)
     expect(Fibo.fibo(2)).to eq(1)
     expect(Fibo.add(2, 2)).to eq(4)
+    expect(Fibo.add(2, 3)).to eq(5)
     expect(Fibo.mul(2, 3)).to eq(6)
   end
 
