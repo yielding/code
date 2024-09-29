@@ -1,9 +1,9 @@
-cmake_minimum_required (VERSION 3.28)
+cmake_minimum_required (VERSION 3.30)
 
 project (chunk.scan)
 
-set (CMAKE_CXX_STANDARD 20)
-set (CMAKE_CXX_COMPILER g++)
+set (CMAKE_CXX_STANDARD 26)
+set (CMAKE_CXX_COMPILER g++-14)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
@@ -24,3 +24,4 @@ link_directories (
 add_executable (chunk.scan
   ${SOURCES}
 )
+

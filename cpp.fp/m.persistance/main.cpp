@@ -2,8 +2,9 @@
 #include <vector>
 #include <range/v3/all.hpp>
 
-namespace rv = ranges::views;
-namespace rg = ranges;
+namespace v = ranges::views;
+namespace g = ranges;
+
 using namespace std;
 
 // NOTICE
@@ -14,28 +15,29 @@ auto int_to_range(int n) -> vector<int>
   auto s = to_string(n);
 
   return s 
-    | rv::transform([](char c) { return c - '0'; })
-    | rg::to<vector>;
+    | v::transform([](char c) { return c - '0'; })
+    | g::to<vector>;
 }
 
 auto product(int n) -> int
 {
-  return rg::accumulate(int_to_range(n), 1, multiplies{});
+  return g::accumulate(int_to_range(n), 1, multiplies{});
 }
 
-int main(int argc, char* argv[])
+int main(int agc, char* agv[])
 {
-  auto rng = rv::generate([n=948]() mutable {
+  using v::generate, v::take_while, g::distance;
+
+  auto rng = generate([n=948]() mutable {
       auto prev = n;
       n = product(prev);
       return prev;
       });
 
   auto r = rng
-    | rv::take_while([](int n) { return n > 9; })
-    ;
+    | take_while([](int n) { return n > 9; }) ;
 
-  assert(rg::distance(r) == 4);
+  assert(distance(r) == 4);
 
   return 0;
 }

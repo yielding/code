@@ -18,15 +18,17 @@ auto is_sqrt_int(int i)
 
 int main(int argc, char* argv[])
 {
-  auto rng = v::for_each(v::iota(1), [](int i) {
-      return v::for_each(v::iota(1, i), [i](int j) {
-          return g::yield_if(is_sqrt_int(i+j) && is_sqrt_int(i-j),
+  using v::for_each, v::iota, v::take, g::yield_if;
+
+  auto rng = for_each(iota(1), [](int i) {
+      return for_each(iota(1, i), [i](int j) {
+          return yield_if(is_sqrt_int(i + j) && is_sqrt_int(i - j),
               make_pair(i, j));
           });
       });
 
 
-  for (auto const& [e1, e2] : rng | v::take(5))
+  for (auto const& [e1, e2] : rng | take(5))
     cout << format("({}:{})", e1, e2) << " ";
 
   return 0;

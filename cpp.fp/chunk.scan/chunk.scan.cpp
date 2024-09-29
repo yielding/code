@@ -9,15 +9,17 @@ using namespace std;
 
 auto chunk_scan(vector<int> arr, int n, auto f) -> vector<int>
 {
+  using v::chunk, v::transform, v::join, v::partial_sum, g::to;
+
   auto const scan = [&](auto&& r) {
-    return v::partial_sum(r, f);
+    return partial_sum(r, f);
   };
 
   return arr
-    | v::chunk(n)
-    | v::transform(scan)
-    | v::join
-    | g::to<vector>;
+    | chunk(n)
+    | transform(scan)
+    | join
+    | to<vector>;
 }
 
 int main(int argc, char* argv[])
