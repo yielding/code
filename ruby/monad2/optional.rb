@@ -16,7 +16,13 @@ p optional_result.value
 optional_string = Optional.new(nil)
 # => #<struct Monads::Optional value=nil>
 
-optional_result = optional_string.and_then { |string| Optional.new(string.upcase) }
+optional_result = optional_string
+  .and_then { |string| Optional.new(string.upcase) }
 # => #<struct Monads::Optional value=nil>
 
 p optional_result.value
+
+p Optional.new("hello")
+    .and_then { |s| Optional.new(s.upcase) }
+    .value
+
