@@ -1,28 +1,32 @@
 #include <iostream>
 #include <range/v3/all.hpp>
 
-namespace rg = ranges;
-namespace rv = ranges::views;
+namespace g = ranges;
+namespace v = ranges::views;
+
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int agc, char* agv[])
 {
+  using v::transform, v::partial_sum, v::take, v::drop, v::cycle;
+  using g::distance, g::min_element;
+
   auto const s = string{"))(()("};
 
   auto r_sum = s 
-    | rv::transform([](char c) { return c == '(' ? 1 : -1; })
-    | rv::partial_sum;
+    | transform([](char c) { return c == '(' ? 1 : -1; })
+    | partial_sum;
 
-  auto min_pos = rg::distance(begin(r_sum), rg::min_element(r_sum));
+  auto min_pos = g::distance(begin(r_sum), min_element(r_sum));
 
   auto after_min = s 
-    | rv::cycle 
-    | rv::drop(min_pos + 1);
+    | cycle 
+    | drop(min_pos + 1);
 
   auto rng = after_min 
-    | rv::take(rg::distance(s));
+    | take(distance(s));
 
-  cout << rv::all(rng);
+  cout << v::all(rng);
 
   return 0;
 }

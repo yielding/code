@@ -2,8 +2,8 @@
 #include <vector>
 #include <range/v3/all.hpp>
 
-namespace v = ranges::views;
 namespace g = ranges;
+namespace v = ranges::views;
 
 using namespace std;
 
@@ -34,8 +34,7 @@ int main(int agc, char* agv[])
       return prev;
       });
 
-  auto r = rng
-    | take_while([](int n) { return n > 9; }) ;
+  auto r = rng | take_while([](int n) { return n > 9; }) ;
 
   assert(distance(r) == 4);
 

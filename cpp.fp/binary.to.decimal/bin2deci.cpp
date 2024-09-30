@@ -1,12 +1,11 @@
 #include <iostream>
-#include <vector>
 #include <string>
 #include <cassert>
 
 #include <range/v3/all.hpp>
 
 namespace g = ranges;
-namespace v = ranges::view;
+namespace v = ranges::views;
 
 using namespace std;
 

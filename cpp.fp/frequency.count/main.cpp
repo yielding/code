@@ -6,38 +6,38 @@
 
 #include <range/v3/all.hpp>
 
-namespace rv = ranges::views;
-namespace as = ranges::actions;
-namespace rg = ranges;
+namespace v = ranges::views;
+namespace a = ranges::actions;
+namespace g = ranges;
 
 using namespace std;
-using rg::to;
+using g::to;
 
-int main(int argc, char* argv[])
+int main(int agc, char* agv[])
 {
   auto const& s = string("Radar");
   auto lowered = s 
-    | rv::transform([](unsigned char c) { return tolower(c); }) 
+    | v::transform([](unsigned char c) { return tolower(c); }) 
     | to<string>
-    | as::sort;
+    | a::sort;
 
   cout << lowered << endl;
 
   auto grouped = lowered 
-    | rv::chunk_by([](char x, char y) { return x == y; });
+    | v::chunk_by([](char x, char y) { return x == y; });
 
   cout << grouped << endl;
 
   auto count = grouped 
-    | rv::transform([](auto &&r) { return rg::distance(r); });
+    | v::transform([](auto &&r) { return g::distance(r); });
 
-  cout << rv::all(count) << endl;
+  cout << v::all(count) << endl;
 
-  auto uniqs = lowered | rv::unique;
-  auto rng = rv::zip(uniqs, count);
+  auto uniqs = lowered | v::unique;
+  auto rng = v::zip(uniqs, count);
 
   for (auto const& e: rng)
-    cout << format("({}:{})", e.first, e.second) << endl;
+    cout << format("({}:{})\n", e.first, e.second);
 
   return 0;
 }

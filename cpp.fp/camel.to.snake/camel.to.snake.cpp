@@ -3,12 +3,12 @@
 #include <cassert>
 #include <range/v3/all.hpp>
 
-namespace rg = ranges;
-namespace rv = ranges::views;
+namespace g = ranges;
+namespace v = ranges::views;
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int agc, char* agv[])
 {
   auto const s = string{"CamelCaseIsGone"};
 
@@ -17,10 +17,10 @@ int main(int argc, char* argv[])
   // 2. 넘겨온 함수가 true를 리턴하는 동안 chunk의 크기를 늘려간다.
   auto result
     = s 
-    | rv::chunk_by([](uint8_t, uint8_t b) { return islower(b); })
-    | rv::join('_')
-    | rv::transform([](char c) { return tolower(c); })
-    | rg::to<string>
+    | v::chunk_by([](uint8_t, uint8_t b) { return islower(b); })
+    | v::join('_')
+    | v::transform([](char c) { return tolower(c); })
+    | g::to<string>
     ;
 
   assert(result == "camel_case_is_gone");
@@ -29,16 +29,16 @@ int main(int argc, char* argv[])
 }
 
 /*
-int main(int argc, char* argv[])
+int main(int agc, char* agv[])
 {
   auto const s = string{"CamelCaseIsGone"};
   auto result
     = s 
-    | rv::chunk_by([](uint8_t a, uint8_t b) { 
+    | v::chunk_by([](uint8_t a, uint8_t b) { 
         cout << a << "," << b << endl;
         return islower(b); })
-    | rv::join('_')
-    | rg::to<string>
+    | v::join('_')
+    | g::to<string>
     ;
 
   cout << result <<endl;

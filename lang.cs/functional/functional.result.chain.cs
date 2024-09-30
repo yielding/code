@@ -11,7 +11,7 @@ public class ExampleFromPluralsightCourse
             .Ensure (customer => customer.CanBePromoted(), "The customer has the highest status possible")
             .Tap    (customer => customer.Promote())
             .Tap    (customer => gateway.SendMail(customer.Email))
-            .Map    (customer => gateway.Verify(customer))
+            .Bind   (customer => gateway.Verify2(customer))
             .Bind   (customer => gateway.SendPromotionNotification(customer.Email))
             .Finally(result   => result.IsSuccess ? "Ok" : result.Error);
     }
@@ -53,6 +53,11 @@ public class ExampleFromPluralsightCourse
         public Customer Verify(Customer c)
         {
             return c;
+        }
+
+        public Result<Customer> Verify2(Customer c)
+        {
+            return Result.Failure<Customer>("asssssssssssssssssssssss");
         }
 
         public string SendMail(string email)

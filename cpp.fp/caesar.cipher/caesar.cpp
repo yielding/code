@@ -2,34 +2,34 @@
 #include <cassert>
 #include <range/v3/all.hpp>
 
-namespace rg = ranges;
-namespace rv = ranges::views;
+namespace g = ranges;
+namespace v = ranges::views;
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int agc, char* agv[])
 {
   auto shift = 3;
 
   auto const s = string{"go ahead"};
   auto letters 
     = s
-    | rv::filter([](char c) { return isalpha(c); });
+    | v::filter([](char c) { return isalpha(c); });
 
   auto shift_p = (shift < 0) ? (shift + 26) : shift;
 
   auto alphas 
-    = rv::closed_iota('a', 'z') 
-    | rv::cycle
-    | rv::drop(shift_p);
+    = v::closed_iota('a', 'z') 
+    | v::cycle
+    | v::drop(shift_p);
 
   auto get_letter = [alphas](char c) {
-    return alphas | rv::drop(c - 'a') | rv::take(1);
+    return alphas | v::drop(c - 'a') | v::take(1);
   };
 
   auto encoded = letters 
-    | rv::for_each(get_letter)
-    | rg::to<string>;
+    | v::for_each(get_letter)
+    | g::to<string>;
 
   assert(encoded == "jrdkhdg");
 
