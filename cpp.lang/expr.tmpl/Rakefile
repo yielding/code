@@ -3,7 +3,7 @@
 APP       = "expr.tmpl"
 SRCS      = %W{ ./expr.tmpl.cpp }
 
-CXX       = "g++"
+CXX       = "clang++"
 
 DIR = File.dirname __FILE__
 

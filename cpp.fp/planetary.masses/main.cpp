@@ -1,8 +1,5 @@
 #include <iostream>
-#include <string>
 #include <sstream>
-#include <vector>
-#include <optional>
 #include <range/v3/all.hpp>
 
 //
@@ -10,8 +7,9 @@
 // Determine the ratio between the mass of the heaviest planet 
 // and mass of all remaining planets combined
 //
-namespace rv = ranges::views;
-namespace rg = ranges;
+namespace v = ranges::views;
+namespace g = ranges;
+
 using namespace std;
 
 struct planet 
@@ -30,8 +28,7 @@ struct planet
 // spirit parser is algo very good. but for me, easier is better
 auto to_double(string const& s)
 {
-  double d;
-  istringstream iss(s);
+  double d; istringstream iss(s);
   iss >> d;
   
   return !iss.fail() 
@@ -41,16 +38,18 @@ auto to_double(string const& s)
 
 auto split_line(string const& s) -> vector<string>
 {
+  using v::split, v::remove_if, g::to;
+
   return s 
-    | rv::remove_if([](auto c) { return isspace(c); })
-    | rv::split(',')
-    | rg::to<vector<string>>();
+    | remove_if([](auto c) { return isspace(c); })
+    | split(',')
+    | to<vector<string>>();
 }
 
 auto make_planet(string const& s) -> optional<planet>
 {
   auto v = split_line(s);
-  if (rg::distance(v) >= 2)
+  if (g::distance(v) >= 2)
   {
     auto op = to_double(v[1]);
     if (op.has_value())
@@ -60,7 +59,7 @@ auto make_planet(string const& s) -> optional<planet>
   return nullopt;
 }
 
-int main(int argc, char* argv[])
+int main(int agc, char* agv[])
 {
   auto txt = R"(Earth,1.0
                 Mercury,0.0553 
@@ -75,20 +74,20 @@ int main(int argc, char* argv[])
 
   istringstream iss{txt};
 
-  auto rng = rg::getlines(iss);
+  auto rng = g::getlines(iss);
 
   auto planets = rng 
-    | rv::for_each([](auto const& s) {
+    | v::for_each([](auto const& s) {
         auto op = make_planet(s);
-        return rg::yield_if(op.has_value(), op.value_or(planet{})); })
-    | rg::to<vector>;
+        return g::yield_if(op.has_value(), op.value_or(planet{})); })
+    | g::to<vector>;
 
-  rg::sort(planets, greater{}, &planet::mass);
+  g::sort(planets, greater{}, &planet::mass);
 
-  auto tail = rg::accumulate(planets | rv::tail, 0.0, {}, &planet::mass);
-  auto  eps = numeric_limits<double>::epsilon();
-  auto  rat = (!empty(planets) && tail > eps)
-    ? to_string(rg::front(planets).mass / tail)
+  auto tail = g::accumulate(planets | v::tail, 0.0, {}, &planet::mass);
+  auto eps = numeric_limits<double>::epsilon();
+  auto rat = (!empty(planets) && tail > eps)
+    ? to_string(g::front(planets).mass / tail)
     : "Invalid Input"s;
 
   cout << rat << endl;

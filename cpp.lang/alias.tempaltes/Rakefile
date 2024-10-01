@@ -3,7 +3,7 @@
 SRCS      = %w{ ./alias.cpp }
 TEST_SRCS = %w{ ./test_alias.cpp }
 APP       = "alias"
-CXX       = "xcrun"
+CXX       = "clang++"
 CXXFLAGS  = ":Os"
 
 DIR = File.dirname __FILE__

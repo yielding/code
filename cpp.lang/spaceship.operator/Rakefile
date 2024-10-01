@@ -3,7 +3,7 @@
 SRC       = "main"
 SRCS      = %W{ ./#{SRC}.cpp }
 APP       = "#{SRC}"
-CXX       = "g++"
+CXX       = "clang++"
 CXXFLAGS  = ":Os"
 
 DIR = File.dirname __FILE__

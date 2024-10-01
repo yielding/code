@@ -2,7 +2,7 @@
 
 APP       = "main"
 SRCS      = %W{ ./main.cpp }
-CXX       = "g++"
+CXX       = "clang++"
 CXXFLAGS  = ":Os"
 LIBS      = ""
 

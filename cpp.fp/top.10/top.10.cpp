@@ -3,21 +3,22 @@
 #include <string>
 #include <vector>
 
-#include <range/v3/view/iota.hpp>
-#include <range/v3/action.hpp>
 #include <range/v3/all.hpp>
 
-using namespace ranges::v3;
+namespace g = ranges;
+namespace v = ranges::views;
+
 using namespace std; 
 
 template <typename Range>
 void write_top_10(const Range& xs)
 {
+
   auto to_s = [](const auto& p) { return to_string(p.second) + " " + p.first; };
 
-  auto items = view::zip(xs, views::ints(1, ::ranges::unreachable))
-    | view::transform(to_s)
-    | view::take(10);
+  auto items = v::zip(xs, v::ints(1, g::unreachable))
+    | v::transform(to_s)
+    | v::take(10);
 
   for (const auto& item: items) {
     cout << item << endl;

@@ -13,7 +13,7 @@ struct S
     cout << "constructed with a " << l.size() << "-element list\n";
   }
 
-  std::vector<T> v;
+  vector<T> v;
 };
 
 int main(int argc, char const* argv[])
