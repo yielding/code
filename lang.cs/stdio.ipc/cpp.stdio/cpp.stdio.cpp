@@ -10,8 +10,7 @@ auto read_image_from_stdin() -> vector<char>
 {
   vector<char> buffer;
 
-  unsigned ch;
-  while ((ch = getchar_unlocked()) != EOF)  // in Windows, getchar_nolock
+  while (unsigned ch; (ch = getchar_unlocked()) != EOF)  // in Windows, getchar_nolock
     buffer.push_back(ch);
 
   return buffer;

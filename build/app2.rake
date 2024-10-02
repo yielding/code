@@ -34,6 +34,7 @@ if defined? CXXFLAGS
            when /:Os/; " -Os"
            when /:arc/; " -fobjc-arc"
            when /:objc/; " -ObjC++"
+           when /:enum/; " -Wno-deprecated-enum-enum-conversion"
            else
              " -D#{f}"
            end

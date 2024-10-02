@@ -20,7 +20,7 @@ namespace test
       GetString(1);
       GetString(1, 2);
       Console.WriteLine("hi");
+      var x = new MD.System.IO.DriveInfoEx("hi");
     }
-
   }
 }
