@@ -4,7 +4,7 @@ use std::process;
 use minigrep::Config;
 
 fn main() {
-    let config = Config::build(env::args()).unwrap_or_else(|err| {
+    let config = Config::build(env::args()).unwrap_or_else( |err| {
         println!("Problem arsisng arguments: {err}");
         process::exit(1);
     });
