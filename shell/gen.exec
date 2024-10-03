@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+
+unless ARGV.length == 2
+  puts "usage: gen.exec [Debug|Release|Build] exe.name"
+  return
+end
+
+dir = case ARGV[0].downcase
+      when /r.*/; "Release"
+      when /d.*/; "Debug"
+      else "Build"
+      end
+
+File.open(".run.sh", "w") { |file| 
+  file.puts "#!/bin/sh"
+  file.puts "#{Pathname::pwd}/#{dir}/#{ARGV[1]}"
+  puts"#{Pathname::pwd}/#{dir}/#{ARGV[1]}"
+}
+
+`chmod 700 ./.run.sh`
