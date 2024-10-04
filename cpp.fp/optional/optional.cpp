@@ -9,7 +9,7 @@ using namespace std;
 using namespace literals;
 
 template <typename T>
-using vector_opt = vector<optional<T>>;
+using vector_ex = vector<optional<T>>;
 
 auto to_int(string_view s) -> optional<int> 
 {
@@ -21,7 +21,7 @@ auto to_int(string_view s) -> optional<int>
 
 int main(int argc, char* argv[])
 {
-  vector_opt<string> v = { "1234", "15 foo", "bar", "42", "5000", " 5" };
+  vector_ex<string> v = { "1234", "15 foo", "bar", "42", "5000", " 5" };
 
   // NOTICE
   // transform == fmap (map)
