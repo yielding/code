@@ -24,21 +24,12 @@ void append(ofstream& ofs)
   ofs.close();
 }
 
-bool read_and_test()
-{
-  ifstream ifs;
-  ifs.open(file.c_str(), ios::in);
-
-  return false;
-}
-
 int main(int argc, char const* argv[])
 {
   ofstream ofs;
 
   create(ofs);
   append(ofs);
-  read_and_test();
   
   return 0;
 }
