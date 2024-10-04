@@ -15,13 +15,14 @@ int main(int argc, char const* argv[])
 
   io.write((char*)buffer, 5);
   io.seekp(0, ios::beg);
-  char const* d = "k";
-  io.write(d, 1);
+
+  char const* d = "kkk";
+  io.write(d, 2); // kkech
 
   char data[10] = { 0 };
   io.seekg(3);
-  io.read(data, 2);
-  cout << io.gcount() << endl;
+  io.read(data, 2);  // ch
+  cout << io.gcount() << endl; //
   cout << data;
 
   return 0;
