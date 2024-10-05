@@ -1,4 +1,3 @@
-#include <vector>
 #include <cassert>
 #include <range/v3/all.hpp>
 
@@ -9,11 +8,11 @@ using namespace std;
 
 int isbn_13(vector<int> const& isbn)
 {
-  using v::linear_distribute, v::take, v::cycle;
+  using v::cycle, v::linear_distribute, v::take, g::inner_product;
 
   auto f12  = isbn | take(12);
   auto rcy  = linear_distribute(1, 3, 2) | cycle;
-  auto conv = g::inner_product(f12, rcy, 0);
+  auto conv = inner_product(f12, rcy, 0);
   auto rem = conv % 10;
 
   return rem == 0 ? 0 : 10 - rem;
