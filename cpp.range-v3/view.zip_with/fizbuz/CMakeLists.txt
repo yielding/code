@@ -1,13 +1,13 @@
 cmake_minimum_required (VERSION 3.30)
 
-project (view.zip_with)
+project (main)
 
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_CXX_COMPILER g++-14)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  view.zip_with.cpp
+  main.cpp
 )
 
 include_directories (
@@ -21,6 +21,6 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable(view.zip_with 
+add_executable (main 
   ${SOURCES}
 )
