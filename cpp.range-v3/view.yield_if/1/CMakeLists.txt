@@ -21,6 +21,6 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable(view.yield_if 
+add_executable (view.yield_if 
   ${SOURCES}
 )

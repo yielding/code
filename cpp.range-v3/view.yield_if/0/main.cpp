@@ -16,7 +16,8 @@ int main(int argc, char* argv[])
 
   auto rng = data 
     | enumerate 
-    | for_each([](auto const& p) { return yield_if(p.first == p.second, p.second); });
+    | for_each([](auto const& p) {  // const matters
+        return yield_if(p.first == p.second, p.second); });
 
   cout << all(rng) << endl;
 
