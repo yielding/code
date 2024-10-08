@@ -8,7 +8,11 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-  auto rng = v::iota(1, 10)
+  using v::iota;  // ints(1, 10)
+
+  cout << v::all(iota(1, 10)) << endl;
+
+  auto rng = iota(1, 10)
     | v::transform([](int x) {
         auto r1 = v::closed_iota(1, x);
         auto r2 = r1 | v::drop(1) | v::reverse;
