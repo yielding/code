@@ -28,7 +28,8 @@ int main(int argc, char* argv[])
     { "guallatiri", 6071. }
   };
 
-  auto rng = mountains | filter([](double h) { return h > 6200.0; }, &mountain::height);
+  auto rng = mountains 
+           | filter([](double h) { return h > 6200.0; }, &mountain::height);
 
   cout << all(rng);
 

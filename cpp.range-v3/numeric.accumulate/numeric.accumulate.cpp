@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 {   
   using v::take, v::ints, v::transform, g::accumulate;
 
-n auto rng = v::generate(
+  auto rng = v::generate(
     [p=pair{1, 1}]() mutable {
       auto [a0, b0] = p; 
       p = {b0, a0 + b0};

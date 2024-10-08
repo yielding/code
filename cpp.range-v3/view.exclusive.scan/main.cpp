@@ -12,28 +12,34 @@ using strings = vector<string>;
 // TODO
 // 1. review exclusive_scan(0) of {1, 2, 3}
 //    = {0, 0+1, 0+1+2, 0+1+2+3}
-// 2. why separate v::reverse in line 35
+// 2. why separate v::reverse in line 38
 //
 int main(int argc, char* argv[])
 {
   using v::exclusive_scan, v::take_while, v::zip_with, v::reverse, g::to;
 
-  auto sec = 123456;
+  auto seconds = 123456;
   auto times = vector{ 60, 60, 24, 7 };
   auto names = vector{ "s"s, "min"s, "h"s, "d"s };
 
   auto div_pos 
     = times
-    | exclusive_scan(sec, divides{})
+    | exclusive_scan(seconds, divides{})
     | take_while([](int x) { return x > 0; });
+
+  // cout << v::all(div_pos) << endl; // [123456,2057,34,1]
 
   auto mods = zip_with(
       [](int a, int b) { return a % b; },  // 여기서 % 연산이 빛난다.
       div_pos, times);
 
+  // cout << v::all(mods) << endl; // [36,17,10,1]
+  
   auto pairs 
     = zip_with([](int a, auto& s) { return to_string(a) + s; }, mods, names)
     | to<strings>;
+
+  // cout << v::all(pairs) << endl; // [36s,17min,10h,1d]
 
   cout << v::all(pairs | reverse);
 

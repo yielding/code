@@ -1,4 +1,3 @@
-#include <vector>
 #include <iostream>
 
 #include <range/v3/all.hpp>

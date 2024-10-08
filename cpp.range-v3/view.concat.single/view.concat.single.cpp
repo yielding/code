@@ -16,6 +16,7 @@ int main(int agc, char* agv[])
   cout << concat(v1, v2) << endl;
 
   // single: prefix a range with an element
+  // single: 상수를 concat 연산을 위해 list로 변환 (List monad의 identity)
   auto v3 = concat(single(10), v2);
   cout << v3 << endl;
 

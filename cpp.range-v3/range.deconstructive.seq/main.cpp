@@ -3,6 +3,7 @@
 
 namespace v = ranges::views;
 namespace g = ranges;
+
 using namespace std;
 
 int main(int argc, char* argv[])
