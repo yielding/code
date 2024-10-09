@@ -9,8 +9,10 @@ public class ExampleFromPluralsightCourse
         return GetById(id)
             .ToResult("Customer with such Id is not found: " + id)
             .Ensure (customer => customer.CanBePromoted(), "The customer has the highest status possible")
+            .Tap    (customer => Console.WriteLine("hi"))
             .Tap    (customer => customer.Promote())
             .Tap    (customer => gateway.SendMail(customer.Email))
+            .Map    (customer => gateway.Verify(customer))
             .Bind   (customer => gateway.Verify2(customer))
             .Bind   (customer => gateway.SendPromotionNotification(customer.Email))
             .Finally(result   => result.IsSuccess ? "Ok" : result.Error);
