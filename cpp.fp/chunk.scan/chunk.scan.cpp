@@ -15,6 +15,11 @@ auto chunk_scan(vector<int> arr, int n, auto f) -> vector<int>
     return partial_sum(r, f);
   };
 
+  // DEBUG
+  cout << v::all(arr | chunk(n) ) << endl;
+  cout << v::all(arr | chunk(n) | transform(scan)) << endl;
+  cout << v::all(arr | chunk(n) | transform(scan) | join) << endl;
+
   return arr
     | chunk(n)
     | transform(scan)
@@ -24,8 +29,12 @@ auto chunk_scan(vector<int> arr, int n, auto f) -> vector<int>
 
 int main(int argc, char* argv[])
 {
+  // REMARK
+  // 1. 3을 기준으로 chunk를 나눈다 > [[1, 2, 3], [4, 5, 6]]
+  // 2. 각 chunk를 partial_sum      > [[1, 3, 6], [4, 9, 15]]
+  // 3. join                        > [1, 3, 6, 4, 9, 15]
   auto vec = vector{1, 2, 3, 4, 5, 6};
-  auto res = chunk_scan(vec, 2, plus{});
+  auto res = chunk_scan(vec, 3, plus{});
 
   cout << v::all(res) << endl;
 
