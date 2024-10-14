@@ -4,8 +4,8 @@ main = putStrLn (render myhtml)
 myhtml :: Html
 myhtml =
   html_ 
-    "My title"
-    ( append_
+    "My title"                   -- String
+    ( append_                    -- Structure String
       ( h1_ "Heading")
       ( append_
         ( p_ "Prargraph #1")
@@ -13,6 +13,10 @@ myhtml =
       )
     )
 
+--
+-- String을 주면 Html을 반환해주는 함수로 생각할 수 있다. 
+-- Html :: String -> Html
+--
 newtype Html 
   = Html String
 
@@ -25,8 +29,8 @@ type Title
 html_ :: Title -> Structure -> Html
 html_ title content =
   Html 
-    (el "html" 
-      (el "head" (el "title" title)
+    ( el "html" 
+      ( el "head" (el "title" title)
         <> el "body" (getStructureString content)
       )
     )
@@ -50,6 +54,10 @@ getStructureString content =
   case content of
     Structure str -> str
 
+--
+-- 주어진 Html 문서에서 string을 뽑아내는 함수
+-- why? 브라우저에 출력하려면, 문자열으로의 변환이 필요. 
+--
 render :: Html -> String
 render html =
   case html of

@@ -16,8 +16,8 @@ type Title
 html_ :: Title -> Structure -> Html
 html_ title content =
   Html 
-    (el "html" 
-      (el "head" (el "title" (escape title))
+    ( el "html" 
+      ( el "head" (el "title" (escape title))
         <> el "body" (getStructureString content)
       )
     )
@@ -70,15 +70,17 @@ getStructureString content =
   case content of
     Structure str -> str
 
+{-- --}
+-- 드디어 이해하겠구나.
 escape :: String -> String
 escape =
   let 
     escapeChar c = 
       case c of
-        '<' -> "&lt;"
-        '>' -> "&gt;"
-        '&' -> "&amp;"
-        '"' -> "&quot;"
+        '<'  -> "&lt;"
+        '>'  -> "&gt;"
+        '&'  -> "&amp;"
+        '"'  -> "&quot;"
         '\'' -> "&#39;"
         _ -> [c]
   in
