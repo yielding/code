@@ -14,7 +14,7 @@ myhtml =
     )
 
 --
--- String을 주면 Html을 반환해주는 함수로 생각할 수 있다. 
+-- String을 주면 Html을 반환해주는 함수로. 
 -- Html :: String -> Html
 --
 newtype Html 
