@@ -13,7 +13,7 @@ public:
 
   void exec() const 
   {
-    cout << "Matric.exec(): default impl" << endl;
+    cout << "Matrix.exec(): default impl" << endl;
   }
 };
 
