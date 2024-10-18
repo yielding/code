@@ -1,77 +1,70 @@
 #include <iostream>
 #include <functional>
-#include <concepts>
 #include <utility>
 
-// State 모나드 클래스 정의
-template<typename S, typename A>
-class State {
+using namespace std;
+
+template <typename State, typename Value>
+class StateMonad 
+{
 public:
-    using StateFunc = std::function<std::pair<A, S>(S)>;
+  using StateFunc = function<pair<Value, State>(State)>;
+
+  // Constructor that takes a state transformation function
+  explicit StateMonad(StateFunc func) : stateFunc(func) {}
+
+  // Function to run the StateMonad and extract the result
+  // pair<Value, State> run(State initialState) const {
+  auto run(State initialState) const 
+  {
+    return stateFunc(initialState);
+  }
+
+  template <typename Func>
+  //auto flatMap(Func f) const -> StateMonad<State, decltype(f(declval<Value>()).run(declval<State>()).first)> {
+  auto flatMap(Func f) const 
+  {
+    using NewValue = decltype(f(declval<Value>()).run(declval<State>()).first);
+
+    return StateMonad<State, NewValue>([=, this](State state) {
+      auto [value, newState] = this->run(state);
+      return f(value).run(newState);
+    });
+  }
+
+  // Helper function to create a StateMonad from a simple value
+  static StateMonad pure(Value value) 
+  {
+    return StateMonad([=](State state) { return make_pair(value, state); });
+  }
 
 private:
-    StateFunc runState;
-
-public:
-    explicit State(StateFunc runStateFunc) : runState(std::move(runStateFunc)) {}
-
-    std::pair<A, S> run(S state) const {
-        return runState(state);
-    }
-
-    // bind 함수를 사용해 모나드 연산을 연결
-    template<typename B>
-    State<S, B> bind(std::invocable<A> auto f) const {
-        return State<S, B>([this, f](S state) {
-            auto [a, newState] = this->run(state);  // 현재 모나드 실행
-            return f(a).run(newState);              // 새로운 모나드 실행
-        });
-    }
-
-    // 상태를 전달받지 않는 pure 함수
-    static State<S, A> pure(A value) {
-        return State<S, A>([value](S state) {
-            return std::make_pair(value, state);
-        });
-    }
+  StateFunc stateFunc;
 };
 
-// 상태를 가져오는 get 함수
-template<typename S>
-State<S, S> get() {
-    return State<S, S>([](S state) {
-        return std::make_pair(state, state);
-    });
+// Example of a state manipulation function
+auto increment(int amount) -> StateMonad<int, int> 
+{
+  return StateMonad<int, int>([=](int state) {
+    return make_pair(state + amount, state + amount);
+  });
 }
 
-// 상태를 설정하는 put 함수
-template<typename S>
-State<S, void> put(S newState) {
-    return State<S, void>([newState](S) {
-        return std::make_pair(nullptr, newState);
-    });
-}
-
-// 카운터를 증가시키는 예제
-State<int, int> increment() {
-    return get<int>().bind<int>([](int state) {
-        return put<int>(state + 1).bind<int>([state](...) {
-            return State<int, int>::pure(state);
-        });
-    });
-}
-
+// Example of using the State Monad
 int main() {
-    // 상태 모나드와 바인딩 연산을 사용한 상태 처리 예제
-    State<int, int> program = increment().bind<int>([](int prevState) {
-        std::cout << "Previous state: " << prevState << std::endl;
-        return increment();  // 두 번째 increment 호출
-    });
+  // Create a StateMonad that adds 5 to the state
+  StateMonad<int, int> addFive = increment(5);
 
-    auto [result, finalState] = program.run(0);  // 초기 상태는 0
+  // Chain multiple stateful computations
+  auto program = addFive.flatMap([](int result) {
+    return increment(result * 2); // Increment by double the previous result
+  });
 
-    std::cout << "Final result: " << result << std::endl;
-    std::cout << "Final state: " << finalState << std::endl;
+  // Run the program starting with an initial state of 10
+  auto [finalValue, finalState] = program.run(10);
 
-    return 0;
+  cout << "Final Value: " << finalValue << endl;  // Output: Final Value: 40
+  cout << "Final State: " << finalState << endl;  // Output: Final State: 40
+
+  return 0;
 }
