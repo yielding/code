@@ -16,13 +16,12 @@ public:
   explicit Reader(ReaderFunction func) : func_(func) {}
 
   // Run the Reader by providing an environment
-  T run(Env env) const {
-    return func_(env);
-  }
+  T run(Env env) const { return func_(env); }
 
   // Functor: fmap / map function
   template <typename Func>
-  auto map(Func f) const -> Reader<Env, decltype(f(declval<T>()))> 
+  // auto map(Func f) const -> Reader<Env, decltype(f(declval<T>()))> 
+  auto map(Func f) const 
   {
     return Reader<Env, decltype(f(declval<T>()))>(
       [=, this](Env env) { return f(run(env)); }
@@ -31,11 +30,13 @@ public:
 
   // Monad: flatMap / bind function
   template <typename Func>
-  auto flatMap(Func f) const -> decltype(f(declval<T>())) {
-    using NewReader = decltype(f(declval<T>()));
-    return NewReader(
-      [=, this](Env env) { return f(this->run(env)).run(env); }
-    );
+  // auto flatMap(Func f) const -> decltype(f(declval<T>())) {
+  auto flatMap(Func f) const {
+    // using NewReader = decltype(f(declval<T>()));
+    // return NewReader(
+    //   [=, this](Env env) { return f(this->run(env)).run(env); }
+    // );
+    return [=, this](Env env) { return f(this->run(env)).run(env); };
   }
 
 private:
