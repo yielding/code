@@ -14,6 +14,7 @@ class Monad
     self.class.pure(x)
   end
     
+  # map :: # M a -> (a -> M b) -> M b
   def flat_map(f)
     raise StandardError("flat_map method needs to be implemented")
   end
