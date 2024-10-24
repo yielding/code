@@ -13,7 +13,6 @@ treeMap2 f = g where
   g (Leaf x) = Leaf (f x)
   g (Branch left right) = Branch (g left) (g right)
 
-
 data List a = Nil | Cons a (List a)
 
 main = do putStrLn "Hello"

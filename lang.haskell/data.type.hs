@@ -15,7 +15,6 @@ data Bool = False | True
 -- parameterized data type
 --
 ---------------------------------------------------------------
-
 data Pair a b = Pair a b
 
 xx = Pair 1 2
@@ -54,7 +53,7 @@ showPerson p = show(name p) -- ++ show
   
 main = do 
   let x = Person "Jerry" Female 12
-  print(name x)
+  print $ name x
   let y = [Person "Yoda" Male 999, Person "Tom" Male 7]
   print $ showPerson $ findPerson "Yoda" y
 
