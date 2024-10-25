@@ -44,17 +44,13 @@ private:
 int main() 
 {
   // State type: int (state is an integer), value type: int (value is also an integer)
-  State<int, int> addState([](int state) {
-    return make_pair(state + 10, state + 1);
-  });
+  State<int, int> add_state([](int state) { return make_pair(state + 10, state + 1); });
 
   // Map to double the value
-  auto double_value = addState.map<int>([](int value) {
-    return value * 2;
-  });
+  auto double_value = add_state.map<int>([](int value) { return value * 2; });
 
   // FlatMap to add a new state operation
-  auto ndd_then_multiply = double_value.flat_map<int>([](int value) {
+  auto add_then_multiply = double_value.flat_map<int>([](int value) {
     return State<int, int>([value](int state) {
       return make_pair(value * 3, state + 2);
     });
