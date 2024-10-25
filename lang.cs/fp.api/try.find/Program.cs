@@ -16,9 +16,9 @@ public class Fp
     var kiwi = fruits.TryFind("kiwi").Or(0);
     Console.WriteLine($"kiwis = {kiwi.Value}");
 
-    kiwi.Match(
+    var res = kiwi.Match(
       fruit => Console.WriteLine($"It's a {fruit}"),
-      () => Console.WriteLine("There's not fruit")
+      ()    => Console.WriteLine("There's not fruit")
     );
   }
 }
