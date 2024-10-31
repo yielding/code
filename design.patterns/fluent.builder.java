@@ -1,12 +1,14 @@
-class MyObject
-{
+class MyObject {
   private String name;
   private String type;
 
-  public MyObject(String name, String type)
-  {
+  public MyObject(String name, String type) {
     this.name = name;
     this.type = type;
+  }
+
+  public String toString() {
+    return name + " : " + type;
   }
 }
 
@@ -35,12 +37,13 @@ class Fluently {
   }
 }
 
-class Program
-{
+class Program {
   public static void main(String[] args) {
     var object = Fluently.create()
-      .withName("Example")
-      .withType("Type A")
-      .build();
+                         .withName("Example")
+                         .withType("Type A")
+                         .build();
+
+    System.out.println(object.toString());
   }
 }

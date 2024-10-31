@@ -10,8 +10,8 @@ enum class Size { Small, Medium, Large };
 struct Product
 {
   string name;
-  Color  color;
-  Size   size;
+  Color color;
+  Size size;
 };
 
 template <typename T> class AndSpec;
