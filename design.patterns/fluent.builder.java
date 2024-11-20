@@ -1,15 +1,12 @@
 class MyObject {
-  private String name;
-  private String type;
+  private String name, type;
 
   public MyObject(String name, String type) {
     this.name = name;
     this.type = type;
   }
 
-  public String toString() {
-    return name + " : " + type;
-  }
+  public String toString() { return name + " : " + type; }
 }
 
 class Fluently {
@@ -18,8 +15,7 @@ class Fluently {
   }
 
   public static class Builder {
-    private String name;
-    private String type;
+    private String name, type;
 
     public Builder withName(String name) {
       this.name = name;

@@ -2,7 +2,6 @@
 #include <functional>
 #include <print>
 
-
 template <typename T>
 class optional
 {
@@ -22,7 +21,7 @@ public:
   }
 
   template <typename R>
-  auto map(std::function<R(T)>& f) -> optional<R>
+n,auto map(std::function<R(T)>& f) -> optional<R>
   {
     std::function<optional<R>(T)> res = [f](T v) {
       return optional<R>(f(v));
@@ -47,9 +46,7 @@ auto fmap(function<B(A)> f) -> function<optional<B>(optional<A>)>
       : optional<B> {};
   };
 }
-
-// uncurried version
-template <typename A, typename B>
+// uncurried version template <typename A, typename B>
 auto fmap(function<B(A)> f, optional<A> opt) -> optional<B>
 {
   return opt.isValid()
