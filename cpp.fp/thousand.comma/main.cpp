@@ -8,7 +8,7 @@ namespace v = ranges::views;
 
 using namespace std;
 
-auto add_comma(string const& s, int count) -> string
+auto add_comma(string const& s, const int count) -> string
 {
   using g::to;
   using v::reverse, v::chunk, v::join;
@@ -21,7 +21,7 @@ auto add_comma(string const& s, int count) -> string
 auto add_comma2(string const& s, int count) -> string
 {
   auto res = s;
-  auto len = (int)res.length();
+  const auto len = static_cast <int>(res.length());
   auto pos = count;
   while (len - pos > 0)
   {
