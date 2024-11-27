@@ -13,7 +13,7 @@ enum class parse_error
 
 auto parse_number(string_view str) -> expected<double, parse_error>
 {
-  auto beg = str.data();
+  const auto beg = str.data();
   char* end;
   auto retval = strtod(beg, &end); // string to double
 
@@ -22,18 +22,18 @@ auto parse_number(string_view str) -> expected<double, parse_error>
 
   if (isinf(retval))
     return unexpected(parse_error::overflow);
-  
+
   str.remove_prefix(end - beg);
 
   return retval;
 }
 
-auto times_10(double d) -> expected<double, parse_error>
+auto times_10(const double d) -> expected<double, parse_error>
 {
   return d * 10;
 }
 
-auto print_error(parse_error e) -> expected<double, string>
+auto print_error(const parse_error e) -> expected<double, string>
 {
   switch (e)
   {
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
   for (auto const& src: { "42", "43 abc ", "meow", "inf" })
   {
     auto res = parse_number(src)
-                .transform([](double d) { return d + 10; }) // transform: fmap(functor)double -> double
+                .transform([](const double d) { return d + 10; }) // transform: fmap(functor)double -> double
                 .and_then(times_10)                         // and_then
                 .or_else(print_error);
 
