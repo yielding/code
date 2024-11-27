@@ -1,5 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
@@ -8,7 +7,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CustomerMgmt
+using CSharpFunctionalExtensions;
+
+namespace CustomerManagement
 {
     class Request 
     {
@@ -46,17 +47,14 @@ namespace CustomerMgmt
 
         public string UpdateCustomer()
         {
-            var res = ReceiveRequest()
+            return ReceiveRequest()
                 .Ensure(request => Validate(request))
                 .Bind(request => UpdateDbFrom(request))
                 .Bind(request => CanonicalizeEmail(request))
                 .Bind(email => SendEmail(email))
-                .Match(                                                 //.Finally(ret => ret.IsSuccess ? "OK" : ret.Error);
-                    success => "OK",
-                    failure => PrintRes(failure)
-                );
-
-            return res;
+                .Match(success => "OK",
+                       failure => PrintRes(failure));
+                //.Finally(ret => ret.IsSuccess ? "OK" : ret.Error);
         }
 
         private string PrintRes(string res)
@@ -82,7 +80,7 @@ namespace CustomerMgmt
             if (!r.Email.Contains("@"))
                 return Result.Failure<bool>("Email is not valid");
 
-            return true;                                                        //return Result.Success(true);  //return Result.Success<bool>(true);
+            return true;  // true => Result.Success(true);
         }
 
         private Result<Request> UpdateDbFrom(Request r)
@@ -91,7 +89,7 @@ namespace CustomerMgmt
             {
                 db.UpdateFrom(r);
             }
-            catch (Exception e)
+            catch
             {
                 return Result.Failure<Request>("Customer record not updated");
             }
@@ -118,7 +116,7 @@ namespace CustomerMgmt
 
             try
             {
-                using (MailMessage mail = new MailMessage())
+                using (var mail = new MailMessage())
                 {
                     mail.From = new MailAddress(emailFrom);
                     mail.To.Add(emailTo);
@@ -127,7 +125,7 @@ namespace CustomerMgmt
                     mail.IsBodyHtml = true; // Set to true if body is HTML
 
                     // Configure SMTP client
-                    using (SmtpClient smtp = new SmtpClient(smtpAddress, portNumber))
+                    using (var smtp = new SmtpClient(smtpAddress, portNumber))
                     {
                         smtp.Credentials = new NetworkCredential(emailFrom, password);
                         smtp.EnableSsl = enableSSL;
@@ -147,12 +145,14 @@ namespace CustomerMgmt
         }
     }
 
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
-            var lr = new LicenseRepository();
-            var res = lr.UpdateCustomer();
+            var repo = new LicenseRepository();
+            var result = repo.UpdateCustomer();
+
+            Console.WriteLine(result);
         }
     }
 }
