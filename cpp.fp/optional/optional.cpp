@@ -28,9 +28,9 @@ int main(int argc, char* argv[])
   // and_then  == bind (flatmap)
   auto filter = [](auto&& o) {     // optional<string>,
     return o.and_then(to_int)      // flatmap from str to int
-            .transform([](int n) { return n + 1; })
-            .transform([](int n) { return to_string(n); })
-            .or_else  ([]        { return optional("null"s); });
+            .transform([](auto n) { return n + 1; })
+            .transform([](auto n) { return to_string(n); })
+            .or_else  ([]         { return optional("null"s); });
   };
 
   for (auto&& x : v | views::transform(filter)) 
