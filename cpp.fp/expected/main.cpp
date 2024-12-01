@@ -60,11 +60,11 @@ int main(int argc, char* argv[])
   {
     auto res = parse_number(src)
                 .transform([](const double d) { return d + 10; }) // transform: fmap(functor)double -> double
-                .and_then(times_10)                         // and_then
+                .and_then(times_10)                               // and_then
                 .or_else(print_error);
 
     if (res.has_value())
-      cout << *res << endl;
+      cout << res.value() << endl;
     else 
       cout << res.error() << endl;
   }

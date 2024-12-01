@@ -11,7 +11,7 @@ using namespace literals;
 template <typename T>
 using vector_ex = vector<optional<T>>;
 
-auto to_int(string_view s) -> optional<int> 
+auto to_int(const string_view s) -> optional<int>
 {
   if (int r; from_chars(s.data(), s.data()+s.size(), r).ec == errc{})
     return r;
