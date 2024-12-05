@@ -35,7 +35,8 @@ template <typename RotatePolicy>
 class SpiralArray
 {
 public:
-  explicit SpiralArray(int dim=5, int val=1) : _value {val}
+  explicit SpiralArray(int dim=5, const int val=1)
+    : _board{0}, _value {val}
   {
     for (int i=0; i<dim; i++) _board.emplace_back(dim);
 
@@ -88,7 +89,7 @@ private:
 
 int main(int argc, char* argv[])
 {
-  auto dim = 7;
+  constexpr auto dim = 7;
 
   SpiralArray<RotateL> m0{dim};
   m0.go();

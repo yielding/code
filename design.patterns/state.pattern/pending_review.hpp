@@ -2,7 +2,7 @@
 
 #include "state.hpp"
 
-class PendingReview : public State
+class PendingReview final : public State
 {
 public:
   PendingReview();

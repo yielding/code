@@ -7,6 +7,8 @@ class Post;
 class State
 {
 public:
+  virtual ~State() = default;
+
   virtual auto request_review() -> State* = 0;
 
   virtual auto approve() -> State* = 0;
