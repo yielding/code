@@ -65,12 +65,6 @@ $INCS += " -I#{$HOME}/develop/vendor/include"
 
 USER="#{$HOME}"
 CODE="#{$HOME}/code"
-PYTORCH="#{USER}/anaconda3/envs/pytorch"
-PYTORCH_LIB="#{PYTORCH}/lib/python3.9/site-packages/torch"
-
-# PyTorch
-$INCS += " -I#{PYTORCH_LIB}/include -I#{PYTORCH_LIB}/include/torch/csrc/api/include"
-$INCS += " -I#{PYTORCH}/include/python3.9"
 
 $LDFLAGS = " #{ENV['LDFLAGS']}"
 if defined? LDFLAGS
@@ -91,6 +85,7 @@ if defined? LDFLAGS
 end
 
 $LDFLAGS += " -L. -L/usr/local/lib -L#{$HOME}/develop/vendor/lib"
+
 BOOST = {
   :c => " -lboost_chrono",
   :d => " -lboost_date_time",

@@ -2,7 +2,7 @@
 
 SRCS     = %w{ ./turtle.1st.cpp }
 APP      = "turtle"
-CXX      = "xcrun"
+CXX      = "clang++"
 CXXFLAGS = ":v :d :w"         # :d , :w=-Wall :O0 :O3
 LIBS     = "gmock gtest"
 

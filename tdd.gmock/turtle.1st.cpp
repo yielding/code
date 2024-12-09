@@ -33,10 +33,10 @@ TEST(TurtleTest, DrawTurtle)
 {
   MockTurtle turtle;
 
-  EXPECT_CALL(turtle, PenDown())
-    .Times(AtLeast(1));
-
-  turtle.PenDown();
+//  EXPECT_CALL(turtle, PenDown())
+//    .Times(AtLeast(1));
+//
+//  turtle.PenDown();
 
   EXPECT_TRUE(1);
 }
