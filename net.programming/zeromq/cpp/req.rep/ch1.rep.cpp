@@ -1,4 +1,4 @@
-#include <iostream>
+#include <print>
 #include <zmq_addon.hpp>
 
 using namespace std;
@@ -15,10 +15,10 @@ int main(int argc, char *argv[])
     zmq::message_t in;
     auto recved = sock.recv(in);
 
-    auto x = stoi(in.to_string());
+    auto x  = stoi(in.to_string());
     auto out = to_string(x*x);
     zmq::message_t zout(out);
-    cout << "sending back: " << out << endl;
+    println("sending back: {}", out);
     sock.send(zout, zmq::send_flags::none);
   }
   

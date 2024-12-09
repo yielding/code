@@ -1,7 +1,7 @@
-#include <iostream>
 #include <thread>
 #include <chrono>
 #include <random>
+#include <print>
 #include <zmq_addon.hpp>
 
 using namespace std;
@@ -22,15 +22,12 @@ auto thread_func =[](string thread_id)
   {
     string msg_out = to_string(udist(mt));
     zmq::message_t out(msg_out);
-    cout << "\nsending" << out.to_string_view();
+    println("sending: {}", out.to_string_view());
     sock.send(out, zmq::send_flags::none);
     zmq::message_t in;
     auto recved = sock.recv(in);
 
-    cout 
-      << "\nthread id: " << thread_id
-      << "sending: " << msg_out << " "
-      << "received: " << in.to_string_view();
+    print("thread id: {}, sending: {}  received: ", thread_id, msg_out, in.to_string_view());
 
     this_thread::sleep_for(500ms);
   }

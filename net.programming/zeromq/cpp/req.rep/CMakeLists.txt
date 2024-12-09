@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22.2)
+cmake_minimum_required(VERSION 3.30)
 
 project(zmq.req.rep)
 
@@ -15,9 +15,8 @@ link_directories(
   /opt/homebrew/lib
 )
 
-add_executable(req ch1.cli.cpp)
-add_executable(rep ch1.srv.cpp)
+add_executable(req ch1.req.cpp)
+add_executable(rep ch1.rep.cpp)
 
 target_link_libraries(rep zmq)
 target_link_libraries(req zmq)
-
