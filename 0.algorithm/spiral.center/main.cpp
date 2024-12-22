@@ -46,8 +46,8 @@ public:
 public:
   void go()
   {
-    auto dim = _board.size();
-    auto cur = make_pair((dim / 2), int(dim / 2));
+    const auto dim = _board.size();
+    auto cur = make_pair(dim / 2, static_cast<int>(dim / 2));
     auto val = _value;
     for (int step = 1; ; ++step)
     {
