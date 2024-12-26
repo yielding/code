@@ -1,11 +1,13 @@
 #include "post.hpp"
+
+#include <memory>
 #include "draft.hpp"
 
 using namespace std;
 
 Post::Post()
 {
-  _state.reset(new Draft());
+  _state = std::make_unique<Draft>();
 }
 
 auto Post::content() const -> string

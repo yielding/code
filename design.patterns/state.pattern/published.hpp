@@ -2,7 +2,7 @@
 
 #include "state.hpp"
 
-class Published : public State
+class Published final : public State
 {
 public:
   Published();

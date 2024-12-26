@@ -19,15 +19,14 @@ void basics()
   // 2. 기본 연산은 plus{}
   // 3. 초기값은 결과에 포함
   // 4. 각 리스트의 원소에 연산 적용
-  // 5. 결과를 리스트로 만든다. (moand)
+  // 5. 결과를 리스트로 만든다. (monad)
 
   auto const v = vector{4, 3, 5, 6};
 
-  auto rng = v | v::exclusive_scan(0); // [0,0+4,0+4+3,0+4+3+5]...[0,4,7,12]
+  auto rng = v | exclusive_scan(0); // [0,0+4,0+4+3,0+4+3+5]...[0,4,7,12]
 
   for (const auto& value : rng)
     cout << value << " ";
-
 }
 
 void applied()

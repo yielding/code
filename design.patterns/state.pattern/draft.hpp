@@ -2,7 +2,7 @@
 
 #include "state.hpp"
 
-class Draft : public State
+class Draft final : public State
 {
 public:
   Draft();
