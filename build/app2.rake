@@ -15,9 +15,9 @@ end
 
 $CXX = "ccache g++-14 -std=c++23"
 if defined? CXX
-  $CXX = "ccache clang++ -std=c++2c -stdlib=libc++ " if CXX == "clang++"
+  $CXX = "clang++ -std=c++2c -stdlib=libc++ " if CXX == "clang++"
   $CXX = "ccache g++-14 -std=c++23 "          if CXX == "g++"
-  $CXX = "ccache xcrun clang++ -std=c++23 -stdlib=libc++ " if CXX == "xcrun" 
+  $CXX = "xcrun clang++ -std=c++23 -stdlib=libc++ " if CXX == "xcrun" 
 end
 
 $HOME = ENV["HOME"]
