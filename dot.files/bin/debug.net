@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require "open3"
+
+if __FILE__ == $PROGRAM_NAME
+  if ARGV.length < 1
+    puts "usage: #{$PROGRAM_NAME} project_name"
+    exit
+  end
+
+  filename = "#{ARGV[0]}.dll"
+
+  File.open('.vimspector.json', "w") { |file|
+    file.puts '{'
+    file.puts '  "configurations": {'
+    file.puts '    "launch - netcoredbg": {'
+    file.puts '      "adapter": {'
+    file.puts '        "name": "netcoredbg",'
+    file.puts '        "command": ['
+    file.puts '          "/Users/yielding/.config/netcoredbg/netcoredbg",'
+    file.puts '          "--interpreter=vscode"'
+    file.puts '        ]'
+    file.puts '      },'
+    file.puts '      "configuration": {'
+    file.puts '        "request": "launch",'
+    file.puts '        "program": "${workspaceRoot}/bin/Debug/net9.0/' + filename + '",'
+    file.puts '        "args": [],'
+    file.puts '        "stopAtEntry": true,'
+    file.puts '        "cwd": "${workspaceRoot}"'
+    file.puts '      }'
+    file.puts '    }'
+    file.puts '  }'
+    file.puts '}'
+  }
+end

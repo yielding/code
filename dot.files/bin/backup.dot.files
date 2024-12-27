@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+DEST="~/code/dot.files"
+
+`mkdir -p #{DEST}/bin`
+`mkdir -p #{DEST}/UltiSnips`
+`mkdir -p #{DEST}/oh-my-zsh-themes`
+`mkdir -p #{DEST}/vim-plug`
+
+`cp ~/.zshrc #{DEST}/dot.zshrc`
+`cp ~/.config/nvim/init.vim #{DEST}/dot.init.vim`
+`cp ~/.config/nvim/vim-plug/plugins.vim #{DEST}/vim-plug/plugins.vim`
+`cp ~/.ghci #{DEST}/dot.ghci`
+`cp ~/.gitconfig #{DEST}/dot.gitconfig`
+`cp ~/.tmux.conf #{DEST}/dot.tmux.conf`
+`cp ~/.vimrc #{DEST}/dot.vimrc`
+`cp ~/.oh-my-zsh/lib/aliases.zsh #{DEST}/oh-my-zsh-lib-aliases.zsh`
+`cp -r ~/bin/* #{DEST}/bin`
+`cp -r ~/.oh-my-zsh/themes/* #{DEST}/oh-my-zsh-themes`
+`cp -r ~/.config/nvim/UltiSnips/* #{DEST}/UltiSnips`

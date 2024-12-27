@@ -1,21 +1,34 @@
 # If you come from bash you might have to change your $PATH.
 export HOME=/Users/yielding 
-export RUBY_HOME=/opt/homebrew/opt/ruby
-export PATH=$RUBY_HOME/bin:/opt/homebrew/lib/ruby/gems/3.2.0/bin:$PATH
+
+export RUBY_HOME=/opt/homebrew/opt/ruby 
+export LLVM_HOME=/opt/homebrew/opt/llvm
+export MINGW_HOME=/opt/homebrew/opt/mingw-w64
+export OPENCV_HOME=/opt/homebrew/opt/opencv
+export DOTNET_ROOT=/usr/local/share/dotnet
+export DOTNET_TOOLS_HOME=$HOME/.dotnet/tools
+export RUBYLIB=$HOME/develop/lib.ruby
+
+export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+
+export PATH=$RUBY_HOME/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH
 export PATH=$HOME/bin:/opt/homebrew/bin:$PATH
-export PATH=/opt/homebrew/Cellar/llvm/14.0.6_1/bin:$PATH
-export PATH=/opt/homebrew/Cellar/mingw-w64/10.0.0_4/bin/path/to/mingw/bin:$PATH
-export PATH=$PATH:$HOME/.dotnet/tools
-export BOOST_HOME=/usr/local/include
-export OPENCV_HOME=/opt/homebrew/Cellar/opencv/4.7.0_1
+export PATH=$LLVM_HOME/bin:$PATH
+export PATH=$MINGW_HOME/bin:$PATH
+export PATH=$DOTNET_TOOLS_HOME:$PATH
+
 export LDFLAGS="-L$RUBY_HOME/lib -L/opt/homebrew/lib -lpthread"
-export CPLUS_INCLUDE_PATH=/opt/homebrew/include:$RUBY_HOME/include:$BOOST_HOME:$OPENCV_HOME/include/opencv4:$HOME/develop/include:$HOME/develop/vendor/include:$CPLUS_INCLUDE_PATH
-export CPPFLAGS=" -std=c++23"
-export CXX="/opt/homebrew/bin/g++-13"
+export CPLUS_INCLUDE_PATH=/opt/homebrew/include:$OPENCV_HOME/include/opencv4:$CPLUS_INCLUDE_PATH
+
+#export CXX="/opt/homebrew/bin/g++-14"
+export CC=/opt/homebrew/opt/llvm/bin/clang
+export CXX=/opt/homebrew/opt/llvm/bin/clang++
 
 export TERM=xterm-256color
+
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home
 export JDK_HOME=$JAVA_HOME
+export CLASSPATH=.:/opt/homebrew/Cellar/antlr/4.13.2/antlr-4.13.2-complete.jar
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/yielding/.oh-my-zsh"
@@ -29,6 +42,10 @@ export GIT_TERMINAL_PROMPT=false
 #ZSH_THEME="refined"
 #ZSH_THEME="dst"
 ZSH_THEME="steeef"
+ZSH_THEME="fino"
+
+export MY_INSTALL_DIR=$HOME/.local
+export PATH="$MY_INSTALL_DIR/bin:$PATH"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -61,7 +78,7 @@ CASE_SENSITIVE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
@@ -79,7 +96,7 @@ CASE_SENSITIVE="true"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="yyyy-mm-dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -97,7 +114,7 @@ plugins=(git
   docker
   fasd
   fzf
-  ripgrep
+  git
   zsh-syntax-highlighting
   zsh-autosuggestions
 )
@@ -106,8 +123,7 @@ source $ZSH/oh-my-zsh.sh
 
 bindkey -v
 
-. /opt/homebrew/etc/profile.d/z.sh
-
+#. /opt/homebrew/etc/profile.d/z.sh
 
 # User configuration
 
@@ -116,8 +132,10 @@ bindkey -v
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 export LANG=ko_KR.UTF-8
-
 export EDITOR=nvim 
+
+zstyle ':completion:*' rehash true
+
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
@@ -139,22 +157,25 @@ export EDITOR=nvim
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/yielding/miniforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/yielding/miniforge/etc/profile.d/conda.sh" ]; then
-        . "/Users/yielding/miniforge/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/yielding/miniforge/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+# __conda_setup="$('/Users/yielding/miniforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/Users/yielding/miniforge/etc/profile.d/conda.sh" ]; then
+#         . "/Users/yielding/miniforge/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/Users/yielding/miniforge/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+## <<< conda initialize <<<
 
 compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
+eval "$(zoxide init zsh)"
 
 test -e /Users/yielding/.iterm2_shell_integration.zsh && source /Users/yielding/.iterm2_shell_integration.zsh || true
 
 [ -f "/Users/yielding/.ghcup/env" ] && source "/Users/yielding/.ghcup/env" # ghcup-env
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+fastfetch
