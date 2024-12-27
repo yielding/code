@@ -16,5 +16,5 @@ DEST="~/code/dot.files"
 `cp ~/.vimrc #{DEST}/dot.vimrc`
 `cp ~/.oh-my-zsh/lib/aliases.zsh #{DEST}/oh-my-zsh-lib-aliases.zsh`
 `cp -r ~/bin/* #{DEST}/bin`
-`cp -r ~/.oh-my-zsh/themes/* #{DEST}/oh-my-zsh-themes`
+`cp -r ~/.oh-my-zsh/themes/fino* #{DEST}/oh-my-zsh-themes`
 `cp -r ~/.config/nvim/UltiSnips/* #{DEST}/UltiSnips`
