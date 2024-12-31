@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
 {
   cv::Mat img;
   cv::namedWindow("EXAMPLE2_4", cv::WINDOW_AUTOSIZE);
-  g_cap.open("/Users/yielding/Desktop/IMG_5462.mp4");
+  g_cap.open("/Users/yielding/Desktop/festa2025.mp4");
 
   int frames = (int) g_cap.get(cv::CAP_PROP_FRAME_COUNT);
   int tmpw   = (int) g_cap.get(cv::CAP_PROP_FRAME_WIDTH);
@@ -46,7 +46,6 @@ int main(int argc, char* argv[])
       cv::imshow("EXAMPLE2_4", frame);
 
       g_run -= 1;
-
     }
 
     auto c = (char)cv::waitKey(10);
