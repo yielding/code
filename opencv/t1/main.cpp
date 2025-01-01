@@ -18,7 +18,6 @@ void on_trackbar_slide(int pos, void*)
   g_dontset = 0;
 }
 
-
 int main(int argc, char* argv[])
 {
   cv::Mat img;
@@ -33,10 +32,9 @@ int main(int argc, char* argv[])
 
   cv::Mat frame;
 
-  while(true)
+  while (true)
   {
-    if (g_run != 0)
-    {
+    if (g_run != 0) {
       g_cap >> frame;
       if (frame.empty()) break;
       int current_pos = (int)g_cap.get(cv::CAP_PROP_POS_FRAMES);
@@ -49,14 +47,12 @@ int main(int argc, char* argv[])
     }
 
     auto c = (char)cv::waitKey(10);
-    if (c == 's')
-    {
+    if (c == 's') {
       g_run = 1;
       cout << "Simple step, run = " << g_run << endl;
     }
 
-    if (c == 'r')
-    {
+    if (c == 'r') {
       g_run = -1;
       cout << "Run mode, run = " << g_run << endl;
     }
