@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
   // transform == fmap (map)
   // and_then  == bind (flatmap)
   auto filter = [](auto&& o) {     // optional<string>,
-    return o.and_then(to_int)      // flatmap from str to int
+    return o.and_then(to_int)      // bind (or flatmap) from str to int
             .transform([](auto n) { return n + 1; })
             .transform([](auto n) { return to_string(n); })
             .or_else  ([]         { return optional("null"s); });
