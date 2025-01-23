@@ -3,3 +3,5 @@
 # 다음 줄을 알맞게 고치고 앞의 주석을 제거하십시오:
 	name = Chang Ha Lee
 	email = yielding@gmail.com
+[submodule]
+	recurse = true

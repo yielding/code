@@ -47,6 +47,21 @@ ZSH_THEME="fino"
 export MY_INSTALL_DIR=$HOME/.local
 export PATH="$MY_INSTALL_DIR/bin:$PATH"
 
+export NNN_PLUG='j:autojump;p:preview-tui;t:preview-tabbed;i:imgview;v:vidthumb;o:fzopen'
+export NNN_OPENER="/data/$USER/.config/nnn/plugins/nuke"
+export NNN_FIFO="/tmp/nnn.fifo"
+export NNN_PREVIEWIMGPROG="imgcat"  # used in preview-tui
+export NNN_SPLIT='v'  # used in preview-tui
+export NNN_SPLITSIZE='55'  # used in preview-tui
+
+mn () {
+  session_name="${2:-'nnn'}";
+  # if the session already exists, kill it
+  tmux kill-session -t "$session_name" 2>/dev/null;
+  tmux new-session -d -s "$session_name" "source ~/.zshrc && nnn -a -c -d -e -U $@";
+  tmux attach-session -t "$session_name";
+}
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -78,7 +93,7 @@ CASE_SENSITIVE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="false"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
@@ -155,8 +170,8 @@ zstyle ':completion:*' rehash true
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
+## >>> conda initialize >>>
+## !! Contents within this block are managed by 'conda init' !!
 # __conda_setup="$('/Users/yielding/miniforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 # if [ $? -eq 0 ]; then
 #     eval "$__conda_setup"

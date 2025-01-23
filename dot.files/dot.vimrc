@@ -45,10 +45,10 @@ set clipboard+=unnamedplus
 
 set nofixendofline
 
-"set notimeout
-"set ttimeout
+set notimeout
+set ttimeout
 
-"set completefunc=emoji#complete
+set completefunc=emoji#complete
 
 "--------------------------------------------------------------------------------
 " Text, Tab and Indent
@@ -73,6 +73,7 @@ set cindent
 
 set cino=t0,g0
 
+set fillchars+=vert:┃
 set fillchars+=vert:\ 
 
 set splitbelow
@@ -113,12 +114,12 @@ endif
 
 color xoria256
 color fu
-color zaibatsu
-color wintersday
-color jellybeans
-color desertedoceanburnt
-color Tomorrow-Night-Blue
 color darkbone
+color Tomorrow-Night-Blue
+color desertedoceanburnt
+color wintersday
+color zaibatsu
+color jellybeans
 
 "--------------------------------------------------------------------------------
 " Terminal
