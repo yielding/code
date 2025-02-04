@@ -202,6 +202,8 @@ map ,o  :edit <C-R>=_words<CR><CR>
 map ,v  :edit <C-R>=_vimrc<CR><CR>
 map ,d  :edit <C-R>=_zedrun<CR><CR>
 map ,w  :w <CR>
+map <c-s-s> :w <CR>
+imap <c-s-s> <esc> :w <CR>a
 map ,q  :q <CR>
 map ,z  :edit <C-R>=_zshrc<CR><CR>
 map ,ee :CocCommand explorer<CR>
@@ -510,6 +512,8 @@ let g:cmake_native_build_options=["-j10"]
 
 nmap <c-s-g>    <Plug>(CMakeGenerate)
 nmap <c-s-b>    <Plug>(CMakeBuild)
+imap <c-s-b>    <esc>:w<cr> <Plug>(CMakeBuild)
+
 nmap <c-s-t>    <Plug>(CMakeTest)
 nmap <c-s-r>    :execute '!./Debug/' . expand('%:t:r')<CR>
 nmap <leader>rr :execute '!./Debug/' . expand('%:t:r')<CR>

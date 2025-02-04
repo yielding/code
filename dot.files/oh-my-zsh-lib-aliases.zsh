@@ -27,9 +27,9 @@ alias gdu='gdu-go'
 alias xxd='xxd -g 1'
 
 # shortcurs
-alias gowork='cd ~/project/sqlite.reader'
 alias gowork='cd ~/project/script.engine'
 alias gowork='cd ~/project/remote.stream'
 alias gowork='cd ~/project/code.apps/csproj.analyzer'
+alias gowork='cd ~/project/sqlite.reader'
 
 alias aliases='vi ~/.oh-my-zsh/lib/aliases.zsh && source ~/.oh-my-zsh/lib/aliases.zsh'
