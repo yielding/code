@@ -2,57 +2,61 @@
 
 using namespace std;
 
+class IMediator;
+
+class Component 
+{
+public:
+  Component(IMediator& mediator) : mediator(mediator) {}
+  virtual int id() = 0;
+
+protected:
+  IMediator& mediator;
+};
+
 class IMediator
 { 
 public:
-  virtual void notify(int event) = 0;
+  virtual void notify(Component& c, int event) = 0;
 };
 
 class ConcreteMediator : public IMediator
 {
 public:
-  void notify(int event) override
+  void notify(Component& c, int event) override
   {
-    print("Event: {}\n", event);
+    print("Component id: {}, Event: {}\n", c.id(), event);
   }
 };
 
-class Component
+class Component1 : public Component
 {
 public:
-  Component(IMediator& mediator) : mediator(mediator) {}
+  Component1(IMediator& mediator) : Component(mediator) {}
+  int id() override { return 1; }
 
-  void doSomething()
-  {
-    mediator.notify(1);
-  }
+  void doIt() { mediator.notify(*this, 1); }
 
-private:
-  IMediator& mediator;
 };  
 
-class Component2
+class Component2 : public Component
 {
 public:
-  Component2(IMediator& mediator) : mediator(mediator) {}
+  Component2(IMediator& mediator) : Component(mediator) {}
 
-  void doSomething()
-  {
-    mediator.notify(2);
-  }
+  int id() override { return 2; }
 
-private:
-  IMediator& mediator;
+  void doIt() { mediator.notify(*this, 2); }
 };
 
 int main(int argc, char* argv[])
 {
   ConcreteMediator mediator;
-  Component component(mediator);
-  Component2 component2(mediator);
+  Component1 c1(mediator);
+  Component2 c2(mediator);
 
-  component.doSomething();
-  component2.doSomething();
+  c1.doIt();
+  c2.doIt();
 
   return 0;
 }
