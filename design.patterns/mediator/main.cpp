@@ -1,62 +1,88 @@
 #include <print>
+#include <vector>
 
 using namespace std;
 
-class IMediator;
+class ControlCenter;
 
-class Component 
+class AirCraft 
 {
 public:
-  Component(IMediator& mediator) : mediator(mediator) {}
+  AirCraft(ControlCenter& c) : _center(c) {}
   virtual int id() = 0;
 
-protected:
-  IMediator& mediator;
+protected: 
+  ControlCenter& _center; 
 };
 
-class IMediator
+class ControlCenter
 { 
 public:
-  virtual void notify(Component& c, int event) = 0;
+  virtual void notify(AirCraft& c, int event) = 0;
 };
 
-class ConcreteMediator : public IMediator
+class Airport : public ControlCenter
 {
 public:
-  void notify(Component& c, int event) override
+  void notify(AirCraft& c, int event) override
   {
-    print("Component id: {}, Event: {}\n", c.id(), event);
+    for (auto plain: _aircrafts)
+    {
+      if (c.id() == plain->id())
+         print("Drone id: {}, Event: {}\n", c.id(), event);
+    }
   }
+
+  void add(AirCraft* c) 
+  {
+    _aircrafts.push_back(c);
+  }
+
+private:
+  vector<AirCraft*> _aircrafts;
 };
 
-class Component1 : public Component
+class Drone : public AirCraft
+{ 
+public:
+  Drone(ControlCenter& center) : AirCraft(center) 
+  {}
+
+  int id() override 
+  { 
+    return 1; 
+  }
+
+  void take_off() 
+  { 
+    _center.notify(*this, 1);
+  } };  
+
+class AirPlane : public AirCraft
 {
 public:
-  Component1(IMediator& mediator) : Component(mediator) {}
-  int id() override { return 1; }
-
-  void doIt() { mediator.notify(*this, 1); }
-
-};  
-
-class Component2 : public Component
-{
-public:
-  Component2(IMediator& mediator) : Component(mediator) {}
+  AirPlane(ControlCenter& center) : AirCraft(center) 
+  {}
 
   int id() override { return 2; }
 
-  void doIt() { mediator.notify(*this, 2); }
+  void take_off() 
+  {
+    _center.notify(*this, 2); 
+  }
 };
 
 int main(int argc, char* argv[])
 {
-  ConcreteMediator mediator;
-  Component1 c1(mediator);
-  Component2 c2(mediator);
+  Airport center;
+  Drone c1(center);
+  AirPlane c2(center);
 
-  c1.doIt();
-  c2.doIt();
+  center.add(&c1);
+  center.add(&c2);
+
+  c1.take_off();
+  c2.take_off();
 
   return 0;
 }
