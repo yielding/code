@@ -21,7 +21,7 @@ public:
   }
 
   template <typename R>
-n,auto map(std::function<R(T)>& f) -> optional<R>
+  auto map(std::function<R(T)>& f) -> optional<R>
   {
     std::function<optional<R>(T)> res = [f](T v) {
       return optional<R>(f(v));

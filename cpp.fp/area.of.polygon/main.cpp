@@ -1,5 +1,4 @@
 #include <string>
-#include <cctype>
 #include <cassert>
 #include <range/v3/all.hpp>
 
