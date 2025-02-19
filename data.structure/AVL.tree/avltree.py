@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# https://code-lab1.com/avl-tree/
 
 class Node:
     def __init__(self, key):
@@ -13,12 +14,14 @@ class AVLTree:
     def get_height(self, node):
         if not node:
             return 0
+
         return node.height
 
     # 균형 인수(Balance Factor) 계산
     def get_balance(self, node):
         if not node:
             return 0
+
         return self.get_height(node.left) - self.get_height(node.right)
 
     # 오른쪽 회전 (LL)
