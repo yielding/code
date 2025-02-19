@@ -6,7 +6,7 @@ set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  main.cpp
+  scalar.cpp
 )
 
 find_package (OpenCV REQUIRED)
