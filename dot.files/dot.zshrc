@@ -24,7 +24,11 @@ export CPLUS_INCLUDE_PATH=/opt/homebrew/include:$OPENCV_HOME/include/opencv4:$CP
 export CC=/opt/homebrew/opt/llvm/bin/clang
 export CXX=/opt/homebrew/opt/llvm/bin/clang++
 
-export TERM=xterm-256color
+#export TERM=xterm-256color
+export TERMINFO=~/.terminfo
+export TERM="wezterm"
+export COLORTERM="truecolor"
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home
 export JDK_HOME=$JAVA_HOME

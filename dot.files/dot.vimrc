@@ -82,6 +82,7 @@ set splitbelow
 " globar variables
 "--------------------------------------------------------------------------------
 let _vimrc="~/.config/nvim/init.vim"
+let _weztermrc="~/.wezterm.lua"
 let _zedrun="~/.config/zed/custom_runfile.rb"
 let _words="~/.config/nvim/autoload/plugged/wordlist.vim/plugin/wordlist.vim"
 let _plugs="~/.config/nvim/vim-plug/plugins.vim"
@@ -103,6 +104,7 @@ let g:is_vim8 = v:version >= 800 ? 1 : 0
 if !g:is_nvim && g:is_vim8
   set guioptions=
   set guifont=agaveNerdFontCompleteM-r:h19
+  set guifont=JetBrainsMono\ Nerd\ Font:h14
   set runtimepath+=~/.config/nvim/colors
   let &packpath = &runtimepath
   autocmd! GUIEnter * set vb t_vb=
@@ -120,6 +122,15 @@ color desertedoceanburnt
 color wintersday
 color zaibatsu
 color jellybeans
+
+set termguicolors
+set t_Co=16777216
+set background=dark
+
+highlight Normal guibg=NONE ctermbg=NONE
+highlight NonText guibg=NONE ctermbg=NONE
+highlight SignColumn guibg=NONE
+highlight EndOfBuffer guibg=NONE ctermbg=NONE
 
 "--------------------------------------------------------------------------------
 " Terminal
@@ -200,6 +211,7 @@ map ,p  :edit <C-R>=_plugs<CR><CR>
 map ,u  :source <C-R>=_vimrc<CR><CR>
 map ,o  :edit <C-R>=_words<CR><CR>
 map ,v  :edit <C-R>=_vimrc<CR><CR>
+map ,W  :edit <C-R>=_weztermrc<CR><CR>
 map ,d  :edit <C-R>=_zedrun<CR><CR>
 map ,w  :w <CR>
 map <c-s-s> :w <CR>
@@ -515,6 +527,7 @@ nmap <c-s-b>    <Plug>(CMakeBuild)
 imap <c-s-b>    <esc>:w<cr> <Plug>(CMakeBuild)
 
 nmap <c-s-t>    <Plug>(CMakeTest)
+
 nmap <c-s-r>    :execute '!./Debug/' . expand('%:t:r')<CR>
 nmap <leader>rr :execute '!./Debug/' . expand('%:t:r')<CR>
 
