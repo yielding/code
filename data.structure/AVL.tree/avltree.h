@@ -726,7 +726,7 @@ auto AVLTree<Key, Value, Comparator>::insert(const Key &key, const Value &value)
   // up as a left child, then its predecessor is the last ancestor on the path
   // where we followed its right pointer, and vice versa if the node ends up
   // as a right child.
-  Node* lastLeft = nullptr, *lastRight = nullptr;
+  Node* last_left = nullptr, *last_right = nullptr;
   
   // Also keep track of our current location as a pointer to the pointer in
   // the tree where the node will end up, which allows us to insert the node
@@ -744,12 +744,12 @@ auto AVLTree<Key, Value, Comparator>::insert(const Key &key, const Value &value)
 
     if (_comp(key, (*curr)->_value.first)) // Check whether we belong in the left subtree.
     {
-      lastLeft = *curr;
+      last_left = *curr;
       curr = &(*curr)->_children[0];
     }
     else if (_comp((*curr)->_value.first, key)) // ... or perhaps the right subtree.
     {
-      lastRight = *curr; // Last visited node where we went right.
+      last_right = *curr; // Last visited node where we went right.
       curr = &(*curr)->_children[1];
     }
     else // otherwise, the key must already exist in the tree.  Return a pointer to it.
@@ -772,8 +772,8 @@ auto AVLTree<Key, Value, Comparator>::insert(const Key &key, const Value &value)
   // Wire this node into the linked list in-between its predecessor and
   // successor in the tree.  The successor is the last node where we went
   // left, and the predecessor is the last node where we went right.
-  to_insert->_next = lastLeft;
-  to_insert->_prev = lastRight;
+  to_insert->_next = last_left;
+  to_insert->_prev = last_right;
 
   // Update the previous pointer of the next entry, or change the list tail
   // if there is no next entry.

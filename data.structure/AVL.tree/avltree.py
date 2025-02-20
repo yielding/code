@@ -71,18 +71,17 @@ class AVLTree:
         balance = self.get_balance(node)
 
         # 4. 불균형 처리
-        # LL Case
-        if balance > 1 and key < node.left.key:
+        if balance > 1 and key < node.left.key:     # LL Case
             return self.rotate_right(node)
-        # RR Case
-        if balance < -1 and key > node.right.key:
+
+        if balance < -1 and key > node.right.key:   # RR Case
             return self.rotate_left(node)
-        # LR Case
-        if balance > 1 and key > node.left.key:
+
+        if balance > 1 and key > node.left.key:     # LR Case
             node.left = self.rotate_left(node.left)
             return self.rotate_right(node)
-        # RL Case
-        if balance < -1 and key < node.right.key:
+
+        if balance < -1 and key < node.right.key:   # RL Case
             node.right = self.rotate_right(node.right)
             return self.rotate_left(node)
 
