@@ -88,7 +88,7 @@
 //
 // The values of these balance terms can be seen quite easily.  We know that 
 // Z has height h, and Y either has height h + 1 or h.  This means that node
-// a is either at height h + 1 or h + 2, and its balance term is either +0 or
+// 'a' is either at height h + 1 or h + 2, and its balance term is either +0 or
 // +1.  Tree X has height h + 1 as well, and so the balance term of b is
 // either +0 or -1.  Notice that when we started the root of this tree was at
 // height h + 3, and after this operation the height is still h + 3, and so
@@ -132,7 +132,7 @@
 //                              / \   / \
 //                             W   X Y   Z
 //
-// The term on b is unchanged from the previous step and it is still at height
+// The term on 'b' is unchanged from the previous step, and it is still at height
 // h + 1.  Since Z has height h and Y has height either h - 1 or h, a has
 // balance either +0 or -1, and is at height h + 1.  This means that node c
 // is at height h + 2 and has balance term 0.  However, notice that the height
@@ -151,20 +151,20 @@
 // Case 1: If the node has no left child or no right child, we can just
 //         replace it with the child it does have (if any).
 //
-//                          a                a
+//                         'a'              'a'
 //                         / \              / \
-//                        Z   x     ->     Z   Y
+//                       'Z' 'x'    ->    'Z' 'Y'
 //                             \
-//                              Y
+//                             'Y'
 //
-//         In this case, we need to begin a fixup pass from a, since the
+//         In this case, we need to begin a fixup pass from 'a', since the
 //         balance factors may have changed.
 //
 // Case 2: If the node has both children and its left child has a right child,
 //         then replace the node with its successor.  This works by
 //         identifying the node's successor in its left subtree, which is the
 //         leftmost node of the tree.  If it's not a leaf, then it's a node 
-//         missing a left child and we can easily delete it using the logic 
+//         missing a left child, and we can easily delete it using the logic
 //         in Case 1.  This raises the successor's subtree (if any) by one
 //         level in the tree.
 //
@@ -191,173 +191,90 @@ template <typename Key, typename Value, typename Comparator = less<Key>>
 class AVLTree 
 {
 public:
-  // Constructs a new, empty AVL tree that uses the indicated comparator to
-  // compare keys.
   explicit AVLTree(Comparator comp = Comparator());
 
   ~AVLTree();
 
-  //
-  // Copy functions: AVLTree(const AVLTree& other);
-  //                 AVLTree& operator= (const AVLTree& other);
-  // Usage: AVLTree<string, int> one = two;
-  //        one = two;
-  // -------------------------------------------------------------------------
   // Makes this AVL tree equal to a deep-copy of some other AVL tree.
-  //
   AVLTree(const AVLTree& other);
   auto operator=(const AVLTree& other) -> AVLTree&;
 
-  //
-  // Type: iterator
-  // Type: const_iterator
-  // -------------------------------------------------------------------------
-  // A pair of types that can traverse the elements of an AVL tree in 
+  // A pair of types that can traverse the elements of an AVL tree in
   // ascending order.
-  //
   class iterator;
   class const_iterator;
 
-  //
-  // Type: reverse_iterator
-  // Type: const_reverse_iterator
-  // -------------------------------------------------------------------------
-  // A pair of types that can traverse the elements of an AVL tree in 
+  // A pair of types that can traverse the elements of an AVL tree in
   // descending order.
-  //
   typedef std::reverse_iterator<iterator> reverse_iterator;
   typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
-  //
-  // pair<iterator, bool> insert(const Key& key, const Value& value);
-  // Usage: myAVLTree.insert("Skiplist", 137);
-  // -------------------------------------------------------------------------
   // Inserts the specified key/value pair into the AVL tree.  If an entry with
   // the specified key already existed, this function returns false paired
   // with an iterator to the extant value.  If the entry was inserted
   // successfully, returns true paired with an iterator to the new element.
-  //
   auto insert(const Key& key, const Value& value) -> pair<iterator, bool>;
 
-  //
-  // bool erase(const Key& key);
-  // Usage: myAVLTree.erase("AVL Tree");
-  // -------------------------------------------------------------------------
   // Removes the entry from the AVL tree with the specified key, if it exists.
   // Returns whether an element was erased.  All outstanding iterators
   // remain valid, except for those referencing the deleted element.
-  //
   bool erase(const Key& key);
 
-  //
-  // iterator erase(iterator where);
-  // Usage: myAVLTree.erase(myAVLTree.begin());
-  // -------------------------------------------------------------------------
   // Removes the entry referenced by the specified iterator from the tree,
   // returning an iterator to the next element in the sequence.
-  //
   auto erase(iterator where) -> iterator;
 
-  //
-  // iterator find(const Key& key);
-  // const_iterator find(const Key& key);
-  // Usage: if (myAVLTree.find("Skiplist") != myAVLTree.end()) { ... }
-  // -------------------------------------------------------------------------
   // Returns an iterator to the entry in the AVL tree with the specified key,
   // or end() as as sentinel if it does not exist.
-  //
   auto find(const Key& key) -> iterator;
   auto find(const Key& key) const -> const_iterator;
 
-  //
-  // Value& operator[] (const Key& key);
-  // Usage: myAVLTree["skiplist"] = 137;
-  // -------------------------------------------------------------------------
   // Returns a reference to the value associated with the specified key in the
   // AVL tree.  If the key is not contained in the AVL tree, it will be 
   // inserted into the AVL tree with a default-constructed Entry as its value.
-  //
   auto operator[](const Key& key) -> Value&;
 
-  //
-  // Value& at(const Key& key);
-  // const Value& at(const Key& key) const;
-  // Usage: myAVLTree.at("skiplist") = 137;
-  // -------------------------------------------------------------------------
   // Returns a reference to the value associated with the specified key,
   // throwing a std::out_of_range exception if the key does not exist in the
   // AVL tree.
-  //
   auto at(const Key& key) -> Value&;
   auto at(const Key& key) const -> const Value&;
 
-  //
-  // (const_)iterator begin() (const);
-  // (const_)iterator end() (const);
-  // Usage: for (AVLTree<string, int>::iterator itr = t.begin(); 
-  //             itr != t.end(); ++itr) { ... }
-  // -------------------------------------------------------------------------
   // Returns iterators delineating the full contents of the AVL tree.  Each
   // iterator acts as a pointer to a pair<const Key, Entry>.
-  //
   auto begin() -> iterator;
   auto end()   -> iterator;
   auto begin() const -> const_iterator;
   auto end() const   -> const_iterator;
 
-  //
-  // (const_)reverse_iterator rbegin() (const);
-  // (const_)reverse_iterator rend() (const);
-  // Usage: for (AVLTree<string, int>::reverse_iterator itr = s.rbegin(); 
-  //             itr != s.rend(); ++itr) { ... }
-  // -------------------------------------------------------------------------
-  // Returns iterators delineating the full contents of the AVL tree in 
+  // Returns iterators delineating the full contents of the AVL tree in
   // reverse order.
-  //
   auto rbegin() -> reverse_iterator;
   auto rend()   -> reverse_iterator;
   auto rbegin() const -> const_reverse_iterator;
   auto rend() const   -> const_reverse_iterator;
 
-  //
-  // (const_)iterator lower_bound(const Key& key) (const);
-  // (const_)iterator upper_bound(const Key& key) (const);
-  // Usage: for (AVLTree<string, int>::iterator itr = t.lower_bound("AVL");
-  //             itr != t.upper_bound("skiplist"); ++itr) { ... }
-  // -------------------------------------------------------------------------
-  // lower_bound returns an iterator to the first element in the AVL tree 
-  // whose key is at least as large as key.  upper_bound returns an iterator 
-  // to the first element in the AVL tree whose key is strictly greater than 
-  // key.
-  //
+  // lower_bound returns an iterator to the first element in the AVL tree
+  // whose key is at least as large as key.
+  // upper_bound returns an iterator to the first element in the AVL tree
+  // whose key is strictly greater than key.
   auto lower_bound(const Key& key) -> iterator;
   auto upper_bound(const Key& key) -> iterator;
   auto lower_bound(const Key& key) const -> const_iterator;
   auto upper_bound(const Key& key) const -> const_iterator;
 
-  //
-  // pair<(const_)iterator, (const_)iterator> 
-  //    equal_range(const Key& key) (const);
-  // Usage: pair<AVLTree<int, int>::iterator, AVLTree<int, int>::iterator>
-  //          range = t.equal_range("AVL");
-  // -------------------------------------------------------------------------
   // Returns a range of iterators spanning the unique copy of the entry whose
   // key is key if it exists, and otherwise a pair of iterators both pointing
   // to the spot in the AVL tree where the element would be if it were.
-  //
   auto equal_range(const Key& key) -> pairs<iterator>;
   auto equal_range(const Key& key) const -> pairs<const_iterator>;
 
-  // Returns the number of elements stored in the AVL tree.
   [[nodiscard]]
   auto size() const -> size_t;
 
-  // Returns whether the AVL tree contains no elements.
   [[nodiscard]]
   auto empty() const -> bool;
 
-  // Exchanges the contents of this AVL tree and some other AVL tree
-  // All outstanding iterators are invalidated.
   void swap(AVLTree& other) noexcept;
 
 private:
@@ -369,7 +286,7 @@ private:
     pair<const Key, Value> _value; 
 
     // The children are stored in an array to make it easier to implement tree
-    // rotations.  The first entry is the left child, the second the right.
+    // rotations. The first entry is the left child, the second the right.
     Node* _children[2];
 
     // Pointer to the parent node.
@@ -401,11 +318,9 @@ private:
   size_t _size;
 
   // A utility base class for iterator and const_iterator which actually
-  // supplies all of the logic necessary for the two to work together.  The
-  // parameters are the derived type, the type of a pointer being visited, and
-  // the type of a reference being visited.  This uses the Curiously-Recurring
-  // Template Pattern to work correctly.
-  //
+  // supplies all the logic necessary for the two to work together.  The
+  // parameters are the derived type, the type of pointer being visited, and
+  // the type of reference being visited. This uses the CRTP to work correctly.
   template <typename DerivedType, typename Pointer, typename Reference>
   class IteratorBase;
 
@@ -414,7 +329,6 @@ private:
 
   // Make iterator and const_iterator friends as well so they can use the
   // Node type.
-  //
   friend class iterator;
   friend class const_iterator;
 
@@ -422,7 +336,6 @@ private:
   // parent.  This function is semantically const but not bitwise const, since
   // it changes the structure but not the content of the elements being
   // stored.
-  //
   void rotate_up(Node* node /*child*/);
 
   // A utility function that, given a node, returns the height of that node.
@@ -439,13 +352,10 @@ private:
   // The second node is that node's parent, which is either the parent of the
   // found node, or the last node visited in the tree before nullptr was found
   // if the node was not found.
-  //
   auto find_node(const Key& key) const -> pairs<Node*>;
 
   // A utility function which walks up from the indicated node up to the root,
-  // performing the tree rotations necessary to restore the balances in the
-  // tree.
-  //
+  // performing the tree rotations necessary to restore the balances in the tree.
   auto rebalance_from(Node *where) -> void;
 
   // A utility function which, given a node with at most one child, splices
@@ -453,24 +363,21 @@ private:
   // and previous pointers of that node are not modified, since this function
   // can be used to structurally remove nodes from the tree while remembering
   // where they are in sorted order.
-  //
   auto splice_out(Node *node /*where*/) -> void;
 
   // A utility function which, given a node and the node to use as its parent,
   // recursively deep-copies the tree rooted at that node, using the parent
   // node as the new tree's parent.
-  //
   static auto clone_tree(Node *to_clone, Node *parent) -> Node *;
 
   // A utility function which, given a tree and a pointer to the predecessor
   // of that tree, rewires the linked list in that tree to represent an
   // inorder traversal.  No fields are modified.  The return value is the node
   // with the highest key.
-  //
   static Node* rethread_linked_list(Node* root, Node* predecessor);
 };
 
-/* Comparison operators for AVLTrees. */
+// Comparison operators for AVLTrees.
 template <typename Key, typename Value, typename Comparator>
 auto operator<(const AVLTree<Key, Value, Comparator> &lhs, const AVLTree<Key, Value, Comparator> &rhs) -> bool;
 
@@ -489,11 +396,8 @@ auto operator>=(const AVLTree<Key, Value, Comparator> &lhs, const AVLTree<Key, V
 template <typename Key, typename Value, typename Comparator>
 auto operator>(const AVLTree<Key, Value, Comparator> &lhs, const AVLTree<Key, Value, Comparator> &rhs) -> bool;
 
-//  Implementation Below This Point
-
 // Definition of the IteratorBase type, which is used to provide a common
 // implementation for iterator and const_iterator.
-//
 template <typename Key, typename Value, typename Comparator>
 template <typename DerivedType, typename Pointer, typename Reference>
 class AVLTree<Key, Value, Comparator>::IteratorBase 
@@ -554,20 +458,20 @@ public:
   template <typename DerivedType2, typename Pointer2, typename Reference2>
   bool operator!= (const IteratorBase<DerivedType2, Pointer2, Reference2>& rhs) 
   {
-    // We are not equal if equality returns false.
+    // we are not equal if equality returns false.
     return !(*this == rhs);
   }
 
-  // Pointer dereference operator hands back a reference.
+  // pointer dereference operator hands back a reference.
   auto operator* () const -> Reference
   {
     return _curr->_value;
   }
   
-  // Arrow operator returns a pointer.
+  // arrow operator returns a pointer.
   auto operator-> () const -> Pointer 
   {
-    // Use the standard "&**this" trick to dereference this object and return
+    // use the standard "&**this" trick to dereference this object and return
     // a pointer to the referenced value.
     return &**this;
   }
@@ -634,7 +538,7 @@ private:
 // Same as above, but with const added in.
 template <typename Key, typename Value, typename Comparator>
 class AVLTree<Key, Value, Comparator>::const_iterator:
-  public IteratorBase<const_iterator,                       // Our type
+  public IteratorBase<const_iterator,                  // Our type
                       const pair<const Key, Value>*,   // Reference type
                       const pair<const Key, Value>&> { // Pointer type 
 public:
@@ -644,42 +548,42 @@ public:
   using pointer           = Value*;
   using reference         = Value&;
 
-  // Default constructor forwards nullptr to base implicitly.
+  // default constructor forwards nullptr to base implicitly.
   const_iterator() = default;
 
-  // iterator conversion constructor forwards the other iterator's base fields
-  // to the base class.
+  // The iterator conversion constructor forwards the base fields of
+  // the given iterator to the base class.
   explicit const_iterator(iterator itr) 
     : IteratorBase<const_iterator,
                  const pair<const Key, Value>*,
                  const pair<const Key, Value>&>(itr._owner, itr._curr) 
   {}
 
-  // All major operations inherited from the base type.
+  // all major operations inherited from the base type.
 
 private:
-  // See iterator implementation for details about what this does.
+  // see iterator implementation for details about what this does.
   const_iterator(const AVLTree* owner, Node* node)
     : IteratorBase<const_iterator,
                  const pair<const Key, Value>*,
                  const pair<const Key, Value>&>(owner, node)
   {}
   
-  // Make the AVLTree a friend so it can call this constructor
+  // make the AVLTree a friend so it can call this constructor
   friend class AVLTree;
 };
 
 // AVLTree::Node Implementation.
 
-// Constructor sets up the key and value, then sets the height to one.  The
-// linked list fields are left uninitialized.
+// Constructor sets up the key and value, then sets the height to one.
+// The linked list fields are left uninitialized.
 template <typename Key, typename Value, typename Comparator>
 AVLTree<Key, Value, Comparator>::Node::Node(const Key& key,
                                             const Value& value,
-                                            int height) 
-  : _value(key, value), _height(height)
-{
-}
+                                            const int height)
+  : _value(key, value), _children{}
+  , _parent(nullptr), _next(nullptr), _prev(nullptr), _height(height)
+{}
 
 // AVLTree Implementation
 
@@ -688,29 +592,23 @@ template <typename Key, typename Value, typename Comparator>
 AVLTree<Key, Value, Comparator>::AVLTree(Comparator comp)
   : _comp(comp)
 {
-  // Initially, the list of elements is empty and the tree is nullptr.
   _head = _tail = _root = nullptr;
-
-  // The tree is created empty.
   _size = 0;
 }
 
-// Destructor walks the linked list of elements, deleting all nodes it encounters.
+// destructor walks the linked list of elements, deleting all nodes it encounters.
 template <typename Key, typename Value, typename Comparator>
 AVLTree<Key, Value, Comparator>::~AVLTree() 
 {
   for (auto curr= _head; curr != nullptr; ) 
   {
-    // cache the next value; we're about to blow up our only pointer to it.
     auto next = curr->_next;
-
     delete curr;
-
     curr = next;
   }
 }
 
-// Inserting a node works by walking down the tree until the insert point is
+// inserting a node works by walking down the tree until the insert point is
 // found, adding the value, then fixing up the balance factors on each node.
 template <typename Key, typename Value, typename Comparator>
 auto AVLTree<Key, Value, Comparator>::insert(const Key &key, const Value &value) 
@@ -760,7 +658,7 @@ auto AVLTree<Key, Value, Comparator>::insert(const Key &key, const Value &value)
 
   // At this point we've found our insertion point and can create the node
   // we're going to wire in.  Initially, it's at height 1.
-  Node* to_insert = new Node(key, value, 1);
+  auto to_insert = new Node(key, value, 1);
   
   // Splice it into the tree.
   to_insert->_parent = parent;
@@ -835,23 +733,21 @@ auto AVLTree<Key, Value, Comparator>::rotate_up(Node *node) -> void
   // parent's first pointer matches it, and is on the right (side 1) if the
   // node's first pointer doesn't match it.  This is, coincidentally, whether
   // the node is not equal to the first pointer of its root.
-  //
   const int side = node != node->_parent->_children[0];
   
   // The other side is the logical negation of the side itself. 
-  const int otherSide = !side;
+  const int other_side = !side;
 
   // Cache the displaced child and parent of the current node. 
-  auto child  = node->_children[otherSide];
+  auto child  = node->_children[other_side];
   auto parent = node->_parent;
   
   // Shuffle pointers around to make the node the parent of its parent. 
   node->_parent = parent->_parent;
-  node->_children[otherSide] = parent;
+  node->_children[other_side] = parent;
 
   // Shuffle around pointers so that the parent takes on the displaced
   // child.
-  //
   parent->_children[side] = child;
   if (child)
     child->_parent = parent;
@@ -859,11 +755,10 @@ auto AVLTree<Key, Value, Comparator>::rotate_up(Node *node) -> void
   // Update the grandparent (if any) so that its child is now the rotated
   // element rather than the parent.  If there is no grandparent, the node is
   // now the root.
-  //
-  if (parent->_parent) 
+  if (parent->_parent)
   {
-    const int parentSide = (parent != parent->_parent->_children[0]);
-    parent->_parent->_children[parentSide] = node;
+    const int parent_side = parent != parent->_parent->_children[0];
+    parent->_parent->_children[parent_side] = node;
   } 
   else
   {
@@ -896,7 +791,7 @@ auto AVLTree<Key, Value, Comparator>::balance_factor(const Node *node) -> int
   return height(node->_children[0]) - height(node->_children[1]);
 }
 
-// Implementation of the logic for rebalancing the AVL tree via a series of
+// implementation of the logic for re-balancing the AVL tree via a series of
 // rotations.  This code computes the balance factor at each node and makes
 // one of the following two rotations if the balance is either +2 or -2:
 //
@@ -912,8 +807,7 @@ auto AVLTree<Key, Value, Comparator>::rebalance_from(Node *where) -> void
 {
   // Start walking up from the node toward the root, checking for any new
   // imbalances and recomputing heights as appropriate.
-  //
-  while (where != nullptr) 
+  while (where != nullptr)
   {
     // recompute the height of this node.
     where->_height = 1 + std::max(height(where->_children[0]), 
@@ -930,9 +824,7 @@ auto AVLTree<Key, Value, Comparator>::rebalance_from(Node *where) -> void
       auto tall_child = where->_children[balance == -2];
 
       // Check its balance factor and see what kind of rotation we need.
-
-      // We do a single rotation unless the child node is balanced opposite of
-      // its parent.
+      // We do a single rotation unless the child node is balanced opposite of its parent.
       if (const int child_balance = balance_factor(tall_child);
           child_balance == 0 || child_balance < 0 == balance < 0)
       {
@@ -948,14 +840,14 @@ auto AVLTree<Key, Value, Comparator>::rebalance_from(Node *where) -> void
         // Otherwise, we need to do a double rotation. 
         // We need a slightly different test to determine what child is heavy
         // since the balance is going to be +1 or -1 in this case.
-        auto tallGrandchild = tall_child->_children[child_balance == -1];
+        auto tall_grand_child = tall_child->_children[child_balance == -1];
 
         // Rotate this node up twice.
-        rotate_up(tallGrandchild);
-        rotate_up(tallGrandchild);
+        rotate_up(tall_grand_child);
+        rotate_up(tall_grand_child);
 
         // Again, pick up the search from this point.
-        where = tallGrandchild->_parent;
+        where = tall_grand_child->_parent;
       }
     }
     else // If we didn't end up doing any rotations, have the search go up one level.
@@ -1000,16 +892,22 @@ auto AVLTree<Key, Value, Comparator>::find_node(const Key &key) const -> pairs<N
     // Update the prev pointer so that it tracks the last node we visited. 
     prev = curr;
 
-    if (_comp(key, curr->_value.first)) // if the key is less than this node, go left.
+    if (_comp(key, curr->_value.first))
+    {
+      // if the key is less than this node, go left.
       curr = curr->_children[0];
-    else if (_comp(curr->_value.first, key)) 
+    }
+    else if (_comp(curr->_value.first, key))
+    {
       curr = curr->_children[1];
-    // Otherwise, we found the node.  Return that node and its parent as the
-    // pair in question.  We explicitly use the parent here instead of prev
-    // since the first part of this loop updates prev to be equal to curr.
-    //
+    }
     else
+    {
+      // Otherwise, we found the node.  Return that node and its parent as the
+      // pair in question.  We explicitly use the parent here instead of prev
+      // since the first part of this loop updates prev to be equal to curr.
       return make_pair(curr, curr->_parent);
+    }
   }
 
   // If we ended up here, then we know that we didn't find the node in
@@ -1018,7 +916,6 @@ auto AVLTree<Key, Value, Comparator>::find_node(const Key &key) const -> pairs<N
   // to explicitly cast it to a Node* so that the template argument deduction
   // will work correctly; omitting this cast yields a pair<int, Node*>, which
   // gives a type error.
-  //
   return make_pair(static_cast<Node*>(nullptr), prev);
 }
 
@@ -1093,44 +990,39 @@ auto AVLTree<Key, Value, Comparator>::empty() const -> bool
 template <typename Key, typename Value, typename Comparator>
 auto AVLTree<Key, Value, Comparator>::splice_out(Node *node) -> void
 {
-  // Confirm that this node has at most one child.
   assert (!node->_children[0] || !node->_children[1]);
 
-  // For simplicity, cache the node's pointer.
+  // for simplicity, cache the node's pointer.
   Node* parent = node->_parent;
 
   // Get a pointer to a child node that exists, if there even is a child
   // node that exists.  This works by seeing if the right child exists and
   // picking it if it does, and otherwise picking the left child.  If there
   // are no children this picks nullptr, and otherwise picks the valid child.
-  //
-  const size_t childIndex = (node->_children[1] != nullptr);
-  auto child = node->_children[childIndex];
+  const size_t child_index = node->_children[1] != nullptr;
+  auto child = node->_children[child_index];
 
-  // Make sure the other is nullptr. 
-  assert(node->_children[!childIndex] == nullptr);
+  // make sure the other is nullptr. 
+  assert(node->_children[!child_index] == nullptr);
   
-  // If there is a child, change its parent to be the parent of the node
+  // if there is a child, change its parent to be the parent of the node
   // that's being deleted.
-  //
   if (child)
     child->_parent = parent;
   
   // Change the parent of the node being deleted to use the new child node
   // instead of the node to delete.  However, the node in question might be
   // the root, in which case we need to change the root of the tree.
-  //
   if (parent) 
   {
     // We need to change the correct pointer in the parent.  If the node is
     // a right child, we should change the right pointer, and otherwise we
     // change the left pointer.
-    //
     parent->_children[node == parent->_children[1]] = child;
   }
-  // If there is no parent, then the new node is at the root of the tree. 
   else
   {
+    // If there is no parent, then the new node is at the root of the tree. 
     _root = child;
   }
 }
@@ -1144,13 +1036,13 @@ auto AVLTree<Key, Value, Comparator>::splice_out(Node *node) -> void
 template <typename Key, typename Value, typename Comparator>
 auto AVLTree<Key, Value, Comparator>::erase(iterator where) -> iterator
 {
-  // Extract the node pointer from the iterator.
+  // extract the node pointer from the iterator.
   auto node = where._curr;
 
-  // For simplicity, cache the parent pointer.
+  // for simplicity, cache the parent pointer.
   auto parent = node->_parent;
 
-  // Drop the number of elements; we're about to remove something.
+  // drop the number of elements; we're about to remove something.
   --_size;
 
   // There are two cases to consider here, both of which are outlined in the
@@ -1167,8 +1059,8 @@ auto AVLTree<Key, Value, Comparator>::erase(iterator where) -> iterator
   // Case 2: Both children present.  Replace the node with its successor.
   else 
   {
-    // The successor node is, fortunately, encoded by the linked list structure.
-    Node* successor = node->_next;
+    // the successor node is, fortunately, encoded by the linked list structure.
+    auto successor = node->_next;
 
     // The successor shouldn't have a left child, since otherwise that would
     // be the real successor of this node.
@@ -1176,10 +1068,9 @@ auto AVLTree<Key, Value, Comparator>::erase(iterator where) -> iterator
 
     // Keep track of the parent of this node, since that's where we're going
     // to have to run the cleanup step from.
-    Node* successorParent = successor->_parent;
+    auto successor_parent = successor->_parent;
 
-    // Cut this node out from its parent, possibly splicing its child above
-    // it.
+    // Cut this node out from its parent, possibly splicing its child above it.
     splice_out(successor);
 
     // Now, replace the node to be removed with the successor.  This means
@@ -1216,8 +1107,8 @@ auto AVLTree<Key, Value, Comparator>::erase(iterator where) -> iterator
     // that we're deleting, we need to run the fixup pass from the successor
     // node, which has been moved.  Second, if the successor was not a direct
     // child of the node to remove, then its parent might be dealing with an
-    // imbalanced tree and we need to fix it up.
-    rebalance_from(node == successorParent? successor : successorParent);
+    // imbalanced tree, and we need to fix it up.
+    rebalance_from(node == successor_parent ? successor : successor_parent);
   }
 
   // We've now removed the node in question from the tree structure, and now
@@ -1230,7 +1121,7 @@ auto AVLTree<Key, Value, Comparator>::erase(iterator where) -> iterator
   else
     _tail = node->_prev;
 
-  // If there is a previous node, wite its next pointer around the current
+  // If there is a previous node, with its next pointer around the current
   // node.  Otherwise, the head just changed.
   if (node->_prev)
     node->_prev->_next = node->_next;
@@ -1242,7 +1133,7 @@ auto AVLTree<Key, Value, Comparator>::erase(iterator where) -> iterator
   // available after we delete the node.
   iterator result(this, node->_next);
 
-  // Free the node's resources.
+  // free the node's resources.
   delete node;
 
   return result;
@@ -1253,9 +1144,9 @@ auto AVLTree<Key, Value, Comparator>::erase(iterator where) -> iterator
 template <typename Key, typename Value, typename Comparator>
 auto AVLTree<Key, Value, Comparator>::erase(const Key &key) -> bool
 {
-  // Look up where this node is, then remove it if it exists. 
+  // Look up where this node is, then remove it if it exists.
   auto where = find(key);
-  if (where == end()) 
+  if (where == end())
     return false;
 
   erase(where);
@@ -1285,8 +1176,7 @@ auto AVLTree<Key, Value, Comparator>::at(const Key &key) const -> const Value&
   return result->second;
 }
 
-// non-const at implemented in terms of at using the const_cast/static_cast
-// trick.
+// non-const at implemented in terms of at using the const_cast/static_cast trick.
 template <typename Key, typename Value, typename Comparator>
 auto AVLTree <Key, Value, Comparator>::at(const Key &key) -> Value&
 {
@@ -1301,17 +1191,17 @@ auto AVLTree <Key, Value, Comparator>::at(const Key &key) -> Value&
 template <typename Key, typename Value, typename Comparator>
 AVLTree<Key, Value, Comparator>::AVLTree(const AVLTree& other) 
 {
-  // Start off with the simple bits - copy over the size field and comparator. 
+  // start off with the simple bits - copy over the size field and comparator.
   _size = other._size;
   _comp = other._comp;
 
-  // Clone the tree structure.
+  // clone the tree structure.
   _root = clone_tree(other._root, nullptr);
 
-  // Rectify the linked list.
+  // rectify the linked list.
   rethread_linked_list(_root, nullptr);
 
-  // Finally, fix up the first and last pointers of the list by looking for
+  // finally, fix up the first and last pointers of the list by looking for
   // the smallest and largest elements in the tree.
   _tail = _head = _root;
 
@@ -1323,7 +1213,7 @@ AVLTree<Key, Value, Comparator>::AVLTree(const AVLTree& other)
 template <typename Key, typename Value, typename Comparator>
 auto AVLTree<Key, Value, Comparator>::clone_tree(Node *to_clone, Node *parent) -> Node*
 {
-  // Base case: the clone of the empty tree is that tree itself.
+  // base case: the clone of the empty tree is that tree itself.
   if (to_clone == nullptr) return nullptr;
 
   // create a copy of the node, moving over the height and key/value pair
@@ -1349,10 +1239,9 @@ auto AVLTree<Key, Value, Comparator>::clone_tree(Node *to_clone, Node *parent) -
 template <typename Key, typename Value, typename Comparator>
 auto AVLTree<Key, Value, Comparator>::rethread_linked_list(Node* root, Node* predecessor) -> Node*
 {
-  // Base case: if the root is null, then the largest element visited so far
+  // base case: if the root is null, then the largest element visited so far
   // is whatever we were told it was.
-  if (root == nullptr) 
-    return predecessor;
+  if (root == nullptr) return predecessor;
 
   // Otherwise, recursively fix up the left subtree using the actual
   // predecessor.  Store the return value as the new predecessor.
@@ -1388,7 +1277,7 @@ template <typename Key, typename Value, typename Comparator>
 void AVLTree<Key, Value, Comparator>::swap(AVLTree& other) noexcept
 {
   using std::swap;
-  // Use std::swap to get the job done.
+
   swap(_root, other._root);
   swap(_size, other._size);
   swap(_head, other._head);
@@ -1434,8 +1323,8 @@ auto AVLTree<Key, Value, Comparator>::lower_bound(const Key &key) const -> const
 template <typename Key, typename Value, typename Comparator>
 auto AVLTree<Key, Value, Comparator>::lower_bound(const Key &key) -> iterator
 {
-  // Call the const version to get the answer.
-  const_iterator result = static_cast<const AVLTree*>(this)->lower_bound(key);
+  // call the const version to get the answer.
+  auto result = static_cast<const AVLTree*>(this)->lower_bound(key);
 
   // Rewrap it in a regular iterator to remove constness.
   return iterator(result._owner, result._curr);
@@ -1467,12 +1356,12 @@ auto AVLTree<Key, Value, Comparator>::equal_range(const Key &key) const -> pairs
 template <typename Key, typename Value, typename Comparator>
 auto AVLTree<Key, Value, Comparator>::equal_range(const Key &key) -> pairs<iterator>
 {
-  // Invoke const version to get the iterators.
+  // invoke const version to get the iterators.
   auto result = static_cast<const AVLTree*>(this)->equal_range(key);
 
-  // Unwrap into regular iterators.
+  // unwrap into regular iterators.
   return make_pair(iterator(result.first._owner,  result.first._curr),
-                        iterator(result.second._owner, result.second._curr));
+                   iterator(result.second._owner, result.second._curr));
 }
 
 // upper_bound just calls equal_range and returns the second value. 
@@ -1488,7 +1377,7 @@ auto AVLTree<Key, Value, Comparator>::upper_bound(const Key &key) const -> const
   return equal_range(key).second;
 }
 
-/* Comparison operators == and < use the standard STL algorithms. */
+// Comparison operators == and < use the standard STL algorithms.
 template <typename Key, typename Value, typename Comparator>
 auto operator<(const AVLTree<Key, Value, Comparator> &lhs,
                const AVLTree<Key, Value, Comparator> &rhs) -> bool
@@ -1510,7 +1399,7 @@ template <typename Key, typename Value, typename Comparator>
 auto operator<=(const AVLTree<Key, Value, Comparator> &lhs,
                 const AVLTree<Key, Value, Comparator> &rhs) -> bool
 {
-  /* x <= y   iff !(x > y)   iff !(y < x) */
+  // x <= y   iff !(x > y)   iff !(y < x)
   return !(rhs < lhs);
 }
 
@@ -1525,7 +1414,7 @@ template <typename Key, typename Value, typename Comparator>
 auto operator>=(const AVLTree<Key, Value, Comparator> &lhs,
                 const AVLTree<Key, Value, Comparator> &rhs) -> bool
 {
-  /* x >= y   iff !(x < y) */
+  // x >= y   iff !(x < y)
   return !(lhs < rhs);
 }
 
@@ -1533,6 +1422,6 @@ template <typename Key, typename Value, typename Comparator>
 auto operator>(const AVLTree<Key, Value, Comparator> &lhs,
                const AVLTree<Key, Value, Comparator> &rhs) -> bool
 {
-  /* x > y iff y < x */
+  // x > y iff y < x
   return rhs < lhs;
 }
