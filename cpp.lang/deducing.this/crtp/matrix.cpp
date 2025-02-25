@@ -1,4 +1,4 @@
-#include <iostream>
+#include <print>
 
 using namespace std;
 
@@ -13,7 +13,7 @@ public:
 
   void exec() const 
   {
-    cout << "Matrix.exec(): default impl" << endl;
+    println("Matrix.exec(): default impl");
   }
 };
 
@@ -22,7 +22,7 @@ class SymmetricMatrix: public Matrix
 public:
   void exec() const
   {
-    cout <<"SymmetricMatrix::exec" << endl;
+    println("SymmetricMatrix.exec()");
   }
 };
 
@@ -31,7 +31,7 @@ class AntiSymmetricMatrix: public Matrix
 public:
   void exec() const
   {
-    cout <<"Anti SymmetricMatrix::exec" << endl;
+    println("AntiSymmetricMatrix.exec()");
   }
 };
 
@@ -45,7 +45,7 @@ class DifferentStrange
 public:
   void calc()
   {
-    cout <<"DifferentStrange: " << endl;
+    print("DifferentStrange.calc(): ");
   }
 };
 
@@ -72,12 +72,19 @@ int main()
   sum(c);
   // sum(d); // compile error
 
-  cout << "\n";
+  println(); println();
 
   sum2(a);
   sum2(b);
   sum2(c);
   sum2(d);
+
+  println(); println();
+
+  a.calc();
+  b.calc();
+  c.calc();
+  d.calc();
 
   return 0;
 }
