@@ -14,7 +14,12 @@ int main()
 
   println("size: {}", tree.size());
   for (auto p : tree)
-    println("[{}, {}]", p.first, p.second);
+    print("[{}, {}] ", p.first, p.second);
+
+  println("");
+
+  for (auto it=tree.begin(); it != tree.end(); ++it)
+    print("[{}, {}] ", it->first, it->second);
 
   return 0;
 }

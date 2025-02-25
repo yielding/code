@@ -1,6 +1,6 @@
 #pragma once
 
-// File: AVLTree.hh
+// File: AVLTree.h
 // Author: Keith Schwarz (htiek@cs.stanford.edu)
 //
 // An implementation of a sorted dictionary backed by an AVL tree.  AVL trees
@@ -440,7 +440,7 @@ public:
   // whose type is IteratorBase to compare with us.  This means that we can
   // compare both iterator and const_iterator against one another.
   template <typename DerivedType2, typename Pointer2, typename Reference2>
-  bool operator== (const IteratorBase<DerivedType2, Pointer2, Reference2>& rhs) 
+  bool operator==(const IteratorBase<DerivedType2, Pointer2, Reference2>& rhs) 
   {
     // just check the underlying pointers, which (fortunately!) are of the same type.
     return _owner == rhs._owner && _curr == rhs._curr;
