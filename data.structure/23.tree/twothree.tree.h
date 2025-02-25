@@ -130,8 +130,7 @@
  * if I'm duplicating a known result, I'd love to give credit where credit is
  * due.
  */
-#ifndef TwoThreeHeap_Included
-#define TwoThreeHeap_Included
+#pragma once
 
 #include <vector>
 #include <functional> // For std::less
@@ -148,7 +147,8 @@
  */
 template <typename T, typename Comparator = std::less<T>,
           typename Allocator = std::allocator<T> >
-class TwoThreeHeap {
+class TwoThreeHeap
+{
 public:
   /**
    * Constructor: TwoThreeHeap(Comparator comp = Comparator());
@@ -262,7 +262,8 @@ namespace twothreeheap_detail {
    * Given the zero-based index of an element of a two-three heap and its
    * level in the tree, returns the zero-index of its parent in the tree.
    */
-  inline size_t ParentIndex(size_t index, int level) {
+  inline size_t ParentIndex(size_t index, int level)
+  {
     assert (level > 0);
 
     /* Get the index of the first entry of this row and use it to determine
@@ -288,7 +289,8 @@ namespace twothreeheap_detail {
    * Note that there is no guarantee that all those children exist; the caller
    * should confirm this.
    */
-  std::pair<size_t, size_t> ChildrenOf(size_t index, int level) {
+  std::pair<size_t, size_t> ChildrenOf(size_t index, int level)
+  {
     assert (level >= 0);
     /* Find our index in the current row. */
     const size_t rowIndex = index - kRowIndices[level];
@@ -317,7 +319,8 @@ namespace twothreeheap_detail {
  */
 template <typename T, typename Comparator, typename Allocator>
 TwoThreeHeap<T, Comparator, Allocator>::TwoThreeHeap(Comparator comp)
-  : mLeafLevel(-1), mComp(comp) {
+  : mLeafLevel(-1), mComp(comp) 
+{
   // Handled in initializer list.
 }
 
@@ -326,7 +329,8 @@ TwoThreeHeap<T, Comparator, Allocator>::TwoThreeHeap(Comparator comp)
  * handle.
  */
 template <typename T, typename Comparator, typename Allocator>
-size_t TwoThreeHeap<T, Comparator, Allocator>::max_size() const {
+size_t TwoThreeHeap<T, Comparator, Allocator>::max_size() const 
+{
   return std::min(mElems.max_size(), twothreeheap_detail::kMaxSize);
 }
 
@@ -334,11 +338,14 @@ size_t TwoThreeHeap<T, Comparator, Allocator>::max_size() const {
  * vector.
  */
 template <typename T, typename Comparator, typename Allocator>
-size_t TwoThreeHeap<T, Comparator, Allocator>::size() const {
+size_t TwoThreeHeap<T, Comparator, Allocator>::size() const 
+{
   return mElems.size();
 }
+
 template <typename T, typename Comparator, typename Allocator>
-bool TwoThreeHeap<T, Comparator, Allocator>::empty() const {
+bool TwoThreeHeap<T, Comparator, Allocator>::empty() const 
+{
   return mElems.empty();
 }
 
@@ -346,7 +353,8 @@ bool TwoThreeHeap<T, Comparator, Allocator>::empty() const {
  * in the vector, which is always the maximum element.
  */
 template <typename T, typename Comparator, typename Allocator>
-const T& TwoThreeHeap<T, Comparator, Allocator>::top() const {
+const T& TwoThreeHeap<T, Comparator, Allocator>::top() const 
+{
   return mElems.front();
 }
 
@@ -354,7 +362,8 @@ const T& TwoThreeHeap<T, Comparator, Allocator>::top() const {
  * step used in a standard binary heap.
  */
 template <typename T, typename Comparator, typename Allocator>
-void TwoThreeHeap<T, Comparator, Allocator>::push(const T& value) {
+void TwoThreeHeap<T, Comparator, Allocator>::push(const T& value) 
+{
   using namespace twothreeheap_detail;
 
   /* Confirm that this won't push us over our maximum size. */
@@ -374,7 +383,8 @@ void TwoThreeHeap<T, Comparator, Allocator>::push(const T& value) {
    * parent node or until it hits the root.
    */
   int row = mLeafLevel;
-  for (size_t index = mElems.size() - 1; index != 0; --row) {
+  for (size_t index = mElems.size() - 1; index != 0; --row)
+  {
     /* Grab the index of our parent and see if we're larger than it.  If not,
      * we've found the final position for this element.
      */
@@ -393,7 +403,8 @@ void TwoThreeHeap<T, Comparator, Allocator>::push(const T& value) {
  * for the differences in row sizes.
  */
 template <typename T, typename Comparator, typename Allocator>
-void TwoThreeHeap<T, Comparator, Allocator>::pop() {
+void TwoThreeHeap<T, Comparator, Allocator>::pop() 
+{
   using namespace twothreeheap_detail;
 
   /* Swap the last element back up to the root, then pop the end off of the
@@ -405,7 +416,8 @@ void TwoThreeHeap<T, Comparator, Allocator>::pop() {
   /* If the heap is now empty, then we just set the level of the last node
    * back to -1 and call it a day.  We don't need to do a rebalance.
    */
-  if (mElems.empty()) {
+  if (mElems.empty())
+  {
     mLeafLevel = -1;
     return;
   }
@@ -419,7 +431,8 @@ void TwoThreeHeap<T, Comparator, Allocator>::pop() {
 
   /* Do a standard "bubble-down" step akin to what we'd do in a k-ary tree. */
   int row = 0;
-  for (size_t index = 0; index < size(); ++row) {
+  for (size_t index = 0; index < size(); ++row) 
+  {
     /* Get a range of all of our children and shorten it so that if we're
      * missing children, we don't consider them.
      */
@@ -446,5 +459,3 @@ void TwoThreeHeap<T, Comparator, Allocator>::pop() {
     index = maxChildIndex;
   }
 }
-
-#endif
