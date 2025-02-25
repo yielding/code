@@ -20,13 +20,13 @@
 // tree can't have any nodes in it.  We also have that N(1) = 1, since a tree
 // of height one must have at least one node.  Now, let's suppose that we are
 // considering a tree of height h + 2.  This means that the root of the tree
-// must have some subtree that has height h + 1.  Because we enforce the
+// must have some subtree that has height h + 1. Because we enforce the
 // invariant that the heights of the subtrees of each node differ by at most
-// one, this means that the minimum height of the other subtree of the root is
-// h.  This gives us that the minimum number of nodes in the tree is
+// one, this means that the minimum height of the other subtree of the root is h.  
+// This gives us that the minimum number of nodes in the tree is
 // N(h + 2) = N(h) + N(h + 1) + 1, with the +1 coming from the root element.
 // We claim that N(h) = F(h + 2) - 1, where F(h) is the hth Fibonacci 
-// number.  This proof is by induction:
+// number. This proof is by induction:
 //
 //   Base cases: N(0) = 0 = 1 - 1 = F(2) - 1
 //               N(1) = 1 = 2 - 1 = F(3) - 1
@@ -178,7 +178,6 @@
 #include <utility>     // For pair
 #include <iterator>    // For iterator, reverse_iterator
 #include <stdexcept>   // For out_of_range
-#include <cassert>
 
 using std::pair, std::less, std::make_pair;
 
@@ -577,7 +576,7 @@ AVLTree<Key, Value, Comparator>::Node::Node(const Key& key,
 
 // AVLTree Implementation
 
-// Constructor sets up a new, empty AVLTree.
+// constructor sets up a new, empty AVLTree.
 template <typename Key, typename Value, typename Comparator>
 AVLTree<Key, Value, Comparator>::AVLTree(Comparator comp)
   : _comp(comp)
@@ -805,7 +804,7 @@ auto AVLTree<Key, Value, Comparator>::rebalance_from(Node *where) -> void
 
     // get the balance factor.
     // if the balance factor is +/- 2, we need to do some rotations. 
-    if (const int balance = balance_factor(where); balance == 2 || balance == -2)
+    if (int balance = balance_factor(where); balance == 2 || balance == -2)
     {
       // Determine what child is on the heavy side.  If the balance is +2,
       // this is the left child (child 0), and if it's -2 it's the right child
@@ -815,7 +814,7 @@ auto AVLTree<Key, Value, Comparator>::rebalance_from(Node *where) -> void
 
       // Check its balance factor and see what kind of rotation we need.
       // We do a single rotation unless the child node is balanced opposite of its parent.
-      if (const int child_balance = balance_factor(tall_child);
+      if (int child_balance = balance_factor(tall_child);
           child_balance == 0 || child_balance < 0 == balance < 0)
       {
         rotate_up(tall_child);
