@@ -1200,7 +1200,8 @@ template <typename Key, typename Value, typename Comparator>
 auto AVLTree<Key, Value, Comparator>::clone_tree(Node *to_clone, Node *parent) -> Node*
 {
   // base case: the clone of the empty tree is that tree itself.
-  if (to_clone == nullptr) return nullptr;
+  if (to_clone == nullptr) 
+    return nullptr;
 
   // create a copy of the node, moving over the height and key/value pair
   auto result = new Node(to_clone->_value.first, 
@@ -1217,7 +1218,7 @@ auto AVLTree<Key, Value, Comparator>::clone_tree(Node *to_clone, Node *parent) -
   return result;
 }
 
-// Fixing up the doubly-linked list is a bit tricky.  The function acts as an
+// Fixing up the doubly-linked list is a bit tricky. The function acts as an
 // inorder traversal.  We first fix up the left subtree, getting a pointer to
 // the node holding the largest value in that subtree (the predecessor of this
 // node).  We then chain the current node into the linked list, then fix up
@@ -1227,7 +1228,8 @@ auto AVLTree<Key, Value, Comparator>::rethread_linked_list(Node* root, Node* pre
 {
   // base case: if the root is null, then the largest element visited so far
   // is whatever we were told it was.
-  if (root == nullptr) return predecessor;
+  if (root == nullptr) 
+    return predecessor;
 
   // Otherwise, recursively fix up the left subtree using the actual
   // predecessor.  Store the return value as the new predecessor.
@@ -1323,7 +1325,7 @@ template <typename Key, typename Value, typename Comparator>
 auto AVLTree<Key, Value, Comparator>::equal_range(const Key &key) const -> pairs<const_iterator>
 {
   // call lower_bound to find out where we should start looking.
-  pair<const_iterator, const_iterator> result;
+  pairs<const_iterator> result;
   result.first = result.second = lower_bound(key);
 
   // if we hit the end, we're done.
