@@ -30,6 +30,8 @@ export TERM="wezterm"
 export COLORTERM="truecolor"
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
+export HOMEBREW_NO_ENV_HINTS=1
+
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home
 export JDK_HOME=$JAVA_HOME
 export CLASSPATH=.:/opt/homebrew/Cellar/antlr/4.13.2/antlr-4.13.2-complete.jar
@@ -50,13 +52,6 @@ ZSH_THEME="fino"
 
 export MY_INSTALL_DIR=$HOME/.local
 export PATH="$MY_INSTALL_DIR/bin:$PATH"
-
-export NNN_PLUG='j:autojump;p:preview-tui;t:preview-tabbed;i:imgview;v:vidthumb;o:fzopen'
-export NNN_OPENER="/data/$USER/.config/nnn/plugins/nuke"
-export NNN_FIFO="/tmp/nnn.fifo"
-export NNN_PREVIEWIMGPROG="imgcat"  # used in preview-tui
-export NNN_SPLIT='v'  # used in preview-tui
-export NNN_SPLITSIZE='55'  # used in preview-tui
 
 mn () {
   session_name="${2:-'nnn'}";

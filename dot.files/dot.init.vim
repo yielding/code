@@ -110,27 +110,16 @@ if !g:is_nvim && g:is_vim8
   autocmd! GUIEnter * set vb t_vb=
 else
   set termguicolors
-  set t_Co=256
+  set t_Co=16777216
+  "color xoria256
+  "color fu
+  "color desertedoceanburnt
   color jellybeans
+  color zaibatsu
+  color darkbone
+  color wintersday
+  color Tomorrow-Night-Blue
 endif
-
-color xoria256
-color fu
-color darkbone
-color Tomorrow-Night-Blue
-color desertedoceanburnt
-color wintersday
-color zaibatsu
-color jellybeans
-
-set termguicolors
-set t_Co=16777216
-set background=dark
-
-highlight Normal guibg=NONE ctermbg=NONE
-highlight NonText guibg=NONE ctermbg=NONE
-highlight SignColumn guibg=NONE
-highlight EndOfBuffer guibg=NONE ctermbg=NONE
 
 "--------------------------------------------------------------------------------
 " Terminal
@@ -157,6 +146,29 @@ endif
 
 let &undodir= tmp_dir
 set undofile
+
+"--------------------------------------------------------------------------------
+" vimspector
+"--------------------------------------------------------------------------------
+" terminal does not support shift+F key
+let g:vimspector_enable_mappings = "HUMAN"
+let g:vimspector_enable_mappings = "VISUAL_STUDIO"
+let g:vimspector_base_dir=$HOME . '/.config/nvim/autoload/plugged/vimspector'
+let g:vimspector_sidebar_width = 40
+let g:vimspector_bottombar_height = 10
+let g:vimspector_terminal_height = 10
+
+" for normal mode - the word under the cursor
+nmap ,di <Plug>VimspectorBalloonEval
+
+" for visual mode, the visually selected text
+xmap ,di <Plug>VimspectorBalloonEval
+
+nmap ,df :VimspectorReset<CR>
+
+let g:CommandTPreferredImplementation='ruby'
+
+let g:OmniSharp_server_use_net6 = 1
 
 "--------------------------------------------------------------------------------
 " python & ruby
@@ -444,6 +456,7 @@ sign place 1 line=2 name=coc_err
 " \ 'coc-pairs' # this has eror  i<<>
 " \ 'coc-ultisnips',
 " \ 'coc-omnisharp',
+ \ 'coc-csharp',
 
 let g:coc_global_extensions = [
  \ 'coc-ccls',
@@ -557,25 +570,6 @@ let g:UltiSnipsSnippetDirectories = ['UltiSnips', '~/.config/nvim/UltiSnips']
 " rust
 "--------------------------------------------------------------------------------
 let g:rust_recommended_style = 0
-
-"--------------------------------------------------------------------------------
-" vimspector
-"--------------------------------------------------------------------------------
-" terminal does not support shift+F key
-let g:vimspector_enable_mappings = "HUMAN"
-let g:vimspector_base_dir=$HOME . '/.config/nvim/autoload/plugged/vimspector'
-
-" for normal mode - the word under the cursor
-nmap ,di <Plug>VimspectorBalloonEval
-
-" for visual mode, the visually selected text
-xmap ,di <Plug>VimspectorBalloonEval
-
-nmap ,df :VimspectorReset<CR>
-
-let g:CommandTPreferredImplementation='ruby'
-
-let g:OmniSharp_server_use_net6 = 1
 
 "--------------------------------------------------------------------------------
 " run
