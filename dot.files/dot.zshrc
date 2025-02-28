@@ -26,7 +26,6 @@ export CXX=/opt/homebrew/opt/llvm/bin/clang++
 
 #export TERM=xterm-256color
 export TERMINFO=~/.terminfo
-export TERM="wezterm"
 export COLORTERM="truecolor"
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
@@ -37,7 +36,7 @@ export JDK_HOME=$JAVA_HOME
 export CLASSPATH=.:/opt/homebrew/Cellar/antlr/4.13.2/antlr-4.13.2-complete.jar
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/yielding/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 export GIT_TERMINAL_PROMPT=false
 # Set name of the theme to load --- if set to "random", it will
