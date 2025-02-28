@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+SRC="~code/dot.files"
+
+`cp -r #{SRC}/bin ~/`
+`mkdir -p ~/.config/nvim/UltiSnips`
+`mkdir -p ~/.oh-my-zsh/themes`
+`mkdir -p ~/.config/nvim/vim-plug`
+
+`cp #{SRC}/dot.zshrc ~/.zshrc`
+`cp #{SRC}/dot.init.vim ~/.config/nvim/init.vim`
+`cp #{SRC}/vim-plug/plugins.vim ~/.config/nvim/vim-plug/plugins.vim`
+`cp #{SRC}/dot.ghci ~/.ghci`
+`cp #{SRC}/dot.gitconfig ~/.gitconfig`
+`cp #{SRC}/dot.tmux.conf ~/.tmux.conf`
+`cp #{SRC}/dot.vimrc ~/.vimrc`
+`cp #{SRC}/oh-my-zsh-lib-aliases.zsh ~/.oh-my-zsh/lib/aliases.zsh`
+`cp #{SRC}/oh-my-zsh-themes/* ~/.oh-my-zsh/themes/`
+`cp #{SRC}/UltiSnips/* ~/.config/nvim/UltiSnips/`
