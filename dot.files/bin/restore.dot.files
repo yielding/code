@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
 
-SRC="~code/dot.files"
+# node should be installed
 
-`cp -r #{SRC}/bin ~/`
+SRC="~/code/dot.files"
+
 `mkdir -p ~/.config/nvim/UltiSnips`
 `mkdir -p ~/.oh-my-zsh/themes`
 `mkdir -p ~/.config/nvim/vim-plug`
@@ -10,6 +11,7 @@ SRC="~code/dot.files"
 `cp #{SRC}/dot.zshrc ~/.zshrc`
 `cp #{SRC}/dot.init.vim ~/.config/nvim/init.vim`
 `cp #{SRC}/vim-plug/plugins.vim ~/.config/nvim/vim-plug/plugins.vim`
+`cp -r #{SRC}/vim-colors ~/.config/nvim/colors`
 `cp #{SRC}/dot.ghci ~/.ghci`
 `cp #{SRC}/dot.gitconfig ~/.gitconfig`
 `cp #{SRC}/dot.tmux.conf ~/.tmux.conf`
