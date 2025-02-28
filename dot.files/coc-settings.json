@@ -1,39 +1,156 @@
 {
   "diagnostic.errorSign": "✖",
   "diagnostic.warningSign": "⚠",
+  "diagnostic.showUnused": false,
   "diagnostic.infoSign": "ℹ",
   "diagnostic.hintSign": "➤",
-  "diagnostic.enable": true,
+  "diagnostic.enable": false,
   "diagnostic.enableSign": false,
   "codeLens.enable": false,
-
-  "python.pythonPath":"/Users/yielding/miniforge/envs/pytorch/bin/python",
+  "suggest.noselect": true,
+  "python.pythonPath": "/Users/yielding/miniforge/envs/etri/bin/python3",
   "python.linting.pylintEnabled": false,
-
+  "python.analysis.autoImportCompletions": true,
+  "pyright.inlayHints.functionReturnTypes": false,
+  "pyright.inlayHints.variableTypes": false,
+  "inlayHint.enable": false,
+  "inlayHints.VariableTypes.enabled": false,
+  "java.home":"/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home",
   "languageserver": {
     "ccls": {
       "command": "ccls",
-      "filetypes": [ "c", "cpp"],
-      "rootPatterns": [
-        ".ccls",
-        "compile_commands.json",
-        ".vim/",
-        ".git/"
+      "filetypes": [ "c", "cpp", "hpp", "h"],
+      "rootPatterns": [ ".ccls", "compile_commands.json", ".git/", "main.cpp", ".vimspector.json" ],
+      "workspaceFolders": [
+        "/tmp/ccls", 
+        "/Users/yielding/snippets"
       ],
       "initializationOptions": {
-        "cache": {
-          "directory": "/tmp/ccls"
-        },
-        "client" : {
-          "snippetSupport": true
-        },
-        "index": {
-          "onChange": true
-        },
-        "highlight": {
-          "lsRanges": true
+        "cache":     { "directory": "/tmp/ccls" },
+        "client":    { "snippetSupport": true },
+        "index":     { "onChange": true },
+        "highlight": { "lsRanges": true }
+      }
+    },
+    "rust": {
+      "command": "rust-analyzer",
+      "filetypes": ["rust"],
+      "rootPatterns": ["Cargo.toml"]
+    },
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": [ "--lsp" ],
+      "rootPatterns": [
+        ".stack.yaml",
+        ".hie-bios",
+        "BUILD.bazel",
+        "cabal.config",
+        "package.yaml"
+      ],
+      "filetypes": [
+        "hs",
+        "lhs",
+        "haskell"
+      ],
+      "initializationOptions": {
+        "haskell": {
+          "checkParents": "CheckOnSave",
+          "formatOnImportOn": true,
+          "hlintOn": true,
+          "diagnosticsOnChange": true,
+          "checkProject": true,
+          "liquidOn": false,
+          "maxCompletions": 40,
+          "formattingProvider": "stylish-haskell",
+          "plugin": {
+            "haddockComments": {
+              "globalOn": true
+            },
+            "retrie": {
+              "globalOn": true
+            },
+            "importLens": {
+              "codeActionsOn": true,
+              "codeLensOn": true
+            },
+            "ghcide-completions": {
+              "globalOn": true,
+              "config": {
+                "autoExtendOn": true,
+                "snippetsOn": true
+              }
+            },
+            "ghcide-type-lenses": {
+              "globalOn": true,
+              "config": {
+                "mode": "always"
+              }
+            },
+            "ghcide-code-actions-imports-exports": {
+              "globalOn": true
+            },
+            "ghcide-hover-and-symbols": {
+              "symbolsOn": true,
+              "hoverOn": true
+            },
+            "eval": {
+              "globalOn": true
+            },
+            "class": {
+              "globalOn": true
+            },
+            "pragmas": {
+              "completionOn": true,
+              "codeActionsOn": true
+            },
+            "splice": {
+              "globalOn": true
+            },
+            "tactics": {
+              "hoverOn": true,
+              "config": {
+                "auto_gas": 4,
+                "max_use_ctor_actions": 5,
+                "proofstate_styling": true,
+                "hole_severity": null,
+                "timeout_duration": 2
+              },
+              "codeActionsOn": true,
+              "codeLensOn": true
+            },
+            "callHierarchy": {
+              "globalOn": true
+            },
+            "refineImports": {
+              "codeActionsOn": true,
+              "codeLensOn": true
+            },
+            "hlint": {
+              "diagnosticsOn": true,
+              "config": {
+                "flags": []
+              },
+              "codeActionsOn": true
+            },
+            "ghcide-code-actions-type-signatures": {
+              "globalOn": true
+            },
+            "ghcide-code-actions-bindings": {
+              "globalOn": true
+            },
+            "moduleName": {
+              "globalOn": true
+            },
+            "ghcide-code-actions-fill-holes": {
+              "globalOn": true
+            }
+          }
         }
       }
     }
-  }
+  },
+  "snippets.ultisnips.pythonPrompt": false,
+  //"clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/16.0.2/clangd_16.0.2/bin/clangd",
+  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/18.1.3/clangd_18.1.3/bin/clangd",
+  "git.enableGutters": false
 }

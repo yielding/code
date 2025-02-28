@@ -10,6 +10,7 @@ DEST="~/code/dot.files"
 `cp ~/.zshrc #{DEST}/dot.zshrc`
 `cp ~/.config/nvim/init.vim #{DEST}/dot.init.vim`
 `cp ~/.config/nvim/vim-plug/plugins.vim #{DEST}/vim-plug/plugins.vim`
+`cp ~/.config/nvim/coc-settings.json #{DEST}/coc-settings.json`
 `cp ~/.ghci #{DEST}/dot.ghci`
 `cp ~/.gitconfig #{DEST}/dot.gitconfig`
 `cp ~/.tmux.conf #{DEST}/dot.tmux.conf`

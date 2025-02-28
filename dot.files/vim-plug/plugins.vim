@@ -20,6 +20,9 @@ Plug 'neovim/nvim-lspconfig'
 " Better Syntax Support
 Plug 'sheerun/vim-polyglot'
 
+"copliot
+Plug 'github/copilot.vim'
+
 "Plug 'romainl/vim-devdocs'
 Plug 'gauteh/vim-cppman'
 

@@ -173,10 +173,10 @@ let g:OmniSharp_server_use_net6 = 1
 "--------------------------------------------------------------------------------
 " python & ruby
 "--------------------------------------------------------------------------------
-"let g:python3_host_prog = "/opt/homebrew/bin/python3"
 let g:python3_host_prog = "/Users/yielding/miniforge/envs/etri/bin/python3"
 "let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/ruby"
-let g:ruby_host_prog = "/opt/homebrew/lib/ruby/gems/3.4.0/bin/neovim-ruby-host"
+"let g:ruby_host_prog = "/opt/homebrew/lib/ruby/gems/3.4.0/bin/neovim-ruby-host"
+let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/neovim-ruby-host"
 let g:loaded_perl_provider = 0
 
 set rtp+=/opt/homebrew/opt/fzf
