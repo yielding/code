@@ -1,4 +1,5 @@
 #include <iostream>
+#include <print>
 #include <vector>
 #include <zmq_addon.hpp>
 
@@ -23,10 +24,7 @@ int main()
     auto r0 = sock.recv(topic);
     auto r1 = sock.recv(payload);
 
-    cout << '\n' 
-         << topic.to_string_view() << " : "
-         << payload.to_string_view()
-         << endl;
+    println("\n{} : {}", topic.to_string_view(), payload.to_string_view());
   }
 
   return 0;

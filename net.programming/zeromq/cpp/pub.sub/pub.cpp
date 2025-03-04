@@ -1,4 +1,4 @@
-#include <iostream>
+#include <print>
 #include <random>
 #include <chrono>
 #include <thread>
@@ -32,7 +32,7 @@ int main()
     nlohmann::json msg;
     msg[name] = normdist(mt);
 
-    cout << '\n' << msg.dump();
+    println("{}", msg.dump());
     
     message_t topic(name);         sock.send(topic,   send_flags::sndmore);
     message_t payload(msg.dump()); sock.send(payload, send_flags::none);
