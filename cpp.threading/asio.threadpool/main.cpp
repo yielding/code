@@ -18,18 +18,16 @@ void hello(int value)
 int main(int argc, char const* argv[])
 {
   sys::active_threadpool pool(5);
-  pool.start();
 
-  int const data_count = 1000;
+  int const data_count = 10;
   for (int i=0; i<data_count; i++) 
     pool.post([i]() { hello(i); });
 
   cout << "made " << data_count << "\n";
-  // sleep(3);
+  sleep(3);
 
-  thread th([&pool]() { sleep(3); pool.stop(); });
-  pool.join();
-  th.join();
+  //thread th([&pool]() { sleep(3); pool.stop(); });
+  //th.join();
 
   return 0;
 }
