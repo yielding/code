@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include <boost/asio.hpp>
-#include <boost/thread.hpp>
+#include <thread>
 #include <boost/bind.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
@@ -18,11 +18,11 @@ using namespace boost;
 class Task
 {
 public:
-  Task(boost::asio::io_context& io, int interval=1)
-    : m_timer(io), m_interval(interval)
+  Task(asio::io_context& io, int interval=1)
+    : _timer(io), _interval(interval)
   {
-    m_timer.expires_from_now(boost::posix_time::seconds(2));
-    m_timer.async_wait(bind(&Task::exec, this));
+    _timer.expires_from_now(posix_time::seconds(2));
+    _timer.async_wait(bind(&Task::exec, this));
   }
 
   void exec()
@@ -34,7 +34,7 @@ public:
     }
 
     cout << "Load Interpreter" << "\n";
-    cout << "do job " << m_interval << "\n";
+    cout << "do job " << _interval << "\n";
     cout << "UnLoad Interpreter" << "\n";
 
     fire();
@@ -42,8 +42,8 @@ public:
 
   void fire()
   {
-    m_timer.expires_at(m_timer.expires_at() + posix_time::seconds(m_interval));
-    m_timer.async_wait(bind(&Task::exec, this));
+    _timer.expires_at(_timer.expires_at() + posix_time::seconds(_interval));
+    _timer.async_wait(bind(&Task::exec, this));
   }
 
   bool checkup_time()
@@ -52,9 +52,9 @@ public:
   }
 
 private:
-  int m_interval;
+  int _interval;
 
-  asio::deadline_timer m_timer;
+  asio::deadline_timer _timer;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,13 +74,13 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-int main (int argc, char const* argv[])
+int main(int argc, char const* argv[])
 {
   asio::io_context io;
   Task t1(io, 3);
   Task t2(io, 2);
 
-  boost::thread tt1(bind(&asio::io_context::run, &io));
+  thread tt1(bind(&asio::io_context::run, &io));
 
   while(1)
   {

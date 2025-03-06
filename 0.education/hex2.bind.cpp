@@ -3,20 +3,18 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <format>
 
 using namespace std;
 
 string hex_(char v)
 {
-  char buf[4] = { 0 };
-  sprintf(buf, "%02x ", v);
-
-  return string(buf);
+  return format("{:02x}", static_cast<unsigned char>(v));
 }
 
 template <typename ForwardIterator>
-string to_hex(ForwardIterator beg_, ForwardIterator end_, 
-              string b="[ ", string e="]")
+auto to_hex(ForwardIterator beg_, ForwardIterator end_, 
+            string b="[ ", string e="]") -> string
 {
   using namespace boost::lambda;
 
