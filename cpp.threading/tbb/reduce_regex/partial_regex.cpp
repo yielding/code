@@ -1,7 +1,7 @@
 #include "partial_regex.h"
 #include <boost/scoped_array.hpp>
-#include <boost/format.hpp>
 #include <fstream>
+#include <format>
 #include <iostream>
 
 using namespace std;
@@ -42,7 +42,6 @@ T nuke_dupes_no_sort_copy(const T& c)
 ////////////////////////////////////////////////////////////////////////////////
 bool PartialRegex::search(boost::regex const& e, std::istream& is)
 {
-  using namespace boost; 
   scoped_array<char> buf(new char[m_buffer_size]);
   char* const     pbuf = buf.get();
   char const* next_pos = pbuf + m_buffer_size;
@@ -51,7 +50,7 @@ bool PartialRegex::search(boost::regex const& e, std::istream& is)
   int64_t match_count = 0;
   int64_t total_read  = 0;
 
-cout << str(format("[%10d, %10d]\n") % m_offset % m_stream_size);
+  cout << format("[{:>10}, {:>10}]\n", m_offset, m_stream_size);
 
   bool ok = true;
   while (ok)

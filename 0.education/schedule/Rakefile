@@ -1,12 +1,11 @@
 # -*- ruby -*-
 # 
 
-SRCS     = %w{main.cpp}
-APP      = "main"
-OSX_LIBS = "-lboost_thread-mt -lboost_system-mt"
+SRCS  = %w{main.cpp}
+APP   = "main"
+LIBS  = ":t :s"
+CXX   = "clang++"
 
-DIR = File.dirname __FILE__
-
-load '~/code/build/app.rake'
+load '~/code/build/app2.rake'
 
 task :default => [:osx]

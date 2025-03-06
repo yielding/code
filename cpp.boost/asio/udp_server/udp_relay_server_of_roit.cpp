@@ -12,7 +12,6 @@ using namespace boost;
 using namespace boost::asio;
 
 using boost::asio::ip::udp;
-using boost::asio::ip::udp::endpoint;
 //////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -37,17 +36,17 @@ class udp_relay_server
 
 public:
 
-  udp_relay_server(io_service& io_service, short port)
-    : socket_(io_service, endpoint(udp::v4(), port))
-    , timer_(io_service)
+  udp_relay_server(io_context& io_context, short port)
+    : socket_(io_context, endpoint(udp::v4(), port))
+    , timer_(io_context)
   {
     do_receive();
     do_timer();
   }
 
-  udp_relay_server(io_service& io_service, endpoint const& endpoint_)
-    : socket_(io_service, endpoint_)
-    , timer_(io_service)
+  udp_relay_server(io_context& io_context, endpoint const& endpoint_)
+    : socket_(io_context, endpoint_)
+    , timer_(io_context)
   {
     do_receive();
     do_timer();

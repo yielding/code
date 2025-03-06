@@ -9,7 +9,7 @@ int main(int argc, char const* argv[])
   try 
   {
     using namespace boost::asio;
-    io_service io;
+    io_context io;
     serial_port s(io, "COM4");
     serial_port::baud_rate baud_rate(9600);
     s.set_option(baud_rate);

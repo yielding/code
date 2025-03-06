@@ -6,6 +6,7 @@
 
 #include "partial_regex.h"
 #include "tbb/parallel_reduce.h"
+#include "tbb/global_control.h"
 
 #include "asio_threadpool.h"
 
@@ -146,8 +147,8 @@ void serial_regex()
 
 int main(int argc, char const* argv[])
 {
-  int nthread = task_scheduler_init::automatic;
-  task_scheduler_init init(nthread);
+  int nthread = task_arena::automatic;
+  global_control control(global_control::max_allowed_parallelism, task_arena::automatic);
 
   // serial_regex();
   // parallel_regex();

@@ -9,12 +9,11 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////// 
-class threadpool: private boost::noncopyable 
+class threadpool
 {
 public:
   threadpool(std::size_t init_size=5)
     : m_init_thread(init_size)
-    , m_work(m_scheduler)
   {}
 
   virtual ~threadpool()
@@ -26,7 +25,7 @@ public:
   {
     using namespace boost;
     for (uint8_t i=0; i<m_init_thread; ++i)
-      m_threads.create_thread(bind(&boost::asio::io_service::run, &m_scheduler));
+      m_threads.create_thread(bind(&boost::asio::io_context::run, &m_scheduler));
   }
 
   void stop()
@@ -42,9 +41,12 @@ public:
   }
 
   template<typename Handler>
-  void post(Handler h) { m_scheduler.post(h); }
+  void post(Handler h) 
+  {
+    boost::asio::post(m_scheduler, h);
+  }
 
-  boost::asio::io_service& scheduler()
+  auto scheduler() -> boost::asio::io_context& 
   {
     return m_scheduler;
   }
@@ -54,8 +56,7 @@ private:
 
 private:
   boost::thread_group m_threads;
-  boost::asio::io_service m_scheduler;
-  boost::asio::io_service::work m_work;
+  boost::asio::io_context m_scheduler;
 };
 
 //////////////////////////////////////////////////////////////////////////////

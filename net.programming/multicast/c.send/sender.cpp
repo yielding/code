@@ -22,27 +22,27 @@ class sender
 {
 public:
   sender(asio::io_service& io_service, ip::address const& multicast_address)
-    : endpoint_(multicast_address, multicast_port)
-    , socket_(io_service, endpoint_.protocol())
-    , timer_(io_service)
-    , message_count_(0)
+    : _endpoint(multicast_address, multicast_port)
+    , _socket(io_service, _endpoint.protocol())
+    , _timer(io_service)
+    , _message_count(0)
   {
     std::ostringstream os;
-    os << "Message " << message_count_++;
+    os << "Message " << _message_count++;
     message_ = os.str();
 
     ip::multicast::hops ttl(4);
-    socket_.set_option(ttl);
-    socket_.async_send_to(asio::buffer(message_), endpoint_,
+    _socket.set_option(ttl);
+    _socket.async_send_to(asio::buffer(message_), _endpoint,
       boost::bind(&sender::handle_send_to, this, asio::placeholders::error));
   }
 
   void handle_send_to(const boost::system::error_code& error)
   {
-    if (!error && message_count_ < max_message_count)
+    if (!error && _message_count < max_message_count)
     {
-      timer_.expires_from_now(boost::posix_time::milliseconds(INTERVAL));
-      timer_.async_wait(
+      _timer.expires_from_now(boost::posix_time::milliseconds(INTERVAL));
+      _timer.async_wait(
         boost::bind(&sender::handle_timeout, this, asio::placeholders::error));
     }
   }
@@ -52,19 +52,19 @@ public:
     if (error) return;
 
     std::ostringstream os;
-    os << message_count_++;
+    os << _message_count++;
     message_ = os.str();
 
-    socket_.async_send_to(
-      asio::buffer(message_), endpoint_,
+    _socket.async_send_to(
+      asio::buffer(message_), _endpoint,
       boost::bind(&sender::handle_send_to, this, asio::placeholders::error));
   }
 
 private:
-  ip::udp::endpoint endpoint_;
-  ip::udp::socket socket_;
-  asio::deadline_timer timer_;
-  int message_count_;
+  ip::udp::endpoint _endpoint;
+  ip::udp::socket _socket;
+  asio::deadline_timer _timer;
+  int _message_count;
   std::string message_;
 };
 

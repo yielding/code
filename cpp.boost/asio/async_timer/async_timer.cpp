@@ -16,19 +16,19 @@ using namespace boost;
 class HTMLParser
 {
 public:
-  HTMLParser() : m_res(false)
+  HTMLParser() : _res(false)
   {}
 
-  void operator()() { m_res = parse0(); }
+  void operator()() { _res = parse0(); }
 
   bool parse0() { sleep(2); return true; }
 
   bool parse1() { while(true) {}; return true; }
 
-  bool result() { return m_res; }
+  bool result() { return _res; }
 
 private:
-  bool m_res;
+  bool _res;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,9 +42,9 @@ int main()
 
   try
   {
-    asio::io_service io_service;
+    asio::io_context io_context;
 
-    asio::deadline_timer timer(io_service);
+    asio::deadline_timer timer(io_context);
 
     cout << "before expire\n";
     timer.expires_from_now(posix_time::seconds(5));
@@ -82,12 +82,12 @@ int main()
 class HTMLParser
 {
 public:
-  HTMLParser() : m_res(false), m_timer(m_io_service)
+  HTMLParser() : _res(false), _timer(_io_context)
   {}
 
   bool parse_within(int sec)
   {
-    m_try_count = sec;
+    _try_count = sec;
 
     do_timer();
     
@@ -96,9 +96,9 @@ public:
     // REMARK 
     //   below run() is waiting for timer
     //
-    m_io_service.run();
+    _io_context.run();
 
-    if (m_res == false)
+    if (_res == false)
     {
       cout << "fail to complete the parsing\n";
       t.interrupt();
@@ -109,7 +109,7 @@ public:
       t.join();
     }
 
-    return m_res;
+    return _res;
   }
 
   void parse0() { while(1) { sleep(1); }; }
@@ -118,26 +118,26 @@ public:
   {
     cout << "run 2 secs\n"; 
     sleep(2);
-    m_res = true; 
+    _res = true; 
   }
 
   void do_timer()
   {
-    if (m_res == true || m_try_count <= 0)
+    if (_res == true || _try_count <= 0)
       return;
 
-    m_try_count--;
-    cout << "m_try_count : " << m_try_count << endl;
+    _try_count--;
+    cout << "try_count : " << _try_count << endl;
 
-    m_timer.expires_from_now(posix_time::seconds(1));
-    m_timer.async_wait(bind(&HTMLParser::do_timer, this));
+    _timer.expires_from_now(posix_time::seconds(1));
+    _timer.async_wait(bind(&HTMLParser::do_timer, this));
   }
 
 private:
-  bool m_res;
-  int  m_try_count;
-  asio::io_service m_io_service;
-  asio::deadline_timer m_timer;
+  bool _res;
+  int  _try_count;
+  asio::io_context _io_context;
+  asio::deadline_timer _timer;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -18,7 +18,7 @@ using namespace boost;
 class Task
 {
 public:
-  Task(boost::asio::io_service& io, int interval=1)
+  Task(boost::asio::io_context& io, int interval=1)
     : m_timer(io), m_interval(interval)
   {
     m_timer.expires_from_now(boost::posix_time::seconds(2));
@@ -76,11 +76,11 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 int main (int argc, char const* argv[])
 {
-  asio::io_service io;
+  asio::io_context io;
   Task t1(io, 3);
   Task t2(io, 2);
 
-  boost::thread tt1(bind(&asio::io_service::run, &io));
+  boost::thread tt1(bind(&asio::io_context::run, &io));
 
   while(1)
   {

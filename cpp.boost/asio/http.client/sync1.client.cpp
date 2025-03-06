@@ -7,15 +7,15 @@ using namespace boost;
 
 int main(int argc, const char *argv[])
 {
-  asio::io_service ios;
+  asio::io_context ios;
 
   tcp::resolver resolver(ios);
+
   // query는 ip, server name, port, service name 모두 다 동작하는 군.
-  tcp::resolver::query query(tcp::v4(), "218.145.28.200", "80");
-  auto iterator = resolver.resolve(query);
+  auto endpoints = resolver.resolve(tcp::v4(), "218.145.28.200", "80");
 
   tcp::socket socket(ios);
-  asio::connect(socket, iterator);
+  asio::connect(socket, endpoints);
   cout << "Connected\n";
 
   auto req = "GET\n\r";

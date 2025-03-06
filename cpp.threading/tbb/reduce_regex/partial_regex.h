@@ -3,7 +3,6 @@
 
 #include "tbb/tick_count.h"
 #include "tbb/blocked_range.h"
-#include "tbb/task_scheduler_init.h"
 
 #include <boost/regex.hpp>
 #include <vector>

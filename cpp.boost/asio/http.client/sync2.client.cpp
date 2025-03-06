@@ -1,6 +1,6 @@
 #include <boost/asio/connect.hpp>
 #include <boost/asio/deadline_timer.hpp>
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/read_until.hpp>
 #include <boost/asio/streambuf.hpp>
@@ -36,12 +36,14 @@ public:
 
   void connect(string const& host, string const& service, posix_time::time_duration timeout)
   {
-    tcp::resolver::query query(tcp::v4(), host, service);
-    auto iter = tcp::resolver(_ios).resolve(query);
+    // tcp::resolver::query query(tcp::v4(), host, service);
+    // auto iter = tcp::resolver(_ios).resolve(query);
+    tcp::resolver resolver(_ios);
+    auto endpoints = resolver.resolve(host, service);
     _deadline.expires_from_now(timeout);
 
     system::error_code ec = asio::error::would_block;
-    asio::async_connect(_socket, iter, var(ec) = _1);
+    asio::async_connect(_socket, endpoints, var(ec) = _1);
 
     do _ios.run_one(); while (ec == asio::error::would_block);
     if (ec || !_socket.is_open())
@@ -100,7 +102,7 @@ private:
   }
 
 private:
-  asio::io_service _ios;
+  asio::io_context _ios;
   tcp::socket _socket;
   asio::deadline_timer _deadline;
   asio::streambuf _input_buffer;

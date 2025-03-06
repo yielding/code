@@ -20,17 +20,17 @@ private:
   };
 
 public:
-  udp_relay_server(boost::asio::io_service& io_service, short port)
-    : socket_(io_service, udp::endpoint(udp::v4(), port))
-    , timer_(io_service)
+  udp_relay_server(boost::asio::io_context& io_context, short port)
+    : socket_(io_context, udp::endpoint(udp::v4(), port))
+    , timer_(io_context)
   {
     do_receive();
     do_timer();
   }
 
-  udp_relay_server(boost::asio::io_service& io_service, const udp::endpoint & endpoint_)
-    : socket_(io_service, endpoint_)
-    , timer_(io_service)
+  udp_relay_server(boost::asio::io_context& io_context, const udp::endpoint & endpoint_)
+    : socket_(io_context, endpoint_)
+    , timer_(io_context)
   {
     do_receive();
     do_timer();
