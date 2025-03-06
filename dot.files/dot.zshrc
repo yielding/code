@@ -18,10 +18,11 @@ export PATH=$MINGW_HOME/bin:$PATH
 export PATH=$DOTNET_TOOLS_HOME:$PATH
 
 export LDFLAGS="-L$RUBY_HOME/lib -L/opt/homebrew/lib -lpthread"
-export CPLUS_INCLUDE_PATH=/opt/homebrew/include:$OPENCV_HOME/include/opencv4:$CPLUS_INCLUDE_PATH
+export CPLUS_INCLUDE_PATH=/opt/homebrew/opt/llvm/include:/opt/homebrew/include:$OPENCV_HOME/include/opencv4:$CPLUS_INCLUDE_PATH
+#export CPLUS_INCLUDE_PATH=/opt/homebrew/include:$OPENCV_HOME/include/opencv4:$CPLUS_INCLUDE_PATH
 
 #export CXX="/opt/homebrew/bin/g++-14"
-export CC=/opt/homebrew/opt/llvm/bin/clang
+#export CC=/opt/homebrew/opt/llvm/bin/clang
 export CXX=/opt/homebrew/opt/llvm/bin/clang++
 
 #export TERM=xterm-256color

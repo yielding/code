@@ -10,7 +10,7 @@ File.open(".ccls", "w") { |file|
   file.puts "-fPIC"
   file.puts ""
 
-  stdout, stderr, status = Open3.capture3("g++-14 -E -x c++ - -v < /dev/null")
+  stdout, stderr, status = Open3.capture3("clang++ -std=c++23 -E -x c++ - -v < /dev/null")
   lines = stderr.split("\n") # ["aa", "bb"]
   start, count = false, 0
   lines.each_with_index { |line, index|

@@ -16,7 +16,7 @@ end
 $CXX = "ccache g++-14 -std=c++23"
 if defined? CXX
   $CXX = "ccache clang++ -std=c++2c -stdlib=libc++ " if CXX == "clang++"
-  $CXX = "ccache g++-14 -std=c++23 "          if CXX == "g++"
+  $CXX = "ccache g++-14 -std=c++23 " if CXX == "g++"
   $CXX = "ccache xcrun clang++ -std=c++23 -stdlib=libc++ " if CXX == "xcrun" 
 end
 
@@ -62,9 +62,6 @@ end
 
 $INCS += " -I. -I/usr/local/include -I#{$HOME}/develop/include -I/opt/homebrew/include"
 $INCS += " -I#{$HOME}/develop/vendor/include"
-
-USER="#{$HOME}"
-CODE="#{$HOME}/code"
 
 $LDFLAGS = " #{ENV['LDFLAGS']}"
 if defined? LDFLAGS

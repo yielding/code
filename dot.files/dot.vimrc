@@ -50,6 +50,9 @@ set ttimeout
 
 set completefunc=emoji#complete
 
+set grepprg=rg\ --vimgrep
+"set grepprg=ag\ --vimgrep
+
 "--------------------------------------------------------------------------------
 " Text, Tab and Indent
 "--------------------------------------------------------------------------------
@@ -111,14 +114,6 @@ if !g:is_nvim && g:is_vim8
 else
   set termguicolors
   set t_Co=16777216
-  "color xoria256
-  "color fu
-  "color desertedoceanburnt
-  color jellybeans
-  color zaibatsu
-  color darkbone
-  color wintersday
-  color Tomorrow-Night-Blue
 endif
 
 "--------------------------------------------------------------------------------
@@ -180,10 +175,24 @@ let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/neovim-ruby-host"
 let g:loaded_perl_provider = 0
 
 set rtp+=/opt/homebrew/opt/fzf
+
 "--------------------------------------------------------------------------------
 " plugins
 "--------------------------------------------------------------------------------
 source $HOME/.config/nvim/vim-plug/plugins.vim
+
+"--------------------------------------------------------------------------------
+" color
+"--------------------------------------------------------------------------------
+"color xoria256
+"color fu
+"color desertedoceanburnt
+"color jellybeans
+"color zaibatsu
+"color darkbone
+"color wintersday
+color Tomorrow-Night-Blue
+color duskfox
 
 "--------------------------------------------------------------------------------
 " spell

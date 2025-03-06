@@ -3,7 +3,6 @@ cmake_minimum_required (VERSION 3.30)
 project (avltree)
 
 set (CMAKE_CXX_STANDARD 23)
-set (CMAKE_CXX_COMPILER g++-14)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
