@@ -21,7 +21,7 @@ int main(int argc, char const* argv[])
 
   int const data_count = 10;
   for (int i=0; i<data_count; i++) 
-    pool.post([i]() { hello(i); });
+    pool.dispatch([i]() { hello(i); });
 
   cout << "made " << data_count << "\n";
   sleep(3);
