@@ -465,11 +465,12 @@ sign place 1 line=2 name=coc_err
 " \ 'coc-pairs' # this has eror  i<<>
 " \ 'coc-ultisnips',
 " \ 'coc-omnisharp',
- \ 'coc-csharp',
+" \ 'coc-csharp',
+" \ 'coc-java',
+" \ 'coc-clangd',
 
 let g:coc_global_extensions = [
  \ 'coc-ccls',
- \ 'coc-clangd',
  \ 'coc-tsserver',
  \ 'coc-pyright',
  \ 'coc-prettier',
@@ -477,7 +478,6 @@ let g:coc_global_extensions = [
  \ 'coc-json', 
  \ 'coc-solargraph',
  \ 'coc-cmake',
- \ 'coc-java',
  \ 'coc-markdownlint',
  \ 'coc-git'
  \ ]           

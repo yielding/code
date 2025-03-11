@@ -147,6 +147,10 @@ bindkey -v
 # export LANG=en_US.UTF-8
 export LANG=ko_KR.UTF-8
 export EDITOR=nvim 
+export VISUAL=nvim 
+export NNN_OPENER=~/.config/nnn/plugins/nvim-open
+export NNN_PLUG='v:nvim-open'
+export NNN_USE_EDITOR=1
 
 zstyle ':completion:*' rehash true
 
