@@ -1,6 +1,7 @@
 #include <boost/asio.hpp>
 #include <iostream>
 #include <fstream>
+#include "utils.hpp"
 
 using boost::asio::ip::tcp;
 
@@ -27,6 +28,7 @@ int main()
     size_t credit = PIPELINE;
     size_t total = 0;
 
+    Timer timer;
     while (credit-- && offset < filesize)
     {
       uint64_t off = offset;
@@ -75,6 +77,7 @@ int main()
     }
 
     cout << "\n[CLIENT] Done. Received " << total << " bytes\n";
+    cout << "\n[CLIENT] Time taken: " << timer.elapsed() << " seconds\n";
   } 
   catch (exception& e)
   {
