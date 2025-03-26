@@ -67,8 +67,8 @@ set ve=block
 set et
 
 set ts=4 sts=4 sw=4 tw=0
-set ts=2 sts=2 sw=2 tw=0
 set ts=8 sts=8 sw=8 tw=0
+set ts=2 sts=2 sw=2 tw=0
 
 set smarttab
 
@@ -169,8 +169,6 @@ let g:OmniSharp_server_use_net6 = 1
 " python & ruby
 "--------------------------------------------------------------------------------
 let g:python3_host_prog = "/Users/yielding/miniforge/envs/etri/bin/python3"
-"let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/ruby"
-"let g:ruby_host_prog = "/opt/homebrew/lib/ruby/gems/3.4.0/bin/neovim-ruby-host"
 let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/neovim-ruby-host"
 let g:loaded_perl_provider = 0
 

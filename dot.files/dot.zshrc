@@ -1,4 +1,3 @@
-# If you come from bash you might have to change your $PATH.
 export HOME=/Users/yielding 
 
 export RUBY_HOME=/opt/homebrew/opt/ruby 
@@ -24,6 +23,7 @@ export CPLUS_INCLUDE_PATH=/opt/homebrew/opt/llvm/include:/opt/homebrew/include:$
 #export CXX="/opt/homebrew/bin/g++-14"
 #export CC=/opt/homebrew/opt/llvm/bin/clang
 export CXX=/opt/homebrew/opt/llvm/bin/clang++
+export PROJECT=$HOME/project/md.platform.infra
 
 #export TERM=xterm-256color
 export TERMINFO=~/.terminfo
@@ -52,14 +52,6 @@ ZSH_THEME="fino"
 
 export MY_INSTALL_DIR=$HOME/.local
 export PATH="$MY_INSTALL_DIR/bin:$PATH"
-
-mn () {
-  session_name="${2:-'nnn'}";
-  # if the session already exists, kill it
-  tmux kill-session -t "$session_name" 2>/dev/null;
-  tmux new-session -d -s "$session_name" "source ~/.zshrc && nnn -a -c -d -e -U $@";
-  tmux attach-session -t "$session_name";
-}
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -145,21 +137,28 @@ bindkey -v
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-export LANG=ko_KR.UTF-8
 export EDITOR=nvim 
 export VISUAL=nvim 
-export NNN_OPENER=~/.config/nnn/plugins/nvim-open
-export NNN_PLUG='v:nvim-open'
+
+export NNN_OPTS="x"
 export NNN_USE_EDITOR=1
+export NNN_OPENER="${HOME}/.config/nnn/plugins/nvim-open"
+export NNN_SEL="${HOME}/.config/nnn/.selection"
+export NNN_PLUG='s:nvim-vsplit (n-file read);c:cbcopy-mac;v:cbpaste-mac'
+
+mn() {
+  session_name="${2:-'nnn'}";
+  # if the session already exists, kill it
+  tmux kill-session -t "$session_name" 2>/dev/null;
+  tmux new-session -d -s "$session_name" "source ~/.zshrc && nnn -a -c -d -e -U $@";
+  tmux attach-session -t "$session_name";
+}
+
+source ~/scripts/mn.zsh
+
+export LANG=ko_KR.UTF-8
 
 zstyle ':completion:*' rehash true
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -196,4 +195,4 @@ test -e /Users/yielding/.iterm2_shell_integration.zsh && source /Users/yielding/
 [ -f "/Users/yielding/.ghcup/env" ] && source "/Users/yielding/.ghcup/env" # ghcup-env
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-fastfetch
+#fastfetch

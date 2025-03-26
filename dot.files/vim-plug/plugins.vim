@@ -26,6 +26,8 @@ Plug 'github/copilot.vim'
 Plug 'stevearc/quicker.nvim'
 Plug 'EdenEast/nightfox.nvim' " Vim-Plug
 
+Plug 'mcchrish/nnn.vim'
+
 "Plug 'romainl/vim-devdocs'
 Plug 'gauteh/vim-cppman'
 

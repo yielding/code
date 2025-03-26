@@ -1,6 +1,7 @@
 alias v='/opt/homebrew/bin/nvim'
 alias vi='/opt/homebrew/bin/nvim'
 
+alias nnn='nnn -acde'
 alias l='ls -al'
 alias ll='ls -al'
 alias dir='ls -al'
@@ -27,10 +28,9 @@ alias gdu='gdu-go'
 alias xxd='xxd -g 1'
 
 # shortcurs
+alias gonnn='cd ~/.config/nnn'
 alias gowork='cd ~/project/remote.stream'
 alias gowork='cd ~/project/code.apps/csproj.analyzer'
-alias gowork='cd ~/project/script.engine'
-alias gowork='cd ~/project/sqlite.reader'
 alias gowork='cd ~/project/md.platform.infra'
 
 alias aliases='vi ~/.oh-my-zsh/lib/aliases.zsh && source ~/.oh-my-zsh/lib/aliases.zsh'
