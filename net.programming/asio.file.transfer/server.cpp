@@ -3,6 +3,7 @@
 #include <fstream>
 #include <thread>
 #include <format>
+#include <map>
 #include <filesystem>
 
 using boost::asio::ip::tcp;
@@ -10,9 +11,14 @@ using namespace std;
 
 void session(tcp::socket socket)
 {
+  // map<string, ifstream> files;
+  
+  ifstream file("/Users/yielding/Desktop/data/IMG_0888.MOV", ios::binary);
+
   try
   {
     vector<char> buffer(16); // [8 byte offset][4 byte size][4 byte filename len]
+    vector<char> chunk(25000);
 
     while (true)
     {
@@ -25,13 +31,17 @@ void session(tcp::socket socket)
       boost::asio::read(socket, boost::asio::buffer(fname_buf));
       string filename{fname_buf.begin(), fname_buf.end()};
 
-      auto p = format("/Users/yielding/Desktop/data/{}", filename);
-
-      ifstream file(p, ios::binary);
-      if (!file.is_open()) continue;
-
+      //auto p = format("/Users/yielding/Desktop/data/{}", filename);
+      //if (!files.contains(p))
+      //{
+      //  files[p] = ifstream(p, ios::binary);
+      //  if (!files[p].is_open()) continue;
+      //}
+      // ifstream file(p, ios::binary);
+      // if (!file.is_open()) continue;
+      chunk.resize(chunk_size);
+      //auto& file = files[p];
       file.seekg(offset, ios::beg);
-      vector<char> chunk(chunk_size);
       file.read(chunk.data(), chunk_size);
       streamsize read_bytes = file.gcount();
 

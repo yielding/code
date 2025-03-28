@@ -13,7 +13,7 @@ static context_t ctx;
 
 auto f_send = []() {
   socket_t sock(ctx, socket_type::dealer);
-  sock.set(sockopt::routing_id, "kamin");
+  sock.set(sockopt::routing_id, "kamin_send");
   sock.connect("tcp://127.0.0.1:5555");
 
   random_device rd;
@@ -32,10 +32,8 @@ auto f_send = []() {
 };
 
 auto f_recv = []() {
-  cout << "recv dealer started\n";
-
   socket_t sock(ctx, socket_type::dealer);
-  sock.set(sockopt::routing_id, "kamin");
+  sock.set(sockopt::routing_id, "kamin_recv");
   sock.connect("tcp://127.0.0.1:5555");
 
   while (true) 
