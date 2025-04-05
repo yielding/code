@@ -190,7 +190,8 @@ source $HOME/.config/nvim/vim-plug/plugins.vim
 "color darkbone
 "color wintersday
 color Tomorrow-Night-Blue
-color duskfox
+"color duskfox
+color nordfox
 
 "--------------------------------------------------------------------------------
 " spell
@@ -465,10 +466,10 @@ sign place 1 line=2 name=coc_err
 " \ 'coc-omnisharp',
 " \ 'coc-csharp',
 " \ 'coc-java',
-" \ 'coc-clangd',
+" \ 'coc-ccls',
 
 let g:coc_global_extensions = [
- \ 'coc-ccls',
+ \ 'coc-clangd',
  \ 'coc-tsserver',
  \ 'coc-pyright',
  \ 'coc-prettier',
@@ -503,15 +504,6 @@ function! s:show_documentation()
   endif
 endfunction
 
-
-""--------------------------------------------------------------------------------
-"" typescript
-""--------------------------------------------------------------------------------
-"let g:typescript_compiler_binary = 'tsc'
-"let g:typescript_compiler_options = ''
-"autocmd QuickFixCmdPost [^l]* nested cwindow
-"autocmd QuickFixCmdPost    l* nested lwindow
-
 "--------------------------------------------------------------------------------
 " c++
 "--------------------------------------------------------------------------------
@@ -527,7 +519,7 @@ let loaded_matchparan=0
 "--------------------------------------------------------------------------------
 augroup vim-cmake-group
 "autocmd! User CMakeBuildSucceeded CMakeOpen
-autocmd! User CMakeBuildSucceeded CMakeClose
+"autocmd! User CMakeBuildSucceeded CMakeClose
 augroup END
 
 function! GetGenOption(compiler)
@@ -539,7 +531,6 @@ endfunction
 command! -nargs=* Use call GetGenOption(<f-args>) 
 
 let g:cmake_root_markers=[]
-"let g:cmake_root_markers=['.git', '.svn']
 let g:cmake_native_build_options=["-j10"]
 
 nmap <c-s-g>    <Plug>(CMakeGenerate)
@@ -554,7 +545,7 @@ nmap <leader>rr :execute '!./Debug/' . expand('%:t:r')<CR>
 nmap <leader>ci <Plug>(CMakeInstall)
 nmap <leader>cs <Plug>(CMakeSwitch)
 nmap <leader>co <Plug>(CMakeOpen)
-nmap <leader>cq <Plug>(CMakeClose)
+nmap <leader>cc <Plug>(CMakeClose)
 
 "--------------------------------------------------------------------------------
 " Ultisnips

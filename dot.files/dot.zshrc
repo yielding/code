@@ -144,7 +144,7 @@ export NNN_OPTS="x"
 export NNN_USE_EDITOR=1
 export NNN_OPENER="${HOME}/.config/nnn/plugins/nvim-open"
 export NNN_SEL="${HOME}/.config/nnn/.selection"
-export NNN_PLUG='s:nvim-vsplit (n-file read);c:cbcopy-mac;v:cbpaste-mac'
+export NNN_PLUG='s:nvim-vsplit;c:cbcopy-mac;v:cbpaste-mac'
 
 mn() {
   session_name="${2:-'nnn'}";

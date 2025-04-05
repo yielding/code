@@ -1,4 +1,5 @@
 {
+  "explorer.icon.enableNerdfont": true,
   "diagnostic.errorSign": "✖",
   "diagnostic.warningSign": "⚠",
   "diagnostic.showUnused": false,
@@ -17,21 +18,21 @@
   "inlayHints.VariableTypes.enabled": false,
   "java.home":"/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home",
   "languageserver": {
-    "ccls": {
-      "command": "ccls",
-      "filetypes": [ "c", "cpp", "hpp", "h"],
-      "rootPatterns": [ ".ccls", "compile_commands.json", ".git/", "main.cpp", ".vimspector.json" ],
-      "workspaceFolders": [
-        "/tmp/ccls", 
-        "/Users/yielding/snippets"
-      ],
-      "initializationOptions": {
-        "cache":     { "directory": "/tmp/ccls" },
-        "client":    { "snippetSupport": true },
-        "index":     { "onChange": true },
-        "highlight": { "lsRanges": true }
-      }
-    },
+    //"ccls": {
+    //  "command": "ccls",
+    //  "filetypes": [ "c", "cpp", "hpp", "h"],
+    //  "rootPatterns": [ ".ccls", "compile_commands.json", ".git/", "main.cpp", ".vimspector.json" ],
+    //  "workspaceFolders": [
+    //    "/tmp/ccls", 
+    //    "/Users/yielding/snippets"
+    //  ],
+    //  "initializationOptions": {
+    //    "cache":     { "directory": "/tmp/ccls" },
+    //    "client":    { "snippetSupport": true },
+    //    "index":     { "onChange": true },
+    //    "highlight": { "lsRanges": true }
+    //  }
+    //},
     "rust": {
       "command": "rust-analyzer",
       "filetypes": ["rust"],

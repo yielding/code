@@ -1,6 +1,7 @@
 alias v='/opt/homebrew/bin/nvim'
 alias vi='/opt/homebrew/bin/nvim'
 
+# alias nnn='nnn -acde'
 alias nnn='nnn -acde'
 alias l='ls -al'
 alias ll='ls -al'
