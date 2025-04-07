@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.40.0)
+cmake_minimum_required(VERSION 3.30.0)
 
 project (sendfile)
 
 set (CMAKE_CXX_STANDARD 26)
-set (CMAKE_CXX_COMPILER /opt/homebrew/opt/llvm/bin/clang++)
+set (CMAKE_CXX_COMPILER clang++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_definitions(-DPOSIX)
