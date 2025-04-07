@@ -189,9 +189,9 @@ source $HOME/.config/nvim/vim-plug/plugins.vim
 "color zaibatsu
 "color darkbone
 "color wintersday
-color Tomorrow-Night-Blue
-"color duskfox
+"color Tomorrow-Night-Blue
 color nordfox
+color duskfox
 
 "--------------------------------------------------------------------------------
 " spell
@@ -572,6 +572,8 @@ let g:rust_recommended_style = 0
 "--------------------------------------------------------------------------------
 " run
 "--------------------------------------------------------------------------------
+au VimEnter * CocCommand explorer --position left --width 30
+
 au BufEnter * :syntax sync fromstart
 au BufNewFile,BufReadPost *.rb set foldmethod=expr
 au BufNewFile,BufReadPost *.py set ts=2 sts=2 sw=2 tw=0
