@@ -21,7 +21,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'sheerun/vim-polyglot'
 
 "copliot
-"Plug 'github/copilot.vim'
+Plug 'github/copilot.vim'
 
 Plug 'stevearc/quicker.nvim'
 Plug 'EdenEast/nightfox.nvim' " Vim-Plug

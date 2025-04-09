@@ -11,7 +11,7 @@ SRC="~/code/dot.files"
 `cp #{SRC}/dot.zshrc ~/.zshrc`
 `cp #{SRC}/dot.init.vim ~/.config/nvim/init.vim`
 `cp #{SRC}/vim-plug/plugins.vim ~/.config/nvim/vim-plug/plugins.vim`
-`cp #{SRC}/coc-settings.json ~/.config/nvim/coc-settings.vim`
+`cp #{SRC}/coc-settings.json ~/.config/nvim/coc-settings.json`
 `cp -r #{SRC}/vim-colors ~/.config/nvim/colors`
 `cp #{SRC}/dot.ghci ~/.ghci`
 `cp #{SRC}/dot.gitconfig ~/.gitconfig`

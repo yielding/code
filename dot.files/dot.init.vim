@@ -190,8 +190,8 @@ source $HOME/.config/nvim/vim-plug/plugins.vim
 "color darkbone
 "color wintersday
 "color Tomorrow-Night-Blue
-color nordfox
 color duskfox
+color nordfox
 
 "--------------------------------------------------------------------------------
 " spell
@@ -572,7 +572,7 @@ let g:rust_recommended_style = 0
 "--------------------------------------------------------------------------------
 " run
 "--------------------------------------------------------------------------------
-au VimEnter * CocCommand explorer --position left --width 30
+"au VimEnter * CocCommand explorer --position left --width 30
 
 au BufEnter * :syntax sync fromstart
 au BufNewFile,BufReadPost *.rb set foldmethod=expr
