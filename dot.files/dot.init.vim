@@ -520,7 +520,33 @@ let loaded_matchparan=0
 augroup vim-cmake-group
 "autocmd! User CMakeBuildSucceeded CMakeOpen
 "autocmd! User CMakeBuildSucceeded CMakeClose
+
+autocmd User CMakeBuildSucceeded call s:CloseQuickfix()
+autocmd User CMakeBuildFailed call s:ShowQuickfixRight()
 augroup END
+
+function! s:CloseQuickfix()
+  " 열려 있는 quickfix 창이 있다면 닫기
+  if len(filter(range(1, winnr('$')), 'getwinvar(v:val, "&buftype") ==# "quickfix"')) > 0
+    cclose
+  endif
+endfunction
+
+function! s:ShowQuickfixRight()
+  " 오른쪽에 빈 창 열기
+  rightbelow vsplit
+  let winid = win_getid()
+
+  " 오른쪽 창으로 이동해서 quickfix 열기
+  wincmd l
+  copen
+
+  " quickfix 창 외에 불필요한 빈 창이 생겼다면 닫기
+  if win_getid() != winid
+    call win_gotoid(winid)
+    close
+  endif
+endfunction
 
 function! GetGenOption(compiler)
   let path = system('which '. a:compiler)[:-2]
