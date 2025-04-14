@@ -2,7 +2,7 @@
 순서
 ====
 
-1. create person.h person.cpp (object name should be capitalized
+1. create person.h person.cpp (object name should be capitalized)
 2. create person.i
 3. create extconf.rb (require "mkmf"; create_makefile "RubyPerson")
 
