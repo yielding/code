@@ -117,7 +117,6 @@ void histogram(RNG base, int samples, double from, double to, const string & nam
        << "\n"        << endl;
 }
 
-
 template<class PRNG, class Dist>
 inline boost::variate_generator<PRNG&, Dist> 
 make_gen(PRNG & rng, Dist d)
@@ -153,5 +152,6 @@ void histograms()
 int main(int argc, char* argv[])
 {
   histograms<boost::mt19937>();
+
   return 0;
 }

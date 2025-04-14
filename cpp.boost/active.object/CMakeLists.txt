@@ -1,16 +1,16 @@
-cmake_minimum_required (VERSION 3.28)
+cmake_minimum_required (VERSION 3.30.0)
 
 project (active.object)
 
-set (CMAKE_CXX_STANDARD 23)
-set (CMAKE_CXX_COMPILER g++-14)
+set (CMAKE_CXX_STANDARD 26)
+set (CMAKE_CXX_COMPILER clang++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
   active.object.cpp
 )
 
-find_package(Boost 1.81 REQUIRED thread)
+find_package(Boost 1.88 REQUIRED thread)
 
 include_directories (
   /opt/homebrew/include
