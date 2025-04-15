@@ -39,10 +39,10 @@ def mandelbrot(x, y)
   end
 end
 
-time = Time.now
+time = Time.local
 
 drawIt
 
 puts
 
-puts "Crystal Elapsed #{(Time.now - time)}"
+puts "Crystal Elapsed #{(Time.local - time)}"
