@@ -1,10 +1,10 @@
-cmake_minimum_required (VERSION 3.28)
+cmake_minimum_required (VERSION 3.30.0)
 
 project (calc)
 
-set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_STANDARD 26)
+set (CMAKE_CXX_COMPILER clang++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set (CMAKE_CXX_COMPILER g++-14)
 
 set (SOURCES
   ./main.cpp
