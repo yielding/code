@@ -151,7 +151,12 @@
     }
   },
   "snippets.ultisnips.pythonPrompt": false,
-  //"clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/16.0.2/clangd_16.0.2/bin/clangd",
-  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/18.1.3/clangd_18.1.3/bin/clangd",
+  //"clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/18.1.3/clangd_18.1.3/bin/clangd",
+  "clangd.path": "/opt/homebrew/Cellar/llvm/20.1.2/bin/clangd",
+  "clangd.arguments": [
+    "--compile-commands-dir=./",
+    "--header-insertion=never",
+    "--query-driver=/opt/homebrew/Cellar/llvm/20.1.2/bin/clang++"
+  ],
   "git.enableGutters": false
 }

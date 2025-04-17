@@ -3,6 +3,8 @@
 " --------------------------------------------------------------------------------
 set lsp=4
 
+set modeline
+
 set ru
 
 set autoread
@@ -66,8 +68,6 @@ set ve=block
 
 set et
 
-set ts=4 sts=4 sw=4 tw=0
-set ts=8 sts=8 sw=8 tw=0
 set ts=2 sts=2 sw=2 tw=0
 
 set smarttab
