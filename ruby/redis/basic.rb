@@ -4,14 +4,14 @@ require 'redis'
 
 r = Redis.new
 
-r.del('foo')
+begin
+  r.del('foo')
 
-puts
+  puts
 
-p'set foo to "bar"'
-r['foo'] = 'bar'
-
-puts
-
-p 'value of foo'
-p r['foo']
+  p 'set foo to "bar"'
+  r.set("foo", "bar")
+  p r.get("foo")
+rescue => e
+  puts "error: #{e.message}"
+end

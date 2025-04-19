@@ -12,7 +12,7 @@ Finally force the example to exit sending the 'exit' message with:
 
 EOS
 
-redis = Redis.connect
+redis = Redis.new
 
 trap(:INT) { puts; exit }
 
