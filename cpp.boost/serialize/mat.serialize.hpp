@@ -80,7 +80,7 @@ namespace cv {
       if (!img.empty())
       {
         io::filtering_streambuf<io::output> out;
-        out.push(io::zlib_compressor(io::zlib::best_speed));
+        // out.push(io::zlib_compressor(io::zlib::best_speed));
         out.push(result);
 
         boost::archive::binary_oarchive oa(out);
@@ -99,7 +99,7 @@ namespace cv {
         auto mode = ios_base::in | ios_base::out | ios_base::binary;
         std::stringstream iss(compressed, mode);
         io::filtering_streambuf<io::input> in;
-        in.push(io::zlib_decompressor());
+        // in.push(io::zlib_decompressor());
         in.push(iss);
 
         boost::archive::binary_iarchive ia(in);
