@@ -13,8 +13,6 @@ set sr
 
 set nu
 
-set nocp
-
 set noeol
 
 set laststatus=2

@@ -8,6 +8,7 @@ project (${2:ProjectName})
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_CXX_COMPILER clang++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (HOME $ENV{HOME})
 
 set (SOURCES
 	$2.cpp
@@ -24,6 +25,7 @@ include_directories (
 )
 
 link_directories (
+	${HOME}/.local/lib
 	/usr/local/lib
 	/opt/homebrew/lib
 )
@@ -86,6 +88,7 @@ project (${2:ProjectName})
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_CXX_COMPILER g++-14)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (HOME $ENV{HOME})
 
 set (SOURCES
 	$2.cpp
@@ -93,6 +96,7 @@ set (SOURCES
 )
 
 include_directories (
+	${HOME}/.local/lib
 	/usr/local/include
 	/opt/homebrew/include
 	${CMAKE_CURRENT_SOURCE_DIR}
