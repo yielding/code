@@ -1,10 +1,10 @@
-cmake_minimum_required (VERSION 3.28)
+cmake_minimum_required (VERSION 3.30.0)
 
 project (cpp.stdio)
 
-set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_COMPILER clang++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set (CMAKE_CXX_COMPILER "g++")
 
 set (SOURCES
   cpp.stdio.cpp
@@ -30,3 +30,5 @@ add_executable (cpp.stdio
 target_link_libraries(cpp.stdio
   ${OpenCV_LIBS}
 )
+
+
