@@ -11,15 +11,19 @@ extern "C" {
 #include <opencv2/highgui.hpp>
 
 #include <vector>
+#include <cstdlib>
+#include <format>
 
 using namespace std;
 using namespace cv;
 
 auto main() -> int
 {
-  string m_path = "/Users/yielding/Desktop/IMG_4164.mov";
+  auto home = getenv("HOME");
+  auto file = "IMG_4164.mov";
+  auto path = std::format("{}/Desktop/{}", home, file);
   AVFormatContext* in_fmt_ctx = nullptr;
-  if (avformat_open_input(&in_fmt_ctx, m_path.c_str(), nullptr, nullptr) < 0)
+  if (avformat_open_input(&in_fmt_ctx, path.c_str(), nullptr, nullptr) < 0)
     return -1;
 
   if (avformat_find_stream_info(in_fmt_ctx, nullptr) < 0)
