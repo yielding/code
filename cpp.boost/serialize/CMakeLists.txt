@@ -1,31 +1,33 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.30.0)
 
-PROJECT (mat.serialize)
+project (mat.serialize)
 
-SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_COMPILER clang++)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (SOURCES
+set (SOURCES
   driver.cpp
 )
 
-FIND_PACKAGE (OpenCV REQUIRED)
-FIND_PACKAGE (Boost 1.72 REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(Boost 1.88 REQUIRED)
 
-INCLUDE_DIRECTORIES (
+include_directories (
   /usr/local/include
-  ${Boost_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES(
+link_directories (
   /usr/local/lib
-  ${Boost_LIBRARY_DIR}
+  /opt/homebrew/lib
 )
 
-ADD_EXECUTABLE (mat.serialize ${SOURCES})
+add_executable (mat.serialize
+  ${SOURCES}
+)
 
-TARGET_LINK_LIBRARIES (mat.serialize
+target_link_libraries (mat.serialize
   ${OpenCV_LIBS}
   boost_serialization
   boost_iostreams
