@@ -11,8 +11,9 @@ set (SOURCES
 )
 
 find_package(OpenCV REQUIRED)
+
 include_directories (
-  /home/yielding/develop/include
+  ${HOME}/develop/include
   /opt/homebrew/include
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
