@@ -13,7 +13,7 @@ using namespace cv;
 
 int main(int argc, char* argv[])
 {
-  auto img  = imread("/Users/yielding/Desktop/IMG_0447.jpeg");
+  auto img  = imread("/Users/yielding/Desktop/1.jpeg");
   auto path = string("/Users/yielding/Desktop/matrices.bin");
   auto compressed = MatSerializer::serialize(img);
 
