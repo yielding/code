@@ -1,0 +1,31 @@
+cmake_minimum_required (VERSION 3.30.0)
+
+project (driver)
+
+set (CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_COMPILER clang++)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set (SOURCES
+  driver.cpp
+)
+
+find_package(OpenCV REQUIRED)
+include_directories (
+  /home/yielding/develop/include
+  /opt/homebrew/include
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+link_directories (
+  /usr/local/lib
+  /opt/homebrew/lib
+)
+
+add_executable (driver
+  ${SOURCES}
+)
+
+target_link_libraries (driver
+  ${OpenCV_LIBS}
+)
