@@ -26,7 +26,7 @@ auto open_input_file(const char* filename)
     return fail;
 
   // select the video stream
-  const AVCodec* dec;
+  const AVCodec* dec{nullptr};
   auto r = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &dec, 0);
   if (r < 0) 
     return fail;
