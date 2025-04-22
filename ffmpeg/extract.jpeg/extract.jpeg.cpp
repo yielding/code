@@ -48,60 +48,48 @@ auto open_input_file(const char* filename)
   return make_tuple(video_stream_index, fmt_ctx, decoder_ctx);
 }
 
-auto resize_frame(AVFrame* src_frame, AVCodecContext* src_codec_ctx, 
+auto resize_frame(AVFrame* src_frame, AVCodecContext* src_ctx, 
               int dst_width, int dst_height, AVPixelFormat dst_pixfmt) -> AVFrame* 
 {
-  auto const src_width  = src_codec_ctx->width;
-  auto const src_height = src_codec_ctx->height;
-  auto       src_pixfmt = src_codec_ctx->pix_fmt;
-
-  auto const sws_flags = /*SWS_BILINEAR*/SWS_BICUBIC;
-
-  auto scaler_ctx = sws_getContext(
-      src_width, src_height, src_pixfmt,
-      dst_width, dst_height, dst_pixfmt,
-      sws_flags, nullptr, nullptr, nullptr);
-
-  if (scaler_ctx == nullptr)
+  auto dst_frame = av_frame_alloc();
+  if (dst_frame == nullptr)
     return nullptr;
 
-  auto dst_frame = av_frame_alloc();
   dst_frame->width  = dst_width;
   dst_frame->height = dst_height;
   dst_frame->format = dst_pixfmt;
 
-  auto dst_buffer_size = av_image_get_buffer_size(dst_pixfmt, dst_width, dst_height, 1);
-  auto dst_buffer = (uint8_t*)av_malloc(dst_buffer_size);
-  if (dst_buffer != nullptr)
+  if (av_frame_get_buffer(dst_frame, 0) < 0)
   {
-    av_image_fill_arrays(dst_frame->data, dst_frame->linesize, dst_buffer,
-        dst_pixfmt, dst_width, dst_height, 1);
-
-    sws_scale(scaler_ctx, src_frame->data, src_frame->linesize,
-        0, src_height,
-        dst_frame->data,
-        dst_frame->linesize);
+    av_frame_free(&dst_frame);
+    return nullptr;
   }
 
-  // NOTICE!! - Don't free
-  // av_free(dst_buffer);
+  auto scaler_ctx = sws_getContext(
+      src_ctx->width, src_ctx->height, src_ctx->pix_fmt,
+      dst_width, dst_height, dst_pixfmt,
+      SWS_BICUBIC, nullptr, nullptr, nullptr);
+
+  if (scaler_ctx == nullptr)
+  {
+    av_frame_free(&dst_frame);
+    return nullptr;
+  }
+
   sws_freeContext(scaler_ctx);
 
   return dst_frame;
 }
 
-int save_frame_as_jpeg(AVCodecContext* codec_ctx, AVFrame* frame, int frame_no, 
-    int new_width, int new_height)
+int save_frame_as_jpeg(AVCodecContext* codec_ctx, AVFrame* frame, int frame_no, int new_width, int new_height)
 {
   auto jpeg_codec = avcodec_find_encoder(AV_CODEC_ID_MJPEG);
-  if (!jpeg_codec)
-    return -1;
+  if (!jpeg_codec) return -1;
 
   auto jpeg_ctx = avcodec_alloc_context3(jpeg_codec);
-  if (!jpeg_ctx)
-    return -1;
+  if (!jpeg_ctx) return -1;
 
-  auto g0 = make_scope_guard([jpeg_ctx] { avcodec_close(jpeg_ctx); });
+  auto g0 = make_scope_guard([&] { avcodec_free_context(&jpeg_ctx); });
 
   jpeg_ctx->pix_fmt   = codec_ctx->pix_fmt;
   jpeg_ctx->width     = new_width;
@@ -113,19 +101,22 @@ int save_frame_as_jpeg(AVCodecContext* codec_ctx, AVFrame* frame, int frame_no,
     return -1;
 
   auto dst_frame = resize_frame(frame, codec_ctx, new_width, new_height, codec_ctx->pix_fmt);
-  if (dst_frame == nullptr)
-    return -1;
+  if (dst_frame == nullptr) return -1;
+
+  auto g1 = make_scope_guard([&] { av_frame_free(&dst_frame); });
 
   if (avcodec_send_frame(jpeg_ctx, dst_frame) < 0)
     return -1;
 
   auto packet = av_packet_alloc();
-  auto g1 = make_scope_guard([packet] { av_packet_unref(packet); });
+  if (packet == nullptr) return -1;
+
+  auto g2 = make_scope_guard([&] { av_packet_free(&packet); });
 
   if (avcodec_receive_packet(jpeg_ctx, packet) < 0)
     return -1;
 
-  ofstream ofs(to_string(frame_no) + ".jpg");
+  auto ofs = ofstream(to_string(frame_no) + ".jpg", ios::binary);
   if (ofs.good())
     ofs.write((char*)packet->data, packet->size);
 
@@ -134,11 +125,7 @@ int save_frame_as_jpeg(AVCodecContext* codec_ctx, AVFrame* frame, int frame_no,
 
 int main(int argc, char** argv)
 {
-  if (argc != 2) 
-  {
-    fprintf(stderr, "Usage: %s file\n", argv[0]); 
-    exit(1);
-  }
+  if (argc != 2) { fprintf(stderr, "Usage: %s file\n", argv[0]); exit(1); }
 
   auto frame = av_frame_alloc(); 
   auto packet = av_packet_alloc();
@@ -146,8 +133,8 @@ int main(int argc, char** argv)
   if (frame == nullptr || packet == nullptr) 
     return 0;
 
-  auto g1 = make_scope_guard([frame]  { av_frame_free((AVFrame **)&frame); });
-  auto g2 = make_scope_guard([packet] { av_packet_free((AVPacket **)&packet); });
+  auto g1 = make_scope_guard([&frame]  { av_frame_free((AVFrame **)&frame); });
+  auto g2 = make_scope_guard([&packet] { av_packet_free((AVPacket **)&packet); });
 
   auto [video_stream_index, fmt_ctx, dec_ctx]
     = open_input_file(argv[1]);
@@ -155,14 +142,18 @@ int main(int argc, char** argv)
   if (video_stream_index == -1)
     return 0;
 
-  auto g3 = make_scope_guard([dec_ctx] { avcodec_free_context((AVCodecContext**)&dec_ctx); });
-  auto g4 = make_scope_guard([fmt_ctx] { avformat_close_input((AVFormatContext**)&fmt_ctx); });
+  auto g3 = make_scope_guard([&dec_ctx] { avcodec_free_context((AVCodecContext**)&dec_ctx); });
+  auto g4 = make_scope_guard([&fmt_ctx] { avformat_close_input((AVFormatContext**)&fmt_ctx); });
 
   int ret;
   while (true)
   {
     if ((ret = av_read_frame(fmt_ctx, packet)) < 0) break;
-    if (packet->stream_index != video_stream_index) continue;
+    if (packet->stream_index != video_stream_index) 
+    {
+      av_packet_unref(packet);
+      continue;
+    }
 
     ret = avcodec_send_packet(dec_ctx, packet);
     if (ret < 0) 
