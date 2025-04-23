@@ -15,23 +15,23 @@ VideoScaler::VideoScaler(int srcW, int srcH, AVPixelFormat srcFmt, int dstW, int
 
 VideoScaler::~VideoScaler() = default;
 
-AVFrame* VideoScaler::scale_frame(AVFrame* src) 
+auto VideoScaler::scale_frame(AVFrame* src) -> AVFrame* 
 {
-    AVFrame* dst = av_frame_alloc();
-    if (!dst) throw std::runtime_error("Failed to allocate frame");
+  AVFrame* dst = av_frame_alloc();
+  if (!dst) throw std::runtime_error("Failed to allocate frame");
 
-    dst->format = _dstFmt;
-    dst->width = _dstW;
-    dst->height = _dstH;
+  dst->format = _dstFmt;
+  dst->width = _dstW;
+  dst->height = _dstH;
 
-    if (av_frame_get_buffer(dst, 32) < 0) 
-    {
-      av_frame_free(&dst);
-      throw std::runtime_error("Failed to allocate frame buffer");
-    }
+  if (av_frame_get_buffer(dst, 32) < 0) 
+  {
+    av_frame_free(&dst);
+    throw std::runtime_error("Failed to allocate frame buffer");
+  }
 
-    _scaler.scale(src, dst);
-    return dst;
+  _scaler.scale(src, dst);
+  return dst;
 }
 
 bool VideoScaler::scale_to_file(AVFrame* src, const std::string& filename) 
@@ -93,17 +93,20 @@ auto VideoScaler::scale_to_vector(AVFrame* src) -> std::vector<uint8_t>
   std::vector<uint8_t> output;
 
   auto jpeg_codec = avcodec_find_encoder(AV_CODEC_ID_MJPEG);
-  if (!jpeg_codec) return output;
+  if (!jpeg_codec) 
+    return output;
 
   auto jpeg_ctx = avcodec_alloc_context3(jpeg_codec);
-  if (!jpeg_ctx) return output;
+  if (!jpeg_ctx) 
+    return output;
 
   jpeg_ctx->pix_fmt = _dstFmt;
-  jpeg_ctx->width = _dstW;
-  jpeg_ctx->height = _dstH;
+  jpeg_ctx->width   = _dstW;
+  jpeg_ctx->height  = _dstH;
   jpeg_ctx->time_base = AVRational{1, 25};
 
-  if (avcodec_open2(jpeg_ctx, jpeg_codec, nullptr) < 0) {
+  if (avcodec_open2(jpeg_ctx, jpeg_codec, nullptr) < 0)
+  {
     avcodec_free_context(&jpeg_ctx);
     return output;
   }

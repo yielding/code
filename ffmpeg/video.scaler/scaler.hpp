@@ -12,6 +12,5 @@ public:
   auto get() const { return _ctx; }
 
 private:
-  // struct impl; impl* _impl;
   SwsContext* _ctx;
 };
