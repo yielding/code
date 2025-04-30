@@ -16,17 +16,28 @@ extern "C" {
 
 ////////////////////////////////////////////////////////////////////////////////
 ///
-/// Internal include for ffmpeg
+/// Internal includes for ffmpeg
 ///
 ////////////////////////////////////////////////////////////////////////////////
+namespace av {
+
+  enum class DecodeResult : int
+  {
+    FrameAvailable, // 프레임 디코딩 성공
+    NeedMoreData,   // EAGAIN
+    EndOfStream     // EOF
+  };
+
+}
+
 namespace av::detail {
 
-  inline auto ffmpeg_error_string(int err_no) -> std::string 
+  inline auto ffmpeg_error_string(const int err_no) -> std::string
   {
-    char buffer[AV_ERROR_MAX_STRING_SIZE] = {0};
+    char buffer[AV_ERROR_MAX_STRING_SIZE] = {};
     av_strerror(err_no, buffer, sizeof(buffer));
 
-    return std::string(buffer);
+    return {buffer};
   }
 }
 

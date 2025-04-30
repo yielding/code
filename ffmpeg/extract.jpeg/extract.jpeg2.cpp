@@ -17,7 +17,7 @@ auto AVFormatContextDeleter = [](AVFormatContext* p) { avformat_close_input(&p);
 auto AVCodecContextDeleter = [](AVCodecContext* p) { avcodec_free_context(&p); };
 auto AVFrameDeleter = [](AVFrame* p) { av_frame_free(&p); };
 auto AVPacketDeleter = [](AVPacket* p) { av_packet_free(&p); };
-auto SwsDeleter = [](SwsContext* p) { sws_freeContext(p); }
+auto SwsDeleter = [](SwsContext* p) { sws_freeContext(p); };
 
 using AVFormatContextPtr = unique_ptr<AVFormatContext, decltype(AVFormatContextDeleter)>;
 using AVCodecContextPtr = unique_ptr<AVCodecContext, decltype(AVCodecContextDeleter)>;
@@ -122,13 +122,16 @@ auto open_input_file(const char* filename) -> tuple<int, AVFormatContextPtr, AVC
 // ----- Main -----
 int main(int argc, char** argv) 
 {
+  /*
   if (argc != 2) 
   {
     cerr << "Usage: " << argv[0] << " input_file" << endl;
     return 1;
   }
+  */
 
-  auto [video_stream_index, fmt_ctx, dec_ctx] = open_input_file(argv[1]);
+  auto file = "/Users/yielding/Desktop/IMG_0888.MOV";
+  auto [video_stream_index, fmt_ctx, dec_ctx] = open_input_file(file);
   if (video_stream_index < 0) 
     return 1;
 

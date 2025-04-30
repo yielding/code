@@ -51,7 +51,7 @@ namespace av {
     void reset() noexcept 
     {
       if (_resource)
-        UnrefFunc(&_resource);
+        UnrefFunc(_resource.get());
     }
   
     T* get() const noexcept { return _resource.get(); }

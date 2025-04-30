@@ -8,6 +8,7 @@ extern "C" {
 #include <iostream>
 #include <tuple>
 #include <format>
+#include <print>
 #include <scope_guard.hpp>
 
 using namespace std;
@@ -17,17 +18,16 @@ void print_context_info(AVFormatContext* fmtCtx)
 {
   avformat_find_stream_info(fmtCtx, nullptr);
 
-  cout << format("no.stream={}\n", fmtCtx->nb_streams);
-  cout << format("duration={}\n", fmtCtx->duration / AV_TIME_BASE);
-  cout << format("bitrate={}\n", fmtCtx->bit_rate);
+  println("no.stream={}", fmtCtx->nb_streams);
+  println("duration={}", fmtCtx->duration / AV_TIME_BASE);
+  println("bitrate={}", fmtCtx->bit_rate);
 }
 
 void print_all_stream_info(AVFormatContext* ctx, char const* path)
 {
-  auto r = avformat_find_stream_info(ctx, nullptr);
-  if (r != 0)
+  if (avformat_find_stream_info(ctx, nullptr) < 0)
   {
-    cout << "error in print_stream_info" << endl;
+    println("error in avformat_find_stream_info");
     return;
   }
 
@@ -35,11 +35,11 @@ void print_all_stream_info(AVFormatContext* ctx, char const* path)
   {
     auto tp = ctx->streams[i]->codecpar->codec_type;
     if (tp == AVMEDIA_TYPE_AUDIO)
-      cout << format("{}th = audio\n", i);
+      println("{}th = audio", i);
     else if (tp == AVMEDIA_TYPE_VIDEO)
-      cout << format("{}th = video\n", i);
+      println("{}th = video", i);
     else if (tp == AVMEDIA_TYPE_SUBTITLE)
-      cout << format("{}th = subtitle\n", i);
+      println("{}th = subtitle", i);
 
     av_dump_format(ctx, i, path, 0);
   }
@@ -47,21 +47,21 @@ void print_all_stream_info(AVFormatContext* ctx, char const* path)
 
 void print_one_stream_info(AVStream* s)
 {
-  cout << format("#frames: {}\n", s->nb_frames);
-  cout << format("frame rate: {}\n", s->avg_frame_rate.num / s->avg_frame_rate.den);
-  cout << format("time base:{}\n", s->time_base.num / s->time_base.den);
-  cout << format("width : {}\n", s->codecpar->width);
-  cout << format("height: {}\n", s->codecpar->height);
-  cout << format("color format: {}\n", s->codecpar->format);
-  cout << format("codec: {}\n", (int)s->codecpar->codec_id);
+  println("#frames: {}", s->nb_frames);
+  println("frame rate: {}", s->avg_frame_rate.num / s->avg_frame_rate.den);
+  println("time base: {}", s->time_base.num / s->time_base.den);
+  println("width : {}", s->codecpar->width);
+  println("height: {}", s->codecpar->height);
+  println("color format: {}", s->codecpar->format);
+  println("codec: {}", (int)s->codecpar->codec_id);
 }
 
 void print_codec_info(AVCodec const* codec)
 {
-  cout << format("id: {}\n", (int)codec->id);
-  cout << format("name: {}\n", codec->name);
-  cout << format("long name: {}\n", codec->long_name);
-  cout << format("capa: {}\n", (int)codec->capabilities);
+  println("id: {}", (int)codec->id);
+  println("name: {}", codec->name);
+  println("long name: {}", codec->long_name);
+  println("capa: {}", (int)codec->capabilities);
 }
 
 int main(int argc, char** argv)

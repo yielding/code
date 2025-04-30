@@ -15,13 +15,13 @@ namespace av {
   class FrameQueue 
   {
   public:
-    FrameQueue(size_t capacity=30)
+    explicit FrameQueue(const size_t capacity=30)
       : _capacity(capacity) {}
 
     void push(unique_ptr<AVFrame> frame) 
     {
-      unique_lock<mutex> lock(_mutex);
-      _cond_producer.wait(lock, [this]() { return _queue.size() < _capacity; });
+      unique_lock lock(_mutex);
+      _cond_producer.wait(lock, [this] { return _queue.size() < _capacity; });
 
       _queue.push(std::move(frame));
       _cond_consumer.notify_one();
@@ -29,8 +29,8 @@ namespace av {
 
     auto pop() -> unique_ptr<AVFrame> 
     {
-      unique_lock<mutex> lock(_mutex);
-      _cond_consumer.wait(lock, [this]() { return !_queue.empty(); });
+      unique_lock lock(_mutex);
+      _cond_consumer.wait(lock, [this] { return !_queue.empty(); });
 
       auto frame = std::move(_queue.front());
       _queue.pop();
@@ -41,7 +41,7 @@ namespace av {
 
     auto empty() const -> bool
     {
-      lock_guard<mutex> lock(_mutex);
+      lock_guard lock(_mutex);
       return _queue.empty();
     }
 
