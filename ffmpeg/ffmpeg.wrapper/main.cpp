@@ -6,12 +6,9 @@ using namespace std;
 
 int main(const int argc, char** argv)
 {
-  if (argc != 2)
-  {
-    println("usage: main [filename]"); return 1;
-  }
+  if (argc != 2) { println("usage: main [filename]"); return 1; }
 
-  const auto filename = argv[1];
+  const auto filename = string(argv[1]);
   av::UniqueFormatContext container;
   if (auto res = container.open_input(filename); !res)
   {
@@ -25,13 +22,14 @@ int main(const int argc, char** argv)
   println(" - id: {}", (int)container.video_codec_id());
 
   av::VideoDecoder decoder;
-  if (auto res = decoder.open_with(container.format_context(), container.video_index()); !res)
-  {
+  if (auto res = decoder.open_with(container.format_context(), container.video_index()); !res) {
     println("failed to construct decoder: {}", res.error());
     return 1;
   }
 
-  decoder.decode_loop([](auto frame) { println("Decoded frame: pts = {}", frame->pts); });
+  decoder.decode_loop([](auto frame) { 
+    println("Decoded frame: pts = {}", frame->pts); 
+  });
 
   //av::AsyncVideoDecoder decoder(codec);
   // av::VideoDecoder decoder(codec);
