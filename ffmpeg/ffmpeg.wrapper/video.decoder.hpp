@@ -7,7 +7,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 ///
-/// 비디오 decoder가 frame pumping을 하기 위해서는 포맷 컨텍스트를 가지고 있어야 한다.
+/// 비디오 decoder가 frame pumping을 하기 위해서는 포맷 컨텍스트를 
+/// 가지고 있어야 한다.
 ///
 ////////////////////////////////////////////////////////////////////////////////
 namespace av {
@@ -17,26 +18,24 @@ namespace av {
   class VideoDecoder 
   {
   public:
-    VideoDecoder()
-      : _stream_index{-1}, _codec_id{AV_CODEC_ID_NONE}, _fmt_ctx(nullptr)
-    {
-    }
+    VideoDecoder(): _stream_index{-1}, _codec_id{AV_CODEC_ID_NONE}, _fmt_ctx(nullptr)
+    {}
 
-    auto open_with(const UniqueFormatContext& container) -> expected<void, string>
+    auto open_with(AVFormatContext* fmt_ctx, int index) -> expected<void, string>
     {
-      if (container.get() == nullptr)
+      if (fmt_ctx == nullptr || index < 0 || index >= fmt_ctx->nb_streams)
         return unexpected("container is not ready"s);
 
-      const AVCodec* codec = nullptr;
-      _fmt_ctx = container.get();
-      const int index = av_find_best_stream(_fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0);
-      if (index < 0)
-        return unexpected("Failed to find a video stream in the input"s);
-
+      _fmt_ctx = fmt_ctx;
       _stream_index = index;
-      _decoder = make_unique<Decoder>(codec, _fmt_ctx->streams[_stream_index]->codecpar);
+
+      const auto p = fmt_ctx->streams[index]->codecpar;
+      const auto codec = avcodec_find_decoder(p->codec_id);
+
+      _decoder = make_unique<Decoder>(codec, p);
       if (!_decoder->ok())
         return unexpected("Failed to create decoder"s);
+
 
       return _decoder->open(codec);
     }
@@ -64,12 +63,7 @@ namespace av {
     [[nodiscard]]
     auto eof() const noexcept { return _decoder->eof(); }
 
-    void handle_decoded_frame(AVFrame* frame)
-    {
-      std::cout << "Decoded frame: pts = " << frame->pts << std::endl;
-    }
-
-    void decode_loop()
+    void decode_loop(const function<void(AVFrame*)>& callback) const
     {
       UniquePacket packet;
       UniqueFrame frame;
@@ -82,9 +76,8 @@ namespace av {
           continue;
         }
 
-        auto res = decode_next(packet, frame);
-        if (res && res.value() == DecodeResult::FrameAvailable)
-          handle_decoded_frame(frame.get());
+        if (auto res = decode_next(packet, frame); res && res.value() == DecodeResult::FrameAvailable)
+          callback(frame.get());
 
         packet.reset();
         frame.reset();
@@ -92,9 +85,8 @@ namespace av {
 
       while (!_decoder->eof())
       {
-        auto res = flush_next(frame.get());
-        if (res && res.value() == DecodeResult::FrameAvailable)
-          handle_decoded_frame(frame.get());
+        if (auto res = flush_next(frame.get()); res && res.value() == DecodeResult::FrameAvailable)
+          callback(frame.get());
 
         frame.reset();
       }

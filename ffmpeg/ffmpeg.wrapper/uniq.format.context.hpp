@@ -69,6 +69,8 @@ namespace av {
       return {};
     }
 
+    auto format_context() const { return _ctx.get(); }
+
     [[nodiscard]] auto video_index() const { return _vindex; }
     [[nodiscard]] auto video_codec_name() const { return _vcodec->long_name; }
     [[nodiscard]] auto video_codec_name_short() const { return _vcodec->name; }

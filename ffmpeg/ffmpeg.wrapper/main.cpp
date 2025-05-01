@@ -1,6 +1,6 @@
-#include <iostream>
+#include <print>
 #include <string>
-#include "async.video.decoder.hpp"
+#include "video.decoder.hpp"
 
 using namespace std;
 
@@ -10,23 +10,23 @@ int main(int argc, char** argv)
   av::UniqueFormatContext container;
   if (auto res = container.open_input(filename); !res)
   {
-    cout << "Input open failed: " << res.error();
+    println("Input open failed: {}", res.error());
     return 1;
   }
 
-  cout << container.video_codec_name() << endl;
-  cout << container.video_codec_name_short() << endl;
-  cout << container.video_codec_id() << endl;
-
-  cout << container.audio_codec_name() << endl;
-  cout << container.audio_codec_name_short() << endl;
-  cout << container.audio_codec_id() << endl;
+  println("video codec info");
+  println(" - name: {}", container.video_codec_name());
+  println(" - short name: {}", container.video_codec_name_short());
+  println(" - id: {}", (int)container.video_codec_id());
 
   av::VideoDecoder decoder;
-  // decoder.open_with(container.format_context(), container.video_index());
-  // decoder.decode_loop();
+  if (auto res = decoder.open_with(container.format_context(), container.video_index()); !res)
+  {
+    println("failed to construct decoder: {}", res.error());
+    return 1;
+  }
 
-
+  decoder.decode_loop([](auto frame) { println("Decoded frame: pts = {}", frame->pts); });
 
   //av::AsyncVideoDecoder decoder(codec);
   // av::VideoDecoder decoder(codec);
