@@ -4,9 +4,14 @@
 
 using namespace std;
 
-int main(int argc, char** argv)
+int main(const int argc, char** argv)
 {
-  const auto filename = "/Users/yielding/Desktop/IMG_0888.MOV"s;
+  if (argc != 2)
+  {
+    println("usage: main [filename]"); return 1;
+  }
+
+  const auto filename = argv[1];
   av::UniqueFormatContext container;
   if (auto res = container.open_input(filename); !res)
   {
