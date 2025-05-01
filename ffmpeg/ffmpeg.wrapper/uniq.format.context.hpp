@@ -52,26 +52,34 @@ namespace av {
       -> expected<void, string>
     {
       AVFormatContext* tmp_ctx = nullptr;
-      if (int ret = avformat_open_input(&tmp_ctx, filename.c_str(), fmt, options); ret < 0)
+      if (const int ret = avformat_open_input(&tmp_ctx, filename.c_str(), fmt, options); ret < 0)
         return unexpected(detail::ffmpeg_error_string(ret));
 
-      _ctx.reset(tmp_ctx);
-      return {};
-    }
-
-    auto reset(AVFormatContext* ctx) -> void
-    {
-      _ctx.reset(ctx);
-    }
-
-    [[nodiscard]]
-    auto find_stream_info() const -> expected<void, string>
-    {
-      if (avformat_find_stream_info(_ctx.get(), nullptr) < 0)
+      if (avformat_find_stream_info(tmp_ctx, nullptr) < 0)
         return unexpected("Failed to find stream info"s);
 
+      _ctx.reset(tmp_ctx);
+      const auto ctx = _ctx.get();
+
+      _vindex = av_find_best_stream(ctx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+      _aindex = av_find_best_stream(ctx, AVMEDIA_TYPE_AUDIO, -1, _vindex, nullptr, 0);
+      _vcodec = get_codec(ctx, _vindex);
+      _acodec = get_codec(ctx, _aindex);
+
       return {};
     }
+
+    [[nodiscard]] auto video_index() const { return _vindex; }
+    [[nodiscard]] auto video_codec_name() const { return _vcodec->long_name; }
+    [[nodiscard]] auto video_codec_name_short() const { return _vcodec->name; }
+    [[nodiscard]] auto video_codec_id() const { return _vcodec->id; }
+
+    [[nodiscard]] auto audio_index() const { return _aindex; }
+    [[nodiscard]] auto audio_codec_name() const { return _acodec->long_name; }
+    [[nodiscard]] auto audio_codec_name_short() const { return _acodec->name; }
+    [[nodiscard]] auto audio_codec_id() const { return _acodec->id; }
+
+    auto reset(AVFormatContext* ctx) { _ctx.reset(ctx); }
 
     [[nodiscard]]
     auto read_packet(const UniquePacket& packet) const -> expected<bool, string>
@@ -90,10 +98,27 @@ namespace av {
 
     [[nodiscard]]
     auto get() const noexcept { return _ctx.get(); }
-    auto release() noexcept { return _ctx.release(); }
+    auto release() noexcept   { return _ctx.release(); }
+
+  private:
+    auto get_codec(AVFormatContext* ctx, const int index) const -> const AVCodec*
+    {
+      const auto p = ctx->streams[index]->codecpar;
+      const auto codec = avcodec_find_decoder(p->codec_id);
+      auto codec_context = avcodec_alloc_context3(codec);
+
+      avcodec_parameters_to_context(codec_context, p);
+      avcodec_open2(codec_context, codec, nullptr);
+      avcodec_free_context(&codec_context);
+
+      return codec;
+    }
 
   private:
     unique_ptr<AVFormatContext, detail::AVFormatContextDeleter> _ctx;
+    int _vindex{-1}, _aindex{-1};
+    const AVCodec *_vcodec{nullptr};
+    const AVCodec *_acodec{nullptr};
   };
 
 }

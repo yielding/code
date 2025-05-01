@@ -38,7 +38,7 @@ void DecoderPipeline::decode_all(const std::function<void(AVFrame*)>& callback)
     }
 
     if (avcodec_send_packet(_dec_ctx, _packet.get()) < 0) 
-        break;
+      break;
 
     auto frame = _frame_pool.acquire();
     while (avcodec_receive_frame(_dec_ctx, frame) >= 0)
