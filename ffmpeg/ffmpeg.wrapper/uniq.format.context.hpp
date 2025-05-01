@@ -87,8 +87,6 @@ namespace av {
     auto read_packet(const UniquePacket& packet) const -> expected<bool, string>
     {
       const int ret = av_read_frame(_ctx.get(), packet.get());
-      // TODO
-      // false도 unexpected로 처리한다.
       if (ret == AVERROR_EOF) 
         return false;
 

@@ -2,6 +2,7 @@
 
 #include "ffmpeg.hpp"
 #include "uniq.format.context.hpp"
+#include "frame.queue.hpp"
 #include "decoder.hpp"
 #include "av.resource.hpp"
 
@@ -18,7 +19,7 @@ namespace av {
   class VideoDecoder 
   {
   public:
-    VideoDecoder(): _stream_index{-1}, _codec_id{AV_CODEC_ID_NONE}, _fmt_ctx(nullptr)
+    VideoDecoder(): _stream_index{-1}, _codec_id{AV_CODEC_ID_NONE}, _fmt_ctx{nullptr}
     {}
 
     auto open_with(AVFormatContext* fmt_ctx, int index) -> expected<void, string>
@@ -29,13 +30,12 @@ namespace av {
       _fmt_ctx = fmt_ctx;
       _stream_index = index;
 
+      // NOTE : codec, codec_param -> codec_context(in Decoder) -> Decoder
       const auto p = fmt_ctx->streams[index]->codecpar;
       const auto codec = avcodec_find_decoder(p->codec_id);
-
       _decoder = make_unique<Decoder>(codec, p);
       if (!_decoder->ok())
         return unexpected("Failed to create decoder"s);
-
 
       return _decoder->open(codec);
     }

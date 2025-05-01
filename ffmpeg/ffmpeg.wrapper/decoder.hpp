@@ -85,10 +85,7 @@ namespace av {
     }
   
     [[nodiscard]]
-    auto eof() const noexcept
-    {
-      return _state == DecoderState::Finished;
-    }
+    auto eof() const noexcept { return _state == DecoderState::Finished; }
   
   private:
     UniqueCodecContext _codec_ctx;
