@@ -103,7 +103,7 @@ namespace av {
     auto release() noexcept   { return _ctx.release(); }
 
   private:
-    auto get_codec(AVFormatContext* ctx, const int index) const -> const AVCodec*
+    static auto get_codec(const AVFormatContext* ctx, const int index) -> const AVCodec*
     {
       const auto p = ctx->streams[index]->codecpar;
       const auto codec = avcodec_find_decoder(p->codec_id);
