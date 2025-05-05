@@ -11,8 +11,8 @@ int main(int agc, char* agv[])
 {
   using v::concat, v::single, v::join;
 
-  auto v1 = vector{ 2,  3,  7};
-  auto v2 = vector{11, 17, 21};
+  auto v1 = { 2,  3,  7};
+  auto v2 = {11, 17, 21};
   cout << concat(v1, v2) << endl;
 
   // single: prefix a range with an element

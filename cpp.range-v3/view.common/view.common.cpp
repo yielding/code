@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
   auto r1 = v | take_while([](int x) { return x > 4; })
               | common;
 
-  println("{}", accumulate(r1.begin(), r1.end(), 0));
+  println("{}", reduce(r1.begin(), r1.end(), 0));
 
   return 0;
 }

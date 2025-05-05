@@ -1,4 +1,4 @@
-#include <iostream>
+#include <print>
 #include <range/v3/all.hpp>
 
 namespace v = ranges::views;
@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
   // enumerate: associate elements with their positions
   for (auto&& [seq, fruit] : fruits | v::enumerate) 
-    cout << seq + 1 << ", " << fruit << endl;
+    println("{}, {}", seq + 1, fruit);
   
   return 0;
 }

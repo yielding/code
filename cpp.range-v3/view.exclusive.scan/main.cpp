@@ -1,4 +1,5 @@
 #include <iostream>
+#include <print>
 #include <vector>
 #include <range/v3/all.hpp>
 
@@ -13,7 +14,8 @@ void basics()
   using v::exclusive_scan;
 
   // REMARK
-  // 1. 주어진 입력에서 원소를 하나씩 증가시키면서 리스트를 만든다. (마지막은 빠진다. inclusive_scan은 포함ㅓ)
+  // 1. 주어진 입력에서 원소를 하나씩 증가시키면서 리스트를 만든다. 
+  //    (마지막은 빠진다. inclusive_scan은 포함)
   //    [init] [init, 4], [init, 4, 3], [init, 4, 3, 5]
   // 
   // 2. 기본 연산은 plus{}
@@ -21,12 +23,12 @@ void basics()
   // 4. 각 리스트의 원소에 연산 적용
   // 5. 결과를 리스트로 만든다. (monad)
 
-  auto const v = vector{4, 3, 5, 6};
+  auto const v = {4, 3, 5, 6};
 
   auto rng = v | exclusive_scan(0); // [0,0+4,0+4+3,0+4+3+5]...[0,4,7,12]
 
-  for (const auto& value : rng)
-    cout << value << " ";
+  for (const auto& value : rng) print("{} ", value); // 0 4 7 12
+  println();
 }
 
 void applied()
@@ -40,35 +42,32 @@ void applied()
   using v::exclusive_scan, v::take_while, v::zip_with, v::reverse, g::to;
 
   auto seconds = 123456;
-  auto times = vector{ 60, 60, 24, 7 };
+  auto times = { 60, 60, 24, 7 };
 
   auto div_pos 
     = times
-    | exclusive_scan(seconds, divides{})
-    | take_while([](int x) { return x > 0; });
+    | exclusive_scan(seconds, divides{});
+    //| take_while([](int x) { return x > 0; });
 
   // cout << v::all(div_pos) << endl; // [123456,2057,34,1]
 
-  auto names = vector{ "s"s, "min"s, "h"s, "d"s };
+  auto names = { "s"s, "min"s, "h"s, "d"s };
   auto mods = zip_with(
       [](int a, int b) { return a % b; },  // 여기서 % 연산이 빛난다.
       div_pos, times);
 
   // cout << v::all(mods) << endl; // [36,17,10,1]
-
   auto pairs 
     = zip_with([](int a, auto& s) { return to_string(a) + s; }, mods, names)
     | to<strings>;
 
-  // cout << v::all(pairs) << endl; // [36s,17min,10h,1d]
-
-  cout << v::all(pairs | reverse);
+  println("{}", v::all(pairs | reverse)); // [36s,17min,10h,1d]
 }
 
 int main(int argc, char* argv[])
 {
   basics();
-  // applied();
+  applied();
 
   return 0;
 }

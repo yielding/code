@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cmake -S . -B Release -DCMAKE_BUILD_TYPE=Release
+cmake --build Release

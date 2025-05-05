@@ -75,9 +75,13 @@ set cindent
 set cino=t0,g0
 
 set fillchars+=vert:┃
-set fillchars+=vert:\ 
+set fillchars+=vert:┃   " 굵은 세로줄
+set fillchars+=vert:¦   " broken vertical bar
+set fillchars+=vert:║   " double line
 
 set splitbelow
+
+highlight VertSplit ctermfg=gray ctermbg=none guifg=#555555 guibg=NONE
 
 "--------------------------------------------------------------------------------
 " globar variables
@@ -166,7 +170,7 @@ let g:OmniSharp_server_use_net6 = 1
 "--------------------------------------------------------------------------------
 " python & ruby
 "--------------------------------------------------------------------------------
-let g:python3_host_prog = "/Users/yielding/miniforge/envs/etri/bin/python3"
+let g:python3_host_prog = "/opt/homebrew/bin/python3"
 let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/neovim-ruby-host"
 let g:loaded_perl_provider = 0
 
@@ -188,8 +192,8 @@ source $HOME/.config/nvim/vim-plug/plugins.vim
 "color darkbone
 "color wintersday
 "color Tomorrow-Night-Blue
-color duskfox
 color nordfox
+color duskfox
 
 "--------------------------------------------------------------------------------
 " spell
@@ -528,6 +532,7 @@ function! s:CloseQuickfix()
   if len(filter(range(1, winnr('$')), 'getwinvar(v:val, "&buftype") ==# "quickfix"')) > 0
     cclose
   endif
+  CMakeClose
 endfunction
 
 function! s:ShowQuickfixRight()

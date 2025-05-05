@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cmake -S . -B Debug -DCMAKE_BUILD_TYPE=Debug
+cmake --build Debug

@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
   };
 
   auto rng = mountains 
-           | filter([](double h) { return h > 6200.0; }, &mountain::height);
+           | filter([](auto h) { return h > 6200.0; }, &mountain::height);
 
   cout << all(rng);
 
