@@ -5,6 +5,7 @@ project (view.istream)
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_CXX_COMPILER clang++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (HOME $ENV{HOME})
 
 set (SOURCES
   view.istream.cpp

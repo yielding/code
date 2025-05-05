@@ -5,6 +5,7 @@ project (algo.sort.filter)
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_CXX_COMPILER clang++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (HOME $ENV{HOME})
 
 set (SOURCES
   algo.sort.filter.cpp
