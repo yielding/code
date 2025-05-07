@@ -31,10 +31,10 @@ namespace av {
 
   using namespace std;
 
-  class UniqueCodecContext 
+  class CodecContext 
   {
   public:
-    explicit UniqueCodecContext(const AVCodec* codec, const AVCodecParameters* codec_params=nullptr)
+    explicit CodecContext(const AVCodec* codec, const AVCodecParameters* codec_params=nullptr)
     {
       const auto tmp_codec_ctx = avcodec_alloc_context3(codec);
       if (!tmp_codec_ctx)
@@ -49,13 +49,13 @@ namespace av {
       _ctx.reset(tmp_codec_ctx);
     }
   
-    ~UniqueCodecContext() = default;
+    ~CodecContext() = default;
   
-    UniqueCodecContext(const UniqueCodecContext&) = delete;
-    UniqueCodecContext& operator=(const UniqueCodecContext&) = delete;
+    CodecContext(const CodecContext&) = delete;
+    CodecContext& operator=(const CodecContext&) = delete;
   
-    UniqueCodecContext(UniqueCodecContext&&) noexcept = default;
-    UniqueCodecContext& operator=(UniqueCodecContext&&) noexcept = default;
+    CodecContext(CodecContext&&) noexcept = default;
+    CodecContext& operator=(CodecContext&&) noexcept = default;
 
     [[nodiscard]]
     auto ok() const noexcept { return _ctx ? true : false; }

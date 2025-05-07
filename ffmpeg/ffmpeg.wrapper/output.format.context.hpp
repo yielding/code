@@ -34,21 +34,20 @@ namespace av {
 
   using namespace std;
 
-  class UniqueOutputFormatContext 
+  class OutputFormatContext 
   {
   public:
-    UniqueOutputFormatContext() = default;
+    OutputFormatContext() = default;
   
-    explicit UniqueOutputFormatContext(AVFormatContext* ctx)
-      : _ctx(ctx) {}
+    explicit OutputFormatContext(AVFormatContext* ctx) : _ctx(ctx) {}
   
-    ~UniqueOutputFormatContext() = default;
+    ~OutputFormatContext() = default;
   
-    UniqueOutputFormatContext(const UniqueOutputFormatContext&) = delete;
-    UniqueOutputFormatContext& operator=(const UniqueOutputFormatContext&) = delete;
+    OutputFormatContext(const OutputFormatContext&) = delete;
+    OutputFormatContext& operator=(const OutputFormatContext&) = delete;
   
-    UniqueOutputFormatContext(UniqueOutputFormatContext&&) noexcept = default;
-    UniqueOutputFormatContext& operator=(UniqueOutputFormatContext&&) noexcept = default;
+    OutputFormatContext(OutputFormatContext&&) noexcept = default;
+    OutputFormatContext& operator=(OutputFormatContext&&) noexcept = default;
   
     // 출력용 Context 생성
     void alloc_output(const string& filename, const AVOutputFormat* fmt = nullptr)

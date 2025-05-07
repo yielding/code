@@ -2,15 +2,31 @@
 
 #include "ffmpeg.hpp"
 
-class Scaler
-{
-public:
-  Scaler(int sw, int sh, AVPixelFormat sFmt, int dw, int dh, AVPixelFormat dFmt, int flags = SWS_BICUBIC);
-  ~Scaler();
+////////////////////////////////////////////////////////////////////////////////
+///
+///
+///
+////////////////////////////////////////////////////////////////////////////////
+namespace av {
 
-  auto scale(AVFrame* src, AVFrame* dst) -> void;
-  auto get() const { return _ctx; }
+  class Scaler
+  {
+  public:
+    Scaler(int sw, int sh, AVPixelFormat sFmt, int dw, int dh, AVPixelFormat dFmt, 
+      int flags = SWS_BICUBIC);
+    ~Scaler();
+  
+    auto scale(AVFrame* src, AVFrame* dst) -> void;
+    auto get() const { return _ctx; }
+  
+  private:
+    SwsContext* _ctx;
+  };
 
-private:
-  SwsContext* _ctx;
-};
+}
+
+////////////////////////////////////////////////////////////////////////////////
+///
+/// 
+///
+////////////////////////////////////////////////////////////////////////////////

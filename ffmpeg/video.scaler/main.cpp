@@ -1,6 +1,8 @@
 #include "video.scaler.hpp"
 #include <iostream>
 
+using namespace av;
+
 int main(int argc, char** argv) 
 {
   if (argc < 2) 

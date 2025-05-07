@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ffmpeg.hpp"
-#include "uniq.codec.context.hpp"
+#include "codec.context.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 ///
@@ -88,11 +88,12 @@ namespace av {
     auto eof() const noexcept { return _state == DecoderState::Finished; }
   
   private:
-    UniqueCodecContext _codec_ctx;
+    CodecContext _codec_ctx;
     DecoderState _state;
   };
 
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 ///
 ///

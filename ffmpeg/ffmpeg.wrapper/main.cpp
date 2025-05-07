@@ -9,9 +9,8 @@ int main(const int argc, char** argv)
   if (argc != 2) { println("usage: main [filename]"); return 1; }
 
   const auto filename = string(argv[1]);
-  av::UniqueFormatContext container;
-  if (auto res = container.open_input(filename); !res)
-  {
+  av::InputFormatContext container;
+  if (auto res = container.open_input(filename); !res) {
     println("Input open failed: {}", res.error());
     return 1;
   }

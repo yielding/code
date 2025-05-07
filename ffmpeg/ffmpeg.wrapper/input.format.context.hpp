@@ -32,21 +32,21 @@ namespace av {
   
   using namespace std;
 
-  class UniqueFormatContext 
+  class InputFormatContext 
   {
   public:
-    UniqueFormatContext() = default;
+    InputFormatContext() = default;
 
-    explicit UniqueFormatContext(AVFormatContext* ctx)
+    explicit InputFormatContext(AVFormatContext* ctx)
       : _ctx(ctx) {}
 
-    ~UniqueFormatContext() = default;
+    ~InputFormatContext() = default;
 
-    UniqueFormatContext(const UniqueFormatContext&) = delete;
-    UniqueFormatContext& operator=(const UniqueFormatContext&) = delete;
+    InputFormatContext(const InputFormatContext&) = delete;
+    InputFormatContext& operator=(const InputFormatContext&) = delete;
 
-    UniqueFormatContext(UniqueFormatContext&&) noexcept = default;
-    UniqueFormatContext& operator=(UniqueFormatContext&&) noexcept = default;
+    InputFormatContext(InputFormatContext&&) noexcept = default;
+    InputFormatContext& operator=(InputFormatContext&&) noexcept = default;
 
     auto open_input(const string& filename, const AVInputFormat* fmt=nullptr, AVDictionary** options=nullptr)
       -> expected<void, string>
@@ -122,6 +122,7 @@ namespace av {
   };
 
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 ///
 ///

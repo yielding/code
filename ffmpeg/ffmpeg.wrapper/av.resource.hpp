@@ -11,7 +11,7 @@
 namespace av::detail {
 
   template<typename T, void (*FreeFunc)(T**)>
-  struct AVDeleter 
+  struct AvDeleter 
   {
     void operator()(T* ptr) const noexcept 
     {
@@ -32,21 +32,21 @@ namespace av {
   using namespace std;
 
   template<typename T, T* (*AllocFunc)(), void (*UnrefFunc)(T*), void (*FreeFunc)(T**)>
-  class UniqueAVResource
+  class AvResource
   {
   public:
-    UniqueAVResource() : _resource(AllocFunc()) 
+    AvResource() : _resource(AllocFunc()) 
     {
       if (!_resource)
         throw std::runtime_error("Failed to allocate resource");
     }
   
     // move만 허용
-    UniqueAVResource(UniqueAVResource&&) noexcept = default;
-    UniqueAVResource& operator=(UniqueAVResource&&) noexcept = default;
+    AvResource(AvResource&&) noexcept = default;
+    AvResource& operator=(AvResource&&) noexcept = default;
   
-    UniqueAVResource(const UniqueAVResource&) = delete;
-    UniqueAVResource& operator=(const UniqueAVResource&) = delete;
+    AvResource(const AvResource&) = delete;
+    AvResource& operator=(const AvResource&) = delete;
 
     void reset() noexcept 
     {
@@ -58,21 +58,21 @@ namespace av {
     T* release() noexcept { return _resource.release(); }
   
   private:
-    unique_ptr<T, detail::AVDeleter<T, FreeFunc>> _resource;
+    unique_ptr<T, detail::AvDeleter<T, FreeFunc>> _resource;
   };
   
   template<typename T, T* (*AllocFunc)(), void (*FreeFunc)(T**), int (*RefFunc)(T* dst, const T* src), void (*UnrefFunc)(T*)>
-  class RefAVResource 
+  class RefAvResource 
   {
   public:
-    RefAVResource() : _resource(AllocFunc()) 
+    RefAvResource() : _resource(AllocFunc()) 
     {
       if (!_resource)
         throw std::runtime_error("Failed to allocate resource");
     }
   
     // 복사: ref
-    RefAVResource(const RefAVResource& other) : _resource(AllocFunc()) 
+    RefAvResource(const RefAvResource& other) : _resource(AllocFunc()) 
     {
       if (!_resource)
         throw std::runtime_error("Failed to allocate resource");
@@ -81,7 +81,7 @@ namespace av {
         throw std::runtime_error("Failed to ref resource");
     }
   
-    auto operator=(const RefAVResource& other) -> RefAVResource& 
+    auto operator=(const RefAvResource& other) -> RefAvResource& 
     {
       if (this != &other)
         if (RefFunc(_resource.get(), other._resource.get()) < 0)
@@ -91,8 +91,8 @@ namespace av {
     }
   
     // move 지원
-    RefAVResource(RefAVResource&&) noexcept = default;
-    RefAVResource& operator=(RefAVResource&&) noexcept = default;
+    RefAvResource(RefAvResource&&) noexcept = default;
+    RefAvResource& operator=(RefAvResource&&) noexcept = default;
 
     void reset() noexcept 
     {
@@ -103,14 +103,14 @@ namespace av {
     T* get() const noexcept { return _resource.get(); }
   
   private:
-    unique_ptr<T, detail::AVDeleter<T, FreeFunc>> _resource;
+    unique_ptr<T, detail::AvDeleter<T, FreeFunc>> _resource;
   };
 
-  using UniquePacket = UniqueAVResource<AVPacket, av_packet_alloc, av_packet_unref, av_packet_free>;
-  using UniqueFrame = UniqueAVResource<AVFrame, av_frame_alloc, av_frame_unref, av_frame_free>;
+  using UniquePacket = AvResource<AVPacket, av_packet_alloc, av_packet_unref, av_packet_free>;
+  using UniqueFrame = AvResource<AVFrame, av_frame_alloc, av_frame_unref, av_frame_free>;
 
-  using PacketRef = RefAVResource<AVPacket, av_packet_alloc, av_packet_free, av_packet_ref, av_packet_unref>;
-  using FrameRef = RefAVResource<AVFrame, av_frame_alloc, av_frame_free, av_frame_ref, av_frame_unref>;
+  using PacketRef = RefAvResource<AVPacket, av_packet_alloc, av_packet_free, av_packet_ref, av_packet_unref>;
+  using FrameRef = RefAvResource<AVFrame, av_frame_alloc, av_frame_free, av_frame_ref, av_frame_unref>;
 
 }
 

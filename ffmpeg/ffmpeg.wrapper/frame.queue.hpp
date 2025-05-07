@@ -52,8 +52,8 @@ namespace av {
     condition_variable _cond_producer;
     condition_variable _cond_consumer;
   };
-
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 ///
 ///
