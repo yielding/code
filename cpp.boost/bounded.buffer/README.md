@@ -11,7 +11,7 @@
 
  2. boost::thread_interrupted exception
     - 이 exception을 처리하지 않으면 여느 exception과 마찬가지로 처리된다.
-  
+
  3. disable_interrupt
     - 이 객체에 의해 영향을 받고 있는 context에서는 interrupt가 무시된다
 

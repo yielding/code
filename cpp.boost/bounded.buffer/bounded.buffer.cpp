@@ -106,7 +106,7 @@ public:
       }
 
       { // RAII idom: Resource Acquisition Is Initialization  idiom
-        unique_lock<mutex> l(io_mutex);
+        unique_lock l(io_mutex);
         cout << "consumer: " << m_item << " count: " << m_container->count() << "\n";
       }
     }
@@ -143,7 +143,7 @@ public:
       }
 
       {
-        unique_lock<mutex> l(io_mutex);
+        unique_lock l(io_mutex);
         cout << "producer: " << i << " count: " << m_container->count() << "\n";
       }
 
