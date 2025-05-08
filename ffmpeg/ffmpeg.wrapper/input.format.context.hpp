@@ -39,7 +39,7 @@ namespace av {
     InputFormatContext() = default;
 
     explicit InputFormatContext(AVFormatContext* ctx)
-      : _ctx(ctx) {}
+      : _ctx{ctx} {}
 
     auto open_input(const string& filename, const AVInputFormat* fmt=nullptr, AVDictionary** options=nullptr)
       -> expected<void, string>
