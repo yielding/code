@@ -1,0 +1,1 @@
+https://github.com/vancegroup-mirrors/loki-lib/blob/master/include/loki/SmartPtr.h
