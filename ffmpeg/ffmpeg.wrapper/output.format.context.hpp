@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory.hpp>
 #include "ffmpeg.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,20 +35,12 @@ namespace av {
 
   using namespace std;
 
-  class OutputFormatContext 
+  class OutputFormatContext : public core::memory::move_only<OutputFormatContext>
   {
   public:
     OutputFormatContext() = default;
   
     explicit OutputFormatContext(AVFormatContext* ctx) : _ctx(ctx) {}
-  
-    ~OutputFormatContext() = default;
-  
-    OutputFormatContext(const OutputFormatContext&) = delete;
-    OutputFormatContext& operator=(const OutputFormatContext&) = delete;
-  
-    OutputFormatContext(OutputFormatContext&&) noexcept = default;
-    OutputFormatContext& operator=(OutputFormatContext&&) noexcept = default;
   
     // 출력용 Context 생성
     void alloc_output(const string& filename, const AVOutputFormat* fmt = nullptr)

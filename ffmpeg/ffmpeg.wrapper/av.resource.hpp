@@ -1,6 +1,7 @@
 #pragma once
 
-#include <memory>
+#include <memory.hpp>
+
 #include <stdexcept>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +33,7 @@ namespace av {
   using namespace std;
 
   template<typename T, T* (*AllocFunc)(), void (*UnrefFunc)(T*), void (*FreeFunc)(T**)>
-  class AvResource
+  class AvResource: public core::memory::move_only<AvResource<T, AllocFunc, UnrefFunc, FreeFunc>>
   {
   public:
     AvResource() : _resource(AllocFunc()) 
@@ -41,13 +42,6 @@ namespace av {
         throw std::runtime_error("Failed to allocate resource");
     }
   
-    // move만 허용
-    AvResource(AvResource&&) noexcept = default;
-    AvResource& operator=(AvResource&&) noexcept = default;
-  
-    AvResource(const AvResource&) = delete;
-    AvResource& operator=(const AvResource&) = delete;
-
     void reset() noexcept 
     {
       if (_resource)

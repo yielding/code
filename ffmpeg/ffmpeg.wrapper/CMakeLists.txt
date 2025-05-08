@@ -12,6 +12,7 @@ set (SOURCES
 )
 
 include_directories (
+  ${HOME}/develop/include
   /usr/local/include
   /opt/homebrew/include
   ${CMAKE_CURRENT_SOURCE_DIR}

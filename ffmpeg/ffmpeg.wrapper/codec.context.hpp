@@ -1,8 +1,9 @@
 #pragma once
 
-#include <utility>
-
+#include <memory.hpp>
 #include "ffmpeg.hpp"
+
+#include <utility>
 
 ////////////////////////////////////////////////////////////////////////////////
 ///
@@ -31,7 +32,7 @@ namespace av {
 
   using namespace std;
 
-  class CodecContext 
+  class CodecContext : public core::memory::move_only<CodecContext>
   {
   public:
     explicit CodecContext(const AVCodec* codec, const AVCodecParameters* codec_params=nullptr)
@@ -49,14 +50,6 @@ namespace av {
       _ctx.reset(tmp_codec_ctx);
     }
   
-    ~CodecContext() = default;
-  
-    CodecContext(const CodecContext&) = delete;
-    CodecContext& operator=(const CodecContext&) = delete;
-  
-    CodecContext(CodecContext&&) noexcept = default;
-    CodecContext& operator=(CodecContext&&) noexcept = default;
-
     [[nodiscard]]
     auto ok() const noexcept { return _ctx ? true : false; }
 
@@ -76,6 +69,7 @@ namespace av {
     // 아래는 좀 더 의문이 있긴 하다
     auto copy_from(const AVCodecContext* src) const -> expected<void, string>
     {
+      // MD
       if (!src)
         return unexpected("Source context is null"s);
 

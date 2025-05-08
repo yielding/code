@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory.hpp>
 #include "ffmpeg.hpp"
 #include "av.resource.hpp"
 
@@ -32,21 +33,13 @@ namespace av {
   
   using namespace std;
 
-  class InputFormatContext 
+  class InputFormatContext : public core::memory::move_only<InputFormatContext>
   {
   public:
     InputFormatContext() = default;
 
     explicit InputFormatContext(AVFormatContext* ctx)
       : _ctx(ctx) {}
-
-    ~InputFormatContext() = default;
-
-    InputFormatContext(const InputFormatContext&) = delete;
-    InputFormatContext& operator=(const InputFormatContext&) = delete;
-
-    InputFormatContext(InputFormatContext&&) noexcept = default;
-    InputFormatContext& operator=(InputFormatContext&&) noexcept = default;
 
     auto open_input(const string& filename, const AVInputFormat* fmt=nullptr, AVDictionary** options=nullptr)
       -> expected<void, string>
