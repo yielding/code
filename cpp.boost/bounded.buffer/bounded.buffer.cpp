@@ -34,7 +34,7 @@ public:
 
   auto push_front(const value_type& item) -> bool
   {
-    unique_lock<mutex> lock(m_mutex);
+    unique_lock lock(m_mutex);
     // 집어넣으려면 공간이 생길때까지 기다려야 한다.
     m_while_full.wait(lock,
       [this] { return m_unread < m_container.capacity() || m_shutdown; });
@@ -52,7 +52,7 @@ public:
 
   auto pop_back(value_type* pItem) -> bool
   {
-    unique_lock<mutex> lock(m_mutex);
+    unique_lock lock(m_mutex);
 
     // 빼내려면 하나이상 존재햐야 한다.
     cout << "comsumer waiting ..\n";
