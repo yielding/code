@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 template <typename OutputPolicy, typename LanguagePolicy>
 class HelloWorld : private OutputPolicy, private LanguagePolicy
 {
@@ -12,10 +11,11 @@ class HelloWorld : private OutputPolicy, private LanguagePolicy
 
 public:
 
+    // REMARK:
+    // Two policy methods
+    // !! 두 개의 policy는 서로 상관이 없다. -> orthogonal -> n x m이 n + m 으로 
     void run() const
     {
-        // Two policy methods
-        // !! 두 개의 policy는 서로 상관이 없다. -> orthogonal -> n x m이 n + m 으로 
         print(message());
     }
 };
