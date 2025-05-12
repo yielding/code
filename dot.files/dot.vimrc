@@ -74,9 +74,9 @@ set cindent
 
 set cino=t0,g0
 
-set fillchars+=vert:┃
-set fillchars+=vert:┃   " 굵은 세로줄
-set fillchars+=vert:¦   " broken vertical bar
+"set fillchars+=vert:┃
+"set fillchars+=vert:┃   " 굵은 세로줄
+"set fillchars+=vert:¦   " broken vertical bar
 set fillchars+=vert:║   " double line
 
 set splitbelow
@@ -478,8 +478,11 @@ let g:coc_global_extensions = [
  \ 'coc-html',
  \ 'coc-json', 
  \ 'coc-solargraph',
- \ 'coc-cmake',
+"\ 'coc-cmake',
  \ 'coc-markdownlint',
+ \ 'coc-highlight',
+ \ 'coc-snippets',
+ \ 'coc-eslint',
  \ 'coc-git'
  \ ]           
                
@@ -494,7 +497,9 @@ autocmd FileType json syntax match Comment +\/\/.\+$+
 "This expression seems to be responsible for coc formatting on enter
 inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<TAB>"
 
-" Use K to show documentation in preview window.
+"--------------------------------------------------------------------------------
+" 
+"--------------------------------------------------------------------------------
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -519,11 +524,13 @@ let loaded_matchparan=0
 "--------------------------------------------------------------------------------
 " cmake
 "--------------------------------------------------------------------------------
+set errorformat^=%f:%l:%c:\ %t%*[^:]:\ %m
 augroup vim-cmake-group
 "autocmd! User CMakeBuildSucceeded CMakeOpen
 "autocmd! User CMakeBuildSucceeded CMakeClose
+autocmd! User CMakeBuildSucceeded call s:CloseQuickfix()
 
-autocmd User CMakeBuildSucceeded call s:CloseQuickfix()
+"autocmd User CMakeBuildSucceeded call s:CloseQuickfix()
 autocmd User CMakeBuildFailed call s:ShowQuickfixRight()
 augroup END
 
@@ -575,6 +582,36 @@ nmap <leader>ci <Plug>(CMakeInstall)
 nmap <leader>cs <Plug>(CMakeSwitch)
 nmap <leader>co <Plug>(CMakeOpen)
 nmap <leader>cc <Plug>(CMakeClose)
+
+"--------------------------------------------------------------------------------
+" coc-highlight
+"--------------------------------------------------------------------------------
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+if hlexists('markdownCode')
+  highlight link javaComment markdownCode
+endif
+
+"--------------------------------------------------------------------------------
+" coc-explorer
+"--------------------------------------------------------------------------------
+augroup CocExplorerAutoStart
+  autocmd!
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) |
+        \ exe 'CocCommand explorer --root-uri ' . fnameescape(argv()[0]) |
+        \ endif
+augroup END
+
+augroup CocExplorerAutoStart
+  autocmd!
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) |
+        \ exe 'CocCommand explorer' |
+        \ exe 'bd' |
+        \ endif
+augroup END
+
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
 
 "--------------------------------------------------------------------------------
 " Ultisnips

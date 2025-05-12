@@ -17,6 +17,11 @@
   "inlayHint.enable": false,
   "inlayHints.VariableTypes.enabled": false,
   "java.home":"/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home",
+
+  "git.enableGutters": true,
+  "git.addGBlameToVirtualText": true,
+  "git.autoRefresh": true,
+
   "languageserver": {
     //"ccls": {
     //  "command": "ccls",
@@ -157,6 +162,5 @@
     "--compile-commands-dir=./",
     "--header-insertion=never",
     "--query-driver=/opt/homebrew/Cellar/llvm/20.1.2/bin/clang++"
-  ],
-  "git.enableGutters": false
+  ]
 }

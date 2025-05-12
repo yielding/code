@@ -7,7 +7,7 @@ set (CMAKE_CXX_COMPILER g++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set (SOURCES
-  tetris_sample.cpp
+  main.cpp
 )
 
 include_directories (
