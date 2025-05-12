@@ -35,7 +35,7 @@ Plug 'simrat39/rust-tools.nvim'
 
 " File Explorer
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
-Plug 'scrooloose/nerdtree'
+"Plug 'scrooloose/nerdtree'
 
 " Auto pairs for '(' '[' '{'
 Plug 'jiangmiao/auto-pairs'
@@ -78,7 +78,8 @@ Plug 'gmarik/ingretu'
 Plug 'vim-scripts/gitv'
 Plug 'udalov/kotlin-vim'
 
-Plug 'https://github.com/cdelledonne/vim-cmake.git'
+Plug 'cdelledonne/vim-cmake'
+Plug 'tpope/vim-dispatch'
 
 " Haskel
 Plug 'nvim-lua/plenary.nvim'
