@@ -3,9 +3,7 @@ using CSharpFunctionalExtensions;
 
 public class Fp
 {
-  static void Main()
-  {
-    var fruits = new Dictionary<string, int> {
+  static void Main() { var fruits = new Dictionary<string, int> {
       { "apple", 10 },
       { "banana", 2 },
     };
@@ -16,7 +14,7 @@ public class Fp
     var kiwi = fruits.TryFind("kiwi").Or(0);
     Console.WriteLine($"kiwis = {kiwi.Value}");
 
-    var res = kiwi.Match(
+    kiwi.Match(
       fruit => Console.WriteLine($"It's a {fruit}"),
       ()    => Console.WriteLine("There's not fruit")
     );
