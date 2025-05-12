@@ -56,7 +56,7 @@ namespace av {
     [[nodiscard]]
     auto open_output(const string& filename) const -> expected<void, string>
     {
-      if (!(AVFMT_NOFILE & _ctx->oformat->flags))
+      if ((AVFMT_NOFILE & _ctx->oformat->flags) == 0)
       {
         if (const int ret = avio_open(&_ctx->pb, filename.c_str(), AVIO_FLAG_WRITE); ret < 0)
           return unexpected(detail::ffmpeg_error_string(ret));
