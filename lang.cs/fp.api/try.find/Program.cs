@@ -3,11 +3,13 @@ using CSharpFunctionalExtensions;
 
 public class Fp
 {
-  static void Main() { var fruits = new Dictionary<string, int> {
+  static void Main() 
+  { 
+    var fruits = new Dictionary<string, int> {
       { "apple", 10 },
       { "banana", 2 },
     };
-    
+
     var apples = fruits.TryFind("apple");
     Console.WriteLine($"apples = {apples.Value}");
 
