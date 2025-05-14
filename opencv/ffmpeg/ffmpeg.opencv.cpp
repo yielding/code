@@ -68,7 +68,11 @@ auto main() -> int
     if (packet.stream_index == vsi)
     {
       auto ret = avcodec_send_packet(decoder_context, &packet);
-      if (ret != 0) continue;
+      if (ret != 0) 
+      {
+        av_packet_unref(&packet);
+        continue;
+      }
 
       while (true)
       {

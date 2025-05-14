@@ -1,7 +1,8 @@
 #include <opencv2/opencv.hpp>
 #include <nlohmann/json.hpp>
 #include <fstream>
-#include <iostream>
+#include <print>
+#include <cstdlib>
 
 using json = nlohmann::json;
 
@@ -9,10 +10,11 @@ using namespace std;
 
 int main()
 {
+  auto path = format("{}/code/data/taekwon_v.jpg", getenv("HOME"));
   // create a Mat object
-  cv::Mat image = cv::imread("/Users/yielding/code/data/taekwon_v.jpg");
+  cv::Mat image = cv::imread(path);
+  println("1");
 
-  cout << "1\n";
 
   // serialize Mat to JSON
   json serializedMat;
@@ -20,12 +22,12 @@ int main()
   serializedMat["cols"] = image.cols;
   serializedMat["type"] = image.type();
   serializedMat["data"] = std::vector<uchar>(image.data, image.data + image.total() * image.elemSize());
-  cout << "2\n";
+  println("2");
 
   // write serializedMat to a file
   ofstream output("image.json");
   output << serializedMat.dump(4) << std::endl;
-  cout << "3\n";
+  println("3");
 
   return 0;
 }
