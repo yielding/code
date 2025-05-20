@@ -30,5 +30,3 @@ add_executable (cpp.stdio
 target_link_libraries(cpp.stdio
   ${OpenCV_LIBS}
 )
-
-
