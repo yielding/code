@@ -8,7 +8,7 @@ SRCS      = %W{ ~/develop/src/byte_buffer.cpp
 TEST_SRCS = %W{ ~/develop/test/test_byte_buffer.cpp 
 
               } + SRCS
-CXX       = "xcrun"
+CXX       = "clang++"
 CXXFLAGS  = ":Os"
 LIBS      = ""
 
