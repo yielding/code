@@ -2,9 +2,9 @@
 
 APP       = "accumulate"
 SRCS      = %W{ ./accumulate.cpp }
-CXX       = "g++"
+CXX       = "clang++"
 CXXFLAGS  = ":Os"
-LIBS      = ""
+LIBS      = "tbb"
 
 DIR = File.dirname __FILE__
 

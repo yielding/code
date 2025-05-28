@@ -1,17 +1,11 @@
-//#include "tbb/task_scheduler_init.h"
 #include "tbb/blocked_range.h"
 #include "tbb/parallel_reduce.h"
 #include "tbb/tick_count.h"
-
-
-#include <boost/thread/mutex.hpp>
 #include <algorithm>
-#include <iostream>
+#include <print>
 
 using namespace std;
 using namespace tbb;
-
-boost::mutex io_mutex;
 
 float Foo(float a)
 {
@@ -19,6 +13,7 @@ float Foo(float a)
   {
     ;
   }
+
   return a;
 }
 
@@ -82,17 +77,16 @@ int main(int argc, char const* argv[])
   t0 = tbb::tick_count::now();
   float res = ParallelSumFoo(a, N);
   t1 = tbb::tick_count::now();
-  cout << "time: " << (t1-t0).seconds() * 1000 << " result: " << res << endl;
+  
+  println("time: {:.5f} result: {}", (t1-t0).seconds() * 1000, res);
 
   t0 = tbb::tick_count::now();
   float sum = 0.0;
   for (size_t i=0; i<N; i++)
     sum += Foo(a[i]);
-  t1 = tbb::tick_count::now();
 
-  cout << "time: " << (t1-t0).seconds()  * 1000 << " result: " << sum << endl;
-  
+  t1 = tbb::tick_count::now();
+  println("time: {:.5f} result: {}", (t1-t0).seconds() * 1000, res);
+
   return 0;
 }
-
-
