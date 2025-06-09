@@ -1,0 +1,9 @@
+#!/bin/sh
+
+rm -rf ./Debug
+rm -rf ./Release
+rm -rf ./cmake-build-debug-llvm
+rm -rf ./cmake-build-debug
+rm -rf ./cmake-build-release-llvm
+rm -rf ./cmake-build-release
+rm -rf ./.idea
