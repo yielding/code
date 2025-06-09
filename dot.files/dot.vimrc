@@ -283,9 +283,6 @@ map ,ls :edit <C-R>= '.ccls'<CR><CR>
 
 imap  _* <Esc>bi*<Esc>ea*<Space> 
 
-map ,3  :set makeprg=g++-14\ -g\ -std=c++2c\ %\ -o\ %<<CR>
-map ,4  :execute '!' . './' . expand('%:r')<CR>
-
 map ,9  :TagbarToggle<CR>
 map ,22 :FufFile<CR>
 map ,11 :FufBuffer<CR>
@@ -595,13 +592,6 @@ endif
 "--------------------------------------------------------------------------------
 " coc-explorer
 "--------------------------------------------------------------------------------
-augroup CocExplorerAutoStart
-  autocmd!
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) |
-        \ exe 'CocCommand explorer --root-uri ' . fnameescape(argv()[0]) |
-        \ endif
-augroup END
-
 augroup CocExplorerAutoStart
   autocmd!
   autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) |

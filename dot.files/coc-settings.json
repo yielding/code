@@ -159,7 +159,7 @@
   //"clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/18.1.3/clangd_18.1.3/bin/clangd",
   "clangd.path": "/opt/homebrew/opt/llvm/bin/clangd",
   "clangd.arguments": [
-    "--compile-commands-dir=./",
+    "--compile-commands-dir=./Debug",
     "--header-insertion=never",
     "--query-driver=/opt/homebrew/Cellar/llvm/20.1.2/bin/clang++"
   ]
