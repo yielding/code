@@ -1,0 +1,1 @@
+## as of 2025.6.30 std::atomic_shared_ptr is not implemented in libc++ on clang 20.1.7

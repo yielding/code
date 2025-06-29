@@ -27,9 +27,9 @@ int main(const int argc, char** argv)
     return 1;
   }
 
-  decoder.decode_loop([](auto frame) { 
-    println("Decoded frame: pts = {}", frame->pts); 
-  });
+  //decoder.decode_loop([](auto frame) {
+  //  println("Decoded frame: pts = {}", frame->pts); 
+  //});
 
   //av::AsyncVideoDecoder decoder(codec);
   // av::VideoDecoder decoder(codec);
