@@ -13,15 +13,14 @@ public:
     cout << "Starting task...\n";
 
     // 비동기 작업 시 자기 자신에 대한 참조 유지
-    shared_ptr<SelfDestruct> self = shared_from_this();
+    auto self = shared_from_this();
 
-    thread([self]() 
-      {
-        this_thread::sleep_for(chrono::seconds(2));
-        cout << "Task completed.\n";
+    thread([self]() {
+      this_thread::sleep_for(chrono::seconds(2));
+      cout << "Task completed.\n";
 
-        // 이후 외부 참조가 없다면 객체는 소멸됨
-      }).detach();
+      // 이후 외부 참조가 없다면 객체는 소멸됨
+    }).detach();
   }
 
   ~SelfDestruct() 

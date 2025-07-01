@@ -8,7 +8,7 @@ class MyClass : public enable_shared_from_this<MyClass>
 public:
   void print() 
   {
-    weak_ptr<MyClass> wp = weak_from_this();
+    auto wp = weak_from_this();
 
     if (auto sp = wp.lock())
       cout << "Still alive: " << sp.get() << endl;
@@ -32,10 +32,10 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 int main() 
 {
-  shared_ptr<MyClass> obj = make_shared<MyClass>();
+  auto obj = make_shared<MyClass>();
   obj->print();  // ✅ 정상 출력
 
-  MyClass* raw = new MyClass();
+  auto raw = new MyClass();
   raw->print();  // ✅ 예외 없이 "Object not managed" 출력
   delete raw;
   

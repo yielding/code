@@ -1,16 +1,18 @@
 cmake_minimum_required (VERSION 3.30.0)
 
-project (main)
+project (clamp)
 
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_CXX_COMPILER clang++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (HOME $ENV{HOME})
 
 set (SOURCES
-  main.cpp
+  clamp.cpp
 )
 
 include_directories (
+  ${HOME}/develop/include
   /usr/local/include
   /opt/homebrew/include
   ${CMAKE_CURRENT_SOURCE_DIR}
@@ -21,6 +23,6 @@ link_directories (
   /opt/homebrew/lib
 )
 
-add_executable (main
+add_executable (${CMAKE_PROJECT_NAME}
   ${SOURCES}
 )
