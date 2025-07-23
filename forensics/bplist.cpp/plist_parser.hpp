@@ -12,15 +12,11 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace util::parser {
-
+namespace util::parser 
+{
   using namespace boost::property_tree;
 
-  using std::vector;
-  using std::map;
-  using std::string;
-  using std::pair;
-  using std::stringstream;
+  using std::vector, std::map, std::string, std::pair, std::stringstream;
 
   class PListParser
   {

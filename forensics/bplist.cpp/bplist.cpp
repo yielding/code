@@ -18,8 +18,8 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace util::parser {
-
+namespace util::parser 
+{
   PropertyList::PropertyList(string const& fname)
   {
     m_is_open = open(fname);

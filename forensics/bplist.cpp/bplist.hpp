@@ -8,8 +8,8 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace util::parser {
-  
+namespace util::parser 
+{
   using namespace std;
   using byte_buffer = sys::io::byte_buffer;
 

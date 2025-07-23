@@ -1,23 +1,22 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <map>
-#include <cstdint>
-#include <variant>
-
 #include <boost/variant.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/contains.hpp>
 #include <boost/utility/enable_if.hpp>
 
+#include <string>
+#include <vector>
+#include <map>
+#include <cstdint>
+#include <variant>
 ////////////////////////////////////////////////////////////////////////////////
 //
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace util::parser {
-
+namespace util::parser
+{
   class CFNull;
   class CFBoolean;
   class CFInteger;

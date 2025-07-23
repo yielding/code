@@ -27,9 +27,8 @@ using namespace util::str;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-
-namespace util::parser {
-
+namespace util::parser
+{
   PListParser::PListParser()
     : m_ignore("...")
   {
