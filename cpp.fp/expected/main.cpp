@@ -33,7 +33,7 @@ auto times_10(const double d) -> expected<double, parse_error>
   return d * 10;
 }
 
-auto print_error(const parse_error e) -> expected<double, string>
+auto error_to_s(const parse_error e) -> expected<double, string>
 {
   switch (e)
   {
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
     auto res = parse_number(src)
                 .transform([](const double d) { return d + 10; }) // transform: fmap(functor)double -> double
                 .and_then(times_10)                               // and_then
-                .or_else(print_error);
+                .or_else(error_to_s);
 
     if (res.has_value())
       cout << res.value() << endl;
