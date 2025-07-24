@@ -3,7 +3,6 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <print>
 
 using namespace std;
 
@@ -73,8 +72,8 @@ auto read_file(const string& path) -> expected<string, error_code>
   ifstream file{path};
   if (!file.is_open())
   {
-    return unexpected{make_error_code(errc::no_such_file_or_directory)};
-    //return unexpected{make_error_code(MyError::InvalidFormat)};
+    return unexpected{make_error_code(MyError::InvalidFormat)};
+    //return unexpected{make_error_code(errc::no_such_file_or_directory)};
   }
 
   string content 
@@ -90,9 +89,9 @@ int main(int argc, char *argv[])
 {
   auto result = read_file("example.txt");
   if (result)
-    println("파일 읽기 성공: ", *result);
+    println("파일 내용: {}", *result);
   else
-    println("오류 발생: ", result.error().message());
+    println("오류 발생: {}", result.error().message());
 
   return 0;
 }
