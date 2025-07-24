@@ -1,9 +1,9 @@
-#include <print>
 #include <expected>
 #include <system_error>
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <print>
 
 using namespace std;
 
@@ -90,9 +90,9 @@ int main(int argc, char *argv[])
 {
   auto result = read_file("example.txt");
   if (result)
-    cout << "파일 내용:\n" << *result << "\n";
+    println("파일 읽기 성공: ", *result);
   else
-    cerr << "오류 발생: " << result.error().message() << "\n";
+    println("오류 발생: ", result.error().message());
 
   return 0;
 }
