@@ -17,7 +17,7 @@ enum class MyError
 };
 
 template <typename T>
-using Result = expected<T, std::error_code>;
+using Result = expected<T, error_code>;
 //
 // 2. error_category 구현
 //
@@ -72,17 +72,12 @@ auto read_file(const string &path) -> Result<string>
   ifstream file{path};
 
   if (!file.is_open())
-  {
-    // return unexpected{make_error_code(MyError::InvalidFormat)};
     return unexpected{make_error_code(errc::no_such_file_or_directory)};
-  }
-
-  auto content = string{(istreambuf_iterator(file)), istreambuf_iterator<char>()};
 
   if (file.bad())
     return unexpected(make_error_code(errc::io_error));
 
-  return content;
+  return string{(istreambuf_iterator(file)), istreambuf_iterator<char>()};
 }
 
 int main(int argc, char *argv[])
