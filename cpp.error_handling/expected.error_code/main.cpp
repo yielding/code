@@ -24,7 +24,7 @@ using Result = expected<T, error_code>;
 class MyErrorCategory final : public error_category
 {
 public:
-  auto name() const noexcept -> const char * override { return "MyErrorCategory"; }
+  auto name() const noexcept -> const char* override { return "MyErrorCategory"; }
 
   [[nodiscard]]
   auto message(int ev) const -> string override
