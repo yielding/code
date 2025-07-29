@@ -1,4 +1,4 @@
 #!/bin/sh
 
-cmake -S . -B Release -DCMAKE_BUILD_TYPE=Release
-cmake --build Release -- -j$(nproc)
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PWD}/install
+cmake --build build -- -j$(nproc)

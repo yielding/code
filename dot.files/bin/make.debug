@@ -1,4 +1,4 @@
 #!/bin/sh
 
-cmake -S . -B Debug -DCMAKE_BUILD_TYPE=Debug
-cmake --build Debug -- -j$(nproc)
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${PWD}/install
+cmake --build build -- -j$(nproc)

@@ -5,7 +5,19 @@
   "diagnostic.showUnused": false,
   "diagnostic.infoSign": "ℹ",
   "diagnostic.hintSign": "➤",
+
   "diagnostic.enable": false,
+  "diagnostic.displayByAle": false,
+  "clangd.arguments": [
+    "--clang-tidy",
+    "--clang-tidy-checks=-*,clang-analyzer-*,modernize-*,readability-*,performance-*,bugprone-*",
+    "--header-insertion=never",
+    "--compile-commands-dir=./Debug",
+    "--query-driver=/opt/homebrew/Cellar/llvm/20.1.8/bin/clang++"
+  ],
+  "sugget.autoTrigger": "always",
+  "coc.preferences.diagnostic.virtualText": true,
+
   "diagnostic.enableSign": false,
   "codeLens.enable": false,
   "suggest.noselect": true,

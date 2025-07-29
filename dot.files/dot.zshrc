@@ -157,7 +157,7 @@ mn() {
   tmux attach-session -t "$session_name";
 }
 
-source ~/scripts/mn.zsh
+#source ~/scripts/mn.zsh
 
 export LANG=ko_KR.UTF-8
 

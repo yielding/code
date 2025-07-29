@@ -1,16 +1,18 @@
 CompileFlags:
-  CompilationDatabase: Debug  # compile_commands.json 경로
+  CompilationDatabase: Debug  # build/Debug/compile_commands.json 사용
+  Add: 
+    - -std=c++26
+    - -I./include
+    - -I./vendor/include
+    - -I./develop/include
+    - -I./develop/vendor/include
 
 Diagnostics:
   ClangTidy:
-    Add: [modernize-*, performance-*]   # 원하는 clang-tidy 검사 추가
-    Remove: [clang-analyzer-*]          # 원치 않는 검사 제거
+    Add: 
+      - modernize-*
+      - performance-*
+    Remove: 
+      - clang-analyzer-*
     CheckOptions:
       modernize-use-auto.MinTypeNameLength: 0
-
-FallbackFlags: [
-  "-std=c++26",
-  "-I./include",
-  "-I../../develop/include",
-  "-I../../develop/vendor/include"
-]

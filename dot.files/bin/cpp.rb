@@ -1,12 +1,8 @@
 #!/usr/bin/env ruby
 
-if ARGV.length != 2
-  puts 'Usage: ruby cpp.rb <compiler> <file>'
+if ARGV.length != 1
+  puts 'Usage: cpp.rb <project_name>'
   return
 end
 
-if ARGV[0] == "clang++"
-  `cp -r ~/bin/cpp.clang++ ./#{ARGV[1]}` 
-else 
-  `cp -r ~/bin/cpp.defualt ./#{ARGV[1]}` 
-end
+`cp -r ~/bin/cpp.clang++ ./#{ARGV[0]}` 

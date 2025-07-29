@@ -6,4 +6,7 @@ rm -rf ./cmake-build-debug-llvm
 rm -rf ./cmake-build-debug
 rm -rf ./cmake-build-release-llvm
 rm -rf ./cmake-build-release
+rm -rf ./build
+rm -rf ./install
 rm -rf ./.idea
+rm -rf ./.cache

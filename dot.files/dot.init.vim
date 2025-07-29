@@ -487,7 +487,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gn <Plug>(coc-rename)
+nmap <silent> rn <Plug>(coc-rename)
+nmap <leader>dd :CocDiagnostics<CR>
 
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
@@ -530,6 +531,7 @@ autocmd! User CMakeBuildSucceeded call s:CloseQuickfix()
 "autocmd User CMakeBuildSucceeded call s:CloseQuickfix()
 autocmd User CMakeBuildFailed call s:ShowQuickfixRight()
 augroup END
+
 
 function! s:CloseQuickfix()
   " 열려 있는 quickfix 창이 있다면 닫기
