@@ -1,38 +1,76 @@
 #include <iostream>
-#include <cstdlib>
-#include <libproc.h>
-#include <unistd.h>
+#include <string>
+#include <sstream>
+#include <map>
+#include <cctype>
 
 using namespace std;
 
-string get_process_name(pid_t pid) 
+int read_content_length() 
 {
-  char process_name[PROC_PIDPATHINFO_MAXSIZE];
-  int result = proc_name(pid, process_name, sizeof(process_name));
-  if (result <= 0)
-    return "";
+  string line;
+  int content_length = -1;
 
-  return string(process_name);
-}
-
-int main(int argc, char* argv[])
-{
-  // Get the PID of the process to get the name of
-  // pid_t pid = getpid(); 
-  // Replace with the PID of the process you want to get the name of
-
-  if (argc != 2)
+  // 헤더 파싱
+  while (getline(cin, line)) 
   {
-    cout << "main pid" << endl;
-    exit(EXIT_FAILURE);
+    if (line == "\r" || line.empty())
+      break; // 헤더 끝
+
+    // 양 끝 공백 제거
+    line.erase(0, line.find_first_not_of(" \t\r\n"));
+    line.erase(line.find_last_not_of(" \t\r\n") + 1);
+
+    if (line.starts_with("Content-Length"))
+    {
+      auto value = line.substr(15);
+      value.erase(0, value.find_first_of(":") + 1);
+      content_length = stoi(value);
+    }
   }
 
-  auto pid = atoi(argv[1]);
-  // Get the name of the process
-  auto process_name = get_process_name(pid);
+  return content_length;
+}
 
-  cout << " Process " << pid 
-       << " is named " << process_name << endl;
+auto read_stdin_message() -> string 
+{
+  int content_length = read_content_length();
+
+  if (content_length <= 0) 
+    throw runtime_error("Invalid Content-Length");
+
+  string content(content_length, '\0');
+  cin.read(&content[0], content_length);
+
+  return content;
+}
+
+void send_lsp_response(const string& json) 
+{
+  cout << "Content-Length: " << json.size() << "\r\n\r\n";
+  cout << json;
+  cout.flush();
+}
+
+int main() 
+{
+  while (true) 
+  {
+    try 
+    {
+      auto message = read_stdin_message();
+      cerr << "Received: " << message << endl;
+
+      // 예시 응답
+      string response = R"({"jsonrpc":"2.0","id":1,"result":{"capabilities":{}}})";
+      send_lsp_response(response);
+    } 
+    catch (const exception& ex) 
+    {
+      cerr << "Error reading message: " << ex.what() << endl;
+      break;
+    }
+  }
 
   return 0;
 }
