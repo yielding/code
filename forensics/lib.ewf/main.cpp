@@ -1,15 +1,14 @@
 #include <cassert>
 
 #include <libewf.h>
-#include <libcerror.h>
+#include <error.h>
 
 int main(int argc, char *argv[])
 {
-  libcerror_error_t* error = nullptr;
-  libewf_handle_t* handle = nullptr;
-  int result = 0;
+  libewf_error_t* error{};
+  libewf_handle_t* handle{};
 
-  result = libewf_handle_initialize(&handle, &error);
+  auto result = libewf_handle_initialize(&handle, &error);
   assert(result == 1);
 
   size64_t media_size = 0;

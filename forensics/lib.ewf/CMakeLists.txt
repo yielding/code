@@ -1,21 +1,32 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.15)
+cmake_minimum_required (VERSION 3.30.0)
 
-PROJECT (ewf.test)
+project (main)
 
-SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (CMAKE_CXX_STANDARD 26)
+set (CMAKE_CXX_COMPILER clang++)
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set (HOME $ENV{HOME})
 
-SET (SOURCES
+set (SOURCES
   main.cpp
 )
 
-INCLUDE_DIRECTORIES (
-  /usr/local/include 
+include_directories (
+  ${HOME}/develop/include
+  /usr/local/include
+  /usr/include/c++/v1
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-LINK_DIRECTORIES (/usr/local/lib)
+link_directories (
+  /usr/local/lib
+  /opt/homebrew/lib
+)
 
-LINK_LIBRARIES (ewf)
+add_executable (${CMAKE_PROJECT_NAME}
+  ${SOURCES}
+)
 
-ADD_EXECUTABLE (ewf.test ${SOURCES})
+target_link_libraries (${CMAKE_PROJECT_NAME}
+  ewf
+)
