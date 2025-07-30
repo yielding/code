@@ -1,3 +1,0 @@
-#!/usr/bin/env ruby
-
-puts `cat #{ARGV[1]} | sort | uniq -c | sort -rn | sed #{ARGV[0]}q`
