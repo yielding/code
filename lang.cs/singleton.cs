@@ -10,9 +10,7 @@ public class Singleton<T> where T : class, new()
   static Singleton()
   {
     if (Singleton<T>.Instance == null)
-    {
       Singleton<T>.Instance = new T();
-    }
   }
 
   public virtual void Clear()

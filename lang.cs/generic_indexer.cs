@@ -15,7 +15,8 @@ namespace Generic
     {
       get => array[index];
 
-      set {
+      set 
+      {
         if (index >= array.Length)
         {
           Array.Resize<T>(ref array, index+1);
@@ -56,7 +57,6 @@ namespace Generic
 
       for (int i=0; i<ints.Length; i++)
         Console.WriteLine(ints[i]);
-
     }
   }
 }
