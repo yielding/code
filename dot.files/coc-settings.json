@@ -12,7 +12,7 @@
     "--clang-tidy",
     "--clang-tidy-checks=-*,clang-analyzer-*,modernize-*,readability-*,performance-*,bugprone-*",
     "--header-insertion=never",
-    "--compile-commands-dir=./Debug",
+    //"--compile-commands-dir=./build",
     "--query-driver=/opt/homebrew/Cellar/llvm/20.1.8/bin/clang++"
   ],
   "sugget.autoTrigger": "always",

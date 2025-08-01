@@ -1,11 +1,11 @@
 cmake_minimum_required (VERSION 3.30.0)
 
-project (main)
-
 set (CMAKE_CXX_STANDARD 26)
-set (CMAKE_CXX_COMPILER clang++)
+set (CMAKE_CXX_COMPILER g++-15)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set (HOME $ENV{HOME})
+
+project (main)
 
 set (SOURCES
   main.cpp
@@ -25,3 +25,4 @@ link_directories (
 add_executable (main
   ${SOURCES}
 )
+

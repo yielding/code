@@ -33,7 +33,7 @@ alias xxd='xxd -g 1'
 alias gonnn='cd ~/.config/nnn'
 alias gowork='cd ~/project/code.apps/csproj.analyzer'
 alias gowork='cd ~/project/md.platform.infra'
-alias gowork2='cd ~/project/remote.stream'
+alias gowork2='cd ~/project/local.stream'
 alias gowww='cd /opt/homebrew/opt/nginx/html'
 
 alias aliases='vi ~/.oh-my-zsh/lib/aliases.zsh && source ~/.oh-my-zsh/lib/aliases.zsh'

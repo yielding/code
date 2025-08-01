@@ -3,12 +3,12 @@ priority 1
 snippet init_clang
 cmake_minimum_required (VERSION ${1:3.30.0})
 
-project (${2:ProjectName})
-
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_CXX_COMPILER clang++)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set (HOME $ENV{HOME})
+
+project (${2:ProjectName})
 
 set (SOURCES
 	$2.cpp
@@ -41,14 +41,14 @@ target_link_libraries ($2
 
 endsnippet
 
-snippet init_g++20
+snippet init_g++
 cmake_minimum_required (VERSION ${1:3.30.0})
 
-project (${2:ProjectName})
-
-set (CMAKE_CXX_STANDARD 20)
-set (CMAKE_CXX_COMPILER g++)
+set (CMAKE_CXX_STANDARD 26)
+set (CMAKE_CXX_COMPILER g++-15)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+project (${2:ProjectName})
 
 set (SOURCES
 	$2.cpp
@@ -83,12 +83,12 @@ endsnippet
 snippet init_simple
 cmake_minimum_required (VERSION ${1:3.30.0})
 
-project (${2:ProjectName})
-
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_CXX_COMPILER g++-14)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set (HOME $ENV{HOME})
+
+project (${2:ProjectName})
 
 set (SOURCES
 	$2.cpp

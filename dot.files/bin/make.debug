@@ -1,4 +1,25 @@
 #!/bin/sh
 
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${PWD}/install
+# 기본값: g++
+CXX_COMPILER="clang++"
+
+# 인자 처리
+if [ "$1" = "clang" ]; then
+  CXX_COMPILER="clang++"
+elif [ "$1" = "g++" ]; then
+  CXX_COMPILER="g++-15"
+elif [ -n "$1" ]; then
+  echo "지원하지 않는 인자입니다: $1"
+  echo "사용법: $0 [clang|g++]"
+  exit 1
+fi
+
+# CXX 환경변수 설정 후 CMake 실행
+echo "🔧 컴파일러: $CXX_COMPILER"
+cmake -S . -B build \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_CXX_COMPILER=$(which "$CXX_COMPILER") \
+  -DCMAKE_INSTALL_PREFIX="${PWD}/install"
+
+# 빌드
 cmake --build build -- -j$(nproc)
