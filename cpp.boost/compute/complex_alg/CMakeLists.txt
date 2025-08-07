@@ -26,7 +26,7 @@ INCLUDE_DIRECTORIES (include /usr/local/include )
  
 # 공통 컴파일 옵션, 링크 옵션
 ADD_COMPILE_OPTIONS (-g -Wall )
-SET (CMAKE_CXX_STANDARD 17)
+SET (CMAKE_CXX_STANDARD 26)
  
 # 공통 링크 라이브러리 (-l)
 FIND_LIBRARY(OPENCL OpenCL)

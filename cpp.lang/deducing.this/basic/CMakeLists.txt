@@ -4,7 +4,6 @@ project (decuding.this)
 
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set (CMAKE_CXX_COMPILER clang++)
 
 set (SOURCES
   decuding.this.cpp

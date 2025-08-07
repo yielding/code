@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(tcp_pipeline_boostasio)
 
-set(CMAKE_CXX_STANDARD 23)
+set (CMAKE_CXX_STANDARD 26)
 
 find_package(Boost REQUIRED COMPONENTS system)
 
