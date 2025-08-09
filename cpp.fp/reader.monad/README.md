@@ -161,3 +161,103 @@ g++ -std=c++17 main.cpp -o reader_monad
 Hello, Alice!
 Hello, Alice!!!!
 ```
+
+## FAQ
+
+### Q: Reader를 포함한 여러 모나드에 `run`이라는 인터페이스가 있는 이유는?
+
+`run` 인터페이스는 모나드 계산의 **실행 트리거** 역할을 합니다. 이것이 필수적인 이유는 다음과 같습니다:
+
+#### `run`의 핵심 목적
+
+`run` 메서드는 **계산의 설명과 실행을 분리**합니다. 모나드는 무엇을 계산할지 설명만 하고, `run`이 호출될 때까지 실행하지 않습니다.
+
+#### `run` 인터페이스가 필요한 주요 이유
+
+1. **지연된 실행**
+   - 모나드는 계산을 설명만 하고 실제 실행은 지연
+   - `run`을 호출할 때 비로소 계산이 수행됨
+
+2. **컨텍스트 제공**
+   - 많은 모나드는 실행 시점에 추가 정보(컨텍스트)가 필요
+   - `run`이 이 컨텍스트를 받아 계산에 제공
+
+#### 모나드별 다양한 `run` 시그니처
+
+```cpp
+// Reader Monad - 환경이 필요
+reader.run(environment);
+
+// State Monad - 초기 상태가 필요
+state.run(initialState);
+
+// IO Monad - 부수효과 실행
+io.unsafeRun();
+
+// Writer Monad - 누적된 데이터 반환
+auto [value, log] = writer.run();
+
+// Parser Monad - 파싱할 입력이 필요
+parser.runParser(input);
+
+// Continuation Monad - 연속 함수가 필요
+cont.run(continuation);
+```
+
+#### `run` 패턴의 이점
+
+1. **지연 평가**: 실행하지 않고 복잡한 계산 구성
+2. **다중 실행**: 동일한 계산을 다른 컨텍스트로 실행
+3. **실행 전 합성**: 실행하기 전에 모나드들을 결합
+4. **제어된 부수효과**: 효과가 발생하는 시점을 명시적으로 제어
+
+`run` 인터페이스는 **계산 설명**과 **계산 실행**의 분리를 가능하게 하기 때문에 모나드 패턴의 핵심입니다. 이는 함수형 프로그래밍의 합성 가능성과 참조 투명성의 열쇠입니다.
+
+### Q: Why do monads including Reader have a `run` interface?
+
+The `run` interface serves as the **execution trigger** for monadic computations. Here's why it's essential:
+
+#### Core Purpose of `run`
+
+The `run` method **separates the description of a computation from its execution**. Monads describe what to compute, but don't execute until `run` is called.
+
+#### Key Reasons for the `run` Interface
+
+1. **Deferred Execution**
+   - Monads only describe computations; actual execution is deferred
+   - Computation occurs only when `run` is called
+
+2. **Context Provision**
+   - Many monads require additional information (context) at execution time
+   - `run` accepts this context and provides it to the computation
+
+#### Different Monads, Different `run` Signatures
+
+```cpp
+// Reader Monad - needs environment
+reader.run(environment);
+
+// State Monad - needs initial state
+state.run(initialState);
+
+// IO Monad - executes side effects
+io.unsafeRun();
+
+// Writer Monad - returns accumulated data
+auto [value, log] = writer.run();
+
+// Parser Monad - needs input to parse
+parser.runParser(input);
+
+// Continuation Monad - needs continuation function
+cont.run(continuation);
+```
+
+#### Benefits of the `run` Pattern
+
+1. **Lazy Evaluation**: Build complex computations without executing them
+2. **Multiple Executions**: Run the same computation with different contexts
+3. **Composition Before Execution**: Combine monads before running
+4. **Controlled Side Effects**: Explicitly control when effects occur
+
+The `run` interface is fundamental to the monad pattern because it enables the separation of **computation description** from **computation execution**, which is key to functional programming's composability and referential transparency.
