@@ -17,6 +17,7 @@ tags
 CMakeCache.txt
 cmake_install.cmake
 CMakeFiles/
+**/.claude/
 .idea/
 .cache/
 .undodir/
