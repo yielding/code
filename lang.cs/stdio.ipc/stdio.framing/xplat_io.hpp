@@ -26,6 +26,9 @@ namespace xplat::io
 {
   using namespace std;
 
+  template<typename T>
+  using Result = expected<T, error_code>;
+
   enum class IoError
   {
     eof,
@@ -100,7 +103,7 @@ namespace xplat::io
     }
 
   public:
-    auto read_exact(span<uint8_t> buffer) -> expected<void, error_code>
+    auto read_exact(span<uint8_t> buffer) -> Result<void>
     {
       size_t offset = 0;
       while (offset < buffer.size())
@@ -126,7 +129,7 @@ namespace xplat::io
       return {};
     }
 
-    auto write_all(span<const uint8_t> buffer) -> expected<void, error_code>
+    auto write_all(span<const uint8_t> buffer) -> Result<void>
     {
       size_t offset = 0;
       while (offset < buffer.size())
@@ -159,7 +162,7 @@ namespace xplat::io
   //
   ////////////////////////////////////////////////////////////////////////////////
   template<typename T>
-  requires (sizeof(T) == 4 || sizeof(T) == 8)
+  requires(sizeof(T) == 4 || sizeof(T) == 8)
   auto to_network_order(const T value) -> T
   {
     if constexpr (endian::native == endian::big)
@@ -169,7 +172,7 @@ namespace xplat::io
   }
 
   template<typename T>
-  requires (sizeof(T) == 4 || sizeof(T) == 8)
+  requires(sizeof(T) == 4 || sizeof(T) == 8)
   auto from_network_order(const T value) -> T
   {
     return to_network_order(value); // Same operation for both directions
