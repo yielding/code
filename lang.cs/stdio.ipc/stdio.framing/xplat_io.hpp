@@ -38,6 +38,7 @@ namespace xplat::io
     static const struct : error_category
     {
       auto name() const noexcept -> const char* override { return "io_error"; }
+
       auto message(const int ev) const -> string override
       {
         switch (static_cast<IoError>(ev))
@@ -163,8 +164,8 @@ namespace xplat::io
   {
     if constexpr (endian::native == endian::big)
       return value;
-    else
-      return byteswap(value);
+
+    return byteswap(value);
   }
 
   template<typename T>
