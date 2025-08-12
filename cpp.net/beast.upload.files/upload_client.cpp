@@ -12,6 +12,8 @@
 #include <filesystem>
 #include <sstream>
 #include <algorithm>
+#include <stdexcept>
+#include <regex>
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -23,7 +25,7 @@ namespace net
   using json = nlohmann::json;
 
   MultipartUploadClient::MultipartUploadClient(const string host, const string port)
-    : _host(host) , _port(port) , _resolver(_ioc) , _stream(_ioc)
+    : _host(host) , _port(port) , _resolver(_ioc) , _stream(_ioc) , _connected(false)
   {}
 
   MultipartUploadClient::~MultipartUploadClient()
@@ -36,14 +38,22 @@ namespace net
     const string detect_model,
     const string ocr_model,
     const vector<string>& image_paths,
-    const string endpoint) -> Response
+    const string endpoint,
+    ProgressCallback progress_callback) -> Response
   {
     Response response{0, "", false};
     
     try 
     {
-      auto const results = _resolver.resolve(_host, _port);
-      _stream.connect(results);
+      // Validate endpoint format
+      if (!validate_endpoint(endpoint))
+        throw invalid_argument("Invalid endpoint format. Must start with '/'.");
+
+      // Connect or reuse existing connection
+      reconnect_if_needed();
+      
+      // Set timeout for this operation
+      _stream.expires_after(DEFAULT_TIMEOUT);
 
       auto boundary = generate_boundary();
       
@@ -61,15 +71,15 @@ namespace net
       // Add image files
       for (const auto& image_path : image_paths) 
       {
-        auto image_data = read_file(image_path);
-        if (image_data.empty()) 
+        auto image_data_opt = read_file(image_path);
+        if (!image_data_opt.has_value()) 
         {
           println(stderr, "Failed to read image: {}", image_path);
           continue;
         }
 
         auto filename = filesystem::path(image_path).filename().string();
-        add_form_file(body, boundary, "sources", filename, std::move(image_data));
+        add_form_file(body, boundary, "sources", filename, std::move(image_data_opt.value()));
       }
 
       body += "--" + boundary + "--\r\n";
@@ -81,7 +91,19 @@ namespace net
       req.body() = body;
       req.prepare_payload();
 
-      http::write(_stream, req);
+      // Send request with progress tracking
+      if (progress_callback)
+      {
+        auto total_bytes = req.body().size();
+        
+        // Write request with progress updates
+        http::write(_stream, req);
+        progress_callback(total_bytes, total_bytes); // Final 100% callback
+      }
+      else
+      {
+        http::write(_stream, req);
+      }
 
       beast::flat_buffer buffer;
       http::response<http::dynamic_body> res;
@@ -94,7 +116,19 @@ namespace net
       
       return response;
     }
-    catch (exception const& e) 
+    catch (const beast::system_error& e)
+    {
+      println(stderr, "Network error: {}", e.what());
+      response.body = string("Network error: ") + e.what();
+      return response;
+    }
+    catch (const invalid_argument& e)
+    {
+      println(stderr, "Invalid argument: {}", e.what());
+      response.body = string("Invalid argument: ") + e.what();
+      return response;
+    }
+    catch (const exception& e) 
     {
       println(stderr, "Error: {}", e.what());
       response.body = e.what();
@@ -122,32 +156,40 @@ namespace net
     return "application/octet-stream";
   }
 
-  auto MultipartUploadClient::read_file(const string file_path) -> vector<unsigned char>
+  auto MultipartUploadClient::read_file(const string file_path) -> optional<vector<unsigned char>>
   {
     namespace fs = filesystem;
     
     if (!fs::exists(file_path)) 
     {
       println(stderr, "File not found: {}", file_path);
-      return {};
+      return nullopt;
+    }
+
+    // Check file size
+    auto file_size = fs::file_size(file_path);
+    if (file_size > MAX_FILE_SIZE)
+    {
+      println(stderr, "File too large: {} bytes (max: {} bytes)", file_size, MAX_FILE_SIZE);
+      return nullopt;
     }
 
     ifstream file(file_path, ios::binary);
     if (!file) 
     {
       println(stderr, "Cannot open file: {}", file_path);
-      return {};
+      return nullopt;
     }
-
-    // 내가 만든 함수 사용하기 
-    // Get file size
-    file.seekg(0, ios::end);
-    auto file_size = file.tellg();
-    file.seekg(0, ios::beg);
 
     // Read file
     vector<unsigned char> buffer(file_size);
     file.read(reinterpret_cast<char*>(buffer.data()), file_size);
+    
+    if (!file)
+    {
+      println(stderr, "Failed to read complete file: {}", file_path);
+      return nullopt;
+    }
     
     return buffer;
   }
@@ -178,10 +220,45 @@ namespace net
 
   auto MultipartUploadClient::close() -> void
   {
-    beast::error_code ec;
-    _stream.socket().shutdown(tcp::socket::shutdown_both, ec);
-    if (ec && ec != beast::errc::not_connected)
-      println(stderr, "Shutdown error: {}", ec.message());
+    disconnect();
+  }
+
+  auto MultipartUploadClient::is_connected() const -> bool
+  {
+    return _connected && _stream.socket().is_open();
+  }
+
+  auto MultipartUploadClient::reconnect_if_needed() -> void
+  {
+    if (!is_connected())
+    {
+      // Resolve if we haven't already
+      if (_endpoints.empty())
+        _endpoints = _resolver.resolve(_host, _port);
+      
+      // Connect to the resolved endpoints
+      _stream.connect(_endpoints);
+      _connected = true;
+    }
+  }
+
+  auto MultipartUploadClient::disconnect() -> void
+  {
+    if (_connected)
+    {
+      beast::error_code ec;
+      _stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+      if (ec && ec != beast::errc::not_connected)
+        println(stderr, "Shutdown error: {}", ec.message());
+      _connected = false;
+    }
+  }
+
+  auto MultipartUploadClient::validate_endpoint(const string endpoint) -> bool
+  {
+    // Endpoint must start with '/' and contain only valid URI characters
+    static const regex endpoint_regex("^/[a-zA-Z0-9/_.-]*$");
+    return regex_match(endpoint, endpoint_regex);
   }
 }
 

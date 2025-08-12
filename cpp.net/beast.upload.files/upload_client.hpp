@@ -6,6 +6,9 @@
 
 #include <string>
 #include <vector>
+#include <chrono>
+#include <optional>
+#include <functional>
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -27,8 +30,14 @@ namespace net
     bool success;
   };
 
+  using ProgressCallback = function<void(size_t bytes_sent, size_t total_bytes)>;
+
   class MultipartUploadClient
   {
+  public:
+    static constexpr size_t MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+    static constexpr auto DEFAULT_TIMEOUT = std::chrono::seconds(30);
+
   public:
     MultipartUploadClient(const string host, const string port);
     ~MultipartUploadClient();
@@ -39,12 +48,18 @@ namespace net
       const string detect_model,
       const string ocr_model,
       const vector<string>& image_paths,
-      const string endpoint = "/infer") -> Response;
+      const string endpoint = "/infer",
+      ProgressCallback progress_callback = nullptr) -> Response;
+    
+    auto is_connected() const -> bool;
+    auto reconnect_if_needed() -> void;
+    auto disconnect() -> void;
 
   private:
     auto generate_boundary() -> string;
     auto get_mime_type(const string filename) -> string;
-    auto read_file(const string file_path) -> vector<unsigned char>;
+    auto read_file(const string file_path) -> optional<vector<unsigned char>>;
+    auto validate_endpoint(const string endpoint) -> bool;
     auto add_form_field(string& body, const string& boundary, const string& name, const string& value) -> void;
     auto add_form_field_json(string& body, const string& boundary, const string& name, const string& json_value) -> void;
     auto add_form_file(string& body, const string& boundary, const string& name, const string& filename, vector<unsigned char>&& data) -> void;
@@ -56,6 +71,8 @@ namespace net
     asio::io_context _ioc;
     tcp::resolver _resolver;
     beast::tcp_stream _stream;
+    bool _connected = false;
+    tcp::resolver::results_type _endpoints;
   };
 }
 
