@@ -14,11 +14,11 @@ namespace monadic_examples
   using namespace xplat::io;
   using namespace xplat::framing;
 
-  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   //
   // Helper function for monadic chaining with logging
   //
-  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   template<typename T>
   auto log_step(const string& step_name, Result<T> result) -> Result<T>
   {
@@ -30,11 +30,11 @@ namespace monadic_examples
     return result;
   }
 
-  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   //
   // Extended MessageWriter with monadic operations
   //
-  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   class ExtendedMessageWriter : public MessageWriter
   {
   public:
@@ -60,7 +60,7 @@ namespace monadic_examples
     auto write_transformed(const Message& msg, Transform transform) -> Result<void>
     {
       return transform(msg)
-        .and_then([this](const Message& transformed) {
+        .and_then([this](const auto& transformed) {
           return write_message(transformed);
         });
     }
@@ -126,7 +126,6 @@ namespace monadic_examples
   ////////////////////////////////////////////////////////////////////////////////
   auto compress_payload(const Message& msg) -> Result<Message>
   {
-    // Simplified: just add a compression marker to header
     auto compressed = msg;
     compressed.header = format(R"({{"compressed":true,"original":{}}})", msg.header);
     return compressed;
@@ -134,7 +133,6 @@ namespace monadic_examples
 
   auto encrypt_payload(const Message& msg) -> Result<Message>
   {
-    // Simplified: XOR with 0x42
     auto encrypted = msg;
     for (auto& byte : encrypted.payload)
       byte ^= 0x42;

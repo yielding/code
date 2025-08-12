@@ -1,0 +1,66 @@
+#include "upload_client.hpp"
+
+#include <print>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Main function
+//
+////////////////////////////////////////////////////////////////////////////////
+int main(int argc, char* argv[])
+{
+  // Check command line arguments
+  if (argc < 3) 
+  {
+    println(stderr, "Usage: {} <host> <port> [image1] [image2] ...", argv[0]);
+    println(stderr, "Example: {} 172.16.253.34 8000 frame_1.jpg frame_2.jpg frame_3.jpg", argv[0]);
+    return 1;
+  }
+
+  auto host = argv[1];
+  auto port = argv[2];
+
+  // Collect image paths
+  vector<string> image_paths;
+  for (int i = 3; i < argc; ++i)
+    image_paths.push_back(argv[i]);
+
+  // Default test images if none provided
+  if (image_paths.empty()) 
+  {
+    println("No images provided. Using example: frame_1.jpg, frame_2.jpg");
+    image_paths = {"frame_1.jpg", "frame_2.jpg"};
+  }
+
+  println("Uploading to {}:{}", host, port);
+  println("Images to upload:");
+  for (const auto& path : image_paths)
+    println("  - {}", path);
+  
+  println("");
+
+  // Create client and upload
+  net::MultipartUploadClient client(host, port);
+  
+  auto success = client.upload_with_json_and_images(
+    "NpRec",       // analyzerType
+    "Yolov5Att",   // detect model
+    "Korea",       // OCR model
+    image_paths,   // image files
+    "/infer"       // endpoint
+  );
+
+  if (!success)
+  {
+    println(stderr, "\nUpload failed.");
+    return 1;
+  }
+
+  println("\nUpload completed successfully!");
+
+  return 0;
+}

@@ -292,7 +292,6 @@ namespace xplat::framing
     {
       while (_running)
       {
-        // Read message with error handling
         auto msg_result = _reader.read_message();
         if (!msg_result)
         {
@@ -301,11 +300,11 @@ namespace xplat::framing
             _error_handler->on_client_disconnect();
             break;
           }
-          continue; // Try to read next message if handler says continue
+
+          continue; // try next message if handler says continue
         }
 
-        // Check for EOF
-        if (!msg_result.value())
+        if (!msg_result.value()) // Check for EOF
         {
           _error_handler->on_client_disconnect();
           break;
@@ -319,12 +318,11 @@ namespace xplat::framing
         }
         catch (const exception& e)
         {
-          if (!_error_handler->handle_process_error(e))
-            break;
-          continue; // Skip writing response if processing failed
+          if (!_error_handler->handle_process_error(e)) break;
+          continue; // skip writing response if processing failed
         }
         
-        // Write response with error handling
+        // write response with error handling
         if (auto write_result = _writer.write_message(response); !write_result)
         {
           if (!_error_handler->handle_write_error(write_result.error()))
