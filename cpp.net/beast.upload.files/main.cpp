@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
   // Create client and upload
   net::MultipartUploadClient client(host, port);
   
-  auto success = client.upload_with_json_and_images(
+  auto response = client.upload_with_json_and_images(
     "NpRec",       // analyzerType
     "Yolov5Att",   // detect model
     "Korea",       // OCR model
@@ -54,7 +54,10 @@ int main(int argc, char* argv[])
     "/infer"       // endpoint
   );
 
-  if (!success)
+  println("\nResponse Status Code: {}", response.status_code);
+  println("Response Body: {}", response.body);
+  
+  if (!response.success)
   {
     println(stderr, "\nUpload failed.");
     return 1;

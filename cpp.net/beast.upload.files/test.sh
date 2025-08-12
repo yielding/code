@@ -6,8 +6,8 @@ echo "Server: http://172.16.253.34:8000/infer"
 echo ""
 
 # Check if executable exists
-if [ ! -f "./main" ]; then
-    echo "Error: ./main not found. Please build the project first."
+if [ ! -f "./build/main" ]; then
+    echo "Error: ./build/main not found. Please build the project first."
     echo "Run: make"
     exit 1
 fi

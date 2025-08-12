@@ -36,8 +36,10 @@ namespace net
     const string detect_model,
     const string ocr_model,
     const vector<string>& image_paths,
-    const string endpoint) -> bool
+    const string endpoint) -> Response
   {
+    Response response{0, "", false};
+    
     try 
     {
       auto const results = _resolver.resolve(_host, _port);
@@ -86,16 +88,18 @@ namespace net
       http::response<http::dynamic_body> res;
       http::read(_stream, buffer, res);
 
-      println("Response Status: {}", res.result_int());
-      println("Response Body: {}", beast::buffers_to_string(res.body().data()));
-
-      return (res.result() == http::status::ok || 
-              res.result() == http::status::created);
+      response.status_code = res.result_int();
+      response.body = beast::buffers_to_string(res.body().data());
+      response.success = (res.result() == http::status::ok || 
+                         res.result() == http::status::created);
+      
+      return response;
     }
     catch (exception const& e) 
     {
       println(stderr, "Error: {}", e.what());
-      return false;
+      response.body = e.what();
+      return response;
     }
   }
 

@@ -20,6 +20,13 @@ namespace net
   namespace asio = boost::asio;
   using tcp = asio::ip::tcp;
 
+  struct Response
+  {
+    int status_code;
+    string body;
+    bool success;
+  };
+
   class MultipartUploadClient
   {
   public:
@@ -32,7 +39,7 @@ namespace net
       const string detect_model,
       const string ocr_model,
       const vector<string>& image_paths,
-      const string endpoint = "/infer") -> bool;
+      const string endpoint = "/infer") -> Response;
 
   private:
     auto generate_boundary() -> string;
