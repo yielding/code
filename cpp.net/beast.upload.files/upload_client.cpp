@@ -47,10 +47,9 @@ namespace net
 
       auto boundary = generate_boundary();
       
-      auto model_types_json = json::array({
-        {{"detect", detect_model}, 
-        {"ocr", ocr_model}}
-      }).dump();
+      auto model_types_json = json{
+        {{"detect", detect_model}, {"ocr", ocr_model}}
+      }.dump();
       
       // Build multipart body
       string body;
@@ -70,7 +69,7 @@ namespace net
         }
 
         auto filename = filesystem::path(image_path).filename().string();
-        add_form_file(body, boundary, "sources", filename, image_data);
+        add_form_file(body, boundary, "sources", filename, std::move(image_data));
       }
 
       body += "--" + boundary + "--\r\n";
@@ -168,12 +167,12 @@ namespace net
     body += json_value + "\r\n";
   }
 
-  auto MultipartUploadClient::add_form_file(string& body, const string& boundary, const string& name, const string& filename, const vector<unsigned char>& data) -> void
+  auto MultipartUploadClient::add_form_file(string& body, const string& boundary, const string& name, const string& filename, vector<unsigned char>&& data) -> void
   {
     body += "--" + boundary + "\r\n";
     body += "Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + filename + "\"\r\n";
     body += "Content-Type: " + get_mime_type(filename) + "\r\n\r\n";
-    body.append(data.begin(), data.end());
+    body.append(std::make_move_iterator(data.begin()), std::make_move_iterator(data.end()));
     body += "\r\n";
   }
 

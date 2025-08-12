@@ -47,7 +47,7 @@ namespace net
     auto read_file(const string file_path) -> vector<unsigned char>;
     auto add_form_field(string& body, const string& boundary, const string& name, const string& value) -> void;
     auto add_form_field_json(string& body, const string& boundary, const string& name, const string& json_value) -> void;
-    auto add_form_file(string& body, const string& boundary, const string& name, const string& filename, const vector<unsigned char>& data) -> void;
+    auto add_form_file(string& body, const string& boundary, const string& name, const string& filename, vector<unsigned char>&& data) -> void;
     auto close() -> void;
 
   private:
