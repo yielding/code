@@ -3,8 +3,10 @@
 #include <print>
 #include <vector>
 #include <string>
+#include <nlohmann/json.hpp>
 
 using namespace std;
+using json = nlohmann::json;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -62,7 +64,17 @@ int main(int argc, char* argv[])
   );
 
   println("\nResponse Status Code: {}", response.status_code);
-  println("Response Body: {}", response.body);
+  
+  // Pretty print JSON response if valid
+  try 
+  {
+    auto json_response = json::parse(response.body);
+    println("Response Body (formatted):\n{}", json_response.dump(2));
+  } 
+  catch (const json::parse_error&) 
+  {
+    println("Response Body (raw): {}", response.body);
+  }
   
   if (!response.success)
   {

@@ -62,7 +62,8 @@ namespace net
       auto boundary = generate_boundary();
       
       auto model_types_json = json{
-        {{"detect", detect_model}, {"ocr", ocr_model}}
+        {"detect", detect_model}, 
+        {"ocr", ocr_model}
       }.dump();
       
       // Build multipart body
@@ -115,8 +116,8 @@ namespace net
 
       response.status_code = res.result_int();
       response.body = beast::buffers_to_string(res.body().data());
-      response.success = (res.result() == http::status::ok || 
-                         res.result() == http::status::created);
+      response.success = res.result() == http::status::ok || 
+                         res.result() == http::status::created;
       
       return response;
     }
@@ -170,7 +171,6 @@ namespace net
       return nullopt;
     }
 
-    // Check file size
     auto file_size = fs::file_size(file_path);
     if (file_size > MAX_FILE_SIZE)
     {
@@ -254,6 +254,7 @@ namespace net
       _stream.socket().shutdown(tcp::socket::shutdown_both, ec);
       if (ec && ec != beast::errc::not_connected)
         println(stderr, "Shutdown error: {}", ec.message());
+
       _connected = false;
     }
   }
