@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
   println("");
 
   // Create client and upload
-  net::MultipartUploadClient client(host, port);
+  net::MultipartUploadClient client{host, port};
   
   // Progress callback for tracking upload
   auto progress_callback = [](size_t bytes_sent, size_t total_bytes) {

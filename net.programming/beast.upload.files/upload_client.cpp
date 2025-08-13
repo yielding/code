@@ -25,7 +25,11 @@ namespace net
   using json = nlohmann::json;
 
   MultipartUploadClient::MultipartUploadClient(const string host, const string port)
-    : _host(host) , _port(port) , _resolver(_ioc) , _stream(_ioc) , _connected(false)
+    : _host{host}
+    , _port{port}
+    , _resolver{_ioc}
+    , _stream{_ioc}
+    , _connected{false}
   {}
 
   MultipartUploadClient::~MultipartUploadClient()
@@ -138,7 +142,7 @@ namespace net
 
   auto MultipartUploadClient::generate_boundary() -> string
   {
-    auto uuid = boost::uuids::random_generator()();
+    auto uuid = boost::uuids::random_generator{}();
     return "----WebKitFormBoundary" + boost::uuids::to_string(uuid).substr(0, 16);
   }
 
@@ -174,7 +178,7 @@ namespace net
       return nullopt;
     }
 
-    ifstream file(file_path, ios::binary);
+    ifstream file{file_path, ios::binary};
     if (!file) 
     {
       println(stderr, "Cannot open file: {}", file_path);

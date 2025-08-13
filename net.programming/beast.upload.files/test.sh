@@ -13,7 +13,4 @@ if [ ! -f "./build/main" ]; then
 fi
 
 # Test with sample images (you'll need to provide actual image files)
-./build/main 172.16.253.34 8000 /Users/yielding/Desktop/1.jpg /Users/yielding/Desktop/2.jpg
-
-# Alternative test without images (will use defaults)
-# ./main 172.16.253.34 8000
+./build/main 172.16.253.34 8000 ./1.jpg ./2.jpg
