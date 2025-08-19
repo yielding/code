@@ -2,14 +2,15 @@
 #include "video.scaler.hpp"
 #include <fstream>
 
+using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 ///
 ///
 ///
 ////////////////////////////////////////////////////////////////////////////////
-namespace av {
-
+namespace av 
+{
   VideoScaler::VideoScaler(int srcW, int srcH, AVPixelFormat srcFmt, int dstW, int dstH, AVPixelFormat dstFmt)
     : _dstW(dstW), _dstH(dstH), _dstFmt(dstFmt),
       _scaler(srcW, srcH, srcFmt, dstW, dstH, dstFmt) 
@@ -20,7 +21,7 @@ namespace av {
   auto VideoScaler::scale_frame(AVFrame* src) -> AVFrame* 
   {
     AVFrame* dst = av_frame_alloc();
-    if (!dst) throw std::runtime_error("Failed to allocate frame");
+    if (!dst) throw runtime_error("Failed to allocate frame");
   
     dst->format = _dstFmt;
     dst->width = _dstW;
@@ -29,7 +30,7 @@ namespace av {
     if (av_frame_get_buffer(dst, 32) < 0) 
     {
       av_frame_free(&dst);
-      throw std::runtime_error("Failed to allocate frame buffer");
+      throw runtime_error("Failed to allocate frame buffer");
     }
   
     _scaler.scale(src, dst);
@@ -37,7 +38,7 @@ namespace av {
     return dst;
   }
   
-  bool VideoScaler::scale_to_file(AVFrame* src, const std::string& filename) 
+  bool VideoScaler::scale_to_file(AVFrame* src, const string& filename) 
   {
     auto jpeg_codec = avcodec_find_encoder(AV_CODEC_ID_MJPEG);
     if (!jpeg_codec) return false;
@@ -56,7 +57,7 @@ namespace av {
       return false;
     }
   
-    AVFrame* scaled = scale_frame(src);
+    auto scaled = scale_frame(src);
     
     if (!scaled) 
     {
@@ -71,11 +72,11 @@ namespace av {
       return false;
     }
   
-    AVPacket* pkt = av_packet_alloc();
+    auto pkt = av_packet_alloc();
     bool result = false;
     if (avcodec_receive_packet(jpeg_ctx, pkt) >= 0) 
     {
-      std::ofstream ofs(filename, std::ios::binary);
+      ofstream ofs(filename, ios::binary);
       if (ofs.good()) 
       {
         ofs.write(reinterpret_cast<char*>(pkt->data), pkt->size);
@@ -88,12 +89,13 @@ namespace av {
     av_packet_free(&pkt);
     av_frame_free(&scaled);
     avcodec_free_context(&jpeg_ctx);
+
     return result;
   }
   
-  auto VideoScaler::scale_to_vector(AVFrame* src) -> std::vector<uint8_t> 
+  auto VideoScaler::scale_to_vector(AVFrame* src) -> vector<uint8_t> 
   {
-    std::vector<uint8_t> output;
+    vector<uint8_t> output;
   
     auto jpeg_codec = avcodec_find_encoder(AV_CODEC_ID_MJPEG);
     if (!jpeg_codec) 
@@ -141,7 +143,6 @@ namespace av {
   
     return output;
   }
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -6,8 +6,8 @@
 ///
 ///
 ////////////////////////////////////////////////////////////////////////////////
-namespace av {
-
+namespace av 
+{
   Scaler::Scaler(int sw, int sh, AVPixelFormat sFmt,
     int dw, int dh, AVPixelFormat dFmt, int flags) 
   {
@@ -28,7 +28,6 @@ namespace av {
       src->data, src->linesize, 0, src->height,
       dst->data, dst->linesize);
   }
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////
