@@ -6,7 +6,7 @@ export MINGW_HOME=/opt/homebrew/opt/mingw-w64
 export OPENCV_HOME=/opt/homebrew/opt/opencv
 export DOTNET_ROOT=/usr/local/share/dotnet
 export DOTNET_TOOLS_HOME=$HOME/.dotnet/tools
-export RUBYLIB=$HOME/develop/lib.ruby
+export RUBYLIB=$HOME/develop.ruby/lib
 
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
@@ -19,9 +19,8 @@ export PATH=$DOTNET_TOOLS_HOME:$PATH
 export LDFLAGS="-L$RUBY_HOME/lib -L/opt/homebrew/lib -lpthread"
 export CPLUS_INCLUDE_PATH=$LLVM_HOME/include:/opt/homebrew/include:$OPENCV_HOME/include/opencv4:$CPLUS_INCLUDE_PATH
 
-#export CC=$LLVM_HOME/bin/clang
-#export CXX=$LLVM_HOME/bin/clang++
-#export CXX="/opt/homebrew/bin/g++-15"
+export CC=$LLVM_HOME/bin/clang
+export CXX=$LLVM_HOME/bin/clang++
 export PROJECT=$HOME/project/md.platform.infra
 
 #export TERM=xterm-256color
@@ -155,8 +154,6 @@ mn() {
   tmux new-session -d -s "$session_name" "source ~/.zshrc && nnn -a -c -d -e -U $@";
   tmux attach-session -t "$session_name";
 }
-
-#source ~/scripts/mn.zsh
 
 export LANG=ko_KR.UTF-8
 

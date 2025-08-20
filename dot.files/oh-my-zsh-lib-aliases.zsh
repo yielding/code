@@ -30,10 +30,12 @@ alias gdu='gdu-go'
 alias xxd='xxd -g 1'
 
 # shortcurs
-alias gonnn='cd ~/.config/nnn'
-alias gowork='cd ~/project/code.apps/csproj.analyzer'
-alias gowork='cd ~/project/md.platform.infra'
-alias gowork2='cd ~/project/local.stream'
 alias gowww='cd /opt/homebrew/opt/nginx/html'
+alias gonnn='cd ~/.config/nnn'
+alias gowork='cd ~/project/remote.stream'
+alias gowork='cd ~/code/cpp.net/beast.upload.files'
+alias gowork2='cd ~/project/md.platform.infra/app/ffmpeg.decoder'
+alias gowork='cd ~/project/local.stream'
+alias gowork='cd ~/project/md.platform.infra/engine/video.engine'
 
 alias aliases='vi ~/.oh-my-zsh/lib/aliases.zsh && source ~/.oh-my-zsh/lib/aliases.zsh'
