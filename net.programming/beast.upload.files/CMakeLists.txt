@@ -32,7 +32,7 @@ elseif (UNIX AND NOT APPLE)
 endif()
 
 # Find packages
-find_package(Boost REQUIRED COMPONENTS system filesystem thread serialization)
+find_package(Boost REQUIRED COMPONENTS filesystem thread serialization)
 find_package(nlohmann_json REQUIRED)
 
 # Create executable
