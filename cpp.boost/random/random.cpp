@@ -1,70 +1,82 @@
 #include <boost/random.hpp>
 #include <boost/iterator/iterator_facade.hpp>
-#include <boost/iterator/iterator_traits.hpp>
-#include <boost/iterator/iterator_categories.hpp>
-#include <iostream>
+
 #include <algorithm>
+#include <iostream>
 #include <vector>
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 using namespace std;
 using namespace boost;
 
 template <typename Gen>
 class random_number_iterator: 
   public iterator_facade<random_number_iterator<Gen>, 
-         typename Gen::result_type const, 
-         forward_traversal_tag>
+  typename Gen::result_type const, 
+  forward_traversal_tag>
 {
 public:
-  using result_type = Gen::result_type;
+  using result_type = typename Gen::result_type;
 
 public:
-  explicit random_number_iterator(Gen& gen, int cnt=0)
-    : m_gen(gen)
-    , m_count(cnt)
+  explicit random_number_iterator(Gen& gen, const int cnt = 0)
+    : _gen(gen)
+    , _count(cnt)
+    , _value{}
   {
     if (cnt != 0)
-      m_value = m_gen();
+      _value = _gen();
   }
 
-  friend class iterator_core_access;
-
-  void increment()
+public:
+  auto increment() -> void
   {
-    --m_count;
-    m_value = m_gen();
+    --_count;
+    _value = _gen();
   }
 
-  auto equal(random_number_iterator const& other) const
-  { return m_count == other.m_count; }
+  auto equal(const random_number_iterator& other) const -> bool
+  { 
+    return _count == other._count; 
+  }
 
-  auto dereference() const -> result_type const& 
-  { return m_value; }
+  auto dereference() const -> const result_type& 
+  { 
+    return _value; 
+  }
 
 private:
-  Gen& m_gen;
-  int m_count;
-  result_type m_value;
+  friend class iterator_core_access;
+
+private:
+  Gen& _gen;
+  int _count;
+  result_type _value;
 };
 
-template<class Gen> 
-auto make_random_number_iterator(Gen& gen, int cnt=0) -> random_number_iterator<Gen> 
+template<typename Gen> 
+auto make_random_number_iterator(Gen& gen, const int cnt = 0) -> random_number_iterator<Gen> 
 {
   return random_number_iterator<Gen>(gen, cnt);
 }
 
-int main()
+auto main() -> int
 {
   mt19937 rng;
-  uniform_int<> six(1, 100);
-  variate_generator<mt19937&, uniform_int<>> die(rng, six);
+  uniform_int_distribution<int> distribution(1, 100);
+  variate_generator<mt19937&, uniform_int_distribution<int>> die(rng, distribution);
 
   vector<int> vi;
   copy(make_random_number_iterator(die, 1000),
-       make_random_number_iterator(die),
-       back_inserter(vi));
+      make_random_number_iterator(die),
+      back_inserter(vi));
 
-  for (auto& v : vi) cout << v << " ";
+  for (const auto& v : vi) 
+    cout << v << " ";
 
   return 0;
 }
