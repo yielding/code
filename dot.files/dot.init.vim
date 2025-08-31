@@ -8,6 +8,7 @@ set modeline
 set ru
 
 set autoread
+set shortmess+=A
 
 set sr
 
@@ -569,7 +570,7 @@ let g:cmake_root_markers=[]
 let g:cmake_native_build_options=["-j10"]
 
 nmap <c-s-g>    <Plug>(CMakeGenerate)
-nmap <c-s-b>    <Plug>(CMakeBuild)
+nmap <c-s-b>    <esc>:w<cr> <Plug>(CMakeBuild)
 imap <c-s-b>    <esc>:w<cr> <Plug>(CMakeBuild)
 
 nmap <c-s-t>    <Plug>(CMakeTest)
@@ -637,6 +638,9 @@ au BufNewFile,BufReadPost *.rb set foldmethod=expr
 au BufNewFile,BufReadPost *.py set ts=2 sts=2 sw=2 tw=0
 au BufNewFile,BufReadPost *.py compiler pyunit
 au BufNewFile,BufReadPost *.g4 set ft=antlr
+
+" 포커스를 잃었다가 돌아올 때 자동 체크
+au FocusGained,BufEnter * checktime
 
 au FileType python  noremap <c-s-r> :!python3 %<CR>
 au FileType cs      noremap <c-s-b> :!dotnet build<CR>

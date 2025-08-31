@@ -16,6 +16,8 @@ export PATH=$LLVM_HOME/bin:$PATH
 export PATH=$MINGW_HOME/bin:$PATH
 export PATH=$DOTNET_TOOLS_HOME:$PATH
 
+export VIDEO_ENGINE="${HOME}/no.cloud/video"
+
 export LDFLAGS="-L$RUBY_HOME/lib -L/opt/homebrew/lib -lpthread"
 export CPLUS_INCLUDE_PATH=$LLVM_HOME/include:/opt/homebrew/include:$OPENCV_HOME/include/opencv4:$CPLUS_INCLUDE_PATH
 

@@ -35,7 +35,6 @@ alias gonnn='cd ~/.config/nnn'
 alias gowork='cd ~/project/remote.stream'
 alias gowork='cd ~/code/cpp.net/beast.upload.files'
 alias gowork2='cd ~/project/md.platform.infra/app/ffmpeg.decoder'
-alias gowork='cd ~/project/local.stream'
-alias gowork='cd ~/project/md.platform.infra/engine/video.engine'
+alias gowork='cd ~/project/md.platform.infra'
 
 alias aliases='vi ~/.oh-my-zsh/lib/aliases.zsh && source ~/.oh-my-zsh/lib/aliases.zsh'
