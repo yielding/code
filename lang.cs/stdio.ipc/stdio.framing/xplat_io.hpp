@@ -86,20 +86,20 @@ namespace xplat::io
 
     static auto stdin_fd() -> FileDescriptor
     {
-#if defined(_WIN32)
+      #if defined(_WIN32)
       return FileDescriptor{_fileno(stdin)};
-#else
+      #else
       return FileDescriptor{STDIN_FILENO};
-#endif
+      #endif
     }
 
     static auto stdout_fd() -> FileDescriptor
     {
-#if defined(_WIN32)
+      #if defined(_WIN32)
       return FileDescriptor{_fileno(stdout)};
-#else
+      #else
       return FileDescriptor{STDOUT_FILENO};
-#endif
+      #endif
     }
 
   public:
@@ -109,11 +109,11 @@ namespace xplat::io
       while (offset < buffer.size())
       {
         const auto remaining = buffer.size() - offset;
-#if defined(_WIN32)
+        #if defined(_WIN32)
         const auto result = ::_read(_fd, buffer.data() + offset, static_cast<unsigned>(remaining));
-#else
+        #else
         const auto result = ::read(_fd, buffer.data() + offset, remaining);
-#endif
+        #endif
         if (result == 0)
           return unexpected(make_error_code(IoError::eof));
         
@@ -135,11 +135,11 @@ namespace xplat::io
       while (offset < buffer.size())
       {
         const auto remaining = buffer.size() - offset;
-#if defined(_WIN32)
+        #if defined(_WIN32)
         const auto result = ::_write(_fd, buffer.data() + offset, static_cast<unsigned>(remaining));
-#else
+        #else
         const auto result = ::write(_fd, buffer.data() + offset, remaining);
-#endif
+        #endif
         if (result < 0)
         {
           if (errno == EINTR) continue;
