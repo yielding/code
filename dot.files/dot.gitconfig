@@ -5,3 +5,5 @@
 	email = yielding@gmail.com
 [submodule]
 	recurse = true
+[merge]
+	ff = false
