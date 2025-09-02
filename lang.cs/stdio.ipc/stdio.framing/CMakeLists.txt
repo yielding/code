@@ -7,7 +7,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(HOME $ENV{HOME})
 
-
 # Modern C++ executables
 add_executable(server server.cpp)
 add_executable(client client.cpp)
