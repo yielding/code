@@ -8,12 +8,14 @@
 
   "diagnostic.enable": false,
   "diagnostic.displayByAle": false,
-  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/20.1.8/clangd_20.1.8/bin/clangd",
+  "clangd.path": "/opt/homebrew/opt/llvm/bin/clangd",
   "clangd.arguments": [
+    "--background-index",
     "--clang-tidy",
+    "--completion-style=detailed",
     "--header-insertion=never",
-    "--compile-commands-dir=./build",
-    "--query-driver=/opt/homebrew/opt/llvm/bin/clang++"
+    "--compile-commands-dir=./Debug",
+    //"--query-driver=/opt/homebrew/opt/llvm/bin/clang++"
   ],
   "sugget.autoTrigger": "always",
   "coc.preferences.diagnostic.virtualText": true,
