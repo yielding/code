@@ -8,6 +8,7 @@
 #include <expected>
 #include <system_error>
 #include <format>
+#include <print>
 #include <bit>
 
 #if defined(_WIN32)
@@ -119,7 +120,9 @@ namespace xplat::io
         
         if (result < 0)
         {
-          if (errno == EINTR) continue;
+          if (errno == EINTR) 
+              return unexpected(make_error_code(errc{errno}));
+            // continue;
           return unexpected(make_error_code(errc{errno}));
         }
         
@@ -150,6 +153,15 @@ namespace xplat::io
       }
       
       return {};
+    }
+
+    auto close() -> void
+    {
+      #if defined(_WIN32)
+      ::_close(_fd);
+      #else
+      ::close(_fd);
+      #endif
     }
 
   private:

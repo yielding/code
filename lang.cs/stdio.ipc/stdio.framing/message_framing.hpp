@@ -7,6 +7,8 @@
 #include <string_view>
 #include <atomic>
 #include <iostream>
+#include <print>
+#include <format>
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -17,9 +19,6 @@ namespace xplat::framing
 {
   using namespace std;
   using namespace xplat::io;
-
-  template<typename T>
-  using Result = expected<T, error_code>;
 
   //////////////////////////////////////////////////////////////////////////////
   //
@@ -238,11 +237,11 @@ namespace xplat::framing
       if (ec == make_error_code(errc::connection_reset) ||
           ec == make_error_code(errc::broken_pipe))
       {
-        cerr << "[INFO] Client disconnected\n";
+        println(stderr, "[INFO] Client disconnected\n");
         return false;
       }
       
-      cerr << format("[ERROR] Read failed: {} ({})\n", ec.message(), ec.value());
+      println(stderr, "[ERROR] Read failed: {} ({})\n", ec.message(), ec.value());
       return false; // Stop on any read error
     }
 
@@ -250,23 +249,23 @@ namespace xplat::framing
     {
       if (ec == make_error_code(errc::broken_pipe))
       {
-        cerr << "[INFO] Client disconnected during write\n";
+        println(stderr, "[INFO] Client disconnected during write\n");
         return false;
       }
       
-      cerr << format("[ERROR] Write failed: {} ({})\n", ec.message(), ec.value());
+      println(stderr, "[ERROR] Write failed: {} ({})\n", ec.message(), ec.value());
       return false; // Stop on any write error
     }
 
     auto handle_process_error(const exception& e) -> bool override
     {
-      cerr << format("[ERROR] Message processing failed: {}\n", e.what());
+      println(stderr, "[ERROR] Message processing failed: {}\n", e.what());
       return true; // Continue processing other messages
     }
 
     auto on_client_disconnect() -> void override
     {
-      cerr << "[INFO] Server shutting down gracefully\n";
+      println(stderr, "[INFO] Server shutting down gracefully\n");
     }
   };
 
@@ -301,7 +300,7 @@ namespace xplat::framing
             break;
           }
 
-          continue; // try next message if handler says continue
+          continue; // try the next message if handler says continue
         }
 
         if (!msg_result.value()) // Check for EOF
@@ -310,7 +309,6 @@ namespace xplat::framing
           break;
         }
 
-        // Process message with exception handling
         Message response;
         try
         {
@@ -331,6 +329,10 @@ namespace xplat::framing
             break;
           }
         }
+        
+        // For stdio IPC, process one message and exit
+        // This allows the client-server pipe to complete cleanly
+        break;
       }
 
       return {};

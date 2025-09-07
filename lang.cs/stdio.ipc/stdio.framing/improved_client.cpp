@@ -52,8 +52,8 @@ namespace app
   public:
     auto handle_response(const Message& response) -> void override
     {
-      cerr << format("Response header: {}\n", response.header);
-      cerr << format("Response payload bytes: {}\n", response.payload.size());
+      println(stderr, "Response header: {}\n", response.header);
+      println(stderr, "Response payload bytes: {}\n", response.payload.size());
     }
   };
 
@@ -67,15 +67,15 @@ namespace app
   public:
     struct ImageConfig
     {
-      uint32_t width = 640;
-      uint32_t height = 480;
-      uint32_t channels = 3;
-      string pixel_format = "BGR8";
-      string mime_type = "application/octet-stream";
+      uint32_t width;
+      uint32_t height;
+      uint32_t channels;
+      string pixel_format;
+      string mime_type;
     };
 
   public:
-    TestImageGenerator(const ImageConfig config = {})
+    TestImageGenerator(const ImageConfig& config = {640, 480, 3, "BGR8", "application/octet-stream"})
       : _config{config}
     {}
 
@@ -149,10 +149,10 @@ namespace app
       , _writer{_output}
       , _generator{std::move(generator)}
       , _handler{handler ? std::move(handler) : make_unique<LoggingResponseHandler>()}
-    {
+    {}
 
   public:
-    auto run() -> Result<void>
+    auto run() -> xplat::framing::Result<void>
     {
       try
       {
@@ -168,7 +168,7 @@ namespace app
 
         if (!response_result.value())
         {
-          cerr << "Unexpected EOF from server\n";
+          println(stderr, "Unexpected EOF from server\n");
           return unexpected(make_error_code(IoError::eof));
         }
 
@@ -185,7 +185,7 @@ namespace app
     }
 
     // Alternative: send multiple messages
-    auto run_batch(const size_t count) -> Result<void>
+    auto run_batch(const size_t count) -> xplat::framing::Result<void>
     {
       for (size_t i = 0; i < count; ++i)
       {
@@ -257,7 +257,7 @@ namespace app
           
         if (auto result = client.run(); !result)
         {
-          cerr << format("Client error: {}\n", result.error().message());
+          println(stderr, "Client error: {}\n", result.error().message());
           return 1;
         }
       }
@@ -270,7 +270,7 @@ namespace app
       //     
       //   if (auto result = client.run(); !result)
       //   {
-      //     cerr << format("Client error: {}\n", result.error().message());
+      //     println(stderr, "Client error: {}\n", result.error().message());
       //     return 1;
       //   }
       // }
@@ -294,7 +294,7 @@ namespace app
       //     
       //   if (auto result = client.run(); !result)
       //   {
-      //     cerr << format("Client error: {}\n", result.error().message());
+      //     println(stderr, "Client error: {}\n", result.error().message());
       //     return 1;
       //   }
       // }
@@ -303,7 +303,7 @@ namespace app
     }
     catch (const exception& e)
     {
-      cerr << format("Exception: {}\n", e.what());
+      println(stderr, "Exception: {}\n", e.what());
       return 1;
     }
   }

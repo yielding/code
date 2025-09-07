@@ -23,12 +23,12 @@ namespace app
       auto input  = FileDescriptor::stdin_fd();
       auto output = FileDescriptor::stdout_fd();
       
-      // based on user selection we can prepare various type of Processor
+      // based on the user selection, we can prepare various type of Processor
       MessageServer server{input, output, make_unique<EchoProcessor>()};
       
       if (auto result = server.run(); !result)
       {
-        cerr << format("Server error: {}\n", result.error().message());
+        println(stderr, "Server error: {}\n", result.error().message());
         return 1;
       }
       
@@ -36,7 +36,7 @@ namespace app
     }
     catch (const exception& e)
     {
-      cerr << format("Exception: {}\n", e.what());
+      println(stderr, "Exception: {}\n", e.what());
       return 1;
     }
   }

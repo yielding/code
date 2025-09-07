@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <format>
+#include <print>
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -23,9 +24,9 @@ namespace monadic_examples
   auto log_step(const string& step_name, Result<T> result) -> Result<T>
   {
     if (result)
-      cerr << format("[OK] {}\n", step_name);
+      println(stderr, "[OK] {}\n", step_name);
     else
-      cerr << format("[ERROR] {}: {}\n", step_name, result.error().message());
+      println(stderr, "[ERROR] {}: {}\n", step_name, result.error().message());
     
     return result;
   }
@@ -166,11 +167,11 @@ namespace monadic_examples
       
       auto result = writer.write_validated(msg)
         .and_then([]() { 
-          cerr << "Message sent successfully\n";
+          println(stderr, "Message sent successfully\n");
           return Result<void>{};
         })
         .or_else([](const error_code& ec) {
-          cerr << format("Failed to send: {}\n", ec.message());
+          println(stderr, "Failed to send: {}\n", ec.message());
           return Result<void>{};
         });
     }
@@ -193,7 +194,7 @@ namespace monadic_examples
         });
 
       if (processed)
-        cerr << format("Pipeline succeeded, header: {}\n", processed->header);
+        println(stderr, "Pipeline succeeded, header: {}\n", processed->header);
     }
 
     // Example 3: Batch processing with early termination
@@ -207,7 +208,7 @@ namespace monadic_examples
       auto result = expected<void, error_code>{}
         .and_then([&]() { return writer.write_messages(messages); })
         .and_then([]() { 
-          cerr << "All messages sent\n";
+          println(stderr, "All messages sent\n");
           return Result<void>{};
         });
     }
@@ -221,7 +222,7 @@ namespace monadic_examples
           if (auto result = writer.write_message(msg); result)
             return result;
           else if (i < max_retries - 1)
-            cerr << format("Retry {} after error: {}\n", i + 1, result.error().message());
+            println(stderr, "Retry {} after error: {}\n", i + 1, result.error().message());
           else
             return result;
         }
