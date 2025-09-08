@@ -16,7 +16,8 @@ make
 
 # Build specific targets
 make server
-make client
+make improved_client
+make pipe_client
 
 # Clean build
 rm -rf build
@@ -42,24 +43,62 @@ rm -rf build
 - Writes framed response to stdout
 - Handles variable-length headers and payloads
 
-**client.c**: Test client implementation  
+**client.cpp**: Test client implementation  
 - Sends test image data (640x480x3 BGR8 format)
 - JSON header with metadata (op, mime type, dimensions, pixel format)
 - Reads and displays server response
 
-## Usage Pattern
+**improved_client.cpp**: Enhanced C++ client with modular design
+- Uses modern C++23 features and design patterns
+- Supports pluggable message generators and response handlers
+- Template-based architecture for extensibility
 
+**pipe_client.cpp**: Automated client with subprocess management
+- Automatically starts server process and establishes pipe communication
+- Cross-platform subprocess creation (Windows CreateProcess/POSIX fork+exec)
+- Manages process lifecycle with proper cleanup and termination
+
+## Usage Patterns
+
+### Manual Pipe Connection
 ```bash
-# Run server and client with pipes
+# Traditional pipe-based communication
 ./client | ./server | tee response.bin
+./improved_client | ./server
+```
 
-# Or use with C# ProcessRedirect (parent directory)
+### Automated Pipe Connection  
+```bash
+# Automated client that spawns server process
+./pipe_client ./server
+
+# Usage with full path
+./pipe_client /path/to/server
+```
+
+### Integration with Other Languages
+```bash
+# Use with C# ProcessRedirect (parent directory)
 # Server can be spawned as subprocess with redirected stdio
 ```
 
 ## Development Notes
 
-- C11 standard required
-- Memory management: Dynamic allocation for headers/payloads, proper cleanup on all paths
-- Error handling: perror for diagnostics, early exit on I/O failures
-- Platform compatibility: Tested on Windows, macOS, Linux
+### Language Standards
+- **C components**: C11 standard required
+- **C++ components**: C++23/C++26 standard with modern features
+
+### Memory Management
+- Dynamic allocation for headers/payloads with proper cleanup on all paths
+- RAII-based resource management in C++ components
+- Automatic subprocess lifecycle management in pipe_client
+
+### Error Handling
+- C components: perror for diagnostics, early exit on I/O failures  
+- C++ components: std::expected<T, std::error_code> for error propagation
+- Cross-platform error code mapping
+
+### Platform Compatibility
+- Tested on Windows, macOS, Linux
+- Cross-platform I/O abstraction layer
+- Platform-specific subprocess management (CreateProcess/fork+exec)

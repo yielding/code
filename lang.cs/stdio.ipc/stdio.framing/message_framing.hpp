@@ -332,7 +332,7 @@ namespace xplat::framing
         
         // For stdio IPC, process one message and exit
         // This allows the client-server pipe to complete cleanly
-        break;
+        //break;
       }
 
       return {};

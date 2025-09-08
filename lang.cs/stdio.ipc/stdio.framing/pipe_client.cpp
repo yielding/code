@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <memory>
 #include <string>
+#include <thread>
+#include <chrono>
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -200,24 +202,23 @@ namespace app
       if (waitpid(_pid, &status, 0) == -1)
         return unexpected(make_error_code(errc{errno}));
 
-      if (WIFEXITED(status))
-        return WEXITSTATUS(status);
-      else if (WIFSIGNALED(status))
-        return -(WTERMSIG(status));
-      else
-        return -1;
+      if (WIFEXITED(status)) return WEXITSTATUS(status);
+
+      if (WIFSIGNALED(status)) return -(WTERMSIG(status));
+
+      return -1;
     }
     #endif
 
     auto cleanup() -> void
     {
       #if defined(_WIN32)
-      if (_stdin_fd != -1) { _close(_stdin_fd); _stdin_fd = -1; }
+      if (_stdin_fd  != -1) { _close(_stdin_fd);  _stdin_fd = -1;  }
       if (_stdout_fd != -1) { _close(_stdout_fd); _stdout_fd = -1; }
       if (_process_handle != INVALID_HANDLE_VALUE) { CloseHandle(_process_handle); _process_handle = INVALID_HANDLE_VALUE; }
-      if (_thread_handle != INVALID_HANDLE_VALUE) { CloseHandle(_thread_handle); _thread_handle = INVALID_HANDLE_VALUE; }
+      if (_thread_handle != INVALID_HANDLE_VALUE)  { CloseHandle(_thread_handle); _thread_handle = INVALID_HANDLE_VALUE; }
       #else
-      if (_stdin_fd != -1) { close(_stdin_fd); _stdin_fd = -1; }
+      if (_stdin_fd  != -1) { close(_stdin_fd); _stdin_fd = -1; }
       if (_stdout_fd != -1) { close(_stdout_fd); _stdout_fd = -1; }
       if (_pid > 0) { _pid = -1; }
       #endif
@@ -248,48 +249,76 @@ namespace app
   public:
     auto run() -> Result<void>
     {
+      return run_with_count(5); // Send 5 messages by default
+    }
+
+    auto run_with_count(const size_t message_count) -> Result<void>
+    {
       // Start server process
       _server_process = make_unique<SubProcess>();
       if (auto result = _server_process->start(_server_command); !result)
         return unexpected(result.error());
 
       // Create file descriptors for communication
-      auto server_input = FileDescriptor{_server_process->get_stdin_fd()};
+      auto server_input  = FileDescriptor{_server_process->get_stdin_fd()};
       auto server_output = FileDescriptor{_server_process->get_stdout_fd()};
 
       MessageWriter writer{server_input};
       MessageReader reader{server_output};
 
-      // Generate test message (same as original client)
-      const auto header = generate_header_json();
-      const auto payload = generate_test_image();
-      const Message request{header, payload};
-
-      // Send message to server
-      if (auto result = writer.write_message(request); !result)
-        return unexpected(result.error());
-
-      // Read response from server
-      auto response_result = reader.read_message();
-      if (!response_result)
-        return unexpected(response_result.error());
-
-      if (!response_result.value())
+      // Send multiple messages with delays
+      for (size_t i = 0; i < message_count; ++i)
       {
-        println(stderr, "Unexpected EOF from server\n");
-        return unexpected(make_error_code(IoError::eof));
+        println(stderr, "[{}] Sending message {}...\n", 
+            chrono::duration_cast<chrono::seconds>(chrono::steady_clock::now().time_since_epoch()).count() % 1000, i + 1);
+
+        // Generate test message with unique data
+        const auto header = generate_header_json(i);
+        const auto payload = generate_test_image();
+        const Message request{header, payload};
+
+        // Send message to server
+        if (auto result = writer.write_message(request); !result)
+          return unexpected(result.error());
+
+        // Read response from server
+        auto response_result = reader.read_message();
+        if (!response_result)
+          return unexpected(response_result.error());
+
+        if (!response_result.value())
+        {
+          println(stderr, "Unexpected EOF from server\n");
+          return unexpected(make_error_code(IoError::eof));
+        }
+
+        const auto& response = response_result.value().value();
+
+        // Display response
+        println(stderr, "[{}] Response header: {}\n", i + 1, response.header);
+        println(stderr, "[{}] Response payload bytes: {}\n", i + 1, response.payload.size());
+
+        // Wait 1 second before next message (except for the last one)
+        if (i < message_count - 1)
+        {
+          println(stderr, "Waiting 1 second...\n\n");
+          this_thread::sleep_for(chrono::seconds(1));
+        }
       }
 
-      const auto& response = response_result.value().value();
-
-      // Display response
-      println(stderr, "Response header: {}\n", response.header);
-      println(stderr, "Response payload bytes: {}\n", response.payload.size());
-
-      // Wait for server to finish
-      if (auto exit_code = _server_process->wait(); !exit_code || exit_code.value() != 0)
+      // Terminate the server process
+      _server_process->terminate();
+      
+      // Wait a bit for graceful shutdown
+      this_thread::sleep_for(chrono::milliseconds(100));
+      
+      if (auto exit_code = _server_process->wait(); !exit_code)
       {
-        println(stderr, "Server exited with code: {}\n", exit_code.value_or(-1));
+        println(stderr, "Server process terminated\n");
+      }
+      else
+      {
+        println(stderr, "Server exited with code: {}\n", exit_code.value());
       }
 
       return {};
@@ -306,10 +335,11 @@ namespace app
       return data;
     }
 
-    auto generate_header_json() -> string
+    auto generate_header_json(const size_t message_id = 0) -> string
     {
       return format(
-        R"({{"op":"process","mime":"application/octet-stream","width":640,"height":480,"channels":3,"pixelFormat":"BGR8"}})"
+        R"({{"op":"process","mime":"application/octet-stream","width":640,"height":480,"channels":3,"pixelFormat":"BGR8","messageId":{}}})", 
+        message_id
       );
     }
 
@@ -322,8 +352,9 @@ namespace app
   {
     if (argc < 2)
     {
-      println(stderr, "Usage: {} <server_executable>\n", argv[0]);
+      println(stderr, "Usage: {} <server_executable> [message_count]\n", argv[0]);
       println(stderr, "Example: {} ./server\n", argv[0]);
+      println(stderr, "Example: {} ./server 10\n", argv[0]);
       return 1;
     }
 
@@ -332,9 +363,11 @@ namespace app
       StdioBinaryMode binary_mode;
 
       const string server_command = argv[1];
+      const size_t message_count = (argc >= 3) ? static_cast<size_t>(stoi(argv[2])) : 5;
+      
       PipeClient client{server_command};
 
-      if (auto result = client.run(); !result)
+      if (auto result = client.run_with_count(message_count); !result)
       {
         println(stderr, "Client error: {}\n", result.error().message());
         return 1;
