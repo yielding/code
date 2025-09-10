@@ -17,8 +17,8 @@ namespace monad_pipe
 
   template<class M, class F>
   constexpr auto operator|(M&& m, F&& f)
-      noexcept(noexcept(std::forward<F>(f)(std::forward<M>(m))))
-      -> decltype(std::forward<F>(f)(std::forward<M>(m)))
+    noexcept(noexcept(std::forward<F>(f)(std::forward<M>(m))))
+    -> decltype(std::forward<F>(f)(std::forward<M>(m)))
   {
     return std::forward<F>(f)(std::forward<M>(m));
   }
@@ -34,9 +34,13 @@ namespace detail
   auto optional_and_then(Opt&& o, F&& f) -> auto
   {
     using O = remove_reference_t<Opt>;
-    if (o) return std::invoke(std::forward<F>(f), *std::forward<Opt>(o));
-    if constexpr (is_const_v<O>) return optional<invoke_result_t<F, const typename O::value_type&>>{};
-    else return optional<invoke_result_t<F, typename O::value_type&>>{};
+    if (o) 
+      return std::invoke(std::forward<F>(f), *std::forward<Opt>(o));
+
+    if constexpr (is_const_v<O>) 
+      return optional<invoke_result_t<F, const typename O::value_type&>>{};
+
+    return optional<invoke_result_t<F, typename O::value_type&>>{};
   }
 
   template<class Opt, class F>
@@ -45,7 +49,9 @@ namespace detail
     using O = remove_reference_t<Opt>;
     using V = typename O::value_type;
     using R = invoke_result_t<F, conditional_t<is_const_v<O>, const V&, V&>>;
-    if (o) return optional<R>{ std::invoke(std::forward<F>(f), *std::forward<Opt>(o)) };
+    if (o) 
+      return optional<R>{ std::invoke(std::forward<F>(f), *std::forward<Opt>(o)) };
+
     return optional<R>{};
   }
 }
@@ -65,14 +71,13 @@ namespace detail
       template<class M>
       auto operator()(M&& m) const -> auto
       {
-        if constexpr (requires { std::forward<M>(m).and_then(_f); }) {
+        if constexpr (requires { std::forward<M>(m).and_then(_f); }) 
           return std::forward<M>(m).and_then(_f);
-        } else if constexpr (is_same_v<remove_cv_t<remove_reference_t<M>>,
-                             optional<typename remove_cv_t<remove_reference_t<M>>::value_type>>) {
+        else if constexpr (is_same_v<remove_cv_t<remove_reference_t<M>>,
+                             optional<typename remove_cv_t<remove_reference_t<M>>::value_type>>)
           return detail::optional_and_then(std::forward<M>(m), _f);
-        } else {
+        else 
           static_assert(sizeof(M) == 0, "and_then: unsupported monad type");
-        }
       }
     };
     

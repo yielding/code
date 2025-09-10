@@ -4,8 +4,12 @@
 #include <string>
 #include <expected>
 
-using namespace std;
-using namespace monad_pipe;
+using std::cout, std::cerr, std::expected, std::unexpected, std::string;
+
+using monad_pipe::tap_value;
+using monad_pipe::and_then;
+using monad_pipe::or_else;
+using monad_pipe::transform;
 
 auto s1(const int x) -> expected<int, string> 
 {
@@ -25,10 +29,10 @@ auto main() -> int
     | tap_value([](const auto& v) { cout << "[tap_value] s1: " << v << "\n"; })
     | and_then ([](const auto& v) { return s2(v); })
     | or_else  ([](const auto& e) {
-             cerr << "[err] " << e << "\n";
-             return expected<double,string>{unexpected(e)};
-           })
-    | monad_pipe::transform([](const double d) { return d + 0.5; });
+        cerr << "[err] " << e << "\n";
+        return expected<double,string>{unexpected(e)};
+      })
+    | transform([](const auto& d) { return d + 0.5; });
 
   if (r) 
     cout << "result = " << *r << "\n";
