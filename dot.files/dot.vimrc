@@ -565,18 +565,25 @@ function! GetGenOption(compiler)
 endfunction
 
 command! -nargs=* Use call GetGenOption(<f-args>) 
+command! -nargs=* CMakeGenerateHere CMakeGenerate build <args>
 
 let g:cmake_root_markers=[]
 let g:cmake_native_build_options=["-j10"]
 
-nmap <c-s-g>    <Plug>(CMakeGenerate)
+"nmap <c-s-g>    <Plug>(CMakeGenerate)
+" <Plug> 키 정의
+nnoremap <silent> <Plug>(CMakeGenerateHere) :CMakeGenerateHere<CR>
+
+" 사용자 단축키에 바인딩
+nmap <c-s-g> <Plug>(CMakeGenerateHere)
+
 nmap <c-s-b>    <esc>:w<cr> <Plug>(CMakeBuild)
 imap <c-s-b>    <esc>:w<cr> <Plug>(CMakeBuild)
 
 nmap <c-s-t>    <Plug>(CMakeTest)
 
-nmap <c-s-r>    :execute '!./Debug/' . expand('%:t:r')<CR>
-nmap <leader>rr :execute '!./Debug/' . expand('%:t:r')<CR>
+nmap <c-s-r>    :execute '!./build/' . expand('%:t:r')<CR>
+nmap <leader>rr :execute '!./build/' . expand('%:t:r')<CR>
 
 nmap <leader>ci <Plug>(CMakeInstall)
 nmap <leader>cs <Plug>(CMakeSwitch)

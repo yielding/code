@@ -13,6 +13,7 @@ alias ruby='ruby --jit'
 # dir long
 alias cls='clear'
 alias c='clear'
+alias cc='clion CMakeLists.txt'
 alias p='cd ..'
 alias pp='cd ../..'
 alias bp='brew upgrade'

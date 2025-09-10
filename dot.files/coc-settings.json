@@ -14,9 +14,15 @@
     "--clang-tidy",
     "--completion-style=detailed",
     "--header-insertion=never",
-    "--compile-commands-dir=./Debug",
+    "--compile-commands-dir=./build",
     //"--query-driver=/opt/homebrew/opt/llvm/bin/clang++"
   ],
+  "clangd.fallbackFlags": [
+    "-std=c++26",
+    "-I./include",
+    "-I/Users/yielding/develop/include",
+    "-I/Users/yielding/develop/vendor/include"
+  ], 
   "sugget.autoTrigger": "always",
   "coc.preferences.diagnostic.virtualText": true,
 

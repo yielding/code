@@ -18,7 +18,7 @@ Plug 'puremourning/vimspector'
 Plug 'neovim/nvim-lspconfig'
 
 " Better Syntax Support
-Plug 'sheerun/vim-polyglot'
+"Plug 'sheerun/vim-polyglot'
 
 "copliot
 "Plug 'github/copilot.vim'
