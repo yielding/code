@@ -12,9 +12,6 @@ struct Product
   double price;
 };
 
-// NOTICE
-// 함수형 언어이지만, 기존 객체의 일부 instance만 취해서 계산할 수 있다.
-//
 int main(int argc, char* argv[])
 {
   using g::accumulate, g::plus;
