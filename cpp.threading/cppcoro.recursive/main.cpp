@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <iostream>
 
+using namespace std;
 using namespace cppcoro;
       namespace fs = std::filesystem;
 
@@ -24,7 +25,7 @@ int main()
 
   for (auto& file : list_files(root)) 
   {
-    std::cout << file.string() << "\n";
+    cout << file.string() << "\n";
     if (++count >= 20) break; // 처음 20개 파일만 출력
   }
 
