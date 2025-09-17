@@ -9,6 +9,8 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+using namespace std;
+
 template <typename T, typename U>
 inline complex<T> operator*(const complex<T>& lhs, const U& rhs)
 {
@@ -46,8 +48,7 @@ int main(int, char**)
   // allow complex literal
   using namespace literals;
   
-  // initialize TBB
-  tbb::task_scheduler_init init;
+  // TBB initialization is now automatic - no explicit initialization needed
 
   // allocate storage
   // TODO don't leak memory

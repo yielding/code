@@ -1,11 +1,11 @@
 # -*- ruby -*-
 
-APP       = "mandelbrot"
-SRCS      = %W{ ./mandelbrotcl.cpp }
+APP       = "mandelbrot_tbb"
+SRCS      = %W{ ./mandelbrot_tbb.cpp }
 CXX       = "xcrun"
 CXXFLAGS  = ":Os"
-LIBS      = ""
-FRAMEWORKS = "OpenCL"
+LIBS      = "tbb tiff"
+FRAMEWORKS = ""
 
 DIR = File.dirname __FILE__
 
