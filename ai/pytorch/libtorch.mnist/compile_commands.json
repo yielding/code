@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/yielding/code/pytorch/libtorch.mnist/build",
-  "command": "/usr/bin/g++-10   -isystem /home/yielding/opensource/libtorch/include -isystem /home/yielding/opensource/libtorch/include/torch/csrc/api/include   -D_GLIBCXX_USE_CXX11_ABI=0   -D_GLIBCXX_USE_CXX11_ABI=0 -std=gnu++14 -o CMakeFiles/main.dir/main.cpp.o -c /home/yielding/code/pytorch/libtorch.mnist/main.cpp",
-  "file": "/home/yielding/code/pytorch/libtorch.mnist/main.cpp"
-}
-]

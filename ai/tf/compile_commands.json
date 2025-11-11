@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/Users/yielding/code/tf",
-  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/Users/yielding/code/tf -I/usr/local/include -I/usr/local/include/google/tensorflow -I/usr/local/include/eigen3   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk   -std=gnu++1z -o CMakeFiles/tf.dir/tf.cpp.o -c /Users/yielding/code/tf/tf.cpp",
-  "file": "/Users/yielding/code/tf/tf.cpp"
-}
-]
