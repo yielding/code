@@ -164,15 +164,13 @@ xmap ,di <Plug>VimspectorBalloonEval
 
 nmap ,df :VimspectorReset<CR>
 
-let g:CommandTPreferredImplementation='ruby'
-
 let g:OmniSharp_server_use_net6 = 1
 
 "--------------------------------------------------------------------------------
 " python & ruby
 "--------------------------------------------------------------------------------
 let g:python3_host_prog = "/opt/homebrew/bin/python3"
-let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/neovim-ruby-host"
+let g:ruby_host_prog = "/opt/homebrew/lib/ruby/gems/3.4.0/bin/neovim-ruby-host"
 let g:loaded_perl_provider = 0
 
 set rtp+=/opt/homebrew/opt/fzf
@@ -193,8 +191,9 @@ source $HOME/.config/nvim/vim-plug/plugins.vim
 "color darkbone
 "color wintersday
 "color Tomorrow-Night-Blue
-color nordfox
+color darkbone
 color duskfox
+color nordfox
 
 "--------------------------------------------------------------------------------
 " spell
@@ -244,7 +243,6 @@ map ,z  :edit <C-R>=_zshrc<CR><CR>
 map ,ee :CocCommand explorer<CR>
 map ,kk :%s/<C-V><CR>//ge<CR>:w<CR> "모든 ^M 문자 삭제
 
-"nnoremap ,ee :NERDTreeToggle<CR>
 
 " jk | Escaping! 
 inoremap jk <esc>
@@ -357,6 +355,11 @@ function! <SID>OutlineToggle()
 endfunction 
 
 command! -nargs=0 OUTLINE call <SID>OutlineToggle() 
+
+"--------------------------------------------------------------------------------
+" ruby
+"--------------------------------------------------------------------------------
+command! JQ %!jq .
 
 "--------------------------------------------------------------------------------
 " ruby
@@ -474,9 +477,10 @@ let g:coc_global_extensions = [
  \ 'coc-pyright',
  \ 'coc-prettier',
  \ 'coc-html',
- \ 'coc-json', 
+ \ 'coc-json',
  \ 'coc-solargraph',
-"\ 'coc-cmake',
+ \ 'coc-cmake',
+ \ 'coc-rust-analyzer',
  \ 'coc-markdownlint',
  \ 'coc-highlight',
  \ 'coc-snippets',

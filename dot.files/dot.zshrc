@@ -25,6 +25,8 @@ export CC=$LLVM_HOME/bin/clang
 export CXX=$LLVM_HOME/bin/clang++
 export PROJECT=$HOME/project/md.platform.infra
 
+export NODE_OPTIONS="--no-experimental-webstorage"
+
 #export TERM=xterm-256color
 export TERMINFO=~/.terminfo
 export COLORTERM="truecolor"
@@ -144,10 +146,10 @@ export VISUAL=nvim
 
 export NNN_OPTS="x"
 export NNN_USE_EDITOR=1
-export NNN_OPENER="${HOME}/.config/nnn/plugins/nvim-open"
+export NNN_OPENER="${HOME}/.config/nnn/plugins/nuke"
 export NNN_SEL="${HOME}/.config/nnn/.selection"
 export NNN_PREVIEWIMGPROG="imgcat"  # used in preview-tui
-export NNN_PLUG='s:nvim-vsplit;c:cbcopy-mac;v:cbpaste-mac;l:lsdpreview'
+export NNN_PLUG='s:nvim-vsplit;c:cbcopy-mac;v:cbpaste-mac;l:lsdpreview;o:nuke'
 
 mn() {
   session_name="${2:-'nnn'}";

@@ -1,5 +1,6 @@
 {
   "explorer.icon.enableNerdfont": true,
+  "explorer.debug": false,
   "diagnostic.errorSign": "✖",
   "diagnostic.warningSign": "⚠",
   "diagnostic.showUnused": false,
@@ -44,12 +45,10 @@
   "git.addGBlameToVirtualText": true,
   "git.autoRefresh": true,
 
+  "rust-analyzer.enable": false,
+  "tsserver.enable": false,
+
   "languageserver": {
-    "rust": {
-      "command": "rust-analyzer",
-      "filetypes": ["rust"],
-      "rootPatterns": ["Cargo.toml"]
-    },
     "haskell": {
       "command": "haskell-language-server-wrapper",
       "args": [ "--lsp" ],

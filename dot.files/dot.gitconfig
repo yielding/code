@@ -7,3 +7,5 @@
 	recurse = true
 [merge]
 	ff = false
+[credential]
+	helper = store

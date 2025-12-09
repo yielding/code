@@ -31,6 +31,7 @@ if __FILE__ == $PROGRAM_NAME
     lines.each { |line| puts line }
   end
 
+
   lines = stdout.split("\n")
   if lines.length > 0
     puts "[output]"

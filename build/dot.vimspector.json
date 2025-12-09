@@ -10,7 +10,7 @@
       },
       "configuration": {
         "request": "launch",
-        "program": "${fileDirname}/Debug/${fileBasenameNoExtension}",
+        "program": "${fileDirname}/build/${fileBasenameNoExtension}",
         "args": [ "3" ],
         "stopAtEntry": true,
         "cwd": "${cwd}"

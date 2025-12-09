@@ -10,9 +10,7 @@ set (SOURCES
   main.cpp
 )
 
-# Platform detection
 if (APPLE)
-  # macOS specific paths (Apple Silicon)
   set (HOMEBREW_PREFIX "/opt/homebrew")
   
   if (EXISTS ${HOMEBREW_PREFIX})
@@ -44,6 +42,7 @@ endif()
 # Common paths for all platforms
 include_directories (
   ${HOME}/develop/include
+  ${HOME}/develop/vendor/include
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
