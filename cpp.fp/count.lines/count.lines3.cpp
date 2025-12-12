@@ -16,10 +16,10 @@ auto open_file(string const& filename) -> ifstream
 }
 
 auto count_file_lines(ifstream in) -> int
-{ 
-  return (int)count(
-      istreambuf_iterator<char>(in),
-      istreambuf_iterator<char>(), '\n');
+{
+  return static_cast <int>(count(
+    istreambuf_iterator(in),
+    istreambuf_iterator<char>(), '\n'));
 }
 
 auto count_lines_in_files2(vector<string>& files) -> vector<int> 
@@ -39,8 +39,7 @@ int main()
 
   vector v{1, 2};
 
-  auto res = count_lines_in_files2(files);
-  for (auto r : res)
+  for (const auto res = count_lines_in_files2(files); const auto r : res)
     cout << r << " ";
 
   return 0;

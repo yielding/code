@@ -13,17 +13,15 @@ auto count_lines(const string& filename) -> int
 { 
   ifstream in(filename);
 
-  return in.good() 
-    ? count(istreambuf_iterator<char>(in), 
+  return in.good()
+    ? count(istreambuf_iterator(in),
             istreambuf_iterator<char>(), '\n')
     : 0;
 }
 
-auto count_lines_in_files(vector<string>& files) -> vector<int> 
+auto count_lines_in_files(vector<string>& files) -> vector<int>
 { 
-  return files 
-    | transform(count_lines)
-    | to<vector>();
+  return files | transform(count_lines) | to<vector>();
 }
 
 int main(int argc, char* argv[])
@@ -33,8 +31,7 @@ int main(int argc, char* argv[])
     "/Users/yielding/code/big.read.write.cpp"s
   };
 
-  auto res = count_lines_in_files(files);
-  for (auto r : res)
+  for (const auto res = count_lines_in_files(files); const auto r : res)
     cout << r << " ";
 
   return 0;
