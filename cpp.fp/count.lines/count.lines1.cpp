@@ -26,7 +26,7 @@ auto count_lines_in_files(const vector<string>& files) -> vector<int>
 
 int main(int argc, char* argv[])
 {
-  auto files = vector{
+  const auto files = vector{
     "/Users/yielding/code/big.read.write.cpp"s,
     "/Users/yielding/code/big.read.write.cpp"s
   };
