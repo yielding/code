@@ -52,6 +52,8 @@ Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install -all' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'tpope/vim-fugitive'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'kristijanhusak/vim-carbon-now-sh'
 

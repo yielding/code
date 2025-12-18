@@ -224,6 +224,32 @@ set encoding=utf-8 nobomb
 set ffs=unix,dos
 
 "--------------------------------------------------------------------------------
+" gitsigns toggle
+"--------------------------------------------------------------------------------
+lua << EOF
+require('gitsigns').setup()
+EOF
+function! ToggleGitSigns()
+  lua require('gitsigns').toggle_signs()
+endfunction
+
+function! ToggleGitLineHL()
+  lua require('gitsigns').toggle_linehl()
+endfunction
+
+function! ToggleGitNumHL()
+  lua require('gitsigns').toggle_numhl()
+endfunction
+
+function! ToggleGitBlame()
+  lua require('gitsigns').toggle_current_line_blame()
+endfunction
+
+function! ToggleGitDeleted()
+  lua require('gitsigns').toggle_deleted()
+endfunction
+
+"--------------------------------------------------------------------------------
 " shortcuts
 "--------------------------------------------------------------------------------
 map ,f  [I
@@ -274,11 +300,18 @@ map ,tc :lcd <C-R>= _test<CR><CR> :e <C-R>= _test . 'test.cpp'<CR><CR>
 map ,th :edit <C-R>= _test . 'test.hs'<CR><CR>
 map ,tm :edit <C-R>= _test . 'test.md'<CR><CR>
 map ,tr :edit <C-R>= _test . 'test.rb'<CR><CR>
-map ,ts :edit <C-R>= _test . 'test-rs'<CR><CR>
+map ,tt :edit <C-R>= _test . 'test-rs'<CR><CR>
 map ,tp :edit <C-R>= _test . 'test.py'<CR><CR>
 map ,tj :edit <C-R>= _test . 'Test.java'<CR><CR>
 map ,sp :edit <C-R>= '.vimspector.json'<CR><CR>
 map ,ls :edit <C-R>= '.ccls'<CR><CR>
+
+" GitSigns toggles
+nnoremap ,tg :call ToggleGitSigns()<CR>
+nnoremap ,tl :call ToggleGitLineHL()<CR>
+nnoremap ,tn :call ToggleGitNumHL()<CR>
+nnoremap ,tb :call ToggleGitBlame()<CR>
+nnoremap ,td :call ToggleGitDeleted()<CR>
 
 imap  _* <Esc>bi*<Esc>ea*<Space> 
 
@@ -484,8 +517,8 @@ let g:coc_global_extensions = [
  \ 'coc-markdownlint',
  \ 'coc-highlight',
  \ 'coc-snippets',
- \ 'coc-eslint',
- \ 'coc-git'
+ \ 'coc-eslint'
+ "\ 'coc-git'
  \ ]           
                
 nmap <silent> gd <Plug>(coc-definition)

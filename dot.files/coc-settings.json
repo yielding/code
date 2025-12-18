@@ -41,9 +41,9 @@
   "inlayHints.VariableTypes.enabled": false,
   "java.home":"/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home",
 
-  "git.enableGutters": true,
-  "git.addGBlameToVirtualText": true,
-  "git.autoRefresh": true,
+  //"git.enableGutters": false,
+  //"git.addGBlameToVirtualText": true,
+  //"git.autoRefresh": true,
 
   "rust-analyzer.enable": false,
   "tsserver.enable": false,
