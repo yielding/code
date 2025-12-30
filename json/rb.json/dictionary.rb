@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -wKU
+#!/usr/bin/env ruby
 #-*- coding:utf-8 -*-
 
 require "json"
@@ -156,7 +156,6 @@ if __FILE__ == $PROGRAM_NAME
   dict.print
   dict.update_using("korean_input.txt")
   dict.save
-
 
   # utf8_files = xaml_files + xml_files
   # utf8_files.each { |file| 
