@@ -28,7 +28,7 @@ def write_file(fname, buffer):
 try:
     beg_pattern, end_pattern = (b'\xFF\xD8\xFF', b'\xFF\xD9')
 
-    img = read_file("1.jpg")
+    img = read_file("../data/taekwon_v.jpg")
     beg = search(img, beg_pattern, 1)
     end = search(img, end_pattern, 3)
 

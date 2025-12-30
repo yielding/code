@@ -8,11 +8,11 @@ public class LineNo {
     }
 
     try {
-      BufferedReader  in = new BufferedReader(new FileReader(args[0]));
-      BufferedWriter out = new BufferedWriter(new FileWriter(args[0] + "_line"));
+      var  in = new BufferedReader(new FileReader(args[0]));
+      var out = new BufferedWriter(new FileWriter(args[0] + "_line"));
 
-      int ln = 0;
-      String s;
+      var ln = 0;
+      var s = "";
       while ((s = in.readLine()) != null) {
         String res = String.format("%-5d : %s", ln++, s);
         System.out.println(res);
