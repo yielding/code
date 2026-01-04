@@ -1,4 +1,4 @@
-#!/usr/local/bin/Io
+#!/usr/local/bin/io
 
 # Vectorized by Steve Dekorte
 
