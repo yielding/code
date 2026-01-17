@@ -79,7 +79,7 @@ set(ALL_TARGETS
 )
 
 foreach(_target ${ALL_TARGETS})
-  add_executable(${_target} "${_target}.cc")
+  add_executable(${_target} "${_target}.cpp")
   target_link_libraries(${_target}
     hw_grpc_proto
     absl::flags
