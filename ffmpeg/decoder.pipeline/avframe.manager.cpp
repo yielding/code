@@ -1,6 +1,11 @@
 #include "AVFrameManager.hpp"
 #include <stdexcept>
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 AVFrameManager::AVFrameManager() 
 {
   frame_ = av_frame_alloc();
@@ -9,12 +14,10 @@ AVFrameManager::AVFrameManager()
     throw std::runtime_error("Failed to allocate AVFrame");
 }
 
-
 AVFrameManager::~AVFrameManager() 
 {
   av_frame_free(&frame_);
 }
-
 
 auto AVFrameManager::get() -> AVFrame* 
 {
@@ -48,3 +51,9 @@ void AVFrameManager::move_from(AVFrameManager& other)
   av_frame_unref(frame_);
   av_frame_move_ref(frame_, other.frame_);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
