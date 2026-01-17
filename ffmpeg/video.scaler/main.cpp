@@ -2,28 +2,29 @@
 #include <iostream>
 
 using namespace av;
+using namespace std;
 
 int main(int argc, char** argv) 
 {
   if (argc < 2) 
   {
-    std::cerr << "Usage: " << argv[0] << " input.mp4" << std::endl;
+    cerr << "Usage: " << argv[0] << " input.mp4" << endl;
     return 1;
   }
 
-  const char* input_filename = argv[1];
+  auto input_filename = argv[1];
 
   // 1. 입력 파일 열기
   AVFormatContext* fmt_ctx = nullptr;
   if (avformat_open_input(&fmt_ctx, input_filename, nullptr, nullptr) < 0)
   {
-    std::cerr << "Error: cannot open input file." << std::endl;
+    cerr << "Error: cannot open input file." << endl;
     return 1;
   }
 
   if (avformat_find_stream_info(fmt_ctx, nullptr) < 0)
   {
-    std::cerr << "Error: cannot find stream info." << std::endl;
+    cerr << "Error: cannot find stream info." << endl;
     avformat_close_input(&fmt_ctx);
     return 1;
   }
@@ -34,7 +35,7 @@ int main(int argc, char** argv)
   video_stream_index = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &decoder, 0);
   if (video_stream_index < 0) 
   {
-    std::cerr << "Error: cannot find a video stream." << std::endl;
+    cerr << "Error: cannot find a video stream." << endl;
     avformat_close_input(&fmt_ctx);
     return 1;
   }
@@ -44,15 +45,15 @@ int main(int argc, char** argv)
   avcodec_parameters_to_context(dec_ctx, fmt_ctx->streams[video_stream_index]->codecpar);
   if (avcodec_open2(dec_ctx, decoder, nullptr) < 0) 
   {
-    std::cerr << "Error: cannot open codec." << std::endl;
+    cerr << "Error: cannot open codec." << endl;
     avcodec_free_context(&dec_ctx);
     avformat_close_input(&fmt_ctx);
     return 1;
   }
 
   // 4. 패킷 & 프레임 할당
-  AVPacket* packet = av_packet_alloc();
-  AVFrame* frame = av_frame_alloc();
+  auto packet = av_packet_alloc();
+  auto frame = av_frame_alloc();
 
   // 5. 첫 번째 비디오 프레임 찾기
   while (av_read_frame(fmt_ctx, packet) >= 0) 
@@ -73,11 +74,10 @@ int main(int argc, char** argv)
             320, 180, AV_PIX_FMT_YUVJ420P
         );
 
-        if (scaler.scale_to_file(frame, "output.jpg")) {
-          std::cout << "Saved resized frame to output.jpg" << std::endl;
-        } else {
-          std::cerr << "Failed to save JPEG." << std::endl;
-        }
+        if (scaler.scale_to_file(frame, "output.jpg"))
+          cout << "Saved resized frame to output.jpg" << endl;
+        else
+          cerr << "Failed to save JPEG." << endl;
 
         av_frame_unref(frame);
         break; // 첫 프레임만 처리
