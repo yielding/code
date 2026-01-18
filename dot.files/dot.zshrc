@@ -145,11 +145,12 @@ export EDITOR=nvim
 export VISUAL=nvim 
 
 export NNN_OPTS="x"
+export NNN_FIFO=/tmp/nnn.fifo
 export NNN_USE_EDITOR=1
 export NNN_OPENER="${HOME}/.config/nnn/plugins/nuke"
 export NNN_SEL="${HOME}/.config/nnn/.selection"
 export NNN_PREVIEWIMGPROG="imgcat"  # used in preview-tui
-export NNN_PLUG='s:nvim-vsplit;c:cbcopy-mac;v:cbpaste-mac;l:lsdpreview;o:nuke'
+export NNN_PLUG='s:nvim-vsplit;c:cbcopy-mac;v:cbpaste-mac;l:lsdpreview;p:preview-tui'
 
 mn() {
   session_name="${2:-'nnn'}";
@@ -199,3 +200,4 @@ test -e /Users/yielding/.iterm2_shell_integration.zsh && source /Users/yielding/
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 #fastfetch
+#[ -z "$TMUX" ] && tmux new -As main

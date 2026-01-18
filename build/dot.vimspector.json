@@ -11,7 +11,7 @@
       "configuration": {
         "request": "launch",
         "program": "${fileDirname}/build/debug/${fileBasenameNoExtension}",
-        "args": [ "3" ],
+        "args": [],
         "stopAtEntry": true,
         "cwd": "${cwd}"
       }

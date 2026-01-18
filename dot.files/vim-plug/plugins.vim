@@ -28,6 +28,8 @@ Plug 'EdenEast/nightfox.nvim' " Vim-Plug
 
 "Plug 'romainl/vim-devdocs'
 Plug 'gauteh/vim-cppman'
+Plug 'nvim-treesitter/nvim-treesitter', {'branch': 'main', 'do': ':TSUpdate'}
+Plug 'echasnovski/mini.ai'
 
 " Rust
 Plug 'rust-lang/rust.vim'
@@ -71,7 +73,6 @@ Plug 'vim-scripts/closetag.vim'
 Plug 'vim-scripts/matchit.zip'
 
 Plug 'morhetz/gruvbox'
-Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 
 Plug 'tpope/vim-abolish'
 Plug 'Lokaltog/vim-easymotion'

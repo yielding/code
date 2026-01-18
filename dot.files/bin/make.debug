@@ -1,6 +1,13 @@
 #!/bin/sh
 
-# 기본값: g++
+# Rust 프로젝트 감지 (Cargo.toml 존재 여부)
+if [ -f "Cargo.toml" ]; then
+  echo "🦀 Rust 프로젝트 감지됨"
+  cargo build
+  exit $?
+fi
+
+# 기본값: clang++
 CXX_COMPILER="clang++"
 
 # 인자 처리
@@ -16,10 +23,10 @@ fi
 
 # CXX 환경변수 설정 후 CMake 실행
 echo "🔧 컴파일러: $CXX_COMPILER"
-cmake -S . -B build \
+cmake -S . -B build/debug \
   -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_CXX_COMPILER=$(which "$CXX_COMPILER") \
   -DCMAKE_INSTALL_PREFIX="${PWD}/install"
 
 # 빌드
-cmake --build build -- -j$(nproc)
+cmake --build build/debug -- -j$(nproc)

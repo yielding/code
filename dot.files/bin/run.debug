@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Rust 프로젝트 감지 (Cargo.toml 존재 여부)
+if [ -f "Cargo.toml" ]; then
+  echo "🦀 Rust 프로젝트 감지됨"
+  cargo run "$@"
+  exit $?
+fi
+
+BUILD_DIR="build/debug"
+
+# 빌드 디렉토리 확인
+if [ ! -d "$BUILD_DIR" ]; then
+  echo "Error: $BUILD_DIR 디렉토리가 없습니다."
+  echo "먼저 make.debug를 실행하세요."
+  exit 1
+fi
+
+# 실행 파일 찾기 (CMakeLists.txt에서 프로젝트 이름 추출)
+if [ -f "CMakeLists.txt" ]; then
+  EXECUTABLE=$(grep -m1 "^project" CMakeLists.txt | sed -E 's/project[[:space:]]*\([[:space:]]*([^[:space:])]+).*/\1/')
+fi
+
+# 실행 파일 경로
+EXEC_PATH="$BUILD_DIR/$EXECUTABLE"
+
+if [ ! -x "$EXEC_PATH" ]; then
+  echo "Error: 실행 파일을 찾을 수 없습니다: $EXEC_PATH"
+  echo "빌드가 성공적으로 완료되었는지 확인하세요."
+  exit 1
+fi
+
+echo "Running: $EXEC_PATH $@"
+echo "----------------------------------------"
+"$EXEC_PATH" "$@"
