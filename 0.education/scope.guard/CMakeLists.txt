@@ -5,9 +5,7 @@ project (scope_guard)
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set (SOURCES
-  scope_guard.cpp
-)
+set (SOURCES scope.guard.cpp)
 
 include_directories (
   /usr/local/include 
