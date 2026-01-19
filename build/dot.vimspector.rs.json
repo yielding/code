@@ -1,0 +1,20 @@
+{
+  "configurations": {
+    "Rust - Launch": {
+      "adapter": "CodeLLDB",
+      "breakpoints": {
+        "exception": {
+          "cpp_throw": "Y",
+          "cpp_catch": "N" 
+        }
+      },
+      "configuration": {
+        "request": "launch",
+        "program": "${workspaceRoot}/target/debug/${workspaceFolderBasename}",
+        "args": [],
+        "stopAtEntry": true,
+        "cwd": "${cwd}"
+      }
+    }
+  }
+}
