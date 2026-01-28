@@ -24,8 +24,7 @@ namespace image_processor
     }
 
   public:
-    auto apply_gaussian_blur(
-      const string& input_path,
+    auto apply_gaussian_blur(const string& input_path,
       const string& output_path,
       const int kernel_size = 9,
       const double sigma = 2.0) -> bool
