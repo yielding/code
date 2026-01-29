@@ -1,22 +1,79 @@
 #!/usr/bin/env ruby
 
-# node should be installed
+require 'fileutils'
 
-SRC="~/code/dot.files"
+SRC  = File.expand_path("~/code/dot.files")
+HOME = File.expand_path("~")
 
-`mkdir -p ~/.config/nvim/UltiSnips`
-`mkdir -p ~/.oh-my-zsh/themes`
-`mkdir -p ~/.config/nvim/vim-plug`
+def restore(src, dst)
+  src = File.join(SRC, src)
+  dst = File.expand_path(dst)
+  return unless File.exist?(src)
 
-`cp #{SRC}/dot.zshrc ~/.zshrc`
-`cp #{SRC}/dot.init.vim ~/.config/nvim/init.vim`
-`cp #{SRC}/vim-plug/plugins.vim ~/.config/nvim/vim-plug/plugins.vim`
-`cp #{SRC}/coc-settings.json ~/.config/nvim/coc-settings.json`
-`cp -r #{SRC}/vim-colors ~/.config/nvim/colors`
-`cp #{SRC}/dot.ghci ~/.ghci`
-`cp #{SRC}/dot.gitconfig ~/.gitconfig`
-`cp #{SRC}/dot.tmux.conf ~/.tmux.conf`
-`cp #{SRC}/dot.vimrc ~/.vimrc`
-`cp #{SRC}/oh-my-zsh-lib-aliases.zsh ~/.oh-my-zsh/lib/aliases.zsh`
-`cp #{SRC}/oh-my-zsh-themes/* ~/.oh-my-zsh/themes/`
-`cp #{SRC}/UltiSnips/* ~/.config/nvim/UltiSnips/`
+  FileUtils.mkdir_p(File.dirname(dst))
+
+  if File.directory?(src)
+    FileUtils.cp_r(src, dst)
+  else
+    FileUtils.cp(src, dst)
+  end
+  puts "  #{src} -> #{dst}"
+end
+
+puts "Restore source: #{SRC}\n\n"
+
+# --- common dotfiles ---
+puts "[common]"
+restore "dot.zshrc",      "~/.zshrc"
+restore "dot.ghci",       "~/.ghci"
+restore "dot.gitconfig",  "~/.gitconfig"
+restore "dot.tmux.conf",  "~/.tmux.conf"
+restore "dot.vimrc",      "~/.vimrc"
+
+# --- oh-my-zsh ---
+puts "\n[oh-my-zsh]"
+restore "oh-my-zsh-lib-aliases.zsh", "~/.oh-my-zsh/lib/aliases.zsh"
+Dir.glob(File.join(SRC, "oh-my-zsh-themes/*")).each do |f|
+  restore "oh-my-zsh-themes/#{File.basename(f)}", "~/.oh-my-zsh/themes/#{File.basename(f)}"
+end
+
+# --- nvim (lazy.nvim structure) ---
+puts "\n[nvim]"
+nvim_src = File.join(SRC, "nvim")
+nvim_dst = File.expand_path("~/.config/nvim")
+
+if File.directory?(File.join(nvim_src, "lua"))
+  restore "nvim/init.lua",       "~/.config/nvim/init.lua"
+  restore "nvim/lazy-lock.json", "~/.config/nvim/lazy-lock.json"
+
+  Dir.glob(File.join(nvim_src, "lua/**/*.lua")).each do |f|
+    rel = f.sub("#{nvim_src}/", "")
+    restore "nvim/#{rel}", "~/.config/nvim/#{rel}"
+  end
+
+  %w[snippets luasnippets].each do |dir|
+    snippet_dir = File.join(nvim_src, dir)
+    next unless File.directory?(snippet_dir)
+    Dir.glob(File.join(snippet_dir, "**/*")).select { |f| File.file?(f) }.each do |f|
+      rel = f.sub("#{nvim_src}/", "")
+      restore "nvim/#{rel}", "~/.config/nvim/#{rel}"
+    end
+  end
+else
+  # legacy fallback
+  puts "  (legacy vim-plug layout detected)"
+  restore "nvim-legacy/dot.init.vim",             "~/.config/nvim/init.vim"
+  restore "nvim-legacy/vim-plug/plugins.vim",     "~/.config/nvim/vim-plug/plugins.vim"
+  restore "nvim-legacy/coc-settings.json",        "~/.config/nvim/coc-settings.json"
+  Dir.glob(File.join(SRC, "nvim-legacy/UltiSnips/*")).each do |f|
+    restore "nvim-legacy/UltiSnips/#{File.basename(f)}", "~/.config/nvim/UltiSnips/#{File.basename(f)}"
+  end
+end
+
+# --- bin scripts ---
+puts "\n[bin]"
+Dir.glob(File.join(SRC, "bin/*")).each do |f|
+  restore "bin/#{File.basename(f)}", "~/bin/#{File.basename(f)}"
+end
+
+puts "\nDone."

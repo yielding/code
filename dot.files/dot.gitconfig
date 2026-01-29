@@ -6,8 +6,6 @@
 [submodule]
 	recurse = true
 [merge]
-	ff = only
-[credential]
-	helper = store
+	ff = false
 [init]
 	defaultBranch = main

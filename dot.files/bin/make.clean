@@ -1,12 +1,37 @@
 #!/bin/sh
 
-rm -rf ./Debug
-rm -rf ./Release
-rm -rf ./cmake-build-debug-llvm
-rm -rf ./cmake-build-debug
-rm -rf ./cmake-build-release-llvm
-rm -rf ./cmake-build-release
-rm -rf ./build
-rm -rf ./install
-rm -rf ./.idea
-rm -rf ./.cache
+# 삭제할 디렉토리 목록
+DIRS_TO_CLEAN="Debug Release cmake-build-debug-llvm cmake-build-debug cmake-build-release-llvm cmake-build-release build target install .idea .cache"
+
+# 옵션 처리
+RECURSIVE=false
+DRY_RUN=false
+
+while getopts "rn" opt; do
+  case $opt in
+    r) RECURSIVE=true ;;
+    n) DRY_RUN=true ;;
+  esac
+done
+
+if [ "$RECURSIVE" = true ]; then
+  echo "재귀적으로 삭제 중..."
+  for dir in $DIRS_TO_CLEAN; do
+    if [ "$DRY_RUN" = true ]; then
+      find . -type d -name "$dir" 2>/dev/null
+    else
+      find . -type d -name "$dir" -exec rm -rf {} + 2>/dev/null
+    fi
+  done
+else
+  echo "현재 디렉토리에서 삭제 중..."
+  for dir in $DIRS_TO_CLEAN; do
+    if [ "$DRY_RUN" = true ]; then
+      [ -d "./$dir" ] && echo "./$dir"
+    else
+      rm -rf "./$dir"
+    fi
+  done
+fi
+
+echo "완료"

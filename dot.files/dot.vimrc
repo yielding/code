@@ -8,6 +8,7 @@ set modeline
 set ru
 
 set autoread
+set shortmess+=A
 
 set sr
 
@@ -33,6 +34,8 @@ set nobackup
 
 set updatetime=300
 
+set shortmess=a
+
 set shortmess+=c
 
 set clipboard ^=unnamed,unnamedplus
@@ -48,11 +51,8 @@ set ttimeout
 
 set completefunc=emoji#complete
 
-" ripgrep을 quickfix 엔진으로
-if executable('rg')
-  set grepprg=rg\ --vimgrep\ --smart-case
-  set grepformat=%f:%l:%c:%m
-endif
+set grepprg=rg\ --vimgrep
+"set grepprg=ag\ --vimgrep
 
 "--------------------------------------------------------------------------------
 " Text, Tab and Indent
@@ -76,9 +76,9 @@ set cindent
 set cino=t0,g0
 
 "set fillchars+=vert:┃
+"set fillchars+=vert:┃   " 굵은 세로줄
 "set fillchars+=vert:¦   " broken vertical bar
 set fillchars+=vert:║   " double line
-set fillchars+=vert:┃   " 굵은 세로줄
 
 set splitbelow
 
@@ -88,7 +88,8 @@ highlight VertSplit ctermfg=gray ctermbg=none guifg=#555555 guibg=NONE
 " globar variables
 "--------------------------------------------------------------------------------
 let _vimrc="~/.config/nvim/init.vim"
-let _tmuxrc="~/.tmux.conf"
+let _weztermrc="~/.wezterm.lua"
+let _zedrun="~/.config/zed/custom_runfile.rb"
 let _words="~/.config/nvim/autoload/plugged/wordlist.vim/plugin/wordlist.vim"
 let _plugs="~/.config/nvim/vim-plug/plugins.vim"
 let _zshrc="~/.zshrc"
@@ -161,14 +162,17 @@ nmap ,di <Plug>VimspectorBalloonEval
 " for visual mode, the visually selected text
 xmap ,di <Plug>VimspectorBalloonEval
 
-nmap ,df :VimspectorReset<CR><CR>
+nmap ,df :VimspectorReset<CR>
+
+let g:CommandTPreferredImplementation='ruby'
+
+let g:OmniSharp_server_use_net6 = 1
 
 "--------------------------------------------------------------------------------
 " python & ruby
 "--------------------------------------------------------------------------------
 let g:python3_host_prog = "/opt/homebrew/bin/python3"
-"let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/neovim-ruby-host"
-let g:ruby_host_prog = "/opt/homebrew/lib/ruby/gems/3.4.0/bin/neovim-ruby-host"
+let g:ruby_host_prog = "/opt/homebrew/opt/ruby/bin/neovim-ruby-host"
 let g:loaded_perl_provider = 0
 
 set rtp+=/opt/homebrew/opt/fzf
@@ -182,16 +186,15 @@ source $HOME/.config/nvim/vim-plug/plugins.vim
 " color
 "--------------------------------------------------------------------------------
 "color xoria256
+"color fu
 "color desertedoceanburnt
 "color jellybeans
 "color zaibatsu
 "color darkbone
 "color wintersday
 "color Tomorrow-Night-Blue
-"color nordfox
-color fu
+color nordfox
 color duskfox
-color darkbone
 
 "--------------------------------------------------------------------------------
 " spell
@@ -222,90 +225,6 @@ set encoding=utf-8 nobomb
 set ffs=unix,dos
 
 "--------------------------------------------------------------------------------
-" gitsigns toggle
-"--------------------------------------------------------------------------------
-lua << EOF
-require('gitsigns').setup()
-
--- nvim-treesitter 1.0
--- 파서 설치: nvim에서 아래 명령 실행
--- :lua require('nvim-treesitter').install({'lua','vim','vimdoc','python','cpp','javascript','typescript','tsx','html','css','json','yaml','bash','markdown','markdown_inline'})
-require('nvim-treesitter').setup {}
-
--- Crystal tree-sitter parser 설정
--- https://github.com/crystal-lang-tools/tree-sitter-crystal
-vim.api.nvim_create_autocmd("User", {
-  pattern = 'TSUpdate',
-  callback = function()
-    require('nvim-treesitter.parsers').crystal = {
-      install_info = {
-        url = 'https://github.com/crystal-lang-tools/tree-sitter-crystal',
-        generate = false,
-        generate_from_json = false,
-        queries = 'queries/nvim'
-      },
-    }
-  end,
-})
-vim.treesitter.language.register("crystal", { "cr" })
-
--- Crystal: tree-sitter 기반 syntax highlighting 활성화
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = {'crystal', 'cr'},
-  callback = function()
-    vim.treesitter.start()
-  end,
-})
-
--- treesitter 기반 폴딩만 사용 (syntax highlighting은 기존 유지)
-vim.api.nvim_create_autocmd('FileType', {
-  callback = function()
-    local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
-    if lang and pcall(vim.treesitter.language.inspect, lang) then
-      vim.wo.foldmethod = 'expr'
-      vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-      vim.wo.foldlevel = 99
-    end
-  end,
-})
-
----- mini.ai 설정 (treesitter 기반 텍스트 객체)
---local ok, mini_ai = pcall(require, 'mini.ai')
---if ok then
---  local spec_treesitter = mini_ai.gen_spec.treesitter
---  mini_ai.setup({
---    n_lines = 500,
---    custom_textobjects = {
---      f = spec_treesitter({ a = '@function.outer', i = '@function.inner' }),
---      c = spec_treesitter({ a = '@class.outer', i = '@class.inner' }),
---      o = spec_treesitter({ a = '@block.outer', i = '@block.inner' }),
---      a = spec_treesitter({ a = '@parameter.outer', i = '@parameter.inner' }),
---    },
---  })
---end
-EOF
-
-function! ToggleGitSigns()
-  lua require('gitsigns').toggle_signs()
-endfunction
-
-function! ToggleGitLineHL()
-  lua require('gitsigns').toggle_linehl()
-endfunction
-
-function! ToggleGitNumHL()
-  lua require('gitsigns').toggle_numhl()
-endfunction
-
-function! ToggleGitBlame()
-  lua require('gitsigns').toggle_current_line_blame()
-endfunction
-
-function! ToggleGitDeleted()
-  lua require('gitsigns').toggle_deleted()
-endfunction
-
-"--------------------------------------------------------------------------------
 " shortcuts
 "--------------------------------------------------------------------------------
 map ,f  [I
@@ -315,8 +234,9 @@ map ,p  :edit <C-R>=_plugs<CR><CR>
 map ,u  :source <C-R>=_vimrc<CR><CR>
 map ,o  :edit <C-R>=_words<CR><CR>
 map ,v  :edit <C-R>=_vimrc<CR><CR>
+map ,W  :edit <C-R>=_weztermrc<CR><CR>
+map ,d  :edit <C-R>=_zedrun<CR><CR>
 map ,w  :w <CR>
-map ,x  :edit <C-R>_tmuxrc<CR><CR>
 map <c-s-s> :w <CR>
 imap <c-s-s> <esc> :w <CR>a
 map ,q  :q <CR>
@@ -324,6 +244,7 @@ map ,z  :edit <C-R>=_zshrc<CR><CR>
 map ,ee :CocCommand explorer<CR>
 map ,kk :%s/<C-V><CR>//ge<CR>:w<CR> "모든 ^M 문자 삭제
 
+"nnoremap ,ee :NERDTreeToggle<CR>
 
 " jk | Escaping! 
 inoremap jk <esc>
@@ -355,18 +276,11 @@ map ,tc :lcd <C-R>= _test<CR><CR> :e <C-R>= _test . 'test.cpp'<CR><CR>
 map ,th :edit <C-R>= _test . 'test.hs'<CR><CR>
 map ,tm :edit <C-R>= _test . 'test.md'<CR><CR>
 map ,tr :edit <C-R>= _test . 'test.rb'<CR><CR>
-map ,tt :edit <C-R>= _test . 'test-rs'<CR><CR>
+map ,ts :edit <C-R>= _test . 'test-rs'<CR><CR>
 map ,tp :edit <C-R>= _test . 'test.py'<CR><CR>
 map ,tj :edit <C-R>= _test . 'Test.java'<CR><CR>
 map ,sp :edit <C-R>= '.vimspector.json'<CR><CR>
 map ,ls :edit <C-R>= '.ccls'<CR><CR>
-
-" GitSigns toggles
-nnoremap ,tg :call ToggleGitSigns()<CR>
-nnoremap ,tl :call ToggleGitLineHL()<CR>
-nnoremap ,tn :call ToggleGitNumHL()<CR>
-nnoremap ,tb :call ToggleGitBlame()<CR>
-nnoremap ,td :call ToggleGitDeleted()<CR>
 
 imap  _* <Esc>bi*<Esc>ea*<Space> 
 
@@ -388,10 +302,7 @@ map ,11 :FufBuffer<CR>
 "-----------------------------------------------------------------------------
 " grep in gitdir
 "-----------------------------------------------------------------------------
-autocmd QuickFixCmdPost grep copen
-
-nnoremap <leader>gc :silent grep <cword><CR>
-nnoremap <leader>gC :silent grep <cWORD><CR>
+nnoremap <leader>gc :Ggrep! -q <cword><CR>
 
 "-----------------------------------------------------------------------------
 " toggle folder
@@ -414,50 +325,38 @@ noremap <space> :call ToggleFold()<CR>
 "--------------------------------------------------------------------------------
 " outline toggle
 "--------------------------------------------------------------------------------
-function! <SID>OutlineToggle()
-  let OldLine = line(".")
-  let OldCol = virtcol(".")
-  if (! exists ("b:outline_mode"))
-    let b:outline_mode = 0
-    let b:OldMarker = &foldmarker
-    let b:OldFoldMethod = &foldmethod
-    let b:OldFoldExpr = &foldexpr
-  endif
+function! <SID>OutlineToggle() 
+  let OldLine = line(".") 
+  let OldCol = virtcol(".") 
+  if (! exists ("b:outline_mode")) 
+    let b:outline_mode = 0 
+    let b:OldMarker = &foldmarker 
+  endif 
 
-  if (b:outline_mode == 0)
-    let b:outline_mode = 1
-    let b:OldFoldMethod = &foldmethod
-    let b:OldFoldExpr = &foldexpr
+  if (b:outline_mode == 0) 
+    let b:outline_mode = 1 
     set foldmethod=marker
-    set foldmarker={,}
-    silent! exec "%s/{<</{<</"
-    silent! exec "%s/{<</{<</"
+    set foldmarker={,} 
+    silent! exec "%s/{<</{<</" 
+    silent! exec "%s/{<</{<</" 
     set foldcolumn=2
-  else
-    let b:outline_mode = 0
-    let &foldmethod=b:OldFoldMethod
-    if b:OldFoldMethod == 'expr'
-      let &foldexpr=b:OldFoldExpr
-    endif
-    let &foldmarker=b:OldMarker
-    silent! exec "%s/{<</{<</"
-    silent! exec "%s/{<</{<</"
-    set foldcolumn=0
-  endif
+  else 
+    let b:outline_mode = 0 
+    set foldmethod=marker 
+    let &foldmarker=b:OldMarker 
+    silent! exec "%s/{<</{<</" 
+    silent! exec "%s/{<</{<</" 
+    set foldcolumn=0 
+  endif 
 
-  execute "normal! ".OldLine."G"
-  execute "normal! ".OldCol."|"
-  unlet OldLine
-  unlet OldCol
-  execute "normal! zv"
+  execute "normal! ".OldLine."G" 
+  execute "normal! ".OldCol."|" 
+  unlet OldLine 
+  unlet OldCol 
+  execute "normal! zv" 
 endfunction 
 
 command! -nargs=0 OUTLINE call <SID>OutlineToggle() 
-
-"--------------------------------------------------------------------------------
-" ruby
-"--------------------------------------------------------------------------------
-command! JQ %!jq .
 
 "--------------------------------------------------------------------------------
 " ruby
@@ -477,16 +376,10 @@ function! Ruby_eval_split() range
   wincmd p
 endfunction
 
-augroup ruby_keys
-  au!
-  au FileType ruby filetype plugin indent on
-  au FileType ruby call s:ruby_keymaps()
-  au FileType ruby noremap ,tag :!ripper-tags -R.<CR>
-augroup END
-
-function! s:ruby_keymaps() abort
-  nnoremap <buffer> <F5> :%call Ruby_eval_split()<CR>
-endfunction
+au FileType ruby filetype plugin indent on
+au FileType ruby noremap <c-s-b> :%call Ruby_eval_split()<CR>
+au FileType ruby noremap <c-s-r> :%call Ruby_eval_split()<CR>
+au FileType ruby noremap ,tag :!ripper-tags -R.<CR>
 
 filetype off
 let &runtimepath .=',~/.config/nvim/autoload/plugged/neoterm'
@@ -581,15 +474,14 @@ let g:coc_global_extensions = [
  \ 'coc-pyright',
  \ 'coc-prettier',
  \ 'coc-html',
- \ 'coc-json',
+ \ 'coc-json', 
  \ 'coc-solargraph',
- \ 'coc-cmake',
- \ 'coc-rust-analyzer',
+"\ 'coc-cmake',
  \ 'coc-markdownlint',
  \ 'coc-highlight',
  \ 'coc-snippets',
- \ 'coc-eslint'
- "\ 'coc-git'
+ \ 'coc-eslint',
+ \ 'coc-git'
  \ ]           
                
 nmap <silent> gd <Plug>(coc-definition)
@@ -673,54 +565,30 @@ function! GetGenOption(compiler)
 endfunction
 
 command! -nargs=* Use call GetGenOption(<f-args>) 
+command! -nargs=* CMakeGenerateHere CMakeGenerate build <args>
 
-let g:cmake_build_type = 'Debug'
-let g:cmake_build_dir_location = 'build'
 let g:cmake_root_markers=[]
 let g:cmake_native_build_options=["-j10"]
 
-command! -nargs=* CMakeGenerateHere CMakeGenerate debug -D CMAKE_BUILD_TYPE=Debug <args>
+"nmap <c-s-g>    <Plug>(CMakeGenerate)
+" <Plug> 키 정의
+nnoremap <silent> <Plug>(CMakeGenerateHere) :CMakeGenerateHere<CR>
 
-augroup cpp_debug_keys
-  autocmd!
-  autocmd FileType cpp call s:cpp_keymaps()
-augroup END
+" 사용자 단축키에 바인딩
+nmap <c-s-g> <Plug>(CMakeGenerateHere)
 
-function! s:cpp_keymaps() abort
-  nnoremap <silent> <Plug>(CMakeGenerateHere) :CMakeGenerateHere<CR>
-  nnoremap <buffer> <F3> <Plug>(CMakeGenerateHere)
-  nnoremap <buffer> <F4> <Esc>:w<CR><Plug>(CMakeBuild)
+nmap <c-s-b>    <esc>:w<cr> <Plug>(CMakeBuild)
+imap <c-s-b>    <esc>:w<cr> <Plug>(CMakeBuild)
 
-  nnoremap <buffer> <F5>  :call vimspector#Launch()<CR>
-  nnoremap <buffer> <F6>  :call vimspector#Stop()<CR>
-  nnoremap <buffer> <F7>  :call vimspector#Restart()<CR>
-  nnoremap <buffer> <F8>  :call vimspector#Pause()<CR>
-  nnoremap <buffer> <F9>  :call vimspector#ToggleBreakpoint()<CR>
+nmap <c-s-t>    <Plug>(CMakeTest)
 
-  nnoremap <buffer> <F10> :call vimspector#StepOver()<CR>
-  nnoremap <buffer> <F11> :call vimspector#StepInto()<CR>
-  nnoremap <buffer> <F12> :call vimspector#StepOut()<CR>
-endfunction
+nmap <c-s-r>    :execute '!./build/' . expand('%:t:r')<CR>
+nmap <leader>rr :execute '!./build/' . expand('%:t:r')<CR>
 
-augroup rust_debug_keys
-  autocmd!
-  autocmd FileType rust call s:rust_keymaps()
-augroup END
-
-function! s:rust_keymaps() abort
-  nnoremap <buffer> <F3> <Esc>:w<CR>:!cargo build<CR>
-  nnoremap <buffer> <F4> <Esc>:w<CR>:!cargo run<CR>
-
-  nnoremap <buffer> <F5>  :call vimspector#Launch()<CR>
-  nnoremap <buffer> <F6>  :call vimspector#Stop()<CR>
-  nnoremap <buffer> <F7>  :call vimspector#Restart()<CR>
-  nnoremap <buffer> <F8>  :call vimspector#Pause()<CR>
-  nnoremap <buffer> <F9>  :call vimspector#ToggleBreakpoint()<CR>
-
-  nnoremap <buffer> <F10> :call vimspector#StepOver()<CR>
-  nnoremap <buffer> <F11> :call vimspector#StepInto()<CR>
-  nnoremap <buffer> <F12> :call vimspector#StepOut()<CR>
-endfunction
+nmap <leader>ci <Plug>(CMakeInstall)
+nmap <leader>cs <Plug>(CMakeSwitch)
+nmap <leader>co <Plug>(CMakeOpen)
+nmap <leader>cc <Plug>(CMakeClose)
 
 "--------------------------------------------------------------------------------
 " coc-highlight
@@ -790,3 +658,7 @@ au FileType haskell noremap <c-s-r> :!runhaskell %<CR>
 au FileType js      noremap <c-s-r> :!node %<CR>
 au FileType kotlin  noremap <c-s-4> :execute '!kot.sh ' . expand('%')<CR>
 au FileType kotlin  noremap <c-s-r> :execute '!kot.sh ' . expand('%')<CR>
+
+au FileType rust    noremap <c-s-b> :make b<CR>
+au FileType rust    noremap <c-s-r> :make r<CR>
+au FileType rust    noremap <c-s-t> :make t<CR>

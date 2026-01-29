@@ -1,42 +1,40 @@
-export HOME=/Users/yielding 
+export HOME=/home/yielding 
+export VIDEO_ENGINE=/data1/yielding/video
 
-export RUBY_HOME=/opt/homebrew/opt/ruby 
-export LLVM_HOME=/opt/homebrew/opt/llvm
-export MINGW_HOME=/opt/homebrew/opt/mingw-w64
-export OPENCV_HOME=/opt/homebrew/opt/opencv
+export RUBY_HOME=/home/yielding/.rubies/ruby-4.0.0
+#export LLVM_HOME=/usr/lib/llvm-20
+export OPENCV_HOME=/usr/local
 export DOTNET_ROOT=/usr/local/share/dotnet
 export DOTNET_TOOLS_HOME=$HOME/.dotnet/tools
-export RUBYLIB=$HOME/develop.ruby/lib
+export RUBYLIB=$HOME/develop/lib.ruby
 
-export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+export PATH=$RUBY_HOME/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH
+#export PATH=$LLVM_HOME/bin:$PATH
+export PATH=$HOME/.cargo/bin:$DOTNET_TOOLS_HOME:$PATH
 
-export PATH=$RUBY_HOME/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH
-export PATH=$HOME/bin:/opt/homebrew/bin:$PATH
-export PATH=$LLVM_HOME/bin:$PATH
-export PATH=$MINGW_HOME/bin:$PATH
-export PATH=$DOTNET_TOOLS_HOME:$PATH
+#export CPLUS_INCLUDE_PATH=/usr/include/c++/v1:/usr/include:$OPENCV_HOME/include/opencv4:$CPLUS_INCLUDE_PATH
 
-export VIDEO_ENGINE="${HOME}/no.cloud/video"
+export CC=gcc
+export CXX=g++
+#export CC=$LLVM_HOME/bin/clang
+#export CXX=$LLVM_HOME/bin/clang++
+#export CXXFLAGS=" -nostdinc++ -pthread"
+#export LDFLAGS="-L$RUBY_HOME/lib -L/usr/lib -lstdc++ -lc++abi -pthread"
+export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/gcc-15.2/lib64:${LD_LIBRARY_PATH:-}
 
-export LDFLAGS="-L$RUBY_HOME/lib -L/opt/homebrew/lib -lpthread"
-export CPLUS_INCLUDE_PATH=$LLVM_HOME/include:/opt/homebrew/include:$OPENCV_HOME/include/opencv4:$CPLUS_INCLUDE_PATH
-
-export CC=$LLVM_HOME/bin/clang
-export CXX=$LLVM_HOME/bin/clang++
 export PROJECT=$HOME/project/md.platform.infra
 
 export NODE_OPTIONS="--no-experimental-webstorage"
 
 #export TERM=xterm-256color
+export TERMINAL=tmux-256color
 export TERMINFO=~/.terminfo
 export COLORTERM="truecolor"
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 export HOMEBREW_NO_ENV_HINTS=1
-
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home
-export JDK_HOME=$JAVA_HOME
-export CLASSPATH=.:/opt/homebrew/Cellar/antlr/4.13.2/antlr-4.13.2-complete.jar
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -55,7 +53,16 @@ ZSH_THEME="fino"
 export MY_INSTALL_DIR=$HOME/.local
 export PATH="$MY_INSTALL_DIR/bin:$PATH"
 
-set rtp+=/opt/homebrew/opt/fzf
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
+export FZF_DEFAULT_OPTS='
+  --height 80%
+  --layout=reverse
+  --border
+  --info=inline
+'
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -133,24 +140,18 @@ source $ZSH/oh-my-zsh.sh
 
 bindkey -v
 
-#. /opt/homebrew/etc/profile.d/z.sh
+export LANG=ko_KR.UTF-8
+export MANPATH="/usr/local/man:$MANPATH"
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 export EDITOR=nvim 
 export VISUAL=nvim 
 
 export NNN_OPTS="x"
 export NNN_FIFO=/tmp/nnn.fifo
 export NNN_USE_EDITOR=1
-export NNN_OPENER="${HOME}/.config/nnn/plugins/nuke"
+export NNN_OPENER="${HOME}/.config/nnn/plugins/nvim-open"
 export NNN_SEL="${HOME}/.config/nnn/.selection"
-export NNN_PREVIEWIMGPROG="imgcat"  # used in preview-tui
-export NNN_PLUG='s:nvim-vsplit;c:cbcopy-mac;v:cbpaste-mac;l:lsdpreview;p:preview-tui'
+export NNN_PLUG='p:preview-tui;f:finder;s:nvim-vsplit;l:lsdpreview'
 
 mn() {
   session_name="${2:-'nnn'}";
@@ -160,44 +161,20 @@ mn() {
   tmux attach-session -t "$session_name";
 }
 
-export LANG=ko_KR.UTF-8
-
 zstyle ':completion:*' rehash true
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-## >>> conda initialize >>>
-## !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/Users/yielding/miniforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/Users/yielding/miniforge/etc/profile.d/conda.sh" ]; then
-#         . "/Users/yielding/miniforge/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/Users/yielding/miniforge/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
-## <<< conda initialize <<<
-
 compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 eval "$(zoxide init zsh)"
 
-test -e /Users/yielding/.iterm2_shell_integration.zsh && source /Users/yielding/.iterm2_shell_integration.zsh || true
-
-[ -f "/Users/yielding/.ghcup/env" ] && source "/Users/yielding/.ghcup/env" # ghcup-env
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-#fastfetch
-#[ -z "$TMUX" ] && tmux new -As main
+[ -f "/home/yielding/.ghcup/env" ] && . "/home/yielding/.ghcup/env" # ghcup-env
+
+[ -z "$TMUX" ] && tmux new -As main
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+#export SDKMAN_DIR="$HOME/.sdkman"
+#[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
