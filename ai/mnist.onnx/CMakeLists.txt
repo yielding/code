@@ -31,15 +31,10 @@ if (APPLE)
     ${HOMEBREW_PREFIX}/lib
   )
 
-elseif (UNIX AND NOT APPLE)
-  # Linux: use ORT_ROOT or system paths
-  if (ORT_ROOT)
-    set (ORT_INCLUDE_DIR ${ORT_ROOT}/include)
-    set (ORT_LIB_DIR ${ORT_ROOT}/lib)
-  else()
-    set (ORT_INCLUDE_DIR /usr/local/include)
-    set (ORT_LIB_DIR /usr/local/lib)
-  endif()
+elseif (LINUX)
+  # Linux: use ORT_ROOT
+  set (ORT_INCLUDE_DIR ${ORT_ROOT}/include)
+  set (ORT_LIB_DIR ${ORT_ROOT}/lib)
 
   include_directories (
     /usr/local/include
