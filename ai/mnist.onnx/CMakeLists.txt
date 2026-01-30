@@ -13,26 +13,35 @@ set (SOURCES
 
 # Platform detection
 if (APPLE)
-  # macOS specific paths (Apple Silicon)
+  # macOS: use Homebrew onnxruntime
   set (HOMEBREW_PREFIX "/opt/homebrew")
-  
-  if (EXISTS ${HOMEBREW_PREFIX})
-    include_directories (
-      ${HOMEBREW_PREFIX}/include
-    )
-    link_directories (
-      ${HOMEBREW_PREFIX}/lib
-    )
-  endif()
-  
-  # macOS SDK paths (if needed)
-  # execute_process(COMMAND xcrun --show-sdk-path OUTPUT_VARIABLE MACOS_SDK_PATH OUTPUT_STRIP_TRAILING_WHITESPACE)
-  # include_directories(${MACOS_SDK_PATH}/usr/include)
-  
-elseif (UNIX AND NOT APPLE)
-  # Linux specific paths
-  include_directories (
 
+  if (EXISTS ${HOMEBREW_PREFIX}/include/onnxruntime)
+    set (ORT_INCLUDE_DIR ${HOMEBREW_PREFIX}/include/onnxruntime)
+    set (ORT_LIB_DIR ${HOMEBREW_PREFIX}/lib)
+  elseif (ORT_ROOT)
+    set (ORT_INCLUDE_DIR ${ORT_ROOT}/include)
+    set (ORT_LIB_DIR ${ORT_ROOT}/lib)
+  endif()
+
+  include_directories (
+    ${HOMEBREW_PREFIX}/include
+  )
+  link_directories (
+    ${HOMEBREW_PREFIX}/lib
+  )
+
+elseif (UNIX AND NOT APPLE)
+  # Linux: use ORT_ROOT or system paths
+  if (ORT_ROOT)
+    set (ORT_INCLUDE_DIR ${ORT_ROOT}/include)
+    set (ORT_LIB_DIR ${ORT_ROOT}/lib)
+  else()
+    set (ORT_INCLUDE_DIR /usr/local/include)
+    set (ORT_LIB_DIR /usr/local/lib)
+  endif()
+
+  include_directories (
     /usr/local/include
     /usr/include
   )
@@ -46,20 +55,13 @@ endif()
 # Common paths for all platforms
 include_directories (
   ${HOME}/develop/include
-  ${ORT_ROOT}/include
+  ${ORT_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 link_directories (
   ${HOME}/develop/lib
 )
-
-# Optional: Find packages (recommended approach)
-# find_package(Boost COMPONENTS system filesystem thread)
-# if (Boost_FOUND)
-#   include_directories(${Boost_INCLUDE_DIRS})
-#   link_directories(${Boost_LIBRARY_DIRS})
-# endif()
 
 add_executable (${CMAKE_PROJECT_NAME}
   ${SOURCES}
@@ -69,12 +71,8 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
   onnxruntime
 )
 
-link_directories (
-  ${ORT_ROOT}/lib
-)
-
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
-  ${ORT_ROOT}/lib
+  ${ORT_LIB_DIR}
 )
 
 # Optional: Compiler flags
