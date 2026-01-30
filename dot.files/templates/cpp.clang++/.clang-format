@@ -1,0 +1,122 @@
+# C++ Coding Style based on ~/develop/CLAUDE.md
+# Modern C++ (C++26) style for core:: namespace
+
+Language: Cpp
+Standard: c++20
+
+# Base style
+BasedOnStyle: LLVM
+
+# Indentation
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+IndentCaseLabels: true
+IndentCaseBlocks: false
+NamespaceIndentation: All
+IndentAccessModifiers: false
+AccessModifierOffset: -2
+
+# Braces - Allman style (brace on new line)
+BreakBeforeBraces: Allman
+# Alternative custom brace wrapping:
+# BraceWrapping:
+#   AfterClass: true
+#   AfterControlStatement: Always
+#   AfterFunction: true
+#   AfterNamespace: true
+#   AfterStruct: true
+#   BeforeElse: true
+#   BeforeCatch: true
+
+# Line width
+ColumnLimit: 100
+
+# Constructor initializer lists
+# Colon on same line, comma at start of subsequent lines:
+#   Constructor(params)
+#     : _member1(value1)
+#     , _member2(value2)
+BreakConstructorInitializers: BeforeComma
+ConstructorInitializerIndentWidth: 2
+PackConstructorInitializers: Never
+
+# Single-statement if/for/while - remove braces
+RemoveBracesLLVM: true
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortLambdasOnASingleLine: All
+
+# Alignment
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignOperands: true
+AlignTrailingComments: true
+
+# Pointer/Reference alignment (left: int* ptr)
+PointerAlignment: Left
+ReferenceAlignment: Left
+
+# Spaces
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCpp11BracedList: false
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeParens: ControlStatements
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceInEmptyBlock: false
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 2
+SpacesInAngles: false
+SpacesInCStyleCastParentheses: false
+SpacesInContainerLiterals: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+# Includes
+IncludeBlocks: Regroup
+IncludeCategories:
+  # Project headers first (quoted includes)
+  - Regex: '^"'
+    Priority: 1
+  # Standard library headers
+  - Regex: '^<[a-z_]+>$'
+    Priority: 3
+  # Other system headers
+  - Regex: '^<'
+    Priority: 2
+SortIncludes: true
+
+# Other
+BinPackArguments: true
+BinPackParameters: true
+BreakBeforeBinaryOperators: None
+BreakBeforeTernaryOperators: true
+BreakStringLiterals: true
+CompactNamespaces: false
+Cpp11BracedListStyle: true
+DerivePointerAlignment: false
+EmptyLineBeforeAccessModifier: Always
+EmptyLineAfterAccessModifier: Never
+FixNamespaceComments: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 2
+ReflowComments: true
+SeparateDefinitionBlocks: Leave
+SortUsingDeclarations: true
+
+# Penalty settings (prefer breaking at certain points)
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 60

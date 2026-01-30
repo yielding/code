@@ -29,8 +29,8 @@ alias xxd='xxd -g 1'
 
 # shortcurs
 alias gonnn='cd ~/.config/nnn'
-alias gowork='cd ~/project/code.apps/csproj.analyzer'
+alias gonvim='cd ~/.config/nvim/lua'
 alias gowork='cd ~/project/md.platform.infra'
-alias gowork2='cd ~/project/remote.stream'
+alias gosqlite='cd ~/project/sqlite.reader'
 
 alias aliases='vi ~/.oh-my-zsh/lib/aliases.zsh && source ~/.oh-my-zsh/lib/aliases.zsh'

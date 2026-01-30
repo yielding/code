@@ -2,7 +2,6 @@ export HOME=/home/yielding
 export VIDEO_ENGINE=/data1/yielding/video
 
 export RUBY_HOME=/home/yielding/.rubies/ruby-4.0.0
-#export LLVM_HOME=/usr/lib/llvm-20
 export OPENCV_HOME=/usr/local
 export DOTNET_ROOT=/usr/local/share/dotnet
 export DOTNET_TOOLS_HOME=$HOME/.dotnet/tools
@@ -10,17 +9,12 @@ export RUBYLIB=$HOME/develop/lib.ruby
 
 export PATH=$RUBY_HOME/bin:$PATH
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH
-#export PATH=$LLVM_HOME/bin:$PATH
 export PATH=$HOME/.cargo/bin:$DOTNET_TOOLS_HOME:$PATH
 
 #export CPLUS_INCLUDE_PATH=/usr/include/c++/v1:/usr/include:$OPENCV_HOME/include/opencv4:$CPLUS_INCLUDE_PATH
 
 export CC=gcc
 export CXX=g++
-#export CC=$LLVM_HOME/bin/clang
-#export CXX=$LLVM_HOME/bin/clang++
-#export CXXFLAGS=" -nostdinc++ -pthread"
-#export LDFLAGS="-L$RUBY_HOME/lib -L/usr/lib -lstdc++ -lc++abi -pthread"
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LIBRARY_PATH
 export LD_LIBRARY_PATH=/usr/local/gcc-15.2/lib64:${LD_LIBRARY_PATH:-}
 
@@ -52,6 +46,11 @@ ZSH_THEME="fino"
 
 export MY_INSTALL_DIR=$HOME/.local
 export PATH="$MY_INSTALL_DIR/bin:$PATH"
+
+# Prepend lazy/fzf to PATH so the newer version is found before system fzf
+if [[ ! "$PATH" == */home/yielding/.local/share/nvim/lazy/fzf/bin* ]]; then
+  PATH="/home/yielding/.local/share/nvim/lazy/fzf/bin${PATH:+:${PATH}}"
+fi
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"

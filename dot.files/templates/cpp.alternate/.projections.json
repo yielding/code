@@ -1,0 +1,50 @@
+{
+  "*.cpp": {
+    "alternate": "{}.hpp",
+    "type": "source"
+  },
+  "src/*.cpp": {
+    "alternate": "include/{}.hpp",
+    "type": "source"
+  },
+  "src/fs/*.cpp": {
+    "alternate": "include/fs/{}.hpp",
+    "type": "source"
+  },
+  "src/fs/fat/*.cpp": {
+    "alternate": "src/fs/fat/{}.hpp",
+    "type": "source"
+  },
+  "src/fs/ext4/*.cpp": {
+    "alternate": "src/fs/ext4/{}.hpp",
+    "type": "source"
+  },
+  "develop/src/*.cpp": {
+    "alternate": "develop/include/{}.hpp",
+    "type": "source"
+  },
+  "*.hpp": {
+    "alternate": "{}.cpp",
+    "type": "header"
+  },
+  "include/*.hpp": {
+    "alternate": "src/{}.cpp",
+    "type": "header"
+  },
+  "include/fs/*.hpp": {
+    "alternate": "src/fs/{}.cpp",
+    "type": "header"
+  },
+  "src/fs/fat/*.hpp": {
+    "alternate": "src/fs/fat/{}.cpp",
+    "type": "header"
+  },
+  "src/fs/ext4/*.hpp": {
+    "alternate": "src/fs/ext4/{}.cpp",
+    "type": "header"
+  },
+  "develop/include/*.hpp": {
+    "alternate": "develop/src/{}.cpp",
+    "type": "source"
+  }
+}

@@ -73,7 +73,19 @@ end
 # --- bin scripts ---
 puts "\n[bin]"
 Dir.glob(File.join(SRC, "bin/*")).each do |f|
+  next if File.directory?(f)
   restore "bin/#{File.basename(f)}", "~/bin/#{File.basename(f)}"
+end
+
+# --- project templates ---
+puts "\n[templates]"
+%w[cpp.clang++ cpp.defualt cpp.alternate].each do |dir|
+  tpl_src = File.join(SRC, "templates", dir)
+  next unless File.directory?(tpl_src)
+  Dir.glob(File.join(tpl_src, "**/*"), File::FNM_DOTMATCH).select { |f| File.file?(f) }.each do |f|
+    rel = f.sub("#{tpl_src}/", "")
+    restore "templates/#{dir}/#{rel}", "~/bin/#{dir}/#{rel}"
+  end
 end
 
 puts "\nDone."
