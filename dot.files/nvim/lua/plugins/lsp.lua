@@ -100,7 +100,11 @@ return {
         map("n", "<leader>ft", function()
           local file = vim.fn.expand("%:p")
           vim.cmd("write")
-          vim.fn.system("clang-tidy --fix-errors --extra-arg=-std=c++26 " .. file)
+          local root = vim.fn.getcwd()
+          local db = vim.fn.glob(root .. "/build/*/compile_commands.json", false, true)
+          local p_flag = (#db > 0) and (" -p " .. vim.fn.fnamemodify(db[1], ":h")) or ""
+          vim.fn.system("clang-tidy --fix-errors --fix-notes" .. p_flag .. " " .. file)
+          vim.fn.system("clang-format -i " .. file)
           vim.cmd("edit!")
         end, opts)
       end

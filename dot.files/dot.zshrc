@@ -6,6 +6,7 @@ export OPENCV_HOME=/usr/local
 export DOTNET_ROOT=/usr/local/share/dotnet
 export DOTNET_TOOLS_HOME=$HOME/.dotnet/tools
 export RUBYLIB=$HOME/develop/lib.ruby
+export ORT_ROOT=$HOME/opensource/onnxruntime-linux-x64-1.17.1
 
 export PATH=$RUBY_HOME/bin:$PATH
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH
@@ -17,6 +18,7 @@ export CC=gcc
 export CXX=g++
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LIBRARY_PATH
 export LD_LIBRARY_PATH=/usr/local/gcc-15.2/lib64:${LD_LIBRARY_PATH:-}
+export LD_LIBRARY_PATH=$ORT_ROOT/lib:$LD_LIBRARY_PATH
 
 export PROJECT=$HOME/project/md.platform.infra
 
