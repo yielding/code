@@ -1,4 +1,4 @@
-Checks: 'modernize-use-trailing-return-type,readability-identifier-naming'
+Checks: 'modernize-concat-nested-namespaces,modernize-use-trailing-return-type,readability-identifier-naming'
 HeaderFilterRegex: 'include/.*\.h$'
 WarningsAsErrors: ''
 CheckOptions:

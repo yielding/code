@@ -2,23 +2,6 @@
 -- Development tools and utilities
 
 return {
-  -- FZF
-  {
-    "junegunn/fzf",
-    build = "./install --all",
-  },
-
-  {
-    "junegunn/fzf.vim",
-    dependencies = { "junegunn/fzf" },
-    config = function()
-      -- FZF keymaps
-      vim.keymap.set("n", "<leader>ff", ":Files<CR>", { silent = true })
-      vim.keymap.set("n", "<leader>bb", ":Buffers<CR>", { silent = true })
-      vim.keymap.set("n", "<leader>gg", ":GFiles<CR>", { silent = true })
-      vim.keymap.set("n", "<leader>rg", ":Rg<CR>", { silent = true })
-    end,
-  },
 
   -- TagBar: Code outline
   {
@@ -61,6 +44,12 @@ return {
             vim.cmd("cclose")  -- 기존 quickfix 닫기
             vim.cmd("CMakeBuild")
           end, { buffer = true })
+          vim.keymap.set("n", "<leader>rr", function()
+            vim.cmd("w")
+            vim.cmd("cclose")
+            vim.g.cmake_run_after_build = true
+            vim.cmd("CMakeBuild")
+          end, { buffer = true, desc = "CMake build and run" })
         end,
       })
     end,

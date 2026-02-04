@@ -49,9 +49,9 @@ ZSH_THEME="fino"
 export MY_INSTALL_DIR=$HOME/.local
 export PATH="$MY_INSTALL_DIR/bin:$PATH"
 
-# Prepend lazy/fzf to PATH so the newer version is found before system fzf
-if [[ ! "$PATH" == */home/yielding/.local/share/nvim/lazy/fzf/bin* ]]; then
-  PATH="/home/yielding/.local/share/nvim/lazy/fzf/bin${PATH:+:${PATH}}"
+# Prepend ~/.fzf/bin to PATH so the newer version is found before system fzf
+if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
+  PATH="$HOME/.fzf/bin${PATH:+:${PATH}}"
 fi
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
@@ -160,6 +160,10 @@ mn() {
   tmux kill-session -t "$session_name" 2>/dev/null;
   tmux new-session -d -s "$session_name" "source ~/.zshrc && nnn -a -c -d -e -U $@";
   tmux attach-session -t "$session_name";
+}
+
+vf() {
+  fd --type f | fzf | xargs nvim
 }
 
 zstyle ':completion:*' rehash true

@@ -29,7 +29,7 @@ return {
           "clangd",           -- C/C++
           "rust_analyzer",    -- Rust
           "pyright",          -- Python
-          "ruby_lsp",         -- Ruby
+          -- "ruby_lsp",         -- Ruby (incompatible with Ruby 4.0)
           "ts_ls",            -- TypeScript/JavaScript
           "jsonls",           -- JSON
           "html",             -- HTML
@@ -174,7 +174,7 @@ return {
             },
           },
         },
-        ruby_lsp = {},
+        -- ruby_lsp = {},  -- incompatible with Ruby 4.0
         ts_ls = {},
         jsonls = {},
         html = {},
@@ -211,7 +211,7 @@ return {
         "clangd",
         "rust_analyzer",
         "pyright",
-        "ruby_lsp",
+        -- "ruby_lsp",
         "ts_ls",
         "jsonls",
         "html",

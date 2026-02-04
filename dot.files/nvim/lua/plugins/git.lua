@@ -89,4 +89,19 @@ return {
     cmd = { "Gitv" },
     dependencies = { "tpope/vim-fugitive" },
   },
+
+  -- neogit
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",         -- 필수 의존성
+      "sindrets/diffview.nvim",        -- 선택 사항: Diff 뷰어 통합
+      "nvim-telescope/telescope.nvim", -- 선택 사항: 메뉴 탐색 통합
+    },
+    cmd = { "Neogit" },
+    config = true, -- 기본 설정을 사용하거나 아래와 같이 세부 설정 가능
+    keys = {
+      { "<leader>gn", "<cmd>Neogit<cr>", desc = "Neogit" },
+    },
+  },
 }
