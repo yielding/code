@@ -10,6 +10,7 @@ local function expand_var(var)
 end
 
 -- Basic shortcuts
+map("n", "<leader>f", "[I", opts)
 map("n", "<leader>l", ":set list!<CR>", opts)
 map("n", "<leader>n", ":set nu!<CR>", opts)
 map("n", "<leader>w", ":w<CR>", opts)
@@ -26,7 +27,6 @@ map("n", "<leader>u", function() vim.cmd("source " .. expand_var("_vimrc")) end,
 
 -- Escaping
 map("i", "jk", "<Esc>", opts)
-map("i", "jj", "<Esc>", opts)
 map("c", "jk", "<C-c>", opts)
 
 -- Visual enclose with parenthesis
@@ -131,41 +131,6 @@ local function toggle_syntax()
   end
 end
 map("n", "<leader>S", toggle_syntax, opts)
-
--- Run current file
-local run_cmd = {
-  python   = "python3",
-  ruby     = "ruby --jit",
-  go       = "go run",
-  lua      = "lua",
-  bash     = "bash",
-  zsh      = "zsh",
-  sh       = "sh",
-  javascript = "node",
-  typescript = "npx ts-node",
-  rust     = "cargo run",
-  kotlin   = "kotlinc -script",
-  haskell  = "runhaskell",
-}
-
-map("n", "<leader>rr", function()
-  local src = vim.fn.tempname()
-  vim.cmd("silent write " .. src)
-  local ft = vim.bo.filetype
-  local cmd = run_cmd[ft]
-  if not cmd then
-    vim.notify("No run command for filetype: " .. ft, vim.log.levels.WARN)
-    return
-  end
-  vim.cmd("below pedit! Run\\ Output")
-  vim.cmd("wincmd P")
-  vim.bo.buftype = "nofile"
-  vim.bo.swapfile = false
-  vim.bo.syntax = ""
-  vim.bo.bufhidden = "delete"
-  vim.cmd("silent %!" .. cmd .. " " .. src .. " 2>&1")
-  vim.cmd("wincmd p")
-end, { noremap = true, silent = true, desc = "Run current file" })
 
 -- JQ command for JSON formatting
 vim.api.nvim_create_user_command("JQ", "%!jq .", {})

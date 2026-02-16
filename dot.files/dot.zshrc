@@ -54,10 +54,7 @@ ZSH_THEME="fino"
 export MY_INSTALL_DIR=$HOME/.local
 export PATH="$MY_INSTALL_DIR/bin:$PATH"
 
-# Prepend ~/.fzf/bin to PATH so the newer version is found before system fzf
-if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
-  PATH="$HOME/.fzf/bin${PATH:+:${PATH}}"
-fi
+set rtp+=/opt/homebrew/opt/fzf
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -173,9 +170,15 @@ mn() {
   tmux attach-session -t "$session_name";
 }
 
+gotmux() {
+  [ -z "$TMUX" ] && tmux new -As "${1:-blue}"
+}
+
 vf() {
   fd --type f | fzf | xargs nvim
 }
+
+export LANG=ko_KR.UTF-8
 
 zstyle ':completion:*' rehash true
 

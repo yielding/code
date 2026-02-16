@@ -1,22 +1,21 @@
 #!/usr/bin/env ruby
 
-# node should be installed
-
 SRC="~/code/dot.files"
 
 `mkdir -p ~/.config/nvim/UltiSnips`
+`mkdir -p ~/.config/nvim/lua`
+`mkdir -p ~/.config/nvim/luasnippets`
+`mkdir -p ~/.config/tmux`
 `mkdir -p ~/.oh-my-zsh/themes`
-`mkdir -p ~/.config/nvim/vim-plug`
 
 `cp #{SRC}/dot.zshrc ~/.zshrc`
-`cp #{SRC}/dot.init.vim ~/.config/nvim/init.vim`
-`cp #{SRC}/vim-plug/plugins.vim ~/.config/nvim/vim-plug/plugins.vim`
-`cp #{SRC}/coc-settings.json ~/.config/nvim/coc-settings.json`
-`cp -r #{SRC}/vim-colors ~/.config/nvim/colors`
+`cp #{SRC}/nvim/init.lua ~/.config/nvim/init.lua`
+`cp #{SRC}/nvim/lazy-lock.json ~/.config/nvim/lazy-lock.json`
+`cp -r #{SRC}/nvim/lua/* ~/.config/nvim/lua`
+`cp -r #{SRC}/nvim/luasnippets/* ~/.config/nvim/luasnippets`
 `cp #{SRC}/dot.ghci ~/.ghci`
 `cp #{SRC}/dot.gitconfig ~/.gitconfig`
-`cp #{SRC}/dot.tmux.conf ~/.tmux.conf`
-`cp #{SRC}/dot.vimrc ~/.vimrc`
+`cp #{SRC}/dot.tmux.conf ~/.config/tmux/tmux.conf`
 `cp #{SRC}/oh-my-zsh-lib-aliases.zsh ~/.oh-my-zsh/lib/aliases.zsh`
 `cp #{SRC}/oh-my-zsh-themes/* ~/.oh-my-zsh/themes/`
 `cp #{SRC}/UltiSnips/* ~/.config/nvim/UltiSnips/`

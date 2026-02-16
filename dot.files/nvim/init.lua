@@ -29,9 +29,6 @@ require("lazy").setup("plugins", {
   defaults = {
     lazy = false,
   },
-  rocks = {
-    enabled = false,
-  },
   install = {
     colorscheme = { "darkbone", "duskfox", "habamax" },
   },

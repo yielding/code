@@ -87,15 +87,30 @@ return {
       dap.configurations.rust = dap.configurations.cpp
       dap.configurations.c = dap.configurations.cpp
 
-      -- Python configuration (debugpy via Mason)
-      local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
-      dap.adapters.python = {
-        type = "executable",
-        command = mason_bin .. "/debugpy-adapter",
-        options = {
-          source_filetype = "python",
-        },
-      }
+      -- Python configuration (debugpy)
+      dap.adapters.python = function(cb, config)
+        if config.request == "attach" then
+          local port = (config.connect or config).port
+          local host = (config.connect or config).host or "127.0.0.1"
+          cb({
+            type = "server",
+            port = assert(port, "`connect.port` is required for a python `attach` configuration"),
+            host = host,
+            options = {
+              source_filetype = "python",
+            },
+          })
+        else
+          cb({
+            type = "executable",
+            command = vim.g.python3_host_prog or "python3",
+            args = { "-m", "debugpy.adapter" },
+            options = {
+              source_filetype = "python",
+            },
+          })
+        end
+      end
 
       dap.configurations.python = {
         {
@@ -104,76 +119,19 @@ return {
           name = "Launch file",
           program = "${file}",
           pythonPath = function()
-            local venv = os.getenv("VIRTUAL_ENV")
-            if venv then
-              return venv .. "/bin/python"
-            end
-            return "/usr/bin/python3"
-          end,
-        },
-        {
-          type = "python",
-          request = "launch",
-          name = "Launch with arguments",
-          program = "${file}",
-          args = function()
-            local args_string = vim.fn.input("Arguments: ")
-            return vim.split(args_string, " ")
-          end,
-          pythonPath = function()
-            local venv = os.getenv("VIRTUAL_ENV")
-            if venv then
-              return venv .. "/bin/python"
-            end
-            return "/usr/bin/python3"
+            return vim.g.python3_host_prog or "/opt/homebrew/bin/python3"
           end,
         },
       }
 
-      -- Ruby configuration (rdbg)
       dap.adapters.ruby = function(callback, config)
-        local port = 38698
-        local program = config.program
-        if program == "${file}" then
-          program = vim.fn.expand("%:p")
-        end
-
-        vim.notify("Starting rdbg on port " .. port .. "...", vim.log.levels.INFO)
-
-        vim.fn.jobstart({
-          "rdbg", "--open=vscode", "--port", tostring(port), "--", program
-        }, {
-          detach = false,
-          on_stdout = function(_, data)
-            for _, line in ipairs(data) do
-              if line:match("Debugger can attach") then
-                vim.notify("rdbg ready, connecting...", vim.log.levels.INFO)
-              end
-            end
-          end,
-          on_stderr = function(_, data)
-            for _, line in ipairs(data) do
-              if line ~= "" then
-                vim.notify("rdbg: " .. line, vim.log.levels.DEBUG)
-              end
-            end
-          end,
-          on_exit = function(_, code)
-            if code ~= 0 then
-              vim.notify("rdbg exited with code: " .. code, vim.log.levels.ERROR)
-            end
-          end,
+        callback({
+          type = "executable",
+          command = "rdbg",
+          args = { "--open=vscode", "--nonstop", "--command", "--", config.program == "${file}" and vim.fn.expand("%:p") or config.program },
         })
-
-        -- Wait for debugger to start (3 seconds for DAP server to initialize)
-        vim.defer_fn(function()
-          callback({
-            type = "server",
-            host = "127.0.0.1",
-            port = port,
-          })
-        end, 3000)
       end
+
 
       dap.configurations.ruby = {
         {

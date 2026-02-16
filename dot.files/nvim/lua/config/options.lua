@@ -1,15 +1,16 @@
 -- lua/config/options.lua
 -- Vim options
----@diagnostic disable: inject-field
 
 local opt = vim.opt
 
 -- General
 opt.modeline = true
 opt.ruler = true
+opt.relativenumber = true
 opt.autoread = true
 opt.shiftround = true
 opt.number = true
+opt.numberwidth = 2
 opt.endofline = false
 opt.fixendofline = false
 opt.laststatus = 2
@@ -62,16 +63,14 @@ opt.spellfile = vim.fn.expand("$HOME/Dropbox/vim/spell/en.utf-8.add")
 opt.exrc = true
 
 -- Persistent undo
-local tmp_dir = vim.fn.expand("$HOME/tmp") --[[@as string]]
+local tmp_dir = vim.fn.expand("$HOME/tmp")
 if vim.fn.isdirectory(tmp_dir) == 0 then
-  ---@diagnostic disable-next-line: param-type-mismatch
-  vim.fn.mkdir(tmp_dir, "p", 0770)  -- 504:0770
+  vim.fn.mkdir(tmp_dir, "p", "0770")
 end
 
 local undo_dir = tmp_dir .. "/undo_nvim"
 if vim.fn.isdirectory(undo_dir) == 0 then
-  ---@diagnostic disable-next-line: param-type-mismatch
-  vim.fn.mkdir(undo_dir, "p", 0700)  -- 448:0700
+  vim.fn.mkdir(undo_dir, "p", "0700")
 end
 opt.undodir = undo_dir
 opt.undofile = true
@@ -95,11 +94,7 @@ opt.errorformat = table.concat({
 }, ",")
 
 -- FZF runtime path
-if vim.fn.isdirectory("/opt/homebrew/opt/fzf") == 1 then
-  opt.rtp:append("/opt/homebrew/opt/fzf")
-elseif vim.fn.isdirectory("/usr/share/doc/fzf") == 1 then
-  opt.rtp:append("/usr/share/doc/fzf")
-end
+opt.rtp:append("/opt/homebrew/opt/fzf")
 
 -- Highlight settings
 vim.cmd([[highlight VertSplit ctermfg=gray ctermbg=none guifg=#555555 guibg=NONE]])

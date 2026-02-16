@@ -5,16 +5,17 @@ DEST="~/code/dot.files"
 `mkdir -p #{DEST}/bin`
 `mkdir -p #{DEST}/UltiSnips`
 `mkdir -p #{DEST}/oh-my-zsh-themes`
-`mkdir -p #{DEST}/vim-plug`
+`mkdir -p #{DEST}/nvim/lua`
+`mkdir -p #{DEST}/nvim/luasnippets`
 
 `cp ~/.zshrc #{DEST}/dot.zshrc`
-`cp ~/.config/nvim/init.lua #{DEST}/dot.init.lua`
-`cp ~/.config/nvim/vim-plug/plugins.vim #{DEST}/vim-plug/plugins.vim`
-`cp ~/.config/nvim/coc-settings.json #{DEST}/coc-settings.json`
+`cp ~/.config/nvim/init.lua #{DEST}/nvim/init.lua`
+`cp ~/.config/nvim/lazy-lock.json #{DEST}/nvim/lazy-lock.json`
+`cp -r ~/.config/nvim/lua/* #{DEST}/nvim/lua`
+`cp -r ~/.config/nvim/luasnippets/* #{DEST}/nvim/luasnippets`
 `cp ~/.ghci #{DEST}/dot.ghci`
 `cp ~/.gitconfig #{DEST}/dot.gitconfig`
-`cp ~/.tmux.conf #{DEST}/dot.tmux.conf`
-`cp ~/.vimrc #{DEST}/dot.vimrc`
+`cp ~/.config/tmux/tmux.conf #{DEST}/dot.tmux.conf`
 `cp ~/.oh-my-zsh/lib/aliases.zsh #{DEST}/oh-my-zsh-lib-aliases.zsh`
 `cp -r ~/bin/* #{DEST}/bin`
 `cp -r ~/.oh-my-zsh/themes/fino* #{DEST}/oh-my-zsh-themes`

@@ -49,7 +49,7 @@ return {
           lualine_a = { "mode" },
           lualine_b = { "branch", "diff", "diagnostics" },
           lualine_c = { { "filename", path = 1 } },
-          lualine_x = { "encoding", "fileformat", "filetype" },
+          lualine_x = { "encoding", { "fileformat", symbols = { unix = "", dos = "", mac = "" } }, "filetype" },
           lualine_y = { "progress" },
           lualine_z = { "location" },
         },
@@ -130,17 +130,58 @@ return {
             name = "Rust",
           },
         },
+        override_by_filename = {
+          [".tmux.conf"] = {
+            icon = "󰆍",
+            color = "#1bb91f",
+            name = "Tmux",
+          },
+        },
       })
     end,
   },
 
   -- quicker.nvim: Better quickfix
-  {
-    "stevearc/quicker.nvim",
+  { "stevearc/quicker.nvim",
     event = "FileType qf",
     config = function()
       require("quicker").setup()
     end,
+  },
+
+  -- zen-mode.nvim: Distraction-free writing
+  {
+    "folke/zen-mode.nvim",
+    cmd = "ZenMode",
+    keys = {
+      { "<leader>zz", "<cmd>ZenMode<CR>", desc = "Zen Mode" },
+    },
+    opts = {
+      window = {
+        width = 90,
+        options = {
+          number = false,
+          relativenumber = false,
+          signcolumn = "no",
+          cursorline = false,
+        },
+      },
+      plugins = {
+        gitsigns = { enabled = false },
+        tmux = { enabled = true },
+        twilight = { enabled = false },
+      },
+    },
+  },
+
+  -- twilight.nvim: Dim inactive code
+  {
+    "folke/twilight.nvim",
+    cmd = { "Twilight", "TwilightEnable", "TwilightDisable" },
+    keys = {
+      { "<leader>zt", "<cmd>Twilight<CR>", desc = "Twilight" },
+    },
+    opts = {},
   },
 
   -- noice.nvim: Better UI for cmdline, messages, notifications
@@ -208,4 +249,18 @@ return {
       })
     end,
   },
+
+ -- which-key: Display keybindings in popup
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      preset = "modern",
+      delay = 300,
+    },
+    keys = {
+      { "<leader>?", function() require("which-key").show({ global = false }) end, desc = "Buffer Local Keymaps" },
+    },
+  },
+
 }

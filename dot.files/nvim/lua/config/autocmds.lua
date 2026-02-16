@@ -35,6 +35,14 @@ autocmd("FileType", {
   command = [[syntax match Comment +\/\/.\+$+]],
 })
 
+-- Auto switch to English input on InsertLeave (macOS)
+autocmd("InsertLeave", {
+  group = "GeneralSettings",
+  callback = function()
+    vim.fn.system("im-select com.apple.keylayout.ABC")
+  end,
+})
+
 -- File type specific settings
 augroup("FileTypeSettings", { clear = true })
 
@@ -74,12 +82,33 @@ autocmd("FileType", {
   pattern = "ruby",
   callback = function()
     vim.cmd("filetype plugin indent on")
+    -- Ruby eval function
+    vim.keymap.set("n", "<F5>", function()
+      local src = vim.fn.tempname()
+      vim.cmd("silent write " .. src)
+      vim.cmd("below pedit! Ruby Output")
+      vim.cmd("wincmd P")
+      vim.bo.buftype = "nofile"
+      vim.bo.swapfile = false
+      vim.bo.syntax = ""
+      vim.bo.bufhidden = "delete"
+      vim.cmd("silent %!ruby --jit " .. src .. " 2>&1")
+      vim.cmd("wincmd p")
+    end, { buffer = true })
     vim.keymap.set("n", "<leader>tag", ":!ripper-tags -R.<CR>", { buffer = true })
   end,
 })
 
--- Language-specific run commands (build+run languages only; others use <leader>rr)
+-- Language-specific run commands
 augroup("LanguageRun", { clear = true })
+
+autocmd("FileType", {
+  group = "LanguageRun",
+  pattern = "python",
+  callback = function()
+    vim.keymap.set("n", "<C-S-r>", ":!python3 %<CR>", { buffer = true })
+  end,
+})
 
 autocmd("FileType", {
   group = "LanguageRun",
@@ -97,6 +126,32 @@ autocmd("FileType", {
     vim.keymap.set("n", "<C-S-b>", ":!javac %<CR>", { buffer = true })
     vim.keymap.set("n", "<C-S-r>", function()
       vim.cmd("!java " .. vim.fn.expand("%:r"))
+    end, { buffer = true })
+  end,
+})
+
+autocmd("FileType", {
+  group = "LanguageRun",
+  pattern = "haskell",
+  callback = function()
+    vim.keymap.set("n", "<C-S-r>", ":!runhaskell %<CR>", { buffer = true })
+  end,
+})
+
+autocmd("FileType", {
+  group = "LanguageRun",
+  pattern = "javascript",
+  callback = function()
+    vim.keymap.set("n", "<C-S-r>", ":!node %<CR>", { buffer = true })
+  end,
+})
+
+autocmd("FileType", {
+  group = "LanguageRun",
+  pattern = "kotlin",
+  callback = function()
+    vim.keymap.set("n", "<C-S-r>", function()
+      vim.cmd("!kot.sh " .. vim.fn.expand("%"))
     end, { buffer = true })
   end,
 })
@@ -120,11 +175,6 @@ autocmd("User", {
       vim.cmd("cclose")
     end
     vim.cmd("CMakeClose")
-    -- Run if requested
-    if vim.g.cmake_run_after_build then
-      vim.g.cmake_run_after_build = false
-      vim.cmd("CMakeRun")
-    end
   end,
 })
 
