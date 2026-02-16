@@ -7,8 +7,8 @@ if [ -f "Cargo.toml" ]; then
   exit $?
 fi
 
-# 기본값: g++
-CXX_COMPILER="g++"
+# 기본값: clang++
+CXX_COMPILER="clang++"
 
 # 인자 처리
 if [ "$1" = "clang" ]; then

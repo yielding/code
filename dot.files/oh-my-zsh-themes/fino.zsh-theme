@@ -38,7 +38,7 @@ local prompt_char='$(prompt_char)'
 #    if (( $i % 8 == 7 )); then echo; fi
 #done
 
-PROMPT="╭─${FG[153]}%n${FG[253]}@${FG[183]}$(box_name) ${FG[239]}%B${FG[111]}%~%b${git_info}${ruby_env}${virtualenv_info}
+PROMPT="╭─${FG[153]}%n${FG[253]}@${FG[183]}$(box_name) ${FG[239]}%B${FG[111]}%3~%b${git_info}${ruby_env}${virtualenv_info}
 ╰─${prompt_char}%{$reset_color%} "
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" ${FG[239]}on%{$reset_color%} ${FG[255]}"

@@ -8,7 +8,7 @@ DEST="~/code/dot.files"
 `mkdir -p #{DEST}/vim-plug`
 
 `cp ~/.zshrc #{DEST}/dot.zshrc`
-`cp ~/.config/nvim/init.vim #{DEST}/dot.init.vim`
+`cp ~/.config/nvim/init.lua #{DEST}/dot.init.lua`
 `cp ~/.config/nvim/vim-plug/plugins.vim #{DEST}/vim-plug/plugins.vim`
 `cp ~/.config/nvim/coc-settings.json #{DEST}/coc-settings.json`
 `cp ~/.ghci #{DEST}/dot.ghci`

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ssh yielding@1.237.245.163 -p 2222
