@@ -29,7 +29,7 @@ return {
           "clangd",           -- C/C++
           "rust_analyzer",    -- Rust
           "pyright",          -- Python
-          "ruby_lsp",         -- Ruby
+          -- "ruby_lsp",         -- Ruby (incompatible with Ruby 4.0)
           "ts_ls",            -- TypeScript/JavaScript
           "jsonls",           -- JSON
           "html",             -- HTML
@@ -94,6 +94,17 @@ return {
         -- Formatting
         map("n", "<leader>fm", function()
           vim.lsp.buf.format({ async = true })
+        end, opts)
+
+        -- clang-tidy fix
+        map("n", "<leader>ft", function()
+          local file = vim.fn.expand("%:p")
+          vim.cmd("write")
+          local root = vim.fn.getcwd()
+          local db = vim.fn.glob(root .. "/build/*/compile_commands.json", false, true)
+          local p_flag = (#db > 0) and (" -p " .. vim.fn.fnamemodify(db[1], ":h")) or ""
+          vim.fn.system("clang-tidy --fix-errors --fix-notes" .. p_flag .. " " .. file)
+          vim.cmd("edit!")
         end, opts)
       end
 
@@ -162,7 +173,10 @@ return {
             },
           },
         },
-        ruby_lsp = {},
+        -- ruby_lsp = {},  -- incompatible with Ruby 4.0
+        solargraph = {
+          cmd = { "/Users/yielding/.rubies/ruby-4.0.1/bin/solargraph", "stdio" },
+        },
         ts_ls = {},
         jsonls = {},
         html = {},
@@ -199,7 +213,8 @@ return {
         "clangd",
         "rust_analyzer",
         "pyright",
-        "ruby_lsp",
+        -- "ruby_lsp",
+        "solargraph",
         "ts_ls",
         "jsonls",
         "html",

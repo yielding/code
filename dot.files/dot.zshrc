@@ -170,7 +170,7 @@ mn() {
   tmux attach-session -t "$session_name";
 }
 
-gotmux() {
+tx() {
   [ -z "$TMUX" ] && tmux new -As "${1:-blue}"
 }
 
