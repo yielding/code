@@ -6,7 +6,7 @@ namespace v = ranges::views;
 
 using namespace std;
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   auto const m = map<string, string> {{"red","#ff0000"},{"green","#00ff00"}};
 

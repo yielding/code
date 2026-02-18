@@ -15,7 +15,7 @@ void write_top_k(const Range& xs, int count)
 {
   auto print = [](const auto& p) { return to_string(p.second) + " " + p.first; };
 
-  auto items = v::zip(xs, v::ints(1))
+  auto items = v::zip(xs, v::iota(1))
              | v::transform(print)
              | v::take(5);
 

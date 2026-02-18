@@ -1,4 +1,3 @@
-#include <iostream>
 #include <string>
 #include <cassert>
 #include <range/v3/all.hpp>
@@ -8,14 +7,14 @@ namespace g = ranges;
 
 using namespace std;
 
-int distance_impl(string const& s)
+auto distance_impl(string const& s) -> int
 {
-  auto r = s | v::transform([](char c) { return 1; });
+  auto r = s | v::transform([](char c) -> int { return 1; });
 
   return g::accumulate(r, 0);
 }
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   auto s = "unparagoned"s;
   auto l = distance_impl(s);

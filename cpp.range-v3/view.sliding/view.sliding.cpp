@@ -5,7 +5,7 @@ namespace v = ranges::views;
 
 using namespace std;
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   using v::closed_iota, v::sliding, v::chunk, v::all;
 

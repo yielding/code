@@ -6,7 +6,7 @@ namespace v = ranges::views;
 
 using namespace std;
 
-int main()
+auto main() -> int
 {
   using v::join;
 
@@ -18,7 +18,7 @@ int main()
   auto v = vector<vector<int>> { {1,2}, {3,4,5}, {6}, {7,8,9} };
 
   for (auto e : v | join) cout << e << ' ';
-  cout << '\n';
+  cout << endl;
 
   return 0;
 }

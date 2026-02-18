@@ -6,12 +6,12 @@ namespace g = ranges;
 
 using namespace std;
 
-int main(int argc, char** argv)
+auto main(int argc, char** argv) -> int
 {   
   using v::take, v::ints, v::transform, g::accumulate;
 
   auto rng = v::generate(
-    [p=pair{1, 1}]() mutable {
+    [p=pair{1, 1}]() mutable -> tuple_element<0, pair<int, int>>::type {
       auto [a0, b0] = p; 
       p = {b0, a0 + b0};
       return a0;
@@ -21,7 +21,7 @@ int main(int argc, char** argv)
   auto fib10 = rng | take(10);
   cout << fib10 << endl;
 
-  auto rng2 = ints(1, 10) | transform([](int i) { return i*i; });
+  auto rng2 = ints(1, 10) | transform([](int i) -> int { return i*i; });
 
   cout << accumulate(rng2 , 0);
 

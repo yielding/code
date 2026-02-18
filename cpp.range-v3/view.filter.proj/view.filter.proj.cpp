@@ -10,14 +10,14 @@ struct mountain
   string name;
   double height;
 
-  friend ostream& operator <<(ostream& os, const mountain& m)
+  friend auto operator <<(ostream& os, const mountain& m) -> ostream&
   {
     os << "(" << m.name << ", " << m.height << ")";
     return os;
   }
 };
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   using v::filter, v::all;
 
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
   };
 
   auto rng = mountains 
-           | filter([](auto h) { return h > 6200.0; }, &mountain::height);
+           | filter([](auto h) -> auto { return h > 6200.0; }, &mountain::height);
 
   cout << all(rng);
 

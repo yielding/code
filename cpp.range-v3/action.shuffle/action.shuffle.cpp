@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <array>
 #include <random>
 #include <print>
@@ -14,7 +13,7 @@ void pr(const auto& a)
   println("");
 }
 
-int main()
+auto main() -> int
 {
   array a{'A', 'B', 'C', 'D', 'E', 'F'};
   pr(a);

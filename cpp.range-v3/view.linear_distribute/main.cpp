@@ -6,7 +6,7 @@ namespace g = ranges;
 
 using namespace std;
 
-int isbn_13(vector<int> const& isbn)
+auto isbn_13(vector<int> const& isbn) -> int
 {
   using v::cycle, v::linear_distribute, v::take, g::inner_product;
 
@@ -18,7 +18,7 @@ int isbn_13(vector<int> const& isbn)
   return rem == 0 ? 0 : 10 - rem;
 }
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   auto isbn = vector{ 9, 7, 8, 8, 1, 6, 1, 9, 7, 2, 7, 1, 2 };
 

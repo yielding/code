@@ -2,13 +2,13 @@
 #include <vector>
 #include <range/v3/all.hpp>
 
-using namespace ranges::view;
+using namespace ranges::views;
 using namespace std;
 
-int main() 
+auto main() -> int 
 {
   // Create a vector of numbers from 1 to 5
-  auto vec = {1, 2, 3, 4, 5};
+  auto vec = vector{1, 2, 3, 4, 5};
 
   // Create a cycle view of the vector
   auto cycle_view = vec | cycle;

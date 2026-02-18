@@ -21,7 +21,7 @@ auto string_only_alnum(string const& s) -> string
            | g::to<string>;
 }
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   println("{}", string_to_lower("HHH"));
   println("{}", string_only_alnum("H!H2H"));

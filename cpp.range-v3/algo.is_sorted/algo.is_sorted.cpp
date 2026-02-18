@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   using ranges::is_sorted;
 

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <print>
 #include <vector>
 #include <range/v3/all.hpp>
@@ -53,18 +52,18 @@ void applied()
 
   auto names = { "s"s, "min"s, "h"s, "d"s };
   auto mods = zip_with(
-      [](int a, int b) { return a % b; },  // 여기서 % 연산이 빛난다.
+      [](int a, int b) -> int { return a % b; },  // 여기서 % 연산이 빛난다.
       div_pos, times);
 
   // cout << v::all(mods) << endl; // [36,17,10,1]
   auto pairs 
-    = zip_with([](int a, auto& s) { return to_string(a) + s; }, mods, names)
+    = zip_with([](int a, auto& s) -> auto { return to_string(a) + s; }, mods, names)
     | to<strings>;
 
   println("{}", v::all(pairs | reverse)); // [36s,17min,10h,1d]
 }
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   basics();
   applied();

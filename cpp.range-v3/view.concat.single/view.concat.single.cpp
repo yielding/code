@@ -7,7 +7,7 @@ namespace g = ranges;
 
 using namespace std;
 
-int main(int agc, char* agv[])
+auto main(int agc, char* agv[]) -> int
 {
   using v::concat, v::single, v::join;
 

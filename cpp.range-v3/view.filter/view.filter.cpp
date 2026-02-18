@@ -3,10 +3,10 @@
 
 using namespace ranges::views;
 
-int main()
+auto main() -> int
 {
-  auto even   = [](int i) { return i % 2 == 0; };
-  auto square = [](int i) { return i * i; };
+  auto even   = [](int i) -> bool { return i % 2 == 0; };
+  auto square = [](int i) -> int  { return i * i; };
 
   auto rng = iota(0, 6) | filter(even) | transform(square);
   

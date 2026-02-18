@@ -8,7 +8,7 @@ using namespace std;
 
 using strings = forward_list<string>;
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
   auto s = "hello world"s;
   auto r = s | split(' ') | to<strings>;

@@ -6,21 +6,21 @@ namespace g = ranges;
 
 using namespace std;
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
-  using v::iota;  // ints(1, 10)
+  using v::iota, v::all, v::reverse, v::drop, v::concat, g::accumulate;
 
-  cout << v::all(iota(1, 10)) << endl;
+  cout << all(iota(1, 10)) << endl;
 
   auto rng = iota(1, 10)
-    | v::transform([](int x) {
+    | v::transform([](int x) -> auto {
         auto r1 = v::closed_iota(1, x);
-        auto r2 = r1 | v::drop(1) | v::reverse;
-        auto r3 = v::concat(r2, r1);
-        return g::accumulate(r3, 0LL, [](auto s, auto i) { return s * 10 + i;});
+        auto r2 = r1 | drop(1) | reverse;
+        auto r3 = concat(r2, r1);
+        return accumulate(r3, 0LL, [](auto s, auto i) -> auto { return s * 10 + i; });
       });
 
-  cout << v::all(rng) << endl;
+  cout << all(rng) << endl;
 
   return 0;
 }

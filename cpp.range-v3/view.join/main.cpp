@@ -1,12 +1,11 @@
 #include <iostream>
-#include <map>
 #include <range/v3/all.hpp>
 
 namespace v = ranges::views;
 
 using namespace std;
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   using v::join, v::all;
 

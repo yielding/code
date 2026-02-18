@@ -1,5 +1,5 @@
-#include <iostream>
 #include <string>
+#include <print>
 #include <range/v3/all.hpp>
 
 namespace v = ranges::views;
@@ -30,11 +30,11 @@ int main(int agc, char* agv[])
                auto s_num = to_string(x) + to_string(x * x);
                return yield_if(
                    !contains_char(s_num, '0') && contains_all_digits(s_num),
-                   make_pair(x, s_sq));
+                   make_pair(x, s_num));
            });
 
-  for (auto const& [e1, e2] :rng)
-    cout << "(" << e1 << " : " << e2 << ")" << endl;
+  for (auto const& [e1, e2] : rng)
+    println("({} : {})", e1, e2);
   
   return 0;
 }

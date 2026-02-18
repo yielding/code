@@ -3,7 +3,7 @@
 
 #include <range/v3/all.hpp>
 
-namespace v = ranges::view;
+namespace v = ranges::views;
 namespace g = ranges;
 
 using namespace std;
