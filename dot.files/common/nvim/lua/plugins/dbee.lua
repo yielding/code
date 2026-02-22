@@ -12,7 +12,11 @@ return {
     end,
     cmd = { "Dbee" },
     config = function()
-      require("dbee").setup()
+      require("dbee").setup({
+        sources = {
+          require("dbee.sources").FileSource:new("/home/yielding/claude/psql/dbee.json"),
+        },
+      })
     end,
     keys = {
       { "<leader>De", function() require("dbee").toggle() end, desc = "Toggle DB Explorer" },

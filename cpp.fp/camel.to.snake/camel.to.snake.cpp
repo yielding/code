@@ -8,7 +8,7 @@ namespace v = ranges::views;
 
 using namespace std;
 
-int main(int agc, char* agv[])
+auto main(int agc, char* agv[]) -> int
 {
   auto const s = string{"CamelCaseIsGone"};
 

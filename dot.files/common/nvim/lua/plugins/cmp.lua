@@ -32,13 +32,13 @@ return {
         else
           return "<Tab>"
         end
-      end, { expr = true, silent = true })
+      end, { expr = true, silent = true, desc = "Expand or jump snippet" })
 
       vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
         if luasnip.jumpable(-1) then
           luasnip.jump(-1)
         end
-      end, { silent = true })
+      end, { silent = true, desc = "Jump to previous snippet" })
     end,
   },
 

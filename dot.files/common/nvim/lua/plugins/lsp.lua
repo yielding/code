@@ -70,31 +70,33 @@ return {
 
       -- LSP keymaps setup function
       local function setup_lsp_keymaps(bufnr)
-        local opts = { buffer = bufnr, noremap = true, silent = true }
+        local function o(desc)
+          return { buffer = bufnr, noremap = true, silent = true, desc = desc }
+        end
         local map = vim.keymap.set
 
         -- Navigation
-        map("n", "gd", vim.lsp.buf.definition, opts)
-        map("n", "gD", vim.lsp.buf.declaration, opts)
-        map("n", "gy", vim.lsp.buf.type_definition, opts)
-        map("n", "gi", vim.lsp.buf.implementation, opts)
-        map("n", "gr", vim.lsp.buf.references, opts)
-        map("n", "K", vim.lsp.buf.hover, opts)
-        map("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+        map("n", "gd", vim.lsp.buf.definition, o("Go to definition"))
+        map("n", "gD", vim.lsp.buf.declaration, o("Go to declaration"))
+        map("n", "gy", vim.lsp.buf.type_definition, o("Go to type definition"))
+        map("n", "gi", vim.lsp.buf.implementation, o("Go to implementation"))
+        map("n", "gr", vim.lsp.buf.references, o("Find references"))
+        map("n", "K", vim.lsp.buf.hover, o("Hover documentation"))
+        map("n", "<C-k>", vim.lsp.buf.signature_help, o("Signature help"))
 
         -- Actions
-        map("n", "rn", vim.lsp.buf.rename, opts)
-        map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-        map("n", "<leader>dd", vim.diagnostic.open_float, opts)
+        map("n", "rn", vim.lsp.buf.rename, o("Rename symbol"))
+        map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, o("Code action"))
+        map("n", "<leader>dd", vim.diagnostic.open_float, o("Open diagnostic float"))
 
         -- Diagnostics navigation (Neovim 0.11+)
-        map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, opts)
-        map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, opts)
+        map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, o("Previous diagnostic"))
+        map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, o("Next diagnostic"))
 
         -- Formatting
         map("n", "<leader>fm", function()
           vim.lsp.buf.format({ async = true })
-        end, opts)
+        end, o("Format file"))
 
         -- clang-tidy fix
         map("n", "<leader>ft", function()
@@ -105,7 +107,7 @@ return {
           local p_flag = (#db > 0) and (" -p " .. vim.fn.fnamemodify(db[1], ":h")) or ""
           vim.fn.system("clang-tidy --fix-errors --fix-notes" .. p_flag .. " " .. file)
           vim.cmd("edit!")
-        end, opts)
+        end, o("Clang-tidy fix"))
       end
 
       -- LspAttach autocommand for keymaps and highlighting
@@ -174,9 +176,6 @@ return {
           },
         },
         -- ruby_lsp = {},  -- incompatible with Ruby 4.0
-        solargraph = {
-          cmd = { "/Users/yielding/.rubies/ruby-4.0.1/bin/solargraph", "stdio" },
-        },
         ts_ls = {},
         jsonls = {},
         html = {},
@@ -214,7 +213,6 @@ return {
         "rust_analyzer",
         "pyright",
         -- "ruby_lsp",
-        "solargraph",
         "ts_ls",
         "jsonls",
         "html",

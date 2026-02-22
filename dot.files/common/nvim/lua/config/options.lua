@@ -1,5 +1,6 @@
 -- lua/config/options.lua
 -- Vim options
+---@diagnostic disable: inject-field
 
 local opt = vim.opt
 
@@ -10,7 +11,6 @@ opt.relativenumber = true
 opt.autoread = true
 opt.shiftround = true
 opt.number = true
-opt.numberwidth = 2
 opt.endofline = false
 opt.fixendofline = false
 opt.laststatus = 2
@@ -50,6 +50,14 @@ opt.splitright = true
 opt.termguicolors = true
 opt.signcolumn = "yes"  -- 항상 sign column 표시 (브레이크포인트용)
 
+-- Markdown conceallevel (obsidian.nvim UI 렌더링용)
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.conceallevel = 2
+  end,
+})
+
 -- Encodings
 opt.fileencodings = { "utf-8", "ucs-bom", "euc-kr", "cp949" }
 opt.encoding = "utf-8"
@@ -64,14 +72,16 @@ opt.spellfile = vim.fn.expand("$HOME/Dropbox/vim/spell/en.utf-8.add")
 opt.exrc = true
 
 -- Persistent undo
-local tmp_dir = vim.fn.expand("$HOME/tmp")
+local tmp_dir = vim.fn.expand("$HOME/tmp") --[[@as string]]
 if vim.fn.isdirectory(tmp_dir) == 0 then
-  vim.fn.mkdir(tmp_dir, "p", "0770")
+  ---@diagnostic disable-next-line: param-type-mismatch
+  vim.fn.mkdir(tmp_dir, "p", 0770)  -- 504:0770
 end
 
 local undo_dir = tmp_dir .. "/undo_nvim"
 if vim.fn.isdirectory(undo_dir) == 0 then
-  vim.fn.mkdir(undo_dir, "p", "0700")
+  ---@diagnostic disable-next-line: param-type-mismatch
+  vim.fn.mkdir(undo_dir, "p", 0700)  -- 448:0700
 end
 opt.undodir = undo_dir
 opt.undofile = true
@@ -95,7 +105,11 @@ opt.errorformat = table.concat({
 }, ",")
 
 -- FZF runtime path
-opt.rtp:append("/opt/homebrew/opt/fzf")
+if vim.fn.isdirectory("/opt/homebrew/opt/fzf") == 1 then
+  opt.rtp:append("/opt/homebrew/opt/fzf")
+elseif vim.fn.isdirectory("/usr/share/doc/fzf") == 1 then
+  opt.rtp:append("/usr/share/doc/fzf")
+end
 
 -- Highlight settings
 vim.cmd([[highlight VertSplit ctermfg=gray ctermbg=none guifg=#555555 guibg=NONE]])

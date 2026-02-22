@@ -2,7 +2,6 @@
 -- Key mappings
 
 local map = vim.keymap.set
-local opts = { noremap = true, silent = true }
 
 -- Helper for global variables in mappings
 local function expand_var(var)
@@ -10,36 +9,36 @@ local function expand_var(var)
 end
 
 -- Basic shortcuts
-map("n", "<leader>f", "[I", { noremap = true, silent = true, desc = "Show word occurrences" })
-map("n", "<leader>l", ":set list!<CR>", { noremap = true, silent = true, desc = "Toggle listchars" })
+map("n", "<leader>l", ":set list!<CR>", { noremap = true, silent = true, desc = "Toggle list" })
 map("n", "<leader>n", ":set nu!<CR>", { noremap = true, silent = true, desc = "Toggle line numbers" })
 map("n", "<leader>w", ":w<CR>", { noremap = true, silent = true, desc = "Save file" })
 map("n", "<leader>q", ":q<CR>", { noremap = true, silent = true, desc = "Quit" })
-map({ "n", "i" }, "<C-S-s>", "<Cmd>w<CR>", opts)
-map("n", "<leader>cd", ":lcd %:p:h<CR>:pwd<CR>", { noremap = true, silent = true, desc = "LCD to buffer dir" })
+map({ "n", "i" }, "<C-S-s>", "<Cmd>w<CR>", { noremap = true, silent = true, desc = "Save file" })
+map("n", "<leader>cd", ":lcd %:p:h<CR>:pwd<CR>", { noremap = true, silent = true, desc = "LCD to current buffer dir" })
 
 -- File editing shortcuts
 map("n", "<leader>v", function() vim.cmd("edit " .. expand_var("_vimrc")) end, { noremap = true, silent = true, desc = "Edit vimrc" })
-map("n", "<leader>p", function() vim.cmd("edit " .. expand_var("_plugs")) end, { noremap = true, silent = true, desc = "Edit plugins" })
+map("n", "<leader>p", function() vim.cmd("edit " .. expand_var("_plugs")) end, { noremap = true, silent = true, desc = "Edit plugins config" })
 map("n", "<leader>z", function() vim.cmd("edit " .. expand_var("_zshrc")) end, { noremap = true, silent = true, desc = "Edit zshrc" })
-map("n", "<leader>x", function() vim.cmd("edit " .. expand_var("_tmuxrc")) end, { noremap = true, silent = true, desc = "Edit tmux.conf" })
+map("n", "<leader>x", function() vim.cmd("edit " .. expand_var("_tmuxrc")) end, { noremap = true, silent = true, desc = "Edit tmuxrc" })
 map("n", "<leader>u", function() vim.cmd("source " .. expand_var("_vimrc")) end, { noremap = true, silent = true, desc = "Source vimrc" })
 
 -- Escaping
-map("i", "jk", "<Esc>", opts)
-map("c", "jk", "<C-c>", opts)
+map("i", "jk", "<Esc>", { noremap = true, silent = true, desc = "Escape" })
+map("i", "jj", "<Esc>", { noremap = true, silent = true, desc = "Escape" })
+map("c", "jk", "<C-c>", { noremap = true, silent = true, desc = "Escape" })
 
 -- Visual enclose with parenthesis
-map("v", "<leader>ss", 'c()<Esc>P', { noremap = true, silent = true, desc = "Surround with ()" })
+map("v", "<leader>ss", 'c()<Esc>P', { noremap = true, silent = true, desc = "Enclose with parentheses" })
 
 -- Movement in insert mode
-map("i", "<A-h>", "<C-o>h", opts)
-map("i", "<A-l>", "<C-o>a", opts)
-map("i", "<A-j>", "<C-o>j", opts)
-map("i", "<A-k>", "<C-o>k", opts)
+map("i", "<A-h>", "<C-o>h", { noremap = true, silent = true, desc = "Move left" })
+map("i", "<A-l>", "<C-o>a", { noremap = true, silent = true, desc = "Move right" })
+map("i", "<A-j>", "<C-o>j", { noremap = true, silent = true, desc = "Move down" })
+map("i", "<A-k>", "<C-o>k", { noremap = true, silent = true, desc = "Move up" })
 
 -- qq to record, Q to replay
-map("n", "Q", "@q", opts)
+map("n", "Q", "@q", { noremap = true, silent = true, desc = "Replay macro" })
 
 -- Snippet editing
 map("n", "<leader>ec", function() vim.cmd("edit " .. expand_var("_mysnippet") .. "cpp.lua") end, { noremap = true, silent = true, desc = "Edit C++ snippets" })
@@ -51,16 +50,16 @@ map("n", "<leader>em", function() vim.cmd("edit " .. expand_var("_mysnippet") ..
 map("n", "<leader>tc", function()
   vim.cmd("lcd " .. expand_var("_test"))
   vim.cmd("edit " .. expand_var("_test") .. "test.cpp")
-end, { noremap = true, silent = true, desc = "Edit test.cpp" })
-map("n", "<leader>tr", function() vim.cmd("edit " .. expand_var("_test") .. "test.rb") end, { noremap = true, silent = true, desc = "Edit test.rb" })
-map("n", "<leader>tp", function() vim.cmd("edit " .. expand_var("_test") .. "test.py") end, { noremap = true, silent = true, desc = "Edit test.py" })
-map("n", "<leader>tm", function() vim.cmd("edit " .. expand_var("_test") .. "test.md") end, { noremap = true, silent = true, desc = "Edit test.md" })
+end, { noremap = true, silent = true, desc = "Open C++ test file" })
+map("n", "<leader>tr", function() vim.cmd("edit " .. expand_var("_test") .. "test.rb") end, { noremap = true, silent = true, desc = "Open Ruby test file" })
+map("n", "<leader>tp", function() vim.cmd("edit " .. expand_var("_test") .. "test.py") end, { noremap = true, silent = true, desc = "Open Python test file" })
+map("n", "<leader>tm", function() vim.cmd("edit " .. expand_var("_test") .. "test.md") end, { noremap = true, silent = true, desc = "Open Markdown test file" })
 
 -- Remove ^M characters
-map("n", "<leader>kk", [[:%s/<C-V><CR>//ge<CR>:w<CR>]], { noremap = true, silent = true, desc = "Remove ^M characters" })
+map("n", "<leader>kk", [[:%s/<C-V><CR>//ge<CR>:w<CR>]], { noremap = true, silent = true, desc = "Remove carriage returns" })
 
 -- TagBar
-map("n", "<leader>9", ":TagbarToggle<CR>", { noremap = true, silent = true, desc = "Toggle Tagbar" })
+map("n", "<leader>9", ":TagbarToggle<CR>", { noremap = true, silent = true, desc = "Toggle TagBar" })
 
 -- CMake keymaps are in lua/plugins/tools.lua (buffer-local for cpp/c/cmake)
 
@@ -69,27 +68,27 @@ map("n", "<leader>gc", ":silent grep <cword><CR>", { noremap = true, silent = tr
 map("n", "<leader>gC", ":silent grep <cWORD><CR>", { noremap = true, silent = true, desc = "Grep WORD under cursor" })
 
 -- Buffers
-map("n", "]b", ":bnext<CR>", opts)
-map("n", "[b", ":bprev<CR>", opts)
-map("n", "<leader>cd", ":cd %:p:h<CR>:pwd<CR>", { noremap = true, silent = true, desc = "CD to buffer dir" })
+map("n", "]b", ":bnext<CR>", { noremap = true, silent = true, desc = "Next buffer" })
+map("n", "[b", ":bprev<CR>", { noremap = true, silent = true, desc = "Previous buffer" })
+map("n", "<leader>cd", ":cd %:p:h<CR>:pwd<CR>", { noremap = true, silent = true, desc = "CD to current buffer dir" })
 
 -- Tabs
-map("n", "]t", ":tabn<CR>", opts)
-map("n", "[t", ":tabp<CR>", opts)
+map("n", "]t", ":tabn<CR>", { noremap = true, silent = true, desc = "Next tab" })
+map("n", "[t", ":tabp<CR>", { noremap = true, silent = true, desc = "Previous tab" })
 
 -- Window navigation
-map("n", "<C-h>", "<C-w>h", opts)
-map("n", "<C-j>", "<C-w>j", opts)
-map("n", "<C-k>", "<C-w>k", opts)
-map("n", "<C-l>", "<C-w>l", opts)
+map("n", "<C-h>", "<C-w>h", { noremap = true, silent = true, desc = "Move to left window" })
+map("n", "<C-j>", "<C-w>j", { noremap = true, silent = true, desc = "Move to below window" })
+map("n", "<C-k>", "<C-w>k", { noremap = true, silent = true, desc = "Move to above window" })
+map("n", "<C-l>", "<C-w>l", { noremap = true, silent = true, desc = "Move to right window" })
 
 -- Terminal escape
-map("t", "<Esc>", [[<C-\><C-n>]], opts)
-map("t", "<M-[>", "<Esc>", opts)
-map("t", "<C-v><Esc>", "<Esc>", opts)
+map("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true, desc = "Exit terminal mode" })
+map("t", "<M-[>", "<Esc>", { noremap = true, silent = true, desc = "Send Escape to terminal" })
+map("t", "<C-v><Esc>", "<Esc>", { noremap = true, silent = true, desc = "Send Escape to terminal" })
 
 -- Terminal split
-map("n", "<C-S-P>", ":split | resize 10 | terminal<CR>", opts)
+map("n", "<leader>tt", ":split | resize 10 | terminal<CR>", { noremap = true, silent = true, desc = "Open terminal split" })
 
 -- Toggle fold
 local function toggle_fold()
@@ -103,7 +102,7 @@ local function toggle_fold()
     end
   end
 end
-map("n", "<Space>", toggle_fold, opts)
+map("n", "<Space>", toggle_fold, { noremap = true, silent = true, desc = "Toggle fold" })
 
 -- Toggle hlsearch
 local hlsearch_on = false
@@ -130,58 +129,60 @@ local function toggle_syntax()
     print("@ Switch Syntax : OFF")
   end
 end
-map("n", "<leader>S", toggle_syntax, { noremap = true, silent = true, desc = "Toggle syntax" })
+map("n", "<leader>S", toggle_syntax, { noremap = true, silent = true, desc = "Toggle syntax highlight" })
 
 -- Toggle transparent background
 local transparent_bg = true
-
 local function set_transparent()
-  vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = "NONE", bg = "NONE" })
-  vim.api.nvim_set_hl(0, "WinSeparator", { fg = "NONE", bg = "NONE" })
-  vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = "NONE" })
-  vim.opt.fillchars:append({ vert = " " })
-end
-
-local function set_opaque()
-  local colors = require("catppuccin.palettes").get_palette()
-  vim.api.nvim_set_hl(0, "Normal", { fg = colors.text, bg = colors.base })
-  vim.api.nvim_set_hl(0, "NormalNC", { fg = colors.text, bg = colors.base })
-  vim.api.nvim_set_hl(0, "NormalFloat", { fg = colors.text, bg = colors.mantle })
-  vim.api.nvim_set_hl(0, "NvimTreeNormal", { fg = colors.text, bg = colors.mantle })
-  vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { fg = colors.text, bg = colors.mantle })
-  vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = colors.mantle, bg = colors.mantle })
-  vim.api.nvim_set_hl(0, "WinSeparator", { fg = colors.surface0, bg = colors.base })
-  vim.api.nvim_set_hl(0, "SignColumn", { bg = colors.base })
-  vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { fg = colors.mantle, bg = colors.mantle })
-  vim.opt.fillchars:append({ vert = "┃" })
-end
-
-local function toggle_transparent_bg()
-  transparent_bg = not transparent_bg
-  if transparent_bg then
-    set_transparent()
-    print("@ Background : Transparent")
-  else
-    set_opaque()
-    print("@ Background : Opaque")
+    vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = "NONE", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "WinSeparator", { fg = "NONE", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = "NONE" })
+    vim.opt.fillchars:append({ vert = " " })
   end
-end
 
--- Apply transparent on startup after colorscheme loads
-vim.api.nvim_create_autocmd("ColorScheme", {
-  callback = function()
-    if transparent_bg then set_transparent() end
-  end,
-})
-vim.defer_fn(set_transparent, 0)
+  local function set_opaque()
+    local colors = require("catppuccin.palettes").get_palette()
+    vim.api.nvim_set_hl(0, "Normal", { fg = colors.text, bg = colors.base })
+    vim.api.nvim_set_hl(0, "NormalNC", { fg = colors.text, bg = colors.base })
+    vim.api.nvim_set_hl(0, "NormalFloat", { fg = colors.text, bg = colors.mantle })
+    vim.api.nvim_set_hl(0, "NvimTreeNormal", { fg = colors.text, bg = colors.mantle })
+    vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { fg = colors.text, bg = colors.mantle })
+    vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = colors.mantle, bg = colors.mantle })
+    vim.api.nvim_set_hl(0, "WinSeparator", { fg = colors.surface0, bg = colors.base })
+    vim.api.nvim_set_hl(0, "SignColumn", { bg = colors.base })
+    vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { fg = colors.mantle, bg = colors.mantle })
+    vim.opt.fillchars:append({ vert = "┃" })
+  end
+
+  local function toggle_transparent_bg()
+    transparent_bg = not transparent_bg
+    if transparent_bg then
+      set_transparent()
+      print("@ Background : Transparent")
+    else
+      set_opaque()
+      print("@ Background : Opaque")
+    end
+  end
+
+  -- Apply transparent on startup (after colorscheme loads)
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    callback = function()
+      if transparent_bg then
+        vim.schedule(set_transparent)
+      end
+    end,
+  })
+  vim.schedule(set_transparent)
 
 map("n", "<leader>bg", toggle_transparent_bg, { noremap = true, silent = true, desc = "Toggle transparent background" })
+
 
 -- Run current file
 local run_cmd = {

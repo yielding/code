@@ -11,7 +11,7 @@ auto chunk_scan(vector<int> arr, int n, auto f) -> vector<int>
 {
   using v::chunk, v::transform, v::join, v::partial_sum, g::to;
 
-  auto const scan = [&](auto&& r) {
+  auto const scan = [&](auto&& r) -> auto {
     return partial_sum(r, f);
   };
 
@@ -27,7 +27,7 @@ auto chunk_scan(vector<int> arr, int n, auto f) -> vector<int>
     | to<vector>;
 }
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   // REMARK
   // 1. 3을 기준으로 chunk를 나눈다 > [[1, 2, 3], [4, 5, 6]]

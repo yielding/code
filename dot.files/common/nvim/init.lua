@@ -29,6 +29,9 @@ require("lazy").setup("plugins", {
   defaults = {
     lazy = false,
   },
+  rocks = {
+    enabled = false,
+  },
   install = {
     colorscheme = { "darkbone", "duskfox", "habamax" },
   },
@@ -68,7 +71,4 @@ require("lazy").setup("plugins", {
 require("config.keymaps")
 
 -- Set colorscheme
--- vim.cmd("colorscheme catppuccin-latte")
--- vim.cmd("colorscheme catppuccin-frappe")
--- vim.cmd("colorscheme catppuccin-mocha")
-vim.cmd("colorscheme nordfox")
+vim.cmd("colorscheme catppuccin-mocha")

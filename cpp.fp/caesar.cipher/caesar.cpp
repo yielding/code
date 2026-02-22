@@ -1,4 +1,3 @@
-#include <iostream>
 #include <cassert>
 #include <range/v3/all.hpp>
 
@@ -7,14 +6,14 @@ namespace v = ranges::views;
 
 using namespace std;
 
-int main(int agc, char* agv[])
+auto main(int agc, char* agv[]) -> int
 {
   auto shift = 3;
 
   auto const s = string{"go ahead"};
   auto letters 
     = s
-    | v::filter([](char c) { return isalpha(c); });
+    | v::filter([](char c) -> int { return isalpha(c); });
 
   auto shift_p = (shift < 0) ? (shift + 26) : shift;
 
@@ -23,7 +22,7 @@ int main(int agc, char* agv[])
     | v::cycle
     | v::drop(shift_p);
 
-  auto get_letter = [alphas](char c) {
+  auto get_letter = [alphas](char c) -> auto {
     return alphas | v::drop(c - 'a') | v::take(1);
   };
 
