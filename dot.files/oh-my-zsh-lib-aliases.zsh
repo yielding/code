@@ -1,5 +1,6 @@
 alias v='/opt/homebrew/bin/nvim'
 alias vi='/opt/homebrew/bin/nvim'
+alias ngit='nvim -c "Neogit" -c "autocmd WinClosed * if winnr('$') == 1 | qa | endif"'
 
 # alias nnn='nnn -acde'
 alias n='nnn -acde'

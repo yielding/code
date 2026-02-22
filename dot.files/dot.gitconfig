@@ -6,7 +6,7 @@
 [submodule]
 	recurse = true
 [merge]
-	ff = only
+	ff = false
 [credential]
 	helper = store
 [init]

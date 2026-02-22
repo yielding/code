@@ -44,6 +44,7 @@ opt.cindent = true
 opt.cinoptions = "t0,g0"
 opt.fillchars:append({ vert = "┃" })
 opt.splitbelow = true
+opt.splitright = true
 
 -- Appearance
 opt.termguicolors = true

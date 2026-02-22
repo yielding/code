@@ -10,7 +10,7 @@ SRC="~/code/dot.files"
 
 `cp #{SRC}/dot.zshrc ~/.zshrc`
 `cp #{SRC}/nvim/init.lua ~/.config/nvim/init.lua`
-`cp #{SRC}/nvim/lazy-lock.json ~/.config/nvim/lazy-lock.json`
+`cp #{SRC}/nvim/lazlock.json ~/.config/nvim/lazy-lock.json`
 `cp -r #{SRC}/nvim/lua/* ~/.config/nvim/lua`
 `cp -r #{SRC}/nvim/luasnippets/* ~/.config/nvim/luasnippets`
 `cp #{SRC}/dot.ghci ~/.ghci`

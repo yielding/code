@@ -217,4 +217,14 @@ test -e /Users/yielding/.iterm2_shell_integration.zsh && source /Users/yielding/
 [ -f "/Users/yielding/.ghcup/env" ] && source "/Users/yielding/.ghcup/env" # ghcup-env
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+vf() {
+  local file=$(fzf)
+  [ -n "$file" ] && nvim "$file"
+}
+
+vd() {
+  local dir=$(fd --type d | fzf)
+  [ -n "$dir" ] && nvim "$dir"
+}
+
 #fastfetch

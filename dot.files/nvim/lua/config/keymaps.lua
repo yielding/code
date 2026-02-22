@@ -133,20 +133,54 @@ end
 map("n", "<leader>S", toggle_syntax, { noremap = true, silent = true, desc = "Toggle syntax" })
 
 -- Toggle transparent background
-local transparent_bg = false
+local transparent_bg = true
+
+local function set_transparent()
+  vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = "NONE", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "WinSeparator", { fg = "NONE", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = "NONE" })
+  vim.opt.fillchars:append({ vert = " " })
+end
+
+local function set_opaque()
+  local colors = require("catppuccin.palettes").get_palette()
+  vim.api.nvim_set_hl(0, "Normal", { fg = colors.text, bg = colors.base })
+  vim.api.nvim_set_hl(0, "NormalNC", { fg = colors.text, bg = colors.base })
+  vim.api.nvim_set_hl(0, "NormalFloat", { fg = colors.text, bg = colors.mantle })
+  vim.api.nvim_set_hl(0, "NvimTreeNormal", { fg = colors.text, bg = colors.mantle })
+  vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { fg = colors.text, bg = colors.mantle })
+  vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = colors.mantle, bg = colors.mantle })
+  vim.api.nvim_set_hl(0, "WinSeparator", { fg = colors.surface0, bg = colors.base })
+  vim.api.nvim_set_hl(0, "SignColumn", { bg = colors.base })
+  vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { fg = colors.mantle, bg = colors.mantle })
+  vim.opt.fillchars:append({ vert = "┃" })
+end
+
 local function toggle_transparent_bg()
   transparent_bg = not transparent_bg
   if transparent_bg then
-    vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+    set_transparent()
     print("@ Background : Transparent")
   else
-    local colors = require("catppuccin.palettes").get_palette()
-    vim.api.nvim_set_hl(0, "Normal", { fg = colors.text, bg = colors.base })
-    vim.api.nvim_set_hl(0, "NormalFloat", { fg = colors.text, bg = colors.mantle })
+    set_opaque()
     print("@ Background : Opaque")
   end
 end
+
+-- Apply transparent on startup after colorscheme loads
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    if transparent_bg then set_transparent() end
+  end,
+})
+vim.defer_fn(set_transparent, 0)
+
 map("n", "<leader>bg", toggle_transparent_bg, { noremap = true, silent = true, desc = "Toggle transparent background" })
 
 -- Run current file

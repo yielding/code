@@ -50,6 +50,8 @@ return {
       vim.g.cmake_native_build_options = { "-j10" }
       vim.g.cmake_jump_on_error = 1
       vim.g.cmake_console_size = 10
+      vim.g.cmake_console_echo_cmd = 0
+      vim.g.cmake_jump_on_completion = 0
 
       -- CMake keymaps for C++
       vim.api.nvim_create_autocmd("FileType", {
@@ -58,7 +60,8 @@ return {
           vim.keymap.set("n", "<F3>", ":CMakeGenerate debug -D CMAKE_BUILD_TYPE=Debug<CR>", { buffer = true })
           vim.keymap.set("n", "<F4>", function()
             vim.cmd("w")
-            vim.cmd("cclose")  -- 기존 quickfix 닫기
+            vim.cmd("cclose")
+            vim.cmd("CMakeClose")
             vim.cmd("CMakeBuild")
           end, { buffer = true })
         end,
