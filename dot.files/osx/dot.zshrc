@@ -6,13 +6,11 @@ fi
 export PFMW_HOME=$HOME/project/md.platform.infra
 
 export RUBY_HOME=$HOME/.rubies/ruby-4.0.1
-export OPENCV_HOME=/usr/local
+export OPENCV_HOME=/opt/homebrew/opt/opencv
 export DOTNET_ROOT=/usr/local/share/dotnet
 export DOTNET_TOOLS_HOME=$HOME/.dotnet/tools
-export RUBYLIB=$HOME/develop/lib.ruby
-
 export PATH=$RUBY_HOME/bin:$PATH
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.cargo/bin:$DOTNET_TOOLS_HOME:$PATH
 
 export CC=clang
