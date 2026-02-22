@@ -2,7 +2,6 @@
 -- Key mappings
 
 local map = vim.keymap.set
-local opts = { noremap = true, silent = true }
 
 -- Helper for global variables in mappings
 local function expand_var(var)
@@ -10,18 +9,18 @@ local function expand_var(var)
 end
 
 -- Basic shortcuts
-map("n", "<leader>l", ":set list!<CR>", { noremap = true, silent = true, desc = "Toggle listchars" })
+map("n", "<leader>l", ":set list!<CR>", { noremap = true, silent = true, desc = "Toggle list" })
 map("n", "<leader>n", ":set nu!<CR>", { noremap = true, silent = true, desc = "Toggle line numbers" })
 map("n", "<leader>w", ":w<CR>", { noremap = true, silent = true, desc = "Save file" })
 map("n", "<leader>q", ":q<CR>", { noremap = true, silent = true, desc = "Quit" })
-map({ "n", "i" }, "<C-S-s>", "<Cmd>w<CR>", opts)
-map("n", "<leader>cd", ":lcd %:p:h<CR>:pwd<CR>", { noremap = true, silent = true, desc = "LCD to buffer dir" })
+map({ "n", "i" }, "<C-S-s>", "<Cmd>w<CR>", { noremap = true, silent = true, desc = "Save file" })
+map("n", "<leader>cd", ":lcd %:p:h<CR>:pwd<CR>", { noremap = true, silent = true, desc = "LCD to current buffer dir" })
 
 -- File editing shortcuts
 map("n", "<leader>v", function() vim.cmd("edit " .. expand_var("_vimrc")) end, { noremap = true, silent = true, desc = "Edit vimrc" })
-map("n", "<leader>p", function() vim.cmd("edit " .. expand_var("_plugs")) end, { noremap = true, silent = true, desc = "Edit plugins" })
+map("n", "<leader>p", function() vim.cmd("edit " .. expand_var("_plugs")) end, { noremap = true, silent = true, desc = "Edit plugins config" })
 map("n", "<leader>z", function() vim.cmd("edit " .. expand_var("_zshrc")) end, { noremap = true, silent = true, desc = "Edit zshrc" })
-map("n", "<leader>x", function() vim.cmd("edit " .. expand_var("_tmuxrc")) end, { noremap = true, silent = true, desc = "Edit tmux.conf" })
+map("n", "<leader>x", function() vim.cmd("edit " .. expand_var("_tmuxrc")) end, { noremap = true, silent = true, desc = "Edit tmuxrc" })
 map("n", "<leader>u", function() vim.cmd("source " .. expand_var("_vimrc")) end, { noremap = true, silent = true, desc = "Source vimrc" })
 
 -- Escaping
@@ -134,52 +133,53 @@ map("n", "<leader>S", toggle_syntax, { noremap = true, silent = true, desc = "To
 
 -- Toggle transparent background
 local transparent_bg = true
-
 local function set_transparent()
-  vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = "NONE", bg = "NONE" })
-  vim.api.nvim_set_hl(0, "WinSeparator", { fg = "NONE", bg = "NONE" })
-  vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = "NONE" })
-  vim.opt.fillchars:append({ vert = " " })
-end
-
-local function set_opaque()
-  local colors = require("catppuccin.palettes").get_palette()
-  vim.api.nvim_set_hl(0, "Normal", { fg = colors.text, bg = colors.base })
-  vim.api.nvim_set_hl(0, "NormalNC", { fg = colors.text, bg = colors.base })
-  vim.api.nvim_set_hl(0, "NormalFloat", { fg = colors.text, bg = colors.mantle })
-  vim.api.nvim_set_hl(0, "NvimTreeNormal", { fg = colors.text, bg = colors.mantle })
-  vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { fg = colors.text, bg = colors.mantle })
-  vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = colors.mantle, bg = colors.mantle })
-  vim.api.nvim_set_hl(0, "WinSeparator", { fg = colors.surface0, bg = colors.base })
-  vim.api.nvim_set_hl(0, "SignColumn", { bg = colors.base })
-  vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { fg = colors.mantle, bg = colors.mantle })
-  vim.opt.fillchars:append({ vert = "┃" })
-end
-
-local function toggle_transparent_bg()
-  transparent_bg = not transparent_bg
-  if transparent_bg then
-    set_transparent()
-    print("@ Background : Transparent")
-  else
-    set_opaque()
-    print("@ Background : Opaque")
+    vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = "NONE", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "WinSeparator", { fg = "NONE", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = "NONE" })
+    vim.opt.fillchars:append({ vert = " " })
   end
-end
 
--- Apply transparent on startup after colorscheme loads
-vim.api.nvim_create_autocmd("ColorScheme", {
-  callback = function()
-    if transparent_bg then set_transparent() end
-  end,
-})
-vim.defer_fn(set_transparent, 0)
+  local function set_opaque()
+    local colors = require("catppuccin.palettes").get_palette()
+    vim.api.nvim_set_hl(0, "Normal", { fg = colors.text, bg = colors.base })
+    vim.api.nvim_set_hl(0, "NormalNC", { fg = colors.text, bg = colors.base })
+    vim.api.nvim_set_hl(0, "NormalFloat", { fg = colors.text, bg = colors.mantle })
+    vim.api.nvim_set_hl(0, "NvimTreeNormal", { fg = colors.text, bg = colors.mantle })
+    vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { fg = colors.text, bg = colors.mantle })
+    vim.api.nvim_set_hl(0, "NvimTreeWinSeparator", { fg = colors.mantle, bg = colors.mantle })
+    vim.api.nvim_set_hl(0, "WinSeparator", { fg = colors.surface0, bg = colors.base })
+    vim.api.nvim_set_hl(0, "SignColumn", { bg = colors.base })
+    vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { fg = colors.mantle, bg = colors.mantle })
+    vim.opt.fillchars:append({ vert = "┃" })
+  end
+
+  local function toggle_transparent_bg()
+    transparent_bg = not transparent_bg
+    if transparent_bg then
+      set_transparent()
+      print("@ Background : Transparent")
+    else
+      set_opaque()
+      print("@ Background : Opaque")
+    end
+  end
+
+  -- Apply transparent on startup (after colorscheme loads)
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    callback = function()
+      if transparent_bg then
+        vim.schedule(set_transparent)
+      end
+    end,
+  })
+  vim.schedule(set_transparent)
 
 map("n", "<leader>bg", toggle_transparent_bg, { noremap = true, silent = true, desc = "Toggle transparent background" })
 
