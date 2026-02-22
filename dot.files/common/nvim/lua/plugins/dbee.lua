@@ -12,11 +12,15 @@ return {
     end,
     cmd = { "Dbee" },
     config = function()
-      require("dbee").setup({
-        sources = {
-          require("dbee.sources").FileSource:new("/home/yielding/claude/psql/dbee.json"),
-        },
-      })
+      if vim.fn.has("macunix") == 1 then
+        require("dbee").setup()
+      else
+        require("dbee").setup({
+          sources = {
+            require("dbee.sources").FileSource:new("/home/yielding/claude/psql/dbee.json"),
+          },
+        })
+      end
     end,
     keys = {
       { "<leader>De", function() require("dbee").toggle() end, desc = "Toggle DB Explorer" },

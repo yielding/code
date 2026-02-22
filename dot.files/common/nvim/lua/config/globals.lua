@@ -13,8 +13,16 @@ vim.g._mysnippet = "~/.config/nvim/luasnippets/"
 vim.g._snippet = "~/.config/nvim/autoload/plugged/vim-snippets/snippets/"
 
 -- Provider settings
-vim.g.python3_host_prog = "/usr/bin/python3"
-vim.g.ruby_host_prog = "/home/yielding/.rubies/ruby-4.0.0/bin/neovim-ruby-host"
+local is_mac = vim.fn.has("macunix") == 1
+
+vim.g.python3_host_prog = is_mac
+  and "/opt/homebrew/bin/python3"
+  or  "/usr/bin/python3"
+
+vim.g.ruby_host_prog = is_mac
+  and "/Users/yielding/.rubies/ruby-4.0.1/bin/neovim-ruby-host"
+  or  "/home/yielding/.rubies/ruby-4.0.0/bin/neovim-ruby-host"
+
 vim.g.loaded_perl_provider = 0
 
 -- Disable netrw (using nvim-tree instead)
