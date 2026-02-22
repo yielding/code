@@ -22,8 +22,8 @@ os_dir   = is_mac ? "osx" : "linux"
 `cp #{SRC}/common/dot.gitconfig ~/.gitconfig`
 `cp #{SRC}/common/dot.tmux.conf ~/.config/tmux/tmux.conf`
 `cp #{SRC}/common/UltiSnips/* ~/.config/nvim/UltiSnips/`
+`cp #{SRC}/common/dot.zshrc ~/.zshrc`
 
 # OS-specific
-`cp #{SRC}/#{os_dir}/dot.zshrc ~/.zshrc`
 `cp #{SRC}/#{os_dir}/oh-my-zsh-lib-aliases.zsh ~/.oh-my-zsh/lib/aliases.zsh`
 `cp #{SRC}/#{os_dir}/oh-my-zsh-themes/* ~/.oh-my-zsh/themes/`

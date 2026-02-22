@@ -3,29 +3,34 @@ if [[ "$TERM" == "xterm-ghostty" ]] && ! infocmp xterm-ghostty &>/dev/null; then
   export TERM=xterm-256color
 fi
 
-export HOME=/home/yielding
-
 export PFMW_HOME=$HOME/project/md.platform.infra
-export PFMW_TEMP=/data1/yielding/video
 
-export RUBY_HOME=/home/yielding/.rubies/ruby-4.0.0
+export RUBY_HOME=$HOME/.rubies/ruby-4.0.0
 export OPENCV_HOME=/usr/local
 export DOTNET_ROOT=/usr/local/share/dotnet
 export DOTNET_TOOLS_HOME=$HOME/.dotnet/tools
 export RUBYLIB=$HOME/develop/lib.ruby
-export ORT_ROOT=$HOME/opensource/onnxruntime-linux-x64-1.17.1
 
 export PATH=$RUBY_HOME/bin:$PATH
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.cargo/bin:$DOTNET_TOOLS_HOME:$PATH
 
-#export CPLUS_INCLUDE_PATH=/usr/include/c++/v1:/usr/include:$OPENCV_HOME/include/opencv4:$CPLUS_INCLUDE_PATH
-
-export CC=gcc
-export CXX=g++
-export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/gcc-15.2/lib64:${LD_LIBRARY_PATH:-}
-export LD_LIBRARY_PATH=$ORT_ROOT/lib:$LD_LIBRARY_PATH
+# OS-specific settings
+if [[ "$(uname)" == "Darwin" ]]; then
+  export CC=clang
+  export CXX=clang++
+  if [[ -d /opt/homebrew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+else
+  export PFMW_TEMP=/data1/yielding/video
+  export ORT_ROOT=$HOME/opensource/onnxruntime-linux-x64-1.17.1
+  export CC=gcc
+  export CXX=g++
+  export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LIBRARY_PATH
+  export LD_LIBRARY_PATH=/usr/local/gcc-15.2/lib64:${LD_LIBRARY_PATH:-}
+  export LD_LIBRARY_PATH=$ORT_ROOT/lib:$LD_LIBRARY_PATH
+fi
 
 export PROJECT=$HOME/project/md.platform.infra
 
@@ -151,8 +156,8 @@ bindkey -v
 export LANG=ko_KR.UTF-8
 export MANPATH="/usr/local/man:$MANPATH"
 
-export EDITOR=nvim 
-export VISUAL=nvim 
+export EDITOR=nvim
+export VISUAL=nvim
 
 export NNN_OPTS="x"
 export NNN_FIFO=/tmp/nnn.fifo
@@ -187,7 +192,7 @@ eval "$(zoxide init zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-[ -f "/home/yielding/.ghcup/env" ] && . "/home/yielding/.ghcup/env" # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
 
 [ -z "$TMUX" ] && tmux new -As black
 
