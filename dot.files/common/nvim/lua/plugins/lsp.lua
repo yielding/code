@@ -56,6 +56,8 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
+      local is_mac = vim.fn.has("macunix") == 1
+
       -- Diagnostic configuration
       vim.diagnostic.config({
         virtual_text = true,
@@ -176,6 +178,14 @@ return {
           },
         },
         -- ruby_lsp = {},  -- incompatible with Ruby 4.0
+        solargraph = {
+          cmd = {
+            is_mac
+              and "/Users/yielding/.rubies/ruby-4.0.1/bin/solargraph"
+              or "/home/yielding/.rubies/ruby-4.0.0/bin/solargraph",
+            "stdio",
+          },
+        },
         ts_ls = {},
         jsonls = {},
         html = {},
@@ -282,5 +292,4 @@ return {
       require("jdtls").start_or_attach(config)
     end,
   },
-
 }

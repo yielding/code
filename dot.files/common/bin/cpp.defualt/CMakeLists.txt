@@ -10,15 +10,33 @@ set (SOURCES
   main.cpp
 )
 
-include_directories (
-  /usr/local/include
-  /opt/homebrew/include
-  ${CMAKE_CURRENT_SOURCE_DIR}
-)
+# Platform detection
+if (APPLE)
+  set (HOMEBREW_PREFIX "/opt/homebrew")
 
-link_directories (
-  /usr/local/lib
-  /opt/homebrew/lib
+  if (EXISTS ${HOMEBREW_PREFIX})
+    include_directories (
+      ${HOMEBREW_PREFIX}/include
+    )
+    link_directories (
+      ${HOMEBREW_PREFIX}/lib
+    )
+  endif()
+
+elseif (UNIX AND NOT APPLE)
+  include_directories (
+    /usr/local/include
+    /usr/include
+  )
+  link_directories (
+    /usr/local/lib
+    /usr/lib
+    /usr/lib/x86_64-linux-gnu
+  )
+endif()
+
+include_directories (
+  ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_executable (main

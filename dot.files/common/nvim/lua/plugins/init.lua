@@ -11,4 +11,5 @@ return {
   { import = "plugins.git" },
   { import = "plugins.editor" },
   { import = "plugins.tools" },
+  { import = "plugins.obsidian" },
 }
