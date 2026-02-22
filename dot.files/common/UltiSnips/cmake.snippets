@@ -17,17 +17,24 @@ set (SOURCES
 
 find_package(${4:library})
 
+if (APPLE)
+	set (HOMEBREW_PREFIX "/opt/homebrew")
+	if (EXISTS ${HOMEBREW_PREFIX})
+		include_directories (${HOMEBREW_PREFIX}/include)
+		link_directories (${HOMEBREW_PREFIX}/lib)
+	endif()
+elseif (UNIX AND NOT APPLE)
+	include_directories (/usr/local/include /usr/include)
+	link_directories (/usr/local/lib /usr/lib)
+endif()
+
 include_directories (
-	/usr/local/include
-	/opt/homebrew/include
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${$4_INCLUDE_DIRS}
 )
 
 link_directories (
 	${HOME}/.local/lib
-	/usr/local/lib
-	/opt/homebrew/lib
 )
 
 add_executable ($2
@@ -57,16 +64,20 @@ set (SOURCES
 
 find_package(${4:library})
 
+if (APPLE)
+	set (HOMEBREW_PREFIX "/opt/homebrew")
+	if (EXISTS ${HOMEBREW_PREFIX})
+		include_directories (${HOMEBREW_PREFIX}/include)
+		link_directories (${HOMEBREW_PREFIX}/lib)
+	endif()
+elseif (UNIX AND NOT APPLE)
+	include_directories (/usr/local/include /usr/include)
+	link_directories (/usr/local/lib /usr/lib)
+endif()
+
 include_directories (
-	/usr/local/include
-	/opt/homebrew/include
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${$4_INCLUDE_DIRS}
-)
-
-link_directories (
-	/usr/local/lib
-	/opt/homebrew/lib
 )
 
 add_executable ($2
@@ -95,16 +106,24 @@ set (SOURCES
 	${3}
 )
 
+if (APPLE)
+	set (HOMEBREW_PREFIX "/opt/homebrew")
+	if (EXISTS ${HOMEBREW_PREFIX})
+		include_directories (${HOMEBREW_PREFIX}/include)
+		link_directories (${HOMEBREW_PREFIX}/lib)
+	endif()
+elseif (UNIX AND NOT APPLE)
+	include_directories (/usr/local/include /usr/include)
+	link_directories (/usr/local/lib /usr/lib)
+endif()
+
 include_directories (
-	${HOME}/.local/lib
-	/usr/local/include
-	/opt/homebrew/include
+	${HOME}/.local/include
 	${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 link_directories (
-	/usr/local/lib
-	/opt/homebrew/lib
+	${HOME}/.local/lib
 )
 
 add_executable ($2
