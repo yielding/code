@@ -16,7 +16,6 @@ os_dir   = is_mac ? "osx" : "linux"
 `mkdir -p ~/.oh-my-zsh/themes`
 
 `cp #{SRC}/common/nvim/init.lua ~/.config/nvim/init.lua`
-`cp #{SRC}/common/nvim/lazy-lock.json ~/.config/nvim/lazy-lock.json`
 `cp -r #{SRC}/common/nvim/lua/* ~/.config/nvim/lua`
 `cp -r #{SRC}/common/nvim/luasnippets/* ~/.config/nvim/luasnippets`
 `cp #{SRC}/common/dot.ghci ~/.ghci`

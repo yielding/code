@@ -13,7 +13,6 @@ os_dir = os == "Darwin" ? "osx" : "linux"
 `mkdir -p #{DEST}/common/nvim/luasnippets`
 
 `cp ~/.config/nvim/init.lua #{DEST}/common/nvim/init.lua`
-`cp ~/.config/nvim/lazy-lock.json #{DEST}/common/nvim/lazy-lock.json`
 `cp -r ~/.config/nvim/lua/* #{DEST}/common/nvim/lua`
 `cp -r ~/.config/nvim/luasnippets/* #{DEST}/common/nvim/luasnippets`
 `cp ~/.ghci #{DEST}/common/dot.ghci`
