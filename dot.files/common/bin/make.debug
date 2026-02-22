@@ -7,8 +7,14 @@ if [ -f "Cargo.toml" ]; then
   exit $?
 fi
 
-# 기본값: g++
-CXX_COMPILER="g++"
+# OS별 기본 컴파일러
+if [ "$(uname)" = "Darwin" ]; then
+  CXX_COMPILER="clang++"
+  NPROC=$(sysctl -n hw.ncpu)
+else
+  CXX_COMPILER="g++"
+  NPROC=$(nproc)
+fi
 
 # 인자 처리
 if [ "$1" = "clang" ]; then
@@ -29,4 +35,4 @@ cmake -S . -B build/debug \
   -DCMAKE_INSTALL_PREFIX="${PWD}/install"
 
 # 빌드
-cmake --build build/debug -- -j$(nproc)
+cmake --build build/debug -- -j$NPROC
