@@ -1,60 +1,67 @@
 -- lua/plugins/obsidian.lua
--- Obsidian.nvim integration
-
-local vault_path = vim.fn.expand("~") .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes"
+-- Obsidian integration for Neovim
 
 return {
   {
     "epwalsh/obsidian.nvim",
     version = "*",
     lazy = true,
-    event = {
-      "BufReadPre " .. vault_path .. "/**.md",
-      "BufNewFile " .. vault_path .. "/**.md",
-    },
+    ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-    config = function(_, opts)
-      vim.api.nvim_create_autocmd("BufEnter", {
-        pattern = vault_path .. "/**.md",
-        callback = function()
-          vim.opt_local.conceallevel = 2
-        end,
-      })
-      require("obsidian").setup(opts)
-    end,
     opts = {
       workspaces = {
         {
-          name = "vault",
-          path = vault_path,
+          name = "notes",
+          path = "~/obsidian/notes",
         },
       },
-      notes_subdir = "0. Inbox",
-      new_notes_location = "notes_subdir",
+      completion = {
+        nvim_cmp = true,
+        min_chars = 2,
+      },
+      mappings = {
+        ["gf"] = {
+          action = function()
+            return require("obsidian").util.gf_passthrough()
+          end,
+          opts = { noremap = false, expr = true, buffer = true },
+        },
+        ["<leader>ch"] = {
+          action = function()
+            return require("obsidian").util.toggle_checkbox()
+          end,
+          opts = { buffer = true },
+        },
+      },
+      new_notes_location = "current_dir",
       ui = {
+        enable = true,
+        update_debounce = 200,
         checkboxes = {
           [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-          ["x"] = { char = "", hl_group = "ObsidianDone" },
-          ["/"] = { char = "󰥔", hl_group = "ObsidianRightArrow" },
-          ["!"] = { char = "", hl_group = "ObsidianImportant" },
-          ["-"] = { char = "󰰱", hl_group = "ObsidianTilde" },
-          ["?"] = { char = "", hl_group = "ObsidianQuestion" },
-          [">"] = { char = "", hl_group = "ObsidianDeferred" },
-          ["*"] = { char = "󰓎", hl_group = "ObsidianStar" },
+          ["x"] = { char = "󰄲", hl_group = "ObsidianDone" },
+          [">"] = { char = "", hl_group = "ObsidianRightArrow" },
+          ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
+          ["!"] = { char = "", hl_group = "ObsidianImportant" },
         },
-        hl_groups = {
-          ObsidianTodo = { bold = true, fg = "#f78c6c" },
-          ObsidianDone = { bold = true, fg = "#89ddff" },
-          ObsidianRightArrow = { bold = true, fg = "#f78c6c" },
-          ObsidianImportant = { bold = true, fg = "#e5484d" },
-          ObsidianTilde = { bold = true, fg = "#737994" },
-          ObsidianQuestion = { bold = true, fg = "#e5a700" },
-          ObsidianDeferred = { bold = true, fg = "#6e56cf" },
-          ObsidianStar = { bold = true, fg = "#e5a700" },
-        },
+        bullets = { char = "•", hl_group = "ObsidianBullet" },
+        external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
+        reference_text = { hl_group = "ObsidianRefText" },
+        highlight_text = { hl_group = "ObsidianHighlightText" },
+        tags = { hl_group = "ObsidianTag" },
+        block_ids = { hl_group = "ObsidianBlockID" },
       },
+    },
+    keys = {
+      { "<leader>on", "<cmd>ObsidianNew<cr>", desc = "New note" },
+      { "<leader>oo", "<cmd>ObsidianOpen<cr>", desc = "Open in Obsidian" },
+      { "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "Search notes" },
+      { "<leader>oq", "<cmd>ObsidianQuickSwitch<cr>", desc = "Quick switch" },
+      { "<leader>ob", "<cmd>ObsidianBacklinks<cr>", desc = "Backlinks" },
+      { "<leader>ot", "<cmd>ObsidianTags<cr>", desc = "Tags" },
+      { "<leader>od", "<cmd>ObsidianToday<cr>", desc = "Today's note" },
     },
   },
 }

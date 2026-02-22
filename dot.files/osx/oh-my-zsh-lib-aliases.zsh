@@ -1,23 +1,21 @@
-alias v='/opt/homebrew/bin/nvim'
-alias vi='/opt/homebrew/bin/nvim'
-alias ngit='nvim -c "Neogit" -c "autocmd WinClosed * if winnr('$') == 1 | qa | endif"'
+alias v='/snap/bin/nvim'
+alias vi='/snap/bin/nvim'
 
 # alias nnn='nnn -acde'
 alias n='nnn -acde'
 alias l='ls -al'
 alias ll='ls -al'
 alias dir='ls -al'
-alias sqlite3='/opt/homebrew/opt/sqlite3/bin/sqlite3'
+alias lst='tmux ls'
 
-#alias ruby='ruby --jit'
-alias ruby='/Users/yielding/.rubies/ruby-4.0.1/bin/ruby --jit'
+#alias ruby='/home/yielding/.rubies/ruby-4.0.0/bin/ruby --jit'
+alias ruby='/home/yielding/.rubies/ruby-4.0.0/bin/ruby --yjit'
 
 # dir long
 alias cls='clear'
 alias c='clear'
 alias p='cd ..'
 alias pp='cd ../..'
-alias bp='brew upgrade'
 alias sz='source ~/.zshrc'
 alias cop='conda activate etri'
 alias col='conda activate lab'
@@ -27,13 +25,9 @@ alias cod='conda deactivate'
 alias gp='git pull'
 alias gpr='git pull --recurse-submodules'
 
-alias gdu='gdu-go'
-
 alias xxd='xxd -g 1'
 
 # shortcurs
-alias gowww='cd /opt/homebrew/opt/nginx/html'
-alias oo='cd ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Notes'
 alias gonnn='cd ~/.config/nnn'
 alias gonvim='cd ~/.config/nvim/lua'
 alias gowork='cd ~/project/md.platform.infra'

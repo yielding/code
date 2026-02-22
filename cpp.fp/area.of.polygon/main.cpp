@@ -10,7 +10,7 @@ struct point
   int y;
 };
 
-int main(int agc, char* agv[])
+auto main(int agc, char* agv[]) -> int
 {
   using namespace std;
   using v::concat, v::take, v::sliding, v::transform, g::accumulate; 

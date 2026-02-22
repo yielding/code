@@ -2,23 +2,6 @@
 -- Development tools and utilities
 
 return {
-  -- FZF
-  {
-    "junegunn/fzf",
-    build = "./install --all",
-  },
-
-  {
-    "junegunn/fzf.vim",
-    dependencies = { "junegunn/fzf" },
-    config = function()
-      -- FZF keymaps
-      vim.keymap.set("n", "<leader>ff", ":Files<CR>", { silent = true })
-      vim.keymap.set("n", "<leader>bf", ":Buffers<CR>", { silent = true })
-      vim.keymap.set("n", "<leader>gf", ":GFiles<CR>", { silent = true })
-      vim.keymap.set("n", "<leader>rg", ":Rg<CR>", { silent = true })
-    end,
-  },
 
   -- TagBar: Code outline
   {
@@ -57,13 +40,19 @@ return {
       vim.api.nvim_create_autocmd("FileType", {
         pattern = { "cpp", "c" },
         callback = function()
-          vim.keymap.set("n", "<F3>", ":CMakeGenerate debug -D CMAKE_BUILD_TYPE=Debug<CR>", { buffer = true })
+          vim.keymap.set("n", "<F3>", ":CMakeGenerate debug -D CMAKE_BUILD_TYPE=Debug<CR>", { buffer = true, desc = "CMake generate debug" })
           vim.keymap.set("n", "<F4>", function()
             vim.cmd("w")
             vim.cmd("cclose")
             vim.cmd("CMakeClose")
             vim.cmd("CMakeBuild")
-          end, { buffer = true })
+          end, { buffer = true, desc = "CMake build" })
+          vim.keymap.set("n", "<leader>rr", function()
+            vim.cmd("w")
+            vim.cmd("cclose")
+            vim.g.cmake_run_after_build = true
+            vim.cmd("CMakeBuild")
+          end, { buffer = true, desc = "CMake build and run" })
         end,
       })
     end,
@@ -85,8 +74,8 @@ return {
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "rust",
         callback = function()
-          vim.keymap.set("n", "<F3>", "<Cmd>w<CR>:!cargo build<CR>", { buffer = true })
-          vim.keymap.set("n", "<F4>", "<Cmd>w<CR>:!cargo run<CR>", { buffer = true })
+          vim.keymap.set("n", "<F3>", "<Cmd>w<CR>:!cargo build<CR>", { buffer = true, desc = "Cargo build" })
+          vim.keymap.set("n", "<F4>", "<Cmd>w<CR>:!cargo run<CR>", { buffer = true, desc = "Cargo run" })
         end,
       })
     end,
@@ -171,5 +160,4 @@ return {
   {
     "vim-scripts/wordlist.vim",
   },
-
 }

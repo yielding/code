@@ -1,5 +1,4 @@
 #include <cmath>    // for isinf
-#include <iomanip>  // for quoted
 #include <expected>
 #include <iostream>
 
@@ -54,7 +53,7 @@ auto error_to_s(const parse_error e) -> expected<double, string>
 //
 // 2) and_then : bind
 //    E double -> (double -> E double) -> E double    m a -> (a -> m b) -> m b
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   for (auto const& src: { "42", "43 abc ", "meow", "inf" })
   {
