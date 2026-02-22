@@ -11,6 +11,7 @@ opt.relativenumber = true
 opt.autoread = true
 opt.shiftround = true
 opt.number = true
+opt.numberwidth = 2
 opt.endofline = false
 opt.fixendofline = false
 opt.laststatus = 2
