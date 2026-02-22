@@ -87,15 +87,30 @@ return {
       dap.configurations.rust = dap.configurations.cpp
       dap.configurations.c = dap.configurations.cpp
 
-      -- Python configuration (debugpy via Mason)
-      local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
-      dap.adapters.python = {
-        type = "executable",
-        command = mason_bin .. "/debugpy-adapter",
-        options = {
-          source_filetype = "python",
-        },
-      }
+      -- Python configuration (debugpy)
+      dap.adapters.python = function(cb, config)
+        if config.request == "attach" then
+          local port = (config.connect or config).port
+          local host = (config.connect or config).host or "127.0.0.1"
+          cb({
+            type = "server",
+            port = assert(port, "`connect.port` is required for a python `attach` configuration"),
+            host = host,
+            options = {
+              source_filetype = "python",
+            },
+          })
+        else
+          cb({
+            type = "executable",
+            command = vim.g.python3_host_prog or "python3",
+            args = { "-m", "debugpy.adapter" },
+            options = {
+              source_filetype = "python",
+            },
+          })
+        end
+      end
 
       dap.configurations.python = {
         {
@@ -104,28 +119,7 @@ return {
           name = "Launch file",
           program = "${file}",
           pythonPath = function()
-            local venv = os.getenv("VIRTUAL_ENV")
-            if venv then
-              return venv .. "/bin/python"
-            end
-            return "/usr/bin/python3"
-          end,
-        },
-        {
-          type = "python",
-          request = "launch",
-          name = "Launch with arguments",
-          program = "${file}",
-          args = function()
-            local args_string = vim.fn.input("Arguments: ")
-            return vim.split(args_string, " ")
-          end,
-          pythonPath = function()
-            local venv = os.getenv("VIRTUAL_ENV")
-            if venv then
-              return venv .. "/bin/python"
-            end
-            return "/usr/bin/python3"
+            return vim.g.python3_host_prog or "/opt/homebrew/bin/python3"
           end,
         },
       }

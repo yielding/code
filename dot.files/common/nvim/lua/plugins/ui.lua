@@ -150,6 +150,41 @@ return {
     end,
   },
 
+  -- zen-mode.nvim: Distraction-free writing
+  {
+    "folke/zen-mode.nvim",
+    cmd = "ZenMode",
+    keys = {
+      { "<leader>zz", "<cmd>ZenMode<CR>", desc = "Zen Mode" },
+    },
+    opts = {
+      window = {
+        width = 90,
+        options = {
+          number = false,
+          relativenumber = false,
+          signcolumn = "no",
+          cursorline = false,
+        },
+      },
+      plugins = {
+        gitsigns = { enabled = false },
+        tmux = { enabled = true },
+        twilight = { enabled = false },
+      },
+    },
+  },
+
+  -- twilight.nvim: Dim inactive code
+  {
+    "folke/twilight.nvim",
+    cmd = { "Twilight", "TwilightEnable", "TwilightDisable" },
+    keys = {
+      { "<leader>zt", "<cmd>Twilight<CR>", desc = "Twilight" },
+    },
+    opts = {},
+  },
+
   -- noice.nvim: Better UI for cmdline, messages, notifications
   {
     "folke/noice.nvim",

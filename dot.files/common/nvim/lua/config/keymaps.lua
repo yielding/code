@@ -183,7 +183,6 @@ local function set_transparent()
 
 map("n", "<leader>bg", toggle_transparent_bg, { noremap = true, silent = true, desc = "Toggle transparent background" })
 
-
 -- Run current file
 local run_cmd = {
   python   = "python3",

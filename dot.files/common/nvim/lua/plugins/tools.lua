@@ -2,6 +2,23 @@
 -- Development tools and utilities
 
 return {
+  -- FZF
+  {
+    "junegunn/fzf",
+    build = "./install --all",
+  },
+
+  {
+    "junegunn/fzf.vim",
+    dependencies = { "junegunn/fzf" },
+    config = function()
+      -- FZF keymaps
+      vim.keymap.set("n", "<leader>ff", ":Files<CR>", { silent = true })
+      vim.keymap.set("n", "<leader>bf", ":Buffers<CR>", { silent = true })
+      vim.keymap.set("n", "<leader>gf", ":GFiles<CR>", { silent = true })
+      vim.keymap.set("n", "<leader>rg", ":Rg<CR>", { silent = true })
+    end,
+  },
 
   -- TagBar: Code outline
   {
