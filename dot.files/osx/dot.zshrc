@@ -15,21 +15,11 @@ export PATH=$RUBY_HOME/bin:$PATH
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH
 export PATH=$HOME/.cargo/bin:$DOTNET_TOOLS_HOME:$PATH
 
-# OS-specific settings
-if [[ "$(uname)" == "Darwin" ]]; then
-  export CC=clang
-  export CXX=clang++
-  if [[ -d /opt/homebrew ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  fi
-else
-  export PFMW_TEMP=/data1/yielding/video
-  export ORT_ROOT=$HOME/opensource/onnxruntime-linux-x64-1.17.1
-  export CC=gcc
-  export CXX=g++
-  export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LIBRARY_PATH
-  export LD_LIBRARY_PATH=/usr/local/gcc-15.2/lib64:${LD_LIBRARY_PATH:-}
-  export LD_LIBRARY_PATH=$ORT_ROOT/lib:$LD_LIBRARY_PATH
+export CC=clang
+export CXX=clang++
+
+if [[ -d /opt/homebrew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 export PROJECT=$HOME/project/md.platform.infra
@@ -193,8 +183,6 @@ eval "$(zoxide init zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
-
-[ -z "$TMUX" ] && tmux new -As black
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 #export SDKMAN_DIR="$HOME/.sdkman"

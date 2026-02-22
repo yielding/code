@@ -20,10 +20,10 @@ os_dir = os == "Darwin" ? "osx" : "linux"
 `cp ~/.config/tmux/tmux.conf #{DEST}/common/dot.tmux.conf`
 `cp -r ~/bin/* #{DEST}/common/bin`
 `cp -r ~/.config/nvim/UltiSnips/* #{DEST}/common/UltiSnips`
-`cp ~/.zshrc #{DEST}/common/dot.zshrc`
 
 # OS-specific files
 `mkdir -p #{DEST}/#{os_dir}/oh-my-zsh-themes`
 
+`cp ~/.zshrc #{DEST}/#{os_dir}/dot.zshrc`
 `cp ~/.oh-my-zsh/lib/aliases.zsh #{DEST}/#{os_dir}/oh-my-zsh-lib-aliases.zsh`
 `cp -r ~/.oh-my-zsh/themes/fino* #{DEST}/#{os_dir}/oh-my-zsh-themes`
