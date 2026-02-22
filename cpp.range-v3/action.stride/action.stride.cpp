@@ -7,11 +7,11 @@ namespace g = ranges;
 
 using namespace std;
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
   using v::ints, v::all, g::copy, g::to, a::stride;
 
-  auto pr = [](auto && r) { cout << all(r) << endl; };
+  auto pr = [](auto && r) -> auto { cout << all(r) << endl; };
 
   auto v1 = ints(0, 100) | to<vector>();
   auto v2 = v1 | copy | stride(10);

@@ -7,7 +7,7 @@ namespace a = ranges::actions;
 
 using namespace std;
 
-int main()
+auto main() -> int
 {
   using a::sort, a::unique, a::take;
 

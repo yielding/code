@@ -3,7 +3,7 @@
 #include <print>
 #include <range/v3/all.hpp>
 
-using namespace ranges::v3;
+using namespace ranges;
 using namespace std;
 
 void pr(const auto& a) 
