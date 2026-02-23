@@ -1,5 +1,5 @@
-alias v='/snap/bin/nvim'
-alias vi='/snap/bin/nvim'
+alias v='/opt/homebrew/bin/nvim'
+alias vi='/opt/homebrew/bin/nvim'
 
 # alias nnn='nnn -acde'
 alias n='nnn -acde'
@@ -8,8 +8,8 @@ alias ll='ls -al'
 alias dir='ls -al'
 alias lst='tmux ls'
 
-#alias ruby='/home/yielding/.rubies/ruby-4.0.0/bin/ruby --jit'
-alias ruby='/home/yielding/.rubies/ruby-4.0.0/bin/ruby --yjit'
+#alias ruby='/Users/yielding/.rubies/ruby-4.0.1/bin/ruby --jit'
+alias ruby='/Users/yielding/.rubies/ruby-4.0.1/bin/ruby --yjit'
 
 # dir long
 alias cls='clear'

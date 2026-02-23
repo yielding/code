@@ -10,7 +10,6 @@ alias ll='ls -al'
 alias dir='ls -al'
 alias lst='tmux ls'
 
-#alias ruby='/home/yielding/.rubies/ruby-4.0.0/bin/ruby --jit'
 alias ruby='/home/yielding/.rubies/ruby-4.0.0/bin/ruby --yjit'
 
 # dir long
