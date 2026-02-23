@@ -91,7 +91,7 @@ auto run_server(const std::string& address) -> void
   server->Wait();
 }
 
-int main(const int argc, char* argv[])
+auto main(const int argc, char* argv[]) -> int
 {
   using namespace std;
 
