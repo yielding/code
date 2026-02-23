@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
-DEST="~/code/dot.files"
+DEST = '~/code/dot.files'
 
 # Detect OS
 os = `uname`.strip
-os_dir = os == "Darwin" ? "osx" : "linux"
+os_dir = os == 'Darwin' ? 'osx' : 'linux'
 
 # common: OS-independent files
 `mkdir -p #{DEST}/common/bin`

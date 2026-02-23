@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-SRC="~/code/dot.files"
+SRC = '~/code/dot.files'
 
 # Detect OS
 os = `uname`.strip
-is_mac   = os == "Darwin"
-is_linux = os == "Linux"
-os_dir   = is_mac ? "osx" : "linux"
+is_mac   = os == 'Darwin'
+# is_linux = os == "Linux"
+os_dir   = is_mac ? 'osx' : 'linux'
 
 # common: always restore
 `mkdir -p ~/.config/nvim/UltiSnips`
