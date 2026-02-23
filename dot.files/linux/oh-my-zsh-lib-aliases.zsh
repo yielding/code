@@ -35,4 +35,8 @@ alias gowork='cd ~/project/md.platform.infra'
 alias gosqlite='cd ~/project/sqlite.reader/docs/fts'
 alias gopsql='docker exec -it forensic-postgres-study psql -U forensic -d forensicdb'
 
+# dotfiles
+backup()  { backup.dot.files  && cd ~/code; }
+restore() { restore.dot.files && cd ~/code; }
+
 alias aliases='vi ~/.oh-my-zsh/lib/aliases.zsh && source ~/.oh-my-zsh/lib/aliases.zsh'
