@@ -1,5 +1,6 @@
 alias v='/opt/homebrew/bin/nvim'
 alias vi='/opt/homebrew/bin/nvim'
+alias oo='~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Notes'
 
 # alias nnn='nnn -acde'
 alias n='nnn -acde'
