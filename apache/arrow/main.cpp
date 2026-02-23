@@ -8,6 +8,8 @@ using arrow::Result;
 using arrow::io::ReadableFile;
 using arrow::ipc::RecordBatchFileReader;
 
+using namespace std;
+
 int main() 
 {
   // 1. Arrow 파일 열기

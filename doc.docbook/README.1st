@@ -28,7 +28,7 @@
    받은 jar파일을 ~/Library/Java/Extensions 밑으로 복사
 
 5. TODO
-  1) DocBook 5는 XInclude를 이용해서 여러 화일로 쪼개기, 포함하기가 된다.
+  1) DocBook 5는 XInclude를 이용해서 여러 파일로 쪼개기, 포함하기가 된다.
      시간나면 테스트
   2) 한글처리
      http://docbook.kldp.net/howto/fop.html
