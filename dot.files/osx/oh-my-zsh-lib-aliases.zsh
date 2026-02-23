@@ -8,6 +8,7 @@ alias l='ls -al'
 alias ll='ls -al'
 alias dir='ls -al'
 alias lst='tmux ls'
+alias bp='brew upgrade'
 
 alias ruby='/Users/yielding/.rubies/ruby-4.0.1/bin/ruby --yjit'
 
