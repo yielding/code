@@ -130,7 +130,7 @@ return {
             name = "Rust",
           },
           cr = {
-            icon = "",
+            icon = "💎",
             color = "#000000",
             name = "Crystal",
           },
