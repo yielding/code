@@ -17,6 +17,8 @@ tags
 .nvim.lua
 .clang-format
 .clang-tidy
+!dot.files/templates/cpp.clang++/.clang-format
+!dot.files/templates/cpp.clang++/.clang-tidy
 CMakeCache.txt
 cmake_install.cmake
 CMakeFiles/
