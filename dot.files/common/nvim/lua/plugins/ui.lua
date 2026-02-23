@@ -129,6 +129,11 @@ return {
             color = "#dea584",
             name = "Rust",
           },
+          cr = {
+            icon = "",
+            color = "#000000",
+            name = "Crystal",
+          },
         },
         override_by_filename = {
           [".tmux.conf"] = {
