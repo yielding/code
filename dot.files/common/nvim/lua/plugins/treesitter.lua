@@ -41,11 +41,12 @@ return {
         'markdown', 'markdown_inline', 'python', 'cpp', 'c',
         'rust', 'ruby', 'javascript', 'typescript', 'tsx',
         'json', 'yaml', 'html', 'css', 'go', 'kotlin', 'sql', 'c_sharp',
-        'cmake', 'dockerfile', 'toml', 'haskell', 'pascal', 'haxe',
+        'cmake', 'dockerfile', 'toml', 'haskell', 'pascal',
       }
       require('nvim-treesitter').install(parsers)
 
       -- Register custom filetypes
+      -- Note: haxe parser manually installed (vantreeseba/tree-sitter-haxe)
       vim.filetype.add({
         extension = {
           cr = "crystal",
