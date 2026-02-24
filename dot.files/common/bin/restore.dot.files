@@ -12,19 +12,23 @@ os_dir   = is_mac ? 'osx' : 'linux'
 `mkdir -p ~/.config/nvim/UltiSnips`
 `mkdir -p ~/.config/nvim/lua`
 `mkdir -p ~/.config/nvim/luasnippets`
+`mkdir -p ~/.config/nvim/colors`
 `mkdir -p ~/.config/tmux`
 `mkdir -p ~/.oh-my-zsh/themes`
 
 `cp #{SRC}/common/nvim/init.lua ~/.config/nvim/init.lua`
 `cp -r #{SRC}/common/nvim/lua/* ~/.config/nvim/lua`
 `cp -r #{SRC}/common/nvim/luasnippets/* ~/.config/nvim/luasnippets`
+`cp -r #{SRC}/common/nvim/colors/* ~/.config/nvim/colors`
 `cp #{SRC}/common/dot.ghci ~/.ghci`
 `cp #{SRC}/common/dot.gitconfig ~/.gitconfig`
 `cp #{SRC}/common/dot.tmux.conf ~/.config/tmux/tmux.conf`
 `cp #{SRC}/common/UltiSnips/* ~/.config/nvim/UltiSnips/`
 `cp -r #{SRC}/common/bin/* ~/bin/`
 
+# oh-my-zsh (common)
+`cp #{SRC}/common/oh-my-zsh-lib-aliases.zsh ~/.oh-my-zsh/lib/aliases.zsh`
+`cp #{SRC}/common/oh-my-zsh-themes/* ~/.oh-my-zsh/themes/`
+
 # OS-specific
 `cp #{SRC}/#{os_dir}/dot.zshrc ~/.zshrc`
-`cp #{SRC}/#{os_dir}/oh-my-zsh-lib-aliases.zsh ~/.oh-my-zsh/lib/aliases.zsh`
-`cp #{SRC}/#{os_dir}/oh-my-zsh-themes/* ~/.oh-my-zsh/themes/`
