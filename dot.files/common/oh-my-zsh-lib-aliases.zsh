@@ -1,7 +1,9 @@
 if [[ "$OSTYPE" == darwin* ]]; then
   alias v='/opt/homebrew/bin/nvim'
+  alias vi='/opt/homebrew/bin/nvim'
 else
   alias v='/snap/bin/nvim'
+  alias vi='/snap/bin/nvim'
 fi
 
 alias ngit='nvim -c "Neogit" -c "autocmd WinClosed * if winnr('$') == 1 | qa | endif"'
