@@ -21,9 +21,10 @@ os_dir = os == 'Darwin' ? 'osx' : 'linux'
 `cp -r ~/bin/* #{DEST}/common/bin`
 `cp -r ~/.config/nvim/UltiSnips/* #{DEST}/common/UltiSnips`
 
-# OS-specific files
-`mkdir -p #{DEST}/#{os_dir}/oh-my-zsh-themes`
+# oh-my-zsh (common)
+`mkdir -p #{DEST}/common/oh-my-zsh-themes`
+`cp ~/.oh-my-zsh/lib/aliases.zsh #{DEST}/common/oh-my-zsh-lib-aliases.zsh`
+`cp -r ~/.oh-my-zsh/themes/fino* #{DEST}/common/oh-my-zsh-themes`
 
+# OS-specific files
 `cp ~/.zshrc #{DEST}/#{os_dir}/dot.zshrc`
-`cp ~/.oh-my-zsh/lib/aliases.zsh #{DEST}/#{os_dir}/oh-my-zsh-lib-aliases.zsh`
-`cp -r ~/.oh-my-zsh/themes/fino* #{DEST}/#{os_dir}/oh-my-zsh-themes`
