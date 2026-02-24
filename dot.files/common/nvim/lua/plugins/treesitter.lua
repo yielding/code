@@ -10,12 +10,6 @@ return {
     config = function()
       require("nvim-treesitter").setup({})
 
-      -- main 브랜치는 queries가 runtime/ 아래에 있으므로 rtp에 추가
-      local ts_runtime = vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/runtime"
-      if vim.fn.isdirectory(ts_runtime) == 1 then
-        vim.opt.rtp:prepend(ts_runtime)
-      end
-
       -- Fix: remove invalid "substitute" node from vim highlights query at runtime
       local ok, query_src = pcall(function()
         local files = vim.api.nvim_get_runtime_file("queries/vim/highlights.scm", true)

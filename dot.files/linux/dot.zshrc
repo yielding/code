@@ -6,7 +6,7 @@ fi
 export PFMW_HOME=$HOME/project/md.platform.infra
 export PFMW_TEMP=/data1/yielding/video
 
-export RUBY_HOME=$HOME/.rubies/ruby-4.0.0
+export RUBY_HOME=$HOME/.rubies/ruby-4.0.1
 export OPENCV_HOME=/usr/local
 export DOTNET_ROOT=/usr/local/share/dotnet
 export DOTNET_TOOLS_HOME=$HOME/.dotnet/tools
