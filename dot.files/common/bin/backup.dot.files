@@ -11,10 +11,12 @@ os_dir = os == 'Darwin' ? 'osx' : 'linux'
 `mkdir -p #{DEST}/common/UltiSnips`
 `mkdir -p #{DEST}/common/nvim/lua`
 `mkdir -p #{DEST}/common/nvim/luasnippets`
+`mkdir -p #{DEST}/common/nvim/colors`
 
 `cp ~/.config/nvim/init.lua #{DEST}/common/nvim/init.lua`
 `cp -r ~/.config/nvim/lua/* #{DEST}/common/nvim/lua`
 `cp -r ~/.config/nvim/luasnippets/* #{DEST}/common/nvim/luasnippets`
+`cp -r ~/.config/nvim/colors/* #{DEST}/common/nvim/colors`
 `cp ~/.ghci #{DEST}/common/dot.ghci`
 `cp ~/.gitconfig #{DEST}/common/dot.gitconfig`
 `cp ~/.config/tmux/tmux.conf #{DEST}/common/dot.tmux.conf`
