@@ -13,7 +13,7 @@ auto print(span<int> container) -> void
   cout << "\n\n";
 }
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
   vector v{1, 2, 3, 4, 5, 6};
   print(v);
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
   transform(s2.begin(), s2.end(),
     s2.begin(),
-    [](int i) { return i * i; }); 
+    [](int i) -> auto { return i * i; }); 
 
   print(s2);
   print(v);
