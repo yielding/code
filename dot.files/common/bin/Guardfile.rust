@@ -1,9 +1,0 @@
-# watch가 바라보는 파일이 변하는 경우
-# engine으로 regex로 match된 정보를 보낸다.
-# cargo test {matched}/Cargo.toml
-# 그래서 그냥 현재 디렉토리
-guard "rust" do
-  watch(%r|^src/(.*)\.rs$|) { |m| 
-    "." 
-  }
-end

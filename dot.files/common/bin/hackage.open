@@ -1,3 +1,0 @@
-#!/usr/bin/env ruby
-
-`open http://hackage.haskell.org`

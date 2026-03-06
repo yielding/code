@@ -1,3 +1,0 @@
-#!/usr/bin/env ruby
-
-`open http://www.google.com/search?q=#{ARGV[0]}` if ARGV.length >= 1
