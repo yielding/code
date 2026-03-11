@@ -11,6 +11,6 @@ class Fibo
   end
 
   def Fibo.mul(a, b)
-    6
+    a * b
   end
 end
