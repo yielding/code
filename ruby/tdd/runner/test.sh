@@ -6,37 +6,9 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="${TDD_PROJECT_DIR:-$(pwd)}"
 cd "$PROJECT_DIR"
 
-BUNDLER_VERSION="2.5.16"
 HAMMERSPOON_CLI="/Applications/Hammerspoon.app/Contents/Frameworks/hs/hs"
 APP_NAME="${TDD_APP_NAME:-Ruby TDD}"
 APP_BUNDLE_ID="${TDD_APP_BUNDLE_ID:-com.apple.Terminal}"
-
-resolve_bundle() {
-  local candidate
-
-  if [ -n "${BUNDLE_CMD:-}" ] && [ -x "${BUNDLE_CMD}" ]; then
-    echo "${BUNDLE_CMD}"
-    return 0
-  fi
-
-  if bundle _"${BUNDLER_VERSION}"_ version >/dev/null 2>&1; then
-    echo "bundle"
-    return 0
-  fi
-
-  for candidate in \
-    "$HOME"/.rubies/*/bin/bundle \
-    "$HOME"/.rbenv/shims/bundle \
-    "$HOME"/.asdf/shims/bundle
-  do
-    if [ -x "$candidate" ] && "$candidate" _"${BUNDLER_VERSION}"_ version >/dev/null 2>&1; then
-      echo "$candidate"
-      return 0
-    fi
-  done
-
-  return 1
-}
 
 b64_encode() {
   printf '%s' "$1" | /usr/bin/base64 | tr -d '\n'
@@ -122,13 +94,13 @@ notify() {
   fi
 }
 
-if ! BUNDLE_EXE="$(resolve_bundle)"; then
-  echo "Could not find Bundler ${BUNDLER_VERSION}. Set BUNDLE_CMD or install the required Bundler version." >&2
+if ! command -v bundle >/dev/null 2>&1; then
+  echo "bundle not found. Install Bundler: gem install bundler" >&2
   exit 1
 fi
 
 output_file="$(mktemp /tmp/ruby-tdd-rspec.XXXXXX)"
-"$BUNDLE_EXE" _"${BUNDLER_VERSION}"_ exec rspec 2>&1 | tee "$output_file"
+bundle exec rspec 2>&1 | tee "$output_file"
 status=$?
 
 if [ "$status" -eq 0 ]; then
