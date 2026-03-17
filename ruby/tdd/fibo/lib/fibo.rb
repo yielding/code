@@ -1,16 +1,16 @@
-
 class Fibo
-  def Fibo.fibo(n)
+  def self.fibo(n)
     return 0 if n <= 0
-    return 1 if n == 1 or n == 2
-    return fibo(n-1) + fibo(n-2) if n >=3
-  end                        
+    return 1 if [1, 2].include? n
 
-  def Fibo.add(a, b)
+    fibo(n - 1) + fibo(n - 2) if n >= 3
+  end
+
+  def self.add(a, b)
     a + b
   end
 
-  def Fibo.mul(a, b)
+  def self.mul(a, b)
     a * b
   end
 end

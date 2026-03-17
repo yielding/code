@@ -2,7 +2,10 @@
 
 set -uo pipefail
 
-ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="${TDD_PROJECT_DIR:-$(pwd)}"
+cd "$PROJECT_DIR"
+
 BUNDLER_VERSION="2.5.16"
 HAMMERSPOON_CLI="/Applications/Hammerspoon.app/Contents/Frameworks/hs/hs"
 APP_NAME="${TDD_APP_NAME:-Ruby TDD}"
@@ -99,7 +102,7 @@ notify() {
   local safe_message="${message//\"/\\\"}"
 
   if [ "${USE_HAMMERSPOON:-1}" = "1" ] && [ -x "${HAMMERSPOON_CLI}" ]; then
-    "${HAMMERSPOON_CLI}" -A "${ROOT_DIR}/hammerspoon_tdd.lua" \
+    "${HAMMERSPOON_CLI}" -A "${SCRIPT_DIR}/hammerspoon_tdd.lua" \
       "$status" \
       "$(b64_encode "$APP_NAME")" \
       "$(b64_encode "$title")" \
