@@ -8,6 +8,11 @@ using namespace std;
 class SelfDestruct : public enable_shared_from_this<SelfDestruct> 
 {
 public:
+  ~SelfDestruct() 
+  {
+    cout << "SelfDestruct object destroyed.\n";
+  }
+
   void start() 
   {
     cout << "Starting task...\n";
@@ -15,21 +20,16 @@ public:
     // 비동기 작업 시 자기 자신에 대한 참조 유지
     auto self = shared_from_this();
 
-    thread([self]() {
+    thread([self]() -> auto {
       this_thread::sleep_for(chrono::seconds(2));
       cout << "Task completed.\n";
 
       // 이후 외부 참조가 없다면 객체는 소멸됨
     }).detach();
   }
-
-  ~SelfDestruct() 
-  {
-    cout << "SelfDestruct object destroyed.\n";
-  }
 };
 
-int main() 
+auto main() -> int 
 {
   {
     auto obj = make_shared<SelfDestruct>();

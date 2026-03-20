@@ -30,7 +30,7 @@ public:
 ///  from within the class.
 ///
 ////////////////////////////////////////////////////////////////////////////////
-int main() 
+auto main() -> int 
 {
   auto obj = make_shared<MyClass>();
   obj->print();  // ✅ 정상 출력
