@@ -1,4 +1,3 @@
-#include "antlr4-runtime.h"
 #include "tree/IterativeParseTreeWalker.h"
 #include "ExprLexer.h"
 #include "CalcInterpreter.h"
@@ -46,7 +45,7 @@ void execute_expression(string const& expr)
   cout << interpreter.get_result() << endl;
 }
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   string prefix = "calc > ";
 

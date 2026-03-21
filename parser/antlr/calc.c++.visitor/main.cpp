@@ -1,4 +1,3 @@
-#include "antlr4-runtime.h"
 #include "LabeledExprLexer.h"
 #include "LabeledExprParser.h"
 #include "EvalVisitor.h"
@@ -8,7 +7,7 @@
 using namespace std;
 using namespace antlr4;
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   assert(argc == 2);
 
@@ -21,7 +20,8 @@ int main(int argc, char* argv[])
     auto parser = LabeledExprParser(&tokens);
 
     auto tree = parser.prog();
-    EvalVisitor visitor; visitor.visit(tree);
+    EvalVisitor visitor; 
+    visitor.visit(tree);
   }
 
   return 0;
