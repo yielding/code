@@ -1,5 +1,4 @@
 #include "zmq.hpp"
-#include "file_util.hpp"
 
 #include <boost/asio.hpp>
 #include <boost/asio/thread_pool.hpp>
@@ -56,7 +55,7 @@ void client_thread0(work_context& wc)
     }
   }
 
-  cout << str(format("%d chunks received, %zd bytes\n") % chunks % total);
+  cout << str(boost::format("%d chunks received, %zd bytes\n") % chunks % total);
 }
 
 void client_thread1(work_context& wc)
@@ -112,7 +111,7 @@ void client_thread1(work_context& wc)
     }
   }
 
-  cout << str(format("%d chunks received, %zd bytes\n") % chunks % total);
+  cout << str(boost::format("%d chunks received, %zd bytes\n") % chunks % total);
 }
 
 // REMARK
@@ -178,7 +177,7 @@ void server_thread(work_context& wc)
       }
     }
   }
-  catch(error_t e)
+  catch(zmq::error_t& e)
   {
     cout << wc.url << endl;
     cout << e.what() << endl;
@@ -187,7 +186,7 @@ void server_thread(work_context& wc)
   cout << "server: done..." << endl;
 }
 
-int main(int argc, char *argv[])
+auto main() -> int
 {
   auto base = "/Users/yielding/Desktop/"s;
 
@@ -214,7 +213,7 @@ int main(int argc, char *argv[])
   }
 
   for (auto& ctx: sctx) 
-    asio::post(server_pool, [&] { server_thread (ctx); });
+    asio::post(server_pool, [&] -> void { server_thread (ctx); });
 
   vector<string> files2 = { "a.mp4", "b.mp4", "c.mp4" };
   vector<work_context> cctx;
@@ -231,7 +230,7 @@ int main(int argc, char *argv[])
   }
 
   for (auto& ctx: cctx)
-    asio::post(client_pool, [&] { client_thread1(ctx); });
+    asio::post(client_pool, [&] -> void { client_thread1(ctx); });
 
   client_pool.join();
   server_pool.join();
