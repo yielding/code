@@ -66,8 +66,7 @@ public:
     // an instance to store in "call" but does not actually start the RPC
     // Because we are using the asynchronous API, we need to hold on to
     // the "call" instance in order to get updates on the ongoing RPC.
-    call->response_reader =
-        _stub->PrepareAsyncSayHello(&call->context, request, &_cq);
+    call->response_reader = _stub->PrepareAsyncSayHello(&call->context, request, &_cq);
 
     // StartCall initiates the RPC call
     call->response_reader->StartCall();
