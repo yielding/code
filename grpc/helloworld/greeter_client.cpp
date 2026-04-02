@@ -20,7 +20,6 @@
 
 #include <iostream>
 #include <memory>
-#include <string>
 
 #include <absl/flags/flag.h>
 #include <absl/flags/parse.h>
@@ -35,45 +34,43 @@ ABSL_FLAG(std::string, target, "localhost:50051", "Server address");
 ////////////////////////////////////////////////////////////////////////////////
 namespace greeter
 {
+  using namespace std;
 
-using namespace std;
+  using grpc::Channel;
+  using grpc::ClientContext;
+  using grpc::Status;
+  using helloworld::Greeter;
+  using helloworld::HelloReply;
+  using helloworld::HelloRequest;
 
-using grpc::Channel;
-using grpc::ClientContext;
-using grpc::Status;
-using helloworld::Greeter;
-using helloworld::HelloReply;
-using helloworld::HelloRequest;
-
-class greeter_client
-{
-public:
-  explicit greeter_client(shared_ptr<Channel> channel)
-    : _stub(Greeter::NewStub(channel))
-  {}
-
-public:
-  auto say_hello(const string& user) -> string
+  class greeter_client
   {
-    HelloRequest request;
-    request.set_name(user);
+  public:
+    explicit greeter_client(shared_ptr<Channel> channel)
+      : _stub(Greeter::NewStub(channel))
+    {}
 
-    HelloReply reply;
-    ClientContext context;
+  public:
+    auto say_hello(const string& user) -> string
+    {
+      HelloRequest request;
+      request.set_name(user);
 
-    Status status = _stub->SayHello(&context, request, &reply);
+      HelloReply reply;
+      ClientContext context;
 
-    if (status.ok())
-      return reply.message();
+      Status status = _stub->SayHello(&context, request, &reply);
 
-    cout << status.error_code() << ": " << status.error_message() << endl;
-    return "RPC failed";
-  }
+      if (status.ok())
+        return reply.message();
 
-private:
-  unique_ptr<Greeter::Stub> _stub;
-};
+      cout << status.error_code() << ": " << status.error_message() << endl;
+      return "RPC failed";
+    }
 
+  private:
+    unique_ptr<Greeter::Stub> _stub;
+  };
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +78,7 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-int main(const int argc, char** argv)
+auto main(const int argc, char** argv) -> int
 {
   using namespace std;
   using namespace greeter;

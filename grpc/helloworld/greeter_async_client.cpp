@@ -37,58 +37,56 @@ ABSL_FLAG(std::string, target, "localhost:50051", "Server address");
 ////////////////////////////////////////////////////////////////////////////////
 namespace greeter
 {
+  using namespace std;
 
-using namespace std;
+  using grpc::Channel;
+  using grpc::ClientAsyncResponseReader;
+  using grpc::ClientContext;
+  using grpc::CompletionQueue;
+  using grpc::Status;
+  using helloworld::Greeter;
+  using helloworld::HelloReply;
+  using helloworld::HelloRequest;
 
-using grpc::Channel;
-using grpc::ClientAsyncResponseReader;
-using grpc::ClientContext;
-using grpc::CompletionQueue;
-using grpc::Status;
-using helloworld::Greeter;
-using helloworld::HelloReply;
-using helloworld::HelloRequest;
-
-class greeter_client
-{
-public:
-  explicit greeter_client(shared_ptr<Channel> channel)
-    : _stub(Greeter::NewStub(channel))
-  {}
-
-public:
-  auto say_hello(const string& user) -> string
+  class greeter_client
   {
-    HelloRequest request;
-    request.set_name(user);
+  public:
+    explicit greeter_client(shared_ptr<Channel> channel)
+      : _stub(Greeter::NewStub(channel))
+    {}
 
-    HelloReply reply;
-    ClientContext context;
-    CompletionQueue cq;
-    Status status;
+  public:
+    auto say_hello(const string& user) -> string
+    {
+      HelloRequest request;
+      request.set_name(user);
 
-    unique_ptr<ClientAsyncResponseReader<HelloReply>> rpc(
-      _stub->AsyncSayHello(&context, request, &cq));
+      HelloReply reply;
+      ClientContext context;
+      CompletionQueue cq;
+      Status status;
 
-    rpc->Finish(&reply, &status, (void*)1);
+      unique_ptr<ClientAsyncResponseReader<HelloReply>> rpc(
+          _stub->AsyncSayHello(&context, request, &cq));
 
-    void* got_tag;
-    bool ok = false;
+      rpc->Finish(&reply, &status, (void*)1);
 
-    CHECK(cq.Next(&got_tag, &ok));
-    CHECK_EQ(got_tag, (void*)1);
-    CHECK(ok);
+      void* got_tag;
+      bool ok = false;
 
-    if (status.ok())
-      return reply.message();
+      CHECK(cq.Next(&got_tag, &ok));
+      CHECK_EQ(got_tag, (void*)1);
+      CHECK(ok);
 
-    return "RPC failed";
-  }
+      if (status.ok())
+        return reply.message();
 
-private:
-  unique_ptr<Greeter::Stub> _stub;
-};
+      return "RPC failed";
+    }
 
+  private:
+    unique_ptr<Greeter::Stub> _stub;
+  };
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +94,7 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-int main(const int argc, char** argv)
+auto main(const int argc, char** argv) -> int
 {
   using namespace greeter;
 

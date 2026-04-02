@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package sensor;
+
+// 센서 데이터 수집 서비스: Client Streaming 패턴 예제
+// 클라이언트가 센서 측정값을 여러 번 스트리밍하면, 서버가 집계 결과를 1회 응답한다.
+service SensorService {
+  rpc CollectData(stream SensorData) returns (SensorSummary) {}
+}
+
+message SensorData {
+  string sensor_id   = 1;
+  double temperature = 2;
+  double humidity    = 3;
+  int64  timestamp   = 4;
+}
+
+message SensorSummary {
+  int32  count           = 1;
+  double avg_temperature = 2;
+  double max_temperature = 3;
+  double min_temperature = 4;
+  double avg_humidity    = 5;
+}

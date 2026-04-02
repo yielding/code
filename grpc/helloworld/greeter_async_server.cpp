@@ -28,7 +28,6 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <thread>
 
 ABSL_FLAG(uint16_t, port, 50051, "Server port for the service");
 
@@ -42,109 +41,116 @@ using helloworld::Greeter;
 using helloworld::HelloReply;
 using helloworld::HelloRequest;
 
-class ServerImpl final {
- public:
-  ~ServerImpl() {
-    server_->Shutdown();
+class ServerImpl final 
+{
+public:
+  ~ServerImpl() 
+  {
+    _server->Shutdown();
     // Always shutdown the completion queue after the server.
-    cq_->Shutdown();
+    _cq->Shutdown();
   }
 
   // There is no shutdown handling in this code.
-  void Run(uint16_t port) {
-    std::string server_address = absl::StrFormat("0.0.0.0:%d", port);
+  void run(uint16_t port) 
+  {
+    auto _serveraddress = absl::StrFormat("0.0.0.0:%d", port);
 
     ServerBuilder builder;
     // Listen on the given address without any authentication mechanism.
-    builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
-    // Register "service_" as the instance through which we'll communicate with
+    builder.AddListeningPort(_serveraddress, grpc::InsecureServerCredentials());
+    // Register "_service" as the instance through which we'll communicate with
     // clients. In this case it corresponds to an *asynchronous* service.
-    builder.RegisterService(&service_);
+    builder.RegisterService(&_service);
     // Get hold of the completion queue used for the asynchronous communication
     // with the gRPC runtime.
-    cq_ = builder.AddCompletionQueue();
+    _cq = builder.AddCompletionQueue();
     // Finally assemble the server.
-    server_ = builder.BuildAndStart();
-    std::cout << "Server listening on " << server_address << std::endl;
+    _server = builder.BuildAndStart();
+    std::cout << "Server listening on " << _serveraddress << std::endl;
 
     // Proceed to the server's main loop.
-    HandleRpcs();
+    handle_rpcs();
   }
 
- private:
+private:
   // Class encompasing the state and logic needed to serve a request.
-  class CallData {
-   public:
+  class CallData 
+  {
+  public:
     // Take in the "service" instance (in this case representing an asynchronous
     // server) and the completion queue "cq" used for asynchronous communication
     // with the gRPC runtime.
     CallData(Greeter::AsyncService* service, ServerCompletionQueue* cq)
-        : service_(service), cq_(cq), responder_(&ctx_), status_(CREATE) {
+      : _service(service), _cq(cq), _responder(&_ctx), _status(CREATE) 
+    {
       // Invoke the serving logic right away.
       Proceed();
     }
 
     void Proceed() {
-      if (status_ == CREATE) {
+      if (_status == CREATE) {
         // Make this instance progress to the PROCESS state.
-        status_ = PROCESS;
+        _status = PROCESS;
 
         // As part of the initial CREATE state, we *request* that the system
         // start processing SayHello requests. In this request, "this" acts are
         // the tag uniquely identifying the request (so that different CallData
         // instances can serve different requests concurrently), in this case
         // the memory address of this CallData instance.
-        service_->RequestSayHello(&ctx_, &request_, &responder_, cq_, cq_, this);
-      } else if (status_ == PROCESS) {
+        _service->RequestSayHello(&_ctx, &_request, &_responder, _cq, _cq, this);
+      } else if (_status == PROCESS) {
         // Spawn a new CallData instance to serve new clients while we process
         // the one for this CallData. The instance will deallocate itself as
         // part of its FINISH state.
-        new CallData(service_, cq_);
+        new CallData(_service, _cq);
 
         // The actual processing.
         std::string prefix("Hello ");
-        reply_.set_message(prefix + request_.name());
+        _reply.set_message(prefix + _request.name());
 
         // And we are done! Let the gRPC runtime know we've finished, using the
         // memory address of this instance as the uniquely identifying tag for
         // the event.
-        status_ = FINISH;
-        responder_.Finish(reply_, Status::OK, this);
+        _status = FINISH;
+        _responder.Finish(_reply, Status::OK, this);
       } else {
-        CHECK_EQ(status_, FINISH);
+        CHECK_EQ(_status, FINISH);
         // Once in the FINISH state, deallocate ourselves (CallData).
         delete this;
       }
     }
 
-   private:
-    // The means of communication with the gRPC runtime for an asynchronous
-    // server.
-    Greeter::AsyncService* service_;
+  private:
+    // The means of communication with the gRPC runtime for an asynchronous server.
+    Greeter::AsyncService* _service;
+
     // The producer-consumer queue where for asynchronous server notifications.
-    ServerCompletionQueue* cq_;
+    ServerCompletionQueue* _cq;
+
     // Context for the rpc, allowing to tweak aspects of it such as the use
     // of compression, authentication, as well as to send metadata back to the
     // client.
-    ServerContext ctx_;
+    ServerContext _ctx;
 
     // What we get from the client.
-    HelloRequest request_;
+    HelloRequest _request;
     // What we send back to the client.
-    HelloReply reply_;
+    HelloReply _reply;
 
     // The means to get back to the client.
-    ServerAsyncResponseWriter<HelloReply> responder_;
+    ServerAsyncResponseWriter<HelloReply> _responder;
 
     // Let's implement a tiny state machine with the following states.
     enum CallStatus { CREATE, PROCESS, FINISH };
-    CallStatus status_;  // The current serving state.
+    CallStatus _status;  // The current serving state.
   };
 
   // This can be run in multiple threads if needed.
-  void HandleRpcs() {
+  void handle_rpcs() 
+  {
     // Spawn a new CallData instance to serve new clients.
-    new CallData(&service_, cq_.get());
+    new CallData(&_service, _cq.get());
     void* tag;  // uniquely identifies a request.
     bool ok;
     while (true) {
@@ -152,22 +158,23 @@ class ServerImpl final {
       // event is uniquely identified by its tag, which in this case is the
       // memory address of a CallData instance.
       // The return value of Next should always be checked. This return value
-      // tells us whether there is any kind of event or cq_ is shutting down.
-      CHECK(cq_->Next(&tag, &ok));
+      // tells us whether there is any kind of event or _cq is shutting down.
+      CHECK(_cq->Next(&tag, &ok));
       CHECK(ok);
       static_cast<CallData*>(tag)->Proceed();
     }
   }
 
-  std::unique_ptr<ServerCompletionQueue> cq_;
-  Greeter::AsyncService service_;
-  std::unique_ptr<Server> server_;
+  std::unique_ptr<ServerCompletionQueue> _cq;
+  Greeter::AsyncService _service;
+  std::unique_ptr<Server> _server;
 };
 
-int main(int argc, char** argv) {
+auto main(int argc, char** argv) -> int 
+{
   absl::ParseCommandLine(argc, argv);
   ServerImpl server;
-  server.Run(absl::GetFlag(FLAGS_port));
+  server.run(absl::GetFlag(FLAGS_port));
 
   return 0;
 }

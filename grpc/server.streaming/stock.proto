@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package stock;
+
+// 주식 시세 서비스: Server Streaming 패턴 예제
+// 클라이언트가 종목 코드를 1회 요청하면, 서버가 시세를 지속적으로 스트리밍한다.
+service StockService {
+  rpc SubscribePrice(StockRequest) returns (stream StockReply) {}
+}
+
+message StockRequest {
+  string symbol = 1;
+}
+
+message StockReply {
+  string symbol    = 1;
+  double price     = 2;
+  int64  timestamp = 3;
+}

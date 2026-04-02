@@ -45,26 +45,29 @@ using helloworld::Greeter;
 using helloworld::HelloReply;
 using helloworld::HelloRequest;
 
-class GreeterClient {
- public:
+class GreeterClient 
+{
+public:
   explicit GreeterClient(std::shared_ptr<Channel> channel)
-      : stub_(Greeter::NewStub(channel)) {}
+    : _stub(Greeter::NewStub(channel)) 
+  {}
 
   // Assembles the client's payload and sends it to the server.
-  void SayHello(const std::string& user) {
+  void say_hello(const std::string& user) 
+  {
     // Data we are sending to the server.
     HelloRequest request;
     request.set_name(user);
 
     // Call object to store rpc data
-    AsyncClientCall* call = new AsyncClientCall;
+    auto call = new AsyncClientCall;
 
     // stub_->PrepareAsyncSayHello() creates an RPC object, returning
     // an instance to store in "call" but does not actually start the RPC
     // Because we are using the asynchronous API, we need to hold on to
     // the "call" instance in order to get updates on the ongoing RPC.
     call->response_reader =
-        stub_->PrepareAsyncSayHello(&call->context, request, &cq_);
+        _stub->PrepareAsyncSayHello(&call->context, request, &_cq);
 
     // StartCall initiates the RPC call
     call->response_reader->StartCall();
@@ -78,12 +81,14 @@ class GreeterClient {
 
   // Loop while listening for completed responses.
   // Prints out the response from the server.
-  void AsyncCompleteRpc() {
+  void async_complete_rpc() 
+  {
     void* got_tag;
     bool ok = false;
 
     // Block until the next result is available in the completion queue "cq".
-    while (cq_.Next(&got_tag, &ok)) {
+    while (_cq.Next(&got_tag, &ok)) 
+    {
       // The tag in this example is the memory location of the call object
       AsyncClientCall* call = static_cast<AsyncClientCall*>(got_tag);
 
@@ -103,7 +108,8 @@ class GreeterClient {
 
  private:
   // struct for keeping state and data information
-  struct AsyncClientCall {
+  struct AsyncClientCall 
+  {
     // Container for the data we expect from the server.
     HelloReply reply;
 
@@ -119,14 +125,15 @@ class GreeterClient {
 
   // Out of the passed in Channel comes the stub, stored here, our view of the
   // server's exposed services.
-  std::unique_ptr<Greeter::Stub> stub_;
+  std::unique_ptr<Greeter::Stub> _stub;
 
   // The producer-consumer queue we use to communicate asynchronously with the
   // gRPC runtime.
-  CompletionQueue cq_;
+  CompletionQueue _cq;
 };
 
-int main(int argc, char** argv) {
+auto main(int argc, char** argv) -> int 
+{
   absl::ParseCommandLine(argc, argv);
   // Instantiate the client. It requires a channel, out of which the actual RPCs
   // are created. This channel models a connection to an endpoint specified by
@@ -138,15 +145,16 @@ int main(int argc, char** argv) {
       grpc::CreateChannel(target_str, grpc::InsecureChannelCredentials()));
 
   // Spawn reader thread that loops indefinitely
-  std::thread thread_ = std::thread(&GreeterClient::AsyncCompleteRpc, &greeter);
+  std::thread th = std::thread(&GreeterClient::async_complete_rpc, &greeter);
 
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 100; i++) 
+  {
     std::string user("world " + std::to_string(i));
-    greeter.SayHello(user);  // The actual RPC call!
+    greeter.say_hello(user);  // The actual RPC call!
   }
 
   std::cout << "Press control-c to quit" << std::endl << std::endl;
-  thread_.join();  // blocks forever
+  th.join();  // blocks forever
 
   return 0;
 }
