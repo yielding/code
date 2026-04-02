@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package chat;
+
+// 채팅 서비스: Bidirectional Streaming 패턴 예제
+// 클라이언트와 서버가 동시에 메시지를 주고받는다.
+service ChatService {
+  rpc Chat(stream ChatMessage) returns (stream ChatMessage) {}
+}
+
+message ChatMessage {
+  string user    = 1;
+  string content = 2;
+  int64  timestamp = 3;
+}

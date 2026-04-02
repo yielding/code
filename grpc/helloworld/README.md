@@ -136,9 +136,34 @@ say_hello()                          async_complete_rpc()
 | 로그 배치 전송 | 로그 라인 N개 | 수신 확인 (총 건수) |
 | 음성 인식 (단방향) | 오디오 청크 N개 | 최종 텍스트 변환 결과 |
 
+### Bidirectional Streaming 적용 사례
+
+| 사례 | Request (stream) | Response (stream) |
+|------|-----------------|-------------------|
+| 채팅 | 사용자 메시지 N개 | 서버/상대방 메시지 N개 |
+| 실시간 번역 | 음성/텍스트 청크 | 번역 결과 청크 |
+| 게임 멀티플레이어 | 플레이어 입력 | 게임 상태 업데이트 |
+| 협업 편집 | 로컬 편집 이벤트 | 원격 편집 이벤트 |
+
+Server/Client Streaming과의 핵심 차이: **양방향이 독립적으로 동시에 동작**한다. 클라이언트가 전송을 끝내지 않아도 서버가 응답을 보낼 수 있고, 그 반대도 가능하다. `ServerReaderWriter`(서버측) / `ClientReaderWriter`(클라이언트측) 인터페이스를 사용하며, 읽기와 쓰기를 별도 스레드에서 수행하는 것이 일반적이다.
+
+```
+Client (thread 1: write)              Server
+  │── ChatMessage("Hello") ─────────►│
+  │── ChatMessage("How are you?") ──►│  stream->Read() + Write()
+  │                                    │
+Client (thread 2: read)                │
+  │◄── ChatMessage("[echo] Hello") ───│
+  │◄── ChatMessage("[echo] How...") ──│
+  │                                    │
+  │── WritesDone() ──────────────────►│  Read() returns false
+  │◄── Stream 종료 ──────────────────│
+```
+
 ## 관련 예제 프로젝트
 
 | 디렉토리 | 패턴 | 설명 |
 |----------|------|------|
 | `../server_streaming/` | Server Streaming | 주식 시세 구독 예제 (1 request → N response) |
 | `../client_streaming/` | Client Streaming | 센서 데이터 수집 예제 (N request → 1 response) |
+| `../bidi_streaming/` | Bidi Streaming | 채팅 에코 예제 (N request ↔ N response) |
