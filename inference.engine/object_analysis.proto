@@ -1,0 +1,142 @@
+// 객체 분석 통합 서비스 (Object Analysis)
+// 이미지 프레임 입력 → 객체 탐지 → 클래스별 분기 분석
+//   사람: 특징 추출(ReID) + 색상 인식 + 속성 분석(PersonAnalysis)
+//   차량: 차종 분류
+syntax = "proto3";
+
+package uie.object_analysis;
+
+import "common.proto";
+import "operations.proto";
+// par.proto, vehicle_classification.proto는 이 파일로 통합됨
+
+// 객체 분석 통합 서비스
+service ObjectAnalysisService {
+  // 프레임 분석 요청 제출 (이미지 스트리밍 업로드)
+  rpc SubmitFrameAnalysis(stream uie.common.FileChunk) returns (uie.operations.OperationHandle);
+  // 프레임 분석 결과 조회 (완료까지 대기)
+  rpc GetFrameAnalysisResult(uie.operations.OperationResultRequest) returns (FrameAnalysisResult);
+}
+
+// 사람 속성 분석 서비스 (PersonAnalysis, 구 PAR)
+service PersonAnalysisService {
+  // 사람 이미지 속성 분석 제출
+  rpc SubmitPersonAnalysis(stream uie.common.FileChunk) returns (uie.operations.OperationHandle);
+  // 속성 분석 결과 조회
+  rpc GetPersonAnalysisResult(uie.operations.OperationResultRequest) returns (PersonAnalysisResult);
+}
+
+// 차종 분류 서비스
+service VehicleClassificationService {
+  // 차량 이미지 분류 제출
+  rpc SubmitVehicleClassification(stream uie.common.FileChunk) returns (uie.operations.OperationHandle);
+  // 차종 분류 결과 조회
+  rpc GetVehicleClassificationResult(uie.operations.OperationResultRequest) returns (ClassificationResult);
+}
+
+// =============================================================================
+// 프레임 분석 결과 (통합 파이프라인)
+// =============================================================================
+
+// 프레임 분석 결과
+message FrameAnalysisResult {
+  bool success = 1;                             // 성공 여부
+  uie.common.ErrorDetail error = 2;             // 에러 정보
+  repeated ObjectResult objects = 3;            // 객체별 분석 결과
+  uie.common.ImageInfo image_info = 4;          // 원본 이미지 정보
+  uint64 frame_id = 5;                          // 프레임 ID (0-based)
+  uie.common.ProcessingMetadata metadata = 6;   // 처리 메타데이터
+
+  reserved 50 to 100;
+}
+
+// 개별 객체 분석 결과 — 탐지 정보 + 클래스별 분기 상세
+message ObjectResult {
+  uint64 object_id = 1;              // 고유 객체 ID
+  uie.common.BoundingBox bbox = 2;   // 바운딩 박스 (정규화 좌표, 0.0~1.0)
+  uint32 class_id = 3;               // 클래스 ID (0=person, 2=car, 5=bus, 7=truck)
+  float confidence = 4;              // 탐지 신뢰도 (0.0~1.0)
+  string class_name = 5;             // 클래스 이름 (예: "person", "car")
+
+  // 클래스별 분기 — 사람이면 person, 차량이면 vehicle
+  oneof detail {
+    PersonDetail person = 10;        // 사람 상세 (ReID + 색상 + 속성)
+    VehicleDetail vehicle = 11;      // 차량 상세 (차종 분류)
+  }
+}
+
+// =============================================================================
+// 사람 분석 상세
+// =============================================================================
+
+// 사람 상세 — ReID/색상/속성 분석 결과
+message PersonDetail {
+  repeated float reid_features = 1;                    // ReID 특징 벡터 (1536d)
+  repeated ColorResult upper_body_colors = 2;          // 상의 색상 (최대 4개, median + dominant)
+  repeated ColorResult lower_body_colors = 3;          // 하의 색상 (최대 4개, median + dominant)
+  repeated PedestrianAttribute attributes = 4;         // 속성 분석 결과 (최대 56개)
+}
+
+// HSV 색상 결과
+message ColorResult {
+  float h = 1;               // 색조 (Hue, OpenCV 0~180)
+  float s = 2;               // 채도 (Saturation, OpenCV 0~255)
+  float v = 3;               // 명도 (Value, OpenCV 0~255)
+  string main_name = 4;      // 주 색상명 (예: "Red", "Blue")
+  string branch_name = 5;   // 세부 색상명 (예: "Crimson", "Navy")
+}
+
+// 보행자 속성
+message PedestrianAttribute {
+  uint32 id = 1;             // 속성 ID (0~55)
+  string name = 2;           // 속성 이름
+  float confidence = 3;      // 신뢰도 (0.0~1.0)
+  bool detected = 4;         // 감지 여부
+}
+
+// =============================================================================
+// 차량 분류 상세
+// =============================================================================
+
+// 차량 상세 — 차종 분류 결과
+message VehicleDetail {
+  string vehicle_type = 1;                          // 예측 차종 (Sedan/SUV/Van/Pickup/Truck/Bus)
+  float vehicle_confidence = 2;                     // 차종 분류 신뢰도 (0.0~1.0)
+  repeated ClassProbability probabilities = 3;      // 전체 클래스별 확률 분포
+}
+
+// 클래스 확률
+message ClassProbability {
+  string class_name = 1;     // 클래스명
+  float probability = 2;     // 확률 (0.0~1.0)
+}
+
+// =============================================================================
+// 차종 분류 단독 결과
+// =============================================================================
+
+// 차종 분류 결과
+message ClassificationResult {
+  bool success = 1;
+  uie.common.ErrorDetail error = 2;
+  string class_name = 3;                           // 예측 클래스
+  float confidence = 4;                            // 신뢰도
+  repeated ClassProbability probabilities = 5;     // 전체 확률 분포
+  uie.common.ProcessingMetadata metadata = 6;
+
+  reserved 50 to 100;
+}
+
+// =============================================================================
+// 사람 속성 분석 단독 결과
+// =============================================================================
+
+// 사람 속성 분석 결과
+message PersonAnalysisResult {
+  bool success = 1;
+  uie.common.ErrorDetail error = 2;
+  repeated PedestrianAttribute attributes = 3;     // 속성 목록
+  uie.common.ProcessingMetadata metadata = 4;
+
+  reserved 50 to 100;
+}

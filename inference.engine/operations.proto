@@ -1,0 +1,98 @@
+// Operation 관리 서비스
+// 비동기 작업의 생성, 조회, 취소를 담당하는 공통 Operation 인프라
+syntax = "proto3";
+
+package uie.operations;
+
+// 작업 상태
+enum OperationState {
+  OPERATION_STATE_UNSPECIFIED = 0;  // 미지정
+  OPERATION_STATE_QUEUED = 1;      // 대기 중 (큐에 적재됨)
+  OPERATION_STATE_RUNNING = 2;     // 실행 중
+  OPERATION_STATE_SUCCEEDED = 3;   // 성공 완료
+  OPERATION_STATE_FAILED = 4;      // 실패
+  OPERATION_STATE_CANCELLED = 5;   // 취소됨
+}
+
+// 작업 종류
+enum OperationKind {
+  OPERATION_KIND_UNSPECIFIED = 0;              // 미지정
+  OPERATION_KIND_DETECTION = 1;                // 객체 탐지 (YOLO)
+  OPERATION_KIND_FACE_ANALYSIS = 2;            // 얼굴 분석
+  OPERATION_KIND_TRANSCRIPTION = 3;            // 음성 인식 (Whisper)
+  OPERATION_KIND_VEHICLE_CLASSIFICATION = 4;   // 차량 분류
+  OPERATION_KIND_PAR = 5;                      // 보행자 속성 인식
+  OPERATION_KIND_IMAGE_TRANSFORM = 6;          // 이미지 변환 (SR/LLIE/Deblur)
+  OPERATION_KIND_OCR = 7;                      // 광학 문자 인식
+  OPERATION_KIND_NUMBER_PLATE_DETECTION = 8;   // 번호판 검출
+  OPERATION_KIND_NUMBER_PLATE_OCR = 9;         // 번호판 OCR
+  OPERATION_KIND_NUMBER_PLATE_RESTORATION = 10; // 번호판 복원
+  OPERATION_KIND_CLASSIFICATION = 11;          // 범용 분류
+  OPERATION_KIND_MESSENGER_DETECTION = 12;     // 메신저 앱 탐지
+  OPERATION_KIND_VIDEO_FEATURE = 13;           // 비디오 특징 추출
+  OPERATION_KIND_TRANSLATION = 14;             // 기계 번역
+  OPERATION_KIND_CAPTIONING = 15;              // 이미지 캡셔닝
+  OPERATION_KIND_IMAGE_SEARCH = 16;            // 이미지 검색 (CLIP)
+  OPERATION_KIND_SEGMENTATION = 17;            // 인체 세그멘테이션
+  OPERATION_KIND_COLOR_EXTRACTION = 18;        // 색상 추출
+  OPERATION_KIND_FRAME_ANALYSIS = 19;          // 객체 분석 통합 분석 (탐지+추적+분기분석)
+}
+
+// 작업 핸들 (Submit RPC 응답)
+message OperationHandle {
+  string operation_id = 1;  // 고유 작업 ID
+}
+
+// 작업 ID 요청 (조회/취소용)
+message OperationIdRequest {
+  string operation_id = 1;  // 조회할 작업 ID
+}
+
+// 작업 결과 요청 (완료 대기 포함)
+message OperationResultRequest {
+  string operation_id = 1;     // 조회할 작업 ID
+  int64 wait_timeout_ms = 2;   // 결과 대기 타임아웃 (밀리초, 0=즉시 반환)
+}
+
+// 작업 에러 정보
+message OperationError {
+  string code = 1;     // 에러 코드
+  string message = 2;  // 에러 메시지
+}
+
+// 작업 상세 정보
+message OperationInfo {
+  string operation_id = 1;          // 고유 작업 ID
+  OperationKind kind = 2;           // 작업 종류
+  OperationState state = 3;         // 현재 상태
+  OperationError error = 4;         // 에러 정보 (실패 시)
+  int64 submitted_at_unix_ms = 5;   // 제출 시각 (Unix 밀리초)
+  int64 started_at_unix_ms = 6;     // 시작 시각 (Unix 밀리초)
+  int64 finished_at_unix_ms = 7;    // 완료 시각 (Unix 밀리초)
+}
+
+// 서버 수용 가능 여부 확인 요청 (Admission Handshake)
+// 데이터 전송 전 서버 상태를 확인하여 대역폭 낭비 방지
+message AdmissionRequest {
+  string model_id = 1;  // 특정 모델의 큐 상태 확인 (빈 문자열이면 글로벌 체크만)
+}
+
+// 서버 수용 가능 여부 응답
+message AdmissionResponse {
+  bool accepted = 1;           // true: 수용 가능, false: 서버 BUSY
+  string reason = 2;           // 거부 사유 (accepted=false일 때)
+  int32 retry_after_ms = 3;    // 권장 재시도 대기 시간 (밀리초)
+  int32 queue_size = 4;        // 현재 큐 크기 (참고용)
+  int32 queue_capacity = 5;    // 큐 최대 크기 (참고용)
+}
+
+// Operation 관리 서비스
+service OperationsService {
+  // 작업 상태 조회
+  rpc GetOperation(OperationIdRequest) returns (OperationInfo);
+  // 작업 취소
+  rpc CancelOperation(OperationIdRequest) returns (OperationInfo);
+  // 서버 수용 가능 여부 확인 (Admission Handshake)
+  // 데이터 전송 전 호출하여 서버 과부하 시 대역폭 낭비 방지
+  rpc CheckAdmission(AdmissionRequest) returns (AdmissionResponse);
+}

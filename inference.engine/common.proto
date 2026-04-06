@@ -1,0 +1,90 @@
+// 공통 메시지 정의
+// 모든 서비스에서 공유하는 기본 타입 (메타데이터, 바운딩 박스, 이미지 정보 등)
+syntax = "proto3";
+
+package uie.common;
+
+// 작업 메타데이터 (파일 업로드 시 첫 청크에 포함)
+message JobMetadata {
+  string job_id = 1;            // 고유 작업 ID
+  string task_type = 2;         // 작업 유형 (예: "detection", "face", "whisper")
+  string content_type = 3;      // MIME 타입 (예: "image/jpeg", "audio/wav")
+  int64 total_size = 4;         // 전체 파일 크기 (바이트)
+  map<string, string> options = 5;  // 모델/파이프라인별 추가 옵션
+  repeated string model_search_paths = 6;  // 모델 파일 검색 경로 목록
+}
+
+// 모델 백엔드 유형
+enum ModelBackend {
+  MODEL_BACKEND_AUTO = 0;          // 자동 선택
+  MODEL_BACKEND_SAFETENSORS = 1;   // SafeTensors 포맷
+  MODEL_BACKEND_ONNX = 2;         // ONNX 포맷
+  MODEL_BACKEND_MDM = 3;          // 암호화 ONNX (MDM) 포맷
+}
+
+// 실행 모드
+enum ExecutionMode {
+  EXECUTION_MODE_SCHEDULED = 0;  // 스케줄러 경유 실행 (기본값)
+  EXECUTION_MODE_DIRECT = 1;     // 직접 실행 (스케줄러 우회)
+}
+
+// 처리 메타데이터 (결과 응답에 포함)
+message ProcessingMetadata {
+  double processing_time_ms = 1;  // 처리 소요 시간 (밀리초)
+  string model_name = 2;          // 사용된 모델 이름
+  string model_version = 3;       // 모델 버전
+  string device = 4;              // 실행 디바이스 (예: "cuda:0", "cpu")
+  repeated string warnings = 5;   // 처리 중 발생한 경고 목록
+}
+
+// 바운딩 박스 (정규화 좌표, 0.0~1.0)
+message BoundingBox {
+  float x_min = 1;  // 좌측 상단 X
+  float y_min = 2;  // 좌측 상단 Y
+  float x_max = 3;  // 우측 하단 X
+  float y_max = 4;  // 우측 하단 Y
+}
+
+// 에러 상세 정보
+message ErrorDetail {
+  string code = 1;                  // 에러 코드
+  string message = 2;               // 에러 메시지
+  map<string, string> details = 3;  // 추가 에러 상세 정보
+}
+
+// 헬스체크 요청 (빈 메시지)
+message HealthCheckRequest {}
+
+// GPU 상태 정보
+message GpuStatus {
+  bool available = 1;              // GPU 사용 가능 여부
+  string device_name = 2;          // GPU 디바이스 이름
+  int64 memory_total_mb = 3;       // 전체 GPU 메모리 (MB)
+  int64 memory_used_mb = 4;        // 사용 중인 GPU 메모리 (MB)
+  float utilization_percent = 5;   // GPU 사용률 (0.0~100.0%)
+}
+
+// 헬스체크 응답
+message HealthCheckResponse {
+  bool healthy = 1;                    // 서버 정상 여부
+  string version = 2;                  // 서버 버전
+  map<string, string> components = 3;  // 컴포넌트별 상태
+  GpuStatus gpu = 4;                   // GPU 상태
+}
+
+// 이미지 정보 (모든 이미지 처리 서비스에서 공통 사용)
+message ImageInfo {
+  int32 width = 1;     // 이미지 너비 (픽셀)
+  int32 height = 2;    // 이미지 높이 (픽셀)
+  int32 channels = 3;  // 채널 수 (예: RGB=3, RGBA=4)
+  string format = 4;   // 이미지 포맷 (예: "jpeg", "png")
+}
+
+// 파일 청크 (스트리밍 업로드용)
+message FileChunk {
+  oneof payload {
+    JobMetadata metadata = 1;  // 첫 번째 청크: 작업 메타데이터
+    bytes data = 2;            // 이후 청크: 파일 데이터
+  }
+  bool is_last = 3;  // 마지막 청크 여부
+}
