@@ -6,7 +6,6 @@
 
 #include "absl/flags/flag.h"
 #include "absl/flags/parse.h"
-#include "absl/log/check.h"
 
 #include <grpcpp/grpcpp.h>
 
@@ -42,11 +41,14 @@ using sensor::SensorService;
 
 auto main(int argc, char** argv) -> int
 {
+  using std::cout, std::endl;
+  namespace chrono = std::chrono;
+
   absl::ParseCommandLine(argc, argv);
 
-  std::string target    = absl::GetFlag(FLAGS_target);
-  std::string sensor_id = absl::GetFlag(FLAGS_sensor_id);
-  int count             = absl::GetFlag(FLAGS_count);
+  auto target    = absl::GetFlag(FLAGS_target);
+  auto sensor_id = absl::GetFlag(FLAGS_sensor_id);
+  auto count     = absl::GetFlag(FLAGS_count);
 
   auto channel = grpc::CreateChannel(target, grpc::InsecureChannelCredentials());
   auto stub = SensorService::NewStub(channel);
@@ -62,13 +64,13 @@ auto main(int argc, char** argv) -> int
   std::uniform_real_distribution<double> temp_dist(20.0, 30.0);
   std::uniform_real_distribution<double> hum_dist(40.0, 80.0);
 
-  std::cout << "Sending " << count << " readings from " << sensor_id
-            << "..." << std::endl;
+  cout << "Sending " << count << " readings from " << sensor_id
+       << "..." << endl;
 
   for (int i = 0; i < count; ++i)
   {
-    auto now = std::chrono::system_clock::now();
-    auto ts  = std::chrono::duration_cast<std::chrono::seconds>(
+    auto now = chrono::system_clock::now();
+    auto ts  = chrono::duration_cast<chrono::seconds>(
                  now.time_since_epoch()).count();
 
     SensorData data;
@@ -79,10 +81,10 @@ auto main(int argc, char** argv) -> int
 
     writer->Write(data);
 
-    std::cout << "  [" << i << "] temp=" << data.temperature()
-              << " hum=" << data.humidity() << std::endl;
+    cout << "  [" << i << "] temp=" << data.temperature()
+         << " hum=" << data.humidity() << endl;
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    std::this_thread::sleep_for(chrono::milliseconds(200));
   }
 
   // 전송 완료 신호
@@ -91,16 +93,16 @@ auto main(int argc, char** argv) -> int
 
   if (status.ok())
   {
-    std::cout << "\nSummary from server:" << std::endl;
-    std::cout << "  count:    " << summary.count() << std::endl;
-    std::cout << "  avg_temp: " << summary.avg_temperature() << std::endl;
-    std::cout << "  max_temp: " << summary.max_temperature() << std::endl;
-    std::cout << "  min_temp: " << summary.min_temperature() << std::endl;
-    std::cout << "  avg_hum:  " << summary.avg_humidity() << std::endl;
+    cout << "\nSummary from server:" << endl;
+    cout << "  count:    " << summary.count() << endl;
+    cout << "  avg_temp: " << summary.avg_temperature() << endl;
+    cout << "  max_temp: " << summary.max_temperature() << endl;
+    cout << "  min_temp: " << summary.min_temperature() << endl;
+    cout << "  avg_hum:  " << summary.avg_humidity() << endl;
   }
   else
   {
-    std::cout << "RPC failed: " << status.error_message() << std::endl;
+    cout << "RPC failed: " << status.error_message() << endl;
   }
 
   return 0;
