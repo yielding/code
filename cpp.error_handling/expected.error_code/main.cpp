@@ -2,7 +2,7 @@
 #include <system_error>
 #include <string>
 #include <fstream>
-#include <iostream>
+#include <print>
 
 using namespace std;
 
@@ -81,7 +81,7 @@ auto read_file(const string &path) -> Result<string>
   return string{(istreambuf_iterator(file)), istreambuf_iterator<char>()};
 }
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
   if (auto result = read_file("example.txt"))
     println("파일 내용: {}", *result);
