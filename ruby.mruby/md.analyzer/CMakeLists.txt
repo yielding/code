@@ -16,14 +16,17 @@ set (SOURCES
 )
 
 include_directories (
-  /usr/local/include 
+  /usr/local/include
   /opt/homebrew/include
+  $ENV{HOME}/.rubies/mruby-3.4.0/include
+  $ENV{HOME}/.rubies/mruby-3.4.0/build/host/include
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 link_directories (
-  /usr/local/lib 
+  /usr/local/lib
   /opt/homebrew/lib
+  $ENV{HOME}/.rubies/mruby-3.4.0/build/host/lib
 )
 
 add_executable(md.analyzer 
