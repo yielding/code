@@ -8,8 +8,8 @@ class ICoffee
 public:
   virtual ~ICoffee() = default;  
 
-  virtual double cost() = 0;
-  virtual string ingredient() = 0; 
+  virtual auto cost() -> double = 0;
+  virtual auto ingredient() -> string = 0; 
 };
 
 class SimpleCoffee: public ICoffee
@@ -24,12 +24,12 @@ public:
   virtual ~SimpleCoffee()
   {}
 
-  virtual double cost()
+  virtual auto cost()
   {
     return m_cost;
   }
 
-  virtual string ingredient()
+  virtual auto ingredient()
   {
     return m_ingredient;
   }
@@ -45,8 +45,8 @@ public:
   CoffeeDecorator(ICoffee* coffee): m_coffee(coffee)
   {}
 
-  double cost()       { return m_coffee->cost(); }
-  string ingredient() { return m_coffee->ingredient(); }
+  auto cost()       { return m_coffee->cost(); }
+  auto ingredient() { return m_coffee->ingredient(); }
 
 protected:
   ICoffee* m_coffee;
@@ -79,8 +79,8 @@ public:
     m_ingredient = "WHip";
   }
 
-  double cost()       { return m_coffee->cost() + m_cost; }
-  string ingredient() { return m_coffee->ingredient() + " " + m_ingredient; }
+  auto cost()       { return m_coffee->cost() + m_cost; }
+  auto ingredient() { return m_coffee->ingredient() + " " + m_ingredient; }
 
 private:
   double m_cost;
@@ -97,8 +97,8 @@ public:
     m_ingredient = "Sprinkles";
   }
 
-  double cost()       { return m_coffee->cost() + m_cost; }
-  string ingredient() { return m_coffee->ingredient() + " " + m_ingredient; }
+  auto cost()       { return m_coffee->cost() + m_cost; }
+  auto ingredient() { return m_coffee->ingredient() + " " + m_ingredient; }
 
 private:
   double m_cost;
