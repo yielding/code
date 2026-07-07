@@ -8,8 +8,8 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-FileBase::FileBase(char const* name)
-  :_name(name)
+FileBase::FileBase(const string name)
+  : _name(name)
 {
   _length = 0;
 }
@@ -24,36 +24,37 @@ auto FileBase::length() -> int64_t
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-FileSystem::FileSystem(char const* name)
-  :_name(name)
+FileSystem::FileSystem(const string name)
+  : _name(name)
 {
 }
 
 FileSystem::~FileSystem()
 {
+  for (auto f: _files)
+    delete f;
 }
 
 FileSystem::FileSystem(FileSystem const& rhs)
+  : _name(rhs._name)
 {
-  if (this != &rhs)
-  {
-    _name = rhs._name;
-  }
 }
 
-string FileSystem::name()
+auto FileSystem::name() -> string
 {
   return _name;
 }
 
-string FileSystem::desc()
+auto FileSystem::desc() -> string
 {
   return _name;
 }
 
 auto FileSystem::add_file(FileBase* f) -> uint32_t
 {
-  return 0;
+  _files.push_back(f);
+
+  return uint32_t(_files.size());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

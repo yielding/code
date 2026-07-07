@@ -5,6 +5,11 @@ project (md.analyzer)
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# libmruby.a is built without -fPIC; PIE link fails on Linux
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  add_link_options (-no-pie)
+endif()
+
 set (SOURCES
   md.analyzer.cpp
   data_store_ext.cpp
@@ -21,6 +26,7 @@ include_directories (
   $ENV{HOME}/.rubies/mruby-3.4.0/include
   $ENV{HOME}/.rubies/mruby-3.4.0/build/host/include
   ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/../mrubybind
 )
 
 link_directories (

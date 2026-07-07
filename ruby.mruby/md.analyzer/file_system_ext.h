@@ -8,8 +8,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 class FileSystem;
 
+// wraps a host-owned (borrowed) FileSystem for the script side
 auto fs_wrap(mrb_state* mrb, FileSystem* fs) -> mrb_value;
-auto init_file_system(mrb_state* mrb) -> RClass*;
+auto init_file_system(mrb_state* mrb) -> void;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
