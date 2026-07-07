@@ -9,29 +9,29 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-DataStore::DataStore()
+data_store::data_store()
 {
   char const* names[] = { "hfs", "hfs+", "hfsx", nullptr };
 
   for (int i=0; names[i]; ++i)
-    _filesystems.push_back(new FileSystem(names[i]));
+    _filesystems.push_back(new file_system(names[i]));
 }
 
-DataStore::~DataStore()
+data_store::~data_store()
 {
-  cout << "c: the destructor of singleton DataStore is called\n";
+  cout << "c: the destructor of singleton data_store is called\n";
   cout << "delete filesystem object only once at here\n";
 
   for (auto fs: _filesystems) 
     delete fs;
 }
 
-auto DataStore::get_file_systems() -> std::vector<FileSystem*>&
+auto data_store::get_file_systems() -> std::vector<file_system*>&
 {
   return _filesystems;
 }
 
-auto DataStore::device_name() -> string
+auto data_store::device_name() -> string
 {
   return "iPhone 4S";
 }

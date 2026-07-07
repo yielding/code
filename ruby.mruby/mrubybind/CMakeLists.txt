@@ -1,10 +1,6 @@
 cmake_minimum_required (VERSION 3.30.0)
 
-if (NOT DEFINED CMAKE_CXX_COMPILER AND NOT DEFINED ENV{CXX})
-  set (CMAKE_CXX_COMPILER g++-16)
-endif()
-
-project (md.analyzer)
+project (mrubybind.test)
 
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -14,23 +10,12 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
   add_link_options (-no-pie)
 endif()
 
-set (SOURCES
-  main.cpp
-  data_store_ext.cpp
-  data_store.cpp
-  file_system_ext.cpp
-  file_system.cpp
-  file_ext.cpp
-  file.cpp
-)
-
 include_directories (
   /usr/local/include
   /opt/homebrew/include
   $ENV{HOME}/.rubies/mruby-3.4.0/include
   $ENV{HOME}/.rubies/mruby-3.4.0/build/host/include
   ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/../mrubybind
 )
 
 link_directories (
@@ -39,10 +24,8 @@ link_directories (
   $ENV{HOME}/.rubies/mruby-3.4.0/build/host/lib
 )
 
-add_executable(md.analyzer 
-  ${SOURCES}
-)
+add_executable(mrubybind.test test.cpp)
 
-target_link_libraries(md.analyzer 
+target_link_libraries(mrubybind.test
   mruby
 )

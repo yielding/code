@@ -6,10 +6,11 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class FileSystem;
+class file_system;
 
-auto fs_wrap(mrb_state* mrb, FileSystem* fs) -> mrb_value;
-auto init_file_system(mrb_state* mrb) -> RClass*;
+// wraps a host-owned (borrowed) file_system for the script side
+auto fs_wrap(mrb_state* mrb, file_system* fs) -> mrb_value;
+auto init_file_system(mrb_state* mrb) -> void;
 
 ////////////////////////////////////////////////////////////////////////////////
 //

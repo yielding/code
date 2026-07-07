@@ -1,20 +1,19 @@
 # -*- ruby -*-
 
 APP       = "md_analyzer"
-SRCS      = %w{ ./data_store.cpp 
-                ./data_store_ext.cpp 
-                ./file_system.cpp 
-                ./file_system_ext.cpp 
+SRCS      = %w{ ./data_store.cpp
+                ./data_store_ext.cpp
+                ./file_system.cpp
+                ./file_system_ext.cpp
                 ./file.cpp
                 ./file_ext.cpp
                 ./main.cpp
               }
 
-TEST_SRCS = %w{ ./test_main.cpp 
-              }
+TEST_SRCS = %w{ }
 
-INCS      = ":mvm"
-CXX       = "g++"              # c++0x, clang++, blank
+INCS      = ":mvm ../mrubybind"
+CXX       = "g++-16"           # c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"           # :d, :O0 :O3 :w = -Wall
 LDFLAGS   = ":mvm"
 LIBS      = ":f :s mruby"

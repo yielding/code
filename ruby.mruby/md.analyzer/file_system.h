@@ -1,5 +1,4 @@
-#ifndef FILE_SYSTEM_H
-#define FILE_SYSTEM_H
+#pragma once
 
 #include <stdint.h>
 #include <string>
@@ -9,14 +8,14 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class FileBase
+class file_base
 {
 public:
-  FileBase(char const* name="");
+  file_base(const std::string name = "");
 
   auto length() -> int64_t;
 
-private:  
+private:
   int64_t _length;
   std::string _name;
 };
@@ -26,21 +25,21 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class FileSystem
+class file_system
 {
 public:
-  FileSystem(char const* name="");
-  FileSystem(FileSystem const& rhs);
-  ~FileSystem();
+  file_system(const std::string name = "");
+  file_system(file_system const& rhs);
+  ~file_system();
 
 public:
-  auto name() -> std::string; 
+  auto name() -> std::string;
   auto desc() -> std::string;
-  auto add_file(FileBase* f) -> uint32_t;
+  auto add_file(file_base* f) -> uint32_t;
 
 private:
   std::string _name;
-  std::vector<FileBase*> _files;
+  std::vector<file_base*> _files;   // owned; not shared on copy
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,4 +47,3 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-#endif

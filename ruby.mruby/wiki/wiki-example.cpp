@@ -58,23 +58,36 @@ auto we_connected_with_c_str_len(mrb_state* mrb, mrb_value self) -> mrb_value
   return mrb_bool_value(true);
 }
 
-// NOTE: 
+// NOTE:
 //   1. 이 예제에서는 내가 element의 타입이 스트링이라는 것을 알고 있다는 가정이 있다.
-auto we_connected_with_ruby_str_arr(mrb_state* mrb, mrb_value self) -> mrb_value 
+auto we_connected_with_ruby_str_arr(mrb_state* mrb, mrb_value self) -> mrb_value
 {
   mrb_value value;
-  mrb_int len;
-  mrb_get_args(mrb, "A!", &value);
+  mrb_get_args(mrb, "A!", &value);   // "A!" accepts nil, so check it
+  if (mrb_nil_p(value))
+    return mrb_bool_value(false);
 
   cout << "result_with_ruby_str_array: \n";
   for (int i=0; i< RARRAY_LEN(value); i++)
   {
     auto element = RARRAY_PTR(value)[i];
-    if (!mrb_nil_p(element))
+    if (mrb_string_p(element))
       cout << i << " th: " << RSTRING_PTR(element)<< endl;
   }
 
   return mrb_bool_value(true);
+}
+
+// report and clear a pending exception; true when none
+auto check_exc(mrb_state* mrb) -> bool
+{
+  if (!mrb->exc)
+    return true;
+
+  mrb_print_error(mrb);
+  mrb->exc = nullptr;
+
+  return false;
 }
 
 auto load_file(mrb_state* mrb, char const* path) -> bool
@@ -83,11 +96,10 @@ auto load_file(mrb_state* mrb, char const* path) -> bool
   if (!fp)
     return false;
 
-  auto obj = mrb_load_file(mrb, fp);
+  mrb_load_file(mrb, fp);   // the last expression is not a status code:
+  fclose(fp);               // success means no pending exception
 
-  fclose(fp); 
-
-  return mrb_fixnum(obj) != 0;
+  return check_exc(mrb);
 }
 
 int main()
@@ -108,10 +120,14 @@ int main()
   auto c0 = mrb_obj_new(mrb, cls, 0, NULL);
 
   // Call the get_version method on the instance.
+  // after any mrb_funcall the return value is only usable
+  // when no exception is pending
   auto r0 = mrb_funcall(mrb, c0, "get_version", 0);
+  if (!check_exc(mrb))
+    return 1;
 
   // Convert the result (a fixed number wrapped in a mrb_value)
-  printf("result: %lli\n", mrb_fixnum(r0));
+  printf("result: %lli\n", (long long)mrb_fixnum(r0));
 
   // 2
   // add the method to the WikiManager class
@@ -123,18 +139,20 @@ int main()
 
   // call the connect method on WikiManager
   auto r1 = mrb_funcall(mrb, c0, "connect", 0);
+  if (!check_exc(mrb))
+    return 1;
+
   cout << "connect result: " << mrb_bool(r1)
        << endl;
 
-  // call the connect method on WikiManager
+  // call the execute method on WikiManager
   auto c1 = mrb_obj_new(mrb, cls, 0, NULL);
   auto r2 = mrb_funcall(mrb, c0, "execute", 1, c1);
+  if (!check_exc(mrb))
+    return 1;
+
   cout << "execute result: " << mrb_fixnum(r2)
        << endl;
-
-  // If crashed, provide exception info
-  if (mrb->exc) 
-    mrb_print_error(mrb);
 
   // Close the Ruby environment
   mrb_close(mrb);

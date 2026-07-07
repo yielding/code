@@ -41,7 +41,7 @@ mrb_value test_run(mrb_state* mrb, mrb_value exec)
 void init_TestClass(mrb_state* mrb)
 {
   TestClass = mrb_define_class(mrb, "Test", mrb->object_class);
-  MRB_SET_INSTANCE_TT(TestClass, MRB_TT_CLASS);
+  MRB_SET_INSTANCE_TT(TestClass, MRB_TT_DATA);
   mrb_define_method(mrb, TestClass, "initialize", test_init, MRB_ARGS_NONE());
   mrb_define_method(mrb, TestClass, "run", test_run, MRB_ARGS_NONE()); }
 
@@ -75,8 +75,8 @@ int main()
   printf("Executing Ruby code from C!\n");
 
   auto c = mrbc_context_new(mrb);
-  auto p = mrb_parse_string(mrb, code, c);
-  auto n = mrb_generate_code(mrb, p);
+  auto parser = mrb_parse_string(mrb, code, c);  // `p` would shadow p() above
+  auto n = mrb_generate_code(mrb, parser);
 
   // mrb_run(mrb, n, mrb_top_self(mrb));
   unsigned stack_keep = 0;

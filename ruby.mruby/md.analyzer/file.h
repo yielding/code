@@ -10,11 +10,11 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class CFile
+class file
 {
 public:
-  CFile(std::string const& path);
-  ~CFile();
+  file(std::string const& path);
+  ~file();
 
 public: // query
   auto name() -> std::string;

@@ -43,21 +43,23 @@ mrb_value test_run(mrb_state* mrb, mrb_value exec)
 {
   for (int i=0; i<10; i++)
     printf("Test is running: %d\n", i);
-  
-  // int* value = (int*)malloc(sizeof(int));
-  static int value = 1;
-  return mrb_obj_value(Data_Wrap_Struct(mrb, TestClass, &test_type, (void*)&value));
+
+  // test_free() frees the pointer, so it must come from malloc —
+  // wrapping a static's address here would crash in the GC
+  int* value = (int*)malloc(sizeof(int));
+  *value = 1;
+  return mrb_obj_value(Data_Wrap_Struct(mrb, TestClass, &test_type, (void*)value));
 }
 
 void init_TestClass(mrb_state* mrb)
 {
   TestClass = mrb_define_class(mrb, "Test", mrb->object_class);
-  MRB_SET_INSTANCE_TT(TestClass, MRB_TT_CLASS);
+  MRB_SET_INSTANCE_TT(TestClass, MRB_TT_DATA);
   mrb_define_method(mrb, TestClass, "initialize", test_init, MRB_ARGS_NONE());
   mrb_define_method(mrb, TestClass, "run", test_run, MRB_ARGS_NONE());
 }
 
-int main()
+auto main() -> int
 {
   auto mrb = mrb_open();
   init_TestClass(mrb);
