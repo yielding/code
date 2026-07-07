@@ -1,5 +1,9 @@
 cmake_minimum_required (VERSION 3.30.0)
 
+if (NOT DEFINED CMAKE_CXX_COMPILER AND NOT DEFINED ENV{CXX})
+  set (CMAKE_CXX_COMPILER g++-16)
+endif()
+
 project (md.analyzer)
 
 set (CMAKE_CXX_STANDARD 26)

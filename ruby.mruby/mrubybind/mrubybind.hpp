@@ -301,13 +301,18 @@ namespace mrubybind
   public:
     static auto define(mrb_state* mrb, const string name) -> Klass
     {
-      _name = name;
-      _type.struct_name = _name.c_str();
-      _type.dfree = free_holder;
-      _cls = mrb_define_class(mrb, _name.c_str(), mrb->object_class);
-      MRB_SET_INSTANCE_TT(_cls, MRB_TT_DATA);
+      _cls = mrb_define_class(mrb, name.c_str(), mrb->object_class);
 
-      return Klass(mrb);
+      return setup(mrb, name);
+    }
+
+    // define under a module (created on demand): define(mrb, "MD", "File")
+    static auto define(mrb_state* mrb, const string module_name, const string name) -> Klass
+    {
+      auto mod = mrb_define_module(mrb, module_name.c_str());
+      _cls = mrb_define_class_under(mrb, mod, name.c_str(), mrb->object_class);
+
+      return setup(mrb, module_name + "::" + name);
     }
 
   public:
@@ -355,6 +360,16 @@ namespace mrubybind
     Klass(mrb_state* mrb)
       : _mrb(mrb)
     {
+    }
+
+    static auto setup(mrb_state* mrb, const string name) -> Klass
+    {
+      _name = name;
+      _type.struct_name = _name.c_str();
+      _type.dfree = free_holder;
+      MRB_SET_INSTANCE_TT(_cls, MRB_TT_DATA);
+
+      return Klass(mrb);
     }
 
     static void free_holder(mrb_state*, void* p)

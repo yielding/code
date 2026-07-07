@@ -50,8 +50,10 @@ subdirectory containing the script.
   specifiers (`i`, `S`, `z`, `s`, `A!`).
 - `jukebox/` — Pickaxe CDJukeBox example ported to mruby: DATA-type wrapping, block
   yield from C, returning C++ collections as Ruby arrays.
-- `md.analyzer/` — main prototype: exposes DataStore/FileSystem/CFile domain objects to
-  scripts. `TODO.md` tracks progress; refactoring is the current phase.
+- `md.analyzer/` — main prototype: exposes domain objects to scripts under the `MD`
+  module (`MD::DataStore`, `MD::Filesystem`, `MD::File` — namespaced because mruby-io
+  already defines a builtin `::File`). The C++ classes are snake_case (`data_store`,
+  `file_system`, `file`). `TODO.md` tracks progress; refactoring is the current phase.
 - `ref.doc/if_mruby.c` — vim's mruby interface (reference material, not built).
 
 ## Binding Architecture (md.analyzer)
@@ -71,14 +73,15 @@ global `$ds` via `mrb_gv_set`.
 
 Who deletes the wrapped pointer is per-class and inconsistent — check the free function
 before changing anything:
-- **Borrowed** (free fn only logs, C++ owns): DataStore singleton, FileSystem pointers
-  handed out by `ds_get_file_systems`.
-- **Owned** (free fn deletes, mruby GC owns): CFile, DVD, CDJukeBox.
+- **Borrowed** (free fn only logs, C++ owns): data_store singleton, file_system pointers
+  handed out by `get_file_systems`.
+- **Owned** (free fn deletes, mruby GC owns): file, DVD, CDJukeBox.
 - Collections are returned by copy: `jb_get_dvd_list` news a copy of each element and
   transfers ownership to the GC — the correct pattern for value-like objects.
-- Known hazard: `FileSystem` uses one `mrb_data_type` for both borrowed (from DataStore)
-  and Ruby-constructed (`FileSystem.new`) instances, so Ruby-created ones leak; do not
-  add `delete` to `fs_free` without splitting the two cases.
+- md.analyzer routes all of this through `mrubybind` (`../mrubybind/mrubybind.hpp`):
+  every wrapped pointer carries an owned/borrowed flag (`Holder`), so one class can
+  hand out host-owned pointers (`wrap(mrb, p, false)`) and GC-owned instances
+  (`.new` from Ruby) without leaking or double-freeing.
 
 ## Embedding Gotchas Learned Here
 

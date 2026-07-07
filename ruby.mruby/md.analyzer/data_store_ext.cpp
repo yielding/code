@@ -5,21 +5,21 @@
 
 #include "mrubybind.hpp"
 
-#include <boost/format.hpp>
+#include <format>
 
 using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 //
-// the DataStore singleton is host-owned: wrapped borrowed, published as $ds.
+// the data_store singleton is host-owned: wrapped borrowed, published as $ds.
 // file_systems builds a Hash keyed by name — the GC arena is restored per
 // element so large stores do not pile up uncollectable temporaries.
 //
 ////////////////////////////////////////////////////////////////////////////////
-namespace {
-
+namespace 
+{
   auto ds_file_systems(mrb_state* mrb, mrb_value self) -> mrb_value
   {
-    auto ds   = mrubybind::Klass<DataStore>::unwrap(mrb, self);
+    auto ds   = mrubybind::Klass<data_store>::unwrap(mrb, self);
     auto& fss = ds->get_file_systems();
     auto hs   = mrb_hash_new_capa(mrb, static_cast<mrb_int>(fss.size()));
 
@@ -36,23 +36,22 @@ namespace {
 
   auto ds_desc(mrb_state* mrb, mrb_value self) -> mrb_value
   {
-    auto ds   = mrubybind::Klass<DataStore>::unwrap(mrb, self);
+    auto ds   = mrubybind::Klass<data_store>::unwrap(mrb, self);
     auto sz   = ds->get_file_systems().size();
-    auto desc = str(boost::format("DataStore for %s (%d file systems (%d nodes), %d models)")
-                    % ds->device_name() % sz % 1024 % 2048);
+    auto desc = format("DataStore for {} ({} file systems ({} nodes), {} models)",
+                       ds->device_name(), sz, 1024, 2048);
 
     return mrb_str_new(mrb, desc.data(), static_cast<mrb_int>(desc.size()));
   }
-
 }
 
 auto init_data_store(mrb_state* mrb) -> void
 {
-  mrubybind::Klass<DataStore>::define(mrb, "DataStore")
+  mrubybind::Klass<data_store>::define(mrb, "MD", "DataStore")
     .method_raw("file_systems", ds_file_systems, MRB_ARGS_NONE())
     .method_raw("desc", ds_desc, MRB_ARGS_NONE());
 
-  auto ds = mrubybind::Klass<DataStore>::wrap(mrb, &DataStore::instance(), false);
+  auto ds = mrubybind::Klass<data_store>::wrap(mrb, &data_store::instance(), false);
   mrb_gv_set(mrb, mrb_intern_lit(mrb, "$ds"), ds);
 }
 

@@ -8,10 +8,10 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class FileBase
+class file_base
 {
 public:
-  FileBase(const std::string name = "");
+  file_base(const std::string name = "");
 
   auto length() -> int64_t;
 
@@ -25,21 +25,21 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class FileSystem
+class file_system
 {
 public:
-  FileSystem(const std::string name = "");
-  FileSystem(FileSystem const& rhs);
-  ~FileSystem();
+  file_system(const std::string name = "");
+  file_system(file_system const& rhs);
+  ~file_system();
 
 public:
   auto name() -> std::string;
   auto desc() -> std::string;
-  auto add_file(FileBase* f) -> uint32_t;
+  auto add_file(file_base* f) -> uint32_t;
 
 private:
   std::string _name;
-  std::vector<FileBase*> _files;   // owned; not shared on copy
+  std::vector<file_base*> _files;   // owned; not shared on copy
 };
 
 ////////////////////////////////////////////////////////////////////////////////

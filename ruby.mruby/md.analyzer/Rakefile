@@ -13,7 +13,7 @@ SRCS      = %w{ ./data_store.cpp
 TEST_SRCS = %w{ }
 
 INCS      = ":mvm ../mrubybind"
-CXX       = "g++"              # c++0x, clang++, blank
+CXX       = "g++-16"           # c++0x, clang++, blank
 CXXFLAGS  = ":v :O3"           # :d, :O0 :O3 :w = -Wall
 LDFLAGS   = ":mvm"
 LIBS      = ":f :s mruby"

@@ -7,22 +7,22 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 //
 // arguments are parsed from the C++ signatures ("S", "i", ...), so a bad
-// script argument (CFile.new(123)) raises TypeError instead of crashing
+// script argument (MD::File.new(123)) raises TypeError instead of crashing
 // the host. read() returns its bytes as a binary Ruby string.
 //
 ////////////////////////////////////////////////////////////////////////////////
 auto init_file(mrb_state* mrb) -> void
 {
-  mrubybind::Klass<CFile>::define(mrb, "CFile")
+  mrubybind::Klass<file>::define(mrb, "MD", "File")
     .ctor<string>()
-    .method<&CFile::name>("name")
-    .method<&CFile::path>("path")
-    .method<&CFile::parent>("parent")
-    .method<&CFile::size>("size")
-    .method<&CFile::deleted>("deleted?")
-    .method<&CFile::seek>("seek")
-    .method<&CFile::read>("read")
-    .method<&CFile::save_to>("save_to");
+    .method<&file::name>("name")
+    .method<&file::path>("path")
+    .method<&file::parent>("parent")
+    .method<&file::size>("size")
+    .method<&file::deleted>("deleted?")
+    .method<&file::seek>("seek")
+    .method<&file::read>("read")
+    .method<&file::save_to>("save_to");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

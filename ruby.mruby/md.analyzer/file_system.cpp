@@ -8,13 +8,13 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-FileBase::FileBase(const string name)
+file_base::file_base(const string name)
   : _name(name)
 {
   _length = 0;
 }
 
-auto FileBase::length() -> int64_t
+auto file_base::length() -> int64_t
 {
   return (int64_t)rand();
 }
@@ -24,33 +24,33 @@ auto FileBase::length() -> int64_t
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-FileSystem::FileSystem(const string name)
+file_system::file_system(const string name)
   : _name(name)
 {
 }
 
-FileSystem::~FileSystem()
+file_system::~file_system()
 {
   for (auto f: _files)
     delete f;
 }
 
-FileSystem::FileSystem(FileSystem const& rhs)
+file_system::file_system(file_system const& rhs)
   : _name(rhs._name)
 {
 }
 
-auto FileSystem::name() -> string
+auto file_system::name() -> string
 {
   return _name;
 }
 
-auto FileSystem::desc() -> string
+auto file_system::desc() -> string
 {
   return _name;
 }
 
-auto FileSystem::add_file(FileBase* f) -> uint32_t
+auto file_system::add_file(file_base* f) -> uint32_t
 {
   _files.push_back(f);
 

@@ -7,30 +7,30 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class FileSystem;
+class file_system;
 
-class DataStore
+class data_store
 {
 public:
-  static DataStore& instance()
+  static auto instance() -> data_store&
   {
-    static DataStore singleton;
+    static data_store singleton;
     return singleton;
   }
 
-  DataStore(const DataStore&) = delete;
+  data_store(const data_store&) = delete;
 
-  ~DataStore();
+  ~data_store();
 
 public:
-  auto get_file_systems() -> std::vector<FileSystem*>&;
+  auto get_file_systems() -> std::vector<file_system*>&;
   auto device_name()      -> std::string;
 
 private:
-  DataStore();
+  data_store();
 
 private:
-  std::vector<FileSystem*> _filesystems;
+  std::vector<file_system*> _filesystems;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
