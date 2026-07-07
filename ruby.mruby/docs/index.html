@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>ruby.mruby docs</title>
+<style>
+/* ===========================================================================
+   Reference-doc style — gmdsoft slide-deck palette adapted for flowing prose.
+   Warm-gray (stone) neutrals + teal/amber/rose accents + Pretendard body /
+   JetBrains Mono code.  Slide-scale typography (96 px h1) is scaled DOWN to
+   reading-friendly sizes (40 px h1), but the box/eyebrow/dark-table
+   treatments come straight across.
+   =========================================================================== */
+
+:root {
+  --bg:         #ffffff;
+  --bg-soft:    #fafaf9;   /* warm gray 50 — info-box / table-stripe ground */
+  --bg-cool:    #f8fafc;
+  --bg-code:    #fafaf9;
+  --ink:        #1c1917;   /* stone 900 */
+  --ink-soft:   #57534e;   /* stone 600 */
+  --ink-faint:  #78716c;   /* stone 500 */
+  --rule:       #d6d3d1;   /* stone 300 */
+  --rule-soft:  #e7e5e4;   /* stone 200 */
+  --code-ink:   #1c1917;
+
+  /* gmdsoft accents */
+  --teal:        #0d9488;
+  --teal-dark:   #115e59;
+  --teal-bg:     #f0fdfa;
+  --teal-border: #99f6e4;
+  --amber:       #d97706;
+  --amber-dark:  #92400e;
+  --amber-bg:    #fffbeb;
+  --amber-border:#fde68a;
+  --rose:        #e11d48;
+  --rose-dark:   #9f1239;
+  --rose-bg:     #fff1f2;
+  --rose-border: #fecdd3;
+  --emerald:     #059669;
+  --emerald-bg:  #ecfdf5;
+
+  /* Aliases used elsewhere (pills, SVG, links). */
+  --accent:    var(--teal);
+  --ok:        var(--emerald);
+  --warn:      var(--amber);
+  --gap:       var(--rose);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #18181b;     /* zinc 900 */
+    --bg-soft:   #27272a;     /* zinc 800 */
+    --bg-cool:   #1f2937;
+    --bg-code:   #1c1917;
+    --ink:       #f5f5f4;     /* stone 100 */
+    --ink-soft:  #d6d3d1;     /* stone 300 */
+    --ink-faint: #a8a29e;     /* stone 400 */
+    --rule:      #44403c;     /* stone 700 */
+    --rule-soft: #292524;     /* stone 800 */
+    --code-ink:  #f5f5f4;
+
+    --teal:        #2dd4bf;
+    --teal-dark:   #5eead4;
+    --teal-bg:     #042f2e;
+    --teal-border: #115e59;
+    --amber:       #fbbf24;
+    --amber-dark:  #fcd34d;
+    --amber-bg:    #451a03;
+    --amber-border:#92400e;
+    --rose:        #fb7185;
+    --rose-dark:   #fda4af;
+    --rose-bg:     #4c0519;
+    --rose-border: #9f1239;
+    --emerald:     #34d399;
+    --emerald-bg:  #022c22;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont,
+               "Segoe UI", "Noto Sans KR", "Helvetica Neue", Arial,
+               sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  letter-spacing: -0.003em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Single column convention — every prose element shares the same
+   ~72ch reading width.  Wide blocks (tables, code, figures) opt
+   out via `.full-bleed` below.  This removes the visual mismatch
+   between narrow paragraphs and full-width headings/tables. */
+:root { --reading-col: 72ch; }
+
+/* ---------- Top navigation -------------------------------------------------- */
+
+.topnav {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  position: relative;
+}
+/* Gmdsoft cover-side gradient stripe — runs the full top-nav height as a
+   subtle brand signal.  Three accents in sequence echo the slide deck. */
+.topnav::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg,
+              var(--teal) 0%, var(--amber) 50%, var(--rose) 100%);
+}
+.topnav .brand {
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.4px;
+}
+.topnav .spacer { flex: 1; }
+.topnav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.topnav a:hover {
+  color: var(--teal-dark);
+  background: var(--teal-bg);
+}
+
+/* ---------- Page container -------------------------------------------------- */
+
+/* 920 px is wide enough for a tight reading column + ~3 cm of side
+   gutter on a 1080 p screen, narrow enough that tables and code
+   blocks don't sprawl horizontally on big monitors.  Past this
+   width readability degrades sharply for prose. */
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 48px 32px 96px;
+}
+
+/* ---------- Document head --------------------------------------------------- */
+
+/* Mirror of gmdsoft cover/closing slide: a slim teal→amber→rose stripe down
+   the left, eyebrow chip up top, oversized title. */
+.doc-head {
+  position: relative;
+  padding: 4px 0 24px 24px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--rule);
+}
+.doc-head::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 24px;
+  width: 6px;
+  background: linear-gradient(180deg,
+              var(--teal) 0%, var(--amber) 55%, var(--rose) 100%);
+}
+.doc-head .breadcrumb {
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.doc-head .breadcrumb a {
+  color: var(--teal);
+  text-decoration: none;
+}
+.doc-head .breadcrumb a:hover {
+  color: var(--teal-dark);
+  text-decoration: underline;
+}
+.doc-head h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.7px;
+  margin: 0 0 12px 0;
+  font-weight: 800;
+  color: var(--ink);
+}
+.doc-head .lede {
+  color: var(--ink-soft);
+  font-size: 16.5px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: var(--reading-col);
+}
+
+/* ---------- TOC (collapsible, top of doc) ---------------------------------- */
+
+details.toc {
+  margin: 20px 0 32px;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--teal);
+  border-radius: 2px;
+  background: var(--bg-soft);
+  font-size: 14px;
+}
+details.toc summary {
+  cursor: pointer;
+  padding: 12px 16px;
+  font-weight: 700;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+  user-select: none;
+}
+details.toc summary:hover { color: var(--teal-dark); }
+details.toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 4px 16px 16px;
+  columns: 2;
+  column-gap: 32px;
+  font-size: 14px;
+}
+@media (max-width: 720px) {
+  details.toc ul { columns: 1; }
+}
+details.toc li {
+  margin: 5px 0;
+  break-inside: avoid;
+}
+details.toc li.lvl-3 { padding-left: 14px; }
+details.toc li.lvl-4 { padding-left: 28px; font-size: 13px; }
+details.toc a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+details.toc a:hover {
+  color: var(--teal-dark);
+  text-decoration: underline;
+}
+
+/* ---------- Headings -------------------------------------------------------- */
+
+main h2, main h3, main h4, main h5, main h6 {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  scroll-margin-top: 24px;
+}
+main h2 {
+  font-size: 23px;
+  line-height: 1.25;
+  margin: 2.4em 0 0.7em;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 800;
+}
+main h3 {
+  font-size: 18px;
+  line-height: 1.3;
+  margin: 1.8em 0 0.5em;
+  font-weight: 700;
+}
+main h4 {
+  font-size: 15.5px;
+  margin: 1.5em 0 0.4em;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+}
+main h5, main h6 {
+  font-size: 12.5px;
+  margin: 1.4em 0 0.3em;
+  color: var(--teal-dark);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+}
+
+/* ---------- Paragraphs & inline -------------------------------------------- */
+
+main p {
+  margin: 0 0 1.05em 0;
+  max-width: var(--reading-col);
+  font-size: 15.5px;
+  line-height: 1.75;
+}
+
+main a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.1s;
+}
+main a:hover {
+  text-decoration: none;
+  border-bottom-color: var(--accent);
+}
+
+main strong { font-weight: 700; color: var(--ink); }
+main em     { font-style: italic; color: var(--ink); }
+
+/* Inline `code` — small, tinted, no border (gmdsoft slide-deck
+   convention).  ~91% of paragraph font size so it sits flush
+   with surrounding text. */
+main code {
+  font-family: 'JetBrains Mono', ui-monospace, "SF Mono", "Cascadia Code",
+               "Roboto Mono", Menlo, Consolas, monospace;
+  font-size: 0.91em;
+  background: var(--bg-code);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  color: var(--code-ink);
+}
+
+/* ---------- Code blocks ----------------------------------------------------- */
+
+main pre {
+  font-family: 'JetBrains Mono', ui-monospace, "SF Mono", "Cascadia Code",
+               "Roboto Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--code-ink);
+  background: var(--bg-code);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--teal);
+  border-radius: 2px;
+  padding: 14px 18px;
+  margin: 1.3em 0;
+  overflow-x: auto;
+  /* Code can be wider than prose — fill the page container. */
+  max-width: 100%;
+}
+main pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* ---------- Tables --------------------------------------------------------- */
+/* Gmdsoft track-table: black header row, white uppercase text, warm-gray
+   row stripes, hover tint.  Tables can be wider than the prose reading
+   column — they fill the page container. */
+
+.table-wrap {
+  margin: 1.5em 0;
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+main table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.55;
+  /* Cell text wraps inside the cell instead of forcing horizontal
+     scroll on the whole table.  Long URLs / paths still break. */
+  table-layout: auto;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+main table th,
+main table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+main table th {
+  background: var(--ink);
+  color: #fafaf9;
+  font-weight: 700;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: none;
+}
+main table tbody tr:nth-child(even) td {
+  background: var(--bg-soft);
+}
+main table tbody tr:hover td {
+  background: var(--teal-bg);
+}
+main table tbody tr:last-child td { border-bottom: none; }
+main table code { font-size: 0.9em; }
+
+/* Status pills (auto-applied to common tokens in cells) */
+.pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.pill.ok   { color: var(--emerald);   background: var(--emerald-bg);
+             border: 1px solid var(--emerald); }
+.pill.gap  { color: var(--rose);      background: var(--rose-bg);
+             border: 1px solid var(--rose-border); }
+.pill.warn { color: var(--amber-dark); background: var(--amber-bg);
+             border: 1px solid var(--amber-border); }
+
+/* ---------- Lists ---------------------------------------------------------- */
+
+main ul, main ol {
+  padding-left: 1.6em;
+  margin: 0.6em 0 1.1em;
+  max-width: var(--reading-col);
+  font-size: 15.5px;
+}
+main li { margin: 0.3em 0; line-height: 1.65; }
+main li ul, main li ol { margin: 0.3em 0; }
+main li code { font-size: 0.93em; }
+
+/* ---------- Blockquote — gmdsoft info-box treatment ----------------------- */
+
+main blockquote {
+  margin: 1.4em 0;
+  padding: 16px 22px;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule-soft);
+  border-left: 4px solid var(--teal);
+  color: var(--ink);
+  font-size: 15.5px;
+  line-height: 1.65;
+  max-width: var(--reading-col);
+}
+main blockquote p { font-size: inherit; line-height: inherit; }
+main blockquote p:last-child { margin-bottom: 0; }
+main blockquote strong { color: var(--teal-dark); }
+
+/* ---------- HR — subtle teal→amber→rose gradient -------------------------- */
+
+main hr {
+  border: none;
+  height: 2px;
+  margin: 2.4em 0;
+  background: linear-gradient(90deg,
+              var(--teal) 0%, var(--amber) 50%, var(--rose) 100%);
+  opacity: 0.5;
+}
+
+/* ---------- Diagrams (SVG figures) ----------------------------------------- */
+
+.diagram {
+  margin: 1.8em 0;
+  padding: 20px 24px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-top: 4px solid var(--teal);
+  border-radius: 2px;
+}
+.diagram::before {
+  content: attr(data-label);
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+  margin-bottom: 14px;
+}
+.diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.diagram figcaption {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule-soft);
+}
+
+/* ---------- Footer --------------------------------------------------------- */
+
+footer.colophon {
+  margin-top: 4em;
+  padding-top: 1.5em;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+footer.colophon p { margin: 0.3em 0; }
+footer.colophon code { font-size: 0.9em; }
+
+/* ---------- Index page ----------------------------------------------------- */
+
+.index-head {
+  position: relative;
+  padding: 4px 0 28px 24px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--rule);
+}
+.index-head::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 28px;
+  width: 6px;
+  background: linear-gradient(180deg,
+              var(--teal) 0%, var(--amber) 55%, var(--rose) 100%);
+}
+.index-head .eyebrow {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.index-head h1 {
+  font-size: 44px;
+  line-height: 1.05;
+  letter-spacing: -1.2px;
+  margin: 0 0 12px;
+  font-weight: 800;
+}
+.index-head p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 17px;
+  max-width: 80ch;
+}
+
+.index-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+.index-row {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.1fr) 2fr;
+  gap: 28px;
+  align-items: baseline;
+  padding: 18px 16px 18px 12px;
+  border-bottom: 1px solid var(--rule-soft);
+  border-left: 4px solid transparent;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.1s, border-left-color 0.1s;
+}
+.index-row:hover {
+  background: var(--teal-bg);
+  border-left-color: var(--teal);
+}
+.index-row .index-title {
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--ink);
+  letter-spacing: -0.2px;
+}
+.index-row:hover .index-title { color: var(--teal-dark); }
+.index-row .index-summary {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+@media (max-width: 640px) {
+  .index-row { grid-template-columns: 1fr; gap: 6px; }
+}
+
+/* ---------- Print ---------------------------------------------------------- */
+
+@media print {
+  .topnav, details.toc { display: none; }
+  body { color: black; background: white; }
+  main pre { border: 1px solid #ccc; break-inside: avoid; }
+  .diagram { break-inside: avoid; }
+  table { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html" class="brand">ruby.mruby docs</a>
+  <span class="spacer"></span>
+</nav>
+
+<div class="page">
+  <header class="index-head">
+    <span class="eyebrow">ruby.mruby · docs</span>
+    <h1>Reference documentation</h1>
+    <p>mruby를 C++ 호스트에 임베드하는 실험 시리즈의 참조 문서 —
+       임베딩 패턴, 소유권 규칙, <code>mrubybind</code> 헬퍼.</p>
+  </header>
+
+  <div class="index-list">
+    <a class="index-row" href="mruby_embedding.html">  <span class="index-title">mruby 임베딩 — C++ 호스트 매뉴얼</span>  <span class="index-summary">mruby VM을 C++ 호스트에 임베드하는 방법 전반 — 기본 골격, DATA 타입, mrb_get_args 지정자, GC 아레나, 소유권(borrowed/owned), 그리고 이를 캡슐화한 mrubybind 헬퍼(vm/klass/holder/to_ruby) 상세. MD:: 모듈 네임스페이스로 내장 File과 충돌을 피하는 규칙 포함.</span></a>
+  </div>
+
+  <footer class="colophon">
+    <p>Generated 2026-07-08
+       · commit 050d1c47
+       · source: <code>docs/*.md</code></p>
+  </footer>
+</div>
+</body>
+</html>

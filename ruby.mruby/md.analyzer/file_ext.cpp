@@ -13,7 +13,7 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 auto init_file(mrb_state* mrb) -> void
 {
-  mrubybind::Klass<file>::define(mrb, "MD", "File")
+  mrubybind::klass<file>::define(mrb, "MD", "File")
     .ctor<string>()
     .method<&file::name>("name")
     .method<&file::path>("path")

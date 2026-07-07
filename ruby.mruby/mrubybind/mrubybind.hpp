@@ -40,29 +40,29 @@ namespace mrubybind
 {
   using namespace std;
 
-  template <typename T> class Klass;
+  template <typename T> class klass;
 
   ////////////////////////////////////////////////////////////////////////////
   //
   // GC arena guard
   //
   ////////////////////////////////////////////////////////////////////////////
-  class ArenaGuard
+  class arena_guard
   {
   public:
-    ArenaGuard(mrb_state* mrb)
+    arena_guard(mrb_state* mrb)
       : _mrb(mrb)
       , _index(mrb_gc_arena_save(mrb))
     {
     }
 
-    ~ArenaGuard()
+    ~arena_guard()
     {
       mrb_gc_arena_restore(_mrb, _index);
     }
 
-    ArenaGuard(const ArenaGuard&) = delete;
-    auto operator=(const ArenaGuard&) -> ArenaGuard& = delete;
+    arena_guard(const arena_guard&) = delete;
+    auto operator=(const arena_guard&) -> arena_guard& = delete;
 
   private:
     mrb_state* _mrb;
@@ -75,10 +75,10 @@ namespace mrubybind
   // spec feeds mrb_get_args, which type-checks and raises TypeError.
   //
   ////////////////////////////////////////////////////////////////////////////
-  template <typename T, typename Enable = void> struct Arg;
+  template <typename T, typename Enable = void> struct arg;
 
   template <typename T>
-  struct Arg<T, enable_if_t<is_integral_v<T> && !is_same_v<T, bool>>>
+  struct arg<T, enable_if_t<is_integral_v<T> && !is_same_v<T, bool>>>
   {
     using storage = mrb_int;
     static constexpr char spec = 'i';
@@ -86,7 +86,7 @@ namespace mrubybind
   };
 
   template <typename T>
-  struct Arg<T, enable_if_t<is_floating_point_v<T>>>
+  struct arg<T, enable_if_t<is_floating_point_v<T>>>
   {
     using storage = mrb_float;
     static constexpr char spec = 'f';
@@ -94,7 +94,7 @@ namespace mrubybind
   };
 
   template <>
-  struct Arg<bool>
+  struct arg<bool>
   {
     using storage = mrb_bool;
     static constexpr char spec = 'b';
@@ -102,7 +102,7 @@ namespace mrubybind
   };
 
   template <>
-  struct Arg<string>
+  struct arg<string>
   {
     using storage = mrb_value;
     static constexpr char spec = 'S';
@@ -113,18 +113,18 @@ namespace mrubybind
   };
 
   template <typename T>
-  struct Arg<T*>
+  struct arg<T*>
   {
     using storage = mrb_value;
     static constexpr char spec = 'o';
     static auto convert(mrb_state* mrb, const storage v) -> T*
     {
-      return Klass<T>::unwrap(mrb, v);
+      return klass<T>::unwrap(mrb, v);
     }
   };
 
   template <>
-  struct Arg<mrb_value>
+  struct arg<mrb_value>
   {
     using storage = mrb_value;
     static constexpr char spec = 'o';
@@ -140,12 +140,12 @@ namespace mrubybind
     }
     else
     {
-      tuple<typename Arg<decay_t<A>>::storage...> st{};
-      constexpr char fmt[] = { Arg<decay_t<A>>::spec..., '\0' };
+      tuple<typename arg<decay_t<A>>::storage...> st{};
+      constexpr char fmt[] = { arg<decay_t<A>>::spec..., '\0' };
       apply([&](auto&... s) { mrb_get_args(mrb, fmt, &s...); }, st);
 
       return [&]<size_t... I>(index_sequence<I...>) {
-        return tuple<decay_t<A>...>{ Arg<decay_t<A>>::convert(mrb, get<I>(st))... };
+        return tuple<decay_t<A>...>{ arg<decay_t<A>>::convert(mrb, get<I>(st))... };
       }(index_sequence_for<A...>{});
     }
   }
@@ -194,7 +194,7 @@ namespace mrubybind
     else if constexpr (is_pointer_v<U>)
     {
       // a raw pointer stays host-owned: wrap it borrowed
-      return Klass<remove_pointer_t<U>>::wrap(mrb, v, false);
+      return klass<remove_pointer_t<U>>::wrap(mrb, v, false);
     }
     else if constexpr (is_vector<U>::value)
     {
@@ -209,7 +209,7 @@ namespace mrubybind
         auto ar = mrb_ary_new_capa(mrb, static_cast<mrb_int>(v.size()));
         for (auto& e : v)
         {
-          ArenaGuard guard(mrb);
+          arena_guard guard(mrb);
           mrb_ary_push(mrb, ar, to_ruby(mrb, e));
         }
 
@@ -221,7 +221,7 @@ namespace mrubybind
       auto hs = mrb_hash_new_capa(mrb, static_cast<mrb_int>(v.size()));
       for (auto& [key, val] : v)
       {
-        ArenaGuard guard(mrb);
+        arena_guard guard(mrb);
         mrb_hash_set(mrb, hs, to_ruby(mrb, key), to_ruby(mrb, val));
       }
 
@@ -230,7 +230,7 @@ namespace mrubybind
     else
     {
       // value-like object: copy it and hand ownership to the GC
-      return Klass<U>::wrap(mrb, new U(std::forward<V>(v)), true);
+      return klass<U>::wrap(mrb, new U(std::forward<V>(v)), true);
     }
   }
 
@@ -289,17 +289,17 @@ namespace mrubybind
   //
   ////////////////////////////////////////////////////////////////////////////
   template <typename T>
-  struct Holder
+  struct holder
   {
     T* ptr;
     bool owned;
   };
 
   template <typename T>
-  class Klass
+  class klass
   {
   public:
-    static auto define(mrb_state* mrb, const string name) -> Klass
+    static auto define(mrb_state* mrb, const string name) -> klass
     {
       _cls = mrb_define_class(mrb, name.c_str(), mrb->object_class);
 
@@ -307,7 +307,7 @@ namespace mrubybind
     }
 
     // define under a module (created on demand): define(mrb, "MD", "File")
-    static auto define(mrb_state* mrb, const string module_name, const string name) -> Klass
+    static auto define(mrb_state* mrb, const string module_name, const string name) -> klass
     {
       auto mod = mrb_define_module(mrb, module_name.c_str());
       _cls = mrb_define_class_under(mrb, mod, name.c_str(), mrb->object_class);
@@ -317,7 +317,7 @@ namespace mrubybind
 
   public:
     template <typename... Args>
-    auto ctor() -> Klass&
+    auto ctor() -> klass&
     {
       mrb_define_method(_mrb, _cls, "initialize", init_thunk<Args...>,
                         MRB_ARGS_REQ(sizeof...(Args)));
@@ -325,7 +325,7 @@ namespace mrubybind
     }
 
     template <auto Method>
-    auto method(const string name) -> Klass&
+    auto method(const string name) -> klass&
     {
       using traits = method_traits<decltype(Method)>;
       mrb_define_method(_mrb, _cls, name.c_str(), method_thunk<Method>,
@@ -334,7 +334,7 @@ namespace mrubybind
     }
 
     // escape hatch for blocks, hashes, variadics, ...
-    auto method_raw(const string name, mrb_func_t fn, const mrb_aspec aspec) -> Klass&
+    auto method_raw(const string name, mrb_func_t fn, const mrb_aspec aspec) -> klass&
     {
       mrb_define_method(_mrb, _cls, name.c_str(), fn, aspec);
       return *this;
@@ -342,46 +342,46 @@ namespace mrubybind
 
     static auto wrap(mrb_state* mrb, T* p, const bool owned) -> mrb_value
     {
-      auto holder = new Holder<T>{p, owned};
-      return mrb_obj_value(Data_Wrap_Struct(mrb, _cls, &_type, holder));
+      auto h = new holder<T>{p, owned};
+      return mrb_obj_value(Data_Wrap_Struct(mrb, _cls, &_type, h));
     }
 
     static auto unwrap(mrb_state* mrb, mrb_value obj) -> T*
     {
       // raises TypeError on foreign or uninitialized data
-      auto holder = static_cast<Holder<T>*>(mrb_data_get_ptr(mrb, obj, &_type));
-      if (holder == nullptr || holder->ptr == nullptr)
+      auto h = static_cast<holder<T>*>(mrb_data_get_ptr(mrb, obj, &_type));
+      if (h == nullptr || h->ptr == nullptr)
         mrb_raisef(mrb, E_RUNTIME_ERROR, "uninitialized %s", _name.c_str());
 
-      return holder->ptr;
+      return h->ptr;
     }
 
   private:
-    Klass(mrb_state* mrb)
+    klass(mrb_state* mrb)
       : _mrb(mrb)
     {
     }
 
-    static auto setup(mrb_state* mrb, const string name) -> Klass
+    static auto setup(mrb_state* mrb, const string name) -> klass
     {
       _name = name;
       _type.struct_name = _name.c_str();
       _type.dfree = free_holder;
       MRB_SET_INSTANCE_TT(_cls, MRB_TT_DATA);
 
-      return Klass(mrb);
+      return klass(mrb);
     }
 
     static void free_holder(mrb_state*, void* p)
     {
-      auto holder = static_cast<Holder<T>*>(p);
-      if (holder == nullptr)
+      auto h = static_cast<holder<T>*>(p);
+      if (h == nullptr)
         return;
 
-      if (holder->owned)
-        delete holder->ptr;
+      if (h->owned)
+        delete h->ptr;
 
-      delete holder;
+      delete h;
     }
 
     template <typename... Args>
@@ -389,7 +389,7 @@ namespace mrubybind
     {
       // safe re-initialization: detach the old payload before allocating,
       // so a GC triggered by `new` cannot touch a half-dead pointer
-      if (auto old = static_cast<Holder<T>*>(DATA_PTR(self)))
+      if (auto old = static_cast<holder<T>*>(DATA_PTR(self)))
         free_holder(mrb, old);
 
       DATA_PTR(self)  = nullptr;
@@ -400,7 +400,7 @@ namespace mrubybind
         [](auto&&... a) { return new T(static_cast<decltype(a)&&>(a)...); },
         std::move(args));
 
-      DATA_PTR(self)  = new Holder<T>{obj, true};
+      DATA_PTR(self)  = new holder<T>{obj, true};
       DATA_TYPE(self) = &_type;
 
       return self;
@@ -425,13 +425,13 @@ namespace mrubybind
 
   ////////////////////////////////////////////////////////////////////////////
   //
-  // VM — RAII mrb_state with context-based loading and error reporting
+  // vm — RAII mrb_state with context-based loading and error reporting
   //
   ////////////////////////////////////////////////////////////////////////////
-  class VM
+  class vm
   {
   public:
-    VM()
+    vm()
       : _mrb(mrb_open())
       , _ctx(nullptr)
     {
@@ -442,7 +442,7 @@ namespace mrubybind
       }
     }
 
-    ~VM()
+    ~vm()
     {
       if (_ctx != nullptr)
         mrb_ccontext_free(_mrb, _ctx);
@@ -451,8 +451,8 @@ namespace mrubybind
         mrb_close(_mrb);
     }
 
-    VM(const VM&) = delete;
-    auto operator=(const VM&) -> VM& = delete;
+    vm(const vm&) = delete;
+    auto operator=(const vm&) -> vm& = delete;
 
   public:
     auto ok() const -> bool { return _mrb != nullptr; }
