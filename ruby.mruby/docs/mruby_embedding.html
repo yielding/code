@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>mruby 임베딩 — C++ 호스트 사용 매뉴얼 · ruby.mruby docs</title>
+<style>
+/* ===========================================================================
+   Reference-doc style — gmdsoft slide-deck palette adapted for flowing prose.
+   Warm-gray (stone) neutrals + teal/amber/rose accents + Pretendard body /
+   JetBrains Mono code.  Slide-scale typography (96 px h1) is scaled DOWN to
+   reading-friendly sizes (40 px h1), but the box/eyebrow/dark-table
+   treatments come straight across.
+   =========================================================================== */
+
+:root {
+  --bg:         #ffffff;
+  --bg-soft:    #fafaf9;   /* warm gray 50 — info-box / table-stripe ground */
+  --bg-cool:    #f8fafc;
+  --bg-code:    #fafaf9;
+  --ink:        #1c1917;   /* stone 900 */
+  --ink-soft:   #57534e;   /* stone 600 */
+  --ink-faint:  #78716c;   /* stone 500 */
+  --rule:       #d6d3d1;   /* stone 300 */
+  --rule-soft:  #e7e5e4;   /* stone 200 */
+  --code-ink:   #1c1917;
+
+  /* gmdsoft accents */
+  --teal:        #0d9488;
+  --teal-dark:   #115e59;
+  --teal-bg:     #f0fdfa;
+  --teal-border: #99f6e4;
+  --amber:       #d97706;
+  --amber-dark:  #92400e;
+  --amber-bg:    #fffbeb;
+  --amber-border:#fde68a;
+  --rose:        #e11d48;
+  --rose-dark:   #9f1239;
+  --rose-bg:     #fff1f2;
+  --rose-border: #fecdd3;
+  --emerald:     #059669;
+  --emerald-bg:  #ecfdf5;
+
+  /* Aliases used elsewhere (pills, SVG, links). */
+  --accent:    var(--teal);
+  --ok:        var(--emerald);
+  --warn:      var(--amber);
+  --gap:       var(--rose);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #18181b;     /* zinc 900 */
+    --bg-soft:   #27272a;     /* zinc 800 */
+    --bg-cool:   #1f2937;
+    --bg-code:   #1c1917;
+    --ink:       #f5f5f4;     /* stone 100 */
+    --ink-soft:  #d6d3d1;     /* stone 300 */
+    --ink-faint: #a8a29e;     /* stone 400 */
+    --rule:      #44403c;     /* stone 700 */
+    --rule-soft: #292524;     /* stone 800 */
+    --code-ink:  #f5f5f4;
+
+    --teal:        #2dd4bf;
+    --teal-dark:   #5eead4;
+    --teal-bg:     #042f2e;
+    --teal-border: #115e59;
+    --amber:       #fbbf24;
+    --amber-dark:  #fcd34d;
+    --amber-bg:    #451a03;
+    --amber-border:#92400e;
+    --rose:        #fb7185;
+    --rose-dark:   #fda4af;
+    --rose-bg:     #4c0519;
+    --rose-border: #9f1239;
+    --emerald:     #34d399;
+    --emerald-bg:  #022c22;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont,
+               "Segoe UI", "Noto Sans KR", "Helvetica Neue", Arial,
+               sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  letter-spacing: -0.003em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Single column convention — every prose element shares the same
+   ~72ch reading width.  Wide blocks (tables, code, figures) opt
+   out via `.full-bleed` below.  This removes the visual mismatch
+   between narrow paragraphs and full-width headings/tables. */
+:root { --reading-col: 72ch; }
+
+/* ---------- Top navigation -------------------------------------------------- */
+
+.topnav {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 14px;
+  position: relative;
+}
+/* Gmdsoft cover-side gradient stripe — runs the full top-nav height as a
+   subtle brand signal.  Three accents in sequence echo the slide deck. */
+.topnav::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg,
+              var(--teal) 0%, var(--amber) 50%, var(--rose) 100%);
+}
+.topnav .brand {
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.4px;
+}
+.topnav .spacer { flex: 1; }
+.topnav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.topnav a:hover {
+  color: var(--teal-dark);
+  background: var(--teal-bg);
+}
+
+/* ---------- Page container -------------------------------------------------- */
+
+/* 920 px is wide enough for a tight reading column + ~3 cm of side
+   gutter on a 1080 p screen, narrow enough that tables and code
+   blocks don't sprawl horizontally on big monitors.  Past this
+   width readability degrades sharply for prose. */
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 48px 32px 96px;
+}
+
+/* ---------- Document head --------------------------------------------------- */
+
+/* Mirror of gmdsoft cover/closing slide: a slim teal→amber→rose stripe down
+   the left, eyebrow chip up top, oversized title. */
+.doc-head {
+  position: relative;
+  padding: 4px 0 24px 24px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--rule);
+}
+.doc-head::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 24px;
+  width: 6px;
+  background: linear-gradient(180deg,
+              var(--teal) 0%, var(--amber) 55%, var(--rose) 100%);
+}
+.doc-head .breadcrumb {
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.doc-head .breadcrumb a {
+  color: var(--teal);
+  text-decoration: none;
+}
+.doc-head .breadcrumb a:hover {
+  color: var(--teal-dark);
+  text-decoration: underline;
+}
+.doc-head h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.7px;
+  margin: 0 0 12px 0;
+  font-weight: 800;
+  color: var(--ink);
+}
+.doc-head .lede {
+  color: var(--ink-soft);
+  font-size: 16.5px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: var(--reading-col);
+}
+
+/* ---------- TOC (collapsible, top of doc) ---------------------------------- */
+
+details.toc {
+  margin: 20px 0 32px;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--teal);
+  border-radius: 2px;
+  background: var(--bg-soft);
+  font-size: 14px;
+}
+details.toc summary {
+  cursor: pointer;
+  padding: 12px 16px;
+  font-weight: 700;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+  user-select: none;
+}
+details.toc summary:hover { color: var(--teal-dark); }
+details.toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 4px 16px 16px;
+  columns: 2;
+  column-gap: 32px;
+  font-size: 14px;
+}
+@media (max-width: 720px) {
+  details.toc ul { columns: 1; }
+}
+details.toc li {
+  margin: 5px 0;
+  break-inside: avoid;
+}
+details.toc li.lvl-3 { padding-left: 14px; }
+details.toc li.lvl-4 { padding-left: 28px; font-size: 13px; }
+details.toc a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+details.toc a:hover {
+  color: var(--teal-dark);
+  text-decoration: underline;
+}
+
+/* ---------- Headings -------------------------------------------------------- */
+
+main h2, main h3, main h4, main h5, main h6 {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  scroll-margin-top: 24px;
+}
+main h2 {
+  font-size: 23px;
+  line-height: 1.25;
+  margin: 2.4em 0 0.7em;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 800;
+}
+main h3 {
+  font-size: 18px;
+  line-height: 1.3;
+  margin: 1.8em 0 0.5em;
+  font-weight: 700;
+}
+main h4 {
+  font-size: 15.5px;
+  margin: 1.5em 0 0.4em;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+}
+main h5, main h6 {
+  font-size: 12.5px;
+  margin: 1.4em 0 0.3em;
+  color: var(--teal-dark);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+}
+
+/* ---------- Paragraphs & inline -------------------------------------------- */
+
+main p {
+  margin: 0 0 1.05em 0;
+  max-width: var(--reading-col);
+  font-size: 15.5px;
+  line-height: 1.75;
+}
+
+main a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.1s;
+}
+main a:hover {
+  text-decoration: none;
+  border-bottom-color: var(--accent);
+}
+
+main strong { font-weight: 700; color: var(--ink); }
+main em     { font-style: italic; color: var(--ink); }
+
+/* Inline `code` — small, tinted, no border (gmdsoft slide-deck
+   convention).  ~91% of paragraph font size so it sits flush
+   with surrounding text. */
+main code {
+  font-family: 'JetBrains Mono', ui-monospace, "SF Mono", "Cascadia Code",
+               "Roboto Mono", Menlo, Consolas, monospace;
+  font-size: 0.91em;
+  background: var(--bg-code);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  color: var(--code-ink);
+}
+
+/* ---------- Code blocks ----------------------------------------------------- */
+
+main pre {
+  font-family: 'JetBrains Mono', ui-monospace, "SF Mono", "Cascadia Code",
+               "Roboto Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--code-ink);
+  background: var(--bg-code);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--teal);
+  border-radius: 2px;
+  padding: 14px 18px;
+  margin: 1.3em 0;
+  overflow-x: auto;
+  /* Code can be wider than prose — fill the page container. */
+  max-width: 100%;
+}
+main pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* ---------- Tables --------------------------------------------------------- */
+/* Gmdsoft track-table: black header row, white uppercase text, warm-gray
+   row stripes, hover tint.  Tables can be wider than the prose reading
+   column — they fill the page container. */
+
+.table-wrap {
+  margin: 1.5em 0;
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+main table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.55;
+  /* Cell text wraps inside the cell instead of forcing horizontal
+     scroll on the whole table.  Long URLs / paths still break. */
+  table-layout: auto;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+main table th,
+main table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+main table th {
+  background: var(--ink);
+  color: #fafaf9;
+  font-weight: 700;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: none;
+}
+main table tbody tr:nth-child(even) td {
+  background: var(--bg-soft);
+}
+main table tbody tr:hover td {
+  background: var(--teal-bg);
+}
+main table tbody tr:last-child td { border-bottom: none; }
+main table code { font-size: 0.9em; }
+
+/* Status pills (auto-applied to common tokens in cells) */
+.pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.pill.ok   { color: var(--emerald);   background: var(--emerald-bg);
+             border: 1px solid var(--emerald); }
+.pill.gap  { color: var(--rose);      background: var(--rose-bg);
+             border: 1px solid var(--rose-border); }
+.pill.warn { color: var(--amber-dark); background: var(--amber-bg);
+             border: 1px solid var(--amber-border); }
+
+/* ---------- Lists ---------------------------------------------------------- */
+
+main ul, main ol {
+  padding-left: 1.6em;
+  margin: 0.6em 0 1.1em;
+  max-width: var(--reading-col);
+  font-size: 15.5px;
+}
+main li { margin: 0.3em 0; line-height: 1.65; }
+main li ul, main li ol { margin: 0.3em 0; }
+main li code { font-size: 0.93em; }
+
+/* ---------- Blockquote — gmdsoft info-box treatment ----------------------- */
+
+main blockquote {
+  margin: 1.4em 0;
+  padding: 16px 22px;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule-soft);
+  border-left: 4px solid var(--teal);
+  color: var(--ink);
+  font-size: 15.5px;
+  line-height: 1.65;
+  max-width: var(--reading-col);
+}
+main blockquote p { font-size: inherit; line-height: inherit; }
+main blockquote p:last-child { margin-bottom: 0; }
+main blockquote strong { color: var(--teal-dark); }
+
+/* ---------- HR — subtle teal→amber→rose gradient -------------------------- */
+
+main hr {
+  border: none;
+  height: 2px;
+  margin: 2.4em 0;
+  background: linear-gradient(90deg,
+              var(--teal) 0%, var(--amber) 50%, var(--rose) 100%);
+  opacity: 0.5;
+}
+
+/* ---------- Diagrams (SVG figures) ----------------------------------------- */
+
+.diagram {
+  margin: 1.8em 0;
+  padding: 20px 24px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-top: 4px solid var(--teal);
+  border-radius: 2px;
+}
+.diagram::before {
+  content: attr(data-label);
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+  margin-bottom: 14px;
+}
+.diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.diagram figcaption {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule-soft);
+}
+
+/* ---------- Footer --------------------------------------------------------- */
+
+footer.colophon {
+  margin-top: 4em;
+  padding-top: 1.5em;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+footer.colophon p { margin: 0.3em 0; }
+footer.colophon code { font-size: 0.9em; }
+
+/* ---------- Index page ----------------------------------------------------- */
+
+.index-head {
+  position: relative;
+  padding: 4px 0 28px 24px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--rule);
+}
+.index-head::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 28px;
+  width: 6px;
+  background: linear-gradient(180deg,
+              var(--teal) 0%, var(--amber) 55%, var(--rose) 100%);
+}
+.index-head .eyebrow {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.index-head h1 {
+  font-size: 44px;
+  line-height: 1.05;
+  letter-spacing: -1.2px;
+  margin: 0 0 12px;
+  font-weight: 800;
+}
+.index-head p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 17px;
+  max-width: 80ch;
+}
+
+.index-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+.index-row {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.1fr) 2fr;
+  gap: 28px;
+  align-items: baseline;
+  padding: 18px 16px 18px 12px;
+  border-bottom: 1px solid var(--rule-soft);
+  border-left: 4px solid transparent;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.1s, border-left-color 0.1s;
+}
+.index-row:hover {
+  background: var(--teal-bg);
+  border-left-color: var(--teal);
+}
+.index-row .index-title {
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--ink);
+  letter-spacing: -0.2px;
+}
+.index-row:hover .index-title { color: var(--teal-dark); }
+.index-row .index-summary {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+@media (max-width: 640px) {
+  .index-row { grid-template-columns: 1fr; gap: 6px; }
+}
+
+/* ---------- Print ---------------------------------------------------------- */
+
+@media print {
+  .topnav, details.toc { display: none; }
+  body { color: black; background: white; }
+  main pre { border: 1px solid #ccc; break-inside: avoid; }
+  .diagram { break-inside: avoid; }
+  table { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a href="index.html" class="brand">ruby.mruby docs</a>
+  <span class="spacer"></span>
+  <a href="index.html">Index</a>
+</nav>
+
+<div class="page">
+  <header class="doc-head">
+    <div class="breadcrumb"><a href="index.html">docs</a> / mruby_embedding.md</div>
+    <h1>mruby 임베딩 — C++ 호스트 사용 매뉴얼</h1>
+    <p class="lede">C++ 호스트 애플리케이션에 mruby VM을 임베드하여 <strong>스크립트 ↔ 호스트 양방향 값 교환</strong>을 구현하는 방법.  이 저장소의 실험 시리즈(특히 <code>md.analyzer/</code>)에서 확립한 패턴과, 그 패턴을 캡슐화한 헤더 하나짜리 헬퍼 <strong>mrubybind</strong>를 설명한다.  forensic.filesystem의 <code>pfs_mruby</code> 프런트엔드가 이 기법의 실전 적용이다.</p>
+  </header>
+
+  <details class="toc" open><summary>Contents</summary><ul>
+<li class="lvl-2"><a href="#mruby">왜 mruby인가</a></li>
+<li class="lvl-2"><a href="#">설치와 빌드 연결</a></li>
+<li class="lvl-2"><a href="#">기본 임베딩 — 최소 골격</a></li>
+<li class="lvl-3"><a href="#context">파일 실행은 반드시 context를 통해</a></li>
+<li class="lvl-3"><a href="#c-ruby">C → Ruby 호출</a></li>
+<li class="lvl-3"><a href="#ruby-c">Ruby → C 호출 (전역 함수)</a></li>
+<li class="lvl-2"><a href="#c-data">C++ 객체 노출 — DATA 타입의 원리</a></li>
+<li class="lvl-3"><a href="#mrb-get-args"><code>mrb_get_args</code> 포맷 지정자</a></li>
+<li class="lvl-2"><a href="#gc">GC 아레나 — 루프에서 컬렉션을 만들 때</a></li>
+<li class="lvl-2"><a href="#">소유권 — 이 포인터는 누가 지우는가</a></li>
+<li class="lvl-2"><a href="#mrubybind">mrubybind — 헤더 하나로 캡슐화한 바인딩 레이어</a></li>
+<li class="lvl-3"><a href="#vm">vm — 호스트의 진입점</a></li>
+<li class="lvl-3"><a href="#klass-t"><code>klass&lt;T&gt;</code> — 클래스 정의 빌더</a></li>
+<li class="lvl-3"><a href="#holder">holder — 소유권 플래그</a></li>
+<li class="lvl-3"><a href="#to-ruby">to_ruby — 반환값 변환 규칙</a></li>
+<li class="lvl-3"><a href="#md-analyzer">전체 흐름 — md.analyzer 미니 예제</a></li>
+<li class="lvl-2"><a href="#">네임스페이스 — 내장 클래스와의 충돌</a></li>
+<li class="lvl-2"><a href="#">함정 요약</a></li>
+<li class="lvl-2"><a href="#">참고 자료</a></li>
+</ul></details>
+
+  <main>
+  <p>C++ 호스트 애플리케이션에 mruby VM을 임베드하여 **스크립트 ↔ 호스트 양방향 값 교환**을 구현하는 방법.  이 저장소의 실험 시리즈(특히 <code>md.analyzer/</code>)에서 확립한 패턴과, 그 패턴을 캡슐화한 헤더 하나짜리 헬퍼 <strong>mrubybind</strong>를 설명한다.  forensic.filesystem의 <code>pfs_mruby</code> 프런트엔드가 이 기법의 실전 적용이다.</p>
+<hr>
+<h2 id="mruby">왜 mruby인가</h2>
+<p>mruby는 "임베딩을 위해 다시 설계된 Ruby"다.  CRuby(MRI)와 달리:</p>
+<ul>
+<li><strong>VM이 값이다</strong> — 전역 인터프리터가 없다.  <code>mrb_open()</code>이 돌려주는 <code>mrb_state*</code> 하나가 독립된 VM이고, 여러 개를 만들 수도 있다.</li>
+<li><strong>정적 링크 한 방</strong> — <code>libmruby.a</code> 하나만 링크하면 끝.  런타임 파일 배포, GEM_PATH, 동적 로딩이 전혀 없다.</li>
+<li><strong>기능은 빌드 타임에 고정</strong> — 표준 라이브러리는 mrbgem 단위로 빌드에 포함/제외한다 (<code>default.gembox</code>에는 <code>mruby-io</code>가 들어 있어 내장 <code>File</code>/<code>IO</code>/<code>Dir</code>가 존재한다 — 아래 네임스페이스 절 참고).</li>
+<li><strong>C API가 1급 시민</strong> — 클래스 정의, 메서드 바인딩, 예외 처리 모두 C 함수로 제공되며 문서화가 잘 되어 있다.</li>
+</ul>
+<p>포렌식 분석기 관점의 용례: 케이스마다 달라지는 추출/검증 로직을 호스트 재컴파일 없이 스크립트로 내려보내고, 호스트는 도메인 객체 (DataStore, Filesystem, File)만 노출한다.</p>
+<hr>
+<h2 id="">설치와 빌드 연결</h2>
+<p>기준 환경: mruby 3.4.0 을 <code>~/.rubies/mruby-3.4.0</code>에 빌드해 둔다.</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>무엇</th>
+<th>경로</th>
+</tr></thead><tbody>
+<tr>
+<td>공용 헤더</td>
+<td><code>~/.rubies/mruby-3.4.0/include</code></td>
+</tr>
+<tr>
+<td>빌드 생성 헤더</td>
+<td><code>~/.rubies/mruby-3.4.0/build/host/include</code></td>
+</tr>
+<tr>
+<td>정적 라이브러리</td>
+<td><code>~/.rubies/mruby-3.4.0/build/host/lib/libmruby.a</code></td>
+</tr>
+</tbody></table></div>
+<p>CMake 연결은 include/lib 경로 추가 + <code>mruby</code> 링크가 전부다:</p>
+<pre><code class="lang-cmake">
+include_directories ($ENV{HOME}/.rubies/mruby-3.4.0/include
+                     $ENV{HOME}/.rubies/mruby-3.4.0/build/host/include)
+link_directories    ($ENV{HOME}/.rubies/mruby-3.4.0/build/host/lib)
+target_link_libraries (my_host mruby)
+</code></pre>
+<blockquote><p><strong>Linux 주의</strong> — <code>libmruby.a</code>는 기본적으로 <code>-fPIC</code> 없이 빌드된다. PIE 링크가 실패하면 <code>add_link_options(-no-pie)</code>를 준다.</p></blockquote>
+<hr>
+<h2 id="">기본 임베딩 — 최소 골격</h2>
+<p>VM 열기 → 코드 실행 → 예외 확인 → 닫기.  이 네 줄이 전부다.</p>
+<pre><code class="lang-cpp">
+#include &lt;mruby.h&gt;
+#include &lt;mruby/compile.h&gt;
+
+auto main() -&gt; int
+{
+  mrb_state* mrb = mrb_open();
+  if (!mrb) return 1;
+
+  mrb_load_string(mrb, &quot;puts &#x27;hello from ruby&#x27;&quot;);
+  if (mrb-&gt;exc) mrb_print_error(mrb);   // 예외는 반환값이 아니라 mrb-&gt;exc
+
+  mrb_close(mrb);
+  return 0;
+}
+</code></pre>
+<p>여기서 바로 세 가지 규칙이 나온다.</p>
+<ol>
+<li><strong>성공 판정은 <code>mrb-&gt;exc</code>로 한다.</strong>  <code>mrb_load_string</code>의 반환값은 "마지막 표현식의 값"이라 스크립트가 <code>false</code>로 끝나면 정상인데도 실패로 오판한다.  예외 발생 여부만이 신뢰할 수 있는 신호다.</li>
+<li><strong><code>mrb_funcall</code> 후에도 반드시 <code>mrb-&gt;exc</code>를 본다.</strong>  예외가 pending 상태로 남은 채 반환값을 쓰면 다음 API 호출에서 이상 동작한다.</li>
+<li><strong>처리한 예외는 <code>mrb-&gt;exc = nullptr</code>로 지운다.</strong>  안 지우면 다음 실행까지 오염된다.</li>
+</ol>
+<h3 id="context">파일 실행은 반드시 context를 통해</h3>
+<p><code>mrb_load_string</code>은 에러에 파일/라인 정보가 없다.  <code>mrbc_context</code>에 파일명을 등록하면 파스 에러와 backtrace가 <code>script.rb:12:</code> 형태로 나온다.</p>
+<pre><code class="lang-cpp">
+#include &lt;mruby/compile.h&gt;
+
+auto ctx = mrb_ccontext_new(mrb);
+ctx-&gt;capture_errors = TRUE;                    // 파스 에러도 예외로
+mrb_ccontext_filename(mrb, ctx, &quot;myscript.rb&quot;);
+mrb_load_nstring_cxt(mrb, code.data(), code.size(), ctx);
+// ... mrb-&gt;exc 확인 ...
+mrb_ccontext_free(mrb, ctx);
+</code></pre>
+<h3 id="c-ruby">C → Ruby 호출</h3>
+<pre><code class="lang-cpp">
+auto obj = mrb_load_string(mrb, &quot;Analyzer.new&quot;);        // 인스턴스 획득
+auto v   = mrb_funcall(mrb, obj, &quot;run&quot;, 1, mrb_int_value(mrb, 42));
+if (mrb-&gt;exc) { mrb_print_error(mrb); mrb-&gt;exc = nullptr; }
+</code></pre>
+<h3 id="ruby-c">Ruby → C 호출 (전역 함수)</h3>
+<pre><code class="lang-cpp">
+auto host_version(mrb_state* mrb, mrb_value self) -&gt; mrb_value
+{
+  return mrb_str_new_cstr(mrb, &quot;1.0.0&quot;);
+}
+
+mrb_define_method(mrb, mrb-&gt;kernel_module, &quot;host_version&quot;,
+                  host_version, MRB_ARGS_NONE());
+</code></pre>
+<hr>
+<h2 id="c-data">C++ 객체 노출 — DATA 타입의 원리</h2>
+<p>mruby 객체에 C 포인터를 싣는 표준 메커니즘이 <code>MRB_TT_DATA</code>다. 클래스 하나를 노출하려면 다음 네 조각이 필요하다.</p>
+<pre><code class="lang-cpp">
+// 1. 타입 태그 — 포인터의 정체와 해제 방법
+static void file_free(mrb_state* mrb, void* p) { delete static_cast&lt;file*&gt;(p); }
+static const mrb_data_type file_type = { &quot;File&quot;, file_free };
+
+// 2. 클래스 정의 + 인스턴스 타입 전환
+auto cls = mrb_define_class(mrb, &quot;File&quot;, mrb-&gt;object_class);
+MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);      // ← 빠뜨리면 DATA_PTR가 없다
+
+// 3. initialize — 재초기화 안전 순서
+auto fi_initialize(mrb_state* mrb, mrb_value self) -&gt; mrb_value
+{
+  mrb_value path;
+  mrb_get_args(mrb, &quot;S&quot;, &amp;path);            // String 타입 체크 포함
+
+  auto p = static_cast&lt;file*&gt;(DATA_PTR(self));
+  if (p) file_free(mrb, p);                 // 재호출되면 이전 것 해제
+  DATA_PTR(self)  = nullptr;                // ← new 중 GC가 봐도 안전하게
+  DATA_TYPE(self) = nullptr;
+  DATA_PTR(self)  = new file(RSTRING_PTR(path));
+  DATA_TYPE(self) = &amp;file_type;
+  return self;
+}
+
+// 4. 메서드 — unwrap 후 위임
+auto fi_size(mrb_state* mrb, mrb_value self) -&gt; mrb_value
+{
+  auto f = static_cast&lt;file*&gt;(mrb_data_get_ptr(mrb, self, &amp;file_type));
+  return mrb_int_value(mrb, f-&gt;size());
+}
+</code></pre>
+<p>핵심 규칙:</p>
+<ul>
+<li><strong><code>MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA)</code>는 필수.</strong>  없으면 일반 오브젝트가 만들어져 <code>DATA_PTR</code> 접근이 미정의 동작이다.</li>
+<li><strong>재초기화 순서</strong> — <code>DATA_TYPE(self) = NULL</code> → <code>new</code> → <code>DATA_PTR</code>, <code>DATA_TYPE</code> 대입.  <code>new</code> 도중 GC가 돌면 반쯤 죽은 포인터를 free 함수가 만지는 사고를 막는 순서다.</li>
+<li><strong><code>mrb_data_get_ptr</code>은 타입 검사를 해 준다</strong> — 다른 클래스 객체가 들어오면 crash 대신 TypeError를 raise한다.</li>
+</ul>
+<h3 id="mrb-get-args"><code>mrb_get_args</code> 포맷 지정자</h3>
+<p><code>mrb_get_arg1</code> + raw <code>RSTRING_PTR</code> 조합 대신 포맷 지정자를 쓴다 — 지정자가 타입 검사를 해서 잘못된 인자에 TypeError를 raise하므로 호스트가 죽지 않는다.</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>지정자</th>
+<th>C 타입</th>
+<th>의미</th>
+</tr></thead><tbody>
+<tr>
+<td><code>i</code></td>
+<td><code>mrb_int</code></td>
+<td>Integer (Float이 오면 변환)</td>
+</tr>
+<tr>
+<td><code>f</code></td>
+<td><code>mrb_float</code></td>
+<td>Float</td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td><code>mrb_value</code></td>
+<td>String 객체 (타입 체크)</td>
+</tr>
+<tr>
+<td><code>z</code></td>
+<td><code>const char*</code></td>
+<td>NUL 종료 C 문자열</td>
+</tr>
+<tr>
+<td><code>s</code></td>
+<td><code>const char*</code> + <code>mrb_int</code></td>
+<td>포인터+길이 (바이너리 안전)</td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td><code>mrb_bool</code></td>
+<td>truthy/falsy</td>
+</tr>
+<tr>
+<td><code>o</code></td>
+<td><code>mrb_value</code></td>
+<td>임의 객체 (체크 없음)</td>
+</tr>
+<tr>
+<td><code>A</code> / <code>A!</code></td>
+<td><code>mrb_value</code></td>
+<td>Array (<code>!</code>는 nil 허용)</td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td><code>mrb_value</code></td>
+<td>블록</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td><code>const mrb_value*</code> + <code>mrb_int</code></td>
+<td>나머지 인자 전부</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="gc">GC 아레나 — 루프에서 컬렉션을 만들 때</h2>
+<p>mruby GC는 "아레나"에 신생 객체를 등록해 콜렉션에서 보호한다. 아레나는 <strong>C 코드가 mruby로 돌아갈 때까지 줄어들지 않으므로</strong>, C 루프 안에서 객체를 대량 생산하면 아레나가 계속 자라 메모리를 잡아먹고 결국 arena overflow가 난다.</p>
+<p>패턴: 요소가 컨테이너에 <strong>앵커된 직후</strong> 아레나를 복원한다.</p>
+<pre><code class="lang-cpp">
+auto hs = mrb_hash_new_capa(mrb, n);
+for (auto fs : file_systems)
+{
+  int ai = mrb_gc_arena_save(mrb);
+  auto key = mrb_str_new(mrb, ...);
+  mrb_hash_set(mrb, hs, key, wrap(fs));   // hs가 key/value를 참조 → 보호됨
+  mrb_gc_arena_restore(mrb, ai);          // 임시 참조만 아레나에서 해제
+}
+</code></pre>
+<p><code>hs</code> 자체는 스택(C 함수의 mrb_value)에 살아 있으므로 안전하고, 루프마다 만들어진 key/value는 <code>hs</code>에 매달린 순간부터 아레나의 보호가 필요 없다.</p>
+<hr>
+<h2 id="">소유권 — 이 포인터는 누가 지우는가</h2>
+<p>DATA 타입의 free 함수는 클래스당 하나다.  그런데 같은 클래스의 인스턴스가 <strong>두 가지 경로</strong>로 만들어질 수 있다:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>경로</th>
+<th>소유자</th>
+<th>free 함수가 할 일</th>
+</tr></thead><tbody>
+<tr>
+<td>호스트가 자기 객체를 wrap해서 건네줌</td>
+<td>C++ (host)</td>
+<td>아무것도 안 함 (borrowed)</td>
+</tr>
+<tr>
+<td>스크립트가 <code>Klass.new</code>로 생성</td>
+<td>mruby GC</td>
+<td><code>delete</code> (owned)</td>
+</tr>
+<tr>
+<td>호스트가 복사본을 만들어 건네줌</td>
+<td>mruby GC</td>
+<td><code>delete</code> (owned copy)</td>
+</tr>
+</tbody></table></div>
+<p>한 클래스에 한 free 함수만 있으므로, 소유권 정보 없이는 **borrowed를 지우거나(double free) owned를 안 지우는(leak)** 둘 중 하나가 된다. 실제로 <code>md.analyzer</code> 초기 버전은 <code>FileSystem</code> 하나의 <code>mrb_data_type</code> 으로 두 경우를 다 받다가 Ruby 생성분이 전부 누수됐다.</p>
+<p>해법은 포인터에 소유권 플래그를 같이 싣는 것 — mrubybind의 <code>holder</code>가 정확히 이것이다 (다음 절).</p>
+<hr>
+<h2 id="mrubybind">mrubybind — 헤더 하나로 캡슐화한 바인딩 레이어</h2>
+<p>위의 모든 패턴(소유권, 타입 체크, 아레나, 에러 리포팅)을 담은 단일 헤더 <code>mrubybind.hpp</code>.  의존성은 mruby뿐이고, 네임스페이스는 <code>mrubybind</code>, 모든 타입은 snake_case다.</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>타입</th>
+<th>역할</th>
+</tr></thead><tbody>
+<tr>
+<td><code>vm</code></td>
+<td>RAII <code>mrb_state</code> + <code>mrbc_context</code>.  로딩/에러 리포팅 담당</td>
+</tr>
+<tr>
+<td><code>klass&lt;T&gt;</code></td>
+<td>T를 Ruby 클래스로 정의.  ctor/method 바인딩 빌더</td>
+</tr>
+<tr>
+<td><code>holder&lt;T&gt;</code></td>
+<td>래핑된 포인터 + owned 플래그.  free 함수가 참조</td>
+</tr>
+<tr>
+<td><code>arena_guard</code></td>
+<td>scope 기반 <code>mrb_gc_arena_save/restore</code></td>
+</tr>
+<tr>
+<td><code>arg&lt;T&gt;</code></td>
+<td>C++ 타입 → <code>mrb_get_args</code> 지정자/변환 트레이트</td>
+</tr>
+<tr>
+<td><code>to_ruby(mrb, v)</code></td>
+<td>C++ 값 → mrb_value 변환 (컨테이너 포함)</td>
+</tr>
+</tbody></table></div>
+<h3 id="vm">vm — 호스트의 진입점</h3>
+<pre><code class="lang-cpp">
+mrubybind::vm vm;
+if (!vm.ok()) return 1;              // mrb_open 실패
+auto mrb = vm.state();
+
+init_data_store(mrb);                // 도메인 클래스 등록 (아래)
+vm.run_file(&quot;myscript.rb&quot;);          // false면 예외가 이미 출력된 상태
+</code></pre>
+<ul>
+<li><code>run_file(path)</code> / <code>run_string(code, filename)</code> — context에 파일명을 등록하고 실행하므로 에러가 파일/라인을 가진다.  성공 여부는 <code>mrb-&gt;exc</code> 기준 (마지막 표현식 값이 아니다).</li>
+<li><code>check()</code> — pending 예외가 있으면 backtrace 출력 후 클리어하고 false 반환.  모든 진입점이 내부적으로 이걸 거친다.</li>
+<li><code>set_global("$ds", v)</code> — 전역 변수 주입.  호스트 싱글턴을 스크립트에 노출하는 표준 통로.</li>
+<li><code>call(recv, "name", args...)</code> — <code>mrb_funcall</code> + 자동 <code>to_ruby</code> 인자 변환 + <code>check()</code>.  C++에서 Ruby 메서드를 부를 때 쓴다.</li>
+</ul>
+<h3 id="klass-t"><code>klass&lt;T&gt;</code> — 클래스 정의 빌더</h3>
+<p><code>md.analyzer</code>의 실제 바인딩 코드 전문:</p>
+<pre><code class="lang-cpp">
+// file_ext.cpp — C++ 클래스 file을 MD::File로 노출
+auto init_file(mrb_state* mrb) -&gt; void
+{
+  mrubybind::klass&lt;file&gt;::define(mrb, &quot;MD&quot;, &quot;File&quot;)   // module, class
+    .ctor&lt;string&gt;()                       // MD::File.new(path) — &quot;S&quot; 체크
+    .method&lt;&amp;file::name&gt;(&quot;name&quot;)
+    .method&lt;&amp;file::size&gt;(&quot;size&quot;)
+    .method&lt;&amp;file::deleted&gt;(&quot;deleted?&quot;)
+    .method&lt;&amp;file::seek&gt;(&quot;seek&quot;)          // 인자 지정자는 시그니처에서 유도
+    .method&lt;&amp;file::read&gt;(&quot;read&quot;)          // vector&lt;uint8_t&gt; → binary String
+    .method&lt;&amp;file::save_to&gt;(&quot;save_to&quot;);
+}
+</code></pre>
+<ul>
+<li><code>define(mrb, "File")</code> — 최상위 클래스.  <code>define(mrb, "MD", "File")</code> — <code>MD</code> 모듈(없으면 생성) 아래 정의.  내부에서 <code>mrb_data_type</code> 세팅과 <code>MRB_SET_INSTANCE_TT</code>까지 처리한다.</li>
+<li><code>ctor&lt;Args...&gt;()</code> — <code>initialize</code>를 바인딩.  인자 타입 목록에서 <code>mrb_get_args</code> 포맷 문자열을 <strong>컴파일 타임에 생성</strong>하므로 <code>MD::File.new(123)</code>은 crash가 아니라 TypeError다.  재초기화 안전 순서(DATA_TYPE 먼저 NULL)도 내장.</li>
+<li><code>method&lt;&amp;T::f&gt;("name")</code> — 멤버 함수 포인터에서 시그니처를 뽑아 인자 파싱과 반환값 변환을 자동화한다.</li>
+<li><code>method_raw("name", fn, aspec)</code> — 블록/해시/가변 인자처럼 자동화가 안 되는 경우를 위한 탈출구.  <code>fn</code>은 생 <code>mrb_func_t</code>.</li>
+</ul>
+<h3 id="holder">holder — 소유권 플래그</h3>
+<p>모든 래핑 포인터는 <code>holder&lt;T&gt;{ptr, owned}</code>로 싸여 저장된다.</p>
+<pre><code class="lang-cpp">
+// 호스트 소유(빌린 것) — free 함수는 holder만 지우고 ptr은 안 건드림
+auto v = mrubybind::klass&lt;data_store&gt;::wrap(mrb, &amp;data_store::instance(), false);
+
+// 스크립트 생성(GC 소유) — ctor가 owned=true로 만들고 free가 delete
+// MD::File.new(&quot;...&quot;)     ← 자동
+
+// unwrap — 타입/초기화 검사 포함, 실패 시 raise
+auto ds = mrubybind::klass&lt;data_store&gt;::unwrap(mrb, self);
+</code></pre>
+<p>같은 클래스가 borrowed와 owned 인스턴스를 동시에 가질 수 있게 되어, 위 소유권 절의 leak/double-free 딜레마가 사라진다.</p>
+<h3 id="to-ruby">to_ruby — 반환값 변환 규칙</h3>
+<p><code>method&lt;&gt;</code>가 바인딩한 함수의 반환값은 <code>to_ruby</code>가 변환한다:</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>C++ 반환</th>
+<th>Ruby 값</th>
+</tr></thead><tbody>
+<tr>
+<td><code>bool</code> / 정수 / 부동소수</td>
+<td><code>true/false</code> / Integer / Float</td>
+</tr>
+<tr>
+<td><code>string</code>, <code>const char*</code></td>
+<td>String</td>
+</tr>
+<tr>
+<td><code>vector&lt;uint8_t&gt;</code></td>
+<td><strong>binary String</strong> (거대 Array 방지)</td>
+</tr>
+<tr>
+<td><code>vector&lt;T&gt;</code></td>
+<td>Array (요소마다 arena 복원)</td>
+</tr>
+<tr>
+<td><code>map&lt;K,V&gt;</code></td>
+<td>Hash (요소마다 arena 복원)</td>
+</tr>
+<tr>
+<td><code>T*</code></td>
+<td>borrowed로 wrap (호스트 소유 유지)</td>
+</tr>
+<tr>
+<td><code>T</code> (값)</td>
+<td>복사본을 owned로 wrap (GC가 수거)</td>
+</tr>
+</tbody></table></div>
+<p>포인터는 빌려주고 값은 복사해 넘긴다는 규칙이 소유권 표와 정확히 대응한다.</p>
+<h3 id="md-analyzer">전체 흐름 — md.analyzer 미니 예제</h3>
+<pre><code class="lang-cpp">
+// main.cpp
+auto main(int argc, const char* argv[]) -&gt; int
+{
+  mrubybind::vm vm;
+  if (!vm.ok()) return 1;
+
+  auto mrb = vm.state();
+  init_data_store(mrb);     // MD::DataStore + $ds 전역
+  init_file_system(mrb);    // MD::Filesystem
+  init_file(mrb);           // MD::File
+
+  return vm.run_file(argc &gt; 1 ? argv[1] : &quot;myscript.rb&quot;) ? 0 : 1;
+}
+</code></pre>
+<pre><code class="lang-ruby">
+# myscript.rb
+puts $ds.desc                          # 호스트 싱글턴 (borrowed)
+$ds.file_systems.each { |name, fs| puts &quot; #{name}&quot; }
+
+f = MD::File.new(&quot;/evidence/img.dd&quot;)   # 스크립트 생성 (GC-owned)
+puts f.size
+f.save_to(&quot;/tmp/out&quot;)
+</code></pre>
+<hr>
+<h2 id="">네임스페이스 — 내장 클래스와의 충돌</h2>
+<p><code>default.gembox</code>로 빌드한 mruby에는 <code>mruby-io</code>가 포함되어 **내장 <code>File</code>/<code>IO</code>/<code>Dir</code>가 이미 존재한다**.  도메인 클래스를 최상위 <code>File</code>로 정의하면 내장 클래스를 재오픈하면서 <code>MRB_SET_INSTANCE_TT</code>가 내장 File 객체의 내부 표현까지 바꿔 VM이 깨진다.</p>
+<p>규칙: <strong>도메인 클래스는 전용 모듈 아래 정의한다.</strong> <code>mrubybind</code>는 <code>define(mrb, "MD", "File")</code> 오버로드로 이를 지원하고, <code>MD::File</code>과 내장 <code>::File</code>은 완전히 독립적으로 공존한다.</p>
+<pre><code class="lang-ruby">
+MD::File == File          # =&gt; false
+File.exist?(&quot;/etc/hosts&quot;) # =&gt; true  (내장은 그대로)
+</code></pre>
+<hr>
+<h2 id="">함정 요약</h2>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>함정</th>
+<th>증상</th>
+<th>처방</th>
+</tr></thead><tbody>
+<tr>
+<td>반환값으로 성공 판정</td>
+<td><code>false</code>로 끝나는 정상 스크립트가 실패 처리</td>
+<td><code>mrb-&gt;exc</code>로만 판정</td>
+</tr>
+<tr>
+<td><code>MRB_SET_INSTANCE_TT</code> 누락</td>
+<td><code>DATA_PTR</code> 미정의 동작, 간헐 crash</td>
+<td>DATA 클래스 정의 직후 필수 호출</td>
+</tr>
+<tr>
+<td>재초기화 시 이전 포인터 방치</td>
+<td><code>initialize</code> 2회 호출 시 leak/UAF</td>
+<td>DATA_TYPE=NULL → new → 대입 순서</td>
+</tr>
+<tr>
+<td>raw <code>RSTRING_PTR</code> 인자 파싱</td>
+<td>잘못된 타입 인자에 호스트 crash</td>
+<td>포맷 지정자(<code>"S"</code>, <code>"i"</code>) 또는 <code>ctor&lt;&gt;</code>/<code>method&lt;&gt;</code></td>
+</tr>
+<tr>
+<td>루프에서 아레나 방치</td>
+<td>대량 변환 시 메모리 폭증, arena overflow</td>
+<td>요소 앵커 후 <code>arena_guard</code>/save·restore</td>
+</tr>
+<tr>
+<td>한 free 함수로 두 소유권</td>
+<td>leak 또는 double free</td>
+<td><code>holder</code>의 owned 플래그로 분리</td>
+</tr>
+<tr>
+<td>최상위에 <code>File</code> 등 정의</td>
+<td>내장 클래스 파괴, VM 오동작</td>
+<td>전용 모듈(<code>MD::</code>) 아래 정의</td>
+</tr>
+<tr>
+<td>context 없는 로딩</td>
+<td>에러에 파일/라인 없음</td>
+<td><code>mrbc_context</code> + <code>mrb_ccontext_filename</code></td>
+</tr>
+<tr>
+<td><code>mrb_funcall</code> 후 예외 미확인</td>
+<td>오염된 상태로 계속 실행</td>
+<td>매 호출 후 <code>mrb-&gt;exc</code> 확인·클리어</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="">참고 자료</h2>
+<ul>
+<li><code>four.basic.cases/</code> — 임베딩 4단계 최소 예제</li>
+<li><code>md.analyzer/</code> — 도메인 객체 노출 프로토타입 (이 문서의 예제 출처)</li>
+<li><code>mrubybind/mrubybind.hpp</code> — 헬퍼 전체 소스 (~500줄)</li>
+<li><code>mrubybind/test.cpp</code> — 소유권/타입체크/컬렉션 self test</li>
+<li>forensic.filesystem <code>docs/scripting.md</code> — 실전 mruby 프런트엔드 <code>pfs_mruby</code></li>
+<li>mruby 공식: https://github.com/mruby/mruby (doc/guides/mrbgems.md, doc/api/)</li>
+</ul>
+  </main>
+
+  <footer class="colophon">
+    <p>Generated from <code>docs/mruby_embedding.md</code> on
+       2026-07-08, commit 050d1c47.</p>
+  </footer>
+</div>
+</body>
+</html>

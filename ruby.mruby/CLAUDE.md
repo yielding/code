@@ -55,6 +55,8 @@ subdirectory containing the script.
   already defines a builtin `::File`). The C++ classes are snake_case (`data_store`,
   `file_system`, `file`). `TODO.md` tracks progress; refactoring is the current phase.
 - `ref.doc/if_mruby.c` — vim's mruby interface (reference material, not built).
+- `docs/` — the mruby embedding manual (`mruby_embedding.md`); regenerate the HTML
+  viewer with `python3 docs/gen_docs_html.py` after editing the markdown.
 
 ## Binding Architecture (md.analyzer)
 
@@ -79,7 +81,7 @@ before changing anything:
 - Collections are returned by copy: `jb_get_dvd_list` news a copy of each element and
   transfers ownership to the GC — the correct pattern for value-like objects.
 - md.analyzer routes all of this through `mrubybind` (`../mrubybind/mrubybind.hpp`):
-  every wrapped pointer carries an owned/borrowed flag (`Holder`), so one class can
+  every wrapped pointer carries an owned/borrowed flag (`holder`), so one class can
   hand out host-owned pointers (`wrap(mrb, p, false)`) and GC-owned instances
   (`.new` from Ruby) without leaking or double-freeing.
 
