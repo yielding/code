@@ -26,13 +26,7 @@ namespace {
 struct DVD
 {
   DVD(string n="") : name(n) {}
-  DVD(DVD const& rhs) 
-  {
-    if (this != &rhs)
-    {
-        name = rhs.name;
-    }
-  }
+  DVD(DVD const& rhs) : name(rhs.name) {}
 
   string name;
 };
@@ -71,7 +65,7 @@ struct CDJukeBox
     {
       for (int i=0; i<10; i++)
       {
-        DVD d(str(format("dvd no: %d") % i));
+        DVD d(str(boost::format("dvd no: %d") % i));
 
         dvd_list.push_back(d);
       }
@@ -152,9 +146,14 @@ mrb_value dvd_initialize(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
   */
 
-  mrb_value name; 
+  mrb_value name;
   mrb_get_args(mrb, "S", &name);
-  DATA_PTR(self)  = new DVD(RSTRING_PTR(name));
+
+  // detach before new: a GC triggered by the allocation must not
+  // see the already-freed old pointer
+  DATA_PTR(self)  = NULL;
+  DATA_TYPE(self) = NULL;
+  DATA_PTR(self)  = new DVD(string(RSTRING_PTR(name), RSTRING_LEN(name)));
   DATA_TYPE(self) = &dvd_type;
 
   return self;
@@ -217,9 +216,11 @@ jb_initialize(mrb_state* mrb, mrb_value self)
   if (jb != nullptr)
     jb_free(mrb, jb);
 
-  mrb_int unit;   
+  mrb_int unit;
   mrb_get_args(mrb, "i", &unit);
 
+  DATA_PTR(self)  = NULL;
+  DATA_TYPE(self) = NULL;
   DATA_PTR(self)  = new CDJukeBox(unit);
   DATA_TYPE(self) = &jukebox_type;
 
@@ -283,11 +284,16 @@ auto jb_get_dvd_list(mrb_state* mrb, mrb_value self) -> mrb_value
 
   for (auto it=dl.begin(); it!=dl.end(); ++it)
   {
+    // once pushed, the array anchors the element: restore the arena
+    // per iteration so a large list cannot overflow it
+    int ai = mrb_gc_arena_save(mrb);
+
     auto pdvd = new DVD(*it);
     auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) pdvd));
  // auto dvd = mrb_obj_value(Data_Wrap_Struct(mrb, cls, &dvd_type, (void*) &*it));
 
     mrb_ary_push(mrb, ar, dvd);
+    mrb_gc_arena_restore(mrb, ai);
   }
 
   return ar;
@@ -346,7 +352,7 @@ void init_jukebox(mrb_state* mrb)
   MRB_SET_INSTANCE_TT(jb, MRB_TT_DATA);
 
   mrb_define_method(mrb, jb, "initialize", jb_initialize, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, jb, "seek", jb_seek, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, jb, "seek", jb_seek, MRB_ARGS_REQ(2)|MRB_ARGS_BLOCK());
   mrb_define_method(mrb, jb, "avg_seek_time", jb_avg_seek_time, MRB_ARGS_NONE());
   mrb_define_method(mrb, jb, "unit",  jb_get_unit, MRB_ARGS_NONE());
   mrb_define_method(mrb, jb, "unit=", jb_set_unit, MRB_ARGS_REQ(1));
