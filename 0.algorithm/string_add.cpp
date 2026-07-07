@@ -30,7 +30,7 @@ auto add(string const& a, string const& b) -> string
   return result;
 };
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
   auto a = "123"s;
   auto b = "12345"s;

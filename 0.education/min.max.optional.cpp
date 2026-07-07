@@ -63,13 +63,11 @@ auto get_min_max_3(Container const& c) -> optional<tuple<int, int>>
   return optional(make_tuple(min_, max_));
 }
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   auto r0 = get_min_max_3(vector<int>());
   if (!r0.has_value())
-  {
     cout << "container is empty" << endl;
-  }
 
   auto v1 = vector{1, 2, 3, 4, 5};
   auto r1 = get_min_max_3(v1);
