@@ -11,7 +11,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif()
 
 set (SOURCES
-  md.analyzer.cpp
+  main.cpp
   data_store_ext.cpp
   data_store.cpp
   file_system_ext.cpp

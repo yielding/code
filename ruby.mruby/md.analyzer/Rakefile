@@ -7,11 +7,10 @@ SRCS      = %w{ ./data_store.cpp
                 ./file_system_ext.cpp
                 ./file.cpp
                 ./file_ext.cpp
-                ./md.analyzer.cpp
+                ./main.cpp
               }
 
-TEST_SRCS = %w{ ./test_main.cpp 
-              }
+TEST_SRCS = %w{ }
 
 INCS      = ":mvm ../mrubybind"
 CXX       = "g++"              # c++0x, clang++, blank

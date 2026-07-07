@@ -62,10 +62,10 @@ Each domain class comes in a pair:
   functions, and an `init_foo(mrb_state*)` that defines the Ruby class
   (`MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA)`) and its methods.
 
-`main.cpp` opens the VM, calls each `init_*`, loads and runs `myscript.rb`, checks
-`mrb->exc`, closes the VM. The DataStore singleton is exposed to scripts as the global
-`$ds` via `mrb_gv_set`. Note: `main.cpp` and `md.analyzer.cpp` are duplicate mains —
-the Rakefile builds the former, CMake the latter.
+`main.cpp` (the single entry point, built by both the Rakefile and CMake) opens the VM,
+calls each `init_*`, loads and runs `myscript.rb` (or the script given as `argv[1]`),
+checks `mrb->exc`, closes the VM. The DataStore singleton is exposed to scripts as the
+global `$ds` via `mrb_gv_set`.
 
 ## Ownership Conventions (critical when touching bindings)
 
