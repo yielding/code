@@ -15,22 +15,22 @@ namespace {
 
   int g_alive = 0;
 
-  class Track
+  class track
   {
   public:
-    Track(const string title)
+    track(const string title)
       : _title(title)
     {
       g_alive++;
     }
 
-    Track(const Track& rhs)
+    track(const track& rhs)
       : _title(rhs._title)
     {
       g_alive++;
     }
 
-    ~Track()
+    ~track()
     {
       g_alive--;
     }
@@ -43,23 +43,23 @@ namespace {
     string _title;
   };
 
-  class Player
+  class player
   {
   public:
-    Player()
+    player()
     {
-      _tracks.push_back(Track("intro"));
-      _tracks.push_back(Track("verse"));
-      _tracks.push_back(Track("outro"));
+      _tracks.push_back(track("intro"));
+      _tracks.push_back(track("verse"));
+      _tracks.push_back(track("outro"));
     }
 
   public:
-    auto tracks() -> vector<Track>& { return _tracks; }
+    auto tracks() -> vector<track>& { return _tracks; }
     auto volume() -> double { return 0.75; }
     auto data() -> vector<uint8_t> { return { 0x41, 0x42, 0x43 }; }
 
   private:
-    vector<Track> _tracks;
+    vector<track> _tracks;
   };
 
 }
@@ -74,25 +74,25 @@ auto main() -> int
   auto failed = 0;
 
   {
-    Player player;  // host-owned, exposed to the script as borrowed $player
+    player pl;  // host-owned, exposed to the script as borrowed $player
 
-    mrubybind::VM vm;
+    mrubybind::vm vm;
     if (!vm.ok())
       return 1;
 
     auto mrb = vm.state();
 
-    mrubybind::Klass<Track>::define(mrb, "Track")
+    mrubybind::klass<track>::define(mrb, "Track")
       .ctor<string>()
-      .method<&Track::title>("title")
-      .method<&Track::rate>("rate");
+      .method<&track::title>("title")
+      .method<&track::rate>("rate");
 
-    mrubybind::Klass<Player>::define(mrb, "Player")
-      .method<&Player::tracks>("tracks")
-      .method<&Player::volume>("volume")
-      .method<&Player::data>("data");
+    mrubybind::klass<player>::define(mrb, "Player")
+      .method<&player::tracks>("tracks")
+      .method<&player::volume>("volume")
+      .method<&player::data>("data");
 
-    vm.set_global("$player", mrubybind::Klass<Player>::wrap(mrb, &player, false));
+    vm.set_global("$player", mrubybind::klass<player>::wrap(mrb, &pl, false));
 
     auto ok = vm.run_string(R"(
       t = Track.new("intro")

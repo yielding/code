@@ -24,8 +24,8 @@
     - file
 
   + refactoring
-    - mrubybind helper: ownership-aware (owned/borrowed Holder) DATA binding,
-      type-checked args from C++ signatures, ArenaGuard, VM with context-based
+    - mrubybind helper: ownership-aware (owned/borrowed holder) DATA binding,
+      type-checked args from C++ signatures, arena_guard, vm with context-based
       loading and error reporting
     - split FileSystem ownership: borrowed from DataStore vs GC-owned from Ruby
     - single main.cpp built by both CMake and Rake

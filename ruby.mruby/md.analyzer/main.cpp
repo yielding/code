@@ -14,7 +14,7 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////
 auto main(int argc, const char* argv[]) -> int
 {
-  mrubybind::VM vm;
+  mrubybind::vm vm;
   if (!vm.ok())
   {
     cerr << "cannot open the mruby vm\n";
