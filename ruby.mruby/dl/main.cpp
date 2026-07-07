@@ -59,7 +59,7 @@ void init_TestClass(mrb_state* mrb)
   mrb_define_method(mrb, TestClass, "run", test_run, MRB_ARGS_NONE());
 }
 
-int main()
+auto main() -> int
 {
   auto mrb = mrb_open();
   init_TestClass(mrb);
