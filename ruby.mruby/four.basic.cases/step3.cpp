@@ -20,7 +20,7 @@ void plus(mrb_state *mrb, mrb_value a, mrb_value b)
   mrb_funcall(mrb, mrb_top_self(mrb), "p", 1, v);
 }
 
-int main()
+auto main() -> int
 {
   mrb_value str;
   mrb_value z;
@@ -43,7 +43,7 @@ int main()
       mrb_fixnum_value(24),
       mrb_fixnum_value(16),
       mrb_fixnum_value( 8)
-      );
+  );
 
   str = mrb_str_new_cstr(mrb, "z=");
   mrb_funcall(mrb, mrb_top_self(mrb), "print", 2, str, z);

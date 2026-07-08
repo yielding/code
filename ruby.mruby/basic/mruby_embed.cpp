@@ -46,7 +46,7 @@ namespace {
 
 } 
 
-int main()
+auto main() -> int
 {
   using namespace std;
 

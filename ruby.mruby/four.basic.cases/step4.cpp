@@ -40,7 +40,7 @@ auto plus_(mrb_state *mrb, mrb_value self) -> mrb_value
   return mrb_nil_value();
 }
 
-int main()
+auto main() -> int
 {
   auto mrb = mrb_open();
   auto cObject = mrb_class_get(mrb, "Object");
