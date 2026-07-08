@@ -1,4 +1,4 @@
-#include "file.h"
+#include "node.h"
 
 #include <iostream>
 #include <filesystem>
@@ -10,7 +10,7 @@ using namespace std;
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-file::file(string const& p)
+node::node(string const& p)
   : _path(p)
 {
   auto ph = std::filesystem::path(_path);
@@ -19,47 +19,47 @@ file::file(string const& p)
   _size = 1234;
 }
 
-file::~file()
+node::~node()
 {
 }
 
-auto file::name() -> string
+auto node::name() -> string
 {
   return _name;
 }
 
-auto file::path() -> string
+auto node::path() -> string
 {
   return _path;
 }
 
-auto file::size() -> int64_t
+auto node::size() -> int64_t
 {
   return _size;
 }
 
-auto file::parent() -> string
+auto node::parent() -> string
 {
   return fs::path(_path).parent_path().string();
 }
 
-auto file::deleted() -> bool
+auto node::deleted() -> bool
 {
   return false;
 }
 
-auto file::seek(int pos) -> void
+auto node::seek(int pos) -> void
 {
 }
 
-auto file::save_to(string const& res) -> bool
+auto node::save_to(string const& res) -> bool
 {
   cout << "save_to: " << res << endl;
 
   return true;
 }
 
-auto file::read(uint32_t size) -> vector<uint8_t>
+auto node::read(uint32_t size) -> vector<uint8_t>
 {
   vector<uint8_t> v;
 

@@ -1,5 +1,4 @@
-#ifndef FILE_H
-#define FILE_H
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -10,11 +9,11 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-class file
+class node
 {
 public:
-  file(std::string const& path);
-  ~file();
+  node(std::string const& path);
+  ~node();
 
 public: // query
   auto name() -> std::string;
@@ -39,5 +38,3 @@ private:
 //
 //
 ////////////////////////////////////////////////////////////////////////////////
-
-#endif
