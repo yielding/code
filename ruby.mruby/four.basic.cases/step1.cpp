@@ -4,7 +4,7 @@
 #include <mruby.h>
 #include <mruby/compile.h>
 
-int main()
+auto main() -> int
 {
   char code[] = "puts 'hello'; puts 1+2; p({:a=>[1,2,3], :b=>{'c'=>{'d'=>['e', {'f'=>nil}]}}})";
 

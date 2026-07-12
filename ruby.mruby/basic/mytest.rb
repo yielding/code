@@ -5,4 +5,4 @@ t = MyTest.new
 #p t.to_s
 
 config = JSON::parse '{"foo": "bar"}'
-puts config["foo"]
+puts config['foo']

@@ -1,6 +1,6 @@
 #include "data_store_ext.h"
 #include "file_system_ext.h"
-#include "file_ext.h"
+#include "node_ext.h"
 
 #include "mrubybind.hpp"
 
@@ -24,7 +24,7 @@ auto main(int argc, const char* argv[]) -> int
   auto mrb = vm.state();
   init_data_store(mrb);
   init_file_system(mrb);
-  init_file(mrb);
+  init_node(mrb);
 
   auto script = argc > 1 ? argv[1] : "myscript.rb";
 

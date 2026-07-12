@@ -20,8 +20,8 @@ set (SOURCES
   data_store.cpp
   file_system_ext.cpp
   file_system.cpp
-  file_ext.cpp
-  file.cpp
+  node_ext.cpp
+  node.cpp
 )
 
 include_directories (

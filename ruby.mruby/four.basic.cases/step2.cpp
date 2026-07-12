@@ -1,16 +1,15 @@
 /*
    [step2] run ruby code in file.
-   */
+*/
 
 #include <mruby.h>
 #include <mruby/proc.h>
 #include <stdio.h>
 
-
-int main()
+auto main() -> int
 {
-  FILE* f = fopen("step2.rb", "r");
-  if (f == NULL)
+  auto* f = fopen("step2.rb", "r");
+  if (f == nullptr)
   { 
     printf("ERROR: file not found");
     exit(1);
@@ -20,4 +19,6 @@ int main()
   mrb_load_file(mrb, f);
   fclose(f);
   mrb_close(mrb);
+
+  return 0;
 }

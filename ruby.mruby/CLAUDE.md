@@ -51,9 +51,10 @@ subdirectory containing the script.
 - `jukebox/` — Pickaxe CDJukeBox example ported to mruby: DATA-type wrapping, block
   yield from C, returning C++ collections as Ruby arrays.
 - `md.analyzer/` — main prototype: exposes domain objects to scripts under the `MD`
-  module (`MD::DataStore`, `MD::Filesystem`, `MD::File` — namespaced because mruby-io
-  already defines a builtin `::File`). The C++ classes are snake_case (`data_store`,
-  `file_system`, `file`). `TODO.md` tracks progress; refactoring is the current phase.
+  module (`MD::DataStore`, `MD::Filesystem`, `MD::Node`). An entry inside a filesystem
+  is a *node*, not a file — forensic naming; it also steers clear of the builtin
+  `::File` that mruby-io defines. The C++ classes are snake_case (`data_store`,
+  `file_system`, `node`). `TODO.md` tracks progress; refactoring is the current phase.
 - `ref.doc/if_mruby.c` — vim's mruby interface (reference material, not built).
 - `docs/` — the mruby embedding manual (`mruby_embedding.md`); regenerate the HTML
   viewer with `python3 docs/gen_docs_html.py` after editing the markdown.
@@ -77,7 +78,7 @@ Who deletes the wrapped pointer is per-class and inconsistent — check the free
 before changing anything:
 - **Borrowed** (free fn only logs, C++ owns): data_store singleton, file_system pointers
   handed out by `get_file_systems`.
-- **Owned** (free fn deletes, mruby GC owns): file, DVD, CDJukeBox.
+- **Owned** (free fn deletes, mruby GC owns): node, DVD, CDJukeBox.
 - Collections are returned by copy: `jb_get_dvd_list` news a copy of each element and
   transfers ownership to the GC — the correct pattern for value-like objects.
 - md.analyzer routes all of this through `mrubybind` (`../mrubybind/mrubybind.hpp`):
