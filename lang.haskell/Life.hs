@@ -1,9 +1,8 @@
 import System.IO
-import System.Process (system)
+import Control.Concurrent (threadDelay)
 
 cls  :: IO ()
-cls = do system("clear")
-         return ()
+cls = putStr "\ESC[2J"
 
 type Pos = (Int, Int)
 
@@ -75,11 +74,15 @@ nextgen board = survivors board ++ births board
 life :: Board -> IO ()
 life board = do cls
                 showcells board
-                wait 100000
+                hFlush stdout
+                wait 500000
                 life (nextgen board)
 
-wait :: Int -> IO()
-wait n = seqn[return () | _ <- [1..n]]
+wait :: Int -> IO ()
+wait = threadDelay
 
 
-main = do life glider
+main :: IO ()
+main = do hSetBuffering stdout (BlockBuffering Nothing)
+          putStr "\ESC[?25l"          -- hide cursor
+          life glider
