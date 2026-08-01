@@ -1,7 +1,0 @@
-# g++-16 의 실험적 C++26 reflection(P2996) 코드는 mainline clang/clangd 가
-# 파싱하지 못한다(^^, [: :], template for 미구현). 따라서 이 디렉터리에서는
-# clangd 가 내는 거짓 진단을 끄고, 실제 검증은 g++-16 빌드에 맡긴다.
-CompileFlags:
-  Remove: [-freflection]      # clang 이 모르는 드라이버 플래그 제거
-Diagnostics:
-  Suppress: '*'               # 파싱 불가로 인한 거짓 에러 전부 억제

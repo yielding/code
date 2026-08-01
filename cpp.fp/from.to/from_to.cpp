@@ -1,12 +1,10 @@
 #include <iostream>
-#include <string>
 
 using namespace std;
 
 auto from_to = [](auto start, auto finish) 
 {
-  return [=]() mutable 
-  {
+  return [=]() mutable {
     if (start < finish)
       return start++;
 
@@ -14,7 +12,7 @@ auto from_to = [](auto start, auto finish)
   };
 };
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
   auto range = from_to(0, 10);
 

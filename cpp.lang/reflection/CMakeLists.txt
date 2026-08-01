@@ -1,10 +1,6 @@
-cmake_minimum_required (VERSION 3.30.0)
+cmake_minimum_required (VERSION 4.0.0)
 
-# Use g++-16 (experimental C++26 reflection / P2996 support).
-# Must be set before project() so CMake picks it up during compiler detection.
-set (CMAKE_CXX_COMPILER g++-16)
-
-project (main)
+project (main LANGUAGES CXX)
 
 set (CMAKE_CXX_STANDARD 26)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -19,7 +15,7 @@ set (SOURCES
 if (APPLE)
   # macOS specific paths (Apple Silicon)
   set (HOMEBREW_PREFIX "/opt/homebrew")
-  
+
   if (EXISTS ${HOMEBREW_PREFIX})
     include_directories (
       ${HOMEBREW_PREFIX}/include
@@ -28,12 +24,9 @@ if (APPLE)
       ${HOMEBREW_PREFIX}/lib
     )
   endif()
-  
-  # macOS SDK paths (if needed)
-  # execute_process(COMMAND xcrun --show-sdk-path OUTPUT_VARIABLE MACOS_SDK_PATH OUTPUT_STRIP_TRAILING_WHITESPACE)
-  # include_directories(${MACOS_SDK_PATH}/usr/include)
-  
+
 elseif (UNIX AND NOT APPLE)
+
   # Linux specific paths
   include_directories (
     /usr/local/include
@@ -46,37 +39,41 @@ elseif (UNIX AND NOT APPLE)
   )
 endif()
 
-# Common paths for all platforms
 include_directories (
-  ${HOME}/develop/include
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-link_directories (
-  ${HOME}/develop/lib
-)
-
-# Optional: Find packages (recommended approach)
-# find_package(Boost COMPONENTS system filesystem thread)
-# if (Boost_FOUND)
-#   include_directories(${Boost_INCLUDE_DIRS})
-#   link_directories(${Boost_LIBRARY_DIRS})
-# endif()
+list (APPEND CMAKE_PREFIX_PATH "$ENV{HOME}/.local")
+find_package (cpp.common CONFIG QUIET)
+if (cpp.common_FOUND)
+  message (STATUS "cpp.common: find_package ${cpp.common_VERSION} (${cpp.common_DIR})")
+  set (CPP_COMMON_LIB cpp.common::core)
+else ()
+  message (STATUS "cpp.common: not installed — using ~/develop source tree")
+  include_directories (
+    ${HOME}/develop/include
+    ${HOME}/develop/vendor/include
+  )
+  link_directories (${HOME}/develop/lib)
+  if (EXISTS ${HOME}/develop/lib/libcore.a)
+    set (CPP_COMMON_LIB core)
+  else ()
+    set (CPP_COMMON_LIB "")
+  endif ()
+endif ()
 
 add_executable (${CMAKE_PROJECT_NAME}
   ${SOURCES}
 )
 
-# Optional: Link libraries
-# target_link_libraries(${CMAKE_PROJECT_NAME}
-#   ${Boost_LIBRARIES}
-#   pthread
-# )
+target_link_libraries (${CMAKE_PROJECT_NAME} PRIVATE
+  ${CPP_COMMON_LIB}
+)
 
 # Compiler flags
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
   target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE
-    -freflection   # enable C++26 static reflection (P2996) on g++-16
+    -freflection   # C++26 static reflection (P2996) — REQUIRED for ^^ / [: :] / template for
     -Wall
     -Wextra
     -Wpedantic

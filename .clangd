@@ -1,0 +1,21 @@
+# ~/code 전체에 적용되는 clangd 설정.
+# 프로젝트별 예외는 아래 If: PathMatch fragment 로 처리한다.
+# (경로는 이 파일이 있는 디렉터리 기준 상대 경로)
+
+# g++-16 의 실험적 C++26 reflection(P2996) 코드는 mainline clang/clangd 가
+# 파싱하지 못한다(^^, [: :], template for 미구현). 아래 디렉터리에서는
+# clang 이 모르는 -freflection 플래그를 제거하고, 실제 검증은 g++-16 빌드에 맡긴다.
+If:
+  PathMatch: 0.education/scope.guard/.*
+CompileFlags:
+  CompilationDatabase: 0.education/scope.guard/build/debug
+  Remove: [-freflection]
+
+---
+
+If:
+  PathMatch: cpp.lang/reflection/.*
+CompileFlags:
+  Remove: [-freflection]
+Diagnostics:
+  Suppress: '*'               # 파싱 불가로 인한 거짓 에러 전부 억제

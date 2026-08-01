@@ -8,7 +8,7 @@ public class LineNo {
     }
 
     try {
-      var  in = new BufferedReader(new FileReader(args[0]));
+      var in  = new BufferedReader(new FileReader(args[0]));
       var out = new BufferedWriter(new FileWriter(args[0] + "_line"));
 
       var ln = 0;
@@ -19,6 +19,7 @@ public class LineNo {
         out.write(res+"\n");
       }
       out.close();
+      in.close();
     } catch(IOException e) {
       System.err.println(e);
     }

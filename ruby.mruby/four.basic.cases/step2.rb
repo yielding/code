@@ -17,13 +17,13 @@ end
 # http://blog.headius.com/2009/04/how-jruby-makes-ruby-fast.html
 
 # Takeuchi function performance, tak(24, 16, 8)
-def tak x, y, z
+def tak(x, y, z)
   if y >= x
-    return z
+    z
   else
-    return tak( tak(x-1, y, z),
-                tak(y-1, z, x),
-                tak(z-1, x, y))
+    tak(tak(x - 1, y, z),
+        tak(y - 1, z, x),
+        tak(z - 1, x, y))
   end
 end
 
