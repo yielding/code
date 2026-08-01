@@ -42,6 +42,8 @@ void* producer(void * info)
     pthread_cond_signal(&sb->cond); 
     pthread_mutex_unlock(&sb->lock); 
   }
+
+  return NULL;
 } 
 
 int main(int argc, char ** argv) 
@@ -52,8 +54,7 @@ int main(int argc, char ** argv)
   sb_init(&sb); 
   pthread_create(&th1, NULL, &producer, (void *)&sb); 
 
-  int i = 0; 
-  while (i < 100000) 
+  for (int i=0; i < 100000; i++)
   {
     pthread_mutex_lock(&sb.lock); 
     while (iFlag2 == 0) 
@@ -65,6 +66,7 @@ int main(int argc, char ** argv)
     pthread_cond_signal(&sb.cond); 
     pthread_mutex_unlock(&sb.lock); 
   } 
+
   pthread_join(th1, NULL); 
   sb_destroy(&sb); 
 
