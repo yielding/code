@@ -97,7 +97,7 @@ namespace demo
   public:
     // 타입으로 인덱싱: 런타임 조회 없이 컴파일 시간에 해당 원소를 찾는다
     template <typename Row>
-    auto& state()
+    auto state() -> auto&
     {
       static_assert(tl::in_list<Row, rows>, "a row this store has no table for");
       return get<tagged<Row>>(_states).state;
