@@ -8,11 +8,14 @@
 // build: cmake -B build && cmake --build build && ./build/typelist
 
 #include <cstdint>
+#include <format>
 #include <print>
 #include <string>
 #include <tuple>
 #include <type_traits>
 #include <vector>
+
+using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -21,8 +24,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 namespace tl
 {
-  using namespace std;
-
   template <typename List, template <typename> class F>
   struct transform;                        // tuple 이 아니면 정의가 없어 컴파일 오류
 
@@ -56,11 +57,25 @@ namespace demo
   struct order { int64_t id; };
   struct invoice { double amount; };
 
-  // 표마다 같은 모양의 상태(예: 준비된 SQL 문, 행 개수)
+  // 행 값 → SQL 리터럴 (행 타입마다 오버로드)
+  auto to_sql(user const& u) -> string { return format("'{}'", u.name); }
+  auto to_sql(order const& o) -> string { return format("{}", o.id); }
+  auto to_sql(invoice const& i) -> string { return format("{:.2f}", i.amount); }
+
+  // ? 자리에 값을 넣은 SQL
+  auto bind(string const& sql, string const& value) -> string
+  {
+    auto out = sql;
+    if (auto const pos = out.find('?'); pos != string::npos)
+      out.replace(pos, 1, value);
+    return out;
+  }
+
+  // 표마다 같은 모양의 상태(예: 준비된 SQL 문, 실행된 문장들)
   struct table_state
   {
     string sql;
-    int rows = 0;
+    vector<string> executed;
   };
 
   template <typename Row>
@@ -89,9 +104,10 @@ namespace demo
     }
 
     template <typename Row>
-    auto put(Row const&) -> void
+    auto put(Row const& row) -> void
     {
-      ++state<Row>().rows;
+      auto& st = state<Row>();
+      st.executed.push_back(bind(st.sql, to_sql(row)));
     }
 
   private:
@@ -123,21 +139,26 @@ namespace
   //   get<table_state>(t);   // error: 같은 타입이 둘
 }
 
-int main()
+auto main() -> int
 {
   auto s = demo::store{};
   s.state<demo::user>().sql = "INSERT INTO user VALUES(?)";
   s.state<demo::order>().sql = "INSERT INTO order VALUES(?)";
+  s.state<demo::invoice>().sql = "INSERT INTO invoice VALUES(?)";
 
   s.put(demo::user{"kim"});
   s.put(demo::user{"lee"});
   s.put(demo::order{42});
 
-  std::println("user    {} row(s)  {}", s.state<demo::user>().rows,
-    s.state<demo::user>().sql);
-  std::println("order   {} row(s)  {}", s.state<demo::order>().rows,
-    s.state<demo::order>().sql);
-  std::println("invoice {} row(s)", s.state<demo::invoice>().rows);
+  auto const show = [](string_view name, demo::table_state const& st) {
+    println("{:<8}{} row(s)", name, st.executed.size());
+    for (auto const& sql : st.executed)
+      println("  {}", sql);
+  };
+
+  show("user", s.state<demo::user>());
+  show("order", s.state<demo::order>());
+  show("invoice", s.state<demo::invoice>());
 
   // s.put(std::string{});   // static_assert: a row this store has no table for
 
